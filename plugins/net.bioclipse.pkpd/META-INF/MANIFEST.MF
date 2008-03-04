@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Pkpd Plug-in
+Bundle-SymbolicName: net.bioclipse.pkpd;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: net.bioclipse.pkpd.Activator
+Bundle-Vendor: The Bioclipse Team
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ net.bioclipse.logging,
+ net.bioclipse.ui,
+ org.eclipse.ui.forms,
+ org.eclipse.core.resources,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.ide
+Eclipse-LazyStart: true
