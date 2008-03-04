@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Scripting Plug-in
+Bundle-SymbolicName: net.bioclipse.scripting;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: net.bioclipse.scripting.Activator
+Require-Bundle: org.eclipse.core.runtime
+Eclipse-LazyStart: true
+Bundle-ClassPath: libs/antlr-2.7.5.jar,
+ .,
+ libs/asm-2.2.jar,
+ libs/groovy-1.0.jar,
+ libs/js.jar,
+ libs/jruby.jar,
+ libs/asm-2.2.3.jar,
+ libs/asm-commons-2.2.3.jar,
+ libs/backport-util-concurrent.jar,
+ libs/bsf.jar,
+ libs/jline-0.9.91.jar
+Export-Package: net.bioclipse.scripting
