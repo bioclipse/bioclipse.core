@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tests Plug-in
+Require-Bundle: net.bioclipse.core,
+ org.junit4,
+ net.bioclipse.scripting
+Bundle-SymbolicName: net.bioclipse.scripting.tests
+Bundle-Version: 1.0.0
