@@ -1,0 +1,10 @@
+<molecules>
+	<molecule id="mol1" path="molecules/mol1.cml"/>
+	<molecule id="mol2" path="molecules/mol2.cml"/>
+</molecules>
+<descriptors>
+	<descriptor id="descr1" name="Descriptor type 1">
+		<parameter key="cutoff" value="10">
+	</descriptor>
+	<descriptor id="descr2"/ name="Descriptor type XX">
+</descriptors>
