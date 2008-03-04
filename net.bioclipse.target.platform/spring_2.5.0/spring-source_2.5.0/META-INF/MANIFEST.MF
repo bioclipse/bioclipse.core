@@ -1,0 +1,5 @@
+Bundle-SymbolicName: spring-source; singleton=true
+Bundle-Name: spring-source
+Bundle-Version: 2.5.0
+Bundle-Vendor: interface21
+

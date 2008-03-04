@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.2"?>
+
+<target name="Eclipse Equinox 3.3 &amp; Spring-DM">
+
+   <location useDefault="true"/>
+
+   <content useAllPlugins="true">
+      <plugins>
+      </plugins>
+      <features>
+      </features>
+      <extraLocations>
+         <location path="${project_loc}/spring-dm_1.0.rc1"/>
+         <location path="${project_loc}/required-libs"/>
+         <location path="${eclipse_home}/plugins"/>
+         <location path="${project_loc}/spring_2.5.0"/>
+      </extraLocations>
+   </content>
+
+</target>
