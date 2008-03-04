@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Logging Tests Plugin
+Bundle-SymbolicName: net.bioclipse.logging.tests
+Bundle-Version: 1.0.0
+Bundle-Activator: net.bioclipse.logging.tests.Activator
+Bundle-Vendor: The Bioclipse Project
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Eclipse-LazyStart: true
