@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Business Tests Plug-in
+Bundle-SymbolicName: net.bioclipse.core.tests
+Bundle-Version: 0.1.0
+Bundle-Activator: net.bioclipse.core.business.tests.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ net.bioclipse.core,
+ org.junit4,
+ org.eclipse.core.resources
+Eclipse-LazyStart: true
+Bundle-Vendor: The Bioclipse project
+Bundle-ClassPath: junit.jar,
+ .
