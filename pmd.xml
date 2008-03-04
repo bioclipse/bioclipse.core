@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<project name="Bioclipse" default="pmd" basedir=".">
+
+    <property name="lib" value="pmd/jars" />
+    <property name="src" value="src" />
+    <property name="reports.tests" value="reports" />
+
+    <path id="pmd.classpath">
+        <fileset dir="${lib}">
+          <include name="asm-3.1.jar"/>
+          <include name="junit-4.4.jar"/>
+          <include name="pmd-4.1.jar"/>
+          <include name="jaxen-1.1.1.jar"/>
+        </fileset>
+    </path>
+
+    <taskdef name="pmd" id="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath"/>
+
+    <target name="pmd" id="pmd">
+      <!-- the data classes plugins -->
+      <antcall target="test-plugin"><param name="module" value="core"/><param name="plugin" value="net.bioclipse.core"/></antcall>
+      <antcall target="test-plugin"><param name="module" value="bioinformatics"/><param name="plugin" value="net.bioclipse.biojava.ui"/></antcall>
+    </target>
+
+    <target id="test-plugin" name="test-plugin"
+            description="Performs a PMD checks for the given Bioclipse plugin.">
+
+      <echo message="Running PMD checks ${module}/plugins/${plugin}..." />
+
+      <mkdir dir="${reports.tests}/pmd"/>
+      <pmd shortFilenames="true" rulesetfiles="pmd/custom.xml">
+        <formatter type="xml" toFile="${reports.tests}/pmd/${plugin}.xml"/>
+        <fileset dir="${module}/plugins/${plugin}/${src}">
+          <include name="**/*.java"/>
+        </fileset>
+      </pmd>
+      <xslt in="${reports.tests}/pmd/${plugin}.xml" 
+            out="${reports.tests}/pmd/${plugin}.html"
+            style="pmd/wz-pmd-report.xslt"/>
+    </target>
+
+</project>
