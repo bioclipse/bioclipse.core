@@ -1,0 +1,33 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Bioclipse Core UI Plugin
+Bundle-SymbolicName: net.bioclipse.ui;singleton:=true
+Bundle-Version: 0.1.0
+Bundle-Activator: net.bioclipse.ui.Activator
+Bundle-Vendor: The Bioclipse Project
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.intro,
+ org.eclipse.ui.forms,
+ org.eclipse.swt,
+ org.eclipse.core.resources,
+ org.eclipse.ui.views,
+ org.eclipse.ui.views.properties.tabbed,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.browser,
+ org.eclipse.ui.navigator.resources,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.navigator,
+ org.eclipse.ui.workbench.texteditor,
+ net.bioclipse.core,
+ org.eclipse.jface.databinding,
+ org.eclipse.jface.text,
+ net.bioclipse.scripting,
+ org.eclipse.core.filesystem,
+ net.bioclipse.logging,
+ org.eclipse.ui.cheatsheets,
+ org.eclipse.core.runtime.compatibility.auth
+Eclipse-LazyStart: true
+Export-Package: net.bioclipse.ui,
+ net.bioclipse.ui.intro,
+ net.bioclipse.ui.views
