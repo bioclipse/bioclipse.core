@@ -44,7 +44,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
      * last (still not run) command, but changes when ARROW_UP and ARROW_DOWN
      * keys are used. */
     private int currentHistoryLine = 0;
-    
+       
 	private String lastPrefix = null;
 	
     /**
@@ -64,6 +64,13 @@ public abstract class ScriptingConsoleView extends ViewPart {
      * output. 
      */
     private boolean outputIsMidLine = false;
+    
+    /*
+     * When a long text is printed the printMessage method is called recursively
+     * This variableis for it to know that it is not midline but 
+     * printing a long text
+     */
+    private boolean isPrintingLongText;
     
     /* The preferred maximum length of a line of output. */
     private static final int MAX_OUTPUT_LINE_LENGTH = 79;
@@ -392,6 +399,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
 	public void printMessage(String s) {
 		
 		if (s.length() > MAX_OUTPUT_LINE_LENGTH) {
+			isPrintingLongText = true;
 			while ( s.length() > MAX_OUTPUT_LINE_LENGTH ) {
 				int pos = MAX_OUTPUT_LINE_LENGTH;
 				while (pos > 0 && s.charAt(pos) != ' ')
@@ -407,7 +415,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
 				}
 			}
 			printMessage(s);
-			
+			isPrintingLongText = false;
 			return;
 		}
     	
@@ -422,7 +430,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
 	        int oldPos = text.getCaretPosition(),
 	            posBeforePrompt = allText.lastIndexOf("\n") + 1;
 	
-	        if (!outputIsMidLine)
+	        if (!outputIsMidLine || isPrintingLongText)
 	        	s = "\n" + s;
 	        
 	        if (posBeforePrompt < 1) {
