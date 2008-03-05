@@ -4,7 +4,8 @@ Bundle-Name: Scripting Plug-in
 Bundle-SymbolicName: net.bioclipse.scripting;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: net.bioclipse.scripting.Activator
-Require-Bundle: org.eclipse.core.runtime
+Require-Bundle: org.eclipse.core.runtime,
+ net.bioclipse.core
 Eclipse-LazyStart: true
 Bundle-ClassPath: libs/antlr-2.7.5.jar,
  .,

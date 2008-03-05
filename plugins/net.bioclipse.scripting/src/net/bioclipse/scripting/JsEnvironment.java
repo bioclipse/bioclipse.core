@@ -3,6 +3,7 @@ package net.bioclipse.scripting;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.scripting.INamespaceProvider;
 
 import org.eclipse.core.runtime.CoreException;
@@ -72,9 +73,15 @@ public class JsEnvironment implements ScriptingEnvironment {
 				catch (CoreException e) {
 					throw new RuntimeException("Failed to get service", e);
 				}
+				if( !(service instanceof IBioclipseManager) ) {
+					throw new RuntimeException( "service object: " + service
+							                   + "does not implement " 
+							                   + "IBioclipseManager" );
+				}
 				Object jsObject = Context.javaToJS(service, scope);
 				ScriptableObject.putProperty( scope, 
-						                      service.toString(), 
+						                      ( (IBioclipseManager)service )
+						                      	.getNamespace(), 
 						                      jsObject );
 			}
 		}

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="org/openscience/cdk/test/**/*|org/openscience/cdk/applications/DescriptorCalculator.java|org/openscience/cdk/applications/DistLargeInfo.java|org/openscience/cdk/applications/File2Text.java|org/openscience/cdk/applications/FileConvertor.java|org/openscience/cdk/applications/FileFormatGuesser.java|org/openscience/cdk/applications/FingerPrinter.java|org/openscience/cdk/applications/SDFSubstructureFinder.java|org/openscience/cdk/applications/SubstructureFinder.java|org/openscience/cdk/applications/TanimotoCoefficient.java|org/openscience/cdk/applications/Validator.java|org/openscience/cdk/applications/demo/|org/openscience/cdk/applications/jchempaint/application/JChemPaint.java|org/openscience/cdk/database/XindiceReader.java|org/openscience/cdk/iupac/parser/|org/openscience/cdk/smiles/smarts/|org/openscience/cdk/libio/biojava/Convertor.java|org/openscience/cdk/pharmacophore/" kind="src" path="src"/>
-	<classpathentry exported="true" kind="lib" path="jars/jama-1.0.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="jars/batik-awt-util.jar"/>
 	<classpathentry exported="true" kind="lib" path="jars/batik-dom.jar"/>
 	<classpathentry exported="true" kind="lib" path="jars/batik-svggen.jar"/>
@@ -19,6 +18,7 @@
 	<classpathentry exported="true" kind="lib" path="jars/vecmath1.2-1.14.jar"/>
 	<classpathentry exported="true" kind="lib" path="jars/weka.jar"/>
 	<classpathentry exported="true" kind="lib" path="jars/xom-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/jama-1.0.2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="output" path="bin"/>
