@@ -2,7 +2,7 @@
 <?eclipse version="3.2"?>
 <plugin>
 
-   <extension-point id="net.bioclipse.ui.r-provider" name="R Extension Point" schema="schema/net.bioclipse.ui.r-provider.exsd"/>
+   <extension-point id="net.bioclipse.ui.r_provider" name="R Extension Point" schema="schema/net.bioclipse.ui.r-provider.exsd"/>
 
    <extension
          id="application"
