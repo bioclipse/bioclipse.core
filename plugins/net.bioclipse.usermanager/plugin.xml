@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="accountType" name="AccountType" schema="schema/accountType.exsd"/>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="net.bioclipse.usermanager.preferences.UserManagerPreferencePage"
+            id="net.bioclipse.usermanager.preferences.UserManagerPreferencePage"
+            name="Users">
+      </page>
+   </extension>
+   
+	<extension
+		point="org.eclipse.ui.actionSets">
+		<actionSet
+			label="Log in"
+			visible="true"
+			id="net.bioclipse.usermanager.login">
+			<action
+				label="Log in"
+				class="net.bioclipse.actions.LoginAction"
+				menubarPath="File/log in"
+				id="net.bioclipse.actions.LoginAction">
+			</action>
+		</actionSet>
+	</extension>
+	
+	<extension
+		point="org.eclipse.ui.actionSets">
+		<actionSet
+			label="Log out"
+			visible="true"
+			id="net.bioclipse.usermanager.logout">
+			<action
+				label="Log out"
+				class="net.bioclipse.actions.LogoutAction"
+				menubarPath="File/log out"
+				id="net.bioclipse.actions.LogoutAction">
+			</action>
+		</actionSet>
+	</extension>
+</plugin>
