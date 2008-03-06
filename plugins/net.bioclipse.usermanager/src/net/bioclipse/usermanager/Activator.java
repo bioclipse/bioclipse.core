@@ -15,18 +15,18 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 
+import net.bioclipse.ui.BioclipseActivator;
+
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
-
-import com.tools.logging.PluginLogManager;
 
 /**
  * The activator class controls the plug-in life cycle
  * 
  * @author jonalv
  */
-public class Activator extends AbstractUIPlugin {
+public class Activator extends BioclipseActivator {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "net.bioclipse.usermanager";
@@ -35,21 +35,13 @@ public class Activator extends AbstractUIPlugin {
 	private static Activator plugin;
 
 	private final String LOG_PROPERTIES_FILE="logger.properties";
-	private PluginLogManager logManager;
 	
 	/**
 	 * The constructor
 	 */
 	public Activator() {
 	}
-	
-	/**
-	 * @return the logmanager
-	 */
-	public static PluginLogManager getLogManager() {
-		return getDefault().logManager; 
-	}
-	
+		
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
@@ -91,7 +83,6 @@ public class Activator extends AbstractUIPlugin {
 				Properties props = new Properties();
 				props.load(propertiesInputStream);
 				propertiesInputStream.close();
-				this.logManager = new PluginLogManager(this, props);
 			}	
 		} 
 		catch (Exception e) {
@@ -101,5 +92,10 @@ public class Activator extends AbstractUIPlugin {
 			throw new RuntimeException(
 					"Error while initializing log properties.",e);
 		}         
+	}
+
+	@Override
+	public URL getLoggerURL() {
+		return getBundle().getEntry("/" + LOG_PROPERTIES_FILE);
 	}	
 }

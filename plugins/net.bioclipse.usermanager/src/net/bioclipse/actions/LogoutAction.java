@@ -10,10 +10,8 @@
  *******************************************************************************/
 package net.bioclipse.actions;
 
-import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserManager;
 
-import org.apache.log4j.Logger;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -28,7 +26,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 public class LogoutAction implements IWorkbenchWindowActionDelegate {
 
 	//Use logging configured in com.tools.logging plugin
-	private static final Logger logger = Activator.getLogManager().getLogger(LoginAction.class.toString());
+//	private static final Logger logger = Activator.getLogManager().getLogger(LoginAction.class.toString());
 	
 	public void dispose() {
 	}
@@ -37,7 +35,7 @@ public class LogoutAction implements IWorkbenchWindowActionDelegate {
 
 	public void run(IAction action) {
 
-		logger.debug("LoginAction.run()");
+//		logger.debug("LoginAction.run()");
 
 		UserManager.getInstance().signOut();
 	}
