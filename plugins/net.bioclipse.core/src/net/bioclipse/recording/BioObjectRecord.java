@@ -1,9 +1,5 @@
 package net.bioclipse.recording;
 
-import net.bioclipse.recording.MethodRecord.BioObjectParamater;
-import net.bioclipse.recording.MethodRecord.NonBioObjectParamater;
-import net.bioclipse.recording.MethodRecord.Paramater;
-
 public class BioObjectRecord extends MethodRecord {
 
 	protected String bioObjectId;

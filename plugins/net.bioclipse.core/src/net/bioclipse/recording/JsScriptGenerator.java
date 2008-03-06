@@ -50,14 +50,13 @@ public class JsScriptGenerator implements IScriptGenerator {
 	}
 	
 	private String getVariableName(String type, String id) {
-		if( variables.contains(id) ) {
+		if( variables.containsKey(id) ) {
 			return variables.get(id);
 		}
-		else {
-			String newVariableName = getNewVariableName(type);
-			variables.put(id, newVariableName);
-			return newVariableName;
-		}
+
+		String newVariableName = getNewVariableName(type);
+		variables.put(id, newVariableName);
+		return newVariableName;
 	}
 	
 	public String[] generateScript( MethodRecord[] records ) {
@@ -100,6 +99,14 @@ public class JsScriptGenerator implements IScriptGenerator {
 			
 			statement.append( getVariableName(r.returnType, r.returnObjectId) );
 			statement.append( " = ");
+			
+			if (r.returnType.equals("BioObjectList")) {
+				String listName
+					= getVariableName(r.returnType, r.returnObjectId);
+				int i = 0;
+				for ( String id : r.getReturnedListContentsIds() )
+					variables.put(id, listName + ".get(" + i++ + ")");
+			}
 		}
 		
 		if ( r instanceof ManagerObjectRecord ) {

@@ -15,6 +15,7 @@ package net.bioclipse.recording;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.bioclipse.core.domain.BioObjectList;
 import net.bioclipse.core.domain.IBioObject;
 
 /**
@@ -55,9 +56,11 @@ public abstract class MethodRecord implements IRecord {
 	protected String methodName;
 	protected String returnObjectId;
 	protected String returnType;
+	protected String[] returnedListContentsIds; 
 	
 	protected List<Paramater> paramaters;
 	
+	@SuppressWarnings("unchecked")
 	public MethodRecord( String methodName, 
 			             Object[] parameters, 
 			             Object returnValue ) {
@@ -109,10 +112,23 @@ public abstract class MethodRecord implements IRecord {
 					   ? "Void"
 				       : returnValue.getClass().getSimpleName() );
 		 
-			int i = returnType.indexOf("$$EnhancerByCGLIB$$");
-			if( i != -1) {
-				returnType = returnType.substring(0, i);
-			}
+		int index = returnType.indexOf("$$EnhancerByCGLIB$$");
+		if( index != -1) {
+			returnType = returnType.substring(0, index);
+		}
+
+		/*
+		 * List contents IDs
+		 */
+		if (returnValue instanceof BioObjectList) {
+			BioObjectList<IBioObject> returnedList
+				= (BioObjectList<IBioObject>) returnValue;
+			returnedListContentsIds = new String[ returnedList.size() ];
+			
+			int i = 0;
+			for ( IBioObject bioObject : returnedList )
+				returnedListContentsIds[i++] = bioObject.getId();
+		}
 	}
 
 	private static String toVariableCase(String name) {
@@ -143,5 +159,13 @@ public abstract class MethodRecord implements IRecord {
 
 	public List<Paramater> getParamaters() {
 		return paramaters;
+	}
+	
+	public String[] getReturnedListContentsIds() {
+		if ( !returnType.equals("BioObjectList") )
+			throw new IllegalStateException("Can only return element ids "
+					+ "of a BioObjectList");
+		
+		return returnedListContentsIds;
 	}
 }
