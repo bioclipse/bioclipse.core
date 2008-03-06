@@ -132,12 +132,10 @@ public class BioObjectList<T extends IBioObject> extends BioObject
 		return result;
 	}
 
-	@Recorded
 	public Object[] toArray() {
 		return list.toArray();
 	}
 
-	@Recorded
 	public <T> T[] toArray(T[] a) {
 		return list.toArray(a);
 	}
