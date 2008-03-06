@@ -14,7 +14,9 @@ package net.bioclipse.recording;
 import java.lang.reflect.Method;
 
 import net.bioclipse.core.Recorded;
+import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.domain.BioObject;
+import net.bioclipse.core.domain.IBioObject;
 
 /**
  * @author jonalv
@@ -37,12 +39,15 @@ public class RecordingAdvice implements IRecordingAdvice {
 		if( !methodIsAnnotated ) {
 			return;
 		}
-		if( !(target instanceof BioObject) ) {
-			history.addRecord( new ManagerObjectRecord( method.getName(), 
-                                                        target.toString(),
-                                                        args, 
-                                                        returnValue )
-			);
+		if( !(target instanceof IBioObject) ) {
+			if( target instanceof IBioclipseManager) {
+				IBioclipseManager manager = (IBioclipseManager)target;
+				history.addRecord( 
+						new ManagerObjectRecord( method.getName(), 
+                                                 manager.getNamespace(),
+                                                 args, 
+                                                 returnValue ) );
+			}
 		}
 		else {
 			history.addRecord( 
