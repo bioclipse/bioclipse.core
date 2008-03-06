@@ -98,7 +98,7 @@ public class JsScriptGenerator implements IScriptGenerator {
 			 || r.returnType.equals("Short")
 			 || r.returnType.equals("String") ) {
 			
-			statement.append( getNewVariableName(r.returnType) );
+			statement.append( getVariableName(r.returnType, r.returnObjectId) );
 			statement.append( " = ");
 		}
 		
@@ -109,7 +109,7 @@ public class JsScriptGenerator implements IScriptGenerator {
 		else if ( r instanceof BioObjectRecord ) {
 			BioObjectRecord bor = (BioObjectRecord)r;
 
-			String variableName = bor.bioObjectId;
+			String variableName = variables.get( bor.bioObjectId );
 
 			statement.append(variableName);
 		}
