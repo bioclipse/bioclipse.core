@@ -178,23 +178,19 @@ public class ScriptGenerationTests {
 	@Test
 	public void testObjectInABioObjectListRecording() {
 		
-		BioObjectList<IBioObject> returnValue 
+		BioObjectList<IBioObject> returnedList 
 			= new BioObjectList<IBioObject>();
 		
-		returnValue.add( new TestObject() );
+		returnedList.add( new TestObject() );
 		TestObject theTestObject = new TestObject(); 
-		returnValue.add( theTestObject );
+		returnedList.add( theTestObject );
 		
 		generateAndCompare(
 	            new MethodRecord[] {
     				new ManagerObjectRecord( "method",
 			                                 "object", 
 			                                 new Object[] {}, 
-			                                 returnValue ),
-			        new BioObjectRecord( "toArray",
-			        		              returnValue.getId(), 
-			        		              new Object[] {},
-			        		              theTestObject ),
+			                                 returnedList ),
 			        new BioObjectRecord( "getParsedResource",
 			        		             theTestObject.getId(),
 			        		             new Object[] {},
