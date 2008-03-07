@@ -14,7 +14,7 @@ import org.junit.Test;
 import com.sun.org.apache.bcel.internal.generic.ACONST_NULL;
 
 /**
- * Testclass for the UserManager
+ * Testclass for the UserContainer
  * 
  * @author jonalv
  *
@@ -57,8 +57,8 @@ public class UserManagerTest {
 		ACCOUNTTYPE.addProperty(  NOTREQUIREDPROPERTYKEY, false );
 		ACCOUNTTYPE2.addProperty( REQUIREDPROPERTYKEY,    true  );
 		ACCOUNTTYPE2.addProperty( NOTREQUIREDPROPERTYKEY, false );
-		UserManager.getInstance().availableAccountTypes.add(ACCOUNTTYPE);
-		UserManager.getInstance().availableAccountTypes.add(ACCOUNTTYPE2);
+		UserContainer.getInstance().availableAccountTypes.add(ACCOUNTTYPE);
+		UserContainer.getInstance().availableAccountTypes.add(ACCOUNTTYPE2);
 	}
 	
 	/*
@@ -67,14 +67,14 @@ public class UserManagerTest {
 	@Test
 	public void testCreateMasterKeyAndLogin() {
 		
-		assertFalse( "should not be logged in", UserManager.getInstance().isLoggedIn() );
+		assertFalse( "should not be logged in", UserContainer.getInstance().isLoggedIn() );
 		
 		createMasterKey();
 		login();
 		
-		assertTrue( "should be logged in now",  UserManager.getInstance().isLoggedIn() );
+		assertTrue( "should be logged in now",  UserContainer.getInstance().isLoggedIn() );
 		assertEquals( SUPERUSER + " should be logged in", 
-				      SUPERUSER, UserManager.getInstance().getLoggedInUserName() );
+				      SUPERUSER, UserContainer.getInstance().getLoggedInUserName() );
 		logout();
 	}
 	
@@ -85,7 +85,7 @@ public class UserManagerTest {
 		login();
 		createAccount();
 
-		assertTrue( UserManager.getInstance().accountExists(ACCOUNTID) );
+		assertTrue( UserContainer.getInstance().accountExists(ACCOUNTID) );
 		logout();
 	}
 		
@@ -96,47 +96,47 @@ public class UserManagerTest {
 		login();
 		createAccount();
 		
-		assertEquals( KEY,           UserManager.getInstance().getPassword(ACCOUNTID)                      );
-		assertEquals( USERNAME,      UserManager.getInstance().getUserName(ACCOUNTID)                      );
-		assertEquals( PROPERTYVALUE, UserManager.getInstance().getProperty(ACCOUNTID, REQUIREDPROPERTYKEY) );
+		assertEquals( KEY,           UserContainer.getInstance().getPassword(ACCOUNTID)                      );
+		assertEquals( USERNAME,      UserContainer.getInstance().getUserName(ACCOUNTID)                      );
+		assertEquals( PROPERTYVALUE, UserContainer.getInstance().getProperty(ACCOUNTID, REQUIREDPROPERTYKEY) );
 		logout();
 	}
 	
 	@Test
 	public void testGettingInfoWhenLoggedOut() {
 				
-		assertFalse( UserManager.getInstance().isLoggedIn() );
+		assertFalse( UserContainer.getInstance().isLoggedIn() );
 		
 		try {
-			UserManager.getInstance().getPassword(ACCOUNTID);
+			UserContainer.getInstance().getPassword(ACCOUNTID);
 			fail("should have thrown IllegalstateException (not logged in)");
 		}
 		catch(IllegalStateException e) {
 			//this is what we want
 		}
 		try {
-			UserManager.getInstance().getUserName(ACCOUNTID);
+			UserContainer.getInstance().getUserName(ACCOUNTID);
 			fail("should have thrown IllegalstateException (not logged in)");
 		}
 		catch(IllegalStateException e) {
 			//this is what we want
 		}
 		try {
-			UserManager.getInstance().getProperty(ACCOUNTID, REQUIREDPROPERTYKEY);
+			UserContainer.getInstance().getProperty(ACCOUNTID, REQUIREDPROPERTYKEY);
 			fail("should have thrown IllegalstateException (not logged in)");
 		}
 		catch(IllegalStateException e) {
 			//this is what we want
 		}
 		try {
-			UserManager.getInstance().accountExists(ACCOUNTID);
+			UserContainer.getInstance().accountExists(ACCOUNTID);
 			fail("should have thrown IllegalstateException  (not logged in)");
 		}
 		catch(IllegalStateException e) {
 			//this is what we want
 		}
 		try {
-			UserManager.getInstance().getLoggedInUserName();
+			UserContainer.getInstance().getLoggedInUserName();
 			fail("should have thrown IllegalstateException  (not logged in)");
 		}
 		catch(IllegalStateException e) {
@@ -148,7 +148,7 @@ public class UserManagerTest {
 	public void testIllegalLogins() {
 		
 		try {
-			UserManager.getInstance().signIn( SUPERUSER, "wrong password");
+			UserContainer.getInstance().signIn( SUPERUSER, "wrong password");
 			fail("Should have thrown Illegalstateexception (Unrecognized username or password)");
 		}
 		catch(IllegalArgumentException e) {
@@ -156,7 +156,7 @@ public class UserManagerTest {
 		}
 		
 		try {
-			UserManager.getInstance().signIn( "wrong user", MASTERKEY);
+			UserContainer.getInstance().signIn( "wrong user", MASTERKEY);
 			fail("Should have thrown Illegalstateexception (Unrecognized username or password)");
 		}
 		catch(IllegalArgumentException e) {
@@ -172,21 +172,21 @@ public class UserManagerTest {
 		createAccount();
 		
 		try {
-			UserManager.getInstance().getPassword("unknown accountid");
+			UserContainer.getInstance().getPassword("unknown accountid");
 			fail("should have thrown IllegalArgumentException (unknown accountid)");
 		}
 		catch(IllegalArgumentException e) {
 			//this is what we want
 		}
 		try {
-			UserManager.getInstance().getUserName("unknown accountid");
+			UserContainer.getInstance().getUserName("unknown accountid");
 			fail("should have thrown IllegalArgumentException (unknown accountid)");
 		}
 		catch(IllegalArgumentException e) {
 			//this is what we want
 		}
 		try {
-			UserManager.getInstance().getProperty("unknown accountid", "url");
+			UserContainer.getInstance().getProperty("unknown accountid", "url");
 			fail("should have thrown IllegalArgumentException (unknown accountid)");
 		}
 		catch(IllegalArgumentException e) {
@@ -204,16 +204,16 @@ public class UserManagerTest {
 		createAccount();
 		logout();
 		
-		UserManager.getInstance().persist();
-		UserManager.getInstance().reloadFromFile();
+		UserContainer.getInstance().persist();
+		UserContainer.getInstance().reloadFromFile();
 		testGetAccountProperties();
 
 		login();
 		String accountId = "NotToBeSavedAccount";
-		UserManager.getInstance().createAccount( accountId, "name", "key", properties, ACCOUNTTYPE2 );
-		UserManager.getInstance().reloadFromFile();
+		UserContainer.getInstance().createAccount( accountId, "name", "key", properties, ACCOUNTTYPE2 );
+		UserContainer.getInstance().reloadFromFile();
 		login();
-		assertFalse("the acccount should not exist", UserManager.getInstance().accountExists(accountId));
+		assertFalse("the acccount should not exist", UserContainer.getInstance().accountExists(accountId));
 		logout();
 	}
 	
@@ -224,20 +224,20 @@ public class UserManagerTest {
 		login();
 		createAccount();
 		
-		UserManager sandBox = UserManager.getSandBoxInstance();
+		UserContainer sandBox = UserContainer.getSandBoxInstance();
 		String prefix = "sandBox-";
 		sandBox.createAccount( prefix + ACCOUNTID, 
 				               prefix + USERNAME, 
 				               prefix + KEY, properties, 
 				               ACCOUNTTYPE2 );
 		
-		assertFalse( UserManager.getInstance().accountExists(prefix + ACCOUNTID) );
-		UserManager.replaceWithSandBoxInstance(sandBox);
-		assertTrue( UserManager.getInstance().accountExists(prefix + ACCOUNTID) );
-		UserManager.getInstance().reloadFromFile();
-		assertTrue( UserManager.getInstance().accountExists(prefix + ACCOUNTID) );
+		assertFalse( UserContainer.getInstance().accountExists(prefix + ACCOUNTID) );
+		UserContainer.replaceWithSandBoxInstance(sandBox);
+		assertTrue( UserContainer.getInstance().accountExists(prefix + ACCOUNTID) );
+		UserContainer.getInstance().reloadFromFile();
+		assertTrue( UserContainer.getInstance().accountExists(prefix + ACCOUNTID) );
 		
-		assertEquals( UserManager.getInstance().getAccountType(ACCOUNTID), 
+		assertEquals( UserContainer.getInstance().getAccountType(ACCOUNTID), 
 				      sandBox.getAccountType(ACCOUNTID) );
 		logout();
 	}
@@ -246,11 +246,11 @@ public class UserManagerTest {
 	public void testDeleteUser() {
 		
 		createMasterKey();
-		assertTrue( UserManager.getInstance().getUserNames().contains(SUPERUSER) );
+		assertTrue( UserContainer.getInstance().getUserNames().contains(SUPERUSER) );
 		
-		UserManager.getInstance().deleteUser(SUPERUSER);
+		UserContainer.getInstance().deleteUser(SUPERUSER);
 		
-		assertFalse( UserManager.getInstance().getUserNames().contains(SUPERUSER) );
+		assertFalse( UserContainer.getInstance().getUserNames().contains(SUPERUSER) );
 	}
 	
 	@Test
@@ -260,9 +260,9 @@ public class UserManagerTest {
 		login();
 		createAccount();
 		
-		assertTrue( UserManager.getInstance().accountExists(ACCOUNTID) );
-		UserManager.getInstance().clearAccounts();
-		assertFalse( UserManager.getInstance().accountExists(ACCOUNTID) );
+		assertTrue( UserContainer.getInstance().accountExists(ACCOUNTID) );
+		UserContainer.getInstance().clearAccounts();
+		assertFalse( UserContainer.getInstance().accountExists(ACCOUNTID) );
 		
 		logout();
 	}
@@ -276,14 +276,14 @@ public class UserManagerTest {
 		
 		final String NEWKEY= "newkey";
 		try {
-			UserManager.getInstance().changePassword( "wrong key", NEWKEY );
+			UserContainer.getInstance().changePassword( "wrong key", NEWKEY );
 			fail("should not get to change masterKey without giving a correct old key");
 		}
 		catch( IllegalArgumentException e ) {
 			//this is what we want
 		}
 		
-		UserManager.getInstance().changePassword( MASTERKEY, NEWKEY );
+		UserContainer.getInstance().changePassword( MASTERKEY, NEWKEY );
 		
 		logout();
 		try {
@@ -293,9 +293,9 @@ public class UserManagerTest {
 		catch(IllegalArgumentException e) {
 			//this is what we want
 		}
-		UserManager.getInstance().signIn( SUPERUSER, NEWKEY );
+		UserContainer.getInstance().signIn( SUPERUSER, NEWKEY );
 		//Test reading an encrypted field
-		assertEquals( USERNAME, UserManager.getInstance().getUserName(ACCOUNTID) );
+		assertEquals( USERNAME, UserContainer.getInstance().getUserName(ACCOUNTID) );
 	}
 	
 	@Test
@@ -310,7 +310,7 @@ public class UserManagerTest {
         testAccountType.addProperty( REQUIREDPROPERTYKEY, true );
 		
 		try {
-			UserManager.getInstance().createAccount( "other" + testAccountId,
+			UserContainer.getInstance().createAccount( "other" + testAccountId,
                                                      USERNAME,
                                                      KEY,
                                                      properties,
@@ -322,22 +322,22 @@ public class UserManagerTest {
 		finally {
 			assertTrue(
                     "should create account with unavailable accountType",
-                    UserManager.getInstance()
+                    UserContainer.getInstance()
                     	.loggedInUser.getAccounts().containsKey("other" + testAccountId) );
 		}
 		
-		UserManager.getInstance().availableAccountTypes.add(testAccountType);
+		UserContainer.getInstance().availableAccountTypes.add(testAccountType);
 		
-		UserManager.getInstance().createAccount( testAccountId,
+		UserContainer.getInstance().createAccount( testAccountId,
                                                  USERNAME,
                                                  KEY,
                                                  properties,
                                                  testAccountType );
 		
-		assertTrue( UserManager.getInstance().accountExists(testAccountId) );
+		assertTrue( UserContainer.getInstance().accountExists(testAccountId) );
 		
-		UserManager.getInstance().availableAccountTypes.remove(testAccountType);
-		assertFalse( UserManager.getInstance().accountExists(testAccountId) );
+		UserContainer.getInstance().availableAccountTypes.remove(testAccountType);
+		assertFalse( UserContainer.getInstance().accountExists(testAccountId) );
 		
 		logout();
 	}
@@ -356,7 +356,7 @@ public class UserManagerTest {
 		properties.put( "wrongKey", "wrong" );
 		properties.putAll(this.properties);
 		try {
-			UserManager.getInstance().createAccount( ACCOUNTID, USERNAME, KEY, properties, ACCOUNTTYPE );
+			UserContainer.getInstance().createAccount( ACCOUNTID, USERNAME, KEY, properties, ACCOUNTTYPE );
 			fail( "Should throw exception when creating account with " + 
                   "properties not defined for AccountType" );
 		}
@@ -370,7 +370,7 @@ public class UserManagerTest {
         properties = new HashMap<String, String>();
 		properties.put( NOTREQUIREDPROPERTYKEY, "value" );
 		try {
-			UserManager.getInstance().createAccount( ACCOUNTID, USERNAME, KEY, properties, ACCOUNTTYPE );
+			UserContainer.getInstance().createAccount( ACCOUNTID, USERNAME, KEY, properties, ACCOUNTTYPE );
 			fail("Should not get to create account without required property");
 		}
 		catch(IllegalArgumentException e) {
@@ -383,7 +383,7 @@ public class UserManagerTest {
         properties = new HashMap<String, String>();
         properties.put( REQUIREDPROPERTYKEY, "" );
         try {
-            UserManager.getInstance().createAccount( ACCOUNTID, USERNAME, KEY, properties, ACCOUNTTYPE );
+            UserContainer.getInstance().createAccount( ACCOUNTID, USERNAME, KEY, properties, ACCOUNTTYPE );
             fail("Should not get to create account without required property");
         }
         catch(IllegalArgumentException e) {
@@ -399,17 +399,17 @@ public class UserManagerTest {
 		createAccount();
 		
 		final String testString = "test";
-		UserManager.getInstance().createAccount( testString + ACCOUNTID, 
+		UserContainer.getInstance().createAccount( testString + ACCOUNTID, 
 				                                 testString + USERNAME, 
 				                                 testString + KEY, properties, 
 				                                 ACCOUNTTYPE2 );
 		
-		assertEquals( ACCOUNTTYPE, UserManager.getInstance().getAccountType(ACCOUNTID) );
+		assertEquals( ACCOUNTTYPE, UserContainer.getInstance().getAccountType(ACCOUNTID) );
 		
-		UserManager.getInstance().persist();
-		UserManager.getInstance().reloadFromFile();
+		UserContainer.getInstance().persist();
+		UserContainer.getInstance().reloadFromFile();
 
-		assertEquals( ACCOUNTTYPE, UserManager.getInstance().getAccountType(ACCOUNTID) );
+		assertEquals( ACCOUNTTYPE, UserContainer.getInstance().getAccountType(ACCOUNTID) );
 		
 		logout();
 	}
@@ -421,7 +421,7 @@ public class UserManagerTest {
 		login();
 		createAccount();
 		
-		int before = UserManager.getInstance().getLoggedInUsersAccountNames().size();
+		int before = UserContainer.getInstance().getLoggedInUsersAccountNames().size();
 		try {
 			createAccount();
 			fail("Should not get to create two accounts with the same account id");
@@ -435,7 +435,7 @@ public class UserManagerTest {
 		catch( IllegalArgumentException e) {
 			fail("Should get to create a new account of a used accounttype but with a new id");
 		}
-		assertEquals( before+1, UserManager.getInstance().getLoggedInUsersAccountNames().size() );
+		assertEquals( before+1, UserContainer.getInstance().getLoggedInUsersAccountNames().size() );
 	}
 	
 	@Test
@@ -448,30 +448,30 @@ public class UserManagerTest {
 //		fail("This needs to be done differently since more that one account od each type should be allowed");
 		
 		try {
-			UserManager.getInstance().getPropertyByAccountType("wrong account type", "property");
+			UserContainer.getInstance().getPropertyByAccountType("wrong account type", "property");
 			fail("There is no such account type");
 		}
 		catch( IllegalArgumentException e) {
 			//this is what we want
 		}
 		
-		assertEquals( PROPERTYVALUE, UserManager.getInstance().getPropertyByAccountType( ACCOUNTTYPE.getName(), 
+		assertEquals( PROPERTYVALUE, UserContainer.getInstance().getPropertyByAccountType( ACCOUNTTYPE.getName(), 
 				                                                                     this.REQUIREDPROPERTYKEY) );
 		
 		try {
-			UserManager.getInstance().getUserNameByAccountType("wrong account type");
+			UserContainer.getInstance().getUserNameByAccountType("wrong account type");
 			fail("There is no such account type");
 		}
 		catch( IllegalArgumentException e) {
 			//expected exception
 		}
 		
-		assertEquals( USERNAME, UserManager.getInstance().getUserNameByAccountType( ACCOUNTTYPE.getName() ) );
+		assertEquals( USERNAME, UserContainer.getInstance().getUserNameByAccountType( ACCOUNTTYPE.getName() ) );
 		
 		createAccount("anotherAccountid");
 		
 		try {
-			UserManager.getInstance().getUserNameByAccountType( ACCOUNTTYPE.getName() );
+			UserContainer.getInstance().getUserNameByAccountType( ACCOUNTTYPE.getName() );
 			fail("Should throw Illlegalstateexception: there are many accounts with that account type");
 		}
 		catch( IllegalStateException e) {
@@ -481,7 +481,7 @@ public class UserManagerTest {
 	
 	@Test
 	public void testAccountIdsByAccountTypeName() {
-		assertTrue( UserManager.getInstance().getAccountIdsByAccountTypeName(ACCOUNTTYPE.getName()).contains(ACCOUNTID) );
+		assertTrue( UserContainer.getInstance().getAccountIdsByAccountTypeName(ACCOUNTTYPE.getName()).contains(ACCOUNTID) );
 	}
 	
 	/*
@@ -489,25 +489,25 @@ public class UserManagerTest {
 	 */
 	private void logout() {
 	
-		UserManager.getInstance().signOut();
+		UserContainer.getInstance().signOut();
 	}
 	
 	private void login() {
 
-		UserManager.getInstance().signIn( SUPERUSER, MASTERKEY );
+		UserContainer.getInstance().signIn( SUPERUSER, MASTERKEY );
 	}
 
 	private void createMasterKey() {
 		
-		UserManager.getInstance().createLocalUser( SUPERUSER, MASTERKEY );
+		UserContainer.getInstance().createLocalUser( SUPERUSER, MASTERKEY );
 	}
 	
 	private void createAccount() {
 		
-		UserManager.getInstance().createAccount( ACCOUNTID, USERNAME, KEY, properties, ACCOUNTTYPE );
+		UserContainer.getInstance().createAccount( ACCOUNTID, USERNAME, KEY, properties, ACCOUNTTYPE );
 	}
 	
 	private void createAccount(String accountId) {
-		UserManager.getInstance().createAccount( accountId, USERNAME, KEY, properties, ACCOUNTTYPE );
+		UserContainer.getInstance().createAccount( accountId, USERNAME, KEY, properties, ACCOUNTTYPE );
 	}
 }
