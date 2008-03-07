@@ -38,7 +38,7 @@ public abstract class BioObject implements IBioObject {
 	/**
 	 * Returns this the ID of this <code>BioObject</code>.
 	 */
-	public final String getId() {
+	public String getId() {
 		return id;
 	}
 
