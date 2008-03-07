@@ -196,10 +196,6 @@ public class ScriptGenerationTests {
 			                                 "object", 
 			                                 new Object[] {}, 
 			                                 returnedList ),
-			        new BioObjectRecord( "get",
-					                     returnedList.getId(),
-					                     new Object[] { new Integer(1) },
-			                             theTestObject ),
 			        new BioObjectRecord( "getParsedResource",
 			        		             theTestObject.getId(),
 			        		             new Object[] {},
@@ -208,8 +204,7 @@ public class ScriptGenerationTests {
 	            
 	            new String[] {
 	    			"bioObjectList1 = object.method()",
-	    			"testObject1 = bioObjectList1.get( 1 )",
-	    			"string1 = testObject1.getParsedResource()"
+	    			"string1 = bioObjectList1.get( 1 ).getParsedResource()"
 				}
 		);
 	}
