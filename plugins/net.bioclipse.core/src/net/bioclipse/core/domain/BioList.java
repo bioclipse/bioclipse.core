@@ -13,42 +13,100 @@ package net.bioclipse.core.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
+
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import net.bioclipse.core.Activator;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.recording.IHistory;
 
-public class BioObjectList<T extends IBioObject> extends BioObject 
+public class BioList<T extends IBioObject> extends BioObject 
                                                  implements List<T> {
+	
+	private static Map<List<String>, String> createdLists 
+		= new HashMap<List<String>, String>();
+	
+	public static String idOfListContainingBioObject(String id) {
+		for ( List<String> l : createdLists.keySet() ) {
+			for ( String s : l ) {
+				if ( id.equals(s) ) {
+					return createdLists.get(l);
+				}
+			}
+		}
+		throw new IllegalStateException( "No bioObjectlist containing that " +
+				                         "object could be found" );
+	}
+	
+	public static int positionOfBioObjectInList( String id ) {
+		for( List<String> l : createdLists.keySet() ) {
+			if(l.contains(id)) {
+				return l.indexOf(id);
+			}
+		}
+		throw new IllegalStateException();
+	}
+	
+	public static boolean existsListContaining(String bioObjectId) {
+		for( List<String> l : createdLists.keySet() ) {
+			if(l.contains(bioObjectId)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private void updateCreatedLists( BioList<? extends IBioObject> list ) {
+		for( List<String> l : createdLists.keySet() ) {
+			if( createdLists.get(l).equals( list.getId() ) ) {
+				createdLists.remove(l);
+			}
+		}
+		List<String> newList = new ArrayList<String>();
+		for( IBioObject b : list) {
+			newList.add( b.getId() );
+		}
+		createdLists.put( newList, list.getId() );
+	}
 	
 	public List<T> list = new ArrayList<T>();
 	
 	@Recorded
 	public boolean add(T e) {
-		return list.add(e);
+		boolean b = list.add(e);
+		updateCreatedLists(this);
+		return b;
 	}
 
 	@Recorded
 	public void add(int index, T element) {
 		list.add(index, element);
+		updateCreatedLists(this);
 	}
 
 	@Recorded
 	public boolean addAll(Collection<? extends T> c) {
-		return list.addAll(c);
+		boolean b = list.addAll(c);
+		updateCreatedLists(this);
+		return b;
 	}
 
 	@Recorded
 	public boolean addAll(int index, Collection<? extends T> c) {
-		return list.addAll(c);
+		boolean b = list.addAll(c);
+		updateCreatedLists(this);
+		return b;
 	}
 
 	@Recorded
 	public void clear() {
 		list.clear();
+		updateCreatedLists(this);
 	}
 
 	@Recorded
@@ -98,27 +156,37 @@ public class BioObjectList<T extends IBioObject> extends BioObject
 
 	@Recorded
 	public boolean remove(Object o) {
-		return list.remove(o);
+		boolean b = list.remove(o);
+		updateCreatedLists(this);
+		return b;
 	}
 
 	@Recorded
 	public T remove(int index) {
-		return list.remove(index);
+		T t = list.remove(index);
+		updateCreatedLists(this);
+		return t;
 	}
 
 	@Recorded
 	public boolean removeAll(Collection<?> c) {
-		return list.removeAll(c);
+		boolean b = list.removeAll(c);
+		updateCreatedLists(this);
+		return b;
 	}
 
 	@Recorded
 	public boolean retainAll(Collection<?> c) {
-		return list.retainAll(c);
+		boolean b = list.retainAll(c);
+		updateCreatedLists(this);
+		return b;
 	}
 
 	@Recorded
 	public T set(int index, T element) {
-		return list.set(index, element);
+		T t = list.set(index, element);
+		updateCreatedLists(this);
+		return t;
 	}
 
 	public int size() {
@@ -127,9 +195,8 @@ public class BioObjectList<T extends IBioObject> extends BioObject
 
 	@Recorded
 	public List<T> subList(int fromIndex, int toIndex) {
-		BioObjectList<T> result = new BioObjectList<T>();
-		result.list = list.subList(fromIndex, toIndex);
-		return result;
+		//TODO: find a good solution to this. It is very complicated...
+		throw new NotImplementedException();
 	}
 
 	public Object[] toArray() {

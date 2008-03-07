@@ -15,7 +15,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
+import net.bioclipse.core.domain.BioList;
+import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.recording.MethodRecord.BioObjectParameter;
 import net.bioclipse.recording.MethodRecord.NonBioObjectParameter;
 import net.bioclipse.recording.MethodRecord.Parameter;
@@ -29,7 +32,7 @@ public class JsScriptGenerator implements IScriptGenerator {
 	private Hashtable<String, Integer> refNumber
 		= new Hashtable<String, Integer>();
 	// (String id, String variableName) in variables hash table
-	private Hashtable<String, String> variables
+	private Map<String, String> variables
 		= new Hashtable<String, String>();
 	
 	private void increaseRefNumber(String type) {
@@ -75,6 +78,20 @@ public class JsScriptGenerator implements IScriptGenerator {
 		return newVariableName;
 	}
 	
+	private String getVariableName(String bioObjectId) {
+		if(variables.containsKey( bioObjectId) ) {
+			return variables.get( bioObjectId );
+		}
+		else if( BioList.existsListContaining(bioObjectId) ){
+			String id = BioList.idOfListContainingBioObject( bioObjectId );
+			return variables.get(id)
+			       + ".get( "
+			       + BioList.positionOfBioObjectInList(bioObjectId)
+			       + " )";
+		}
+		return "null";
+	}
+	
 	public String[] generateScript( MethodRecord[] records ) {
 		List<String> statements = new ArrayList<String>();
 		
@@ -102,6 +119,21 @@ public class JsScriptGenerator implements IScriptGenerator {
 				     && ((BioObjectParameter)p).id.equals(objectId) )
 					
 					return true;
+			
+			List<String> ids = new ArrayList<String>();
+			if ( r instanceof BioObjectRecord ) {
+				ids.add( ( (BioObjectRecord)r ).bioObjectId ); 
+			}
+			for ( MethodRecord.Parameter p : r.paramaters ) {
+				if( p instanceof BioObjectParameter) {
+					ids.add( ((BioObjectParameter)p).id );
+				}
+			}
+			for(String id : ids) {
+				if( BioList.existsListContaining(id) ) {
+					return true;
+				}
+			}
 		}
 		
 		return false;
@@ -114,7 +146,7 @@ public class JsScriptGenerator implements IScriptGenerator {
 		for ( Parameter p : r.getParameters() ) {
 			if (p instanceof BioObjectParameter) {
 				BioObjectParameter bp = (BioObjectParameter)p;
-				String variableName = getVariableName(p.type, bp.id);
+				String variableName = getVariableName(bp.id);
 				paramStrings.add(variableName);
 			}
 			else if (p instanceof NonBioObjectParameter) {
@@ -142,8 +174,8 @@ public class JsScriptGenerator implements IScriptGenerator {
 		}
 		else if ( r instanceof BioObjectRecord ) {
 			BioObjectRecord bor = (BioObjectRecord)r;
-
-			String variableName = variables.get( bor.bioObjectId );
+			String variableName = getVariableName(bor.bioObjectId);
+			
 
 			statement.append(variableName);
 		}

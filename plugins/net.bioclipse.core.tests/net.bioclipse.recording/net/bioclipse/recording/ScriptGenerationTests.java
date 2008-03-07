@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.bioclipse.core.domain.BioObject;
-import net.bioclipse.core.domain.BioObjectList;
+import net.bioclipse.core.domain.BioList;
 import net.bioclipse.core.domain.IBioObject;
 
 import org.junit.Test;
@@ -112,9 +112,9 @@ public class ScriptGenerationTests {
 	@Test
 	public void testScriptGenerationOnBioObjectListReturningMethod() {
 		
-		BioObjectList<IBioObject>
-			returnValue1 = new BioObjectList<IBioObject>(),
-			returnValue2 = new BioObjectList<IBioObject>();
+		BioList<IBioObject>
+			returnValue1 = new BioList<IBioObject>(),
+			returnValue2 = new BioList<IBioObject>();
 		
 		generateAndCompare(
 	            new MethodRecord[] {
@@ -134,8 +134,8 @@ public class ScriptGenerationTests {
 		        },
 			
 	            new String[] {
-	    			"bioObjectList1 = object.method()",
-	    			"bioObjectList2 = object.method()",
+	    			"bioList1 = object.method()",
+	    			"bioList2 = object.method()",
 				}
 		);
 	}
@@ -181,10 +181,10 @@ public class ScriptGenerationTests {
 	}
 	
 	@Test
-	public void testObjectInABioObjectListRecording() {
+	public void testObjectInAbioListRecording() {
 		
-		BioObjectList<IBioObject> returnedList 
-			= new BioObjectList<IBioObject>();
+		BioList<IBioObject> returnedList 
+			= new BioList<IBioObject>();
 		
 		returnedList.add( new TestObject() );
 		TestObject theTestObject = new TestObject(); 
@@ -203,8 +203,8 @@ public class ScriptGenerationTests {
 	            },
 	            
 	            new String[] {
-	    			"bioObjectList1 = object.method()",
-	    			"string1 = bioObjectList1.get( 1 ).getParsedResource()"
+	    			"bioList1 = object.method()",
+	    			"string1 = bioList1.get( 1 ).getParsedResource()"
 				}
 		);
 	}
