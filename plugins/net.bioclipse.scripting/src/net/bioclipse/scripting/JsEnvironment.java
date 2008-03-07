@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.bioclipse.core.business.IBioclipseManager;
-import net.bioclipse.scripting.INamespaceProvider;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -29,6 +28,7 @@ public class JsEnvironment implements ScriptingEnvironment {
 
     private Context context;
     private Scriptable scope;
+    private Map<String, IBioclipseManager> managers;
     
     public JsEnvironment() {
     	reset();
@@ -43,8 +43,13 @@ public class JsEnvironment implements ScriptingEnvironment {
     	
     	context = Context.enter();
     	scope = context.initStandardObjects();
+    	managers = new HashMap<String, IBioclipseManager>();
     	
     	installJsTools();
+    }
+    
+    public IBioclipseManager getManager(String name) {
+    	return managers.get(name);
     }
     
 	private void installJsTools() {
@@ -83,6 +88,8 @@ public class JsEnvironment implements ScriptingEnvironment {
 						                      ( (IBioclipseManager)service )
 						                      	.getNamespace(), 
 						                      jsObject );
+				managers.put(((IBioclipseManager)service).getNamespace(),
+						     (IBioclipseManager)service);
 			}
 		}
 		
