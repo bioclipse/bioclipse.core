@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2007 Bioclipse Project
+ * Copyright (c) 2008 Bioclipse Project
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     
+ *	Jonathan Alvarsson    
  *******************************************************************************/
 
 package net.bioclipse.usermanager;
@@ -22,6 +22,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import net.bioclipse.core.domain.BioObject;
+
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
@@ -32,18 +34,19 @@ import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jasypt.util.text.BasicTextEncryptor;
 
 /**
- * The <code>UserManager</code> is responsible for the different accounts and their 
- * properties.
+ * The <code>UserContainer</code> is responsible for the different 
+ * accounts and their properties.
  * 
  * @author jonalv
  */
-public class UserManager {
+public class UserContainer extends BioObject {
 
-	public static final String FILENAME = "UserManager.dat";
- 	private static UserManager INSTANCE = new UserManager();
+	public static final String FILENAME = "UserContainer.dat";
+ 	private static UserContainer INSTANCE = new UserContainer();
  	private boolean isSandBoxInstance;
  	
- 	private BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
+ 	private BasicPasswordEncryptor passwordEncryptor 
+ 		= new BasicPasswordEncryptor();
  	private BasicTextEncryptor textEncryptor;        
 	
  	/*
@@ -63,7 +66,7 @@ public class UserManager {
 	/**
 	 * private constructor 
 	 */
-	private UserManager() {
+	private UserContainer() {
 
 		availableAccountTypes = new ArrayList<AccountType>();
 		listeners = new ArrayList<IUserManagerListener>();
@@ -80,7 +83,10 @@ public class UserManager {
 			 in = new ObjectInputStream( new FileInputStream(FILENAME) );
 		} 
 		catch (FileNotFoundException e) {
-			System.out.println("File not found: " + FILENAME + ", a new will be created when needed");
+			//TODO: use logger instead
+			System.out.println( "File not found: "
+					            + FILENAME 
+					            + ", a new will be created when needed");
 		} 
 		catch (IOException e) {
 			System.err.println(e.getStackTrace() + "");
@@ -96,21 +102,29 @@ public class UserManager {
 		
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		if(registry == null) {
-			System.out.println("Could not find extensionpoint. If Bioclipse is not running this is normal. ");
+			//TODO: use logger instead
+			System.out.println( "Could not find extensionpoint." +
+					            "If Bioclipse is not running this is normal. ");
 			return;
 		}
 
-		IExtensionPoint extensionPoint = registry.getExtensionPoint("net.bioclipse.usermanager.accountType");
+		IExtensionPoint extensionPoint 
+			= registry.getExtensionPoint(
+					"net.bioclipse.usermanager.accountType" );
 		
 		IExtension[] extensions = extensionPoint.getExtensions();
 		
 		for (IExtension extension : extensions) {
-			IConfigurationElement[] configelements = extension.getConfigurationElements();
+			IConfigurationElement[] configelements 
+				= extension.getConfigurationElements();
 			for (IConfigurationElement element : configelements) {
-				AccountType accountType = new AccountType(element.getAttribute("name"));
+				AccountType accountType 
+					= new AccountType(element.getAttribute("name"));
 				for(IConfigurationElement subElement : element.getChildren()) {
-					accountType.addProperty(                      subElement.getAttribute("name"), 
-							                 Boolean.parseBoolean(subElement.getAttribute("required")) );
+					accountType.addProperty( subElement.getAttribute("name"), 
+					                         Boolean.parseBoolean(
+					                        		 subElement.getAttribute(
+					                        				 "required" )) );
 				}
 				availableAccountTypes.add(accountType);
 			}
@@ -128,7 +142,9 @@ public class UserManager {
 		signInWithProgressBar(username, password, null);
 	}
 
-	public void signInWithProgressBar(String username, String password, SubProgressMonitor monitor) {
+	public void signInWithProgressBar( String username, 
+			                           String password, 
+			                           SubProgressMonitor monitor ) {
 		
 		boolean usingMonitor = monitor != null;
 		
@@ -141,14 +157,20 @@ public class UserManager {
 		try {
 			User superUser = superUsers.get(username);
 			
-			if( superUser != null && passwordEncryptor.checkPassword(password, superUser.getEncryptedPassWord() ) ) {
+			if( superUser != null 
+					&& passwordEncryptor.checkPassword( password, 
+							                            superUser
+							                            .getEncryptedPassWord() 
+			                                           ) ) {
+				
 				loggedInUser = superUsers.get(username);
 				textEncryptor = new BasicTextEncryptor();
 				textEncryptor.setPassword(password);
 				fireLoginWithProgressBar(monitor, ticks);
 				
 			} else {
-				throw new IllegalArgumentException("Unrecognized username or password");
+				throw new IllegalArgumentException( "Unrecognized username " +
+						                            "or password");
 			}
 		}
 		finally {
@@ -215,14 +237,14 @@ public class UserManager {
 		
         for ( String name : properties.keySet() )
             if ( !accountType.hasProperty( name ) )
-                throw new IllegalArgumentException(
-                        "Can not create an account with an unrecognized property: " + name );
+                throw new IllegalArgumentException( "Can not create " +
+                		"an account with an unrecognized property: " + name );
         
-        for ( AccountType.Property property : accountType.getRequiredProperties() )
+        for(AccountType.Property property : accountType.getRequiredProperties())
             if ( !properties.containsKey( property.getName() ) ||
                  "".equals( properties.get( property.getName() )) )
-                throw new IllegalArgumentException(
-                        "Can not create an account without required property: " +
+                throw new IllegalArgumentException(	"Can not create an " +
+                		"account without required property: " +
                         property.getName() );
         
         for ( Account account : loggedInUser.getAccounts().values() ) {
@@ -235,9 +257,12 @@ public class UserManager {
 		String encryptedUsername = textEncryptor.encrypt(username);
 		String encryptedKey      = textEncryptor.encrypt(key);
 		
-		HashMap<String, String> encryptedProperties = new HashMap<String, String>();
+		HashMap<String, String> encryptedProperties 
+			= new HashMap<String, String>();
 		for( String hashKey : properties.keySet() ) {
-			encryptedProperties.put( hashKey, textEncryptor.encrypt(properties.get(hashKey)) );
+			encryptedProperties.put( hashKey, 
+					                 textEncryptor.encrypt(
+					                		 properties.get(hashKey) ) );
 		}
 		
 		Account account = new Account( accountId, 
@@ -259,7 +284,8 @@ public class UserManager {
 		}
         
         Account account = loggedInUser.getAccounts().get(accountId);
-        if ( account != null && !accountTypeIsAvailable( account.getAccountType() ) )
+        if ( account != null 
+        	 && !accountTypeIsAvailable( account.getAccountType() ) )
             return false;
         
 		return loggedInUser.getAccounts().get(accountId) != null;
@@ -300,7 +326,8 @@ public class UserManager {
 	 */
 	public String getProperty(String accountId, String propertykey) {
 		
-		return textEncryptor.decrypt( getAccount(accountId).getPropertyValue(propertykey) );
+		return textEncryptor.decrypt( getAccount(accountId)
+				                      .getPropertyValue(propertykey) );
 	}
 	
 	/**
@@ -316,12 +343,13 @@ public class UserManager {
 		}
 		catch(IOException ex) {
 			ex.printStackTrace();
-			throw new RuntimeException("Could not save UserManager properties to file", ex);
+			throw new RuntimeException( "Could not save UserContainer " +
+					                    "properties to file", ex );
 		}
 	}
 
 	/**
-	 * Reloads all data in the UserManager from file
+	 * Reloads all data in the UserContainer from file
 	 */
 	public void reloadFromFile() {
 		
@@ -331,11 +359,14 @@ public class UserManager {
 			in = new ObjectInputStream( new FileInputStream(FILENAME) );
 			superUsers = (HashMap<String, User>)in.readObject();
 		} catch (FileNotFoundException e) {
-			throw new RuntimeException("There is no file with persisted UserManager data", e);
+			throw new RuntimeException( "There is no file with persisted " +
+					                    "UserContainer data", e );
 		} catch (IOException e) {
-			throw new RuntimeException("Could not load persisted data for the UserManager", e);
+			throw new RuntimeException( "Could not load persisted data " +
+					                    "for the UserContainer", e );
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Could not load persisted data for the UserManager", e);
+			throw new RuntimeException( "Could not load persisted data " +
+				                        "for the UserContainer", e);
 		}
 		finally {
 			try {
@@ -347,54 +378,61 @@ public class UserManager {
 	}
 
 	/**
-	 * @return the UserManager instance
+	 * @return the UserContainer instance
 	 */
-	public static UserManager getInstance() {
+	public static UserContainer getInstance() {
 		return INSTANCE;
 	}
 	
 	/**
-	 * Returns a copy of the UserManager instance which can be used when changing
-	 * properties of the UserManager and simply be thrown away if editing is 
-	 * canceled. If editing is to be used return it to the keyRing using
-	 * <code>replaceWithSandBoxInstance</code>
+	 * Returns a copy of the UserContainer instance which can be used when 
+	 * changing properties of the UserContainer and simply be thrown away 
+	 * if editing is canceled. If editing is to be used return it to the 
+	 * keyRing using <code>replaceWithSandBoxInstance</code>
 	 * 
-	 * @return a copy of the UserManager instance
+	 * @return a copy of the UserContainer instance
 	 */
-	public static UserManager getSandBoxInstance() {
+	public static UserContainer getSandBoxInstance() {
 		
-		UserManager sandBoxKeyRing = new UserManager();
+		UserContainer sandBoxKeyRing = new UserContainer();
 		
 		sandBoxKeyRing.passwordEncryptor = INSTANCE.passwordEncryptor;
 		sandBoxKeyRing.textEncryptor     = INSTANCE.textEncryptor;
 		
 		sandBoxKeyRing.availableAccountTypes = new ArrayList<AccountType>();
 		for( AccountType accountType : INSTANCE.availableAccountTypes ) {
-			sandBoxKeyRing.availableAccountTypes.add(new AccountType(accountType));
+			sandBoxKeyRing.availableAccountTypes.add( 
+					new AccountType(accountType) );
 		}
 		
 		sandBoxKeyRing.superUsers = new HashMap<String, User>();
 		for( String userName : INSTANCE.superUsers.keySet() ) {
-			sandBoxKeyRing.superUsers.put(userName, new User(INSTANCE.superUsers.get(userName)));
+			sandBoxKeyRing.superUsers.put( userName, 
+					new User(INSTANCE.superUsers.get(userName)));
 		}
 		
 		if( INSTANCE.loggedInUser != null ) {
-			sandBoxKeyRing.loggedInUser = sandBoxKeyRing.superUsers.get( INSTANCE.getLoggedInUserName() );			
+			sandBoxKeyRing.loggedInUser = sandBoxKeyRing.superUsers.get( 
+					INSTANCE.getLoggedInUserName() );			
 		}
 		
-		sandBoxKeyRing.listeners = new ArrayList<IUserManagerListener>(UserManager.getInstance().listeners);
+		sandBoxKeyRing.listeners 
+			= new ArrayList<IUserManagerListener>( UserContainer
+					                               .getInstance().listeners );
 		sandBoxKeyRing.isSandBoxInstance = true;
 		
 		return sandBoxKeyRing;
 	}
 	
 	/**
-	 * Replaces the current UserManager instance with an edited sandBox version 
-	 * and persists the edits to file.
+	 * Replaces the current UserContainer instance with an edited sandBox 
+	 * version and persists the edits to file.
 	 * 
 	 * @param sandBoxKeyRing to be used instead
 	 */
-	public static void replaceWithSandBoxInstance(UserManager sandBoxKeyRing) {
+	public static void replaceWithSandBoxInstance( 
+			UserContainer sandBoxKeyRing ) {
+	
 		sandBoxKeyRing.isSandBoxInstance = false;
 		INSTANCE = sandBoxKeyRing;
 		INSTANCE.persist();
@@ -434,7 +472,8 @@ public class UserManager {
 	 * @return
 	 */
 	public Collection<String> getPropertyKeys(String accountId) {
-		return loggedInUser.getAccounts().get(accountId).getPropertiesHashMap().keySet(); 
+		return loggedInUser.getAccounts().get(accountId)
+		       .getPropertiesHashMap().keySet(); 
 	}
 
 	/**
@@ -453,8 +492,11 @@ public class UserManager {
 	 */
 	public void changePassword(String masterkey, String newkey) {
 		
-		if (passwordEncryptor.checkPassword(masterkey, loggedInUser.getEncryptedPassWord() ) ) {
-			loggedInUser.setEncryptedPassWord( passwordEncryptor.encryptPassword(newkey) );
+		if ( passwordEncryptor.checkPassword( masterkey, 
+			 loggedInUser.getEncryptedPassWord() ) ) {
+			
+			loggedInUser.setEncryptedPassWord( 
+					passwordEncryptor.encryptPassword(newkey) );
 		} else {
 			throw new IllegalArgumentException("Unrecognized password");
 		}
@@ -471,17 +513,24 @@ public class UserManager {
 			/*
 			 * create a hashmap with unencrypted properties 
 			 */
-			HashMap<String, String> unEncryptedProperties = new HashMap<String, String>();
-			for( String propertyKey :  accounts.get(accountId).getPropertiesHashMap().keySet() ) {
+			HashMap<String, String> unEncryptedProperties 
+				= new HashMap<String, String>();
+			for( String propertyKey : accounts.get(accountId)
+					                          .getPropertiesHashMap()
+					                          .keySet() ) {
 				
 				String reEncryptedValue = 
-					oldTextEncryptor.decrypt(accounts.get(accountId).getPropertyValue(propertyKey));
+					oldTextEncryptor.decrypt( 
+							accounts.get( accountId)
+							              .getPropertyValue(propertyKey) );
 				unEncryptedProperties.put( propertyKey, reEncryptedValue );
 			}
 			
 			createAccount( accountId, 
-			               oldTextEncryptor.decrypt( accounts.get(accountId).getUsername() ),
-			               oldTextEncryptor.decrypt( accounts.get(accountId).getKey() ),
+			               oldTextEncryptor.decrypt( 
+			            		   accounts.get(accountId).getUsername() ),
+			               oldTextEncryptor.decrypt( 
+			            		   accounts.get(accountId).getKey() ),
 			               unEncryptedProperties, 
 			               accounts.get(accountId).getAccountType() );
 		}
@@ -502,7 +551,8 @@ public class UserManager {
 		}
 		Account account = loggedInUser.getAccounts().get(accountId); 
 		if( account == null) {
-			throw new IllegalArgumentException("No account with accountid:" + accountId);
+			throw new IllegalArgumentException( "No account with accountid:"
+					                            + accountId );
 		}
 		return account;
 	}
@@ -552,7 +602,8 @@ public class UserManager {
     	fireLoginWithProgressBar(null, 0);
 	}
     
-    private void fireLoginWithProgressBar(SubProgressMonitor monitor, int ticks) {
+    private void fireLoginWithProgressBar( SubProgressMonitor monitor, 
+    		                               int ticks) {
     	if(isSandBoxInstance) {
     		return;
     	}
@@ -564,8 +615,11 @@ public class UserManager {
 	    			monitor.worked( ticks/listeners.size() );
 	    		}
 	    	}
-	    	if( UserManager.getInstance().isLoggedIn() ) {
-	    		setStatusLinetext( "Logged in as: " + UserManager.getInstance().getLoggedInUserName() );
+	    	if( UserContainer.getInstance().isLoggedIn() ) {
+	    		setStatusLinetext( "Logged in as: " 
+	    				           + UserContainer
+	    				             .getInstance()
+	    				             .getLoggedInUserName() );
 	    	}
     	}
     	finally {
@@ -624,7 +678,8 @@ public class UserManager {
 	 * @param propertyName
 	 * @return
 	 */
-	public String getPropertyByAccountType(String accountTypeName, String propertyName) {
+	public String getPropertyByAccountType( String accountTypeName, 
+			                                String propertyName) {
 
 		for ( Account a : loggedInUser.getAccounts().values() ) {
 			if( accountTypeName.equals( a.getAccountType().getName() ) ) {
@@ -646,7 +701,8 @@ public class UserManager {
 		for ( Account a : loggedInUser.getAccounts().values() ) {
 			if( accountTypeName.equals( a.getAccountType().getName() ) ) {
 				if( result != null )
-					throw new IllegalStateException("there are many such accounts");
+					throw new IllegalStateException(
+							"there are many such accounts" );
 				
 				result = getUserName( a.getAccountId() );
 			}
@@ -684,7 +740,8 @@ public class UserManager {
 		
 		if( isLoggedIn() ) {
 			for( Account account : loggedInUser.getAccounts().values() ) {
-				if( account.getAccountType().getName().equals(accountTypeName) ) {
+				if( account.getAccountType().getName().equals(
+						accountTypeName ) ) {
 					return true;
 				}
 			}
@@ -700,7 +757,9 @@ public class UserManager {
 //			ism.setMessage(textToSet);
 		}
 		catch(IllegalStateException e) {
-			System.out.println( e.getMessage() + " -- If Bioclipse is not running no workbench should have been created."  );
+			System.out.println( e.getMessage() 
+					            + " -- If Bioclipse is not running no " 
+					            + "workbench should have been created."  );
 		}
 	}
 
@@ -715,6 +774,12 @@ public class UserManager {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public Object getParsedResource() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 

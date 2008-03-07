@@ -13,7 +13,7 @@ package net.bioclipse.dialogs;
 
 import java.lang.reflect.InvocationTargetException;
 
-import net.bioclipse.usermanager.UserManager;
+import net.bioclipse.usermanager.UserContainer;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
@@ -39,7 +39,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * Dialog for logging in to the UserManager
+ * Dialog for logging in to the UserContainer
  * 
  * @author jonalv
  *
@@ -51,16 +51,17 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 	private Label       passwordLabel;
 	private Text        usernameText;
 	private Text        passwordText;
-	private UserManager sandBoxUserManager;
+	private UserContainer sandBoxUserManager;
 	
 	/**
 	 * Create the dialog
 	 * @param parentShell
 	 */
-	public UserManagerLoginDialog(Shell parentShell, UserManager sandBoxUserManager) {
+	public UserManagerLoginDialog( Shell parentShell, 
+			                       UserContainer sandBoxUserManager ) {
 		super(parentShell);
-		if(sandBoxUserManager == UserManager.getInstance()) {
-			sandBoxUserManager = UserManager.getSandBoxInstance();
+		if(sandBoxUserManager == UserContainer.getInstance()) {
+			sandBoxUserManager = UserContainer.getSandBoxInstance();
 		}
 		this.sandBoxUserManager = sandBoxUserManager;
 	}
@@ -116,13 +117,19 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 			public void widgetSelected(SelectionEvent e) {
 
 				CreateUserDialog createDialog = 
-					new CreateUserDialog( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+					new CreateUserDialog( PlatformUI
+							              .getWorkbench()
+							              .getActiveWorkbenchWindow()
+							              .getShell(),
 							              sandBoxUserManager );
 				createDialog.open();
 				if(createDialog.getReturnCode() == createDialog.OK) {
 					close();
 					EditUserDialog dialog = 
-						new EditUserDialog( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
+						new EditUserDialog( PlatformUI
+								            .getWorkbench()
+								            .getActiveWorkbenchWindow()
+								            .getShell(), 
 								            sandBoxUserManager );
 					dialog.open();
 				}
@@ -133,7 +140,11 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 		formData_4.top = new FormAttachment(0, 136);
 		createNewKeyringButton.setLayoutData(formData_4);
 		createNewKeyringButton.setText("Create new Keyring user...");
-		container.setTabList(new Control[] {usernameText, passwordText, passwordLabel, usernameLabel, createNewKeyringButton});
+		container.setTabList(new Control[] { usernameText, 
+				                             passwordText, 
+				                             passwordLabel, 
+				                             usernameLabel, 
+				                             createNewKeyringButton });
 		setTitle("Log in to the User Manager");
 		//
 		return area;
@@ -145,9 +156,14 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 	 */
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
-		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,true);
-		createButton(parent, IDialogConstants.CANCEL_ID,
-				IDialogConstants.CANCEL_LABEL, false);
+		createButton( parent, 
+				      IDialogConstants.OK_ID, 
+				      IDialogConstants.OK_LABEL,
+				      true );
+		createButton( parent, 
+				      IDialogConstants.CANCEL_ID,
+				      IDialogConstants.CANCEL_LABEL, 
+				      false );
 	}
 
 	/**
@@ -165,22 +181,36 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 			try {
 				final String username = usernameText.getText();
 				final String password = passwordText.getText();
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().run(true, false, new IRunnableWithProgress() {
-					public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+				PlatformUI
+				.getWorkbench()
+				.getActiveWorkbenchWindow()
+				.run(true, false, new IRunnableWithProgress() {
+
+					public void run(IProgressMonitor monitor) 
+					throws InvocationTargetException, InterruptedException {
 						try{
 							int scale = 1000;
 							monitor.beginTask("Signing in...", 2 * scale);
-							UserManager.getInstance().signInWithProgressBar( username,
-			                                                      password, 
-			                                                      new SubProgressMonitor(monitor, 1 * scale) );
+							UserContainer
+							.getInstance()
+							.signInWithProgressBar( username,
+			                                        password, 
+			                                        new SubProgressMonitor(
+			                                        		monitor, 
+			                                        		1 * scale) );
 							monitor.worked(1);
 						}
 						catch( final Exception e ) {
 							Display.getDefault().asyncExec(new Runnable() {
 
 								public void run() {
-									MessageDialog.openInformation( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
-						                       "Could not sign in " + usernameText.getText(), 
+									MessageDialog.openInformation( 
+											   PlatformUI
+											   .getWorkbench()
+											   .getActiveWorkbenchWindow()
+											   .getShell(), 
+						                       "Could not sign in "
+											   + usernameText.getText(), 
 						                       e.getMessage() );
 								}
 							});

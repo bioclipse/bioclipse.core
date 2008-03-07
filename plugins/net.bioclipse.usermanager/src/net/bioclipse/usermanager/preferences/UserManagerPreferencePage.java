@@ -14,7 +14,7 @@ package net.bioclipse.usermanager.preferences;
 import net.bioclipse.dialogs.CreateUserDialog;
 import net.bioclipse.dialogs.EditUserDialog;
 import net.bioclipse.dialogs.PassWordPromptDialog;
-import net.bioclipse.usermanager.UserManager;
+import net.bioclipse.usermanager.UserContainer;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferencePage;
@@ -40,7 +40,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * Preferencepage for the UserManager
+ * Preferencepage for the UserContainer
  * 
  * @author jonalv
  *
@@ -55,7 +55,7 @@ public class UserManagerPreferencePage extends PreferencePage
 	private Button     createButton;
 	private List       list;
 	
-	private UserManager sandBoxUserManager;
+	private UserContainer sandBoxUserManager;
 	
 	@Override
 	protected Control createContents(Composite parent) {
@@ -92,13 +92,19 @@ public class UserManagerPreferencePage extends PreferencePage
 			 */
 			public void widgetSelected(SelectionEvent e) {
 				CreateUserDialog createDialog = 
-					new CreateUserDialog( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-							                   sandBoxUserManager );
+					new CreateUserDialog( PlatformUI
+							              .getWorkbench()
+							              .getActiveWorkbenchWindow()
+							              .getShell(),
+							              sandBoxUserManager );
 				createDialog.open();
 				if(createDialog.getReturnCode() == createDialog.OK) {
 					EditUserDialog dialog = 
-						new EditUserDialog( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
-								                 sandBoxUserManager );
+						new EditUserDialog( PlatformUI
+								            .getWorkbench()
+								            .getActiveWorkbenchWindow()
+								            .getShell(), 
+								            sandBoxUserManager );
 					dialog.open();
 				}
 				updateListViewer();
@@ -119,20 +125,29 @@ public class UserManagerPreferencePage extends PreferencePage
 				
 				String userName = getSelectedUserName();
 				if(userName == null) {
-					MessageDialog.openInformation( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
+					MessageDialog.openInformation( PlatformUI
+							                       .getWorkbench()
+							                       .getActiveWorkbenchWindow()
+							                       .getShell(), 
 							                       "No user selected", 
 							                       "There is no user selected to edit" );
 					return;
 				}
 				PassWordPromptDialog passDialog = 
-					new PassWordPromptDialog( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
+					new PassWordPromptDialog( PlatformUI
+							                  .getWorkbench()
+							                  .getActiveWorkbenchWindow()
+							                  .getShell(), 
 							                  userName, 
 							                  sandBoxUserManager );
 				passDialog.open();
 				if(passDialog.getReturnCode() == passDialog.OK) {
 					EditUserDialog dialog = 
-						new EditUserDialog( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
-								                 sandBoxUserManager );
+						new EditUserDialog( PlatformUI
+								            .getWorkbench()
+								            .getActiveWorkbenchWindow()
+								            .getShell(), 
+								            sandBoxUserManager );
 					dialog.open();	
 				}
 			}		
@@ -151,9 +166,14 @@ public class UserManagerPreferencePage extends PreferencePage
 			public void widgetSelected(SelectionEvent e) {
 				
 				String userName = getSelectedUserName();
-				if ( MessageDialog.openQuestion( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
-						                    "Confirm removing of Keyring user", 
-						                    "Really remove the user: " + userName + "?" ) ) {
+				if ( MessageDialog.openQuestion( PlatformUI
+						                         .getWorkbench()
+						                         .getActiveWorkbenchWindow()
+						                         .getShell(), 
+						                         "Confirm removing " +
+						                         	"of Keyring user", 
+						                         "Really remove the user: " 
+						                         	+ userName + "?" ) ) {
 					sandBoxUserManager.deleteUser(userName);
 				}
 				updateListViewer();
@@ -164,7 +184,11 @@ public class UserManagerPreferencePage extends PreferencePage
 		formData_4.top = new FormAttachment(createButton, -29, SWT.BOTTOM);
 		deleteButton.setLayoutData(formData_4);
 		deleteButton.setText("Delete");
-		container.setTabList(new Control[] {createButton, editButton, deleteButton, list, usersLabel});
+		container.setTabList(new Control[] { createButton, 
+				                             editButton, 
+				                             deleteButton, 
+				                             list, 
+				                             usersLabel });
 		//
 		
 		return container;
@@ -173,13 +197,13 @@ public class UserManagerPreferencePage extends PreferencePage
 	@Override
 	public boolean performOk() {
 		
-		UserManager.replaceWithSandBoxInstance(sandBoxUserManager);
+		UserContainer.replaceWithSandBoxInstance(sandBoxUserManager);
         return super.performOk();
     }
 	
 	public void init(IWorkbench workbench) {
 		
-		sandBoxUserManager = UserManager.getSandBoxInstance();
+		sandBoxUserManager = UserContainer.getSandBoxInstance();
 	}
 	
 	private String getSelectedUserName() {
@@ -218,11 +242,14 @@ public class UserManagerPreferencePage extends PreferencePage
 	 */
 	class ContentProvider implements IStructuredContentProvider {
 		public Object[] getElements(Object inputElement) {
-			return ( (java.util.List<String>)inputElement ).toArray( new String[0] );
+			return ( (java.util.List<String>)inputElement )
+			          .toArray( new String[0] );
 		}
 		public void dispose() {
 		}
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		public void inputChanged( Viewer viewer, 
+				                  Object oldInput, 
+				                  Object newInput ) {
 		}
 	}
 }

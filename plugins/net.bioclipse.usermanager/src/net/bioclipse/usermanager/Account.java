@@ -108,11 +108,16 @@ class Account implements Serializable {
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = 1;
-		result = PRIME * result + ((accountId == null) ? 0 : accountId.hashCode());
-		result = PRIME * result + ((accountType == null) ? 0 : accountType.hashCode());
-		result = PRIME * result + ((key == null) ? 0 : key.hashCode());
-		result = PRIME * result + ((properties == null) ? 0 : properties.hashCode());
-		result = PRIME * result + ((username == null) ? 0 : username.hashCode());
+		result = PRIME * result 
+		         + ((accountId == null) ? 0 : accountId.hashCode());
+		result = PRIME * result 
+		         + ((accountType == null) ? 0 : accountType.hashCode());
+		result = PRIME * result 
+		         + ((key == null) ? 0 : key.hashCode());
+		result = PRIME * result 
+		         + ((properties == null) ? 0 : properties.hashCode());
+		result = PRIME * result 
+		         + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
 

@@ -15,7 +15,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 /**
- * The local user with username and password for reaching the info stored in accounts.
+ * The local user with username and password for 
+ * reaching the info stored in accounts.
  * 
  * @author jonalv
  */

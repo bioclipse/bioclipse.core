@@ -12,7 +12,7 @@
 package net.bioclipse.dialogs;
 
 import net.bioclipse.usermanager.AccountType;
-import net.bioclipse.usermanager.UserManager;
+import net.bioclipse.usermanager.UserContainer;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -43,13 +43,14 @@ public class CreateAccountDialog extends Dialog {
 	private String accountName;
 	private AccountType accountType;
 	
-	private UserManager sandBoxUserManager;
+	private UserContainer sandBoxUserManager;
 	
 	/**
 	 * Create the dialog
 	 * @param parentShell
 	 */
-	public CreateAccountDialog(Shell parentShell, UserManager sandBoxUserManager) {
+	public CreateAccountDialog( Shell parentShell, 
+			                    UserContainer sandBoxUserManager ) {
 		
 		super(parentShell);
 		this.sandBoxUserManager = sandBoxUserManager;
@@ -128,13 +129,18 @@ public class CreateAccountDialog extends Dialog {
 	protected void buttonPressed(int buttonId) {
 		if (buttonId == IDialogConstants.OK_ID) {
 			if( "".equals(text.getText()) ) {
-				MessageDialog.openInformation( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-						                       "Please name your account", 
-						                       "Write a name for your account" );
+				MessageDialog.openInformation(PlatformUI
+						                      .getWorkbench()
+						                      .getActiveWorkbenchWindow()
+						                      .getShell(),
+						                      "Please name your account", 
+						                      "Write a name for your account");
 				return;
 			}
 			this.accountName = text.getText();
-			this.accountType = sandBoxUserManager.getAvailableAccountTypes()[combo.getSelectionIndex()];
+			this.accountType 
+				= sandBoxUserManager
+				  .getAvailableAccountTypes()[combo.getSelectionIndex()];
 		}
 		super.buttonPressed(buttonId);
 	}

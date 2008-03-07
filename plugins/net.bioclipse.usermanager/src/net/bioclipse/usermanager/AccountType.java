@@ -228,7 +228,9 @@ public class AccountType implements Serializable {
 		final int PRIME = 31;
 		int result = 1;
 		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
-		result = PRIME * result + ((properties == null) ? 0 : properties.hashCode());
+		result = PRIME * result + 
+		                 ( (properties == null) ? 0
+		                		                : properties.hashCode() );
 		return result;
 	}
 

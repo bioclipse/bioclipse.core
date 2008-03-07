@@ -11,7 +11,7 @@
 
 package net.bioclipse.dialogs;
 
-import net.bioclipse.usermanager.UserManager;
+import net.bioclipse.usermanager.UserContainer;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
@@ -40,13 +40,15 @@ public class PassWordPromptDialog extends Dialog {
 
 	private Text text;
 	private String username;
-	private UserManager sandBoxKeyRing;
+	private UserContainer sandBoxKeyRing;
 	
 	/**
 	 * Create the dialog
 	 * @param parentShell
 	 */
-	public PassWordPromptDialog(Shell parentShell, String username, UserManager sandBoxKeyRing) {
+	public PassWordPromptDialog( Shell parentShell, 
+			                     String username, 
+			                     UserContainer sandBoxKeyRing ) {
 		super(parentShell);
 		this.username = username;
 		this.sandBoxKeyRing = sandBoxKeyRing;
@@ -116,7 +118,10 @@ public class PassWordPromptDialog extends Dialog {
 				sandBoxKeyRing.signIn(username, text.getText());
 			}
 			catch(IllegalArgumentException e) {
-				MessageDialog.openInformation( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
+				MessageDialog.openInformation( PlatformUI
+						                       .getWorkbench()
+						                       .getActiveWorkbenchWindow()
+						                       .getShell(), 
 						                       "Could not log in", 
 						                       e.getMessage() );
 				return;

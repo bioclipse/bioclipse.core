@@ -10,7 +10,7 @@
  *******************************************************************************/
 package net.bioclipse.actions;
 
-import net.bioclipse.usermanager.UserManager;
+import net.bioclipse.usermanager.UserContainer;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -37,7 +37,7 @@ public class LogoutAction implements IWorkbenchWindowActionDelegate {
 
 //		logger.debug("LoginAction.run()");
 
-		UserManager.getInstance().signOut();
+		UserContainer.getInstance().signOut();
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {

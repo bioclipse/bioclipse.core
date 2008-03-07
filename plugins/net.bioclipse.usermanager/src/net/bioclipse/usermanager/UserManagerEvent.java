@@ -14,7 +14,7 @@ package net.bioclipse.usermanager;
 /**
  * Events fired by the Keyring
  * 
- * @author jonathan
+ * @author jonalv
  *
  */
 public enum UserManagerEvent {

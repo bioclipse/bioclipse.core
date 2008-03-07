@@ -12,7 +12,7 @@
 package net.bioclipse.actions;
 
 import net.bioclipse.dialogs.UserManagerLoginDialog;
-import net.bioclipse.usermanager.UserManager;
+import net.bioclipse.usermanager.UserContainer;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -41,8 +41,11 @@ public class LoginAction implements IWorkbenchWindowActionDelegate {
 //		logger.debug("LoginAction.run()");
 
 		UserManagerLoginDialog loginDialog = 
-			new UserManagerLoginDialog( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
-					                UserManager.getInstance() );
+			new UserManagerLoginDialog( PlatformUI
+					                    .getWorkbench()
+					                    .getActiveWorkbenchWindow()
+					                    .getShell(), 
+					                    UserContainer.getInstance() );
 		
 		loginDialog.open();
 	}

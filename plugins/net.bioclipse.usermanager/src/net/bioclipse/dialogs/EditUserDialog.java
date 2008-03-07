@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import net.bioclipse.usermanager.AccountType;
-import net.bioclipse.usermanager.UserManager;
+import net.bioclipse.usermanager.UserContainer;
 import net.bioclipse.usermanager.User;
 import net.bioclipse.usermanager.AccountType.Property;
 
@@ -83,15 +83,18 @@ public class EditUserDialog extends Dialog {
 	private Text userNameText;
 	private List list;
 	
-	private UserManager sandBoxUserManager;
+	private UserContainer sandBoxUserManager;
 	private EditUserDialogModel model;
-	private static final String[] COLUMN_NAMES = {"Property", "Value", "Required"};
+	private static final String[] COLUMN_NAMES = { "Property", 
+		                                           "Value", 
+		                                           "Required" };
 	
 	/**
 	 * Create the dialog
 	 * @param parentShell
 	 */
-	public EditUserDialog(Shell parentShell, UserManager sandBoxUserManager ) {
+	public EditUserDialog( Shell parentShell, 
+			               UserContainer sandBoxUserManager ) {
 		super(parentShell);
 		this.sandBoxUserManager = sandBoxUserManager;
 		this.model = new EditUserDialogModel(sandBoxUserManager);
@@ -117,7 +120,8 @@ public class EditUserDialog extends Dialog {
 		accountGroup.setLayout(new FormLayout());
 
 		accountsListViewer = new ListViewer(container, SWT.BORDER | SWT.SINGLE);
-		accountsListViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+		accountsListViewer.addSelectionChangedListener( 
+			new ISelectionChangedListener() {
 			/*
 			 * SELECTION CHANGED ON THE ACCOUNTS LIST
 			 */
@@ -154,7 +158,12 @@ public class EditUserDialog extends Dialog {
 			}
 			public void focusLost(FocusEvent e) {
 				if( accountsListViewer.getList().getSelection().length > 0 ) {
-					DummyAccount account = model.dummyAccounts.get(accountsListViewer.getList().getSelection()[0]);
+					DummyAccount account 
+						= model
+						  .dummyAccounts
+						  .get( accountsListViewer
+								.getList()
+								.getSelection()[0] );
 					account.userName = userNameText.getText();
 				}
 			}
@@ -171,7 +180,10 @@ public class EditUserDialog extends Dialog {
 			}
 			public void focusLost(FocusEvent e) {
 				if( accountsListViewer.getList().getSelection().length > 0 ) {
-					DummyAccount account = model.dummyAccounts.get(accountsListViewer.getList().getSelection()[0]);
+					DummyAccount account 
+						= model
+						  .dummyAccounts
+						  .get(accountsListViewer.getList().getSelection()[0]);
 					account.key = passWordText.getText();
 				}
 			}
@@ -245,7 +257,14 @@ public class EditUserDialog extends Dialog {
 		formData_12.top = new FormAttachment(0, 10);
 		formData_12.left = new FormAttachment(userNameText, 0, SWT.LEFT);
 		accountTypeText.setLayoutData(formData_12);
-		accountGroup.setTabList(new Control[] {userNameText, passWordText, userNameLabel, passwordLabel, propertiesLabel, propertiesTable, accountTypeLabel, accountTypeText});
+		accountGroup.setTabList( new Control[] { userNameText, 
+				                                 passWordText, 
+				                                 userNameLabel, 
+				                                 passwordLabel, 
+				                                 propertiesLabel, 
+				                                 propertiesTable, 
+				                                 accountTypeLabel, 
+				                                 accountTypeText } );
 		final FormData formData_1 = new FormData();
 		formData_1.right = new FormAttachment(accountGroup, -2, SWT.LEFT);
 		formData_1.left = new FormAttachment(0, 0);
@@ -260,15 +279,24 @@ public class EditUserDialog extends Dialog {
 			 */
 			public void widgetSelected(SelectionEvent e) {
 				
-				CreateAccountDialog dialog = new CreateAccountDialog( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
-						                                              sandBoxUserManager );
+				CreateAccountDialog dialog 
+					= new CreateAccountDialog( PlatformUI
+							                   .getWorkbench()
+							                   .getActiveWorkbenchWindow()
+							                   .getShell(), 
+						                       sandBoxUserManager );
 				if(dialog.open() == dialog.OK) {
 					
 					for( DummyAccount ac : model.dummyAccounts.values() ) {
 						if( ac.accountType.equals( dialog.getAccountType() ) ) {
 							MessageDialog.openInformation( 
-									PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
-									"Account type already used", "There already exists an account with that accounttype" );
+									PlatformUI
+									.getWorkbench()
+									.getActiveWorkbenchWindow()
+									.getShell(), 
+									"Account type already used", 
+									"There already exists an account " +
+									"with that accounttype" );
 							return;
 						}
 					}
@@ -309,7 +337,8 @@ public class EditUserDialog extends Dialog {
 			 * DELETE ACCOUNT
 			 */
 			public void widgetSelected(SelectionEvent e) {
-				model.dummyAccounts.remove( accountsListViewer.getList().getSelection()[0] );
+				model.dummyAccounts.remove( 
+						accountsListViewer.getList().getSelection()[0] );
 				refreshList();
 				if(accountsListViewer.getList().getItemCount() > 0) {
 					accountsListViewer.getList().select(0);
@@ -330,7 +359,10 @@ public class EditUserDialog extends Dialog {
 			 */
 			public void widgetSelected(SelectionEvent e) {
 				ChangePasswordDialog dialog = 
-					new ChangePasswordDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+					new ChangePasswordDialog( PlatformUI
+							                  .getWorkbench()
+							                  .getActiveWorkbenchWindow()
+							                  .getShell() );
 				if(dialog.open() == dialog.OK) {
 					sandBoxUserManager.changePassword( dialog.getOldPassword(), 
 							                        dialog.getNewPassword() );
@@ -342,7 +374,11 @@ public class EditUserDialog extends Dialog {
 		formData_8.left = new FormAttachment(0, 33);
 		changeKeyringUserButton.setLayoutData(formData_8);
 		changeKeyringUserButton.setText("Change Keyring User Password");
-		container.setTabList(new Control[] {changeKeyringUserButton, addAccountButton, deleteAccountButton, accountGroup, list});
+		container.setTabList(new Control[] { changeKeyringUserButton, 
+				                             addAccountButton, 
+				                             deleteAccountButton, 
+				                             accountGroup, 
+				                             list } );
 		//
 		return container;
 	}
@@ -379,30 +415,42 @@ public class EditUserDialog extends Dialog {
 	
 	private void refreshTable() {
 		if( list.getSelection().length > 0 ) {
-			propertiesTableViewer.setInput( model.dummyAccounts.get(list.getSelection()[0]) );
+			propertiesTableViewer.setInput( model
+					                        .dummyAccounts.get(
+					                        		list.getSelection()[0]) );
 		}
 	}
 	
 	private void refreshOnSelectionChanged() {
 
 		String selectedAccountId = accountsListViewer.getList().getSelection()[0];
-		userNameText.setText(           model.dummyAccounts.get(selectedAccountId).userName               );
-		passWordText.setText(           model.dummyAccounts.get(selectedAccountId).key                    );
-		accountTypeText.setText(        model.dummyAccounts.get(selectedAccountId).accountType.toString() );
-		propertiesTableViewer.setInput( model.dummyAccounts.get(selectedAccountId)                        );
+		userNameText.setText(
+				model.dummyAccounts.get(selectedAccountId).userName );
+		passWordText.setText(
+				model.dummyAccounts.get(selectedAccountId).key );
+		accountTypeText.setText(
+				model.dummyAccounts.get( selectedAccountId)
+				                         .accountType.toString() );
+		propertiesTableViewer.setInput( 
+				model.dummyAccounts.get(selectedAccountId) );
 	}
 
 	protected void buttonPressed(int buttonId) {
 		if (buttonId == IDialogConstants.OK_ID) {
 			if( !dialogInputIsComplete() ) {
-				MessageDialog.openInformation( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
+				MessageDialog.openInformation( PlatformUI
+						                       .getWorkbench()
+						                       .getActiveWorkbenchWindow()
+						                       .getShell(), 
 						                       "Not complete", 
-						                       "You have not filled in values for all required accountproperties");
+						                       "You have not filled in values" +
+						                       " for all required " +
+						                       "accountproperties");
 				return;
 			}
 			saveDummyAccountToSandBoxUserManager();
 		}
-		UserManager.getInstance().fireUpdate();
+		UserContainer.getInstance().fireUpdate();
 		super.buttonPressed(buttonId);
 	}
 
@@ -458,7 +506,9 @@ public class EditUserDialog extends Dialog {
 		}
 		public void dispose() {
 		}
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		public void inputChanged( Viewer viewer, 
+				                  Object oldInput, 
+				                  Object newInput ) {
 		}
 	}
 	
@@ -483,7 +533,8 @@ public class EditUserDialog extends Dialog {
 	class TableContentProvider implements IStructuredContentProvider {
 		public Object[] getElements(Object inputElement) {
 			DummyAccount dm = (DummyAccount)inputElement;
-			HashMap<String, String> properties = (HashMap<String, String>)dm.properties;
+			HashMap<String, String> properties 
+				= (HashMap<String, String>)dm.properties;
 			ArrayList<ArrayList> rows = new ArrayList<ArrayList>();
 			for( String key : properties.keySet() ) {
 				ArrayList<String> row = new ArrayList<String>();
@@ -496,7 +547,9 @@ public class EditUserDialog extends Dialog {
 		}
 		public void dispose() {
 		}
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		public void inputChanged( Viewer viewer, 
+				                  Object oldInput, 
+				                  Object newInput ) {
 		}
 	}
 	
@@ -506,7 +559,8 @@ public class EditUserDialog extends Dialog {
 	 * @author jonathan
 	 *
 	 */
-	class TableLabelProvider extends LabelProvider implements ITableLabelProvider {
+	class TableLabelProvider extends LabelProvider 
+	                         implements ITableLabelProvider {
 		public String getColumnText(Object element, int columnIndex) {
 			return ( (ArrayList)element ).get(columnIndex).toString();
 		}
@@ -562,19 +616,21 @@ public class EditUserDialog extends Dialog {
 	}
 	
 	/**
-	 * Data holder for the edit super user dialog that can be thrown away if canceled 
-	 * and stored if Ok is pressed.
+	 * Data holder for the edit super user dialog that can be thrown away if 
+	 * canceled and stored if Ok is pressed.
 	 * 
 	 * @author jonathan
 	 *
 	 */
 	class EditUserDialogModel {
 		
-		HashMap<String, DummyAccount> dummyAccounts = new HashMap<String, DummyAccount>();
+		HashMap<String, DummyAccount> dummyAccounts 
+			= new HashMap<String, DummyAccount>();
 		
-		public EditUserDialogModel(UserManager sandBoxKeyRing) {
+		public EditUserDialogModel(UserContainer sandBoxKeyRing) {
 			
-			for ( String accountId : sandBoxKeyRing.getLoggedInUsersAccountNames() ) {
+			for ( String accountId : sandBoxKeyRing
+					                 .getLoggedInUsersAccountNames() ) {
 				
 				DummyAccount d = new DummyAccount();
 				d.key          = sandBoxKeyRing.getPassword(accountId);
@@ -582,11 +638,14 @@ public class EditUserDialog extends Dialog {
 				d.accountId    = accountId;
 				d.accountType  = sandBoxKeyRing.getAccountType(accountId);
 				
-				for( String property : sandBoxKeyRing.getPropertyKeys(accountId) ) {
+				for( String property : sandBoxKeyRing
+						               .getPropertyKeys(accountId) ) {
 					/*
 					 * getProperty decrypts the property value
 					 */
-					d.properties.put(property, sandBoxKeyRing.getProperty(accountId, property));
+					d.properties.put(property, sandBoxKeyRing
+							                   .getProperty( accountId, 
+							                		         property ));
 				}
 				dummyAccounts.put(d.accountId, d);
 			}

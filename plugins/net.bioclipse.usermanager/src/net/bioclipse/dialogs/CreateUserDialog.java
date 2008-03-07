@@ -11,7 +11,7 @@
 
 package net.bioclipse.dialogs;
 
-import net.bioclipse.usermanager.UserManager;
+import net.bioclipse.usermanager.UserContainer;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -44,13 +44,14 @@ public class CreateUserDialog extends TitleAreaDialog {
 	private Text  repeatPasswordText;
 	private Text  passwordText;
 	private Text  userNameText;
-	private UserManager sandBoxUserManager;
+	private UserContainer sandBoxUserManager;
 	
 	/**
 	 * Create the dialog
 	 * @param parentShell
 	 */
-	public CreateUserDialog(Shell parentShell, UserManager sandBoxUserManager) {
+	public CreateUserDialog( Shell parentShell, 
+			                 UserContainer sandBoxUserManager ) {
 		super(parentShell);
 		this.sandBoxUserManager = sandBoxUserManager;
 	}
@@ -107,7 +108,12 @@ public class CreateUserDialog extends TitleAreaDialog {
 		formData_5.right = new FormAttachment(passwordText, 0, SWT.RIGHT);
 		formData_5.left = new FormAttachment(passwordText, 0, SWT.LEFT);
 		repeatPasswordText.setLayoutData(formData_5);
-		container.setTabList(new Control[] {userNameText, passwordText, repeatPasswordText, usernameLabel, passwordLabel, repeatPasswordLabel});
+		container.setTabList(new Control[] { userNameText, 
+				                             passwordText, 
+				                             repeatPasswordText, 
+				                             usernameLabel, 
+				                             passwordLabel, 
+				                             repeatPasswordLabel });
 		
         setTitle("Create User");
         
@@ -140,17 +146,28 @@ public class CreateUserDialog extends TitleAreaDialog {
 				"".equals( passwordText.getText()       ) ||
 				"".equals( repeatPasswordText.getText() ) ) {
 				
-				MessageDialog.openInformation( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
-	                       "Please fill in all fields", "Fill in your username and your password (twice)");
+				MessageDialog.openInformation( PlatformUI
+						                       .getWorkbench()
+						                       .getActiveWorkbenchWindow()
+						                       .getShell(), 
+	                       "Please fill in all fields", 
+	                       "Fill in your username and your password (twice)");
 				return;
 			}
 			if( !passwordText.getText().equals(repeatPasswordText.getText()) ) {
-				MessageDialog.openInformation( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
-						                       "Not same password", "The repeated password doesnt match the password");
+				MessageDialog.openInformation( PlatformUI
+						                       .getWorkbench()
+						                       .getActiveWorkbenchWindow()
+						                       .getShell(), 
+						                       "Not same password", 
+						                       "The repeated password doesnt "
+						                       + "match the password");
 				return;
 			}
-			sandBoxUserManager.createLocalUser(userNameText.getText(), passwordText.getText());
-			sandBoxUserManager.signIn(userNameText.getText(), passwordText.getText());
+			sandBoxUserManager.createLocalUser( userNameText.getText(), 
+					                            passwordText.getText() );
+			sandBoxUserManager.signIn( userNameText.getText(), 
+					                   passwordText.getText() );
 		}
 		super.buttonPressed(buttonId);
 	}

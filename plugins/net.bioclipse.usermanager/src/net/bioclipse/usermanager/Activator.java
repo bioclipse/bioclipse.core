@@ -42,10 +42,6 @@ public class Activator extends BioclipseActivator {
 	public Activator() {
 	}
 		
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
@@ -54,10 +50,6 @@ public class Activator extends BioclipseActivator {
 		configureLogger();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
@@ -75,7 +67,8 @@ public class Activator extends BioclipseActivator {
 	private void configureLogger() {
 
 		try {
-			URL url = Platform.getBundle(PLUGIN_ID).getEntry("/" + LOG_PROPERTIES_FILE);
+			URL url = Platform.getBundle(PLUGIN_ID)
+			          .getEntry("/" + LOG_PROPERTIES_FILE);
 			
 			InputStream propertiesInputStream = url.openStream();
 			
