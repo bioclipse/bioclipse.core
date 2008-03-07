@@ -12,12 +12,13 @@
 package net.bioclipse.recording;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 
-import net.bioclipse.recording.MethodRecord.BioObjectParamater;
-import net.bioclipse.recording.MethodRecord.NonBioObjectParamater;
-import net.bioclipse.recording.MethodRecord.Paramater;
+import net.bioclipse.recording.MethodRecord.BioObjectParameter;
+import net.bioclipse.recording.MethodRecord.NonBioObjectParameter;
+import net.bioclipse.recording.MethodRecord.Parameter;
 
 /**
  * @author jonalv, masak
@@ -77,22 +78,47 @@ public class JsScriptGenerator implements IScriptGenerator {
 	public String[] generateScript( MethodRecord[] records ) {
 		List<String> statements = new ArrayList<String>();
 		
+		List<MethodRecord> recordsList = Arrays.asList(records);
+		
+		int i = 0;
 		for ( MethodRecord record : records )
-			statements.add( recordToJsStatement(record) );
+			statements.add( recordToJsStatement(
+					record,
+					recordsList.subList(++i, recordsList.size())) );
 
 		return statements.toArray( new String[records.length] );
 	}
 
-	public String recordToJsStatement( MethodRecord r ) {
+	private boolean isReferenced(String objectId, List<MethodRecord> records) {
+		
+		for ( MethodRecord r : records ) {
+			if ( r instanceof BioObjectRecord
+				&& ((BioObjectRecord)r).bioObjectId.equals(objectId) )
+				
+				return true;
+			
+			for ( MethodRecord.Parameter p : r.paramaters )
+				if ( p instanceof BioObjectParameter
+				     && ((BioObjectParameter)p).id.equals(objectId) )
+					
+					return true;
+		}
+		
+		return false;
+	}
+
+	public String recordToJsStatement( MethodRecord r,
+                                       List<MethodRecord> rest ) {
+		
 		List<String> paramStrings = new ArrayList<String>();
-		for ( Paramater p : r.getParamaters() ) {
-			if (p instanceof BioObjectParamater) {
-				BioObjectParamater bp = (BioObjectParamater)p;
+		for ( Parameter p : r.getParameters() ) {
+			if (p instanceof BioObjectParameter) {
+				BioObjectParameter bp = (BioObjectParameter)p;
 				String variableName = getVariableName(p.type, bp.id);
 				paramStrings.add(variableName);
 			}
-			else if (p instanceof NonBioObjectParamater) {
-				NonBioObjectParamater nbp = (NonBioObjectParamater)p;
+			else if (p instanceof NonBioObjectParameter) {
+				NonBioObjectParameter nbp = (NonBioObjectParameter)p;
 				paramStrings.add(nbp.stringRepresentation);
 			}
 			else {
@@ -102,18 +128,12 @@ public class JsScriptGenerator implements IScriptGenerator {
 		}
 		StringBuilder statement = new StringBuilder();
 		
-		if ( !"".equals( r.returnObjectId ) || isPrimitive(r.returnType) ) {
+		if ( !"".equals( r.returnObjectId )
+				&& isReferenced(r.returnObjectId, rest)
+			 || isPrimitive(r.returnType) ) {
 			
 			statement.append( getVariableName(r.returnType, r.returnObjectId) );
 			statement.append( " = ");
-			
-			if (r.returnType.equals("BioObjectList")) {
-				String listName
-					= getVariableName(r.returnType, r.returnObjectId);
-				int i = 0;
-				for ( String id : r.getReturnedListContentsIds() )
-					variables.put(id, listName + ".get(" + i++ + ")");
-			}
 		}
 		
 		if ( r instanceof ManagerObjectRecord ) {

@@ -24,30 +24,30 @@ import net.bioclipse.core.domain.IBioObject;
  */
 public abstract class MethodRecord implements IRecord {
 
-	static abstract class Paramater {
+	static abstract class Parameter {
 
 		String  type;
 		
-		Paramater(String type) {
+		Parameter(String type) {
 			this.type = type;
 		}
 	}
 	
-	static class NonBioObjectParamater extends Paramater {
+	static class NonBioObjectParameter extends Parameter {
 		
 		String stringRepresentation;
 		
-		NonBioObjectParamater(String type, String stringrepresentation) {
+		NonBioObjectParameter(String type, String stringrepresentation) {
 			super(type);
 			this.stringRepresentation = stringrepresentation;
 		}
 	}
 	
-	static class BioObjectParamater extends Paramater {
+	static class BioObjectParameter extends Parameter {
 		
 		String id;
 		
-		BioObjectParamater(String type, String id) {
+		BioObjectParameter(String type, String id) {
 			super(type);
 			this.id = id;
 		}
@@ -58,7 +58,7 @@ public abstract class MethodRecord implements IRecord {
 	protected String returnType;
 	protected String[] returnedListContentsIds; 
 	
-	protected List<Paramater> paramaters;
+	protected List<Parameter> paramaters;
 	
 	@SuppressWarnings("unchecked")
 	public MethodRecord( String methodName, 
@@ -70,25 +70,25 @@ public abstract class MethodRecord implements IRecord {
 		/*
 		 * Parameters
 		 */
-		List<Paramater> params = new ArrayList<Paramater>();
+		List<Parameter> params = new ArrayList<Parameter>();
 		for(Object p : parameters) {
 			if( p == null ) {
-				params.add( new NonBioObjectParamater( "", "null") );
+				params.add( new NonBioObjectParameter( "", "null") );
 			}
 			else if( p instanceof IBioObject ) {
 				IBioObject bioObject = (IBioObject)p;
 				String name = toVariableCase(
 						bioObject.getClass().getSimpleName()
 				);
-				params.add( new BioObjectParamater( name, bioObject.getId() ) );
+				params.add( new BioObjectParameter( name, bioObject.getId() ) );
 			}
 			else if( p instanceof String) {
 				String s = escapeNonPrintableCharacters( (String)p );
-				params.add( new NonBioObjectParamater( "String",
+				params.add( new NonBioObjectParameter( "String",
 						                               "\"" + s + "\"" ) );
 			}
 			else {
-				params.add( new NonBioObjectParamater( p.getClass()
+				params.add( new NonBioObjectParameter( p.getClass()
 						                                .getSimpleName(), 
 						                               p.toString() ) );
 			}
@@ -157,7 +157,7 @@ public abstract class MethodRecord implements IRecord {
 		return returnType;
 	}
 
-	public List<Paramater> getParamaters() {
+	public List<Parameter> getParameters() {
 		return paramaters;
 	}
 	

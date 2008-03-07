@@ -1,8 +1,8 @@
 package net.bioclipse.recording;
 
-import net.bioclipse.recording.MethodRecord.BioObjectParamater;
-import net.bioclipse.recording.MethodRecord.NonBioObjectParamater;
-import net.bioclipse.recording.MethodRecord.Paramater;
+import net.bioclipse.recording.MethodRecord.BioObjectParameter;
+import net.bioclipse.recording.MethodRecord.NonBioObjectParameter;
+import net.bioclipse.recording.MethodRecord.Parameter;
 
 public class ManagerObjectRecord extends MethodRecord {
 
@@ -22,12 +22,12 @@ public class ManagerObjectRecord extends MethodRecord {
 		StringBuilder sb = new StringBuilder();
 		
 		for (int i = 0; i < paramaters.size(); i++) {
-			Paramater p = paramaters.get(i);
+			Parameter p = paramaters.get(i);
 			
-			if( p instanceof NonBioObjectParamater ) {
-				sb.append( ( (NonBioObjectParamater)p ).stringRepresentation );
+			if( p instanceof NonBioObjectParameter ) {
+				sb.append( ( (NonBioObjectParameter)p ).stringRepresentation );
 			}
-			else if( p instanceof BioObjectParamater) {
+			else if( p instanceof BioObjectParameter) {
 				sb.append(p.type);
 			}
 			else {
