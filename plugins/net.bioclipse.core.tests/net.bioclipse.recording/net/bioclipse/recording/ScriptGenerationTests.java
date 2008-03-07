@@ -30,7 +30,7 @@ public class ScriptGenerationTests {
 		IScriptGenerator generator = new JsScriptGenerator();
 		String[] results = generator.generateScript(records);
 		
-		for (int i = 0; i < results.length; i++)
+		for (int i = 0; i < expectedResults.length; i++)
 			assertEquals( expectedResults[i], results[i] );
 	}
 	
@@ -126,7 +126,12 @@ public class ScriptGenerationTests {
 			        		                 "object", 
 			        		                 new Object[] {}, 
 			        		                 returnValue2 ),
-	            },
+			        new ManagerObjectRecord( "method",
+			        		                 "object", 
+			        		                 new Object[] { returnValue1,
+			        		                                returnValue2 }, 
+			        		                 null ),
+		        },
 			
 	            new String[] {
 	    			"bioObjectList1 = object.method()",
@@ -191,15 +196,20 @@ public class ScriptGenerationTests {
 			                                 "object", 
 			                                 new Object[] {}, 
 			                                 returnedList ),
+			        new BioObjectRecord( "get",
+					                     returnedList.getId(),
+					                     new Object[] { new Integer(1) },
+			                             theTestObject ),
 			        new BioObjectRecord( "getParsedResource",
 			        		             theTestObject.getId(),
 			        		             new Object[] {},
-			        		             "returnValue" )
+			        		             "returnValue" ),
 	            },
 	            
 	            new String[] {
 	    			"bioObjectList1 = object.method()",
-	    			"bioObjectList1.get(1).getParsedResource()"
+	    			"testObject1 = bioObjectList1.get( 1 )",
+	    			"string1 = testObject1.getParsedResource()"
 				}
 		);
 	}
