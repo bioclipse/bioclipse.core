@@ -134,7 +134,6 @@ public class BioList<T extends IBioObject> extends BioObject
 		return list.isEmpty();
 	}
 
-	@Recorded
 	public Iterator<T> iterator() {
 		return list.iterator();
 	}
@@ -144,12 +143,10 @@ public class BioList<T extends IBioObject> extends BioObject
 		return list.lastIndexOf(o);
 	}
 
-	@Recorded
 	public ListIterator<T> listIterator() {
 		return list.listIterator();
 	}
 
-	@Recorded
 	public ListIterator<T> listIterator(int index) {
 		return list.listIterator(index);
 	}
