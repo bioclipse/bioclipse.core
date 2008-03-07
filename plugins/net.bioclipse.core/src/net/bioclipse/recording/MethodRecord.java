@@ -96,7 +96,7 @@ public abstract class MethodRecord implements IRecord {
 		paramaters = params;
 		
 		/*
-		 * Return value
+		 * Return object id
 		 */
 		if(returnValue instanceof IBioObject) {
 			returnObjectId = ((IBioObject)returnValue).getId();

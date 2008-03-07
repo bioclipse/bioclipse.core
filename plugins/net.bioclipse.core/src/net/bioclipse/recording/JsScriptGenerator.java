@@ -49,13 +49,28 @@ public class JsScriptGenerator implements IScriptGenerator {
 		return firstToLowerCase(type) + refNumber.get(type);
 	}
 	
+	private boolean isPrimitive(String type) {
+		if (type == null)
+			return false;
+		
+		return type.equals("Boolean")
+		 	   || type.equals("Byte") 
+		 	   || type.equals("Double")
+		 	   || type.equals("Float") 
+		 	   || type.equals("Integer")
+		 	   || type.equals("Long")
+		 	   || type.equals("Short")
+		 	   || type.equals("String");
+	}
+
 	private String getVariableName(String type, String id) {
 		if( variables.containsKey(id) ) {
 			return variables.get(id);
 		}
 
 		String newVariableName = getNewVariableName(type);
-		variables.put(id, newVariableName);
+		if ( !isPrimitive(type) )
+			variables.put(id, newVariableName);
 		return newVariableName;
 	}
 	
@@ -87,15 +102,7 @@ public class JsScriptGenerator implements IScriptGenerator {
 		}
 		StringBuilder statement = new StringBuilder();
 		
-		if ( !"".equals( r.returnObjectId )
-			 || r.returnType.equals("Boolean")
-			 || r.returnType.equals("Byte") 
-			 || r.returnType.equals("Double")
-			 || r.returnType.equals("Float") 
-			 || r.returnType.equals("Integer")
-			 || r.returnType.equals("Long")
-			 || r.returnType.equals("Short")
-			 || r.returnType.equals("String") ) {
+		if ( !"".equals( r.returnObjectId ) || isPrimitive(r.returnType) ) {
 			
 			statement.append( getVariableName(r.returnType, r.returnObjectId) );
 			statement.append( " = ");
