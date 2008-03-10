@@ -39,9 +39,15 @@
    </vm>
 
    <plugins>
+      <plugin id="backport.util.concurrent.osgi"/>
       <plugin id="com.ibm.icu"/>
+      <plugin id="jakarta.commons.collections"/>
+      <plugin id="jakarta.commons.pool"/>
+      <plugin id="javax.jms"/>
+      <plugin id="javax.persistence"/>
       <plugin id="javax.servlet"/>
       <plugin id="javax.servlet.jsp"/>
+      <plugin id="javax.transaction"/>
       <plugin id="jcl104.over.slf4j"/>
       <plugin id="net.bioclipse.biojava"/>
       <plugin id="net.bioclipse.biojava.business"/>
@@ -52,31 +58,34 @@
       <plugin id="net.bioclipse.ui"/>
       <plugin id="net.sf.cglib"/>
       <plugin id="org.aopalliance"/>
+      <plugin id="org.apache.ant"/>
       <plugin id="org.apache.commons.el"/>
-      <plugin id="org.apache.commons.logging"/>
       <plugin id="org.apache.jasper"/>
       <plugin id="org.apache.lucene"/>
       <plugin id="org.apache.lucene.analysis"/>
+      <plugin id="org.aspectj.aspectjrt"/>
+      <plugin id="org.eclipse.ant.core"/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>
       <plugin id="org.eclipse.core.databinding"/>
       <plugin id="org.eclipse.core.expressions"/>
       <plugin id="org.eclipse.core.filebuffers"/>
       <plugin id="org.eclipse.core.filesystem"/>
-      <plugin id="org.eclipse.core.filesystem.linux.ppc" fragment="true"/>
-      <plugin id="org.eclipse.core.filesystem.linux.x86" fragment="true"/>
-      <plugin id="org.eclipse.core.filesystem.linux.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.linux.ppc"/>
+      <plugin id="org.eclipse.core.filesystem.linux.x86"/>
+      <plugin id="org.eclipse.core.filesystem.linux.x86_64"/>
       <plugin id="org.eclipse.core.filesystem.macosx" fragment="true"/>
-      <plugin id="org.eclipse.core.filesystem.solaris.sparc" fragment="true"/>
-      <plugin id="org.eclipse.core.filesystem.win32.x86" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.solaris.sparc"/>
+      <plugin id="org.eclipse.core.filesystem.win32.x86"/>
       <plugin id="org.eclipse.core.jobs"/>
       <plugin id="org.eclipse.core.net"/>
       <plugin id="org.eclipse.core.resources"/>
       <plugin id="org.eclipse.core.resources.compatibility" fragment="true"/>
-      <plugin id="org.eclipse.core.resources.win32" fragment="true"/>
+      <plugin id="org.eclipse.core.resources.win32"/>
       <plugin id="org.eclipse.core.runtime"/>
       <plugin id="org.eclipse.core.runtime.compatibility.auth"/>
       <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="true"/>
+      <plugin id="org.eclipse.core.variables"/>
       <plugin id="org.eclipse.equinox.app"/>
       <plugin id="org.eclipse.equinox.common"/>
       <plugin id="org.eclipse.equinox.http.jetty"/>
@@ -84,10 +93,11 @@
       <plugin id="org.eclipse.equinox.http.servlet"/>
       <plugin id="org.eclipse.equinox.jsp.jasper"/>
       <plugin id="org.eclipse.equinox.jsp.jasper.registry"/>
+      <plugin id="org.eclipse.equinox.launcher"/>
+      <plugin id="org.eclipse.equinox.launcher.carbon.macosx" fragment="true"/>
       <plugin id="org.eclipse.equinox.preferences"/>
       <plugin id="org.eclipse.equinox.registry"/>
       <plugin id="org.eclipse.help"/>
-      <plugin id="org.eclipse.help.appserver"/>
       <plugin id="org.eclipse.help.base"/>
       <plugin id="org.eclipse.help.ui"/>
       <plugin id="org.eclipse.help.webapp"/>
@@ -98,13 +108,13 @@
       <plugin id="org.eclipse.osgi.services"/>
       <plugin id="org.eclipse.swt"/>
       <plugin id="org.eclipse.swt.carbon.macosx" fragment="true"/>
-      <plugin id="org.eclipse.swt.gtk.linux.ppc" fragment="true"/>
-      <plugin id="org.eclipse.swt.gtk.linux.x86" fragment="true"/>
-      <plugin id="org.eclipse.swt.gtk.linux.x86_64" fragment="true"/>
-      <plugin id="org.eclipse.swt.gtk.solaris.sparc" fragment="true"/>
-      <plugin id="org.eclipse.swt.motif.aix.ppc" fragment="true"/>
-      <plugin id="org.eclipse.swt.win32.win32.x86" fragment="true"/>
-      <plugin id="org.eclipse.swt.wpf.win32.x86" fragment="true"/>
+      <plugin id="org.eclipse.swt.gtk.linux.ppc"/>
+      <plugin id="org.eclipse.swt.gtk.linux.x86"/>
+      <plugin id="org.eclipse.swt.gtk.linux.x86_64"/>
+      <plugin id="org.eclipse.swt.gtk.solaris.sparc"/>
+      <plugin id="org.eclipse.swt.motif.aix.ppc"/>
+      <plugin id="org.eclipse.swt.win32.win32.x86"/>
+      <plugin id="org.eclipse.swt.wpf.win32.x86"/>
       <plugin id="org.eclipse.text"/>
       <plugin id="org.eclipse.ui"/>
       <plugin id="org.eclipse.ui.browser"/>
@@ -118,13 +128,13 @@
       <plugin id="org.eclipse.ui.navigator.resources"/>
       <plugin id="org.eclipse.ui.views"/>
       <plugin id="org.eclipse.ui.views.properties.tabbed"/>
-      <plugin id="org.eclipse.ui.win32" fragment="true"/>
+      <plugin id="org.eclipse.ui.win32"/>
       <plugin id="org.eclipse.ui.workbench"/>
       <plugin id="org.eclipse.ui.workbench.texteditor"/>
       <plugin id="org.eclipse.update.configurator"/>
       <plugin id="org.eclipse.update.core"/>
-      <plugin id="org.eclipse.update.core.linux" fragment="true"/>
-      <plugin id="org.eclipse.update.core.win32" fragment="true"/>
+      <plugin id="org.eclipse.update.core.linux"/>
+      <plugin id="org.eclipse.update.core.win32"/>
       <plugin id="org.eclipse.update.ui"/>
       <plugin id="org.mortbay.jetty"/>
       <plugin id="org.springframework.bundle.spring.aop"/>
@@ -132,13 +142,13 @@
       <plugin id="org.springframework.bundle.spring.beans"/>
       <plugin id="org.springframework.bundle.spring.context"/>
       <plugin id="org.springframework.bundle.spring.core"/>
+      <plugin id="org.springframework.bundle.spring.tx"/>
       <plugin id="org.springframework.osgi.bundle.core"/>
       <plugin id="org.springframework.osgi.bundle.extender"/>
       <plugin id="org.springframework.osgi.bundle.io"/>
       <plugin id="org.springframework.osgi.log4j.osgi"/>
       <plugin id="slf4j.api"/>
-      <plugin id="slf4j.log4j12"/>
-      <plugin id="slf4j_simple"/>
+      <plugin id="slf4j.log4j12" fragment="true"/>
    </plugins>
 
 </product>
