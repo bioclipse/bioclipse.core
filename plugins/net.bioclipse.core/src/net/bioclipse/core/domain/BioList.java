@@ -14,6 +14,7 @@ package net.bioclipse.core.domain;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -28,8 +29,8 @@ import net.bioclipse.recording.IHistory;
 public class BioList<T extends IBioObject> extends BioObject 
                                                  implements List<T> {
 	
-	private static Map<List<String>, String> createdLists 
-		= new HashMap<List<String>, String>();
+	private volatile static Map<List<String>, String> createdLists 
+		= new Hashtable<List<String>, String>();
 	
 	public static String idOfListContainingBioObject(String id) {
 		for ( List<String> l : createdLists.keySet() ) {
@@ -62,10 +63,14 @@ public class BioList<T extends IBioObject> extends BioObject
 	}
 	
 	private void updateCreatedLists( BioList<? extends IBioObject> list ) {
+		List<List<String>> toBeRemoved = new ArrayList<List<String>>();
 		for( List<String> l : createdLists.keySet() ) {
 			if( createdLists.get(l).equals( list.getId() ) ) {
-				createdLists.remove(l);
+				toBeRemoved.add(l);
 			}
+		}
+		for(List<String> l : toBeRemoved) {
+			createdLists.remove(l);
 		}
 		List<String> newList = new ArrayList<String>();
 		for( IBioObject b : list) {
