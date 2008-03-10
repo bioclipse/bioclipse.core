@@ -8,7 +8,9 @@
  * Contributors:
  *     Ola Spjuth - initial API and implementation
  *     
- ******************************************************************************/package net.bioclipse.ui;
+ ******************************************************************************/
+
+package net.bioclipse.ui;
 
 import java.net.URL;
 
@@ -22,98 +24,100 @@ import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Controls the plug-in life cycle.
+ * 
  * @author ola
- *
+ * 
  */
 public class Activator extends BioclipseActivator {
 
-	// The plug-in ID
-	public static final String PLUGIN_ID = "net.bioclipse.ui";
+    // The plug-in ID
+    public static final String PLUGIN_ID = "net.bioclipse.ui";
 
-	//The file for logger properties
-	private static final String LOG_PROPERTIES_FILE = "logger.properties";
+    // The file for logger properties
+    private static final String LOG_PROPERTIES_FILE = "logger.properties";
 
-	public final ConsoleEchoer CONSOLE = new ConsoleEchoer();
-	
-	private ServiceTracker finderTracker;
-	
-	// The shared instance.
-	private static Activator plugin;
+    public final ConsoleEchoer CONSOLE = new ConsoleEchoer();
 
-	/**
-	 * Returns an image descriptor for the image file at the given
-	 * plug-in relative path
-	 *
-	 * @param path the path
-	 * @return the image descriptor
-	 */
-	public static ImageDescriptor getImageDescriptor(String path) {
-		return imageDescriptorFromPlugin(PLUGIN_ID, path);
-	}
+    private ServiceTracker finderTracker;
 
-	/**
-	 * The constructor.
-	 */
-	public Activator() {
-		plugin = this;
-	}
+    // The shared instance.
+    private static Activator plugin;
 
-	/**
-	 * Need to provide this plugin's logger.properties to abstract class
-	 */
-	@Override
-	public URL getLoggerURL() {
-		return getBundle().getEntry("/" + LOG_PROPERTIES_FILE);
-	}
-	
-	public static Activator getDefault() {
-		return plugin;
-	}
-	
-	public void start(BundleContext context) throws Exception {
-		
-	    // configure logging 
-	    
-		// TODO
-	    // the right way to configure logging is to keep lazy loading of log4j
-		// by listening for its bundle start event (and of course to use file
-	    // based configuration)
-	    
-		BasicConfigurator.configure();
+    /**
+     * Returns an image descriptor for the image file at the given plug-in
+     * relative path
+     * 
+     * @param path
+     *            the path
+     * @return the image descriptor
+     */
+    public static ImageDescriptor getImageDescriptor(String path) {
+        return imageDescriptorFromPlugin(PLUGIN_ID, path);
+    }
 
-		super.start(context);
-	      
+    /**
+     * The constructor.
+     */
+    public Activator() {
+        plugin = this;
+    }
+
+    /**
+     * Need to provide this plugin's logger.properties to abstract class
+     */
+    @Override
+    public URL getLoggerURL() {
+        return getBundle().getEntry("/" + LOG_PROPERTIES_FILE);
+    }
+
+    public static Activator getDefault() {
+        return plugin;
+    }
+
+    @Override
+    public void start(BundleContext context) throws Exception {
+
+        // configure logging
+
+        // TODO
+        // the right way to configure logging is to keep lazy loading of log4j
+        // by listening for its bundle start event (and of course to use file
+        // based configuration)
+
+        BasicConfigurator.configure();
+
+        super.start(context);
+
         // make sure to start Spring Bundle Extender before any extendees
-		
-		for( Bundle b : context.getBundles() ) {
-			if("org.springframework.osgi.bundle.extender".equals( 
-					b.getSymbolicName() ) ) {
-			    
-			    // turns out using the no-arg start() marks the bundle to be 
-			    // autostarted at next startup--causes a race wrt log4j config
-				
-			    b.start(Bundle.START_TRANSIENT);
-				break;
-			}
-		}
-		
-		finderTracker = new ServiceTracker( context, 
-                                            IHistory.class.getName(), 
-                                            null );
-		finderTracker.open();
-	}
-	
-	public IHistory getHistoryObject() {
-		IHistory history = null;
-		try {
-			history = (IHistory) finderTracker.waitForService(1000*30);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			System.out.println("Could not get history object");
-		}
-		if(history == null) {
-			return null;
-		}
-		return history;
-	}
+
+        for (Bundle b : context.getBundles()) {
+            if ("org.springframework.osgi.bundle.extender".equals(
+                    b.getSymbolicName())) {
+
+                // turns out using the no-arg start() marks the bundle to be
+                // autostarted at next startup--causes a race wrt log4j config
+
+                b.start(Bundle.START_TRANSIENT);
+                break;
+            }
+        }
+
+        finderTracker = new ServiceTracker(context, IHistory.class.getName(),
+                null);
+        finderTracker.open();
+    }
+
+    public IHistory getHistoryObject() {
+        IHistory history = null;
+        try {
+            history = (IHistory) finderTracker.waitForService(1000 * 30);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            System.out.println("Could not get history object");
+        }
+        if (history == null) {
+            return null;
+        }
+        return history;
+    }
 }
