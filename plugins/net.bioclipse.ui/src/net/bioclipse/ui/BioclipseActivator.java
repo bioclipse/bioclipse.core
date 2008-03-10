@@ -93,6 +93,10 @@ public abstract class BioclipseActivator extends AbstractUIPlugin {
 		if (logManager!=null) return;
 		
 		try {
+			/* this is slightly broken. getLoggerURL() returns NULL if the file
+			 * doesn't exist, so a nonexistent file results in an NPE before
+			 * file.exists() is even evaluated. */
+			
 			URL url=getLoggerURL();
 			URL newURL=FileLocator.toFileURL(url);
 
@@ -123,8 +127,11 @@ public abstract class BioclipseActivator extends AbstractUIPlugin {
 			IStatus status = new Status(IStatus.ERROR, getDefault().getBundle()
 					.getSymbolicName(), IStatus.ERROR, message, e);
 			getLog().log(status);
-			throw new RuntimeException(
-					"Error while initializing log properties.", e);
+			
+			// failure to initialize logging isn't really a showstopper
+			  
+			/* throw new RuntimeException(
+					"Error while initializing log properties.", e); */
 		}
 	}
 

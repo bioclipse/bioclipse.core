@@ -14,6 +14,7 @@ import java.net.URL;
 
 import net.bioclipse.recording.IHistory;
 
+import org.apache.log4j.BasicConfigurator;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -70,10 +71,26 @@ public class Activator extends BioclipseActivator {
 	}
 	
 	public void start(BundleContext context) throws Exception {
+		
+		// TODO: replace this hack
+		
+		// two notes: 
+		// 1. the right way to configure logging is to keep
+		//    lazy loading of log4j by listening for bundle start
+		// 2. there's a race condition between Spring Bundle Extender startup
+		//    and configuration of logging by this bundle
+		//    (both are 'started with eager activation' when the framework goes
+		//    to startlevel 4, I believe)
+		
+		BasicConfigurator.configure();
+		System.out.println("*** BasicConfigurator.configure() has been run");
+		// end hack
+		
 		super.start(context);
 		for( Bundle b : context.getBundles() ) {
 			if("org.springframework.osgi.bundle.extender".equals( 
 					b.getSymbolicName() ) ) {
+				tempPrintBundleState(b);
 				b.start();
 			}
 		}
@@ -83,6 +100,40 @@ public class Activator extends BioclipseActivator {
                                             null );
 		finderTracker.open();
 	}
+	
+	
+	// quick hack to print state of the Spring Bundle Extender bundle
+	
+	private void tempPrintBundleState(Bundle b) {
+
+			String state;
+			
+			switch(b.getState()){
+				case Bundle.INSTALLED:
+					state = "INSTALLED";
+					break;
+				case Bundle.RESOLVED:
+					state = "RESOLVED";
+					break;
+				case Bundle.ACTIVE:
+					state = "ACTIVE";
+					break;
+				case Bundle.STARTING:
+					state = "STARTING";
+					break;
+				case Bundle.START_TRANSIENT:
+					state = "START_TRANSIENT";
+					break;
+				default:
+					state = "Something unknown";
+			}
+	
+			// this code exists to help configure logging properly, so let's use println()
+			
+			System.out.println("*** " + b.getSymbolicName() + ": " + "state = " + state);
+	}
+	
+	
 	
 	public IHistory getHistoryObject() {
 		IHistory history = null;
