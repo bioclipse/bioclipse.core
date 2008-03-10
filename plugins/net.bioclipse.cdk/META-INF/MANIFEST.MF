@@ -181,3 +181,4 @@ Bundle-ClassPath: .,
  jars/weka.jar,
  jars/xom-1.1.jar,
  jars/jama-1.0.2.jar
+Import-Package: org.apache.log4j
