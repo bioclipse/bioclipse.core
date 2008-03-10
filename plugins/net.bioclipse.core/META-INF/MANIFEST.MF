@@ -8,6 +8,7 @@ Export-Package: net.bioclipse.core,
  net.bioclipse.core.business,
  net.bioclipse.core.domain,
  net.bioclipse.core.jobs,
+ net.bioclipse.core.util,
  net.bioclipse.recording
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jface.text,
