@@ -96,10 +96,15 @@
    </extension>
    <extension
          point="org.eclipse.ui.views">
+         <category
+               id="net.bioclipse.ui.category"
+               name="Bioclipse">
+         </category>
       <view
             name="Bioclipse Explorer"
+            category="net.bioclipse.ui.category"
             allowMultiple="false"
-            icon="icons/alt_window_16.gif"
+            icon="icons/logo/logo_16_trans.gif"
             class="org.eclipse.ui.navigator.CommonNavigator"
             id="net.bioclipse.navigator">
       </view>
@@ -113,6 +118,9 @@
             category="net.bioclipse.ScriptingCategory"
             class="net.bioclipse.ui.views.JsConsoleView"
             id="net.bioclipse.ui.views.JsConsoleView">
+            <description>
+               The Javascript View of Bioclipse
+            </description>
       </view>
       <view
             name="Groovy Console"

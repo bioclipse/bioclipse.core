@@ -196,8 +196,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		preferencesAction = ActionFactory.PREFERENCES.create(window);
 		register(preferencesAction);
 
-		introAction = ActionFactory.INTRO.create(window);
-		register(introAction);
+//		introAction = ActionFactory.INTRO.create(window);
+//		register(introAction);
 		{
 			helpSearchAction = ActionFactory.HELP_SEARCH.create(window);
 			register(helpSearchAction);
@@ -274,7 +274,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 				"&Help", IWorkbenchActionConstants.M_HELP);
 
 		//Intro action
-		helpMenu.add(introAction);
+//		helpMenu.add(introAction);
 
 		helpMenu.add(helpAction);
 		helpMenu.add(new Separator());
