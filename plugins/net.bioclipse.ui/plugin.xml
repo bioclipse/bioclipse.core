@@ -11,9 +11,6 @@
 			description="Bioinformatics"
 			id="net.bioclipse.ui.contexts.bioinformatics">
 		</context>
-   </extension>
-	<extension
-		point="org.eclipse.ui.contexts">
 		<context
 			name="Chemoinformatics"
 			description="Chemoinformatics"
