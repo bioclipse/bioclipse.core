@@ -16,7 +16,6 @@
 	<classpathentry exported="true" kind="lib" path="jars/jumbo52.jar"/>
 	<classpathentry exported="true" kind="lib" path="jars/sjava-0.68.jar"/>
 	<classpathentry exported="true" kind="lib" path="jars/vecmath1.2-1.14.jar"/>
-	<classpathentry exported="true" kind="lib" path="jars/weka.jar"/>
 	<classpathentry exported="true" kind="lib" path="jars/xom-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="jars/jama-1.0.2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
