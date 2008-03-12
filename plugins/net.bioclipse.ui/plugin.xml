@@ -4,6 +4,23 @@
 
    <extension-point id="net.bioclipse.ui.r_provider" name="R Extension Point" schema="schema/net.bioclipse.ui.r-provider.exsd"/>
 
+	<extension
+		point="org.eclipse.ui.contexts">
+		<context
+			name="Bioinfomatics"
+			description="Bioinformatics"
+			id="net.bioclipse.ui.contexts.bioinformatics">
+		</context>
+   </extension>
+	<extension
+		point="org.eclipse.ui.contexts">
+		<context
+			name="Chemoinformatics"
+			description="Chemoinformatics"
+			id="net.bioclipse.ui.contexts.chemoinformatics">
+		</context>
+   </extension>
+
    <extension
          id="application"
          point="org.eclipse.core.runtime.applications">
