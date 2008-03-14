@@ -31,4 +31,5 @@ Eclipse-LazyStart: true
 Export-Package: net.bioclipse.ui,
  net.bioclipse.ui.intro,
  net.bioclipse.ui.views
-Import-Package: org.apache.log4j
+Import-Package: org.apache.log4j,
+ org.apache.log4j.spi

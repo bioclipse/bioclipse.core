@@ -17,6 +17,9 @@ import java.net.URL;
 import net.bioclipse.recording.IHistory;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Level;
+import org.apache.log4j.spi.LoggerRepository;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -85,6 +88,7 @@ public class Activator extends BioclipseActivator {
         // based configuration)
 
         BasicConfigurator.configure();
+        LogManager.getLoggerRepository().setThreshold(Level.INFO);
 
         super.start(context);
 
