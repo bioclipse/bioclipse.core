@@ -18,6 +18,18 @@
 	<classpathentry exported="true" kind="lib" path="jars/vecmath1.2-1.14.jar"/>
 	<classpathentry exported="true" kind="lib" path="jars/xom-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="jars/jama-1.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/antlr.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/baysmith-io.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/bcel-5.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/biojava-1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/commons-cli-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/javacc.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/log4j.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/mysql-2.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/postgresql7.0-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/xindice.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/xml-apis.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/xmldb.jar"/>	
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="output" path="bin"/>
