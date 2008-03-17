@@ -455,6 +455,12 @@ public abstract class ScriptingConsoleView extends ViewPart {
 	        outputIsMidLine = !s.endsWith("\n") || s.equals("\n");
 		}
 	}
+	
+	public void clearConsole() {
+		synchronized (text) {
+			text.setText( "" );
+		}
+	}
     
     /**
      * Passing the focus request to the viewer's control.

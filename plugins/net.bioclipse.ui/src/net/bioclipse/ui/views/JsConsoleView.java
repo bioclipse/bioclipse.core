@@ -51,6 +51,10 @@ public class JsConsoleView extends ScriptingConsoleView
 	
 	private static JsEnvironment js
 		= net.bioclipse.scripting.Activator.getDefault().JS_SESSION;
+	
+	static {
+		js.eval("function clear() {}");
+	}
     
     private JsPluginable rConnection = null;
     
@@ -185,6 +189,14 @@ public class JsConsoleView extends ScriptingConsoleView
      * @see net.bioclipse.core.views.ScriptingConsoleView#executeCommand(java.lang.String)
      */
     protected String executeCommand(String command) {
+    	if (command == null)
+    		return "";
+    	
+    	if (command.equals("clear") || command.equals("clear()")) {
+    		clearConsole();
+    		return "";
+    	}
+    	
     	if (mode == Mode.JS) {
     		if ("R".equals(command.trim())) {
     			setMode(Mode.R);
