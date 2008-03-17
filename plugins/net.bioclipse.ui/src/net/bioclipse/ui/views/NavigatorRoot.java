@@ -16,34 +16,35 @@ import org.eclipse.ui.model.*;
  * 
  * @author Andreas Goetz
  */
-public class NavigatorRoot implements IAdaptable, IPersistableElement, IElementFactory
-{
-	public NavigatorRoot()
-	{
+public class NavigatorRoot implements IAdaptable,
+                                      IPersistableElement,
+                                      IElementFactory {
+	public NavigatorRoot() {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Object getAdapter(Class adapter)
-	{
+	public Object getAdapter(Class adapter) {
+		
 		if (adapter == IPersistableElement.class) return this;
+		
 		if (adapter == IWorkbenchAdapter.class)
 			return ResourcesPlugin.getWorkspace().getRoot().getAdapter(adapter);
+		
 		return null;
 	}
 
-	public String getFactoryId()
-	{
+	public String getFactoryId() {
+		
 		return this.getClass().getCanonicalName();
 	}
 
-	public void saveState(IMemento memento)
-	{
-		// TODO Auto-generated method stub
+	public void saveState(IMemento memento) {
+		
 		return;
 	}
 
-	public IAdaptable createElement(IMemento memento)
-	{
+	public IAdaptable createElement(IMemento memento) {
+		
 		return ResourcesPlugin.getWorkspace().getRoot();
 	}
 }
