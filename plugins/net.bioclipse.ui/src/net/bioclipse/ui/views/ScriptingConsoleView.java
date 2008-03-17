@@ -85,6 +85,21 @@ public abstract class ScriptingConsoleView extends ViewPart {
             	
             	synchronized (text) {
 
+            		// Sometimes we end up with spurious newlines at the end
+            		// of pastes. This leads to the preconditions not being
+            		// upheld for currentCommand(). Here we try to save those
+            		// preconditions.
+            		while (!currentLineIsCommandLine())
+            			text.setText(
+            					text.getText().substring(
+            							0,
+            							text.getText().lastIndexOf('\n')
+            					) + "; "
+            					+ text.getText().substring(
+            							text.getText().lastIndexOf('\n') + 1
+            					)
+            			);
+            		
 	                String command = currentCommand().trim();
 	                text.append( "\n" );
 	                
@@ -286,6 +301,19 @@ public abstract class ScriptingConsoleView extends ViewPart {
     private static boolean isInsertedChar(KeyEvent e) {
     	return e.keyCode >= 32 && e.keyCode < 128
         	&& (e.stateMask == 0 || e.stateMask == SWT.SHIFT);
+    }
+    
+    private boolean currentLineIsCommandLine() {
+    	
+    	String allText = text.getText();
+    	
+    	int endOfLine = text.getCharCount(),
+    	    startOfLine = allText.lastIndexOf("\n", endOfLine - 1) + 1;
+    	
+    	String wholeLine = allText.substring( startOfLine, endOfLine );
+    	
+    	return wholeLine.startsWith(commandLinePrompt())
+    	       || wholeLine.startsWith(continuationLinePrompt());
     }
     
     /** Returns whatever is written on the command line. */
