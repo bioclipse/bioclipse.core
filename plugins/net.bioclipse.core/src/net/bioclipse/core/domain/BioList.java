@@ -77,6 +77,7 @@ public class BioList<T extends IBioObject> extends BioObject
 	private void updateCreatedLists( BioList<? extends IBioObject> list ) {
 		
 		createdLists.remove(list.getId());
+		clearListIdForObject( list.getId() );
 		
 		List<String> newList = new ArrayList<String>();
 		for( IBioObject b : list) {
@@ -86,6 +87,18 @@ public class BioList<T extends IBioObject> extends BioObject
 		createdLists.put( list.getId(), newList );
 	}
 	
+	private void clearListIdForObject(String listId) {
+		
+		for( String objectId : listIdForObject.keySet() ) {
+			if( listIdForObject.get(objectId).equals(listId) ) {
+				listIdForObject.remove(objectId);
+				break;  //there should never be any more to remove 
+				        //since we do this each time
+			}
+		}
+		
+	}
+
 	public List<T> list = new ArrayList<T>();
 	
 	@Recorded
@@ -110,7 +123,7 @@ public class BioList<T extends IBioObject> extends BioObject
 
 	@Recorded
 	public boolean addAll(int index, Collection<? extends T> c) {
-		boolean b = list.addAll(c);
+		boolean b = list.addAll(index, c);
 		updateCreatedLists(this);
 		return b;
 	}

@@ -69,104 +69,107 @@ public class BioListTest {
 
 	@Test
 	public void testClear() {
-		testAddT();
-		biolist.clear();
 		
+		testAddT();
+		BioList<IBioObject> aList = new BioList<IBioObject>();
+		aList.add(bioObject);
+		aList.clear();
+		assertEquals( biolist.getId(), 
+	                  BioList.idOfListContainingBioObject(bioObject.getId()) );
+		assertEquals( 0, 
+	                  BioList.positionOfBioObjectInList(bioObject.getId()) );
 	}
 
 	@Test
 	public void testContains() {
-		fail("Not yet implemented");
+		testAddT();
+		assertTrue( biolist.contains(bioObject) );
 	}
 
 	@Test
 	public void testContainsAll() {
-		fail("Not yet implemented");
+		testAddT();
+		BioList<IBioObject> anotherList = new BioList<IBioObject>();
+		anotherList.add(bioObject);
+		assertTrue( biolist.containsAll(anotherList) );
 	}
 
 	@Test
 	public void testGet() {
-		fail("Not yet implemented");
+		testAddT();
+		assertEquals( bioObject, biolist.get(0) );
 	}
 
 	@Test
 	public void testIndexOf() {
-		fail("Not yet implemented");
+		biolist.add(new TestBioObject());
+		biolist.add(bioObject);
+		assertEquals(1, biolist.indexOf(bioObject));
 	}
 
 	@Test
 	public void testIsEmpty() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testIterator() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testLastIndexOf() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testListIterator() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testListIteratorInt() {
-		fail("Not yet implemented");
+		assertTrue(biolist.isEmpty());
 	}
 
 	@Test
 	public void testRemoveObject() {
-		fail("Not yet implemented");
+		testAddT();
+		biolist.remove(bioObject);
+		assertFalse( BioList.existsListContaining(bioObject.getId()) );
 	}
 
 	@Test
 	public void testRemoveInt() {
-		fail("Not yet implemented");
+		testAddT();
+		biolist.remove(0);
+		assertFalse( BioList.existsListContaining(bioObject.getId()) );
 	}
 
 	@Test
 	public void testRemoveAll() {
-		fail("Not yet implemented");
+		testAddT();
+		BioList<IBioObject> list = new BioList<IBioObject>();
+		list.add(bioObject);
+		
+		biolist.removeAll(list);
+		assertFalse( BioList.existsListContaining(bioObject.getId()) );
 	}
 
 	@Test
 	public void testRetainAll() {
-		fail("Not yet implemented");
+		IBioObject obj2 = new TestBioObject();
+		biolist.add(obj2);
+		
+		BioList<IBioObject> list = new BioList<IBioObject>();
+		list.add(obj2);
+		
+		biolist.retainAll(list);
+		
+		assertTrue(  biolist.contains(obj2)    );
+		assertFalse( biolist.contains(biolist) );
+		
+		assertEquals( biolist.getId(), 
+                      BioList.idOfListContainingBioObject(obj2.getId()) );
+		assertEquals( 0, 
+                      BioList.positionOfBioObjectInList(obj2.getId()) );
+		assertFalse( BioList.existsListContaining(bioObject.getId()) );
 	}
 
 	@Test
 	public void testSet() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSize() {
-		fail("Not yet implemented");
+		testAddT();
+		IBioObject obj2 = new TestBioObject();
+		biolist.set(0, obj2);
+		assertEquals( biolist.getId(), 
+                      BioList.idOfListContainingBioObject(obj2.getId()) );
+		assertEquals( 0, 
+                      BioList.positionOfBioObjectInList(obj2.getId()) );
+		assertFalse( BioList.existsListContaining(bioObject.getId()) );
 	}
 
 	@Test
 	public void testSubList() {
-		fail("Not yet implemented");
+		fail("this method not implemented in BioList. It is complicated...");
 	}
-
-	@Test
-	public void testToArray() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testToArrayTArray() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetParsedResource() {
-		fail("Not yet implemented");
-	}
-
 }
