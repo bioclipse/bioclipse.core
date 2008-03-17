@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -27,34 +28,42 @@ import net.bioclipse.core.Recorded;
 import net.bioclipse.recording.IHistory;
 
 public class BioList<T extends IBioObject> extends BioObject 
-                                                 implements List<T> {
+                                           implements List<T> {
 	
-	private volatile static Map<List<String>, String> createdLists 
-		= new Hashtable<List<String>, String>();
+	//<bioList.id, list of bioObjects in that biolist>
+	private static Map<String, List<String>> createdLists 
+		 = new HashMap<String, List<String>>();
 	
+	//<bioObject.id, bioList.id>
+	private static Map<String, String> listIdForObject 
+		 = new HashMap<String, String>();
+	
+	/**
+	 * @param id for the sought after bioObject
+	 * @return id of the latest updated list conatining the bioobject 
+	 *         with the given id 
+	 */
 	public static String idOfListContainingBioObject(String id) {
-		for ( List<String> l : createdLists.keySet() ) {
-			for ( String s : l ) {
-				if ( id.equals(s) ) {
-					return createdLists.get(l);
-				}
-			}
+		if(!listIdForObject.containsKey(id)) {
+			throw new IllegalStateException( "No bioObjectlist containing " +
+					                         "that object could be found" );
 		}
-		throw new IllegalStateException( "No bioObjectlist containing that " +
-				                         "object could be found" );
+		return listIdForObject.get(id);
 	}
 	
 	public static int positionOfBioObjectInList( String id ) {
-		for( List<String> l : createdLists.keySet() ) {
-			if(l.contains(id)) {
-				return l.indexOf(id);
+		List<String> list = createdLists.get(idOfListContainingBioObject(id));
+		for (int i = 0; i < list.size(); i++) {
+			if( id.equals(list.get(i))) {
+				return i;
 			}
 		}
-		throw new IllegalStateException();
+		throw new IllegalStateException( "No bioObjectlist containing " +
+                                         "that object could be found" );
 	}
 	
 	public static boolean existsListContaining(String bioObjectId) {
-		for( List<String> l : createdLists.keySet() ) {
+		for( List<String> l : createdLists.values() ) {
 			if(l.contains(bioObjectId)) {
 				return true;
 			}
@@ -62,21 +71,19 @@ public class BioList<T extends IBioObject> extends BioObject
 		return false;
 	}
 	
+	/**
+	 *  Updates the created lists table.
+	 */
 	private void updateCreatedLists( BioList<? extends IBioObject> list ) {
-		List<List<String>> toBeRemoved = new ArrayList<List<String>>();
-		for( List<String> l : createdLists.keySet() ) {
-			if( createdLists.get(l).equals( list.getId() ) ) {
-				toBeRemoved.add(l);
-			}
-		}
-		for(List<String> l : toBeRemoved) {
-			createdLists.remove(l);
-		}
+		
+		createdLists.remove(list.getId());
+		
 		List<String> newList = new ArrayList<String>();
 		for( IBioObject b : list) {
 			newList.add( b.getId() );
+			listIdForObject.put(b.getId(), list.getId());
 		}
-		createdLists.put( newList, list.getId() );
+		createdLists.put( list.getId(), newList );
 	}
 	
 	public List<T> list = new ArrayList<T>();
