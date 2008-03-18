@@ -28,7 +28,10 @@ public interface IBioObject {
 	
 	/**
 	 * @return the parsed resource
+	 * 
+	 * @deprecated: No actual use of this yet so scheduled for termination.
 	 */
+	@Deprecated
 	public Object getParsedResource();
 	
 	/**
