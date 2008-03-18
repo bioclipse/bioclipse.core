@@ -157,21 +157,6 @@ public interface IUserManager extends IBioclipseManager {
 	public AccountType getAccountType(String accountId);
 
 	/**
-	 *  Fires a login event
-	 */
-	public void fireLogin();
-
-	/**
-	 * Fires a logout event
-	 */
-	public void fireLogout();
-
-	/**
-	 * Fires an update event
-	 */
-	public void fireUpdate();
-
-	/**
 	 * @param listener to be added
 	 */
 	public void removeListener(IUserManagerListener listener);

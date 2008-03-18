@@ -41,9 +41,6 @@ import org.jasypt.util.text.BasicTextEncryptor;
  */
 public class UserContainer extends BioObject {
 
-	public static final String FILENAME = "UserContainer.dat";
- 	private static UserContainer INSTANCE = new UserContainer();
- 	
  	private BasicPasswordEncryptor passwordEncryptor 
  		= new BasicPasswordEncryptor();
  	private BasicTextEncryptor textEncryptor;        
@@ -61,20 +58,22 @@ public class UserContainer extends BioObject {
 	 * Package protected so we can fill it with MockObjects when testing
 	 */
 	List<AccountType> availableAccountTypes;
+	private String dataFileName;
 	
-	public UserContainer() {
+	public UserContainer( String dataFileName ) {
 
 		availableAccountTypes = new ArrayList<AccountType>();
 		listeners = new ArrayList<IUserManagerListener>();
+		this.dataFileName = dataFileName;
 		
 		ObjectInputStream in = null;
 		try {
-			 in = new ObjectInputStream( new FileInputStream(FILENAME) );
+			 in = new ObjectInputStream( new FileInputStream(dataFileName) );
 		} 
 		catch (FileNotFoundException e) {
 			//TODO: use logger instead
 			System.out.println( "File not found: "
-					            + FILENAME 
+					            + dataFileName 
 					            + ", a new will be created when needed");
 		} 
 		catch (IOException e) {
@@ -127,10 +126,6 @@ public class UserContainer extends BioObject {
 	 * @param password the users password
 	 * @throws IllegalArgumentException if signIn not succesfull
 	 */
-	public void signIn(String username, String password) {
-		signInWithProgressBar(username, password, null);
-	}
-
 	public void signInWithProgressBar( String username, 
 			                           String password, 
 			                           SubProgressMonitor monitor ) {
@@ -186,16 +181,16 @@ public class UserContainer extends BioObject {
 	}
 
 	/**
-	 * Creates a new superuser which can have many accounts.
+	 * Creates a new user which can have many accounts.
 	 * 
 	 * @param userName the username of the new superuser
 	 * @param key the password for the superuser
 	 */
-	public void createLocalUser(String userName, String key) {
+	public void createUser(String userName, String key) {
 		
 		String encryptedKey = passwordEncryptor.encryptPassword(key);
-		User superUser = new User(userName, encryptedKey);
-		superUsers.put(userName, superUser);
+		User user = new User(userName, encryptedKey);
+		superUsers.put(userName, user);
 	}
 
 	/**
@@ -213,14 +208,10 @@ public class UserContainer extends BioObject {
 	 * Creates a new account.
 	 * 
 	 * @param accountid the id for the new account
-	 * @param username the username associated with the new account
-	 * @param key the password associated with the new account
 	 * @param properties any other properties of the new account 
 	 *                   to be persisted 
 	 */
 	public void createAccount( String accountId, 
-			                   String username, 
-			                   String key, 
 			                   HashMap<String, String> properties,
 			                   AccountType accountType ) {
 		
@@ -243,9 +234,6 @@ public class UserContainer extends BioObject {
         				+ accountId);
         }
         
-		String encryptedUsername = textEncryptor.encrypt(username);
-		String encryptedKey      = textEncryptor.encrypt(key);
-		
 		HashMap<String, String> encryptedProperties 
 			= new HashMap<String, String>();
 		for( String hashKey : properties.keySet() ) {
@@ -255,8 +243,6 @@ public class UserContainer extends BioObject {
 		}
 		
 		Account account = new Account( accountId, 
-				                       encryptedUsername, 
-				                       encryptedKey, 
 				                       encryptedProperties, 
 				                       accountType );
 		loggedInUser.addAccount( account );
@@ -281,30 +267,6 @@ public class UserContainer extends BioObject {
 	}
 
 	/**
-	 * Returns a decrypted key for the account identified by the accountId.
-	 * 
-	 * @param accountid
-	 * @return The password associated with the account corresponding 
-	 *         to the given accountId
-	 */
-	public String getPassword(String accountId) {
-		
-		return textEncryptor.decrypt( getAccount(accountId).getKey() );
-	}
-
-	/**
-	 * Returns the username for the account identified by the accountId.
-	 * 
-	 * @param accountid
-	 * @return The username associated with the account corresponding 
-	 *         to the given accountId
-	 */
-	public String getUserName(String accountId) {
-		
-		return textEncryptor.decrypt( getAccount(accountId).getUsername() );
-	}
-
-	/**
 	 * Returns the value of a property identified by the given propertykey 
 	 * for a given account.
 	 * 
@@ -326,7 +288,7 @@ public class UserContainer extends BioObject {
 		
 		ObjectOutputStream out = null;
 		try {
-			out = new ObjectOutputStream( new FileOutputStream(FILENAME) );
+			out = new ObjectOutputStream( new FileOutputStream(dataFileName) );
 			out.writeObject(superUsers);
 			out.close();
 		}
@@ -345,7 +307,7 @@ public class UserContainer extends BioObject {
 		ObjectInputStream in = null;
 		
 		try {
-			in = new ObjectInputStream( new FileInputStream(FILENAME) );
+			in = new ObjectInputStream( new FileInputStream(dataFileName) );
 			superUsers = (HashMap<String, User>)in.readObject();
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException( "There is no file with persisted " +
@@ -365,68 +327,44 @@ public class UserContainer extends BioObject {
 			}
 		}
 	}
-
-	/**
-	 * @return the UserContainer instance
-	 */
-	public static UserContainer getInstance() {
-		return INSTANCE;
-	}
 	
 	/**
-	 * Returns a copy of the UserContainer instance which can be used when 
-	 * changing properties of the UserContainer and simply be thrown away 
-	 * if editing is canceled. If editing is to be used return it to the 
-	 * keyRing using <code>replaceWithSandBoxInstance</code>
+	 * Returns a copy of the UserContainer instance.
 	 * 
 	 * @return a copy of the UserContainer instance
 	 */
-	public static UserContainer getSandBoxInstance() {
+	public UserContainer clone() {
 		
-		UserContainer sandBoxKeyRing = new UserContainer();
+		UserContainer copy = new UserContainer(dataFileName);
 		
-		sandBoxKeyRing.passwordEncryptor = INSTANCE.passwordEncryptor;
-		sandBoxKeyRing.textEncryptor     = INSTANCE.textEncryptor;
+		copy.passwordEncryptor = passwordEncryptor;
+		copy.textEncryptor     = textEncryptor;
 		
-		sandBoxKeyRing.availableAccountTypes = new ArrayList<AccountType>();
-		for( AccountType accountType : INSTANCE.availableAccountTypes ) {
-			sandBoxKeyRing.availableAccountTypes.add( 
+		copy.availableAccountTypes = new ArrayList<AccountType>();
+		for( AccountType accountType : availableAccountTypes ) {
+			copy.availableAccountTypes.add( 
 					new AccountType(accountType) );
 		}
 		
-		sandBoxKeyRing.superUsers = new HashMap<String, User>();
-		for( String userName : INSTANCE.superUsers.keySet() ) {
-			sandBoxKeyRing.superUsers.put( userName, 
-					new User(INSTANCE.superUsers.get(userName)));
+		copy.superUsers = new HashMap<String, User>();
+		for( String userName : superUsers.keySet() ) {
+			copy.superUsers.put( userName, 
+					new User(superUsers.get(userName)));
 		}
 		
-		if( INSTANCE.loggedInUser != null ) {
-			sandBoxKeyRing.loggedInUser = sandBoxKeyRing.superUsers.get( 
-					INSTANCE.getLoggedInUserName() );			
+		if( loggedInUser != null ) {
+			copy.loggedInUser = copy.superUsers.get( 
+					getLoggedInUserName() );			
 		}
 		
-		sandBoxKeyRing.listeners 
-			= new ArrayList<IUserManagerListener>( UserContainer
-					                               .getInstance().listeners );
+		copy.listeners 
+			= new ArrayList<IUserManagerListener>( listeners );
 		
-		return sandBoxKeyRing;
+		return copy;
 	}
 	
 	/**
-	 * Replaces the current UserContainer instance with an edited sandBox 
-	 * version and persists the edits to file.
-	 * 
-	 * @param sandBoxKeyRing to be used instead
-	 */
-	public static void replaceWithSandBoxInstance( 
-			UserContainer sandBoxKeyRing ) {
-	
-		INSTANCE = sandBoxKeyRing;
-		INSTANCE.persist();
-	}
-
-	/**
-	 * @return the names of all Keyring users
+	 * @return the names of all users
 	 */
 	public List<String> getUserNames() {
 		
@@ -472,7 +410,7 @@ public class UserContainer extends BioObject {
 	}
 
 	/**
-	 * Changes the password for a Keyring user.
+	 * Changes the password for a user.
 	 * 
 	 * @param masterkey old password 
 	 * @param newkey new password
@@ -514,10 +452,6 @@ public class UserContainer extends BioObject {
 			}
 			
 			createAccount( accountId, 
-			               oldTextEncryptor.decrypt( 
-			            		   accounts.get(accountId).getUsername() ),
-			               oldTextEncryptor.decrypt( 
-			            		   accounts.get(accountId).getKey() ),
 			               unEncryptedProperties, 
 			               accounts.get(accountId).getAccountType() );
 		}
@@ -599,11 +533,9 @@ public class UserContainer extends BioObject {
 	    			monitor.worked( ticks/listeners.size() );
 	    		}
 	    	}
-	    	if( UserContainer.getInstance().isLoggedIn() ) {
+	    	if( isLoggedIn() ) {
 	    		setStatusLinetext( "Logged in as: " 
-	    				           + UserContainer
-	    				             .getInstance()
-	    				             .getLoggedInUserName() );
+	    				           + getLoggedInUserName() );
 	    	}
     	}
     	finally {
@@ -631,8 +563,6 @@ public class UserContainer extends BioObject {
     }
 	
 	/**
-	 * Adds a listener for KeyringEvents
-	 * 
 	 * @param listener to be added
 	 */
 	public void removeListener(IUserManagerListener listener) {
@@ -640,8 +570,6 @@ public class UserContainer extends BioObject {
 	}
 	
 	/**
-	 * Removes a listener for KeyringEvents
-	 * 
 	 * @param listener to be removed
 	 */
 	public void addListener(IUserManagerListener listener) {
@@ -667,46 +595,6 @@ public class UserContainer extends BioObject {
 		throw new IllegalArgumentException("There is no such account type");
 	}
 	
-	/**
-	 * Returns the decrypted username for an account of a given account type
-	 * 
-	 * @param accountTypeName
-	 * @return
-	 */
-	public String getUserNameByAccountType(String accountTypeName) {
-
-		String result = null;
-		for ( Account a : loggedInUser.getAccounts().values() ) {
-			if( accountTypeName.equals( a.getAccountType().getName() ) ) {
-				if( result != null )
-					throw new IllegalStateException(
-							"there are many such accounts" );
-				
-				result = getUserName( a.getAccountId() );
-			}
-		}
-		if( result == null ) 
-			throw new IllegalArgumentException("There is no such account type");
-
-		return result;
-	}
-	
-	/**
-	 * Returns the decrypted key for an account of a given account type
-	 * 
-	 * @param accountTypeName
-	 * @return
-	 */
-	public String getKeyByAccountType(String accountTypeName) {
-
-		for ( Account a : loggedInUser.getAccounts().values() ) {
-			if( accountTypeName.equals( a.getAccountType().getName() ) ) {
-				return getPassword( a.getAccountId() );
-			}
-		}
-		throw new IllegalArgumentException("There is no such account type");
-	}
-
 	/**
 	 * Returns true if there is user logged in that have an account of a type
 	 * with the given account type name
