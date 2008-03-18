@@ -43,7 +43,6 @@ public class UserContainer extends BioObject {
 
 	public static final String FILENAME = "UserContainer.dat";
  	private static UserContainer INSTANCE = new UserContainer();
- 	private boolean isSandBoxInstance;
  	
  	private BasicPasswordEncryptor passwordEncryptor 
  		= new BasicPasswordEncryptor();
@@ -63,20 +62,10 @@ public class UserContainer extends BioObject {
 	 */
 	List<AccountType> availableAccountTypes;
 	
-	/**
-	 * private constructor 
-	 */
-	private UserContainer() {
+	public UserContainer() {
 
 		availableAccountTypes = new ArrayList<AccountType>();
 		listeners = new ArrayList<IUserManagerListener>();
-		isSandBoxInstance = false;
-		/*
-		 * We are done if instance exists
-		 */
-		if( INSTANCE != null ) {
-			return;
-		}
 		
 		ObjectInputStream in = null;
 		try {
@@ -419,7 +408,6 @@ public class UserContainer extends BioObject {
 		sandBoxKeyRing.listeners 
 			= new ArrayList<IUserManagerListener>( UserContainer
 					                               .getInstance().listeners );
-		sandBoxKeyRing.isSandBoxInstance = true;
 		
 		return sandBoxKeyRing;
 	}
@@ -433,7 +421,6 @@ public class UserContainer extends BioObject {
 	public static void replaceWithSandBoxInstance( 
 			UserContainer sandBoxKeyRing ) {
 	
-		sandBoxKeyRing.isSandBoxInstance = false;
 		INSTANCE = sandBoxKeyRing;
 		INSTANCE.persist();
 	}
@@ -604,9 +591,6 @@ public class UserContainer extends BioObject {
     
     private void fireLoginWithProgressBar( SubProgressMonitor monitor, 
     		                               int ticks) {
-    	if(isSandBoxInstance) {
-    		return;
-    	}
     	boolean usingMonitor = monitor != null;
     	try {
 	    	for( IUserManagerListener listener : listeners) {
@@ -633,9 +617,6 @@ public class UserContainer extends BioObject {
      * Fires a logout event
      */
     public void fireLogout() {
-    	if(isSandBoxInstance) {
-    		return;
-    	}
     	for( IUserManagerListener listener : listeners)
     		listener.receiveKeyringEvent( UserManagerEvent.LOGOUT );
 		setStatusLinetext("not logged in");
@@ -645,9 +626,6 @@ public class UserContainer extends BioObject {
      * Fires an update event
      */
     public void fireUpdate() {
-    	if(isSandBoxInstance) {
-    		return;
-    	}
     	for( IUserManagerListener listener : listeners)
     		listener.receiveKeyringEvent( UserManagerEvent.UPDATE );
     }
