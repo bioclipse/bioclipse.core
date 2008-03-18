@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <osgi:service id="userManagerOSGI" 
+                ref="userManager"
+                interface="net.bioclipse.userManager.business.IUserManager" />
+
+  <osgi:reference id="recordingAdvice" 
+                  interface="net.bioclipse.recording.IRecordingAdvice" />
+
+  <osgi:reference id="wrapInProxyAdvice"
+                  interface="net.bioclipse.recording.IWrapInProxyAdvice" />
+
+  <bean id="recordingAdvisor"
+        class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice"  ref="recordingAdvice" />
+        <property name="pattern" value=".*" /> <!-- See also class implementation -->
+  </bean>
+  
+  <bean id="userManager"
+        class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="target" 
+              ref="userManagerTarget" />
+    <property name="proxyInterfaces" 
+              value="net.bioclipse.usermanager.business.IBiojavaManager" />
+    <property name="interceptorNames">
+        <list>
+            <value>recordingAdvisor</value>
+            <value>wrapInProxyAdvice</value>
+        </list>
+    </property>
+  </bean>
+
+  <bean id="userManagerTarget" 
+        class="net.bioclipse.biojava.business.BiojavaManager">
+  </bean>
+  
+</beans>
