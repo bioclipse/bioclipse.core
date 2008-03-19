@@ -12,6 +12,7 @@
 package net.bioclipse.actions;
 
 import net.bioclipse.dialogs.UserManagerLoginDialog;
+import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
 
 import org.eclipse.jface.action.IAction;
@@ -28,9 +29,6 @@ import org.eclipse.ui.PlatformUI;
  */
 public class LoginAction implements IWorkbenchWindowActionDelegate {
 
-	//Use logging configured in com.tools.logging plugin
-//	private static final Logger logger = Activator.getLogManager().getLogger(LoginAction.class.toString());
-	
 	public void dispose() {
 	}
 	public void init(IWorkbenchWindow window) {
@@ -45,7 +43,9 @@ public class LoginAction implements IWorkbenchWindowActionDelegate {
 					                    .getWorkbench()
 					                    .getActiveWorkbenchWindow()
 					                    .getShell(), 
-					                    UserContainer.getInstance() );
+					                    Activator
+					                    .getDefault()
+					                    .getUserManager() );
 		
 		loginDialog.open();
 	}

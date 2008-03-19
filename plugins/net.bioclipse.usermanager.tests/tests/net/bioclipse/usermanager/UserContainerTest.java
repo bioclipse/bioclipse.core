@@ -30,15 +30,14 @@ public class UserContainerTest {
 	private final String REQUIREDPROPERTYKEY     = "url";
 	private final String PROPERTYVALUE           = "theweb";
 	private final String ACCOUNTID               = "accountId";
-	private final AccountType ACCOUNTTYPE  
-		= new AccountType("testAccountType");
-	private final AccountType ACCOUNTTYPE2 
-		= new AccountType("testAccountType2");
-	
-	private UserContainer userContainer = new UserContainer("userManager.det");
-	
+	private final AccountType ACCOUNTTYPE        = new AccountType(
+			                                           "testAccountType" );
+	private final AccountType ACCOUNTTYPE2       = new AccountType(
+			                                           "testAccountType2" );
 	private final HashMap<String, String> properties 
 		= new HashMap<String, String>();
+	
+	private UserContainer userContainer = new UserContainer("userManager.det");
 	
 	static {
 		File file = new File("userManager.dat");
@@ -47,6 +46,8 @@ public class UserContainerTest {
 	
 	public UserContainerTest() {
 		properties.put( REQUIREDPROPERTYKEY, PROPERTYVALUE );
+		properties.put("username", USERNAME);
+		properties.put("password", KEY);
 	}
 	
 	/*
@@ -57,10 +58,14 @@ public class UserContainerTest {
 		
 		ACCOUNTTYPE.addProperty(  REQUIREDPROPERTYKEY,    true  );
 		ACCOUNTTYPE.addProperty(  NOTREQUIREDPROPERTYKEY, false );
+		ACCOUNTTYPE.addProperty( "username",              true  );
+		ACCOUNTTYPE.addProperty( "password",              true  );
+		ACCOUNTTYPE2.addProperty( "username",             true  );
+		ACCOUNTTYPE2.addProperty( "password",             true  );
 		ACCOUNTTYPE2.addProperty( REQUIREDPROPERTYKEY,    true  );
 		ACCOUNTTYPE2.addProperty( NOTREQUIREDPROPERTYKEY, false );
-		userContainer.availableAccountTypes.add(ACCOUNTTYPE);
-		userContainer.availableAccountTypes.add(ACCOUNTTYPE2);
+		userContainer.availableAccountTypes.add( ACCOUNTTYPE  );
+		userContainer.availableAccountTypes.add( ACCOUNTTYPE2 );
 	}
 	
 	/*
@@ -264,17 +269,19 @@ public class UserContainerTest {
 		
 		try {
 			userContainer.createAccount( "other" + testAccountId,
-                                         properties,
+                                         new HashMap<String, String>(),
                                          ACCOUNTTYPE2 );
 		}
 		catch (IllegalStateException e) {
-			fail("should not throw exception upon creating account with unavailable accountType");
+			fail( "should not throw exception upon creating account " +
+				  "with unavailable accountType" );
 		}
 		finally {
 			assertTrue(
                     "should create account with unavailable accountType",
                     userContainer
-                    	.loggedInUser.getAccounts().containsKey("other" + testAccountId) );
+                    .loggedInUser
+                    .getAccounts().containsKey("other" + testAccountId) );
 		}
 		
 		userContainer.availableAccountTypes.add(testAccountType);
@@ -417,6 +424,7 @@ public class UserContainerTest {
 	
 	@Test
 	public void testAccountIdsByAccountTypeName() {
+		login();
 		assertTrue( userContainer
 				    .getAccountIdsByAccountTypeName( ACCOUNTTYPE.getName() )
 				    .contains(ACCOUNTID) );

@@ -3,6 +3,7 @@ package net.bioclipse.usermanager.business;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import net.bioclipse.usermanager.IUserManagerListener;
 import net.bioclipse.usermanager.UserContainer;
 
 import org.junit.Test;
@@ -17,7 +18,8 @@ public class UserManagerTest {
 		login();
 		createAccount();
 		
-		UserContainer sandBox = UserContainer.getSandBoxInstance();
+		IUserManager userManager = new UserManager();
+		
 		String prefix = "sandBox-";
 		sandBox.createAccount( prefix + ACCOUNTID, 
 				               prefix + USERNAME, 

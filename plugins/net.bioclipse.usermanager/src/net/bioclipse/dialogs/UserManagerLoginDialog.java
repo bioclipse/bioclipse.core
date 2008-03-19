@@ -13,6 +13,7 @@ package net.bioclipse.dialogs;
 
 import java.lang.reflect.InvocationTargetException;
 
+import net.bioclipse.usermanager.IUserContainer;
 import net.bioclipse.usermanager.UserContainer;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -46,24 +47,22 @@ import org.eclipse.ui.PlatformUI;
  */
 public class UserManagerLoginDialog extends TitleAreaDialog {
 
-	private Button      createNewKeyringButton;
-	private Label       usernameLabel;
-	private Label       passwordLabel;
-	private Text        usernameText;
-	private Text        passwordText;
-	private UserContainer sandBoxUserManager;
+	private Button         createNewKeyringButton;
+	private Label          usernameLabel;
+	private Label          passwordLabel;
+	private Text           usernameText;
+	private Text           passwordText;
+	private IUserContainer userManager;
 	
 	/**
 	 * Create the dialog
 	 * @param parentShell
 	 */
 	public UserManagerLoginDialog( Shell parentShell, 
-			                       UserContainer sandBoxUserManager ) {
+			                       IUserContainer userContainer ) {
 		super(parentShell);
-		if(sandBoxUserManager == UserContainer.getInstance()) {
-			sandBoxUserManager = UserContainer.getSandBoxInstance();
-		}
-		this.sandBoxUserManager = sandBoxUserManager;
+		
+		this.userManager = userContainer;
 	}
 
 	/**
@@ -121,7 +120,7 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 							              .getWorkbench()
 							              .getActiveWorkbenchWindow()
 							              .getShell(),
-							              sandBoxUserManager );
+							              userManager );
 				createDialog.open();
 				if(createDialog.getReturnCode() == createDialog.OK) {
 					close();
@@ -130,7 +129,7 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 								            .getWorkbench()
 								            .getActiveWorkbenchWindow()
 								            .getShell(), 
-								            sandBoxUserManager );
+								            userManager );
 					dialog.open();
 				}
 			}

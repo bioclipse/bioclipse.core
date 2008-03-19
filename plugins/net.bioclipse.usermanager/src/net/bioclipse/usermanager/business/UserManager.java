@@ -133,14 +133,14 @@ public class UserManager implements IUserManager {
 
 	@Override
 	public void signIn(String username, String password) {
-		userContainer.signInWithProgressBar(username, password, null);
+		userContainer.signIn(username, password, null);
 	}
 
 	@Override
 	public void signInWithProgressBar( String username, 
 			                           String password,
 			                           SubProgressMonitor monitor ) {
-		userContainer.signInWithProgressBar(username, password, monitor);
+		userContainer.signIn(username, password, monitor);
 	}
 
 	@Override

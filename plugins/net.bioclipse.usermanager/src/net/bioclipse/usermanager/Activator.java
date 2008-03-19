@@ -11,15 +11,13 @@
 
 package net.bioclipse.usermanager;
 
-import java.io.InputStream;
 import java.net.URL;
-import java.util.Properties;
 
 import net.bioclipse.ui.BioclipseActivator;
+import net.bioclipse.usermanager.business.IUserManager;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -36,6 +34,8 @@ public class Activator extends BioclipseActivator {
 
 	private final String LOG_PROPERTIES_FILE="logger.properties";
 	
+	private ServiceTracker finderTracker;
+	
 	/**
 	 * The constructor
 	 */
@@ -46,8 +46,10 @@ public class Activator extends BioclipseActivator {
 		super.start(context);
 		plugin = this;
 		
-		//New logger with com.tools.logging
-		configureLogger();
+		finderTracker = new ServiceTracker( context, 
+                                            IUserManager.class.getName(), 
+                                            null );
+		finderTracker.open();
 	}
 
 	public void stop(BundleContext context) throws Exception {
@@ -64,31 +66,21 @@ public class Activator extends BioclipseActivator {
 		return plugin;
 	}
 
-	private void configureLogger() {
-
-		try {
-			URL url = Platform.getBundle(PLUGIN_ID)
-			          .getEntry("/" + LOG_PROPERTIES_FILE);
-			
-			InputStream propertiesInputStream = url.openStream();
-			
-			if (propertiesInputStream != null) {
-				Properties props = new Properties();
-				props.load(propertiesInputStream);
-				propertiesInputStream.close();
-			}	
-		} 
-		catch (Exception e) {
-			String message = "Error while initializing log properties." + 
-			e.getMessage();
-			System.err.println(message);
-			throw new RuntimeException(
-					"Error while initializing log properties.",e);
-		}         
-	}
-
 	@Override
 	public URL getLoggerURL() {
 		return getBundle().getEntry("/" + LOG_PROPERTIES_FILE);
-	}	
+	}
+	
+	public IUserManager getUserManager() {
+		IUserManager manager = null;
+		try {
+			manager = (IUserManager) finderTracker.waitForService(1000*10);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		if(manager == null) {
+			throw new IllegalStateException("Could not get the user manager");
+		}
+		return manager;
+	}
 }
