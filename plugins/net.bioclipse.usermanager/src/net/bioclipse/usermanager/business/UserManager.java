@@ -152,5 +152,4 @@ public class UserManager implements IUserManager {
 	public String getNamespace() {
 		return "userManager";
 	}
-
 }

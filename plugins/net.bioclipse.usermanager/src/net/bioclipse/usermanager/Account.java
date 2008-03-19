@@ -42,8 +42,6 @@ class Account implements Serializable {
 	 * @param properties other properties of the account
 	 */
 	Account( String accountId, 
-			 String username, 
-			 String key, 
 			 HashMap<String, String> properties, 
 			 AccountType accountType) {
 		

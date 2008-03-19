@@ -4,7 +4,8 @@ Bundle-Name: Bioclipse Keyring tests
 Bundle-SymbolicName: net.bioclipse.usermanager.tests;singleton:=true
 Bundle-Version: 0.1.0
 Bundle-Vendor: The Bioclipse Team
-Require-Bundle: net.bioclipse.usermanager
+Require-Bundle: net.bioclipse.usermanager,
+ net.bioclipse.core
 Eclipse-LazyStart: false
 Bundle-ClassPath: lib/commons-codec-1.3.jar,
  lib/commons-lang-2.3.jar,

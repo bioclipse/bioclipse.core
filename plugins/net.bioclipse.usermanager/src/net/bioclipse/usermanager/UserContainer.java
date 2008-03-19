@@ -126,9 +126,9 @@ public class UserContainer extends BioObject {
 	 * @param password the users password
 	 * @throws IllegalArgumentException if signIn not succesfull
 	 */
-	public void signInWithProgressBar( String username, 
-			                           String password, 
-			                           SubProgressMonitor monitor ) {
+	public void signIn( String username, 
+			            String password, 
+			            SubProgressMonitor monitor ) {
 		
 		boolean usingMonitor = monitor != null;
 		
