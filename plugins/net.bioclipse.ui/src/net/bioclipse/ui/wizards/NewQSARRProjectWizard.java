@@ -13,28 +13,27 @@ package net.bioclipse.ui.wizards;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
+//import org.eclipse.core.resources.IProject;
+//import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
+//import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
+//import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkingSet;
+//import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
-import org.eclipse.ui.dialogs.WizardNewProjectReferencePage;
+//import org.eclipse.ui.dialogs.WizardNewProjectReferencePage;
 
 
 public class NewQSARRProjectWizard extends Wizard implements INewWizard {
-    
 	
 	private WizardNewProjectCreationPage fFirstPage;
-	private WizardNewProjectReferencePage fReferencePage;
+//	private WizardNewProjectReferencePage fReferencePage;
 
-	private IConfigurationElement fPerspConfig;
+//	private IConfigurationElement fPerspConfig;
 	
     public NewQSARRProjectWizard() {
     		super();
@@ -90,8 +89,6 @@ public class NewQSARRProjectWizard extends Wizard implements INewWizard {
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		// TODO Auto-generated method stub
-		
 	}
     
 }
