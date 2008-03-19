@@ -30,7 +30,7 @@ public class PluginLogManager {
 	private ILog log;
 	private IPath stateLocation;
 	private Hierarchy hierarchy;
-	private HashMap hookedPlugins = new HashMap(); 
+	private HashMap<String, PluginLogListener> hookedPlugins = new HashMap<String, PluginLogListener>(); 
 	
 	private class PluginEventListener implements HierarchyEventListener {
 		
@@ -116,7 +116,7 @@ public class PluginLogManager {
 			if (id == null || !this.hookedPlugins.containsKey(id))
 				return false;
 					
-			PluginLogListener listener = (PluginLogListener) this.hookedPlugins.get(id);
+			PluginLogListener listener = this.hookedPlugins.get(id);
 			listener.dispose(); 
 			this.hookedPlugins.remove(id);
 		}		
@@ -211,10 +211,10 @@ public class PluginLogManager {
 	 */
 	public void internalShutdown() {
 		synchronized(this.hookedPlugins) {
-			Iterator it = this.hookedPlugins.keySet().iterator();
+			Iterator<String> it = this.hookedPlugins.keySet().iterator();
 			while (it.hasNext()) {
-				String id = (String) it.next(); 
-				PluginLogListener listener = (PluginLogListener) this.hookedPlugins.get(id);
+				String id = it.next(); 
+				PluginLogListener listener = this.hookedPlugins.get(id);
 				listener.dispose(); 
 			}
 			this.hookedPlugins.clear(); 
@@ -226,7 +226,7 @@ public class PluginLogManager {
 	 * Returns all the loggers in this manager.
 	 * @return Enumeration logger enumeration
 	 */
-	public Enumeration getCurrentLoggers() {
+	public Enumeration<?> getCurrentLoggers() {
 		return this.hierarchy.getCurrentLoggers();
 	}
 
