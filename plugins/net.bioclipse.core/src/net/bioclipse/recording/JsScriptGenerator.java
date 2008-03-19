@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.bioclipse.core.domain.BioList;
-import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.recording.MethodRecord.BioObjectParameter;
 import net.bioclipse.recording.MethodRecord.NonBioObjectParameter;
 import net.bioclipse.recording.MethodRecord.Parameter;

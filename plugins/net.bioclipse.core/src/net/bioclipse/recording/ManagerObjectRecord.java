@@ -1,9 +1,5 @@
 package net.bioclipse.recording;
 
-import net.bioclipse.recording.MethodRecord.BioObjectParameter;
-import net.bioclipse.recording.MethodRecord.NonBioObjectParameter;
-import net.bioclipse.recording.MethodRecord.Parameter;
-
 public class ManagerObjectRecord extends MethodRecord {
 
 	protected String managerObjectName;
