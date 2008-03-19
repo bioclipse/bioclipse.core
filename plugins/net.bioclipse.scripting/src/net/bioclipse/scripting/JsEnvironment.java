@@ -71,14 +71,17 @@ public class JsEnvironment implements ScriptingEnvironment {
 		for(IExtension extension : serviceObjectExtensions) {
 			for( IConfigurationElement element 
 				 : extension.getConfigurationElements() ) {
-				Object service;
+				Object service = null;
 				try {
 					service = element.createExecutableExtension("service");
 				} 
 				catch (CoreException e) {
-					throw new RuntimeException("Failed to get service", e);
+					//TODO: use logging instead
+					System.out.println("Failed to get a service" + e);
 				}
-				if( !(service instanceof IBioclipseManager) ) {
+				if( service != null && 
+					!(service instanceof IBioclipseManager) ) {
+
 					throw new RuntimeException( "service object: " + service
 							                   + "does not implement " 
 							                   + "IBioclipseManager" );
