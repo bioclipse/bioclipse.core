@@ -426,27 +426,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
 
 	public void printMessage(String s) {
 		
-		if (s.length() > MAX_OUTPUT_LINE_LENGTH) {
-			isPrintingLongText = true;
-			while ( s.length() > MAX_OUTPUT_LINE_LENGTH ) {
-				int pos = MAX_OUTPUT_LINE_LENGTH;
-				while (pos > 0 && s.charAt(pos) != ' ')
-					--pos;
-				
-				if (pos >= 0) {
-					printMessage(s.substring(0,pos)); // without the space
-					s = s.substring(pos + 1);
-				}
-				else {
-					printMessage(s.substring(0,MAX_OUTPUT_LINE_LENGTH));
-					s = s.substring(pos);
-				}
-			}
-			printMessage(s);
-			isPrintingLongText = false;
-			return;
-		}
-    	
+		s.replaceAll("\\u0008", "");
+		
 		synchronized (text) {
 		
 			if (s == null)
