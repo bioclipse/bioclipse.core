@@ -426,7 +426,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
 
 	public void printMessage(String s) {
 		
-		s.replaceAll("\\u0008", "");
+		s.replaceAll("\u0008", "");
 		
 		synchronized (text) {
 		
