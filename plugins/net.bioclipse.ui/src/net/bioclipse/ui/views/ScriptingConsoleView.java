@@ -72,9 +72,6 @@ public abstract class ScriptingConsoleView extends ViewPart {
      */
     private boolean isPrintingLongText;
     
-    /* The preferred maximum length of a line of output. */
-    private static final int MAX_OUTPUT_LINE_LENGTH = 79;
-    
     /* Essentially a switching table for handleKey. */
     @SuppressWarnings("serial")
     private Map<Integer, KeyAction> actionTable
@@ -426,13 +423,13 @@ public abstract class ScriptingConsoleView extends ViewPart {
 
 	public void printMessage(String s) {
 		
-		s.replaceAll("\u0008", "");
+		if (s == null)
+			return;
+		
+		s = s.replaceAll("\u0008", "");
 		
 		synchronized (text) {
-		
-			if (s == null)
-				return;
-			
+				
 	    	boolean onCommandLine = cursorIsOnCommandLine();
 	    	
 	    	String allText = text.getText();
