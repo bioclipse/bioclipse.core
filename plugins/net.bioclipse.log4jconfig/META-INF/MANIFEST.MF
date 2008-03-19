@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Logging Configuration File for Log4j
+Bundle-SymbolicName: net.bioclipse.log4jconfig
+Bundle-Version: 1.0.0
+Fragment-Host: org.springframework.osgi.log4j.osgi;bundle-version="1.2.13"
