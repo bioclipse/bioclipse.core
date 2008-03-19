@@ -8,7 +8,6 @@ public class BioListTest {
 
 	private static class TestBioObject extends BioObject {
 
-		@Override
 		public Object getParsedResource() {
 			return "object";
 		}
@@ -16,12 +15,10 @@ public class BioListTest {
 
 	private BioList<IBioObject> biolist;
 	private IBioObject          bioObject;
-	private String              id;
 	
 	public BioListTest() {
 		biolist   = new BioList<IBioObject>();
 		bioObject = new TestBioObject();
-		id        = bioObject.getId();
 	}
 	
 	@Test
