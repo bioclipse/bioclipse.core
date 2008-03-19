@@ -53,6 +53,7 @@
       <plugin id="net.bioclipse.biojava.business"/>
       <plugin id="net.bioclipse.biojava.ui"/>
       <plugin id="net.bioclipse.core"/>
+      <plugin id="net.bioclipse.log4jconfig" fragment="true"/>
       <plugin id="net.bioclipse.logging"/>
       <plugin id="net.bioclipse.scripting"/>
       <plugin id="net.bioclipse.ui"/>
