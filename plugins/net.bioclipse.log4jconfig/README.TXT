@@ -15,7 +15,7 @@ At the time of writing, the default configuration file writes logging output
 to the console and also saves it to a file in your home directory named
 "bioclipse.log". If you want to change this directory, either hardcode it or
 use a system property. (Log4j substitutes into property values using the
-obvious ${system.property.name} syntax.) Unfortunately, you cannot some useful
+obvious ${system.property.name} syntax.) Unfortunately, you cannot use some useful
 predefined properties like ${osgi.instance.location}, because their values are
 file:/ urls. Log4j does not interpret such urls properly, but absolute
 pathnames can be used.
