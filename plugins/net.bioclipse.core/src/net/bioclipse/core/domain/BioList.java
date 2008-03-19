@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Jonathan Alvarsson
+ *     Carl Masak
  *     
  ******************************************************************************/
 package net.bioclipse.core.domain;
@@ -14,18 +15,13 @@ package net.bioclipse.core.domain;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import net.bioclipse.core.Activator;
 import net.bioclipse.core.Recorded;
-import net.bioclipse.recording.IHistory;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class BioList<T extends IBioObject> extends BioObject 
                                            implements List<T> {
@@ -225,7 +221,7 @@ public class BioList<T extends IBioObject> extends BioObject
 		return list.toArray();
 	}
 
-	public <T> T[] toArray(T[] a) {
+	public <U> U[] toArray(U[] a) {
 		return list.toArray(a);
 	}
 
