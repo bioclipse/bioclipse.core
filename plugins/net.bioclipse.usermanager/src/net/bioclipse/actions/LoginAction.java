@@ -45,7 +45,8 @@ public class LoginAction implements IWorkbenchWindowActionDelegate {
 					                    .getShell(), 
 					                    Activator
 					                    .getDefault()
-					                    .getUserManager() );
+					                    .getUserManager()
+					                    .getSandBoxUserContainer() );
 		
 		loginDialog.open();
 	}

@@ -13,7 +13,7 @@ package net.bioclipse.dialogs;
 
 import java.lang.reflect.InvocationTargetException;
 
-import net.bioclipse.usermanager.IUserContainer;
+import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -52,14 +52,14 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 	private Label          passwordLabel;
 	private Text           usernameText;
 	private Text           passwordText;
-	private IUserContainer userManager;
+	private UserContainer  userManager;
 	
 	/**
 	 * Create the dialog
 	 * @param parentShell
 	 */
 	public UserManagerLoginDialog( Shell parentShell, 
-			                       IUserContainer userContainer ) {
+			                       UserContainer userContainer ) {
 		super(parentShell);
 		
 		this.userManager = userContainer;
@@ -190,8 +190,7 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 						try{
 							int scale = 1000;
 							monitor.beginTask("Signing in...", 2 * scale);
-							UserContainer
-							.getInstance()
+							Activator.getDefault().getUserManager()
 							.signInWithProgressBar( username,
 			                                        password, 
 			                                        new SubProgressMonitor(

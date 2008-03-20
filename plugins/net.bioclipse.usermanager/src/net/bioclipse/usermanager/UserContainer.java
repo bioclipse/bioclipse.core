@@ -52,7 +52,6 @@ public class UserContainer extends BioObject {
 	
 	private HashMap<String, User> superUsers;
 	
-	private List<IUserManagerListener> listeners;
 	
 	/*
 	 * Package protected so we can fill it with MockObjects when testing
@@ -63,7 +62,7 @@ public class UserContainer extends BioObject {
 	public UserContainer( String dataFileName ) {
 
 		availableAccountTypes = new ArrayList<AccountType>();
-		listeners = new ArrayList<IUserManagerListener>();
+
 		this.dataFileName = dataFileName;
 		
 		ObjectInputStream in = null;
@@ -131,13 +130,7 @@ public class UserContainer extends BioObject {
 			            SubProgressMonitor monitor ) {
 		
 		boolean usingMonitor = monitor != null;
-		
-		int ticks = 1000;
-		
-		if(usingMonitor) {
-			monitor.beginTask("Signing in " + username, ticks);
-		}
-		
+			
 		try {
 			User superUser = superUsers.get(username);
 			
@@ -150,7 +143,6 @@ public class UserContainer extends BioObject {
 				loggedInUser = superUsers.get(username);
 				textEncryptor = new BasicTextEncryptor();
 				textEncryptor.setPassword(password);
-				fireLoginWithProgressBar(monitor, ticks);
 				
 			} else {
 				throw new IllegalArgumentException( "Unrecognized username " +
@@ -175,9 +167,8 @@ public class UserContainer extends BioObject {
 	 *  Signs out the current superuser
 	 */
 	public void signOut() {
-		loggedInUser = null;
-		textEncryptor     = null;
-		fireLogout();
+		loggedInUser  = null;
+		textEncryptor = null;
 	}
 
 	/**
@@ -357,9 +348,6 @@ public class UserContainer extends BioObject {
 					getLoggedInUserName() );			
 		}
 		
-		copy.listeners 
-			= new ArrayList<IUserManagerListener>( listeners );
-		
 		return copy;
 	}
 	
@@ -516,65 +504,9 @@ public class UserContainer extends BioObject {
 		return loggedInUser.getAccounts().get(accountId).getAccountType();
 	}
     
-    /**
-     *  Fires a login event
-     */
-    public void fireLogin() {
-    	fireLoginWithProgressBar(null, 0);
-	}
     
-    private void fireLoginWithProgressBar( SubProgressMonitor monitor, 
-    		                               int ticks) {
-    	boolean usingMonitor = monitor != null;
-    	try {
-	    	for( IUserManagerListener listener : listeners) {
-	    		listener.receiveKeyringEvent( UserManagerEvent.LOGIN );
-	    		if(usingMonitor) {
-	    			monitor.worked( ticks/listeners.size() );
-	    		}
-	    	}
-	    	if( isLoggedIn() ) {
-	    		setStatusLinetext( "Logged in as: " 
-	    				           + getLoggedInUserName() );
-	    	}
-    	}
-    	finally {
-    		if(usingMonitor) {
-    			monitor.done();
-    		}
-    	}
-	}
     
-    /**
-     * Fires a logout event
-     */
-    public void fireLogout() {
-    	for( IUserManagerListener listener : listeners)
-    		listener.receiveKeyringEvent( UserManagerEvent.LOGOUT );
-		setStatusLinetext("not logged in");
-	}
-    
-    /**
-     * Fires an update event
-     */
-    public void fireUpdate() {
-    	for( IUserManagerListener listener : listeners)
-    		listener.receiveKeyringEvent( UserManagerEvent.UPDATE );
-    }
-	
-	/**
-	 * @param listener to be added
-	 */
-	public void removeListener(IUserManagerListener listener) {
-		listeners.remove(listener);
-	}
-	
-	/**
-	 * @param listener to be removed
-	 */
-	public void addListener(IUserManagerListener listener) {
-		listeners.add(listener);
-	}
+
 
 	/**
 	 * Returns a property by name of an account of an account type 
@@ -615,20 +547,6 @@ public class UserContainer extends BioObject {
 		return false;
 	}
 	
-	private void setStatusLinetext( String textToSet) {
-		try {
-//			TODO FIXME: show statusline somehow. Curently it fails because there isn't always an activeWorkbenchWindow  
-//			IViewPart vp = (IViewPart)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePart();
-//			IStatusLineManager ism = vp.getViewSite().getActionBars().getStatusLineManager();
-//			ism.setMessage(textToSet);
-		}
-		catch(IllegalStateException e) {
-			System.out.println( e.getMessage() 
-					            + " -- If Bioclipse is not running no " 
-					            + "workbench should have been created."  );
-		}
-	}
-
 	public List<String> getAccountIdsByAccountTypeName(String string) {
 		if(!isLoggedIn()) {
 			throw new IllegalStateException("Not logged in");

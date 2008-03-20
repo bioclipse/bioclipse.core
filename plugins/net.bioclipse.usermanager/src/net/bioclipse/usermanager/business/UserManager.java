@@ -1,5 +1,6 @@
 package net.bioclipse.usermanager.business;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -8,25 +9,23 @@ import net.bioclipse.usermanager.AccountType;
 import net.bioclipse.usermanager.IUserManagerListener;
 import net.bioclipse.usermanager.User;
 import net.bioclipse.usermanager.UserContainer;
+import net.bioclipse.usermanager.UserManagerEvent;
 
 import org.eclipse.core.runtime.SubProgressMonitor;
 
 public class UserManager implements IUserManager {
 
 	private UserContainer userContainer;
+	private List<IUserManagerListener> listeners;
 	
 	public UserManager() {
 		userContainer = new UserContainer("usermanager.dat");
+		listeners = new ArrayList<IUserManagerListener>();
 	}
 	
 	@Override
 	public boolean accountExists(String accountId) {
 		return userContainer.accountExists(accountId);
-	}
-
-	@Override
-	public void addListener(IUserManagerListener listener) {
-		userContainer.addListener(listener);
 	}
 
 	@Override
@@ -127,11 +126,6 @@ public class UserManager implements IUserManager {
 	}
 
 	@Override
-	public void removeListener(IUserManagerListener listener) {
-		userContainer.removeListener(listener);
-	}
-
-	@Override
 	public void signIn(String username, String password) {
 		userContainer.signIn(username, password, null);
 	}
@@ -140,7 +134,9 @@ public class UserManager implements IUserManager {
 	public void signInWithProgressBar( String username, 
 			                           String password,
 			                           SubProgressMonitor monitor ) {
-		userContainer.signIn(username, password, monitor);
+		
+		userContainer.signIn(username, password, new SubProgressMonitor(monitor, 10) );
+		fireLoginWithProgressBar( new SubProgressMonitor(monitor, 90) );
 	}
 
 	@Override
@@ -151,5 +147,91 @@ public class UserManager implements IUserManager {
 	@Override
 	public String getNamespace() {
 		return "userManager";
+	}
+
+	@Override
+	public UserContainer getSandBoxUserContainer() {
+		return userContainer.clone();
+	}
+
+	@Override
+	public void switchUserContainer(UserContainer userContainer) {
+		this.userContainer = userContainer;
+		
+	}
+	
+	/**
+     *  Fires a login event
+     */
+    public void fireLogin() {
+    	fireLoginWithProgressBar(null);
+	}
+    
+    private void fireLoginWithProgressBar( SubProgressMonitor monitor ) {
+    	boolean usingMonitor = monitor != null;
+    	int ticks = 100;
+    	try {
+	    	for( IUserManagerListener listener : listeners) {
+	    		listener.receiveKeyringEvent( UserManagerEvent.LOGIN );
+	    		if(usingMonitor) {
+	    			monitor.beginTask("signing in", ticks);
+	    			monitor.worked( ticks/listeners.size() );
+	    		}
+	    	}
+	    	if( isLoggedIn() ) {
+	    		setStatusLinetext( "Logged in as: " 
+	    				           + getLoggedInUserName() );
+	    	}
+    	}
+    	finally {
+    		if(usingMonitor) {
+    			monitor.done();
+    		}
+    	}
+	}
+    
+    private void setStatusLinetext( String textToSet) {
+		try {
+//			TODO FIXME: show statusline somehow. Curently it fails because there isn't always an activeWorkbenchWindow  
+//			IViewPart vp = (IViewPart)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePart();
+//			IStatusLineManager ism = vp.getViewSite().getActionBars().getStatusLineManager();
+//			ism.setMessage(textToSet);
+		}
+		catch(IllegalStateException e) {
+			System.out.println( e.getMessage() 
+					            + " -- If Bioclipse is not running no " 
+					            + "workbench should have been created."  );
+		}
+	}
+    
+    /**
+     * Fires a logout event
+     */
+    public void fireLogout() {
+    	for( IUserManagerListener listener : listeners)
+    		listener.receiveKeyringEvent( UserManagerEvent.LOGOUT );
+		setStatusLinetext("not logged in");
+	}
+    
+    /**
+     * Fires an update event
+     */
+    public void fireUpdate() {
+    	for( IUserManagerListener listener : listeners)
+    		listener.receiveKeyringEvent( UserManagerEvent.UPDATE );
+    }
+	
+	/**
+	 * @param listener to be added
+	 */
+	public void removeListener(IUserManagerListener listener) {
+		listeners.remove(listener);
+	}
+	
+	/**
+	 * @param listener to be removed
+	 */
+	public void addListener(IUserManagerListener listener) {
+		listeners.add(listener);
 	}
 }

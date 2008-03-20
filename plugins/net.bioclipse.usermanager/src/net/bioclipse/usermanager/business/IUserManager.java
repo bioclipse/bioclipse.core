@@ -10,6 +10,7 @@ import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.usermanager.AccountType;
 import net.bioclipse.usermanager.IUserManagerListener;
 import net.bioclipse.usermanager.User;
+import net.bioclipse.usermanager.UserContainer;
 
 public interface IUserManager extends IBioclipseManager {
 
@@ -183,4 +184,17 @@ public interface IUserManager extends IBioclipseManager {
 	 * @return
 	 */
 	public List<String> getAccountIdsByAccountTypeName(String accountTypeName);
+
+	/**
+	 * @return a copy of the user container which can be edited and thrown away 
+	 * or returned.
+	 */
+	public UserContainer getSandBoxUserContainer();
+
+	/**
+	 * Use the given usercontainer instead
+	 * 
+	 * @param sandBoxUserManager
+	 */
+	public void switchUserContainer(UserContainer sandBoxUserManager);
 }

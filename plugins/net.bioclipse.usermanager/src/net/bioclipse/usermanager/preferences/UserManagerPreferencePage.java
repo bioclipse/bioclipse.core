@@ -14,6 +14,7 @@ package net.bioclipse.usermanager.preferences;
 import net.bioclipse.dialogs.CreateUserDialog;
 import net.bioclipse.dialogs.EditUserDialog;
 import net.bioclipse.dialogs.PassWordPromptDialog;
+import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -46,7 +47,7 @@ import org.eclipse.ui.PlatformUI;
  *
  */
 public class UserManagerPreferencePage extends PreferencePage 
-                                    implements IWorkbenchPreferencePage {
+                                       implements IWorkbenchPreferencePage {
 
 	private Button     deleteButton;
 	private Button     editButton;
@@ -55,7 +56,7 @@ public class UserManagerPreferencePage extends PreferencePage
 	private Button     createButton;
 	private List       list;
 	
-	private UserContainer sandBoxUserManager;
+	private UserContainer sandBoxUserContainer;
 	
 	@Override
 	protected Control createContents(Composite parent) {
@@ -66,8 +67,8 @@ public class UserManagerPreferencePage extends PreferencePage
 		listViewer = new ListViewer(container, SWT.BORDER | SWT.SINGLE);
 		listViewer.setLabelProvider(new ListLabelProvider());
 		listViewer.setContentProvider(new ContentProvider());
-		listViewer.setInput( sandBoxUserManager.getUserNames() );
-		if( sandBoxUserManager.getUserNames().size() > 0 ) {
+		listViewer.setInput( sandBoxUserContainer.getUserNames() );
+		if( sandBoxUserContainer.getUserNames().size() > 0 ) {
 			listViewer.getList().select(0);
 		}
 		list = listViewer.getList();
@@ -96,7 +97,7 @@ public class UserManagerPreferencePage extends PreferencePage
 							              .getWorkbench()
 							              .getActiveWorkbenchWindow()
 							              .getShell(),
-							              sandBoxUserManager );
+							              sandBoxUserContainer );
 				createDialog.open();
 				if(createDialog.getReturnCode() == createDialog.OK) {
 					EditUserDialog dialog = 
@@ -104,7 +105,7 @@ public class UserManagerPreferencePage extends PreferencePage
 								            .getWorkbench()
 								            .getActiveWorkbenchWindow()
 								            .getShell(), 
-								            sandBoxUserManager );
+								            sandBoxUserContainer );
 					dialog.open();
 				}
 				updateListViewer();
@@ -138,8 +139,7 @@ public class UserManagerPreferencePage extends PreferencePage
 							                  .getWorkbench()
 							                  .getActiveWorkbenchWindow()
 							                  .getShell(), 
-							                  userName, 
-							                  sandBoxUserManager );
+							                  userName );
 				passDialog.open();
 				if(passDialog.getReturnCode() == passDialog.OK) {
 					EditUserDialog dialog = 
@@ -147,7 +147,7 @@ public class UserManagerPreferencePage extends PreferencePage
 								            .getWorkbench()
 								            .getActiveWorkbenchWindow()
 								            .getShell(), 
-								            sandBoxUserManager );
+								            sandBoxUserContainer );
 					dialog.open();	
 				}
 			}		
@@ -174,7 +174,7 @@ public class UserManagerPreferencePage extends PreferencePage
 						                         	"of Keyring user", 
 						                         "Really remove the user: " 
 						                         	+ userName + "?" ) ) {
-					sandBoxUserManager.deleteUser(userName);
+					sandBoxUserContainer.deleteUser(userName);
 				}
 				updateListViewer();
 			}
@@ -197,13 +197,16 @@ public class UserManagerPreferencePage extends PreferencePage
 	@Override
 	public boolean performOk() {
 		
-		UserContainer.replaceWithSandBoxInstance(sandBoxUserManager);
+		Activator.getDefault()
+		         .getUserManager().switchUserContainer(sandBoxUserContainer);
         return super.performOk();
     }
 	
 	public void init(IWorkbench workbench) {
 		
-		sandBoxUserManager = UserContainer.getSandBoxInstance();
+		sandBoxUserContainer = Activator
+		                       .getDefault()
+		                       .getUserManager().getSandBoxUserContainer();
 	}
 	
 	private String getSelectedUserName() {
@@ -215,7 +218,7 @@ public class UserManagerPreferencePage extends PreferencePage
 	}
 	
 	private void updateListViewer() {
-		listViewer.setInput( sandBoxUserManager.getUserNames() );
+		listViewer.setInput( sandBoxUserContainer.getUserNames() );
 		listViewer.refresh();
 	}
 	

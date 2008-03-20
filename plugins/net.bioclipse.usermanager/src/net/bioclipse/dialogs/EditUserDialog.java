@@ -71,16 +71,12 @@ public class EditUserDialog extends Dialog {
 	private Label accountTypeLabel;
 	private TableViewer propertiesTableViewer;
 	private Label propertiesLabel;
-	private Label passwordLabel;
-	private Label userNameLabel;
 	private ListViewer accountsListViewer;
 	private Group accountGroup;
 	private Button deleteAccountButton;
 	private Button addAccountButton;
 	private Button changeKeyringUserButton;
 	private Table propertiesTable;
-	private Text passWordText;
-	private Text userNameText;
 	private List list;
 	
 	private UserContainer sandBoxUserManager;
@@ -137,72 +133,24 @@ public class EditUserDialog extends Dialog {
 		
 		list = accountsListViewer.getList();
 
-		userNameLabel = new Label(accountGroup, SWT.NONE);
 		final FormData formData_2 = new FormData();
 		formData_2.bottom = new FormAttachment(0, 77);
 		formData_2.top = new FormAttachment(0, 60);
 		formData_2.right = new FormAttachment(0, 127);
 		formData_2.left = new FormAttachment(0, 50);
-		userNameLabel.setLayoutData(formData_2);
-		userNameLabel.setText("User Name:");
 
-		userNameText = new Text(accountGroup, SWT.BORDER);
-		final FormData formData_2_1 = new FormData();
-		formData_2_1.right = new FormAttachment(100, -297);
-		formData_2_1.top = new FormAttachment(userNameLabel, -27, SWT.BOTTOM);
-		formData_2_1.left = new FormAttachment(0, 150);
-		userNameText.setLayoutData(formData_2_1);
-		userNameText.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent e) {
-				
-			}
-			public void focusLost(FocusEvent e) {
-				if( accountsListViewer.getList().getSelection().length > 0 ) {
-					DummyAccount account 
-						= model
-						  .dummyAccounts
-						  .get( accountsListViewer
-								.getList()
-								.getSelection()[0] );
-					account.userName = userNameText.getText();
-				}
-			}
-		});
-
-		passWordText = new Text(accountGroup, SWT.BORDER | SWT.PASSWORD);
 		final FormData formData_3 = new FormData();
+		formData_3.left = new FormAttachment(0, 152);
 		formData_3.right = new FormAttachment(100, -295);
 		formData_3.top = new FormAttachment(0, 90);
-		formData_3.left = new FormAttachment(userNameText, 0, SWT.LEFT);
-		passWordText.setLayoutData(formData_3);
-		passWordText.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent e) {
-			}
-			public void focusLost(FocusEvent e) {
-				if( accountsListViewer.getList().getSelection().length > 0 ) {
-					DummyAccount account 
-						= model
-						  .dummyAccounts
-						  .get(accountsListViewer.getList().getSelection()[0]);
-					account.key = passWordText.getText();
-				}
-			}
-		});
 
-		passwordLabel = new Label(accountGroup, SWT.NONE);
 		final FormData formData_1_1 = new FormData();
 		formData_1_1.bottom = new FormAttachment(0, 117);
 		formData_1_1.top = new FormAttachment(0, 100);
-		formData_1_1.right = new FormAttachment(userNameLabel, 63, SWT.LEFT);
-		formData_1_1.left = new FormAttachment(userNameLabel, 0, SWT.LEFT);
-		passwordLabel.setLayoutData(formData_1_1);
-		passwordLabel.setText("Password:");
 
 		propertiesLabel = new Label(accountGroup, SWT.NONE);
 		final FormData formData_5 = new FormData();
-		formData_5.top = new FormAttachment(0, 128);
-		formData_5.bottom = new FormAttachment(0, 145);
-		formData_5.right = new FormAttachment(0, 74);
+		formData_5.right = new FormAttachment(0, 79);
 		formData_5.left = new FormAttachment(0, 5);
 		propertiesLabel.setLayoutData(formData_5);
 		propertiesLabel.setText("Properties:");
@@ -211,6 +159,8 @@ public class EditUserDialog extends Dialog {
 		propertiesTableViewer.setLabelProvider(new TableLabelProvider());
 		propertiesTableViewer.setContentProvider(new TableContentProvider());
 		propertiesTable = propertiesTableViewer.getTable();
+		formData_5.top = new FormAttachment(propertiesTable, -25, SWT.TOP);
+		formData_5.bottom = new FormAttachment(propertiesTable, -5, SWT.TOP);
 		
 		/*
 		 * TableColumns
@@ -236,35 +186,29 @@ public class EditUserDialog extends Dialog {
 		propertiesTableViewer.setCellModifier( new PropertyCellModifier() );
 		
 		final FormData formData_4 = new FormData();
+		formData_4.top = new FormAttachment(0, 85);
 		formData_4.bottom = new FormAttachment(100, -33);
 		formData_4.left = new FormAttachment(propertiesLabel, 0, SWT.LEFT);
-		formData_4.top = new FormAttachment(propertiesLabel, 5, SWT.BOTTOM);
 		formData_4.right = new FormAttachment(100, -5);
 		propertiesTable.setLayoutData(formData_4);
 		propertiesTableViewer.setColumnProperties(COLUMN_NAMES);
 
 		accountTypeLabel = new Label(accountGroup, SWT.NONE);
 		final FormData formData_11 = new FormData();
-		formData_11.top = new FormAttachment(0, 20);
-		formData_11.left = new FormAttachment(userNameLabel, 0, SWT.LEFT);
+		formData_11.top = new FormAttachment(0, 23);
+		formData_11.bottom = new FormAttachment(0, 40);
+		formData_11.left = new FormAttachment(propertiesLabel, 0, SWT.LEFT);
 		accountTypeLabel.setLayoutData(formData_11);
 		accountTypeLabel.setText("Account Type:");
 
 		accountTypeText = new Text(accountGroup, SWT.BORDER);
 		accountTypeText.setEditable(false);
 		final FormData formData_12 = new FormData();
-		formData_12.right = new FormAttachment(userNameText, 0, SWT.RIGHT);
-		formData_12.top = new FormAttachment(0, 10);
-		formData_12.left = new FormAttachment(userNameText, 0, SWT.LEFT);
+		formData_12.right = new FormAttachment(100, -194);
+		formData_12.bottom = new FormAttachment(accountTypeLabel, 0, SWT.BOTTOM);
+		formData_12.left = new FormAttachment(accountTypeLabel, 5, SWT.RIGHT);
 		accountTypeText.setLayoutData(formData_12);
-		accountGroup.setTabList( new Control[] { userNameText, 
-				                                 passWordText, 
-				                                 userNameLabel, 
-				                                 passwordLabel, 
-				                                 propertiesLabel, 
-				                                 propertiesTable, 
-				                                 accountTypeLabel, 
-				                                 accountTypeText } );
+		accountGroup.setTabList( new Control[] {propertiesLabel, propertiesTable, accountTypeLabel, accountTypeText} );
 		final FormData formData_1 = new FormData();
 		formData_1.right = new FormAttachment(accountGroup, -2, SWT.LEFT);
 		formData_1.left = new FormAttachment(0, 0);
@@ -309,8 +253,6 @@ public class EditUserDialog extends Dialog {
 					}
 					model.dummyAccounts.put(d.accountId, d);
 					refreshList();
-					userNameText.setText("");
-					passWordText.setText("");
 					accountTypeText.setText(d.accountType.toString());
 					int pos = 0;
 					for( String item : list.getItems() ) {
@@ -424,10 +366,6 @@ public class EditUserDialog extends Dialog {
 	private void refreshOnSelectionChanged() {
 
 		String selectedAccountId = accountsListViewer.getList().getSelection()[0];
-		userNameText.setText(
-				model.dummyAccounts.get(selectedAccountId).userName );
-		passWordText.setText(
-				model.dummyAccounts.get(selectedAccountId).key );
 		accountTypeText.setText(
 				model.dummyAccounts.get( selectedAccountId)
 				                         .accountType.toString() );
@@ -450,7 +388,7 @@ public class EditUserDialog extends Dialog {
 			}
 			saveDummyAccountToSandBoxUserManager();
 		}
-		UserContainer.getInstance().fireUpdate();
+//		UserContainer.fireUpdate();
 		super.buttonPressed(buttonId);
 	}
 
@@ -460,8 +398,6 @@ public class EditUserDialog extends Dialog {
 		
 		for( DummyAccount dm : model.dummyAccounts.values() ) {
 			sandBoxUserManager.createAccount( dm.accountId, 
-					                          dm.userName, 
-					                          dm.key, 
 					                          dm.properties,
 					                          dm.accountType );
 		}
@@ -633,8 +569,6 @@ public class EditUserDialog extends Dialog {
 					                 .getLoggedInUsersAccountNames() ) {
 				
 				DummyAccount d = new DummyAccount();
-				d.key          = sandBoxKeyRing.getPassword(accountId);
-				d.userName     = sandBoxKeyRing.getUserName(accountId);
 				d.accountId    = accountId;
 				d.accountType  = sandBoxKeyRing.getAccountType(accountId);
 				
@@ -661,8 +595,6 @@ public class EditUserDialog extends Dialog {
 	class DummyAccount {
 		
 		String accountId = "";
-		String userName = "";
-		String key = "";
 		AccountType accountType;
 		
 		HashMap<String, String> properties = new HashMap<String, String>();

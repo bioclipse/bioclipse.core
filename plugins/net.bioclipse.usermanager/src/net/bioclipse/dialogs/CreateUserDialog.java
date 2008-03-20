@@ -44,16 +44,16 @@ public class CreateUserDialog extends TitleAreaDialog {
 	private Text  repeatPasswordText;
 	private Text  passwordText;
 	private Text  userNameText;
-	private UserContainer sandBoxUserManager;
+	private UserContainer userContainer;
 	
 	/**
 	 * Create the dialog
 	 * @param parentShell
 	 */
 	public CreateUserDialog( Shell parentShell, 
-			                 UserContainer sandBoxUserManager ) {
+			                 UserContainer userContainer ) {
 		super(parentShell);
-		this.sandBoxUserManager = sandBoxUserManager;
+		this.userContainer = userContainer;
 	}
 
 	/**
@@ -164,10 +164,11 @@ public class CreateUserDialog extends TitleAreaDialog {
 						                       + "match the password");
 				return;
 			}
-			sandBoxUserManager.createLocalUser( userNameText.getText(), 
+			userContainer.createUser( userNameText.getText(), 
 					                            passwordText.getText() );
-			sandBoxUserManager.signIn( userNameText.getText(), 
-					                   passwordText.getText() );
+			userContainer.signIn( userNameText.getText(), 
+					                   passwordText.getText(),
+					                   null );
 		}
 		super.buttonPressed(buttonId);
 	}

@@ -11,6 +11,7 @@
 
 package net.bioclipse.dialogs;
 
+import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
 
 import org.eclipse.core.runtime.Platform;
@@ -40,18 +41,15 @@ public class PassWordPromptDialog extends Dialog {
 
 	private Text text;
 	private String username;
-	private UserContainer sandBoxKeyRing;
 	
 	/**
 	 * Create the dialog
 	 * @param parentShell
 	 */
 	public PassWordPromptDialog( Shell parentShell, 
-			                     String username, 
-			                     UserContainer sandBoxKeyRing ) {
+			                     String username ) {
 		super(parentShell);
 		this.username = username;
-		this.sandBoxKeyRing = sandBoxKeyRing;
 	}
 
 	/**
@@ -115,7 +113,8 @@ public class PassWordPromptDialog extends Dialog {
 	protected void buttonPressed(int buttonId) {
 		if (buttonId == IDialogConstants.OK_ID) {
 			try{
-				sandBoxKeyRing.signIn(username, text.getText());
+				Activator.getDefault()
+				.getUserManager().signIn( username, text.getText() );
 			}
 			catch(IllegalArgumentException e) {
 				MessageDialog.openInformation( PlatformUI
