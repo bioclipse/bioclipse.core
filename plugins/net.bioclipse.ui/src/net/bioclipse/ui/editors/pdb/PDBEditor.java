@@ -1,6 +1,5 @@
 package net.bioclipse.ui.editors.pdb;
 
-import net.bioclipse.ui.Activator;
 import net.bioclipse.ui.editors.keyword.KeywordEditor;
 import net.bioclipse.ui.editors.keyword.KeywordSourceViewerConfig;
 
@@ -9,7 +8,7 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
 
 public class PDBEditor extends KeywordEditor{
 
-	private static final Logger logger = Activator.getLogManager().getLogger(PDBEditor.class.toString());
+    private static final Logger logger = Logger.getLogger(PDBEditor.class);
 	
 	public PDBEditor() {
 		super(new PDBKeywords());
