@@ -17,7 +17,7 @@ import org.osgi.framework.BundleContext;
 
 
 /**
- * The BioclipseActivator is a class that can be extended by all Bioclispe 
+ * The BioclipseActivator is a class that can be extended by all Bioclipse 
  * plugins in order to simplify logging configuration. 
  * Requires the file: "logger.properties" for log4j in root of plugin.
  * @author ola
