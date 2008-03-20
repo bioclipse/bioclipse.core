@@ -18,8 +18,9 @@ public class UserManager implements IUserManager {
 	private UserContainer userContainer;
 	private List<IUserManagerListener> listeners;
 	
-	public UserManager() {
-		userContainer = new UserContainer("usermanager.dat");
+	public UserManager(String filename) {
+		super();
+		userContainer = new UserContainer(filename);
 		listeners = new ArrayList<IUserManagerListener>();
 	}
 	
