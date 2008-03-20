@@ -2,6 +2,8 @@ package net.bioclipse.scripting;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import net.bioclipse.core.business.IBioclipseManager;
 
@@ -29,6 +31,8 @@ public class JsEnvironment implements ScriptingEnvironment {
     private Context context;
     private Scriptable scope;
     private Map<String, IBioclipseManager> managers;
+    private final Logger logger = Logger.getLogger( JsEnvironment
+    		                                        .class.toString() );
     
     public JsEnvironment() {
     	reset();
@@ -76,8 +80,8 @@ public class JsEnvironment implements ScriptingEnvironment {
 					service = element.createExecutableExtension("service");
 				} 
 				catch (CoreException e) {
-					//TODO: use logging instead
-					System.out.println("Failed to get a service" + e);
+					logger.log( Level.SEVERE, "Failed to get a service. " + e );
+					continue;
 				}
 				if( service != null && 
 					!(service instanceof IBioclipseManager) ) {
