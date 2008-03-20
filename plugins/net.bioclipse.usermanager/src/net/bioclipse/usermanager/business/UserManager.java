@@ -173,7 +173,7 @@ public class UserManager implements IUserManager {
     	int ticks = 100;
     	try {
 	    	for( IUserManagerListener listener : listeners) {
-	    		listener.receiveKeyringEvent( UserManagerEvent.LOGIN );
+	    		listener.receiveUserManagerEvent( UserManagerEvent.LOGIN );
 	    		if(usingMonitor) {
 	    			monitor.beginTask("signing in", ticks);
 	    			monitor.worked( ticks/listeners.size() );
@@ -210,7 +210,7 @@ public class UserManager implements IUserManager {
      */
     public void fireLogout() {
     	for( IUserManagerListener listener : listeners)
-    		listener.receiveKeyringEvent( UserManagerEvent.LOGOUT );
+    		listener.receiveUserManagerEvent( UserManagerEvent.LOGOUT );
 		setStatusLinetext("not logged in");
 	}
     
@@ -219,7 +219,7 @@ public class UserManager implements IUserManager {
      */
     public void fireUpdate() {
     	for( IUserManagerListener listener : listeners)
-    		listener.receiveKeyringEvent( UserManagerEvent.UPDATE );
+    		listener.receiveUserManagerEvent( UserManagerEvent.UPDATE );
     }
 	
 	/**
