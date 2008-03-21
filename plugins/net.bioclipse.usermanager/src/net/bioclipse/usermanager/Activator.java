@@ -11,8 +11,6 @@
 
 package net.bioclipse.usermanager;
 
-import java.net.URL;
-
 import net.bioclipse.ui.BioclipseActivator;
 import net.bioclipse.usermanager.business.IUserManager;
 
@@ -32,8 +30,6 @@ public class Activator extends BioclipseActivator {
 	// The shared instance
 	private static Activator plugin;
 
-	private final String LOG_PROPERTIES_FILE="logger.properties";
-	
 	private ServiceTracker finderTracker;
 	
 	/**
@@ -66,10 +62,6 @@ public class Activator extends BioclipseActivator {
 		return plugin;
 	}
 
-	@Override
-	public URL getLoggerURL() {
-		return getBundle().getEntry("/" + LOG_PROPERTIES_FILE);
-	}
 	
 	public IUserManager getUserManager() {
 		IUserManager manager = null;

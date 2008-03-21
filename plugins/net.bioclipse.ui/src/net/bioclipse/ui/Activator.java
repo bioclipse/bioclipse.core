@@ -12,9 +12,7 @@
 
 package net.bioclipse.ui;
 
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -24,6 +22,8 @@ import net.bioclipse.recording.IHistory;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.FileAppender;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
@@ -32,40 +32,58 @@ import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.framework.BundleException;
 
 /**
- * Controls the plug-in life cycle.
+ * Plug-in singleton and Bundle activator for the Bioclipse UI plug-in.
+ *  
+ * The start method of the singleton instance of this class is the first 
+ * Bioclipse code to be executed upon application startup, as long as the 
+ * current product defines net.bioclipse.ui.Application as the application 
+ * entry point (via the org.eclipse.core.runtime.application extension point.)
  * 
  * @author ola
- * 
+ *
  */
+
 public class Activator extends BioclipseActivator {
 
+    // if false, log package is reconfigured at app startup to turn logging off
+    public final boolean useLogging = true;
+    
     // The plug-in ID
     public static final String PLUGIN_ID = "net.bioclipse.ui";
 
-    // TODO remove - we actually use log4j.properties in a net.bioclipse.log4jconfig
-    // The file for logger properties
-    private static final String LOG_PROPERTIES_FILE = "logger.properties";
-
     public final ConsoleEchoer CONSOLE = new ConsoleEchoer();
+    
+    // The shared singleton instance.
+    private static Activator plugin;
 
     private ServiceTracker finderTracker;
     
-    private static Logger logger = Logger.getLogger(Activator.class);
-    private static String FILE_APPENDER_NAME = "file";
-    private static String EXTENDER_BUNDLE_NAME = "org.springframework.osgi.bundle.extender";
+    private static final Logger logger = Logger.getLogger(Activator.class);
     
-    // The shared instance.
-    private static Activator plugin;
+    private static final String FILE_APPENDER_NAME = "file";
+    
+    private static final String EXTENDER_BUNDLE_NAME = 
+        "org.springframework.osgi.bundle.extender";
 
+    private static final String NO_LOG_FILE_WARNING_MSG = 
+        "WARNING: Bioclipse log file may not be configured.";
     
-    /**
-     * Returns an image descriptor for the image file at the given plug-in
+    private static final String JVM_VERSION_ERROR_MSG = 
+        "** Bioclipse startup FAILED **\n" +
+        "Bioclipse must be run with Java 1.5 (sometimes referred to as 5.0) or better.\n" +
+        "If you have multiple versions of Java installed, please edit the file " +
+             "'bioclipse.ini' to point to java 1.5 or 1.6 by adding a line like below: \n" +
+        " -vm /path/to/java1.5/bin/java";
+    
+    
+     /** Returns an image descriptor for the image file at the given plug-in
      * relative path
      * 
      * @param path
      *            the path
      * @return the image descriptor
      */
+    
     public static ImageDescriptor getImageDescriptor(String path) {
         return imageDescriptorFromPlugin(PLUGIN_ID, path);
     }
@@ -74,17 +92,9 @@ public class Activator extends BioclipseActivator {
     /**
      * The constructor.
      */
+    
     public Activator() {
         plugin = this;
-    }
-
-    
-    /**
-     * Need to provide this plugin's logger.properties to abstract class
-     */
-    @Override
-    public URL getLoggerURL() {
-        return getBundle().getEntry("/" + LOG_PROPERTIES_FILE);
     }
 
     
@@ -94,18 +104,16 @@ public class Activator extends BioclipseActivator {
 
     
     @Override
-    public void start(BundleContext context) throws Exception {
-
+    public void start(BundleContext context) throws Exception {       
         super.start(context);
         
-        String actualLogFileName = getActualLogFileName();
-        if (actualLogFileName == null)
-            System.err.println("WARNING: Bioclipse log file may not be configured.");       
+        if (useLogging)
+            showLogFileNameOrWarn();
         else
-            logger.info("Log file location: " + actualLogFileName);
-
-        // Make sure to start Spring Bundle Extender before any extendees
+            turnOffLogging();
         
+        checkJVMVersion();  
+        handleStartupArgs();
         startBundleExtender();
         
         finderTracker = new ServiceTracker(context, IHistory.class.getName(),
@@ -126,12 +134,30 @@ public class Activator extends BioclipseActivator {
             logger.debug(trace);
         }
         if (history == null) {
+            logger.debug("getHistoryObject() returning NULL.");
             return null;
-        }
+        } 
+        logger.debug("getHistoryObject() returning history object.");
         return history;
     }
-
-
+  
+    
+    private void turnOffLogging() {
+        BasicConfigurator.resetConfiguration();
+        BasicConfigurator.configure();      // prevents no-appender warning
+        Logger.getRootLogger().setLevel(Level.OFF);
+    }
+    
+    
+    private void showLogFileNameOrWarn() {
+        String logFile = getActualLogFileName();
+        if (logFile == null)
+            System.err.println(NO_LOG_FILE_WARNING_MSG);     
+        else
+            logger.info("Log file location: " + logFile);
+    }
+    
+    
     /* Queries Log4j for the "file" attribute of the "file" appender. 
      * Because the value of this attribute is naively passed by FileAppender
      * to java.io.FileOutputStream(String, int), we attempt to determine 
@@ -158,10 +184,28 @@ public class Activator extends BioclipseActivator {
         // opening a file), create a File object which ought to interpret
         // its constructor's argument in the same way that FileOutputStream does.
         
-        String actualLogFileName = (new File(requestedLogFileName))
-                .getAbsolutePath();
+        return (new File(requestedLogFileName)).getAbsolutePath();
+    }
+    
+    
+    private void handleStartupArgs() {
+        String[] args  = Platform.getCommandLineArgs();
         
-        return actualLogFileName;
+        for (int i = 0; i < args.length; i++) {
+            logger.debug("Detected argument "+ i + ": " + args[i]);
+            //TODO: handle arguments for Bioclipse here
+        }   
+    }
+    
+    
+    private void checkJVMVersion() {
+
+        if (!(System.getProperty("java.version").startsWith("1.5")) &&
+            !(System.getProperty("java.version").startsWith("1.6"))) {
+            System.err.println(JVM_VERSION_ERROR_MSG);
+            // you should normally never call this from a plugin
+            System.exit(0);
+        }
     }
     
     
@@ -174,7 +218,7 @@ public class Activator extends BioclipseActivator {
      * bundle whose symbolic name is that of Spring Bundle Extender
      * is separately required. 
      * 
-     * (Moreover implicity assumes that Spring appropriately labels its bundles
+     * (Moreover implicitly assumes that Spring appropriately labels its bundles
      * with the singleton directive, thus forcing the resolver to pick only 
      * one to resolve, if multiple extender bundles cannot coexist.) */
     
@@ -187,47 +231,22 @@ public class Activator extends BioclipseActivator {
         
         Predicate<Bundle> isStartableAndHasBeenResolved = new Predicate<Bundle>() {
             public Boolean eval(Bundle b) {
-                int mask = 
-                    Bundle.RESOLVED |
-                    Bundle.STARTING |
-                    Bundle.ACTIVE |
-                    Bundle.STOPPING;
-                    
-                return (b.getState() & mask) != 0;      // autobox to Boolean class
+                final int mask = Bundle.INSTALLED | Bundle.UNINSTALLED;
+                return (b.getState() & mask) == 0;    // autoboxes to Boolean class
             }
         };
         
-        // What we do with the bundles we want to start.
-        // Note that not transiently starting bundles would commit them to 
-        // autostart next time, potentially causing confusion and/or races
-        
-        // could easily factor out bundle name in logging comments to reuse
-        
-        Function<Object, Bundle> startTransiently = new Function<Object, Bundle>() {
-            public Object eval(Bundle b) {
-                logger.debug("Attempting to start Spring Bundle Extender...");
-                try {
-                    b.start(Bundle.START_TRANSIENT);  
-                    logger.debug("Spring Bundle Extender started.");
-                }
-                catch (BundleException e) {
-                    logger.error("Unable to start selected Spring Bundle Extender: " + e);
-                }
-                // no useful return value
-                return null;
-            }
-        };
-        
-        // now do the obvious thing
+        // do the obvious thing
         
         List<Bundle> extenders = java.util.Arrays.asList(
                 Platform.getBundles(EXTENDER_BUNDLE_NAME, null));       
         List<Bundle> toStart = filter(extenders, isStartableAndHasBeenResolved);
-        map(toStart, startTransiently);
+        for (Bundle b : toStart)
+            startTransiently(b);
 
-        // now for some warnings
+        // and now for some warnings
 
-        int nToStart = toStart.size(); 
+        final int nToStart = toStart.size();
         if (nToStart > 1) {
             logger.warn("More than one resolved Spring Bundle Extender found, "
                     + "is this expected?");
@@ -248,12 +267,31 @@ public class Activator extends BioclipseActivator {
         }
     }
     
+    /* What we do with the bundles we want to start. Notes:
+     * could easily factor out bundle name in logging comments to reuse    
+     * retain transient start or else started bundle will autostart 
+       next time, potentially causing confusion and/or races */
+    
+    private Boolean startTransiently(Bundle b) {
+        logger.debug("Attempting to start Spring Bundle Extender...");
+        try {
+            b.start(Bundle.START_TRANSIENT);  
+            logger.debug("Spring Bundle Extender started.");
+            return true;
+        }
+        catch (BundleException e) {
+            logger.error("Unable to start selected Spring Bundle Extender: " + e);
+            return false;
+        }
+    }
+    
     
     // the venerable and handy map and filter functions. Could factor out into
-    // util class and make public
+    // util class and make public.
+    // TODO move to util package & write tests
     
-    private static <S, T> List<S> map(Collection<T> in, Function<S, T> f) {
-        List<S> out = new ArrayList<S>();
+    private static <S, T> List<S> map(List<T> in, Function<S, T> f) {
+        List<S> out = new ArrayList<S>(in.size());
         for (T x : in)
             out.add(f.eval(x));
         return out;
@@ -265,7 +303,7 @@ public class Activator extends BioclipseActivator {
     }
     
     
-    private static <T> List<T> filter(Collection<T> in, Predicate<T> p) {
+    private static <T> List<T> filter(List<T> in, Predicate<T> p) {
         List<T> out = new ArrayList<T>();
         for (T x : in)
             if (p.eval(x)) out.add(x);
