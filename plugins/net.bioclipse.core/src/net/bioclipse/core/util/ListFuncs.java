@@ -9,7 +9,7 @@ import net.bioclipse.core.util.Predicate;
 //TODO tests!
 
 /**
- * LogUtils:
+ * ListFuncs:
  *   Utility functions for working with lists. Provides map, filter, etc.
  *   
  * @author rklancer
