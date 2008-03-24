@@ -18,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintWriter;
 
+import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.recording.IHistory;
 
 import org.apache.log4j.Logger;
@@ -46,7 +47,7 @@ import org.osgi.framework.BundleException;
 public class Activator extends BioclipseActivator {
 
     // if false, log package is reconfigured at app startup to turn logging off
-    public final boolean useLogging = true;
+    public static final boolean useLogging = true;
     
     // The plug-in ID
     public static final String PLUGIN_ID = "net.bioclipse.ui";
@@ -66,7 +67,7 @@ public class Activator extends BioclipseActivator {
         "org.springframework.osgi.bundle.extender";
 
     private static final String NO_LOG_FILE_WARNING_MSG = 
-        "WARNING: Bioclipse log file may not be configured.";
+        "Bioclipse log file may not be configured.";
     
     private static final String JVM_VERSION_ERROR_MSG = 
         "** Bioclipse startup FAILED **\n" +
@@ -110,7 +111,7 @@ public class Activator extends BioclipseActivator {
         if (useLogging)
             showLogFileNameOrWarn();
         else
-            turnOffLogging();
+            disableLogging();
         
         checkJVMVersion();  
         handleStartupArgs();
@@ -129,9 +130,7 @@ public class Activator extends BioclipseActivator {
         } catch (InterruptedException e) {
             // honoring the intention to print a stack trace here
             logger.warn("Could not get history object: " + e);
-            PrintWriter trace = new PrintWriter(new ByteArrayOutputStream());
-            e.printStackTrace(trace);
-            logger.debug(trace);
+            logger.debug(LogUtils.getTraceStringFrom(e));
         }
         if (history == null) {
             logger.debug("getHistoryObject() returning NULL.");
@@ -142,7 +141,7 @@ public class Activator extends BioclipseActivator {
     }
   
     
-    private void turnOffLogging() {
+    private void disableLogging() {
         BasicConfigurator.resetConfiguration();
         BasicConfigurator.configure();      // prevents no-appender warning
         Logger.getRootLogger().setLevel(Level.OFF);
@@ -154,7 +153,7 @@ public class Activator extends BioclipseActivator {
         if (logFile == null)
             System.err.println(NO_LOG_FILE_WARNING_MSG);     
         else
-            logger.info("Log file location: " + logFile);
+            logger.info("Probable log file location: " + logFile);
     }
     
     
@@ -268,9 +267,9 @@ public class Activator extends BioclipseActivator {
     }
     
     /* What we do with the bundles we want to start. Notes:
-     * could easily factor out bundle name in logging comments to reuse    
-     * retain transient start or else started bundle will autostart 
-       next time, potentially causing confusion and/or races */
+       - could easily factor out bundle name in logging comments to reuse    
+       - retain transient start or else started bundle will autostart 
+         next time, potentially causing confusion and/or races */
     
     private Boolean startTransiently(Bundle b) {
         logger.debug("Attempting to start Spring Bundle Extender...");
@@ -280,7 +279,7 @@ public class Activator extends BioclipseActivator {
             return true;
         }
         catch (BundleException e) {
-            logger.error("Unable to start selected Spring Bundle Extender: " + e);
+            logger.error("Unable to start resolved Spring Bundle Extender: " + e);
             return false;
         }
     }
@@ -306,7 +305,8 @@ public class Activator extends BioclipseActivator {
     private static <T> List<T> filter(List<T> in, Predicate<T> p) {
         List<T> out = new ArrayList<T>();
         for (T x : in)
-            if (p.eval(x)) out.add(x);
+            if (p.eval(x)) 
+                out.add(x);
         return out;
     }
     
@@ -315,5 +315,4 @@ public class Activator extends BioclipseActivator {
         public Boolean eval(T arg);
     }
 }
-
 

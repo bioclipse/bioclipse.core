@@ -12,25 +12,28 @@
 
 package net.bioclipse.ui.prefs;
 
+import org.apache.log4j.Logger;
+
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 
+
 /**
- * Initialize UI preferences
+ * Initialize UI preferences. Don't forget plugin_customization.ini also 
+ * initializes some preferences.
  * @author ola
  *
  */
 public class BioclipsePreferenceInitializer extends AbstractPreferenceInitializer {
 
+    private static final Logger logger = Logger.getLogger(BioclipsePreferenceInitializer.class);
+    
 	@Override
-	public void initializeDefaultPreferences() {
-		
+	public void initializeDefaultPreferences() {	    
 		IEclipsePreferences node = new DefaultScope().getNode("net.bioclipse.ui");
 		node.put("test", "weehow");
 		
-		System.out.println("Default preferences initialized");
-		
+		logger.info("Default preferences initialized");
 	}
-
 }

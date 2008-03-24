@@ -14,6 +14,8 @@ import net.bioclipse.ui.EchoEvent;
 import net.bioclipse.ui.EchoListener;
 import net.bioclipse.ui.JsPluginable;
 
+import org.apache.log4j.Logger;
+
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
@@ -31,6 +33,8 @@ import org.eclipse.core.runtime.Platform;
 public class JsConsoleView extends ScriptingConsoleView
                            implements EchoListener {
 	
+    private static final Logger logger = Logger.getLogger(JsConsoleView.class);
+    
 	private static Matcher jsBacktickMatcher;
 	
 	static {
@@ -100,8 +104,7 @@ public class JsConsoleView extends ScriptingConsoleView
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		
 		if (registry == null) { // for example, when we are running the tests
-			// TODO: Change to logging
-			System.out.println("Registry does not exist. If tests are running, "
+			logger.debug("Registry does not exist. If tests are running, "
 					+ "this is in order.");
 			return;             // nothing we can do anyway
 		}
