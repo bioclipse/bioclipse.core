@@ -12,19 +12,20 @@
 
 package net.bioclipse.ui;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.PrintWriter;
 
 import net.bioclipse.core.util.LogUtils;
+import net.bioclipse.core.util.Predicate;
+import net.bioclipse.core.util.ListFuncs;
 import net.bioclipse.recording.IHistory;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
@@ -235,11 +236,14 @@ public class Activator extends BioclipseActivator {
             }
         };
         
-        // do the obvious thing
+        // start all Spring Extender bundles that meet the condition set out 
+        // in the predicate above
         
-        List<Bundle> extenders = java.util.Arrays.asList(
-                Platform.getBundles(EXTENDER_BUNDLE_NAME, null));       
-        List<Bundle> toStart = filter(extenders, isStartableAndHasBeenResolved);
+        List<Bundle> allExtenders = 
+            Arrays.asList(Platform.getBundles(EXTENDER_BUNDLE_NAME, null));    
+        List<Bundle> toStart = 
+            ListFuncs.filter(allExtenders, isStartableAndHasBeenResolved);
+       
         for (Bundle b : toStart)
             startTransiently(b);
 
@@ -266,6 +270,7 @@ public class Activator extends BioclipseActivator {
         }
     }
     
+    
     /* What we do with the bundles we want to start. Notes:
        - could easily factor out bundle name in logging comments to reuse    
        - retain transient start or else started bundle will autostart 
@@ -282,37 +287,6 @@ public class Activator extends BioclipseActivator {
             logger.error("Unable to start resolved Spring Bundle Extender: " + e);
             return false;
         }
-    }
-    
-    
-    // the venerable and handy map and filter functions. Could factor out into
-    // util class and make public.
-    // TODO move to util package & write tests
-    
-    private static <S, T> List<S> map(List<T> in, Function<S, T> f) {
-        List<S> out = new ArrayList<S>(in.size());
-        for (T x : in)
-            out.add(f.eval(x));
-        return out;
-    }
-    
-    
-    private interface Function<S, T>  {
-        public S eval(T arg);
-    }
-    
-    
-    private static <T> List<T> filter(List<T> in, Predicate<T> p) {
-        List<T> out = new ArrayList<T>();
-        for (T x : in)
-            if (p.eval(x)) 
-                out.add(x);
-        return out;
-    }
-    
-    
-    private interface Predicate<T> extends Function<Boolean, T> {
-        public Boolean eval(T arg);
     }
 }
 
