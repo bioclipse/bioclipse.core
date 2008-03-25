@@ -131,7 +131,7 @@ public class Activator extends BioclipseActivator {
         } catch (InterruptedException e) {
             // honoring the intention to print a stack trace here
             logger.warn("Could not get history object: " + e);
-            logger.debug(LogUtils.getTraceStringFrom(e));
+            LogUtils.debugTrace(logger, e);
         }
         if (history == null) {
             logger.debug("getHistoryObject() returning NULL.");

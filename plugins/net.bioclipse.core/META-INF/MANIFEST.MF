@@ -34,3 +34,4 @@ Bundle-ClassPath: libs/js.jar,
  libs/antlr-2.7.5.jar
 Bundle-Activator: net.bioclipse.core.Activator
 Eclipse-LazyStart: true
+Import-Package: org.apache.log4j

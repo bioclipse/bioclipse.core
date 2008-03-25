@@ -50,7 +50,7 @@ public class ActionHistoryView extends ViewPart implements IHistoryListener {
 	@Override
 	public void createPartControl(Composite parent) {
 		actionList = new List(parent, SWT.MULTI);
-		recieveHistoryEvent(null);
+		receiveHistoryEvent(null);
 		
 		addContextMenu();
 	}
@@ -141,7 +141,7 @@ public class ActionHistoryView extends ViewPart implements IHistoryListener {
 
 
 	
-	public void recieveHistoryEvent(HistoryEvent e) {
+	public void receiveHistoryEvent(HistoryEvent e) {
 
 		java.util.List<IRecord> newRecords
 			= history.getRecords().subList( actionList.getItemCount(),

@@ -18,6 +18,9 @@ import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IBioObject;
 
+import org.apache.log4j.Logger;
+
+
 /**
  * @author jonalv
  *
@@ -26,9 +29,13 @@ public class RecordingAdvice implements IRecordingAdvice {
 
 	private History history;
 	
+	private static final Logger logger = Logger.getLogger(RecordingAdvice.class);
+	
+	
 	public RecordingAdvice(History history) {
 		this.history = history;
 	}
+	
 	
 	public void afterReturning( Object returnValue, 
 			                    Method method,
@@ -36,25 +43,33 @@ public class RecordingAdvice implements IRecordingAdvice {
 			                    Object target ) throws Throwable {
 
 		boolean methodIsAnnotated = method.isAnnotationPresent(Recorded.class);
-		if( !methodIsAnnotated ) {
+		if (!methodIsAnnotated) {
 			return;
 		}
-		if( !(target instanceof IBioObject) ) {
-			if( target instanceof IBioclipseManager) {
-				IBioclipseManager manager = (IBioclipseManager)target;
-				history.addRecord( 
-						new ManagerObjectRecord( method.getName(), 
-                                                 manager.getNamespace(),
-                                                 args, 
-                                                 returnValue ) );
-			}
+		
+		if (target instanceof IBioObject) {
+		    history.addRecord( 
+                    new BioObjectRecord( method.getName(),
+                                         ((BioObject) target).getId(),
+                                         args,
+                                         returnValue ) );		    
+		}
+		else if (target instanceof IBioclipseManager) {
+            IBioclipseManager manager = (IBioclipseManager) target;
+            history.addRecord( 
+                    new ManagerObjectRecord( method.getName(), 
+                                             manager.getNamespace(),
+                                             args, 
+                                             returnValue ) );		    
 		}
 		else {
-			history.addRecord( 
-					new BioObjectRecord( method.getName(),
-					                     ( (BioObject)target ).getId(),
-                                         args, 
-                                         returnValue ) );
+		    //TODO should we ever get here? should this be a warning?
+		    
+		    if (logger.isDebugEnabled()) {
+		        logger.debug("@Recorded method is neither IBioObject nor" 
+		                + "IBioclipseManager: " + target.getClass() + "."
+		                + method.getName());
+		    }
 		}
 	}
 }

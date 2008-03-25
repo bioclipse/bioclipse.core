@@ -39,7 +39,7 @@ public class History implements IHistory {
 	
 	private void fireHistoryEvent(HistoryEvent e) {
 		for(IHistoryListener l : historyListeners) {
-			l.recieveHistoryEvent(e);
+			l.receiveHistoryEvent(e);
 		}
 	}
 	

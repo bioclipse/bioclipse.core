@@ -21,7 +21,6 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import net.bioclipse.core.Recorded;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class BioList<T extends IBioObject> extends BioObject 
                                            implements List<T> {
@@ -214,7 +213,8 @@ public class BioList<T extends IBioObject> extends BioObject
 	@Recorded
 	public List<T> subList(int fromIndex, int toIndex) {
 		//TODO: find a good solution to this. It is very complicated...
-		throw new NotImplementedException();
+		// (NotImplementedException is not what it sounds like, use j.l.UOE)
+	    throw new java.lang.UnsupportedOperationException();
 	}
 
 	public Object[] toArray() {
