@@ -63,9 +63,9 @@ public class RecordingAdvice implements IRecordingAdvice {
                                              returnValue ) );		    
 		}
 		else {
-		    String message = "@Recorded method is neither on IBioObject nor " 
-                + "on IBioclipseManager: " + target.getClass().getName()
-                + "." + method.getName();
+		    String message = "@Recorded method is on object of unexpected "
+		        + "type: " + target.getClass().getName() + "." 
+		        + method.getName();
 		    
 		    assert false: message;        // for development time
 	        logger.warn(message);         // for logged end-user distrib
