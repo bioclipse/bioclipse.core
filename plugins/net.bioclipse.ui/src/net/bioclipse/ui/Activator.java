@@ -170,8 +170,8 @@ public class Activator extends BioclipseActivator {
     
     private String getActualLogFileName() {
 
-        FileAppender appender = ((FileAppender) Logger.getRootLogger()
-                .getAppender(FILE_APPENDER_NAME));
+        FileAppender appender = (FileAppender) Logger.getRootLogger()
+                .getAppender(FILE_APPENDER_NAME);
         if (appender == null)
             return null;
 

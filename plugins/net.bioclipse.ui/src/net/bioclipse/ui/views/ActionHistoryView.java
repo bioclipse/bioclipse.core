@@ -2,6 +2,7 @@ package net.bioclipse.ui.views;
 
 import java.util.ArrayList;
 
+import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.recording.HistoryEvent;
 import net.bioclipse.recording.IHistory;
 import net.bioclipse.recording.IHistoryListener;
@@ -9,6 +10,8 @@ import net.bioclipse.recording.IRecord;
 import net.bioclipse.recording.JsScriptGenerator;
 import net.bioclipse.recording.MethodRecord;
 import net.bioclipse.ui.Activator;
+
+import org.apache.log4j.Logger;
 
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
@@ -41,6 +44,10 @@ public class ActionHistoryView extends ViewPart implements IHistoryListener {
 
 	private IHistory history;
 	private List actionList;
+	
+	private static final Logger logger = 
+	    Logger.getLogger(ActionHistoryView.class);
+	
 	
 	public ActionHistoryView() {
 		history = Activator.getDefault().getHistoryObject();
@@ -103,7 +110,7 @@ public class ActionHistoryView extends ViewPart implements IHistoryListener {
 							}
 							
 						} catch (PartInitException e) {
-							e.printStackTrace();
+							LogUtils.debugTrace(logger, e);
 						}
 					}
 				});

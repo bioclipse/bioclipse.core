@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.scripting.JsEnvironment;
 import net.bioclipse.scripting.OutputProvider;
 import net.bioclipse.ui.Activator;
@@ -165,7 +166,7 @@ public class JsConsoleView extends ScriptingConsoleView
 		try {
 			rConnection.eval(al);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LogUtils.debugTrace(logger, e);
 		}
 
 		return "";
