@@ -19,3 +19,4 @@ Bundle-ClassPath: libs/antlr-2.7.5.jar,
  libs/bsf.jar,
  libs/jline-0.9.91.jar
 Export-Package: net.bioclipse.scripting
+Import-Package: org.apache.log4j

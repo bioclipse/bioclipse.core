@@ -2,10 +2,11 @@ package net.bioclipse.scripting;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import net.bioclipse.core.business.IBioclipseManager;
+import net.bioclipse.core.util.LogUtils;
+
+import org.apache.log4j.Logger;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -31,8 +32,7 @@ public class JsEnvironment implements ScriptingEnvironment {
     private Context context;
     private Scriptable scope;
     private Map<String, IBioclipseManager> managers;
-    private final Logger logger = Logger.getLogger( JsEnvironment
-    		                                        .class.toString() );
+    private static final Logger logger = Logger.getLogger(JsEnvironment.class);
     
     public JsEnvironment() {
     	reset();
@@ -80,7 +80,7 @@ public class JsEnvironment implements ScriptingEnvironment {
 					service = element.createExecutableExtension("service");
 				} 
 				catch (CoreException e) {
-					logger.log( Level.SEVERE, "Failed to get a service. " + e );
+					logger.error("Failed to get a service: " + e);
 					continue;
 				}
 				if( service != null && 
@@ -115,19 +115,19 @@ public class JsEnvironment implements ScriptingEnvironment {
 			return Context.toString(ev);
 		}
 		catch (WrappedException e) {
-			e.printStackTrace();
+			LogUtils.debugTrace(logger, e);
 			return e.getWrappedException().getMessage();
 		}
 		catch (EvaluatorException e) {
-			e.printStackTrace();
+		    LogUtils.debugTrace(logger, e);
 			return e.getMessage();
 		}
 		catch (EcmaError e) {
-			e.printStackTrace();
+		    LogUtils.debugTrace(logger, e);
 			return e.getMessage();
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+		    LogUtils.debugTrace(logger, e);
 			return e.getMessage();
 		}
 	}

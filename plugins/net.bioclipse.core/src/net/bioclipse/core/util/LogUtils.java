@@ -23,7 +23,7 @@ public class LogUtils {
      *            the Throwable
      * @return String with stack trace information from t
      */
-    public static String getTraceStringFrom(Throwable t) {
+    public static String traceStringFrom(Throwable t) {
         PrintWriter trace = new PrintWriter(new ByteArrayOutputStream());
         t.printStackTrace(trace);
         return trace.toString();
@@ -40,7 +40,7 @@ public class LogUtils {
     public static void debugTrace(Logger logger, Throwable t) {
         // constructing stack trace string is expensive, so check isDebugEnabled
         if (logger.isDebugEnabled()) {
-            logger.debug(getTraceStringFrom(t));
+            logger.debug(traceStringFrom(t));
         }
     }
 }
