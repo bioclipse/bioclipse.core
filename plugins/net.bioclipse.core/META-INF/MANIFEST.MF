@@ -25,8 +25,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.aopalliance,
  org.springframework.bundle.spring.core,
  net.sf.cglib,
- org.springframework.bundle.spring.aspects,
- net.bioclipse.logging
+ org.springframework.bundle.spring.aspects
 Bundle-ClassPath: libs/js.jar,
  .,
  libs/groovy-1.0.jar,

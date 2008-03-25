@@ -55,7 +55,6 @@
       <plugin id="net.bioclipse.core"/>
       <plugin id="net.bioclipse.data.sampledata"/>
       <plugin id="net.bioclipse.log4jconfig" fragment="true"/>
-      <plugin id="net.bioclipse.logging"/>
       <plugin id="net.bioclipse.scripting"/>
       <plugin id="net.bioclipse.ui"/>
       <plugin id="net.sf.cglib"/>

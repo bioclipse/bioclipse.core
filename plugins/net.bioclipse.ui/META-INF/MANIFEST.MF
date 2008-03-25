@@ -24,7 +24,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text,
  net.bioclipse.scripting,
  org.eclipse.core.filesystem,
- net.bioclipse.logging,
  org.eclipse.ui.cheatsheets,
  org.eclipse.core.runtime.compatibility.auth
 Eclipse-LazyStart: true
