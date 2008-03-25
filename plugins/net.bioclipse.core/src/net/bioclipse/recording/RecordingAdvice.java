@@ -63,13 +63,12 @@ public class RecordingAdvice implements IRecordingAdvice {
                                              returnValue ) );		    
 		}
 		else {
-		    //TODO should we ever get here? should this be a warning?
+		    String message = "@Recorded method is neither on IBioObject nor " 
+                + "on IBioclipseManager: " + target.getClass().getName()
+                + "." + method.getName();
 		    
-		    if (logger.isDebugEnabled()) {
-		        logger.debug("@Recorded method is neither IBioObject nor " 
-		                + "IBioclipseManager: " + target.getClass().getName()
-		                 + "." + method.getName());
-		    }
+		    assert false: message;        // for development time
+	        logger.warn(message);         // for logged end-user distrib
 		}
 	}
 }
