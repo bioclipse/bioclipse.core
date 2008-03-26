@@ -52,7 +52,6 @@ public class UserContainer extends BioObject {
 	
 	private HashMap<String, User> superUsers;
 	
-	
 	/*
 	 * Package protected so we can fill it with MockObjects when testing
 	 */
@@ -503,10 +502,6 @@ public class UserContainer extends BioObject {
 
 		return loggedInUser.getAccounts().get(accountId).getAccountType();
 	}
-    
-    
-    
-
 
 	/**
 	 * Returns a property by name of an account of an account type 
@@ -558,12 +553,6 @@ public class UserContainer extends BioObject {
 			}
 		}
 		return result;
-	}
-
-	@Override
-	public Object getParsedResource() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
 
