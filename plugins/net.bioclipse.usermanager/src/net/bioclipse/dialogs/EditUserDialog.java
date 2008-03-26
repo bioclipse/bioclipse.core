@@ -50,6 +50,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
@@ -357,9 +358,7 @@ public class EditUserDialog extends Dialog {
 	
 	private void refreshTable() {
 		if( list.getSelection().length > 0 ) {
-			propertiesTableViewer.setInput( model
-					                        .dummyAccounts.get(
-					                        		list.getSelection()[0]) );
+			propertiesTableViewer.refresh();
 		}
 	}
 	
@@ -533,7 +532,10 @@ public class EditUserDialog extends Dialog {
 		public void modify(Object element, String property, Object value) {
 			
 			int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
-			ArrayList row = (ArrayList)( (TableItem)element).getData();
+			if(element instanceof Item) {
+				element = ((Item) element).getData();
+			}
+			ArrayList row = (ArrayList)element;
 			
 			switch (columnIndex) {
 			case 0:
