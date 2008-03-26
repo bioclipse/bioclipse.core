@@ -15,7 +15,8 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 
 public class UserManager implements IUserManager {
 
-	private UserContainer userContainer;
+	//Package protected for testing...
+	UserContainer userContainer;
 	private List<IUserManagerListener> listeners;
 	
 	public UserManager(String filename) {

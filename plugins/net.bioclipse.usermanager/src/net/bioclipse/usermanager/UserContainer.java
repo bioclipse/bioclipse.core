@@ -313,7 +313,7 @@ public class UserContainer extends BioObject {
 		finally {
 			try {
 				in.close();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

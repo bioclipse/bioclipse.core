@@ -225,7 +225,7 @@ public class UserManagerPreferencePage extends PreferencePage
 	/**
 	 * LabelProvider for the Keyring users list
 	 * 
-	 * @author jonathan
+	 * @author jonalv
 	 *
 	 */
 	class ListLabelProvider extends LabelProvider {
@@ -240,7 +240,7 @@ public class UserManagerPreferencePage extends PreferencePage
 	/**
 	 * ContentProvider for the Keyring users list
 	 * 
-	 * @author jonathan
+	 * @author jonalv
 	 *
 	 */
 	class ContentProvider implements IStructuredContentProvider {
