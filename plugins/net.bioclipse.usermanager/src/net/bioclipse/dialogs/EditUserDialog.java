@@ -565,21 +565,21 @@ public class EditUserDialog extends Dialog {
 		HashMap<String, DummyAccount> dummyAccounts 
 			= new HashMap<String, DummyAccount>();
 		
-		public EditUserDialogModel(UserContainer sandBoxKeyRing) {
+		public EditUserDialogModel(UserContainer userContainer) {
 			
-			for ( String accountId : sandBoxKeyRing
+			for ( String accountId : userContainer
 					                 .getLoggedInUsersAccountNames() ) {
 				
 				DummyAccount d = new DummyAccount();
 				d.accountId    = accountId;
-				d.accountType  = sandBoxKeyRing.getAccountType(accountId);
+				d.accountType  = userContainer.getAccountType(accountId);
 				
-				for( String property : sandBoxKeyRing
+				for( String property : userContainer
 						               .getPropertyKeys(accountId) ) {
 					/*
 					 * getProperty decrypts the property value
 					 */
-					d.properties.put(property, sandBoxKeyRing
+					d.properties.put(property, userContainer
 							                   .getProperty( accountId, 
 							                		         property ));
 				}

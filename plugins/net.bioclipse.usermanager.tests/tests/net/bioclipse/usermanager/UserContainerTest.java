@@ -430,6 +430,15 @@ public class UserContainerTest {
 				    .contains(ACCOUNTID) );
 	}
 	
+	@Test
+	public void testCloning() {
+		login();
+		UserContainer clone = userContainer.clone();
+		assertEquals( userContainer, clone );
+		assertEquals( userContainer.getLoggedInUsersAccountNames(), 
+				      clone.getLoggedInUsersAccountNames() );
+	}
+	
 	/*
 	 * Helper methods
 	 */

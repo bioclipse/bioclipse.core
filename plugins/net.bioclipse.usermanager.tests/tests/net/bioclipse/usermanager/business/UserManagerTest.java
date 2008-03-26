@@ -83,7 +83,11 @@ public class UserManagerTest {
 		assertFalse( userManager.accountExists(prefix + ACCOUNTID) );
 		userManager.switchUserContainer(userContainer);
 		assertTrue( userManager.accountExists(prefix + ACCOUNTID) );
+		userManager.persist();
+		userManager.reloadFromFile();
+		assertTrue( userManager.accountExists(prefix + ACCOUNTID) );
 		
+		assertEquals( 1, userContainer.getLoggedInUsersAccountNames().size() );
 		assertEquals( userContainer.getAccountType(prefix + ACCOUNTID), 
 				      userManager.getAccountType(prefix + ACCOUNTID) );
 		logout();
