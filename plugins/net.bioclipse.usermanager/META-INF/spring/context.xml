@@ -37,7 +37,7 @@
 
   <bean id="userManagerTarget" 
         class="net.bioclipse.usermanager.business.UserManager">
-    <constructor-arg value="usermanager.dat" />
+    <constructor-arg value="userManager.dat" />
   </bean>
   
 </beans>

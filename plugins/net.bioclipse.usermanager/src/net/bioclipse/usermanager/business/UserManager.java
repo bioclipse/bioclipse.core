@@ -135,9 +135,13 @@ public class UserManager implements IUserManager {
 	public void signInWithProgressBar( String username, 
 			                           String password,
 			                           SubProgressMonitor monitor ) {
-		
-		userContainer.signIn(username, password, new SubProgressMonitor(monitor, 10) );
-		fireLoginWithProgressBar( new SubProgressMonitor(monitor, 90) );
+		SubProgressMonitor subMonitor 
+			= monitor == null ? null 
+		                      : new SubProgressMonitor(monitor, 10);
+		userContainer.signIn(username, password, subMonitor);
+		subMonitor = monitor == null ? null 
+	                                 : new SubProgressMonitor(monitor, 90);
+		fireLoginWithProgressBar( subMonitor );
 	}
 
 	@Override
@@ -159,7 +163,7 @@ public class UserManager implements IUserManager {
 	@Override
 	public void switchUserContainer(UserContainer userContainer) {
 		this.userContainer = userContainer;
-		
+		fireUpdate();
 	}
 	
 	/**
