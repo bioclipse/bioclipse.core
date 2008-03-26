@@ -143,6 +143,7 @@ public class UserManager implements IUserManager {
 	@Override
 	public void signOut() {
 		userContainer.signOut();
+		fireLogout();
 	}
 
 	@Override
@@ -183,6 +184,10 @@ public class UserManager implements IUserManager {
 	    		setStatusLinetext( "Logged in as: " 
 	    				           + getLoggedInUserName() );
 	    	}
+    	}
+    	catch (RuntimeException e) {
+    		e.printStackTrace();
+    		throw e;
     	}
     	finally {
     		if(usingMonitor) {
