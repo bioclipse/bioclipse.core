@@ -27,14 +27,6 @@ public interface IBioObject {
 	public IResource getResource();
 	
 	/**
-	 * @return the parsed resource
-	 * 
-	 * @deprecated: No actual use of this yet so scheduled for termination.
-	 */
-	@Deprecated
-	public Object getParsedResource();
-	
-	/**
 	 * @return an unique id for the object
 	 */
 	public String getId();
