@@ -199,6 +199,7 @@ public class UserManagerPreferencePage extends PreferencePage
 		
 		Activator.getDefault()
 		         .getUserManager().switchUserContainer(sandBoxUserContainer);
+		Activator.getDefault().getUserManager().persist();
         return super.performOk();
     }
 	
