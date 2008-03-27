@@ -37,7 +37,7 @@ public class UserContainerTest {
 	private final HashMap<String, String> properties 
 		= new HashMap<String, String>();
 	
-	private UserContainer userContainer = new UserContainer("userManager.det");
+	private UserContainer userContainer = new UserContainer("userManager.dat");
 	
 	static {
 		File file = new File("userManager.dat");
@@ -265,14 +265,14 @@ public class UserContainerTest {
 		
 		final String testAccountId = "testAccountId";
 		AccountType testAccountType = new AccountType("unavailableAcccount");
-        testAccountType.addProperty( REQUIREDPROPERTYKEY, true );
+        testAccountType.addProperty( NOTREQUIREDPROPERTYKEY, false );
 		
 		try {
 			userContainer.createAccount( "other" + testAccountId,
-                                         new HashMap<String, String>(),
+                                         properties,
                                          ACCOUNTTYPE2 );
 		}
-		catch (IllegalStateException e) {
+		catch (Exception e) {
 			fail( "should not throw exception upon creating account " +
 				  "with unavailable accountType" );
 		}
@@ -287,7 +287,7 @@ public class UserContainerTest {
 		userContainer.availableAccountTypes.add(testAccountType);
 		
 		userContainer.createAccount( testAccountId,
-                                     properties,
+                                     new HashMap<String, String>(),
                                      testAccountType );
 		
 		assertTrue( userContainer.accountExists(testAccountId) );
