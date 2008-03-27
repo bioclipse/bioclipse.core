@@ -1,12 +1,15 @@
 package net.bioclipse.ui.views;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.bioclipse.core.Recorded;
+import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.scripting.JsEnvironment;
 import net.bioclipse.scripting.OutputProvider;
@@ -16,13 +19,11 @@ import net.bioclipse.ui.EchoListener;
 import net.bioclipse.ui.JsPluginable;
 
 import org.apache.log4j.Logger;
-
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-
 
 /**
  * A console for a Javascript session. For more on Javascript, see
@@ -225,6 +226,20 @@ public class JsConsoleView extends ScriptingConsoleView
 		
 		if (object == null || "".equals(object))
 			object = "this";
+		
+		IBioclipseManager manager = js.getManager(object);
+		if ( null != manager ) {
+			List<String> variables = new ArrayList<String>();
+			
+			for ( Class<?> interfaze : manager.getClass().getInterfaces() )
+				for ( Method method : interfaze.getDeclaredMethods() )
+					if ( method.isAnnotationPresent(Recorded.class) 
+					     && !variables.contains( method.getName() ))
+						
+						variables.add( method.getName() );
+			
+			return variables;
+		}
 		
 		List<String> variables
 		  = new ArrayList<String>( Arrays.asList( executeJsCommand(
