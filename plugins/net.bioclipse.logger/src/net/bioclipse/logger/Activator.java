@@ -1,3 +1,15 @@
+/*******************************************************************************
+ * Copyright (c) 2008 The Bioclipse Project and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * www.eclipse.org�epl-v10.html <http://www.eclipse.org/legal/epl-v10.html>
+ * 
+ * Contributors:
+ *     Richard Klancer - initial implementation of Activator
+ *     rpk@pobox.com 3/27/2008
+ *     
+ ******************************************************************************/
 package net.bioclipse.logger;
 
 import java.io.ByteArrayOutputStream;
@@ -61,18 +73,14 @@ public class Activator extends Plugin {
         + "Logging may not be configured properly.";
 
     
-    // here define any bioclipse system properties we want log4j config file to see
-    private enum BCPathProp {
-        
+    // bioclipse-defined paths we want to make available to log4j config file
+    public enum BcPath {
         USERHOME ("bioclipse.userhome",
                 getPathnameOrNullFromProperty("user.home")),
-        
         WORKSPACE ("bioclipse.workspace",
                 getPathnameOrNullFromProperty("osgi.instance.area")),
-            
         INSTALL_AREA ("bioclipse.installArea",
                 getPathnameOrNullFromProperty("osgi.install.area")),
-       
         DEFAULT_LOG_DIR ("bioclipse.defaultLogDir",
                 "macosx".equals(System.getProperty("osgi.os"))
                 ?
@@ -82,28 +90,30 @@ public class Activator extends Plugin {
 
         public final String key;
         public final String path;
-        private BCPathProp(String key, String path) { this.key = key; this.path = path; }
+        private BcPath(String key, String path) { this.key = key; this.path = path; }
     };
 
-    // here define the location of the config file you want to pass to log4j
-    // (define configFileUrl as method, not field, so that if there's an error 
-    // it happens in the try-catch block in the static initializer below)
+    // location of the config file we want to pass to log4j
+    
+    // (retain configFileUrl as amethod, not a field, so that if there's an  
+    // error it happens in the try-catch block in the static initializer below)
+    
     private static URL configFileUrl() {
         final String CONFIG_FILE_NAME = "log4j.properties";
         final String BUNDLE_TO_SEARCH = PLUGIN_ID; // i.e., this plugin
         
-        return  FileLocator.find(Platform.getBundle(BUNDLE_TO_SEARCH),
+        return FileLocator.find(Platform.getBundle(BUNDLE_TO_SEARCH),
                 new Path(CONFIG_FILE_NAME), null);
     }
 
     // log4j configures itself as soon as it getLogger() is called the
-    // first time, so we need to make sure to to set some properties it will
-    // need BEFORE we call getLogger() for the first time.
+    // first time, so BEFORE the first call to getLogger() we need to set  
+    // the properties that log4j's configurator will read
     
     private static final Logger logger;    // initialize this below
     static {
         // set the bioclipse.* properties we want log4j to see
-        for (BCPathProp p : BCPathProp.values())
+        for (BcPath p : BcPath.values())
             setPathProperty(p.key, p.path);
         
         // tell log4j the location of the configuration file we want it to use
@@ -117,8 +127,8 @@ public class Activator extends Plugin {
         }
  
         debug("log4j.configuration = " + System.getProperty("log4j.configuration"));
-        debug(BCPathProp.DEFAULT_LOG_DIR.key + " = " 
-                + System.getProperty(BCPathProp.DEFAULT_LOG_DIR.key));
+        debug(BcPath.DEFAULT_LOG_DIR.key + " = " 
+                + System.getProperty(BcPath.DEFAULT_LOG_DIR.key));
        
         // NOW it's safe to get start up log4j (by calling getLogger())
         logger = Logger.getLogger(Activator.class);
@@ -179,7 +189,7 @@ public class Activator extends Plugin {
     }
 
     /* Queries Log4j for the "file" attribute of the first file appender
-     * attached to the root logger that it can find.
+     * that it can find attached to the root logger 
      *  
      * Because the value of this attribute is naively passed by FileAppender
      * to java.io.FileOutputStream(String, int), we attempt to determine 
@@ -192,7 +202,7 @@ public class Activator extends Plugin {
     
     private String getActualLogFileName() {
     
-        // first find file appender
+        // find first file appender
         @SuppressWarnings("unchecked")
         Enumeration<Appender> appenders = Logger.getRootLogger().getAllAppenders();
         
