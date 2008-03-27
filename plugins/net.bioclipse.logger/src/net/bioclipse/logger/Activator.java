@@ -64,32 +64,25 @@ public class Activator extends Plugin {
     // here define any bioclipse system properties we want log4j config file to see
     private enum BCPathProp {
         
-        USERHOME
-            { { _key = "bioclipse.userhome";
-                _path = getPathnameOrNullFromProperty("user.home"); } },
+        USERHOME ("bioclipse.userhome",
+                getPathnameOrNullFromProperty("user.home")),
         
-        WORKSPACE
-            { { _key = "bioclipse.workspace";
-                _path = getPathnameOrNullFromProperty("osgi.instance.area"); } },
+        WORKSPACE ("bioclipse.workspace",
+                getPathnameOrNullFromProperty("osgi.instance.area")),
             
-        INSTALL_AREA
-            { { _key = "bioclipse.installArea";
-                _path = getPathnameOrNullFromProperty("osgi.install.area"); } },
+        INSTALL_AREA ("bioclipse.installArea",
+                getPathnameOrNullFromProperty("osgi.install.area")),
        
-        DEFAULT_LOG_DIR
-            { { _key = "bioclipse.defaultLogDir";
-                _path = "macosx".equals(System.getProperty("osgi.os")) 
-                        ?
-                        getPathnameOrNullFromProperty("user.home") + "/Library/Logs/Bioclipse"
-                        :
-                        getPathnameOrNullFromProperty("osgi.instance.area"); } };
+        DEFAULT_LOG_DIR ("bioclipse.defaultLogDir",
+                "macosx".equals(System.getProperty("osgi.os"))
+                ?
+                getPathnameOrNullFromProperty("user.home") + "/Library/Logs/Bioclipse"
+                :
+                getPathnameOrNullFromProperty("osgi.instance.area"));
 
-        protected String _path;
-        protected String _key;
         public final String key;
         public final String path;
-        private BCPathProp() { this.key = _key; this.path = _path; }
-        
+        private BCPathProp(String key, String path) { this.key = key; this.path = path; }
     };
 
     // here define the location of the config file you want to pass to log4j
