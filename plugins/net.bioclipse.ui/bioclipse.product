@@ -14,7 +14,7 @@
 
    <launcherArgs>
       <programArgs>-consolelog</programArgs>
-      <programArgsMac>-data @user.home/Library/Application%20Support/Bioclipse/Default%20Workspace/</programArgsMac>
+      <programArgsMac>-data &quot;@user.home/Library/Application Support/Bioclipse/Default Workspace/&quot;</programArgsMac>
       <vmArgs>-ea</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
