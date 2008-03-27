@@ -63,33 +63,30 @@ public class Activator extends Plugin {
     
     // here define any bioclipse system properties we want log4j config file to see
     public enum BCPathProp {
-        USERHOME
-            ("bioclipse.userhome")
-            { String getVal() { return getPathnameOrNullFromProperty("user.home"); } },
+        USERHOME("bioclipse.userhome")
+            { { path = getPathnameOrNullFromProperty("user.home"); } },
         
-        WORKSPACE
-            ("bioclipse.workspace")
-            { String getVal() { return getPathnameOrNullFromProperty("osgi.instance.area"); } },
+        WORKSPACE("bioclipse.workspace")
+            { { path = getPathnameOrNullFromProperty("osgi.instance.area"); } },
             
-        INSTALL_AREA
-            ("bioclipse.installArea")
-            { String getVal() { return getPathnameOrNullFromProperty("osgi.install.area"); } },
+        INSTALL_AREA("bioclipse.installArea")
+            { { path = getPathnameOrNullFromProperty("osgi.install.area"); } },
        
-        DEFAULT_LOG_DIR
-            ("bioclipse.defaultLogDir")
-            { String getVal() {
-                  if ("macosx".equals(System.getProperty("osgi.os")))
-                      return getPathnameOrNullFromProperty("user.home") 
-                          + "/Library/Logs/Bioclipse";
-                  else
-                      return getPathnameOrNullFromProperty("osgi.instance.area");
+        DEFAULT_LOG_DIR("bioclipse.defaultLogDir")
+            { { 
+                if ("macosx".equals(System.getProperty("osgi.os")))
+                    path = getPathnameOrNullFromProperty("user.home") 
+                         + "/Library/Logs/Bioclipse";
+                else
+                    path = getPathnameOrNullFromProperty("osgi.instance.area");
               }
             };
-           
-        private final String key;
+        
+        public String path;
+        public final String key;
         BCPathProp(String propKey) { this.key = propKey; }
-        public String getKey() { return key; }
-        abstract String getVal();
+
+        //abstract String getVal();
     };
 
     // here define the location of the config file you want to pass to log4j
@@ -110,7 +107,7 @@ public class Activator extends Plugin {
     static {
         // set the bioclipse.* properties we want log4j to see
         for (BCPathProp p : BCPathProp.values())
-            setPathProperty(p.getKey(), p.getVal());
+            setPathProperty(p.key, p.path);
         
         // tell log4j the location of the configuration file we want it to use
         try {
@@ -123,8 +120,8 @@ public class Activator extends Plugin {
         }
  
         debug("log4j.configuration = " + System.getProperty("log4j.configuration"));
-        debug(BCPathProp.DEFAULT_LOG_DIR.getKey() + " = " 
-                + System.getProperty(BCPathProp.DEFAULT_LOG_DIR.getKey()));
+        debug(BCPathProp.DEFAULT_LOG_DIR.key + " = " 
+                + System.getProperty(BCPathProp.DEFAULT_LOG_DIR.key));
        
         // NOW it's safe to get start up log4j (by calling getLogger())
         logger = Logger.getLogger(Activator.class);
