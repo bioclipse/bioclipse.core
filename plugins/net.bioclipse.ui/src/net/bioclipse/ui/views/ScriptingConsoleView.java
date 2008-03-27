@@ -539,11 +539,19 @@ public abstract class ScriptingConsoleView extends ViewPart {
 			
 			int toPos
 				= convenientLineBreakPoint(text, currentPos, maxLineLength); 
-			
+
 			result.append( text.substring(currentPos, toPos) );
-			result.append('\n');
-			
+
 			currentPos = toPos;
+
+			// Line breaks only between lines, and only in the absence of
+			// natural ones.
+			if (currentPos < text.length() && text.charAt(currentPos) != '\n')
+				result.append('\n');
+			
+			// And we can live without the spaces at which we chose to break.
+			while (currentPos < text.length() && text.charAt(currentPos) == ' ')
+				++currentPos;
 		}
 		
 		return result.toString();
