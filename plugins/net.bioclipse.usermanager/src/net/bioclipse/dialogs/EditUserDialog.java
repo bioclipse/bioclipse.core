@@ -80,7 +80,7 @@ public class EditUserDialog extends Dialog {
 	private Table propertiesTable;
 	private List list;
 	
-	private UserContainer sandBoxUserManager;
+	private UserContainer sandBoxUserContainer;
 	private EditUserDialogModel model;
 	private static final String[] COLUMN_NAMES = { "Property", 
 		                                           "Value", 
@@ -93,7 +93,7 @@ public class EditUserDialog extends Dialog {
 	public EditUserDialog( Shell parentShell, 
 			               UserContainer sandBoxUserManager ) {
 		super(parentShell);
-		this.sandBoxUserManager = sandBoxUserManager;
+		this.sandBoxUserContainer = sandBoxUserManager;
 		this.model = new EditUserDialogModel(sandBoxUserManager);
 	}
 
@@ -229,7 +229,7 @@ public class EditUserDialog extends Dialog {
 							                   .getWorkbench()
 							                   .getActiveWorkbenchWindow()
 							                   .getShell(), 
-						                       sandBoxUserManager );
+						                       sandBoxUserContainer );
 				if(dialog.open() == dialog.OK) {
 					
 					for( DummyAccount ac : model.dummyAccounts.values() ) {
@@ -307,7 +307,7 @@ public class EditUserDialog extends Dialog {
 							                  .getActiveWorkbenchWindow()
 							                  .getShell() );
 				if(dialog.open() == dialog.OK) {
-					sandBoxUserManager.changePassword( dialog.getOldPassword(), 
+					sandBoxUserContainer.changePassword( dialog.getOldPassword(), 
 							                        dialog.getNewPassword() );
 				}
 			}
@@ -393,10 +393,10 @@ public class EditUserDialog extends Dialog {
 
 	private void saveDummyAccountToSandBoxUserManager() {
 		
-		sandBoxUserManager.clearAccounts();
+		sandBoxUserContainer.clearAccounts();
 		
 		for( DummyAccount dm : model.dummyAccounts.values() ) {
-			sandBoxUserManager.createAccount( dm.accountId, 
+			sandBoxUserContainer.createAccount( dm.accountId, 
 					                          dm.properties,
 					                          dm.accountType );
 		}

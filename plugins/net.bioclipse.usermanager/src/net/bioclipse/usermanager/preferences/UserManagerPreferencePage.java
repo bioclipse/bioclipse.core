@@ -126,12 +126,13 @@ public class UserManagerPreferencePage extends PreferencePage
 				
 				String userName = getSelectedUserName();
 				if(userName == null) {
-					MessageDialog.openInformation( PlatformUI
-							                       .getWorkbench()
-							                       .getActiveWorkbenchWindow()
-							                       .getShell(), 
-							                       "No user selected", 
-							                       "There is no user selected to edit" );
+					MessageDialog
+					.openInformation( PlatformUI
+							          .getWorkbench()
+							          .getActiveWorkbenchWindow()
+							          .getShell(), 
+							          "No user selected", 
+							          "There is no user selected to edit" );
 					return;
 				}
 				PassWordPromptDialog passDialog = 

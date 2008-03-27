@@ -449,6 +449,9 @@ public class UserContainer extends BioObject {
 	 */
 	public Collection<String> getLoggedInUsersAccountNames() {
 
+		if( loggedInUser == null ) {
+			throw new IllegalStateException("Not logged in");
+		}
 		return loggedInUser.getAccounts().keySet();
 	}
 	

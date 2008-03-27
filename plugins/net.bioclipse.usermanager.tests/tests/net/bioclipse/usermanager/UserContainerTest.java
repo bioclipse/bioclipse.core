@@ -431,12 +431,30 @@ public class UserContainerTest {
 	}
 	
 	@Test
-	public void testCloning() {
+	public void testCloningAndPersisting() {
+
+		createMasterKey();
 		login();
+		createAccount();
+		
 		UserContainer clone = userContainer.clone();
-		assertEquals( userContainer, clone );
 		assertEquals( userContainer.getLoggedInUsersAccountNames(), 
 				      clone.getLoggedInUsersAccountNames() );
+		clone.persist();
+		clone.reloadFromFile();
+		assertEquals( userContainer.getLoggedInUsersAccountNames(), 
+			          clone.getLoggedInUsersAccountNames() );
+		
+		UserContainer newContainer = new UserContainer("userManager.dat");
+		try {
+			newContainer.getLoggedInUsersAccountNames();
+			fail("Should throw exception since not logged in");
+		} catch (IllegalStateException e) {
+			assertEquals( "Not logged in", e.getMessage() );
+		}
+		newContainer.signIn(SUPERUSER, MASTERKEY, null);
+		assertEquals( userContainer.getLoggedInUsersAccountNames(), 
+				      newContainer.getLoggedInUsersAccountNames() );
 	}
 	
 	/*
