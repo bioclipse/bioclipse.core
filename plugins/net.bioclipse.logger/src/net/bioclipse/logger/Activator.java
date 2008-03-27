@@ -62,35 +62,39 @@ public class Activator extends Plugin {
 
     
     // here define any bioclipse system properties we want log4j config file to see
-    public enum BCPathProp {
-        USERHOME("bioclipse.userhome")
-            { { path = getPathnameOrNullFromProperty("user.home"); } },
+    private enum BCPathProp {
         
-        WORKSPACE("bioclipse.workspace")
-            { { path = getPathnameOrNullFromProperty("osgi.instance.area"); } },
+        USERHOME
+            { { _key = "bioclipse.userhome";
+                _path = getPathnameOrNullFromProperty("user.home"); } },
+        
+        WORKSPACE
+            { { _key = "bioclipse.workspace";
+                _path = getPathnameOrNullFromProperty("osgi.instance.area"); } },
             
-        INSTALL_AREA("bioclipse.installArea")
-            { { path = getPathnameOrNullFromProperty("osgi.install.area"); } },
+        INSTALL_AREA
+            { { _key = "bioclipse.installArea";
+                _path = getPathnameOrNullFromProperty("osgi.install.area"); } },
        
-        DEFAULT_LOG_DIR("bioclipse.defaultLogDir")
-            { { 
-                if ("macosx".equals(System.getProperty("osgi.os")))
-                    path = getPathnameOrNullFromProperty("user.home") 
-                         + "/Library/Logs/Bioclipse";
-                else
-                    path = getPathnameOrNullFromProperty("osgi.instance.area");
-              }
-            };
-        
-        public String path;
-        public final String key;
-        BCPathProp(String propKey) { this.key = propKey; }
+        DEFAULT_LOG_DIR
+            { { _key = "bioclipse.defaultLogDir";
+                _path = "macosx".equals(System.getProperty("osgi.os")) 
+                        ?
+                        getPathnameOrNullFromProperty("user.home") + "/Library/Logs/Bioclipse"
+                        :
+                        getPathnameOrNullFromProperty("osgi.instance.area"); } };
 
-        //abstract String getVal();
+        protected String _path;
+        protected String _key;
+        public final String key;
+        public final String path;
+        private BCPathProp() { this.key = _key; this.path = _path; }
+        
     };
 
     // here define the location of the config file you want to pass to log4j
-    
+    // (define configFileUrl as method, not field, so that if there's an error 
+    // it happens in the try-catch block in the static initializer below)
     private static URL configFileUrl() {
         final String CONFIG_FILE_NAME = "log4j.properties";
         final String BUNDLE_TO_SEARCH = PLUGIN_ID; // i.e., this plugin
