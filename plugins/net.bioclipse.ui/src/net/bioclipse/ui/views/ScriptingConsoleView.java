@@ -34,17 +34,33 @@ import org.eclipse.ui.texteditor.IWorkbenchActionDefinitionIds;
  */
 public abstract class ScriptingConsoleView extends ViewPart {
 
-	/* The text contents of this console. */
+	/** The text contents of this console. */
     private Text text;
     
-    /* List of all commands written. */
+    /** List of all commands written. */
     private List<String> commandHistory = new ArrayList<String>();
     
-    /* An index pointer into the command history. It is reset to point to the
+    /**
+     * An index pointer into the command history. It is reset to point to the
      * last (still not run) command, but changes when ARROW_UP and ARROW_DOWN
-     * keys are used. */
+     * keys are used.
+     */
     private int currentHistoryLine = 0;
-       
+    
+	/**
+	 * Tab completion has a sort of short-term memory in the form of this
+	 * instance variable, which remembers the expansion "result" of the last
+	 * tab completion. Something like this is needed so that the tab completer
+	 * can beep the first time upon encountering an ambiguous completion, and
+	 * print the alternatives the second time.
+	 * 
+	 * Note also that even this isn't perfect. There's an unlikely false
+	 * positive effect involved in that the value of this variable survives
+	 * to the next set of tab completions -- let's say that the user tab
+	 * completes on "foo" and gets first a beep and then a list of alternatives.
+	 * Five minutes later when she does the same thing, she will not get a
+	 * beep, because this variable still contains "foo". 
+	 */
 	private String lastPrefix = null;
 	
     /**
@@ -59,20 +75,29 @@ public abstract class ScriptingConsoleView extends ViewPart {
     /** Controls whether the results of commands should be output. */
     protected boolean verbose = true;
     
-    /* Some asynchronous output comes in little packets, many per line. This
+    /**
+     * Some asynchronous output comes in little packets, many per line. This
      * variable is <code>true</code> if no newline was sent with the last such
      * output. 
      */
     private boolean outputIsMidLine = false;
     
-    /*
-     * When a long text is printed the printMessage method is called recursively
-     * This variableis for it to know that it is not midline but 
-     * printing a long text
+    /**
+     * When a long text is printed the printMessage method is called
+     * recursively. This variable is for it to know that it is not mid-line but 
+     * printing a long text.
      */
     private boolean isPrintingLongText;
     
-    /* Essentially a switching table for handleKey. */
+    /**
+     * Essentially a switching table for handleKey. So, every time a keypress
+     * is made that we intercept, a receiveKey method somewhere in actionTable
+     * is called.
+     * 
+     * Don't be alarmed by the double braces after the constructor call; they
+     * are amply explained at http://norvig.com/java-iaq.html under the section
+     * "I have a class with six...".
+     */
     @SuppressWarnings("serial")
     private Map<Integer, KeyAction> actionTable
         = new HashMap<Integer, KeyAction>() {{
@@ -86,7 +111,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
             		// of pastes. This leads to the preconditions not being
             		// upheld for currentCommand(). Here we try to save those
             		// preconditions.
-            		while (!currentLineIsCommandLine())
+            		while (!lastLineIsCommandLine())
             			text.setText(
             					text.getText().substring(
             							0,
@@ -247,7 +272,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         commandHistory.add("");
     }
 
-    /* Returns the number of occurrences of a character in a string. */
+    /** Returns the number of occurrences of a character in a string. */
 	private int occurrences(String command, char c) {
 		
 		int pos = -1, occurrences = 0;
@@ -258,7 +283,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
 		return occurrences;
 	}
 
-	/* Receives a KeyEvent e and takes appropriate action. */
+	/** Receives a KeyEvent e and takes appropriate action. */
     private void handleKey(KeyEvent e) {
 
         if (actionTable.containsKey( e.keyCode )) {
@@ -271,8 +296,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
     }
     
     /**
-     * This is a callback that will allow us
-     * to create the viewer and initialize it.
+     * This is a callback that will allow us to create the viewer and
+     * initialize it.
      */
     public void createPartControl(Composite parent) {
         text = new Text(parent, SWT.MULTI | SWT.V_SCROLL);
@@ -292,33 +317,54 @@ public abstract class ScriptingConsoleView extends ViewPart {
 		Display.getCurrent().beep();
 	}
 
-    /* An inserted character is one which, when the corresponding key is
+    /**
+     * An inserted character is one which, when the corresponding key is
      * pressed, is inserted into the text (as opposed to arrow keys and
-     * other actions). */
+     * other actions).
+     * 
+     * @return <code>true</code> if the event represents the insertion of a
+     *         character
+     */
     private static boolean isInsertedChar(KeyEvent e) {
     	return e.keyCode >= 32 && e.keyCode < 128
         	&& (e.stateMask == 0 || e.stateMask == SWT.SHIFT);
     }
     
-    private boolean currentLineIsCommandLine() {
+    /**
+     * Finds out if the last line qualifies as a command line. Technically, a
+     * command line is one which starts with a prompt, either the command line
+     * prompt or the continuation prompt. This method is called to uphold the
+     * precondition that the last line be a command line before any command is
+     * executed, because the command parsing code depends on it being so. 
+     * 
+     * @return <code>true</code> if the cursor is located on the active command
+     *         line
+     */
+    private boolean lastLineIsCommandLine() {
     	
     	String allText = text.getText();
     	
-    	int endOfLine = text.getCharCount(),
-    	    startOfLine = allText.lastIndexOf("\n", endOfLine - 1) + 1;
+    	int endOfLastLine = text.getCharCount(),
+    	    startOfLastLine = allText.lastIndexOf("\n", endOfLastLine - 1) + 1;
     	
-    	String wholeLine = allText.substring( startOfLine, endOfLine );
+    	String lastLine = allText.substring( startOfLastLine, endOfLastLine );
     	
-    	return wholeLine.startsWith(commandLinePrompt())
-    	       || wholeLine.startsWith(continuationLinePrompt());
+    	return lastLine.startsWith(commandLinePrompt())
+    	       || lastLine.startsWith(continuationLinePrompt());
     }
     
-    /** Returns whatever is written on the command line. */
+    /**
+     * Returns whatever is written on the command line. Combines possible
+     * content after continuation prompts into one single command.
+     * 
+     *  @return the current command written on the active command line
+     */
     protected String currentCommand() {
         
         return currentCommand( text.getCharCount() );
     }
     
+    /** Helper method for the parameterless <code>currentCommand()</code>. */
     private String currentCommand(int endOfLine) {
 
         String allText = text.getText();
@@ -335,7 +381,12 @@ public abstract class ScriptingConsoleView extends ViewPart {
         	return currentCommand(startOfLine - 1) + "\n" + command;
     }
     
-    /* Returns the index marking the start of the command line. */
+    /**
+     * Returns the string index marking the start of the active command line,
+     * excluding the prompt.
+     * 
+     * @return the string index
+     */
     private int startOfCommandLine() {
         String allText = text.getText();
         
@@ -345,7 +396,11 @@ public abstract class ScriptingConsoleView extends ViewPart {
         return startOfLine + commandLinePrompt().length();
     }
 
-    /* Sets the text on the command line. */
+    /**
+     * Sets the text on the command line.
+     * 
+     * @param newCommand the replacement text
+     */
     private void setCurrentCommand(String newCommand) {
         
         String allText = text.getText();
@@ -361,12 +416,18 @@ public abstract class ScriptingConsoleView extends ViewPart {
         text.setSelection( textWithReplacedCommand.length() );
     }
     
+    /**
+     * Returns the cursor position within the command line string.
+     * 
+     * @return the position relative the start of the command line
+     */
     protected int positionOnCommandLine() {
     	return text.getCaretPosition() - startOfCommandLine();
     }
     
-    /* Returns true of the cursor is in the writing area of the last
-     * line, false otherwise.
+    /**
+     * Returns <code>true</code> if the cursor is in the writing area of the
+     * last line, false otherwise.
      */
     private boolean cursorIsOnCommandLine() {
         String allText = text.getText();
@@ -377,7 +438,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
                          + 1 + commandLinePrompt().length();
     }
     
-    /* Sets up and installs the context menu for the console view. */
+    /** Sets up and installs the context menu for the console view. */
     private void hookContextMenu() {
         
         final Action cutAction = new Action("Cut") {
@@ -416,17 +477,30 @@ public abstract class ScriptingConsoleView extends ViewPart {
 //        getSite().registerContextMenu(menuMgr, text);
     }
     
+    /**
+     * Makes the visible part of the text widget show the cursor.
+     */
 	private void scrollDownToPrompt() {
 		text.update();
 		text.showSelection();
 	}
 
-	public void printMessage(String s) {
+	/**
+	 * Prints a piece of text to the console. The text ends up before the
+	 * active command line.
+	 * 
+	 * @param message the text to be printed
+	 */
+	public void printMessage(String message) {
 		
-		if (s == null)
+		if (message == null)
 			return;
 		
-		s = s.replaceAll("\u0008", "");
+		// Non-printable characters are removed because people have complained
+		// of seeing them. See http://en.wikipedia.org/wiki/Robustness_Principle
+		// for more information. Also, feel free to add other disturbing non-
+		// printables here.
+		message = message.replaceAll("\u0008", "");
 		
 		synchronized (text) {
 				
@@ -437,31 +511,35 @@ public abstract class ScriptingConsoleView extends ViewPart {
 	            posBeforePrompt = allText.lastIndexOf("\n") + 1;
 	
 	        if (!outputIsMidLine || isPrintingLongText)
-	        	s = "\n" + s;
+	        	message = "\n" + message;
 	        
 	        if (posBeforePrompt < 1) {
 	        	posBeforePrompt = 1;
-	        	s += "\n";
+	        	message += "\n";
 	        }
 	        
 	        String newText = allText.substring(0, posBeforePrompt - 1)
-	                       + s
+	                       + message
 	                       + allText.substring(posBeforePrompt - 1);
 	
 	        text.setText(newText);
 	    	
 	        if (onCommandLine)
-	        	text.setSelection(oldPos + s.length());
+	        	text.setSelection(oldPos + message.length());
 	        else
 	        	text.setSelection(oldPos);
 	        
 	        scrollDownToPrompt();
 	        text.redraw();
 
-	        outputIsMidLine = !s.endsWith("\n") || s.equals("\n");
+	        outputIsMidLine = !message.endsWith("\n") || message.equals("\n");
 		}
 	}
 	
+	/**
+	 * Empties the console of contents. Does not add back a prompt, since this
+	 * is commonly done later in the REPL loop.
+	 */
 	public void clearConsole() {
 		synchronized (text) {
 			text.setText( "" );
@@ -475,7 +553,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         text.setFocus();
     }
     
-    /* Returns whether a string ends with a binary operator. */
+    /** Returns whether a string ends with a binary operator. */
     protected boolean endsWithBinaryOperator(String command) {
 
     	for (char c : new char[] { '+', '-', '*', '/', '%',
@@ -487,44 +565,6 @@ public abstract class ScriptingConsoleView extends ViewPart {
     	return false;
 	}
 
-    /**
-     * Returns the prompt with which to prefix every command line.
-     * 
-     * @return the prompt
-     */
-    protected abstract String commandLinePrompt();
-
-    /**
-     * Returns the prompt with which to prefix every continued command line. Must
-     * be of the same length as the normal prompt. The provided implementation
-     * returns a prompt on the form <code>"...>"</code>, but trimmed to the
-     * length of the normal prompt.
-     * 
-     * @return the continuation line prompt
-     */
-    protected String continuationLinePrompt() {
-    	String normalPrompt = commandLinePrompt();
-    	
-    	String continuationPrompt = "...> ";
-    	
-    	if (continuationPrompt.length() > normalPrompt.length())
-    		continuationPrompt = continuationPrompt.substring(
-    				continuationPrompt.length() - normalPrompt.length() );
-    	
-    	while (continuationPrompt.length() < normalPrompt.length())
-    		continuationPrompt = " " + continuationPrompt;
-    	
-    	return continuationPrompt;
-    }
-
-    /**
-     * Executes a command in the underlying scripting engine.
-     * 
-     * @param command the command to be executed
-     * @return the return value/error message (if any) from the command
-     */
-    protected abstract String executeCommand(String command);
-    
     /**
      * Returns all variable names contained in a certain container object.
      * @param object The container object of interest
@@ -625,4 +665,42 @@ public abstract class ScriptingConsoleView extends ViewPart {
         text.setText( textWithNewTextAdded );
         text.setSelection( oldPosition + newText.length() );
     }
+
+    /**
+     * Returns the prompt with which to prefix every command line.
+     * 
+     * @return the prompt
+     */
+    protected abstract String commandLinePrompt();
+
+    /**
+     * Returns the prompt with which to prefix every continued command line. Must
+     * be of the same length as the normal prompt. The provided implementation
+     * returns a prompt on the form <code>"...>"</code>, but trimmed to the
+     * length of the normal prompt.
+     * 
+     * @return the continuation line prompt
+     */
+    protected String continuationLinePrompt() {
+    	String normalPrompt = commandLinePrompt();
+    	
+    	String continuationPrompt = "...> ";
+    	
+    	if (continuationPrompt.length() > normalPrompt.length())
+    		continuationPrompt = continuationPrompt.substring(
+    				continuationPrompt.length() - normalPrompt.length() );
+    	
+    	while (continuationPrompt.length() < normalPrompt.length())
+    		continuationPrompt = " " + continuationPrompt;
+    	
+    	return continuationPrompt;
+    }
+
+    /**
+     * Executes a command in the underlying scripting engine.
+     * 
+     * @param command the command to be executed
+     * @return the return value/error message (if any) from the command
+     */
+    protected abstract String executeCommand(String command);
 }
