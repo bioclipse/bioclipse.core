@@ -42,8 +42,7 @@ public class RecordingAdvice implements IRecordingAdvice {
 			                    Object[] args, 
 			                    Object target ) throws Throwable {
 
-		boolean methodIsAnnotated = method.isAnnotationPresent(Recorded.class);
-		if (!methodIsAnnotated) {
+		if ( !method.isAnnotationPresent(Recorded.class) ) {
 			return;
 		}
 		
