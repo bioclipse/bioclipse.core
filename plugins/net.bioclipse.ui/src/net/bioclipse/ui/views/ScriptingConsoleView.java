@@ -528,7 +528,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
 	 * 
 	 * @param text the text to be split up
 	 * @param maxLineLength the proposed line length
-	 * @return 
+	 * @return the same text but with line breaks
 	 */
 	private String splitIntoSeveralLines( String text,
                                           int maxLineLength ) {
