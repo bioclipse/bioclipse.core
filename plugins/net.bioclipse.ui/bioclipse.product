@@ -14,6 +14,8 @@
 
    <launcherArgs>
       <programArgs>-consolelog</programArgs>
+      <programArgsMac>-data @user.home/Library/Application%20Support/Bioclipse/Default%20Workspace/</programArgsMac>
+      <vmArgs>-ea</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
@@ -54,7 +56,7 @@
       <plugin id="net.bioclipse.biojava.ui"/>
       <plugin id="net.bioclipse.core"/>
       <plugin id="net.bioclipse.data.sampledata"/>
-      <plugin id="net.bioclipse.log4jconfig" fragment="true"/>
+      <plugin id="net.bioclipse.logger"/>
       <plugin id="net.bioclipse.scripting"/>
       <plugin id="net.bioclipse.ui"/>
       <plugin id="net.sf.cglib"/>
@@ -147,7 +149,6 @@
       <plugin id="org.springframework.osgi.bundle.core"/>
       <plugin id="org.springframework.osgi.bundle.extender"/>
       <plugin id="org.springframework.osgi.bundle.io"/>
-      <plugin id="org.springframework.osgi.log4j.osgi"/>
       <plugin id="slf4j.api"/>
       <plugin id="slf4j.log4j12" fragment="true"/>
    </plugins>

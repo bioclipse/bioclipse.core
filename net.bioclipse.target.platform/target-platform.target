@@ -111,17 +111,16 @@
          <plugin id="org.springframework.osgi.bundle.core"/>
          <plugin id="org.springframework.osgi.bundle.extender"/>
          <plugin id="org.springframework.osgi.bundle.io"/>
-         <plugin id="org.springframework.osgi.log4j.osgi"/>
          <plugin id="slf4j.api"/>
          <plugin id="slf4j.log4j12"/>
       </plugins>
       <features>
       </features>
       <extraLocations>
-         <location path="${eclipse_home}/plugins"/>
          <location path="${project_loc}/spring_2.5.0"/>
-         <location path="${project_loc}/spring-dm_1.0.rc1"/>
          <location path="${project_loc}/required-libs"/>
+         <location path="${project_loc}/spring-dm_1.0.rc1"/>
+         <location path="${eclipse_home}/plugins"/>
       </extraLocations>
    </content>
 

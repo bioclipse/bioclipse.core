@@ -14,7 +14,6 @@ package net.bioclipse.ui;
 
 import java.util.Arrays;
 import java.util.List;
-import java.io.File;
 
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.core.util.Predicate;
@@ -22,9 +21,6 @@ import net.bioclipse.core.util.ListFuncs;
 import net.bioclipse.recording.IHistory;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.FileAppender;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Level;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.core.runtime.Platform;
@@ -62,14 +58,9 @@ public class Activator extends BioclipseActivator {
     
     private static final Logger logger = Logger.getLogger(Activator.class);
     
-    private static final String FILE_APPENDER_NAME = "file";
-    
     private static final String EXTENDER_BUNDLE_NAME = 
         "org.springframework.osgi.bundle.extender";
 
-    private static final String NO_LOG_FILE_WARNING_MSG = 
-        "Bioclipse log file may not be configured.";
-    
     private static final String JVM_VERSION_ERROR_MSG = 
         "** Bioclipse startup FAILED **\n" +
         "Bioclipse must be run with Java 1.5 (sometimes referred to as 5.0) or better.\n" +
@@ -108,12 +99,7 @@ public class Activator extends BioclipseActivator {
     @Override
     public void start(BundleContext context) throws Exception {       
         super.start(context);
-        
-        if (useLogging)
-            showLogFileNameOrWarn();
-        else
-            disableLogging();
-        
+
         checkJVMVersion();  
         handleStartupArgs();
         startBundleExtender();
@@ -141,52 +127,6 @@ public class Activator extends BioclipseActivator {
         return history;
     }
   
-    
-    private void disableLogging() {
-        BasicConfigurator.resetConfiguration();
-        BasicConfigurator.configure();      // prevents no-appender warning
-        Logger.getRootLogger().setLevel(Level.OFF);
-    }
-    
-    
-    private void showLogFileNameOrWarn() {
-        String logFile = getActualLogFileName();
-        if (logFile == null)
-            System.err.println(NO_LOG_FILE_WARNING_MSG);     
-        else
-            logger.info("Probable log file location: " + logFile);
-    }
-    
-    
-    /* Queries Log4j for the "file" attribute of the "file" appender. 
-     * Because the value of this attribute is naively passed by FileAppender
-     * to java.io.FileOutputStream(String, int), we attempt to determine 
-     * the absolute path to which FileOutputStream interprets this attribute.
-     * 
-     * Returns the (anticipated) absolute path of the File attribute of the 
-     * "file" appender, or Null if there is no such appender, or if its
-     * File attribute is not set.
-     */
-    
-    private String getActualLogFileName() {
-
-        FileAppender appender = (FileAppender) Logger.getRootLogger()
-                .getAppender(FILE_APPENDER_NAME);
-        if (appender == null)
-            return null;
-
-        String requestedLogFileName = appender.getFile();
-        if (requestedLogFileName == null)
-            return null;
-        
-        // rather than mimic exactly what FileAppender does with its File
-        // attribute (passing it to FileOutputStream, therefore actually
-        // opening a file), create a File object which ought to interpret
-        // its constructor's argument in the same way that FileOutputStream does.
-        
-        return (new File(requestedLogFileName)).getAbsolutePath();
-    }
-    
     
     private void handleStartupArgs() {
         String[] args  = Platform.getCommandLineArgs();
