@@ -25,7 +25,8 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.scripting,
  org.eclipse.core.filesystem,
  org.eclipse.ui.cheatsheets,
- org.eclipse.core.runtime.compatibility.auth
+ org.eclipse.core.runtime.compatibility.auth,
+ net.bioclipse.logger
 Eclipse-LazyStart: true
 Export-Package: net.bioclipse.ui,
  net.bioclipse.ui.intro,
