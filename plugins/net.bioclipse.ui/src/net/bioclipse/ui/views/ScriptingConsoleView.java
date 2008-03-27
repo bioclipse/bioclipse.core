@@ -82,12 +82,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
      */
     private boolean outputIsMidLine = false;
     
-    /**
-     * When a long text is printed the printMessage method is called
-     * recursively. This variable is for it to know that it is not mid-line but 
-     * printing a long text.
-     */
-    private boolean isPrintingLongText;
+    /** The preferred maximum length of a line of output. */
+    private static final int MAX_OUTPUT_LINE_LENGTH = 79;
     
     /**
      * Essentially a switching table for handleKey. So, every time a keypress
@@ -486,6 +482,74 @@ public abstract class ScriptingConsoleView extends ViewPart {
 	}
 
 	/**
+	 * Finds a good place to break a long line into several lines. Prefers not
+	 * breaking (if the line is shorter than the maximal allowed line length),
+	 * or breaking at a space (if there is one). Otherwise, breaks at the last
+	 * possible point.
+	 * 
+	 * Note that with the current implementation, tab characters will freak
+	 * this method out in ugly but non-dangerous ways. 
+	 * 
+	 * @param text the text to be broken up
+	 * @param currentPos the starting point of the breaking up. It's cheaper to
+	 *                   pass around indexes like this than to split strings
+	 *                   repeatedly
+	 * @param maxLineLength the length of the largest possible line
+	 * 
+	 * @return the index where the breaking should be made
+	 */
+	private int convenientLineBreakPoint( String text,
+			                              int currentPos,
+			                              int maxLineLength ) {
+
+		// Prefer not to break at all...
+		if ( currentPos + maxLineLength >= text.length() )
+			return text.length();
+		
+		// ...or to break where there is already a break...
+		if ( text.substring(currentPos,
+				            currentPos + maxLineLength).contains("\n") )
+			return text.indexOf('\n', currentPos);
+		
+		// ...or at the last possible space...
+		if ( text.substring(currentPos,
+				            currentPos + maxLineLength).contains(" ") )
+			return text.lastIndexOf(' ', currentPos + maxLineLength);
+		
+		// ...or just break at the last possible moment, no matter what.
+		return currentPos + maxLineLength;
+	}
+
+	/**
+	 * Splits text into several lines, each not longer than the proposed line
+	 * length. The text returned has <code>\n</code> characters inserted, in
+	 * such a way that the distance between two consecutive such characters is
+	 * never longer than proposed line length.
+	 * 
+	 * @param text the text to be split up
+	 * @param maxLineLength the proposed line length
+	 * @return 
+	 */
+	private String splitIntoSeveralLines( String text,
+                                          int maxLineLength ) {
+
+		StringBuffer result = new StringBuffer();
+		int currentPos = 0;
+		while ( currentPos < text.length() ) {
+			
+			int toPos
+				= convenientLineBreakPoint(text, currentPos, maxLineLength); 
+			
+			result.append( text.substring(currentPos, toPos) );
+			result.append('\n');
+			
+			currentPos = toPos;
+		}
+		
+		return result.toString();
+	}
+
+	/**
 	 * Prints a piece of text to the console. The text ends up before the
 	 * active command line.
 	 * 
@@ -502,6 +566,9 @@ public abstract class ScriptingConsoleView extends ViewPart {
 		// printables here.
 		message = message.replaceAll("\u0008", "");
 		
+		if (message.length() > MAX_OUTPUT_LINE_LENGTH)
+			message = splitIntoSeveralLines(message, MAX_OUTPUT_LINE_LENGTH);
+		
 		synchronized (text) {
 				
 	    	boolean onCommandLine = cursorIsOnCommandLine();
@@ -510,7 +577,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
 	        int oldPos = text.getCaretPosition(),
 	            posBeforePrompt = allText.lastIndexOf("\n") + 1;
 	
-	        if (!outputIsMidLine || isPrintingLongText)
+	        if ( !outputIsMidLine )
 	        	message = "\n" + message;
 	        
 	        if (posBeforePrompt < 1) {
