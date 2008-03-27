@@ -11,6 +11,7 @@ import net.bioclipse.usermanager.User;
 import net.bioclipse.usermanager.UserContainer;
 import net.bioclipse.usermanager.UserManagerEvent;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.SubProgressMonitor;
 
 public class UserManager implements IUserManager {

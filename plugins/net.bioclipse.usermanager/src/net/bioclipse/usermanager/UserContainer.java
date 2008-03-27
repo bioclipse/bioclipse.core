@@ -24,6 +24,7 @@ import java.util.List;
 
 import net.bioclipse.core.domain.BioObject;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
@@ -45,6 +46,8 @@ public class UserContainer extends BioObject {
  		= new BasicPasswordEncryptor();
  	private BasicTextEncryptor textEncryptor;        
 	
+ 	Logger logger = Logger.getLogger( this.getClass() );
+ 	
  	/*
 	 * Package protected for testing purposes 
 	 */
@@ -153,6 +156,9 @@ public class UserContainer extends BioObject {
 				monitor.done();
 			}
 		}
+		logger.debug( "Logged in: " + username 
+				      + " to usercontainer with id: "
+				      + getId() );
 	}
 	
 	/**
@@ -168,6 +174,7 @@ public class UserContainer extends BioObject {
 	public void signOut() {
 		loggedInUser  = null;
 		textEncryptor = null;
+		logger.debug("Signed out user from usercontainer with id: " + getId() );
 	}
 
 	/**
@@ -346,7 +353,7 @@ public class UserContainer extends BioObject {
 			copy.loggedInUser = copy.superUsers.get( 
 					getLoggedInUserName() );			
 		}
-		
+		logger.debug("Usercontainer cloned");
 		return copy;
 	}
 	

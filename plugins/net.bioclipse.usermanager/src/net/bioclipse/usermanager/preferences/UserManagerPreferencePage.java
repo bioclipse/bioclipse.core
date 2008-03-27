@@ -140,7 +140,8 @@ public class UserManagerPreferencePage extends PreferencePage
 							                  .getWorkbench()
 							                  .getActiveWorkbenchWindow()
 							                  .getShell(), 
-							                  userName );
+							                  userName,
+							                  sandBoxUserContainer );
 				passDialog.open();
 				if(passDialog.getReturnCode() == passDialog.OK) {
 					EditUserDialog dialog = 

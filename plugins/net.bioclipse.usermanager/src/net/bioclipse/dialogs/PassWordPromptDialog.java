@@ -41,15 +41,18 @@ public class PassWordPromptDialog extends Dialog {
 
 	private Text text;
 	private String username;
+	private UserContainer sandboxUserContainer;
 	
 	/**
 	 * Create the dialog
 	 * @param parentShell
 	 */
 	public PassWordPromptDialog( Shell parentShell, 
-			                     String username ) {
+			                     String username,
+			                     UserContainer sandboxUserContainer ) {
 		super(parentShell);
 		this.username = username;
+		this.sandboxUserContainer = sandboxUserContainer;
 	}
 
 	/**
@@ -112,9 +115,9 @@ public class PassWordPromptDialog extends Dialog {
 	}
 	protected void buttonPressed(int buttonId) {
 		if (buttonId == IDialogConstants.OK_ID) {
-			try{
-				Activator.getDefault()
-				.getUserManager().signIn( username, text.getText() );
+			try {
+				sandboxUserContainer.signOut();
+				sandboxUserContainer.signIn( username, text.getText(), null );
 			}
 			catch(IllegalArgumentException e) {
 				MessageDialog.openInformation( PlatformUI
