@@ -221,7 +221,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
                     		return;
                     	}
                     	
-                        text.setSelection(newStart, oldSelection.y );
+                        text.setSelection(newStart, oldSelection.y);
                         return; // and thus delete only the command
                     }
                     e.doit = false;
