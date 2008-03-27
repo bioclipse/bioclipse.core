@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Bioclipse Logger Plug-in
+Bundle-SymbolicName: net.bioclipse.logger
+Bundle-Version: 0.1.0
+Bundle-Activator: net.bioclipse.logger.Activator
+Require-Bundle: org.eclipse.core.runtime
+Eclipse-BuddyPolicy: registered
+Eclipse-LazyStart: true
+Bundle-ClassPath: log4j/log4j-1.2.15.jar,
+ .
+Export-Package: org.apache.log4j
