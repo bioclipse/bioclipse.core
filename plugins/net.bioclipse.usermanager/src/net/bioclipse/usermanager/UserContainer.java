@@ -7,6 +7,7 @@
  *
  * Contributors:
  *	Jonathan Alvarsson    
+ *  Ola Spjuth
  *******************************************************************************/
 
 package net.bioclipse.usermanager;
@@ -158,7 +159,7 @@ public class UserContainer extends BioObject {
 		}
 		logger.debug( "Logged in: " + username 
 				      + " to usercontainer with id: "
-				      + getId() );
+				      + getUID() );
 	}
 	
 	/**
@@ -174,7 +175,7 @@ public class UserContainer extends BioObject {
 	public void signOut() {
 		loggedInUser  = null;
 		textEncryptor = null;
-		logger.debug("Signed out user from usercontainer with id: " + getId() );
+		logger.debug("Signed out user from usercontainer with id: " + getUID() );
 	}
 
 	/**
@@ -563,6 +564,11 @@ public class UserContainer extends BioObject {
 			}
 		}
 		return result;
+	}
+
+	public Object getAdapter(Class adapter) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 
