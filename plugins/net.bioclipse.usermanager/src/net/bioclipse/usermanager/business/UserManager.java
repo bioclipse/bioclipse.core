@@ -12,10 +12,14 @@ import net.bioclipse.usermanager.UserContainer;
 import net.bioclipse.usermanager.UserManagerEvent;
 
 import org.apache.log4j.Logger;
+import net.bioclipse.core.util.LogUtils;
+
 import org.eclipse.core.runtime.SubProgressMonitor;
 
 public class UserManager implements IUserManager {
 
+    private static final Logger logger = Logger.getLogger(UserManager.class)
+    ;
 	//Package protected for testing...
 	UserContainer userContainer;
 	private List<IUserManagerListener> listeners;
