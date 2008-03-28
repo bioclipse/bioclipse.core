@@ -14,6 +14,9 @@ package net.bioclipse.usermanager;
 import net.bioclipse.ui.BioclipseActivator;
 import net.bioclipse.usermanager.business.IUserManager;
 
+import org.apache.log4j.Logger;
+import net.bioclipse.core.util.LogUtils;
+
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
@@ -24,6 +27,8 @@ import org.osgi.util.tracker.ServiceTracker;
  */
 public class Activator extends BioclipseActivator {
 
+    private static final Logger logger = Logger.getLogger(Activator.class);
+    
 	// The plug-in ID
 	public static final String PLUGIN_ID = "net.bioclipse.usermanager";
 
@@ -68,7 +73,7 @@ public class Activator extends BioclipseActivator {
 		try {
 			manager = (IUserManager) finderTracker.waitForService(1000*10);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+		    LogUtils.debugTrace(logger, e);
 		}
 		if(manager == null) {
 			throw new IllegalStateException("Could not get the user manager");

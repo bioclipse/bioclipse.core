@@ -13,6 +13,9 @@ package net.bioclipse.dialogs;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.log4j.Logger;
+import net.bioclipse.core.util.LogUtils; 
+
 import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
 
@@ -46,6 +49,8 @@ import org.eclipse.ui.PlatformUI;
  *
  */
 public class UserManagerLoginDialog extends TitleAreaDialog {
+    
+    private static final Logger logger = Logger.getLogger(UserManagerLoginDialog.class);
 
 	private Button         createNewKeyringButton;
 	private Label          usernameLabel;
@@ -220,10 +225,10 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 				});
 			} catch (InvocationTargetException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				LogUtils.debugTrace(logger, e1);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			    LogUtils.debugTrace(logger, e1);
 			}
 		}
 		super.buttonPressed(buttonId);

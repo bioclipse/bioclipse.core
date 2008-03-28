@@ -23,9 +23,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import net.bioclipse.core.util.LogUtils;
+
 import net.bioclipse.core.domain.BioObject;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
@@ -291,7 +293,7 @@ public class UserContainer extends BioObject {
 			out.close();
 		}
 		catch(IOException ex) {
-			ex.printStackTrace();
+		    LogUtils.debugTrace(logger, ex);
 			throw new RuntimeException( "Could not save UserContainer " +
 					                    "properties to file", ex );
 		}
@@ -321,7 +323,7 @@ public class UserContainer extends BioObject {
 			try {
 				in.close();
 			} catch (Exception e) {
-				e.printStackTrace();
+			    LogUtils.debugTrace(logger, e);
 			}
 		}
 	}

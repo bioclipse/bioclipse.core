@@ -166,7 +166,7 @@ public class UserManager implements IUserManager {
 	    	}
     	}
     	catch (RuntimeException e) {
-    		e.printStackTrace();
+    	    LogUtils.debugTrace(logger, e);
     		throw e;
     	}
     	finally {
