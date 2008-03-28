@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Jonathan Alvarsson
+ *     Ola Spjuth
  *     
  ******************************************************************************/
 
@@ -19,7 +20,7 @@ import net.bioclipse.core.domain.BioList;
 import net.bioclipse.core.domain.IBioObject;
 
 /**
- * @author jonalv, masak
+ * @author jonalv, masak, ola
  *
  */
 public abstract class MethodRecord implements IRecord {
@@ -80,7 +81,7 @@ public abstract class MethodRecord implements IRecord {
 				String name = toVariableCase(
 						bioObject.getClass().getSimpleName()
 				);
-				params.add( new BioObjectParameter( name, bioObject.getId() ) );
+				params.add( new BioObjectParameter( name, bioObject.getUID() ) );
 			}
 			else if( p instanceof String) {
 				String s = escapeNonPrintableCharacters( (String)p );
@@ -99,7 +100,7 @@ public abstract class MethodRecord implements IRecord {
 		 * Return object id
 		 */
 		if(returnValue instanceof IBioObject) {
-			returnObjectId = ((IBioObject)returnValue).getId();
+			returnObjectId = ((IBioObject)returnValue).getUID();
 		}
 		else {
 			returnObjectId = "";
@@ -127,7 +128,7 @@ public abstract class MethodRecord implements IRecord {
 			
 			int i = 0;
 			for ( IBioObject bioObject : returnedList )
-				returnedListContentsIds[i++] = bioObject.getId();
+				returnedListContentsIds[i++] = bioObject.getUID();
 		}
 	}
 

@@ -22,6 +22,10 @@ public class ScriptGenerationTests {
 		public Object getParsedResource() {
 			return null;
 		}
+
+		public Object getAdapter(Class adapter) {
+			return null;
+		}
 	}
 	
 	private void generateAndCompare( MethodRecord[] records,
@@ -167,7 +171,7 @@ public class ScriptGenerationTests {
 				                                  new Byte( (byte)34 ) } ) {
 			
 			methodRecords.add( new BioObjectRecord( "method", 
-						                            testObject.getId(), 
+						                            testObject.getUID(), 
 						                            new Object[] {},
 						                            returnObject ) );
 			
@@ -197,7 +201,7 @@ public class ScriptGenerationTests {
 			                                 new Object[] {}, 
 			                                 returnedList ),
 			        new BioObjectRecord( "getParsedResource",
-			        		             theTestObject.getId(),
+			        		             theTestObject.getUID(),
 			        		             new Object[] {},
 			        		             "returnValue" ),
 	            },

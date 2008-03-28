@@ -11,6 +11,10 @@ public class BioListTest {
 		public Object getParsedResource() {
 			return "object";
 		}
+
+		public Object getAdapter(Class adapter) {
+			return null;
+		}
 	}
 
 	private BioList<IBioObject> biolist;
@@ -25,20 +29,20 @@ public class BioListTest {
 	public void testAddT() {
 		biolist.add(bioObject);
 		assertTrue( biolist.contains(bioObject) );
-		assertEquals( biolist.getId(), 
-				      BioList.idOfListContainingBioObject(bioObject.getId()) );
+		assertEquals( biolist.getUID(), 
+				      BioList.idOfListContainingBioObject(bioObject.getUID()) );
 		assertEquals( 0, 
-				      BioList.positionOfBioObjectInList(bioObject.getId()) );
+				      BioList.positionOfBioObjectInList(bioObject.getUID()) );
 	}
 
 	@Test
 	public void testAddIntT() {
 		biolist.add( new TestBioObject() );
 		biolist.add( 0,bioObject );
-		assertEquals( biolist.getId(), 
-			          BioList.idOfListContainingBioObject(bioObject.getId()) );
+		assertEquals( biolist.getUID(), 
+			          BioList.idOfListContainingBioObject(bioObject.getUID()) );
 		assertEquals( 0, 
-			          BioList.positionOfBioObjectInList(bioObject.getId()) );
+			          BioList.positionOfBioObjectInList(bioObject.getUID()) );
 	}
 
 	@Test
@@ -46,10 +50,10 @@ public class BioListTest {
 		BioList<IBioObject> toBeAdded = new BioList<IBioObject>();
 		toBeAdded.add(bioObject);
 		biolist.addAll(toBeAdded);
-		assertEquals( biolist.getId(), 
-		              BioList.idOfListContainingBioObject(bioObject.getId()) );
+		assertEquals( biolist.getUID(), 
+		              BioList.idOfListContainingBioObject(bioObject.getUID()) );
 	    assertEquals( 0, 
-		              BioList.positionOfBioObjectInList(bioObject.getId()) );
+		              BioList.positionOfBioObjectInList(bioObject.getUID()) );
 	}
 
 	@Test
@@ -58,10 +62,10 @@ public class BioListTest {
 		biolist.add( new TestBioObject() );
 		toBeAdded.add(bioObject);
 		biolist.addAll(0, toBeAdded);
-		assertEquals( biolist.getId(), 
-		              BioList.idOfListContainingBioObject(bioObject.getId()) );
+		assertEquals( biolist.getUID(), 
+		              BioList.idOfListContainingBioObject(bioObject.getUID()) );
 	    assertEquals( 0, 
-		              BioList.positionOfBioObjectInList(bioObject.getId()) );
+		              BioList.positionOfBioObjectInList(bioObject.getUID()) );
 	}
 
 	@Test
@@ -71,10 +75,10 @@ public class BioListTest {
 		BioList<IBioObject> aList = new BioList<IBioObject>();
 		aList.add(bioObject);
 		aList.clear();
-		assertEquals( biolist.getId(), 
-	                  BioList.idOfListContainingBioObject(bioObject.getId()) );
+		assertEquals( biolist.getUID(), 
+	                  BioList.idOfListContainingBioObject(bioObject.getUID()) );
 		assertEquals( 0, 
-	                  BioList.positionOfBioObjectInList(bioObject.getId()) );
+	                  BioList.positionOfBioObjectInList(bioObject.getUID()) );
 	}
 
 	@Test
@@ -113,14 +117,14 @@ public class BioListTest {
 	public void testRemoveObject() {
 		testAddT();
 		biolist.remove(bioObject);
-		assertFalse( BioList.existsListContaining(bioObject.getId()) );
+		assertFalse( BioList.existsListContaining(bioObject.getUID()) );
 	}
 
 	@Test
 	public void testRemoveInt() {
 		testAddT();
 		biolist.remove(0);
-		assertFalse( BioList.existsListContaining(bioObject.getId()) );
+		assertFalse( BioList.existsListContaining(bioObject.getUID()) );
 	}
 
 	@Test
@@ -130,7 +134,7 @@ public class BioListTest {
 		list.add(bioObject);
 		
 		biolist.removeAll(list);
-		assertFalse( BioList.existsListContaining(bioObject.getId()) );
+		assertFalse( BioList.existsListContaining(bioObject.getUID()) );
 	}
 
 	@Test
@@ -146,11 +150,11 @@ public class BioListTest {
 		assertTrue(  biolist.contains(obj2)    );
 		assertFalse( biolist.contains(biolist) );
 		
-		assertEquals( biolist.getId(), 
-                      BioList.idOfListContainingBioObject(obj2.getId()) );
+		assertEquals( biolist.getUID(), 
+                      BioList.idOfListContainingBioObject(obj2.getUID()) );
 		assertEquals( 0, 
-                      BioList.positionOfBioObjectInList(obj2.getId()) );
-		assertFalse( BioList.existsListContaining(bioObject.getId()) );
+                      BioList.positionOfBioObjectInList(obj2.getUID()) );
+		assertFalse( BioList.existsListContaining(bioObject.getUID()) );
 	}
 
 	@Test
@@ -158,11 +162,11 @@ public class BioListTest {
 		testAddT();
 		IBioObject obj2 = new TestBioObject();
 		biolist.set(0, obj2);
-		assertEquals( biolist.getId(), 
-                      BioList.idOfListContainingBioObject(obj2.getId()) );
+		assertEquals( biolist.getUID(), 
+                      BioList.idOfListContainingBioObject(obj2.getUID()) );
 		assertEquals( 0, 
-                      BioList.positionOfBioObjectInList(obj2.getId()) );
-		assertFalse( BioList.existsListContaining(bioObject.getId()) );
+                      BioList.positionOfBioObjectInList(obj2.getUID()) );
+		assertFalse( BioList.existsListContaining(bioObject.getUID()) );
 	}
 
 	@Test

@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Jonathan Alvarsson
+ *     Ola Spjuth
  *     
  ******************************************************************************/
 package net.bioclipse.recording;
@@ -22,7 +23,7 @@ import org.apache.log4j.Logger;
 
 
 /**
- * @author jonalv
+ * @author jonalv, olas
  *
  */
 public class RecordingAdvice implements IRecordingAdvice {
@@ -49,7 +50,7 @@ public class RecordingAdvice implements IRecordingAdvice {
 		if (target instanceof IBioObject) {
 		    history.addRecord( 
                     new BioObjectRecord( method.getName(),
-                                         ((BioObject) target).getId(),
+                                         ((BioObject) target).getUID(),
                                          args,
                                          returnValue ) );		    
 		}

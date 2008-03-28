@@ -7,7 +7,8 @@
  * 
  * Contributors:
  *     Jonathan Alvarsson
- *     
+ *     Ola Spjuth
+ *
  ******************************************************************************/
 package net.bioclipse.core.domain;
 
@@ -27,7 +28,7 @@ public abstract class BioObject implements IBioObject {
 	/**
 	 * An as-good-as-unique ID.
 	 */
-	private final String id = UUID.randomUUID().toString();
+	private final String uid = UUID.randomUUID().toString();
 	
 	private IResource resource;
 	
@@ -38,8 +39,8 @@ public abstract class BioObject implements IBioObject {
 	/**
 	 * Returns this the ID of this <code>BioObject</code>.
 	 */
-	public String getId() {
-		return id;
+	public String getUID() {
+		return uid;
 	}
 
 	/**

@@ -12,6 +12,10 @@ public class RecordTest {
 		public Object getParsedResource() {
 			return null;
 		}
+
+		public Object getAdapter(Class adapter) {
+			return null;
+		}
 	}
 	
 	@Test

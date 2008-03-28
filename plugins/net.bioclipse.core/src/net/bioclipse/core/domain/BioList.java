@@ -8,6 +8,7 @@
  * Contributors:
  *     Jonathan Alvarsson
  *     Carl Masak
+ *     Ola Spjuth
  *     
  ******************************************************************************/
 package net.bioclipse.core.domain;
@@ -71,15 +72,15 @@ public class BioList<T extends IBioObject> extends BioObject
 	 */
 	private void updateCreatedLists( BioList<? extends IBioObject> list ) {
 		
-		createdLists.remove(list.getId());
-		clearListIdForObject( list.getId() );
+		createdLists.remove(list.getUID());
+		clearListIdForObject( list.getUID() );
 		
 		List<String> newList = new ArrayList<String>();
 		for( IBioObject b : list) {
-			newList.add( b.getId() );
-			listIdForObject.put(b.getId(), list.getId());
+			newList.add( b.getUID() );
+			listIdForObject.put(b.getUID(), list.getUID());
 		}
-		createdLists.put( list.getId(), newList );
+		createdLists.put( list.getUID(), newList );
 	}
 	
 	private void clearListIdForObject(String listId) {
@@ -228,5 +229,12 @@ public class BioList<T extends IBioObject> extends BioObject
 	@Recorded
 	public Object getParsedResource() {
 		return list;
+	}
+
+	/**
+	 * For properties
+	 */
+	public Object getAdapter(Class adapter) {
+		return null;
 	}
 }
