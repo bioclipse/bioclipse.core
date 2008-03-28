@@ -97,6 +97,9 @@ public class JsEnvironment implements ScriptingEnvironment {
 						                      jsObject );
 				managers.put(((IBioclipseManager)service).getNamespace(),
 						     (IBioclipseManager)service);
+				logger.info( "Bioclipse manager: " + ( (IBioclipseManager)service )
+						     .getNamespace() + " added to Javascript " +
+						     "environment." );
 			}
 		}
 		
