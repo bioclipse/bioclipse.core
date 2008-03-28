@@ -54,10 +54,13 @@
       <plugin id="net.bioclipse.biojava"/>
       <plugin id="net.bioclipse.biojava.business"/>
       <plugin id="net.bioclipse.biojava.ui"/>
+      <plugin id="net.bioclipse.biomoby"/>
+      <plugin id="net.bioclipse.biomoby.ui"/>
       <plugin id="net.bioclipse.core"/>
       <plugin id="net.bioclipse.data.sampledata"/>
       <plugin id="net.bioclipse.logger"/>
       <plugin id="net.bioclipse.scripting"/>
+      <plugin id="net.bioclipse.services"/>
       <plugin id="net.bioclipse.ui"/>
       <plugin id="net.sf.cglib"/>
       <plugin id="org.aopalliance"/>
