@@ -509,7 +509,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
 		// ...or to break where there is already a break...
 		if ( text.substring(currentPos,
 				            currentPos + maxLineLength).contains("\n") )
-			return text.indexOf('\n', currentPos);
+			return text.indexOf('\n', currentPos) + 1;
 		
 		// ...or at the last possible space...
 		if ( text.substring(currentPos,
