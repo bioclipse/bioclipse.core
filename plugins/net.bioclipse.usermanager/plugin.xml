@@ -40,4 +40,12 @@
 			</action>
 		</actionSet>
 	</extension>
+	
+	<extension
+         point="net.bioclipse.scripting.contribution">
+      <scriptContribution
+            id="net.bioclipse.usermanager.UserManager"
+            service="net.bioclipse.usermanager.business.UserManagerFactory">
+      </scriptContribution>
+   </extension>
 </plugin>

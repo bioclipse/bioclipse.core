@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.SubProgressMonitor;
 
+import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.usermanager.AccountType;
 import net.bioclipse.usermanager.IUserManagerListener;
@@ -21,6 +22,7 @@ public interface IUserManager extends IBioclipseManager {
 	 * @param password the users password
 	 * @throws IllegalArgumentException if signIn not succesfull
 	 */
+	@Recorded
 	public void signIn( String username, String password );
 
 	/**
@@ -31,6 +33,7 @@ public interface IUserManager extends IBioclipseManager {
 	 * @param monitor a progressmonitor
 	 * @throws IllegalArgumentException if signIn not succesfull
 	 */
+	@Recorded
 	public void signInWithProgressBar( String username, 
 			                           String password,
 			                           SubProgressMonitor monitor );
@@ -38,11 +41,13 @@ public interface IUserManager extends IBioclipseManager {
 	/**
 	 * @return whether any user is logged in
 	 */
+	@Recorded
 	public boolean isLoggedIn();
 
 	/**
 	 *  Signs out the current user
 	 */
+	@Recorded
 	public void signOut();
 
 	/**
@@ -51,11 +56,13 @@ public interface IUserManager extends IBioclipseManager {
 	 * @param userName the username of the new superuser
 	 * @param key the password for the superuser
 	 */
+	@Recorded
 	public void createUser( String userName, String key );
 
 	/**
 	 * @return the name of the user currently logged in
 	 */
+	@Recorded
 	public String getLoggedInUserName();
 
 	/**
@@ -66,6 +73,7 @@ public interface IUserManager extends IBioclipseManager {
 	 *                   to be persisted 
 	 * @param accountType the type of the account
 	 */
+	@Recorded
 	public void createAccount( String accountId, 
 			                   HashMap<String, String> properties, 
 			                   AccountType accountType );
@@ -74,6 +82,7 @@ public interface IUserManager extends IBioclipseManager {
 	 * @param accountId
 	 * @return whether an account with the given accountId exists
 	 */
+	@Recorded
 	public boolean accountExists( String accountId );
 
 	/**
@@ -85,31 +94,37 @@ public interface IUserManager extends IBioclipseManager {
 	 * 
 	 * @return the value of a property
 	 */
+	@Recorded
 	public String getProperty( String accountId, String propertyKey );
 
 	/**
 	 * Writes all data to file
 	 */
+	@Recorded
 	public void persist();
 
 	/**
 	 * Reloads all data in the UserContainer from file
 	 */
+	@Recorded
 	public void reloadFromFile();
 
 	/**
 	 * @return the names of all users
 	 */
+	@Recorded
 	public List<String> getUserNames();
 
 	/**
 	 * @return the <code>User</code> currently logged in
 	 */
+	@Recorded
 	public User getLoggedInUser();
 
 	/**
 	 * @param name of user to be deleted
 	 */
+	@Recorded
 	public void deleteUser( String user );
 
 	/**
@@ -118,11 +133,13 @@ public interface IUserManager extends IBioclipseManager {
 	 * @param accountId
 	 * @return
 	 */
+	@Recorded
 	public Collection<String> getPropertyKeys( String accountId );
 
 	/**
 	 * Removes all accounts for the currently logged in <code>User</code>
 	 */
+	@Recorded
 	public void clearAccounts();
 
 	/**
@@ -131,21 +148,25 @@ public interface IUserManager extends IBioclipseManager {
 	 * @param masterkey old password 
 	 * @param newkey new password
 	 */
+	@Recorded
 	public void changePassword( String oldkey, String newkey );
 
 	/**
 	 * @return the names of the currently logged in users accounts
 	 */
+	@Recorded
 	public Collection<String> getLoggedInUsersAccountNames();
 
 	/**
 	 * @return the names of the available account types
 	 */
+	@Recorded
 	public String[] getAvailableAccountTypeNames();
 
 	/**
 	 * @return the available account types 
 	 */
+	@Recorded
 	public AccountType[] getAvailableAccountTypes();
 
 	/**
@@ -155,16 +176,19 @@ public interface IUserManager extends IBioclipseManager {
 	 * @param accountId
 	 * @return the accounts account type
 	 */
+	@Recorded
 	public AccountType getAccountType(String accountId);
 
 	/**
 	 * @param listener to be added
 	 */
+	@Recorded
 	public void removeListener(IUserManagerListener listener);
 
 	/**
 	 * @param listener to be removed
 	 */
+	@Recorded
 	public void addListener(IUserManagerListener listener);
 
 	/**
@@ -174,6 +198,7 @@ public interface IUserManager extends IBioclipseManager {
 	 * @param accountTypeName
 	 * @return
 	 */
+	@Recorded
 	public boolean isLoggedInWithAccountType(String accountTypeName);
 
 	/**
@@ -183,18 +208,21 @@ public interface IUserManager extends IBioclipseManager {
 	 * @param accountTypeName
 	 * @return
 	 */
+	@Recorded
 	public List<String> getAccountIdsByAccountTypeName(String accountTypeName);
 
 	/**
 	 * @return a copy of the user container which can be edited and thrown away 
 	 * or returned.
 	 */
+	@Recorded
 	public UserContainer getSandBoxUserContainer();
 
 	/**
 	 * Use the given usercontainer instead
 	 * 
-	 * @param sandBoxUserManager
+	 * @param sandBoxUserContainer
 	 */
-	public void switchUserContainer(UserContainer sandBoxUserManager);
+	@Recorded
+	public void switchUserContainer(UserContainer sandBoxUserContainer);
 }
