@@ -61,6 +61,9 @@ public class Activator extends Plugin {
     // whether to do any logging at all. 
     public static final boolean doAppLogging = true;
     
+    // the LogListener that repeats platform log messages to log4j log
+    private static PlatformLogRepeater repeater;
+    
     // whether to print debug messages from this plugin to System.out before 
     // Logger is available
     private static final boolean doLogConfigLogging = true;
@@ -163,6 +166,8 @@ public class Activator extends Plugin {
             showLogFileNameOrWarn();
         else
             disableLogging();
+        
+        repeater = new PlatformLogRepeater();
     }
 
     /*
@@ -171,6 +176,7 @@ public class Activator extends Plugin {
      * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
      */
     public void stop(BundleContext context) throws Exception {
+        repeater.dispose();
         plugin = null;
         super.stop(context);
     }
@@ -183,7 +189,7 @@ public class Activator extends Plugin {
     public static Activator getDefault() {
         return plugin;
     }
-
+    
     private void showLogFileNameOrWarn() {
         String logFile = getActualLogFileName();
         if (logFile == null)
@@ -306,11 +312,23 @@ public class Activator extends Plugin {
         
         System.setProperty(key, path);
     }
+    
 
-    private static String traceStringFrom(Throwable t) {
-        PrintWriter trace = new PrintWriter(new ByteArrayOutputStream());
-        t.printStackTrace(trace);
-        return trace.toString();
+   // remember we can't load net.bioclipse.core classes 
+
+    /** Returns a printable stack trace from a Throwable. Intended to be used
+     * in net.bioclipse.logger, which can't import net.bioclipse.core.util
+     * 
+     * @param t
+     *            the Throwable
+     * @return String with stack trace information from t
+     */
+    protected static String traceStringFrom(Throwable t) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        PrintWriter traceWriter = new PrintWriter(out);
+        t.printStackTrace(traceWriter);
+        traceWriter.flush();
+        return out.toString();
     }
 
     // provided in order to print debug messages before logger classes

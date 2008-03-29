@@ -24,9 +24,13 @@ public class LogUtils {
      * @return String with stack trace information from t
      */
     public static String traceStringFrom(Throwable t) {
-        PrintWriter trace = new PrintWriter(new ByteArrayOutputStream());
-        t.printStackTrace(trace);
-        return trace.toString();
+        // Java ... world heavyweight champion of annoying verbosity
+        
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        PrintWriter traceWriter = new PrintWriter(out);
+        t.printStackTrace(traceWriter);
+        traceWriter.flush();
+        return out.toString();
     }
     
     

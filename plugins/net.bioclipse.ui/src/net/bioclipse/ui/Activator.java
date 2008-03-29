@@ -221,6 +221,7 @@ public class Activator extends BioclipseActivator {
         }
         catch (BundleException e) {
             logger.error("Unable to start resolved Spring Bundle Extender: " + e);
+            LogUtils.debugTrace(logger, e);
             return false;
         }
     }
