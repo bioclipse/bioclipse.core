@@ -83,7 +83,7 @@ public class PlatformLogRepeater implements ILogListener {
             return;
         
         // grab plugin name from the status object if a name wasn't provided
-        pluginName = (providedPluginName != null) ? providedPluginName : status.getPlugin();
+        pluginName = (providedPluginName == null) ? status.getPlugin() : providedPluginName;
 
         if (pluginName == null || pluginName.trim() == "")
             logger = Logger.getRootLogger();
