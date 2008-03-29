@@ -28,10 +28,6 @@ import org.eclipse.core.runtime.Platform;
  *
  */
 public class PlatformLogRepeater implements ILogListener {
-
-    static {
-        System.out.println("***PlatformLogRepeater static initializer.");
-    }
     
     private static PlatformLogRepeater singleton;
     private static final Logger repeaterClassLogger = 
