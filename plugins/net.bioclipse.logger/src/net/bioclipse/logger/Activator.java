@@ -82,21 +82,21 @@ public class Activator extends Plugin {
         
         USERHOME 
             ("bioclipse.userhome",
-             getPathnameOrNullFromProperty("user.home")),
+             pathnameFromProperty("user.home")),
                 
         WORKSPACE
             ("bioclipse.workspace",
-             getPathnameOrNullFromProperty("osgi.instance.area")),
+             pathnameFromProperty("osgi.instance.area")),
         
         INSTALL_AREA 
             ("bioclipse.installArea",
-             getPathnameOrNullFromProperty("osgi.install.area")),
+             pathnameFromProperty("osgi.install.area")),
             
         DEFAULT_LOG_DIR 
             ("bioclipse.defaultLogDir",
              "macosx".equals(System.getProperty("osgi.os"))
-                ? getPathnameOrNullFromProperty("user.home") + "/Library/Logs/Bioclipse"
-                : getPathnameOrNullFromProperty("osgi.instance.area"));
+                ? pathnameFromProperty("user.home") + "/Library/Logs/Bioclipse"
+                : pathnameFromProperty("osgi.instance.area"));
 
         public final String key;
         public final String path;
@@ -243,7 +243,7 @@ public class Activator extends Plugin {
         return (new File(requestedLogFileName)).getAbsolutePath();
     }
 
-    /* getPathnameOrNullFromProperty(propName):
+    /* pathnameFromProperty(propName):
      * 
      * Attempts to interpret value of system property 'propName' as a URI
      * pointing to a file in the default filesystem. If this fails, attempts
@@ -253,7 +253,7 @@ public class Activator extends Plugin {
      * Returns the pathname if one of those interpretations works, or else
      * null.
      */
-    private static String getPathnameOrNullFromProperty(String propName) {
+    private static String pathnameFromProperty(String propName) {
         
         File pathAsFileObj = null;
         
