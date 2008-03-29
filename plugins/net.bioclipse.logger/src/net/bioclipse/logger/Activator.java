@@ -62,7 +62,7 @@ public class Activator extends Plugin {
     public static final boolean doAppLogging = true;
     
     // the LogListener that repeats platform log messages to log4j log
-    private static PlatformLogRepeater repeater;
+    private final PlatformLogRepeater repeater;
     
     // whether to print debug messages from this plugin to System.out before 
     // Logger is available
@@ -151,6 +151,7 @@ public class Activator extends Plugin {
      * The constructor
      */
     public Activator() {
+        repeater = new PlatformLogRepeater();
     }
 
     /*
@@ -167,7 +168,8 @@ public class Activator extends Plugin {
         else
             disableLogging();
         
-        repeater = new PlatformLogRepeater();
+        // listen for platform log events and copy to log4j log.
+        Platform.addLogListener(repeater);
     }
 
     /*
@@ -176,7 +178,8 @@ public class Activator extends Plugin {
      * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
      */
     public void stop(BundleContext context) throws Exception {
-        repeater.dispose();
+        
+        Platform.removeLogListener(repeater);
         plugin = null;
         super.stop(context);
     }

@@ -6,76 +6,43 @@
  * www.eclipse.org�epl-v10.html <http://www.eclipse.org/legal/epl-v10.html>
  * 
  * Contributors:
- *     Manoel Marques - initial author of com.tools.logging.PluginLogListener
- *     Richard Klancer - adaptation of com.tools.logging.PluginLogListener code
- *
+ *     Richard Klancer - total rewrite of com.tools.logging.PluginLogListener
+ *     Manoel Marques - author of com.tools.logging.PluginLogListener
+ *     
  *     rpk@pobox.com 3/29/08
  *     
  ******************************************************************************/
 package net.bioclipse.logger;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.Platform;
 
 
 /**
- * @author Manoel Marques
  * @author Richard Klancer rpk@pobox.com
  *
  */
 public class PlatformLogRepeater implements ILogListener {
-    
-    private static PlatformLogRepeater singleton;
-    private static final Logger repeaterClassLogger = 
-        Logger.getLogger(PlatformLogRepeater.class);
-    
+
     
     /**
-     * Creates the PlatformLogRepeater singleton and adds it to the list
-     * of listeners to the platform log.
-     * 
-     * @param plugin the plug-in object
-     * @param logger logger instance
-     */
-    PlatformLogRepeater() {
-        
-        assert singleton == null: 
-            "PlatformLogRepeater singleton constructor called twice.";
-        if (singleton != null) {
-            repeaterClassLogger.warn(
-                    "PlatformLogRepeater singleton constructor called twice.");
-            return;
-        }
-        
-        singleton = this;
-        repeaterClassLogger.debug("Created PlatformLogRepeater singleton.");
-        
-        Platform.addLogListener(singleton);
-        repeaterClassLogger.debug("Registered PlatformLogRepeater as log listener.");
-    }
-    
-    /**
-     * Removes itself from the plug-in log, reset instance variables.
-     */ 
-    void dispose() {
-        assert singleton != null: 
-            "dispose() called on PlatformLogRepeater, but singleton is null";
-        
-        if (singleton != null) {
-            Platform.removeLogListener(singleton);
-        }
-    }
-    
-    /**
-     * A Log event happened on the eclipse platform log.
-     * Translates the status instance to a log4j level and sends to a log4j 
-     * logger for that plugin.
+     * Called when an IStatus object was written to the eclipse platform log.
+     * Translates the status instance to a log4j level and sends to the log4j 
+     * logger for the plugin that logged the status. <br />
      * <br />
+     * If the status contains a exception, writes the exception stack trace
+     * to the logger at the debug level.<br />
      * <br />
+     * If the IStatus object is a MultiStatus object with child IStatuses,
+     * the procedure above is repeated for each child, recursively.<br />
+     * <br />
+     * Translates Status levels according to the following rules:
      * Status.ERROR -> Level.ERROR <br />
      * Status.WARNING -> Level.WARN <br />
      * Status.CANCEL -> Level.WARN (we don't know how severe a given cancellation is) <br />
@@ -86,9 +53,7 @@ public class PlatformLogRepeater implements ILogListener {
      * @param pluginName symbolic name of plug-in writing said Status object to log
      */ 
     public void logging(IStatus status, String pluginName) {
-        if (status == null)
-            return;
-        log(status);
+        log(status, pluginName);
     }
 
     /* Log an IStatus object to the log4j log. If status contains an
@@ -100,21 +65,60 @@ public class PlatformLogRepeater implements ILogListener {
      * arbitrary depth.
      */
     
-    private void log(IStatus status) {
-        String pluginName = status.getPlugin();
+    private static void log(IStatus status, String pluginName) {
+        log(status, pluginName, new HashSet<IStatus>());
+    }
+
+    /* log function augmented with the set of multistatus objects previously
+     * seen in this call chain, to defend against infinite looping on any 
+     * possible cycles in MultiStatus objects passed to us */
+    
+    private static void log(IStatus status, String providedPluginName, Set<IStatus> seenBefore) {
+
+        final Logger logger;
+        final String pluginName;
         
-        Logger logger = Logger.getLogger(pluginName);
+        // defend against cycles in MultiStatus object
+        if (status == null || seenBefore.contains(status))
+            return;
+        
+        // grab plugin name from the status object if a name wasn't provided
+        pluginName = (providedPluginName != null) ? providedPluginName : status.getPlugin();
+
+        if (pluginName == null || pluginName.trim() == "")
+            logger = Logger.getRootLogger();
+        else
+            logger = Logger.getLogger(pluginName);
+        
+        // log the Status
         logger.log(log4jLevelFrom(status), status.getMessage());
         
+        // log the stack trace
         Throwable t = status.getException();
         if (t != null) logger.debug(Activator.traceStringFrom(t));
 
+        // log children, if this objects is a multistatus
         for (IStatus child : status.getChildren()) {
-            log(child);
+            log(child, null, seenBefore);
         }
     }
     
-    private Level log4jLevelFrom(IStatus status) {    
+    /* Roughly translates an Eclipse IStatus severity to a log4j Level.
+     * 
+     * Note that the semantics of status objects and log4j levels are different,
+     * in that log4j levels apply to *messages* and status severities pertain
+     * to the *result of an operation*, which is what an IStatus object
+     * actually represents.
+     * 
+     * Note that this formally applies only to subclasses of Status. It is
+     * possible for a plugin to define an IStatus implementation that is 
+     * not a subclass of Status, and it is encouraged that they define severity
+     * codes relevant to their own semantics.
+     *
+     * Therefore the values returned by getSeverity() are not limited to the
+     * cases below. Such unknown severity codes are translated to Level.DEBUG. */
+    
+    private static Level log4jLevelFrom(IStatus status) {    
         switch (status.getSeverity()) {
             case Status.ERROR:
                 return Level.ERROR;
