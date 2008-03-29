@@ -47,7 +47,7 @@ import org.osgi.framework.BundleContext;
  * aforementioned bioclipse.* properties have not yet been set.)
  * 
  * Also contains the code that tells log4j which configuration file to use, and
- * the property useLogging which can be used at development time to disable
+ * the property doAppLogging which can be used at development time to disable
  * all logging output.
  */
 public class Activator extends Plugin {
@@ -57,36 +57,46 @@ public class Activator extends Plugin {
 
     // The shared instance
     private static Activator plugin;
-
-    // whether to print debug messages from this plugin to System.out before 
-    // Logger is available
-    private static final boolean useLoggerLogging = true;
     
     // whether to do any logging at all. 
-    private static final boolean useLogging = true;
+    public static final boolean doAppLogging = true;
+    
+    // whether to print debug messages from this plugin to System.out before 
+    // Logger is available
+    private static final boolean doLogConfigLogging = true;
 
-    private static final String NO_LOG_FILE_WARNING_MSG = 
-        "Warning: Bioclipse log file may not be configured.";
-
+    private static final String MISCONFIG_WARNING = 
+        "Logging may not be configured properly.";
+    
     private static final String NO_LOG_CONFIG_FILE_MSG = 
-        "Warning: Could not pass logger configuration file location to logger. "
-        + "Logging may not be configured properly.";
-
+        "Could not pass logger configuration file location to logger.";
+    
+    private static final String BAD_PATH_MSG = 
+        "Bioclipse attempted a to set a pathname property ending with "
+        + File.separator;
     
     // bioclipse-defined paths we want to make available to log4j config file
+    // as system properties
+    
     public enum BcPath {
-        USERHOME ("bioclipse.userhome",
-                getPathnameOrNullFromProperty("user.home")),
-        WORKSPACE ("bioclipse.workspace",
-                getPathnameOrNullFromProperty("osgi.instance.area")),
-        INSTALL_AREA ("bioclipse.installArea",
-                getPathnameOrNullFromProperty("osgi.install.area")),
-        DEFAULT_LOG_DIR ("bioclipse.defaultLogDir",
-                "macosx".equals(System.getProperty("osgi.os"))
-                ?
-                getPathnameOrNullFromProperty("user.home") + "/Library/Logs/Bioclipse"
-                :
-                getPathnameOrNullFromProperty("osgi.instance.area"));
+        
+        USERHOME 
+            ("bioclipse.userhome",
+             getPathnameOrNullFromProperty("user.home")),
+                
+        WORKSPACE
+            ("bioclipse.workspace",
+             getPathnameOrNullFromProperty("osgi.instance.area")),
+        
+        INSTALL_AREA 
+            ("bioclipse.installArea",
+             getPathnameOrNullFromProperty("osgi.install.area")),
+            
+        DEFAULT_LOG_DIR 
+            ("bioclipse.defaultLogDir",
+             "macosx".equals(System.getProperty("osgi.os"))
+                ? getPathnameOrNullFromProperty("user.home") + "/Library/Logs/Bioclipse"
+                : getPathnameOrNullFromProperty("osgi.instance.area"));
 
         public final String key;
         public final String path;
@@ -100,7 +110,7 @@ public class Activator extends Plugin {
     
     private static URL configFileUrl() {
         final String CONFIG_FILE_NAME = "log4j.properties";
-        final String BUNDLE_TO_SEARCH = PLUGIN_ID; // i.e., this plugin
+        final String BUNDLE_TO_SEARCH = PLUGIN_ID;   // i.e., this plugin
         
         return FileLocator.find(Platform.getBundle(BUNDLE_TO_SEARCH),
                 new Path(CONFIG_FILE_NAME), null);
@@ -110,7 +120,7 @@ public class Activator extends Plugin {
     // first time, so BEFORE the first call to getLogger() we need to set  
     // the properties that log4j's configurator will read
     
-    private static final Logger logger;    // initialize this below
+    private static final Logger logger;    // initialize below
     static {
         // set the bioclipse.* properties we want log4j to see
         for (BcPath p : BcPath.values())
@@ -121,7 +131,7 @@ public class Activator extends Plugin {
             System.setProperty("log4j.configuration", 
                     normalizedUrlStringFrom(configFileUrl()));
         } catch (Exception e) {
-            warn(NO_LOG_CONFIG_FILE_MSG);
+            warn(MISCONFIG_WARNING + "\n" + NO_LOG_CONFIG_FILE_MSG);
             warn("Cause: Caught exception: " + e);
             debug(traceStringFrom(e));
         }
@@ -149,7 +159,7 @@ public class Activator extends Plugin {
         super.start(context);
         plugin = this;
         
-        if (useLogging)
+        if (doAppLogging)
             showLogFileNameOrWarn();
         else
             disableLogging();
@@ -174,21 +184,24 @@ public class Activator extends Plugin {
         return plugin;
     }
 
+    private void showLogFileNameOrWarn() {
+        String logFile = getActualLogFileName();
+        if (logFile == null)
+            warn(MISCONFIG_WARNING);
+        else
+            logger.info("Probable log file location: " + logFile);
+    }
+    
     private void disableLogging() {
         BasicConfigurator.resetConfiguration();
         BasicConfigurator.configure();      // prevents no-appender warning
         Logger.getRootLogger().setLevel(Level.OFF);
     }
 
-    private void showLogFileNameOrWarn() {
-        String logFile = getActualLogFileName();
-        if (logFile == null)
-            warn(NO_LOG_FILE_WARNING_MSG);     
-        else
-            logger.info("Probable log file location: " + logFile);
-    }
 
-    /* Queries Log4j for the "file" attribute of the first file appender
+    /* getActualLogFileName():
+     * 
+     * Queries Log4j for the "file" attribute of the first file appender
      * that it can find attached to the root logger 
      *  
      * Because the value of this attribute is naively passed by FileAppender
@@ -230,26 +243,39 @@ public class Activator extends Plugin {
         return (new File(requestedLogFileName)).getAbsolutePath();
     }
 
+    /* getPathnameOrNullFromProperty(propName):
+     * 
+     * Attempts to interpret value of system property 'propName' as a URI
+     * pointing to a file in the default filesystem. If this fails, attempts
+     * to interpret the value as a pathname referring to a file in the 
+     * filesystem.
+     * 
+     * Returns the pathname if one of those interpretations works, or else
+     * null.
+     */
     private static String getPathnameOrNullFromProperty(String propName) {
         
-        File logDirAsFile = null;
+        File pathAsFileObj = null;
         
-        String logDirName = System.getProperty(propName);
-        if (logDirName == null)
+        String pathPropertyVal = System.getProperty(propName);
+        if (pathPropertyVal == null)
             return null;
 
         try {
-            URI logDirAsURI = new URI(logDirName);
-            logDirAsFile = new File(logDirAsURI);
+            // try to interpret as URI (e.g., file: URI)
+            
+            URI pathAsURIObj = new URI(pathPropertyVal);
+            pathAsFileObj = new File(pathAsURIObj);
         } catch (Exception e) {
-            // might be a pathname; File constructor will take anything.
-            logDirAsFile = new File(logDirName);
+            // ok, try to interpret as a plain pathname
+            
+            pathAsFileObj = new File(pathPropertyVal);
         }
         
-        assert logDirAsFile != null : "logDirAsFile should not be null here.";
+        assert pathAsFileObj != null : "pathAsFileObj should not be null here.";
         
         try {
-            String pathname = logDirAsFile.getCanonicalPath();
+            String pathname = pathAsFileObj.getCanonicalPath();
             return pathname;
         } catch (IOException e) {
             // who knows what it was? our contract is to return null if it's nonsense.
@@ -257,30 +283,28 @@ public class Activator extends Plugin {
         }
     }
     
-    // normalizedUrlStringFor(URL):
-    // Framework functions may return URLs that use funky schemes
-    // like "bundleentry:" that non-OSGI code won't understand.
-    // Use utilituy function to convert to a standard file: url referring to
-    // an actual file in the filesystem, and return in string form
+    /* normalizedUrlStringFor(URL):
+     * 
+     * Framework functions may return URLs that use funky schemes
+     * like "bundleentry:" that non-OSGI code won't understand.
+     * Use utility function to convert to a standard file: url referring to
+     * an actual file in the filesystem, and return in string form */
     
     private static String normalizedUrlStringFrom(URL url) throws IOException {
         URL fileUrl = FileLocator.toFileURL(url);
         return fileUrl.toExternalForm();
     }
 
-    private static void setPathProperty(String propName, String pathName) {
-        
-        if (pathName != null &&
-                pathName.endsWith(File.separator)) {
-            String suffix = "attempted a to set a pathname property ending with " + 
-                File.separator + "; pathname = " + pathName;
-            assert false: "Should not have " + suffix;  // for dev time only, remember
-            warn("Warning: logging may be misconfigured.");
-            // try to warn using logger also, but remember it may be misconfigured
-            if (logger != null) logger.warn(suffix);
+    private static void setPathProperty(String key, String path) {
+                
+        if (path != null && path.endsWith(File.separator)) {            
+            // this is not supposed to happen.
+            String msg = BAD_PATH_MSG + "\n'" + key + "' set to '" + path + "'.";
+            assert false: msg;
+            warn(MISCONFIG_WARNING + "\n" + msg);
         }
-    
-        System.setProperty(propName, pathName);
+        
+        System.setProperty(key, path);
     }
 
     private static String traceStringFrom(Throwable t) {
@@ -292,7 +316,7 @@ public class Activator extends Plugin {
     // provided in order to print debug messages before logger classes
     // can be used.   
     private static void debug(String message) {
-        if (useLogging & useLoggerLogging) {
+        if (doAppLogging && doLogConfigLogging) {
             System.out.println(message);
         }
     }
@@ -300,8 +324,8 @@ public class Activator extends Plugin {
     // provided in order to print warning messages before logger classes
     // can be used.   
     private static void warn(String message) {
-        if (useLogging) {
-            System.err.println(message);
+        if (doAppLogging) {
+            System.err.println("WARNING: " + message);
         }
     }
 }
