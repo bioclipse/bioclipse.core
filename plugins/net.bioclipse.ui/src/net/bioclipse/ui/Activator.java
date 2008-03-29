@@ -42,21 +42,15 @@ import org.osgi.framework.BundleException;
  */
 
 public class Activator extends BioclipseActivator {
-
-    // if false, log package is reconfigured at app startup to turn logging off
-    public static final boolean useLogging = true;
     
     // The plug-in ID
     public static final String PLUGIN_ID = "net.bioclipse.ui";
 
     public final ConsoleEchoer CONSOLE = new ConsoleEchoer();
     
-    // The shared singleton instance.
-    private static Activator plugin;
-
-    private ServiceTracker finderTracker;
-    
     private static final Logger logger = Logger.getLogger(Activator.class);
+    
+    private ServiceTracker finderTracker;
     
     private static final String EXTENDER_BUNDLE_NAME = 
         "org.springframework.osgi.bundle.extender";
@@ -68,6 +62,8 @@ public class Activator extends BioclipseActivator {
              "'bioclipse.ini' to point to java 1.5 or 1.6 by adding a line like below: \n" +
         " -vm /path/to/java1.5/bin/java";
     
+    // The shared singleton instance.
+    private static Activator plugin; 
     
      /** Returns an image descriptor for the image file at the given plug-in
      * relative path
@@ -143,7 +139,7 @@ public class Activator extends BioclipseActivator {
         if (!(System.getProperty("java.version").startsWith("1.5")) &&
             !(System.getProperty("java.version").startsWith("1.6"))) {
             System.err.println(JVM_VERSION_ERROR_MSG);
-            // you should normally never call this from a plugin
+            // FIXME you should normally never call this from a plugin
             System.exit(0);
         }
     }
