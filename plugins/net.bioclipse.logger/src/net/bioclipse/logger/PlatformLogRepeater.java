@@ -74,37 +74,44 @@ public class PlatformLogRepeater implements ILogListener {
      * A Log event happened on the eclipse platform log.
      * Translates the status instance to a log4j level and sends to a log4j 
      * logger for that plugin.
-     * 
-     * Status.ERROR -> Level.ERROR
-     * Status.WARNING -> Level.WARN
-     * Status.CANCEL -> Level.WARN (we don't know how severe a given cancellation is)
-     * Status.INFO -> Level.INFO
-     * default -> Level.DEBUG
+     * <br />
+     * <br />
+     * Status.ERROR -> Level.ERROR <br />
+     * Status.WARNING -> Level.WARN <br />
+     * Status.CANCEL -> Level.WARN (we don't know how severe a given cancellation is) <br />
+     * Status.INFO -> Level.INFO <br />
+     * default -> Level.DEBUG <br />
      * 
      * @param status Status object being written to platform log
      * @param pluginName symbolic name of plug-in writing said Status object to log
      */ 
     public void logging(IStatus status, String pluginName) {
-        
         if (status == null)
             return;
-        
-        logOneStatus(status);
-        
-        for (IStatus child : status.getChildren()) {
-            logOneStatus(child);
-        }
+        log(status);
     }
 
-    private void logOneStatus(IStatus status) {
+    /* Log an IStatus object to the log4j log. If status contains an
+     * embedded exception, write its stack trace to the logger at the debug
+     * level. 
+     * 
+     * Status objects can be "multistatus" objects with multiple children.
+     * This function calls itself recursively to log all child statuses to
+     * arbitrary depth.
+     */
+    
+    private void log(IStatus status) {
         String pluginName = status.getPlugin();
         
         Logger logger = Logger.getLogger(pluginName);
         logger.log(log4jLevelFrom(status), status.getMessage());
         
         Throwable t = status.getException();
-        if (t != null) 
-            logger.debug(Activator.traceStringFrom(t));
+        if (t != null) logger.debug(Activator.traceStringFrom(t));
+
+        for (IStatus child : status.getChildren()) {
+            log(child);
+        }
     }
     
     private Level log4jLevelFrom(IStatus status) {    
