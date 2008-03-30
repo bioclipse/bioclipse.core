@@ -136,7 +136,7 @@ public class Activator extends Plugin {
         } catch (Exception e) {
             warn(MISCONFIG_WARNING + "\n" + NO_LOG_CONFIG_FILE_MSG);
             warn("Cause: Caught exception: " + e);
-            debug(traceStringFrom(e));
+            debug(traceStringOf(e));
         }
  
         debug("log4j.configuration = " + System.getProperty("log4j.configuration"));
@@ -325,7 +325,7 @@ public class Activator extends Plugin {
      *            the Throwable
      * @return String with stack trace information from t
      */
-    protected static String traceStringFrom(Throwable t) {
+    protected static String traceStringOf(Throwable t) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PrintWriter traceWriter = new PrintWriter(out);
         t.printStackTrace(traceWriter);

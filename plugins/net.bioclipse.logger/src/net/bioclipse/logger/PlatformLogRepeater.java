@@ -92,11 +92,11 @@ public class PlatformLogRepeater implements ILogListener {
             logger = Logger.getLogger(pluginName);
         
         // log the Status
-        logger.log(log4jLevelFrom(status), status.getMessage());
+        logger.log(log4jLevelOf(status), status.getMessage());
         
         // log the stack trace
         Throwable t = status.getException();
-        if (t != null) logger.debug(Activator.traceStringFrom(t));
+        if (t != null) logger.debug(Activator.traceStringOf(t));
 
         // log children, if this object is a multistatus
         for (IStatus child : status.getChildren()) {
@@ -119,7 +119,7 @@ public class PlatformLogRepeater implements ILogListener {
      * Therefore the values returned by getSeverity() are not limited to the
      * cases below. Such unknown severity codes are translated to Level.DEBUG. */
     
-    private static Level log4jLevelFrom(IStatus status) {    
+    private static Level log4jLevelOf(IStatus status) {    
         switch (status.getSeverity()) {
             case Status.ERROR:
                 return Level.ERROR;

@@ -23,7 +23,7 @@ public class LogUtils {
      *            the Throwable
      * @return String with stack trace information from t
      */
-    public static String traceStringFrom(Throwable t) {
+    public static String traceStringOf(Throwable t) {
         // Java ... world heavyweight champion of annoying verbosity
         
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -44,7 +44,7 @@ public class LogUtils {
     public static void debugTrace(Logger logger, Throwable t) {
         // constructing stack trace string is expensive, so check isDebugEnabled
         if (logger.isDebugEnabled()) {
-            logger.debug(traceStringFrom(t));
+            logger.debug(traceStringOf(t));
         }
     }
 }
