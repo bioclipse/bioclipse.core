@@ -48,11 +48,12 @@ public class PlatformLogRepeater implements ILogListener {
      * default -> Level.DEBUG <br />
      * 
      * @param status IStatus object being written to platform log
-     * @param pluginName symbolic name of plug-in writing said Status object to log
+     * @param bogusPluginName not the symbolic name of plug-in that actually created said object
      */ 
-    public void logging(IStatus status, String pluginName) {
-        // the plugin name provided appears to be bogus 
-        // (org.eclipse.core.runtime passes its own plugin id when forwarding logging events, instead of extracting the name of the plugin that generated the status
+    public void logging(IStatus status, String bogusPluginName) {
+        // org.eclipse.core.runtime passes its own plugin id when forwarding 
+        // logging events, instead of extracting the name of the plugin that 
+        // generated the status
         log(status);
     }
 
@@ -82,8 +83,8 @@ public class PlatformLogRepeater implements ILogListener {
         if (status == null || seenBefore.contains(status))
             return;
         seenBefore.add(status);
-        
-        // grab plugin name from the status object if a name wasn't provided
+
+        // get logger (using plugin id as logger name, rather than fully qualified class name)
         pluginName = status.getPlugin();
         if (pluginName == null || pluginName.trim() == "")
             logger = Logger.getRootLogger();

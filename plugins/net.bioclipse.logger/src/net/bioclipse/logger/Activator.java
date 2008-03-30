@@ -192,7 +192,7 @@ public class Activator extends Plugin {
         return plugin;
     }
     
-    private void showLogFileNameOrWarn() {
+    private static void showLogFileNameOrWarn() {
         String logFile = getActualLogFileName();
         if (logFile == null)
             warn(MISCONFIG_WARNING);
@@ -200,7 +200,7 @@ public class Activator extends Plugin {
             logger.info("Probable log file location: " + logFile);
     }
     
-    private void disableLogging() {
+    private static void disableLogging() {
         BasicConfigurator.resetConfiguration();
         BasicConfigurator.configure();      // prevents no-appender warning
         Logger.getRootLogger().setLevel(Level.OFF);
@@ -221,7 +221,7 @@ public class Activator extends Plugin {
      * File attribute is not set.
      */
     
-    private String getActualLogFileName() {
+    private static String getActualLogFileName() {
     
         // find first file appender
         @SuppressWarnings("unchecked")
