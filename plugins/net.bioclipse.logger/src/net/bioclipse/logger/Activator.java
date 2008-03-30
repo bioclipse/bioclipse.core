@@ -62,7 +62,7 @@ public class Activator extends Plugin {
     public static final boolean doAppLogging = true;
     
     // the LogListener that repeats platform log messages to log4j log
-    private final PlatformLogRepeater repeater;
+    private static final PlatformLogRepeater repeater = new PlatformLogRepeater();
     
     // whether to print debug messages from this plugin to System.out before 
     // Logger is available
@@ -151,7 +151,6 @@ public class Activator extends Plugin {
      * The constructor
      */
     public Activator() {
-        repeater = new PlatformLogRepeater();
     }
 
     /*

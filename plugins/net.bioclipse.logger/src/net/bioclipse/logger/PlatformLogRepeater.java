@@ -23,18 +23,16 @@ import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
-
 /**
  * @author Richard Klancer rpk@pobox.com
  *
  */
 public class PlatformLogRepeater implements ILogListener {
 
-    
     /**
-     * Called when an IStatus object was written to the eclipse platform log.
-     * Translates the status instance to a log4j level and sends to the log4j 
-     * logger for the plugin that logged the status. <br />
+     * Called when an IStatus object has been written to the eclipse platform 
+     * log. Translates the status instance to a log4j Level and sends to the
+     * log4j logger for the plugin that logged the IStatus. <br />
      * <br />
      * If the status contains a exception, writes the exception stack trace
      * to the logger at the debug level.<br />
@@ -42,14 +40,14 @@ public class PlatformLogRepeater implements ILogListener {
      * If the IStatus object is a MultiStatus object with child IStatuses,
      * the procedure above is repeated for each child, recursively.<br />
      * <br />
-     * Translates Status levels according to the following rules:
+     * Translates Status severity to Level according to the following rules:
      * Status.ERROR -> Level.ERROR <br />
      * Status.WARNING -> Level.WARN <br />
      * Status.CANCEL -> Level.WARN (we don't know how severe a given cancellation is) <br />
      * Status.INFO -> Level.INFO <br />
      * default -> Level.DEBUG <br />
      * 
-     * @param status Status object being written to platform log
+     * @param status IStatus object being written to platform log
      * @param pluginName symbolic name of plug-in writing said Status object to log
      */ 
     public void logging(IStatus status, String pluginName) {
