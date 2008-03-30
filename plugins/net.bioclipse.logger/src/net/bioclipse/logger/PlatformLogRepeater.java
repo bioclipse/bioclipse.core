@@ -51,7 +51,9 @@ public class PlatformLogRepeater implements ILogListener {
      * @param pluginName symbolic name of plug-in writing said Status object to log
      */ 
     public void logging(IStatus status, String pluginName) {
-        log(status, pluginName);
+        // the plugin name provided appears to be bogus 
+        // (org.eclipse.core.runtime passes its own plugin id when forwarding logging events, instead of extracting the name of the plugin that generated the status
+        log(status);
     }
 
     /* Log an IStatus object to the log4j log. If status contains an
@@ -63,15 +65,15 @@ public class PlatformLogRepeater implements ILogListener {
      * arbitrary depth.
      */
     
-    private static void log(IStatus status, String pluginName) {
-        log(status, pluginName, new HashSet<IStatus>());
+    private static void log(IStatus status) {
+        log(status, new HashSet<IStatus>());
     }
 
     /* log function augmented with the set of multistatus objects previously
      * seen in this call chain, to defend against infinite looping on any 
      * possible cycles in MultiStatus objects passed to us */
     
-    private static void log(IStatus status, String providedPluginName, Set<IStatus> seenBefore) {
+    private static void log(IStatus status, Set<IStatus> seenBefore) {
 
         final Logger logger;
         final String pluginName;
@@ -79,10 +81,10 @@ public class PlatformLogRepeater implements ILogListener {
         // defend against cycles in MultiStatus object
         if (status == null || seenBefore.contains(status))
             return;
+        seenBefore.add(status);
         
         // grab plugin name from the status object if a name wasn't provided
-        pluginName = (providedPluginName == null) ? status.getPlugin() : providedPluginName;
-
+        pluginName = status.getPlugin();
         if (pluginName == null || pluginName.trim() == "")
             logger = Logger.getRootLogger();
         else
@@ -95,9 +97,9 @@ public class PlatformLogRepeater implements ILogListener {
         Throwable t = status.getException();
         if (t != null) logger.debug(Activator.traceStringFrom(t));
 
-        // log children, if this objects is a multistatus
+        // log children, if this object is a multistatus
         for (IStatus child : status.getChildren()) {
-            log(child, null, seenBefore);
+            log(child, seenBefore);
         }
     }
     
