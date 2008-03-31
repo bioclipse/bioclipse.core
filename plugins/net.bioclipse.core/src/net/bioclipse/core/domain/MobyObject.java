@@ -16,6 +16,11 @@ public class MobyObject extends BioObject{
 	private String id;
 	private String namespace;
 	
+	public MobyObject(String id, String namespace) {
+		this.id=id;
+		this.namespace=namespace;
+	}
+	
 	public String getId() {
 		return id;
 	}
