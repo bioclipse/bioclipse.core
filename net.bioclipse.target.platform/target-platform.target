@@ -107,6 +107,8 @@
          <plugin id="org.springframework.bundle.spring.beans"/>
          <plugin id="org.springframework.bundle.spring.context"/>
          <plugin id="org.springframework.bundle.spring.core"/>
+         <plugin id="org.springframework.bundle.spring.jdbc"/>
+         <plugin id="org.springframework.bundle.spring.orm"/>
          <plugin id="org.springframework.bundle.spring.tx"/>
          <plugin id="org.springframework.osgi.bundle.core"/>
          <plugin id="org.springframework.osgi.bundle.extender"/>
@@ -117,10 +119,10 @@
       <features>
       </features>
       <extraLocations>
-         <location path="${project_loc}/spring_2.5.0"/>
          <location path="${project_loc}/required-libs"/>
-         <location path="${project_loc}/spring-dm_1.0.rc1"/>
          <location path="${eclipse_home}/plugins"/>
+         <location path="${project_loc}/spring_2.5.0"/>
+         <location path="${project_loc}/spring-dm_1.0.rc1"/>
       </extraLocations>
    </content>
 
