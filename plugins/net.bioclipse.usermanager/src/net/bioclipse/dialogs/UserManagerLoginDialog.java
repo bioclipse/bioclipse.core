@@ -57,7 +57,7 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 	private Label          passwordLabel;
 	private Text           usernameText;
 	private Text           passwordText;
-	private UserContainer  userManager;
+	private UserContainer  userContainer;
 	
 	/**
 	 * Create the dialog
@@ -67,7 +67,7 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 			                       UserContainer userContainer ) {
 		super(parentShell);
 		
-		this.userManager = userContainer;
+		this.userContainer = userContainer;
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 							              .getWorkbench()
 							              .getActiveWorkbenchWindow()
 							              .getShell(),
-							              userManager );
+							              userContainer );
 				createDialog.open();
 				if(createDialog.getReturnCode() == createDialog.OK) {
 					close();
@@ -134,8 +134,13 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 								            .getWorkbench()
 								            .getActiveWorkbenchWindow()
 								            .getShell(), 
-								            userManager );
+								            userContainer );
 					dialog.open();
+					if(dialog.getReturnCode() == dialog.OK) {
+						Activator.getDefault()
+						         .getUserManager()
+						         .switchUserContainer( userContainer );
+					}
 				}
 			}
 		});
