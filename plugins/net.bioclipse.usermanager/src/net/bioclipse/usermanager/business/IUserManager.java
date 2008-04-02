@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.eclipse.core.runtime.SubProgressMonitor;
 
+import net.bioclipse.core.PublishedClass;
+import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.usermanager.AccountType;
@@ -13,6 +15,9 @@ import net.bioclipse.usermanager.IUserManagerListener;
 import net.bioclipse.usermanager.User;
 import net.bioclipse.usermanager.UserContainer;
 
+@PublishedClass("Handles users and accounts in Bioclipse. " +
+		        "Can store things like database passwords and usernames " +
+		        "in an encrypted file.")
 public interface IUserManager extends IBioclipseManager {
 
 	/**
@@ -22,8 +27,12 @@ public interface IUserManager extends IBioclipseManager {
 	 * @param password the users password
 	 * @throws IllegalArgumentException if signIn not succesfull
 	 */
+	@PublishedMethod( params = "String username, String password", 
+			          methodSummary = "Logs in the user with the given "
+			       	                + "username given that the given password "
+			       	                + "matches the stored one." )
 	@Recorded
-	public void signIn( String username, String password );
+	public void logIn( String username, String password );
 
 	/**
 	 * Signs in a user while updating a monitor

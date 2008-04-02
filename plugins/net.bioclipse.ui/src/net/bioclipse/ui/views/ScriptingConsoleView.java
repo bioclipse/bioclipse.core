@@ -160,7 +160,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
 	                }
 	                
 	                if (verbose) {
-		                text.append( result );
+		                text.append( splitIntoSeveralLines(
+		                		result, MAX_OUTPUT_LINE_LENGTH) );
 		                
 		                if ( !result.equals("") )
 		                    text.append( "\n" );
@@ -546,7 +547,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
 
 			// Line breaks only between lines, and only in the absence of
 			// natural ones.
-			if (currentPos < text.length() && text.charAt(currentPos) != '\n')
+			if (currentPos < text.length() && text.charAt(currentPos-1) != '\n')
 				result.append('\n');
 			
 			// And we can live without the spaces at which we chose to break.

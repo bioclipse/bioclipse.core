@@ -112,7 +112,7 @@ public class UserManager implements IUserManager {
 		userContainer.reloadFromFile();
 	}
 
-	public void signIn(String username, String password) {
+	public void logIn(String username, String password) {
 		userContainer.signIn(username, password, null);
 		fireLogin();
 	}

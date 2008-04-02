@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.bioclipse.core.PublishedClass;
+import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.util.LogUtils;
@@ -202,6 +204,10 @@ public class JsConsoleView extends ScriptingConsoleView
     		return "";
     	}
     	
+    	if (command.startsWith("help")) {
+    		return buildHelpString(command);
+    	}
+    	
     	if (mode == Mode.JS) {
     		if ("R".equals(command.trim())) {
     			setMode(Mode.R);
@@ -217,6 +223,62 @@ public class JsConsoleView extends ScriptingConsoleView
     		return executeRCommand(command);
     	}
     }
+
+	/**
+	 * @param command the complete command from the console input
+	 * @return a help string to be printed to the console
+	 */
+	private String buildHelpString(String command) {
+		
+		final String errorMessage = "Usage of help: \"help managerName\" " +
+				                    "or: \"help managerName.methodName\""; 
+		StringBuilder result = new StringBuilder();
+		
+		if( "help".equals(command)) return errorMessage;
+		String helpObject = command.substring(5);
+		if(helpObject.contains(".")) {
+			String[] parts = helpObject.split("\\.");
+			if(parts.length != 2) {
+				return errorMessage;
+			}
+			IBioclipseManager manager = js.getManager(parts[0]);
+			if(manager == null) {
+				return "Can not find a manager with the name " + parts[0] 
+				       + "\n" + errorMessage;
+			}
+			for( Class<?> interfaze : manager.getClass().getInterfaces() ) {
+				for( Method method : interfaze.getMethods() ) {
+					if( method.getName().equals(parts[1]) && 
+						method.isAnnotationPresent(PublishedMethod.class)	) {
+						
+						PublishedMethod publishedMethod 
+							= method.getAnnotation(PublishedMethod.class);
+						result.append( "==" + parts[0] + "." + method.getName()
+								       +"("+ publishedMethod.params() +")==\n" +  
+								       publishedMethod.methodSummary() + "\n" );
+					}
+				}
+			}
+		}
+		else {
+			IBioclipseManager manager = js.getManager(helpObject);
+			if(manager == null) {
+				return "Can not find a manager with the name " + helpObject 
+				       + "\n" + errorMessage;
+			}
+			StringBuilder managerDescription = new StringBuilder();
+			for( Class<?> interfaze : manager.getClass().getInterfaces() ) {
+				if( interfaze.isAnnotationPresent(PublishedClass.class) ) {
+					managerDescription.append(
+							interfaze.getAnnotation(
+									PublishedClass.class).value() );
+							
+				}
+			}
+			result.append("==" + helpObject + "==\n" + managerDescription);
+		}
+		return result.toString();
+	}
 
 	public void receiveLogEvent(EchoEvent e) {
 		printMessage(e.getMessage());		
