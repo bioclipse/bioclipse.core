@@ -114,6 +114,7 @@ public class UserManager implements IUserManager {
 
 	public void signIn(String username, String password) {
 		userContainer.signIn(username, password, null);
+		fireLogin();
 	}
 
 	public void signInWithProgressBar( String username, 

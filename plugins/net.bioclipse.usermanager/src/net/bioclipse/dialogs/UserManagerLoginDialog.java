@@ -43,7 +43,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * Dialog for logging in to the UserContainer
+ * Dialog for logging in to the given UserContainer
  * 
  * @author jonalv
  *
@@ -58,6 +58,9 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 	private Text           usernameText;
 	private Text           passwordText;
 	private UserContainer  userContainer;
+	private String         username;
+	private String         password;
+	private boolean        userContainerEdited;
 	
 	/**
 	 * Create the dialog
@@ -137,9 +140,10 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 								            userContainer );
 					dialog.open();
 					if(dialog.getReturnCode() == dialog.OK) {
-						Activator.getDefault()
-						         .getUserManager()
-						         .switchUserContainer( userContainer );
+						userContainerEdited = true;
+//						Activator.getDefault()
+//						         .getUserManager()
+//						         .switchUserContainer( userContainer );
 					}
 				}
 			}
@@ -188,8 +192,10 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 		 */
 		if (buttonId == IDialogConstants.OK_ID) {
 			try {
-				final String username = usernameText.getText();
-				final String password = passwordText.getText();
+				username = usernameText.getText();
+				password = passwordText.getText();
+				final String username = this.username;
+				final String password = this.password;
 				PlatformUI
 				.getWorkbench()
 				.getActiveWorkbenchWindow()
@@ -237,5 +243,17 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 			}
 		}
 		super.buttonPressed(buttonId);
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public boolean isUserContainerEdited() {
+		return userContainerEdited;
 	}
 }

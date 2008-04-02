@@ -22,7 +22,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * This action logs a user in to the Keyring
+ * This action logs a user in to the Usermanager
  * 
  * @author jonalv
  *
@@ -38,17 +38,25 @@ public class LoginAction implements IWorkbenchWindowActionDelegate {
 
 //		logger.debug("LoginAction.run()");
 
+		UserContainer sandboxUserContainer = Activator
+		                                     .getDefault()
+                                             .getUserManager()
+                                             .getSandBoxUserContainer();
+		
 		UserManagerLoginDialog loginDialog = 
 			new UserManagerLoginDialog( PlatformUI
 					                    .getWorkbench()
 					                    .getActiveWorkbenchWindow()
-					                    .getShell(), 
-					                    Activator
-					                    .getDefault()
-					                    .getUserManager()
-					                    .getSandBoxUserContainer() );
+					                    .getShell(),
+					                    sandboxUserContainer );
 		
 		loginDialog.open();
+		if(loginDialog.getReturnCode() == loginDialog.OK) {
+			if( loginDialog.isUserContainerEdited() ) {
+				Activator.getDefault().getUserManager()
+				         .switchUserContainer(sandboxUserContainer);
+			}
+		}
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
