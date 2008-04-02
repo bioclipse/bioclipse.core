@@ -18,7 +18,6 @@ import java.util.Set;
 
 import net.bioclipse.usermanager.AccountType;
 import net.bioclipse.usermanager.UserContainer;
-import net.bioclipse.usermanager.User;
 import net.bioclipse.usermanager.AccountType.Property;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -36,9 +35,8 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -56,7 +54,6 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
@@ -68,6 +65,11 @@ import org.eclipse.ui.PlatformUI;
  */
 public class EditUserDialog extends Dialog {
 
+	private static final String ALREADY_SUCH_AN_ACCOUNT
+		= "There is already an account of that type.";
+	private static final String FILL_IN_REQUIRED
+		= "Please fill in the values for all required account properties.";
+	
 	private Text accountTypeText;
 	private Label accountTypeLabel;
 	private TableViewer propertiesTableViewer;
@@ -83,8 +85,8 @@ public class EditUserDialog extends Dialog {
 	private UserContainer sandBoxUserContainer;
 	private EditUserDialogModel model;
 	private static final String[] COLUMN_NAMES = { "Property", 
-		                                           "Value", 
-		                                           "Required" };
+		                                          "Value", 
+		                                          "Required" };
 	
 	/**
 	 * Create the dialog
@@ -164,7 +166,7 @@ public class EditUserDialog extends Dialog {
 		formData_5.bottom = new FormAttachment(propertiesTable, -5, SWT.TOP);
 		
 		/*
-		 * TableColumns
+		 * Table columns
 		 */
 		TableColumn column1 = new TableColumn(propertiesTable, SWT.LEFT, 0);
 		column1.setText(COLUMN_NAMES [0]);
@@ -179,7 +181,7 @@ public class EditUserDialog extends Dialog {
 		propertiesTable.setHeaderVisible(true);
 		
 		/*
-		 * Celleditors 
+		 * Cell editors 
 		 */
 		CellEditor[] editors = new CellEditor[COLUMN_NAMES.length];
 		editors[1] = new TextCellEditor(propertiesTable);
@@ -230,7 +232,7 @@ public class EditUserDialog extends Dialog {
 							                   .getActiveWorkbenchWindow()
 							                   .getShell(), 
 						                       sandBoxUserContainer );
-				if(dialog.open() == dialog.OK) {
+				if(dialog.open() == Window.OK) {
 					
 					for( DummyAccount ac : model.dummyAccounts.values() ) {
 						if( ac.accountType.equals( dialog.getAccountType() ) ) {
@@ -240,8 +242,7 @@ public class EditUserDialog extends Dialog {
 									.getActiveWorkbenchWindow()
 									.getShell(), 
 									"Account type already used", 
-									"There already exists an account " +
-									"with that accounttype" );
+									ALREADY_SUCH_AN_ACCOUNT );
 							return;
 						}
 					}
@@ -306,7 +307,7 @@ public class EditUserDialog extends Dialog {
 							                  .getWorkbench()
 							                  .getActiveWorkbenchWindow()
 							                  .getShell() );
-				if(dialog.open() == dialog.OK) {
+				if(dialog.open() == Window.OK) {
 					sandBoxUserContainer.changePassword( dialog.getOldPassword(), 
 							                        dialog.getNewPassword() );
 				}
@@ -322,7 +323,7 @@ public class EditUserDialog extends Dialog {
 				                             deleteAccountButton, 
 				                             accountGroup, 
 				                             list } );
-		//
+
 		return container;
 	}
 
@@ -364,7 +365,8 @@ public class EditUserDialog extends Dialog {
 	
 	private void refreshOnSelectionChanged() {
 
-		String selectedAccountId = accountsListViewer.getList().getSelection()[0];
+		String selectedAccountId
+			= accountsListViewer.getList().getSelection()[0];
 		accountTypeText.setText(
 				model.dummyAccounts.get( selectedAccountId)
 				                         .accountType.toString() );
@@ -380,9 +382,7 @@ public class EditUserDialog extends Dialog {
 						                       .getActiveWorkbenchWindow()
 						                       .getShell(), 
 						                       "Not complete", 
-						                       "You have not filled in values" +
-						                       " for all required " +
-						                       "accountproperties");
+						                       FILL_IN_REQUIRED);
 				return;
 			}
 			saveDummyAccountToSandBoxUserManager();
@@ -415,7 +415,7 @@ public class EditUserDialog extends Dialog {
 	}
 	
 	/**
-	 * Labelprovider for the accounts list
+	 * Label provider for the accounts list
 	 * 
 	 * @author jonathan
 	 *
@@ -430,14 +430,14 @@ public class EditUserDialog extends Dialog {
 	}
 	
 	/**
-	 * Contentprovider for the accounts list
+	 * Content provider for the accounts list
 	 * 
 	 * @author jonathan
 	 *
 	 */
 	class ListContentProvider implements IStructuredContentProvider {
 		public Object[] getElements(Object inputElement) {
-			return ( (Set)inputElement ).toArray();
+			return ( (Set<?>)inputElement ).toArray();
 		}
 		public void dispose() {
 		}
@@ -460,7 +460,7 @@ public class EditUserDialog extends Dialog {
 	}
 	
 	/**
-	 * Contentprovider for the properties table 
+	 * Content provider for the properties table 
 	 * 
 	 * @author jonathan
 	 *
@@ -470,7 +470,8 @@ public class EditUserDialog extends Dialog {
 			DummyAccount dm = (DummyAccount)inputElement;
 			HashMap<String, String> properties 
 				= (HashMap<String, String>)dm.properties;
-			ArrayList<ArrayList> rows = new ArrayList<ArrayList>();
+			ArrayList<ArrayList<String>> rows
+				= new ArrayList<ArrayList<String>>();
 			for( String key : properties.keySet() ) {
 				ArrayList<String> row = new ArrayList<String>();
 				row.add(key);
@@ -489,7 +490,7 @@ public class EditUserDialog extends Dialog {
 	}
 	
 	/**
-	 * LabelProvider for the properties Table 
+	 * Label provider for the properties table 
 	 * 
 	 * @author jonathan
 	 *
@@ -497,7 +498,7 @@ public class EditUserDialog extends Dialog {
 	class TableLabelProvider extends LabelProvider 
 	                         implements ITableLabelProvider {
 		public String getColumnText(Object element, int columnIndex) {
-			return ( (ArrayList)element ).get(columnIndex).toString();
+			return ( (ArrayList<?>)element ).get(columnIndex).toString();
 		}
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
@@ -524,7 +525,7 @@ public class EditUserDialog extends Dialog {
 		public Object getValue(Object element, String property) {
 			
 			int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
-			ArrayList row = (ArrayList)element;
+			ArrayList<?> row = (ArrayList<?>)element;
 			
 			return row.get(columnIndex).toString();
 		}
@@ -535,7 +536,7 @@ public class EditUserDialog extends Dialog {
 			if(element instanceof Item) {
 				element = ((Item) element).getData();
 			}
-			ArrayList row = (ArrayList)element;
+			ArrayList<?> row = (ArrayList<?>)element;
 			
 			switch (columnIndex) {
 			case 0:
@@ -555,7 +556,7 @@ public class EditUserDialog extends Dialog {
 	
 	/**
 	 * Data holder for the edit super user dialog that can be thrown away if 
-	 * canceled and stored if Ok is pressed.
+	 * canceled, or stored if "Ok" is pressed.
 	 * 
 	 * @author jonathan
 	 *
