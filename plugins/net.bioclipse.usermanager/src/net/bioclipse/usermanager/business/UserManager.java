@@ -129,7 +129,7 @@ public class UserManager implements IUserManager {
 		fireLoginWithProgressBar( subMonitor );
 	}
 
-	public void signOut() {
+	public void logOut() {
 		userContainer.signOut();
 		fireLogout();
 	}

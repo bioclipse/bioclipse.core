@@ -38,7 +38,7 @@ public class LogoutAction implements IWorkbenchWindowActionDelegate {
 
 //		logger.debug("LoginAction.run()");
 
-		Activator.getDefault().getUserManager().signOut();
+		Activator.getDefault().getUserManager().logOut();
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {

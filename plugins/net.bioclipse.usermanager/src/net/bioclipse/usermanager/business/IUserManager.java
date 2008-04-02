@@ -51,13 +51,15 @@ public interface IUserManager extends IBioclipseManager {
 	 * @return whether any user is logged in
 	 */
 	@Recorded
+	@PublishedMethod (methodSummary = "Returns whether a user is logged in")
 	public boolean isLoggedIn();
 
 	/**
 	 *  Signs out the current user
 	 */
 	@Recorded
-	public void signOut();
+	@PublishedMethod (methodSummary = "Logs out the currently logged in user")
+	public void logOut();
 
 	/**
 	 * Creates a new user which can have many accounts.
@@ -66,12 +68,17 @@ public interface IUserManager extends IBioclipseManager {
 	 * @param key the password for the superuser
 	 */
 	@Recorded
+	@PublishedMethod (params="String username, String password",
+		              methodSummary="Creates a new user with the " +
+		              		         "given username and password")
 	public void createUser( String userName, String key );
 
 	/**
 	 * @return the name of the user currently logged in
 	 */
 	@Recorded
+	@PublishedMethod (methodSummary = "Gives the name of the currently " +
+			                          "logged in user")
 	public String getLoggedInUserName();
 
 	/**
@@ -83,6 +90,12 @@ public interface IUserManager extends IBioclipseManager {
 	 * @param accountType the type of the account
 	 */
 	@Recorded
+	@PublishedMethod (params = "String accountID, " +
+			                   "HashMap<String, String> properties, " +
+			                   "AccountType accountType",
+			          methodSummary = "Creates a new account of the given " +
+			          		           "accountType and with the given " +
+			          		           "properties" )
 	public void createAccount( String accountId, 
 			                   HashMap<String, String> properties, 
 			                   AccountType accountType );
@@ -92,6 +105,8 @@ public interface IUserManager extends IBioclipseManager {
 	 * @return whether an account with the given accountId exists
 	 */
 	@Recorded
+	@PublishedMethod (methodSummary = "Wether an account with a given " +
+			                          "account id exists")
 	public boolean accountExists( String accountId );
 
 	/**
@@ -104,36 +119,48 @@ public interface IUserManager extends IBioclipseManager {
 	 * @return the value of a property
 	 */
 	@Recorded
+	@PublishedMethod (params = "String accountId, String property", 
+			          methodSummary = "Gives the value of the given property " +
+			          		          "for the account with the given " +
+			          		          "account id")
 	public String getProperty( String accountId, String propertyKey );
 
 	/**
 	 * Writes all data to file
 	 */
 	@Recorded
+	@PublishedMethod (methodSummary = "Write all data to file")
 	public void persist();
 
 	/**
 	 * Reloads all data in the UserContainer from file
 	 */
 	@Recorded
+	@PublishedMethod (methodSummary = "Reloads all data from file " +
+			                          "discarding changes")
 	public void reloadFromFile();
 
 	/**
 	 * @return the names of all users
 	 */
 	@Recorded
+	@PublishedMethod (methodSummary = "Gives a list of all user names")
 	public List<String> getUserNames();
 
 	/**
 	 * @return the <code>User</code> currently logged in
 	 */
 	@Recorded
+	@PublishedMethod (methodSummary = "gives the logged in user")
 	public User getLoggedInUser();
 
 	/**
 	 * @param name of user to be deleted
 	 */
 	@Recorded
+	@PublishedMethod (params = "String username", 
+	                  methodSummary = "deletes the user with " +
+	                  		          "the given username")
 	public void deleteUser( String user );
 
 	/**
@@ -143,12 +170,17 @@ public interface IUserManager extends IBioclipseManager {
 	 * @return
 	 */
 	@Recorded
+	@PublishedMethod (params = "String accountId", 
+	                  methodSummary = "gives the names of the properties for" +
+	                  		          " an account with a given account id ")
 	public Collection<String> getPropertyKeys( String accountId );
 
 	/**
 	 * Removes all accounts for the currently logged in <code>User</code>
 	 */
 	@Recorded
+	@PublishedMethod (methodSummary = "Removes all accounts for the " +
+			                          "currently logged in user")
 	public void clearAccounts();
 
 	/**
@@ -158,24 +190,33 @@ public interface IUserManager extends IBioclipseManager {
 	 * @param newkey new password
 	 */
 	@Recorded
+	@PublishedMethod (params = "String oldPassword, String newPassword",
+			          methodSummary = "Changes the password for " +
+			          		          "the logged in user if the oldPassword " +
+			          		          "is given correctly")
 	public void changePassword( String oldkey, String newkey );
 
 	/**
 	 * @return the names of the currently logged in users accounts
 	 */
 	@Recorded
+	@PublishedMethod (methodSummary = "Gives the account names of the " +
+			                          "logged in user ")
 	public Collection<String> getLoggedInUsersAccountNames();
 
 	/**
 	 * @return the names of the available account types
 	 */
 	@Recorded
+	@PublishedMethod (methodSummary = "Gives the names of all available " +
+			                          "account types")
 	public String[] getAvailableAccountTypeNames();
 
 	/**
 	 * @return the available account types 
 	 */
 	@Recorded
+	@PublishedMethod (methodSummary = "Gives all available account types")
 	public AccountType[] getAvailableAccountTypes();
 
 	/**
@@ -186,18 +227,19 @@ public interface IUserManager extends IBioclipseManager {
 	 * @return the accounts account type
 	 */
 	@Recorded
+	@PublishedMethod (params = "String accountID", 
+			          methodSummary = "Gives the accounttype for account " +
+			          		          "with given account id")
 	public AccountType getAccountType(String accountId);
 
 	/**
 	 * @param listener to be added
 	 */
-	@Recorded
 	public void removeListener(IUserManagerListener listener);
 
 	/**
 	 * @param listener to be removed
 	 */
-	@Recorded
 	public void addListener(IUserManagerListener listener);
 
 	/**
