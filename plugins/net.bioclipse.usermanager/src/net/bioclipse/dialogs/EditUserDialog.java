@@ -265,6 +265,7 @@ public class EditUserDialog extends Dialog {
 					}
 					list.select(pos);
 					refreshTable();
+					refreshOnSelectionChanged();
 				}
 			}
 			
