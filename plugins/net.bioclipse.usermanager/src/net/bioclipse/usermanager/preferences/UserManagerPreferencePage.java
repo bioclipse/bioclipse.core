@@ -19,7 +19,6 @@ import net.bioclipse.usermanager.UserContainer;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferencePage;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ListViewer;
@@ -156,6 +155,7 @@ public class UserManagerPreferencePage extends PreferencePage
 		});
 		final FormData formData_3 = new FormData();
 		formData_3.top = new FormAttachment(createButton, 0, SWT.TOP);
+		formData_3.bottom = new FormAttachment(createButton, 0, SWT.BOTTOM);
 		formData_3.left = new FormAttachment(createButton, 5, SWT.DEFAULT);
 		editButton.setLayoutData(formData_3);
 		editButton.setText("Edit...");
@@ -183,6 +183,7 @@ public class UserManagerPreferencePage extends PreferencePage
 		});
 		final FormData formData_4 = new FormData();
 		formData_4.top = new FormAttachment(createButton, 0, SWT.TOP);
+		formData_4.bottom = new FormAttachment(createButton, 0, SWT.BOTTOM);
 		formData_4.left = new FormAttachment(editButton, 5, SWT.DEFAULT);
 		deleteButton.setLayoutData(formData_4);
 		deleteButton.setText("Delete");
