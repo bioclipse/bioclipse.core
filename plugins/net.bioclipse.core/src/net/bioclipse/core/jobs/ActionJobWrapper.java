@@ -15,7 +15,15 @@ public class ActionJobWrapper extends Job {
     
     private IActionJob actionJob = null;
 
-    /**
+    public IActionJob getActionJob() {
+		return actionJob;
+	}
+
+	public void setActionJob(IActionJob actionJob) {
+		this.actionJob = actionJob;
+	}
+
+	/**
      * @param name
      */
     public ActionJobWrapper(IActionJob job) {
