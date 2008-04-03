@@ -205,7 +205,7 @@ public class JsConsoleView extends ScriptingConsoleView
     	}
     	
     	if (command.startsWith("help")) {
-    		return buildHelpString(command);
+    		return helpString(command);
     	}
     	
     	if (mode == Mode.JS) {
@@ -225,27 +225,37 @@ public class JsConsoleView extends ScriptingConsoleView
     }
 
 	/**
+	 * Returns a help string documenting a Manager or one of its methods.
+	 * These help strings are printed to the console in response to the
+	 * command "help x" (where x is a manager) or "help x.y" (where y is
+	 * a method).
+	 * 
 	 * @param command the complete command from the console input
-	 * @return a help string to be printed to the console
+	 * @return a string documenting a manager or one of its methods
 	 */
-	private String buildHelpString(String command) {
+	private String helpString(String command) {
 		
-		final String errorMessage = "Usage of help: \"help managerName\" " +
-				                    "or: \"help managerName.methodName\""; 
+		if (command == null)
+			return "";
+		
+		final String errorMessage = "Usage of help: `help <manager>` " +
+				                    "or: `help <manager>.<method>`"; 
 		StringBuilder result = new StringBuilder();
 		
-		if( "help".equals(command)) return errorMessage;
+		if( "help".equals(command.trim())) return errorMessage;
 		String helpObject = command.substring(5);
 		if(helpObject.contains(".")) {
+			
 			String[] parts = helpObject.split("\\.");
-			if(parts.length != 2) {
+			
+			if(parts.length != 2)
 				return errorMessage;
-			}
+			
 			IBioclipseManager manager = js.getManager(parts[0]);
-			if(manager == null) {
-				return "Can not find a manager with the name " + parts[0] 
+			if(manager == null)
+				return "No such manager: " + parts[0] 
 				       + "\n" + errorMessage;
-			}
+			
 			for( Class<?> interfaze : manager.getClass().getInterfaces() ) {
 				for( Method method : interfaze.getMethods() ) {
 					if( method.getName().equals(parts[1]) && 
@@ -262,19 +272,21 @@ public class JsConsoleView extends ScriptingConsoleView
 		}
 		else {
 			IBioclipseManager manager = js.getManager(helpObject);
-			if(manager == null) {
-				return "Can not find a manager with the name " + helpObject 
+			
+			if(manager == null)
+				return "No such method: " + helpObject 
 				       + "\n" + errorMessage;
-			}
+			
 			StringBuilder managerDescription = new StringBuilder();
-			for( Class<?> interfaze : manager.getClass().getInterfaces() ) {
-				if( interfaze.isAnnotationPresent(PublishedClass.class) ) {
+			for( Class<?> interfaze : manager.getClass().getInterfaces() )
+				if( interfaze.isAnnotationPresent(PublishedClass.class) )
 					managerDescription.append(
 							interfaze.getAnnotation(
-									PublishedClass.class).value() );
+									PublishedClass.class
+							).value()
+					);
 							
-				}
-			}
+
 			result.append("==" + helpObject + "==\n" + managerDescription);
 		}
 		return result.toString();
