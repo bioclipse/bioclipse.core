@@ -14,12 +14,14 @@ package net.bioclipse.core.domain;
 import net.bioclipse.core.business.BioclipseException;
 
 /**
- * An interface to represent a Molecule.
+ * An interface to represent a Small Molecule that can be represented with 
+ * Smiles notation. Since we can get SMILES, we can also get 2D coordinates.
  * @author ola
  *
  */
 public interface IMolecule extends IBioObject{
 
-	public String getSMILES() throws BioclipseException;
+	public String getSmiles() throws BioclipseException;
+	public boolean has3dCoords();
 	
 }
