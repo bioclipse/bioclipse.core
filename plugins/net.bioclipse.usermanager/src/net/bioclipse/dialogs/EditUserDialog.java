@@ -377,6 +377,12 @@ public class EditUserDialog extends Dialog {
 
 	protected void buttonPressed(int buttonId) {
 		if (buttonId == IDialogConstants.OK_ID) {
+			
+			// We need to move focus away from any open editors before we
+			// check if the dialog is completed, so we do this. Doesn't matter
+			// what we move focus to, really.
+			addAccountButton.setFocus();
+			
 			if( !dialogInputIsComplete() ) {
 				MessageDialog.openInformation( PlatformUI
 						                       .getWorkbench()
