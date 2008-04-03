@@ -98,7 +98,7 @@ public class UserManagerTest {
 	 */
 	private void logout() {
 	
-		userManager.signOut();
+		userManager.logOut();
 	}
 	
 	private void createAccount() {
