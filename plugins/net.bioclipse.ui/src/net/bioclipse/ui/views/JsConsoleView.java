@@ -242,7 +242,7 @@ public class JsConsoleView extends ScriptingConsoleView
 				                    "or: `help <manager>.<method>`"; 
 		StringBuilder result = new StringBuilder();
 		
-		if( "help".equals(command.trim())) return errorMessage;
+		if( "help".equals(command.trim()) ) return errorMessage;
 		String helpObject = command.substring(5);
 		if(helpObject.contains(".")) {
 			
@@ -250,22 +250,46 @@ public class JsConsoleView extends ScriptingConsoleView
 			
 			if(parts.length != 2)
 				return errorMessage;
+
+			String managerName = parts[0];
+			String methodName  = parts[1];
 			
-			IBioclipseManager manager = js.getManager(parts[0]);
+			IBioclipseManager manager = js.getManager(managerName);
 			if(manager == null)
-				return "No such manager: " + parts[0] 
+				return "No such manager: " + managerName 
 				       + "\n" + errorMessage;
 			
-			for( Class<?> interfaze : manager.getClass().getInterfaces() ) {
-				for( Method method : interfaze.getMethods() ) {
-					if( method.getName().equals(parts[1]) && 
-						method.isAnnotationPresent(PublishedMethod.class)	) {
+			for ( Class<?> interfaze : manager.getClass().getInterfaces() ) {
+				for ( Method method : interfaze.getMethods() ) {
+
+					if ( method.getName().equals(methodName) && 
+						 method.isAnnotationPresent(PublishedMethod.class)	) {
 						
 						PublishedMethod publishedMethod 
 							= method.getAnnotation(PublishedMethod.class);
-						result.append( "==" + parts[0] + "." + method.getName()
-								       +"("+ publishedMethod.params() +")==\n" +  
-								       publishedMethod.methodSummary() + "\n" );
+
+						String line 
+							= dashes(managerName.length()
+									 + method.getName().length()
+									 + publishedMethod.params().length()
+									 + 3,
+									 MAX_OUTPUT_LINE_LENGTH);
+						
+						result.append( line );
+						result.append( '\n' );
+						
+						result.append( managerName );
+						result.append( '.' );
+						result.append( method.getName() );
+						result.append( '(' );
+						result.append( publishedMethod.params() );
+						result.append( ")\n" );
+						
+						result.append( line );
+						result.append( '\n' );
+
+						result.append( publishedMethod.methodSummary() );
+						result.append( '\n' );
 					}
 				}
 			}
@@ -273,13 +297,13 @@ public class JsConsoleView extends ScriptingConsoleView
 		else {
 			IBioclipseManager manager = js.getManager(helpObject);
 			
-			if(manager == null)
+			if (manager == null)
 				return "No such method: " + helpObject 
 				       + "\n" + errorMessage;
 			
 			StringBuilder managerDescription = new StringBuilder();
-			for( Class<?> interfaze : manager.getClass().getInterfaces() )
-				if( interfaze.isAnnotationPresent(PublishedClass.class) )
+			for ( Class<?> interfaze : manager.getClass().getInterfaces() )
+				if ( interfaze.isAnnotationPresent(PublishedClass.class) )
 					managerDescription.append(
 							interfaze.getAnnotation(
 									PublishedClass.class
@@ -287,8 +311,31 @@ public class JsConsoleView extends ScriptingConsoleView
 					);
 							
 
-			result.append("==" + helpObject + "==\n" + managerDescription);
+			String line = dashes(helpObject.length(), MAX_OUTPUT_LINE_LENGTH);
+			
+			result.append(line);
+			result.append( '\n' );
+
+			result.append(helpObject);
+			result.append( '\n' );
+
+			result.append(line);
+			result.append( '\n' );
+			
+			result.append( managerDescription );
+			result.append( '\n' );
 		}
+		
+		return result.toString();
+	}
+
+	private String dashes(int length, int maxLength) {
+		
+		StringBuilder result = new StringBuilder();
+		
+		for ( int i = 0; i < Math.min(length, maxLength); ++i )
+			result.append('-');
+		
 		return result.toString();
 	}
 

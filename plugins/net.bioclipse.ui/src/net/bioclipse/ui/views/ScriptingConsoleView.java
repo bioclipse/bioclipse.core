@@ -83,7 +83,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
     private boolean outputIsMidLine = false;
     
     /** The preferred maximum length of a line of output. */
-    private static final int MAX_OUTPUT_LINE_LENGTH = 79;
+    protected static final int MAX_OUTPUT_LINE_LENGTH = 79;
     
     /**
      * Essentially a switching table for handleKey. So, every time a keypress
