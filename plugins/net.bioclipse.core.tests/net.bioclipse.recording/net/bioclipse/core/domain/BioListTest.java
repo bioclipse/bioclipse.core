@@ -8,10 +8,6 @@ public class BioListTest {
 
 	private static class TestBioObject extends BioObject {
 
-		public Object getParsedResource() {
-			return "object";
-		}
-
 		public Object getAdapter(Class adapter) {
 			return null;
 		}
@@ -19,10 +15,12 @@ public class BioListTest {
 
 	private BioList<IBioObject> biolist;
 	private IBioObject          bioObject;
+	private IBioObject          bioObject2;
 	
 	public BioListTest() {
 		biolist   = new BioList<IBioObject>();
 		bioObject = new TestBioObject();
+		bioObject2 = new TestBioObject();
 	}
 	
 	@Test
@@ -33,6 +31,14 @@ public class BioListTest {
 				      BioList.idOfListContainingBioObject(bioObject.getUID()) );
 		assertEquals( 0, 
 				      BioList.positionOfBioObjectInList(bioObject.getUID()) );
+	}
+
+	@Test
+	public void testAddSeveral() {
+		biolist.add(bioObject);
+		biolist.add(bioObject2);
+		assertTrue( biolist.contains(bioObject) );
+		assertTrue( biolist.contains(bioObject2) );
 	}
 
 	@Test
