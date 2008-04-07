@@ -14,11 +14,9 @@ public class WrapInProxyAdvice implements IWrapInProxyAdvice {
 		Object returnValue = invocation.proceed();
 		if(  returnValue instanceof IBioObject && 
 		   !(returnValue instanceof net.sf.cglib.proxy.Factory) ) {
-			if(pf == null) {
-				pf = new ProxyFactory();
-				pf.addAdvice(this);
-				pf.addAdvice(Activator.getDefault().getRecordingAdvice());
-			}
+			pf = new ProxyFactory();
+			pf.addAdvice(this);
+			pf.addAdvice(Activator.getDefault().getRecordingAdvice());
 			pf.setTarget(returnValue);
 			returnValue = pf.getProxy();
 		}
