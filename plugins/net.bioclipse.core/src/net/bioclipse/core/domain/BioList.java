@@ -34,6 +34,16 @@ public class BioList<T extends IBioObject> extends BioObject
 	private static Map<String, String> listIdForObject 
 		 = new HashMap<String, String>();
 	
+	public List<T> list = new ArrayList<T>();
+	
+	public BioList() {
+		
+	}
+	
+	public BioList(List<T> list) {
+		this.list = new ArrayList<T>(list);
+	}
+
 	/**
 	 * @param id for the sought after bioObject
 	 * @return id of the latest updated list conatining the bioobject 
@@ -95,8 +105,6 @@ public class BioList<T extends IBioObject> extends BioObject
 		
 	}
 
-	public List<T> list = new ArrayList<T>();
-	
 	@Recorded
 	public boolean add(T e) {
 		boolean b = list.add(e);
