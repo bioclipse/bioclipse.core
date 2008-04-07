@@ -22,6 +22,6 @@ import net.bioclipse.core.business.BioclipseException;
 public interface IMolecule extends IBioObject{
 
 	public String getSmiles() throws BioclipseException;
-	public boolean has3dCoords();
+	public boolean has3dCoords() throws BioclipseException;
 	
 }
