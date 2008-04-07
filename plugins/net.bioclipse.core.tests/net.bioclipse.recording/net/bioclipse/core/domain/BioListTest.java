@@ -184,32 +184,4 @@ public class BioListTest {
 	public void testSubList() {
 		fail("this method not implemented in BioList. It is complicated...");
 	}
-	
-	@Test
-	public void testBug1934611() {
-		BiojavaSequenceList blist = new BiojavaSequenceList();
-		for ( BiojavaSequence seq 
-			 : new BiojavaSequence[] { new BiojavaSequence(),
-				                       new BiojavaSequence() } ) {
-			
-			if (seq != null){
-				System.out.println("Blist contains before addition: ");
-				for ( ISequence sew:blist ) {
-					System.out.println("  " + sew.getName());
-				}
-				blist.add(seq);
-				System.out.println("Added sequence: " 
-						           + seq.getName() + " to returnlist");
-				
-				System.out.println("Blist contains after addition: ");
-				for (ISequence sew:blist){
-					System.out.println("  " + sew.getName());
-				}
-			} 
-			else {
-				System.out.println("Could not add sequence to returnlist");
-			}
-		}
-		assertEquals( 2, blist.size() );
-	}
 }
