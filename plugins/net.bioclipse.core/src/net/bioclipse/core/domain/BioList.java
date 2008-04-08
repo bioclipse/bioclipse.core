@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Stack;
 
 import net.bioclipse.core.Recorded;
 
@@ -31,8 +32,8 @@ public class BioList<T extends IBioObject> extends BioObject
 		 = new HashMap<String, List<String>>();
 	
 	//<bioObject.id, bioList.id>
-	private static Map<String, String> listIdForObject 
-		 = new HashMap<String, String>();
+	private static Map<String, Stack<String>> listIdForObject 
+		 = new HashMap<String, Stack<String>>();
 	
 	public List<T> list = new ArrayList<T>();
 	
@@ -54,7 +55,7 @@ public class BioList<T extends IBioObject> extends BioObject
 			throw new IllegalStateException( "No bioObjectlist containing " +
 					                         "that object could be found" );
 		}
-		return listIdForObject.get(id);
+		return listIdForObject.get(id).peek();
 	}
 	
 	public static int positionOfBioObjectInList( String id ) {
@@ -88,21 +89,23 @@ public class BioList<T extends IBioObject> extends BioObject
 		List<String> newList = new ArrayList<String>();
 		for( IBioObject b : list) {
 			newList.add( b.getUID() );
-			listIdForObject.put(b.getUID(), list.getUID());
+			if (listIdForObject.containsKey(b.getUID())) {
+				listIdForObject.get(b.getUID()).push( list.getUID() );
+			}
+			else {
+				Stack<String> newStack = new Stack<String>();
+				newStack.push( list.getUID() );
+				listIdForObject.put(b.getUID(), newStack);
+			}
 		}
 		createdLists.put( list.getUID(), newList );
 	}
 	
 	private void clearListIdForObject(String listId) {
 		
-		for( String objectId : listIdForObject.keySet() ) {
-			if( listIdForObject.get(objectId).equals(listId) ) {
-				listIdForObject.remove(objectId);
-				break;  //there should never be any more to remove 
-				        //since we do this each time
-			}
-		}
-		
+		for( String objectId : listIdForObject.keySet() )
+			if( listIdForObject.get(objectId).contains(listId) )
+				listIdForObject.get(objectId).remove(listId);
 	}
 
 	@Recorded
