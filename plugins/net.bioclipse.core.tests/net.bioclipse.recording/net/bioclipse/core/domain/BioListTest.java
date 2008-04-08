@@ -1,11 +1,9 @@
 package net.bioclipse.core.domain;
 
-import static org.junit.Assert.*;
-
-import java.util.List;
-
-import net.bioclipse.biojava.domain.BiojavaSequence;
-import net.bioclipse.biojava.domain.BiojavaSequenceList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -145,7 +143,8 @@ public class BioListTest {
 		list.add(bioObject);
 		
 		biolist.removeAll(list);
-		assertFalse( BioList.existsListContaining(bioObject.getUID()) );
+		assertEquals( BioList.idOfListContainingBioObject(bioObject.getUID()),
+				      list.getUID() );
 	}
 
 	@Test
