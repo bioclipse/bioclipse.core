@@ -369,5 +369,17 @@
         </description>
      </wizard>
   </extension>
+  
+  <extension point="org.eclipse.ui.actionSets">
+    <actionSet label="Search..."
+               visible="true"
+               id="net.bioclipse.search.search">
+      <action label="Search..."
+              class="net.bioclipse.actions.SearchAction"
+              menubarPath="edit/search.ext"
+              id="net.bioclipse.actions.SearchAction">
+      </action>
+    </actionSet>
+  </extension>
 
 </plugin>
