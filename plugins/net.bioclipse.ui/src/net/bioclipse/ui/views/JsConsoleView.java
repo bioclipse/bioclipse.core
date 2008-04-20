@@ -365,7 +365,7 @@ public class JsConsoleView extends ScriptingConsoleView
 		List<String> variables
 		  = new ArrayList<String>( Arrays.asList( executeJsCommand(
 				"zzz1 = new Array(); zzz2 = 0;"
-				+ "for (zzz3 in " + object + ") { zzz1[zzz2++] = zzz3 }"
+				+ "for (var zzz3 in " + object + ") { zzz1[zzz2++] = zzz3 }"
 				+ "zzz1"
 			).split(",") ) );
 		
