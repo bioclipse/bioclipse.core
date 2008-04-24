@@ -28,7 +28,12 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime.compatibility.auth,
  net.bioclipse.logger
 Eclipse-LazyStart: true
-Export-Package: net.bioclipse.ui,
+Export-Package: net.bioclipse.actions,
+ net.bioclipse.ui,
+ net.bioclipse.ui.editors,
+ net.bioclipse.ui.editors.keyword,
+ net.bioclipse.ui.editors.pdb,
  net.bioclipse.ui.intro,
- net.bioclipse.ui.views
+ net.bioclipse.ui.views,
+ net.bioclipse.ui.wizards
 Import-Package: org.apache.log4j
