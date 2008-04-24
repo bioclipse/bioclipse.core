@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CDK1.0-based JChemPaint Plug-in
+Bundle-SymbolicName: net.bioclipse.cdk10.jchempaint;singleton:=true
+Bundle-Version: 1.0.2
+Bundle-Activator: net.bioclipse.cdk.Activator
+Bundle-Vendor: The Bioclispe Project
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ net.bioclipse.core,
+ net.bioclipse.cdk10
+Eclipse-LazyStart: true
+Export-Package:  org.openscience.cdk.applications.jchempaint,
+ org.openscience.cdk.applications.jchempaint.action,
+ org.openscience.cdk.applications.jchempaint.applet,
+ org.openscience.cdk.applications.jchempaint.application,
+ org.openscience.cdk.applications.jchempaint.dialogs,
+ org.openscience.cdk.applications.jchempaint.dnd,
+ org.openscience.cdk.applications.jchempaint.io,
+ org.openscience.cdk.applications.jchempaint.resources,
+ org.openscience.cdk.applications.jchempaint.resources.text,
+ org.openscience.cdk.applications.jchempaint.resources.userhelp_jcp,
+ org.openscience.cdk.applications.jchempaint.resources.userhelp_jcp.JavaHelpSearch,
+ org.openscience.cdk.applications.jchempaint.resources.userhelp_jcp.contain
+Bundle-ClassPath: .
