@@ -81,7 +81,7 @@ public class ActionHistoryView extends ViewPart implements IHistoryListener {
 						String[] script 
 							= new JsScriptGenerator()
 							      .generateScript( 
-							    		  records.toArray(new MethodRecord[0]) );
+							    		  records.toArray(new IRecord[0]) );
 
 						//Set up string content
 						String content="";
