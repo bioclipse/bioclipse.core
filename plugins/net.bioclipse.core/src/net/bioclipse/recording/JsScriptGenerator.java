@@ -91,23 +91,30 @@ public class JsScriptGenerator implements IScriptGenerator {
 		return "null";
 	}
 	
-	public String[] generateScript( MethodRecord[] records ) {
+	public String[] generateScript( IRecord[] records ) {
 		List<String> statements = new ArrayList<String>();
 		
-		List<MethodRecord> recordsList = Arrays.asList(records);
+		List<IRecord> recordsList = Arrays.asList(records);
 		
 		int i = 0;
-		for ( MethodRecord record : records )
-			statements.add( recordToJsStatement(
-					record,
-					recordsList.subList(++i, recordsList.size())) );
+		for ( IRecord record : records )
+			if( record instanceof MethodRecord) {
+				statements.add( recordToJsStatement(
+						record,
+						recordsList.subList(++i, recordsList.size())) );
+			}
+			
 
 		return statements.toArray( new String[records.length] );
 	}
 
-	private boolean isReferenced(String objectId, List<MethodRecord> records) {
+	private boolean isReferenced(String objectId, List<IRecord> rest) {
 		
-		for ( MethodRecord r : records ) {
+		for ( IRecord record : rest ) {
+			if(!(record instanceof MethodRecord)) {
+				continue;
+			}
+			MethodRecord r = (MethodRecord)record;
 			if ( r instanceof BioObjectRecord
 				&& ((BioObjectRecord)r).bioObjectId.equals(objectId) )
 				
@@ -138,66 +145,75 @@ public class JsScriptGenerator implements IScriptGenerator {
 		return false;
 	}
 
-	public String recordToJsStatement( MethodRecord r,
-                                       List<MethodRecord> rest ) {
+	public String recordToJsStatement( IRecord record,
+                                       List<IRecord> rest ) {
 		
-		List<String> paramStrings = new ArrayList<String>();
-		for ( Parameter p : r.getParameters() ) {
-			if (p instanceof BioObjectParameter) {
-				BioObjectParameter bp = (BioObjectParameter)p;
-				String variableName = getVariableName(bp.id);
-				paramStrings.add(variableName);
-			}
-			else if (p instanceof NonBioObjectParameter) {
-				NonBioObjectParameter nbp = (NonBioObjectParameter)p;
-				paramStrings.add(nbp.stringRepresentation);
-			}
-			else {
-				throw new IllegalStateException( "Unrecognized " +
-                                                 "paramater type: " + p );
-			}
-		}
-		StringBuilder statement = new StringBuilder();
-		
-		if ( !"".equals( r.returnObjectId )
-				&& isReferenced(r.returnObjectId, rest)
-			 || isPrimitive(r.returnType) ) {
-			
-			statement.append( getVariableName(r.returnType, r.returnObjectId) );
-			statement.append( " = ");
-		}
-		
-		if ( r instanceof ManagerObjectRecord ) {
-			ManagerObjectRecord mor = (ManagerObjectRecord)r;
-			statement.append( mor.getManagerObjectName() );
-		}
-		else if ( r instanceof BioObjectRecord ) {
-			BioObjectRecord bor = (BioObjectRecord)r;
-			String variableName = getVariableName(bor.bioObjectId);
-			
-
-			statement.append(variableName);
-		}
-
-		statement.append( "." );
-		statement.append( r.getMethodName() );
-		statement.append( '(' );
-		
-		if ( !paramStrings.isEmpty() )
-			statement.append(' ');
-			
-		for (int j = 0; j < paramStrings.size(); j++) {
-			statement.append( paramStrings.get(j) );
+		if( record instanceof MethodRecord ) {
 				
-			if(j != paramStrings.size() - 1) {
-				statement.append(", ");
+			MethodRecord r = (MethodRecord)record;
+				
+			List<String> paramStrings = new ArrayList<String>();
+			for ( Parameter p : r.getParameters() ) {
+				if (p instanceof BioObjectParameter) {
+					BioObjectParameter bp = (BioObjectParameter)p;
+					String variableName = getVariableName(bp.id);
+					paramStrings.add(variableName);
+				}
+				else if (p instanceof NonBioObjectParameter) {
+					NonBioObjectParameter nbp = (NonBioObjectParameter)p;
+					paramStrings.add(nbp.stringRepresentation);
+				}
+				else {
+					throw new IllegalStateException( "Unrecognized " +
+	                                                 "paramater type: " + p );
+				}
 			}
-			else {
+			StringBuilder statement = new StringBuilder();
+			
+			if ( !"".equals( r.returnObjectId )
+					&& isReferenced(r.returnObjectId, rest)
+				 || isPrimitive(r.returnType) ) {
+				
+				statement.append( getVariableName(r.returnType, r.returnObjectId) );
+				statement.append( " = ");
+			}
+			
+			if ( r instanceof ManagerObjectRecord ) {
+				ManagerObjectRecord mor = (ManagerObjectRecord)r;
+				statement.append( mor.getManagerObjectName() );
+			}
+			else if ( r instanceof BioObjectRecord ) {
+				BioObjectRecord bor = (BioObjectRecord)r;
+				String variableName = getVariableName(bor.bioObjectId);
+				
+	
+				statement.append(variableName);
+			}
+	
+			statement.append( "." );
+			statement.append( r.getMethodName() );
+			statement.append( '(' );
+			
+			if ( !paramStrings.isEmpty() )
 				statement.append(' ');
+				
+			for (int j = 0; j < paramStrings.size(); j++) {
+				statement.append( paramStrings.get(j) );
+					
+				if(j != paramStrings.size() - 1) {
+					statement.append(", ");
+				}
+				else {
+					statement.append(' ');
+				}
 			}
+			statement.append(")");
+			
+			return statement.toString();
+			}
+		else if(record instanceof ScriptRecord) {
+			return ((ScriptRecord) record).getScript(ScriptRecord.Language.JS);
 		}
-		statement.append(")");
-		
-		return statement.toString();
+		else throw new IllegalArgumentException();
 	}
 }

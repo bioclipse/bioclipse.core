@@ -32,7 +32,7 @@ public class History implements IHistory {
 	/* (non-Javadoc)
 	 * @see net.bioclipse.recording.IHistory#addRecord(net.bioclipse.recording.MethodRecord)
 	 */
-	public void addRecord( MethodRecord record ) {
+	public void addRecord( IRecord record ) {
 		records.add(record);
 		fireHistoryEvent( new HistoryEvent() );
 	}

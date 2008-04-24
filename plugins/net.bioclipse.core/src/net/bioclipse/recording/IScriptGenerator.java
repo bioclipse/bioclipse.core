@@ -23,6 +23,6 @@ public interface IScriptGenerator {
 	 * @param records
 	 * @return the script commands
 	 */
-	public String[] generateScript(MethodRecord[] records);
+	public String[] generateScript(IRecord[] records);
 
 }

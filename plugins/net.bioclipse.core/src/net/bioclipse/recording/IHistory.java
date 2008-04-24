@@ -20,7 +20,7 @@ import java.util.List;
  */
 public interface IHistory {
 
-	public void addRecord(MethodRecord record);
+	public void addRecord(IRecord record);
 
 	public List<IRecord> getRecords();
 	
