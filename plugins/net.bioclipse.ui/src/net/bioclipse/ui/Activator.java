@@ -14,6 +14,7 @@
 
 package net.bioclipse.ui;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +26,8 @@ import net.bioclipse.recording.IHistory;
 import org.apache.log4j.Logger;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -101,6 +104,7 @@ public class Activator extends BioclipseActivator {
         checkJVMVersion();  
         handleStartupArgs();
         startBundleExtender();
+        initBioclipseCache();
         
         finderTracker = new ServiceTracker(context, IHistory.class.getName(),
                 null);
@@ -108,7 +112,21 @@ public class Activator extends BioclipseActivator {
     }
 
 
-    public IHistory getHistoryObject() {
+    private void initBioclipseCache() {
+    	try {
+    		File folder=BioclipseCache.getCacheDir();
+    		if (folder!=null)
+    			logger.info("Bioclipse cache dir: " + folder.getAbsolutePath());
+    		else
+    			logger.info("Error initializing Bioclipse cache dir.");
+		} catch (CoreException e) {
+			logger.info("Error initializing Bioclipse cache dir: " + e.getMessage());
+		}
+		
+	}
+
+
+	public IHistory getHistoryObject() {
         IHistory history = null;
         try {
             history = (IHistory) finderTracker.waitForService(1000 * 30);
