@@ -3,6 +3,8 @@ package net.bioclipse.cdk10.jchempaint.ui.editor;
 import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
@@ -10,7 +12,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.MultiPageEditorPart;
 
-public class MDLMolfileEditor extends MultiPageEditorPart{
+public class MDLMolfileEditor extends MultiPageEditorPart implements IResourceChangeListener{
 
     private static final Logger logger = Logger.getLogger(MDLMolfileEditor.class);
 
@@ -71,6 +73,12 @@ public class MDLMolfileEditor extends MultiPageEditorPart{
 
 		//TODO: not implemented yet
 		return false;
+	}
+
+	public void resourceChanged(IResourceChangeEvent event) {
+
+		//React if resource is changed on disc.
+		
 	}
 	
 	
