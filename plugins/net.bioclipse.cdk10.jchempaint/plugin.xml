@@ -6,66 +6,13 @@
          point="org.eclipse.ui.editors">
       <editor
             name="MDLMolfileEditor"
-            icon="icons/alt_window_16.gif"
-            extensions="mol"
-            contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
-            class="net.bioclipse.cdk10.jchempaint.ui.editor"
-            id="net.bioclipse.editors.pdb.PDBEditor">
+            icon="icons/molecule2D.gif"
+            extensions="mol,mdl"
+            contributorClass="net.bioclipse.cdk10.jchempaint.ui.editor.JCPEditorContributor"
+            class="net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor"
+            id="net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor">
       </editor>
    </extension>
-   <extension
-         point="org.eclipse.core.runtime.adapters">
-      <factory
-            class="org.eclipse.ui.internal.navigator.resources.workbench.TabbedPropertySheetAdapterFactory"
-            adaptableType="org.eclipse.ui.navigator.CommonNavigator">
-         <adapter
-               type="org.eclipse.ui.views.properties.IPropertySheetPage">
-         </adapter>
-      </factory>
-   </extension>
-   <extension
-         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
-      <propertyContributor
-            contributorId="net.bioclipse.navigator"
-            labelProvider="org.eclipse.ui.internal.navigator.resources.workbench.TabbedPropertySheetTitleProvider">
-         <propertyCategory
-               category="general">
-         </propertyCategory>
-         <propertyCategory
-               category="core">
-         </propertyCategory>
-         <propertyCategory
-               category="appearance">
-         </propertyCategory>
-         <propertyCategory
-               category="advanced">
-         </propertyCategory>
-      </propertyContributor>
-   </extension>
-   <extension
-         point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
-      <propertyTabs
-            contributorId="net.bioclipse.navigator">
-         <propertyTab
-               label="General"
-               category="general"
-               id="CommonNavigator.tab.Advanced">
-         </propertyTab>
-      </propertyTabs>
-   </extension>
-   <extension
-         point="org.eclipse.ui.views.properties.tabbed.propertySections">
-      <propertySections
-            contributorId="net.bioclipse.navigator">
-         <propertySection
-               tab="CommonNavigator.tab.Advanced"
-               class="org.eclipse.ui.views.properties.tabbed.AdvancedPropertySection"
-               id="CommonNavigator.section.Advanced">
-            <input
-                  type="java.lang.Object">
-            </input>
-         </propertySection>
-      </propertySections>
-   </extension>
+
 
 </plugin>

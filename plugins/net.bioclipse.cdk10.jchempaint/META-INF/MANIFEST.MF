@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: CDK1.0-based JChemPaint Plug-in
 Bundle-SymbolicName: net.bioclipse.cdk10.jchempaint;singleton:=true
 Bundle-Version: 1.0.2
-Bundle-Activator: net.bioclipse.cdk.Activator
+Bundle-Activator: net.bioclipse.cdk10.jchempaint.Activator
 Bundle-Vendor: The Bioclispe Project
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -11,8 +11,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text,
  net.bioclipse.cdk10,
  net.bioclipse.core,
- net.bioclipse.logging,
- net.bioclipse.ui
+ net.bioclipse.ui,
+ org.eclipse.ui.ide,
+ org.eclipse.core.resources
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

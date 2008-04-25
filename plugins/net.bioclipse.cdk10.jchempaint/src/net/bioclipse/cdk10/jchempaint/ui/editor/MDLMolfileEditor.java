@@ -1,18 +1,77 @@
 package net.bioclipse.cdk10.jchempaint.ui.editor;
 
-import net.bioclipse.ui.Activator;
-import net.bioclipse.ui.editors.keyword.KeywordEditor;
+import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.part.MultiPageEditorPart;
 
-public class MDLMolfileEditor extends KeywordEditor {
-	
-	private static final Logger logger =
-		Activator.getLogManager().getLogger(MDLMolfileEditor.class.toString());
+public class MDLMolfileEditor extends MultiPageEditorPart{
 
-	public MDLMolfileEditor() {
-		super();
+    private static final Logger logger = Logger.getLogger(MDLMolfileEditor.class);
+
+    JCPPage jcpPage;
+    TextEditor textEditor;
+    int textEditorIndex;
+    
+	@Override
+	public void init(IEditorSite site, IEditorInput input)
+			throws PartInitException {
+		super.init(site, input);
+		setPartName(input.getName());
 	}
 
+	/**
+	 * Create JCP on page 1 and texteditor on page2
+	 */
+	@Override
+	protected void createPages() {
+		
+		jcpPage=new JCPPage();
+		textEditor=new TextEditor();
+		
+		try {
+			int ix=addPage(jcpPage, getEditorInput());
+			setPageText(ix, "Structure");
+
+			textEditorIndex=addPage(textEditor, getEditorInput());
+			setPageText(textEditorIndex, "Source");
+		} catch (PartInitException e) {
+			LogUtils.debugTrace(logger, e);
+		}
+		
+	}
+
+	@Override
+	public void doSave(IProgressMonitor monitor) {
+		
+		//Synch from JCP to texteditor
+		//TODO
+
+		//Use textEditor to save
+		textEditor.doSave(monitor);
+		
+	}
+
+	@Override
+	public void doSaveAs() {
+		//Synch from JCP to texteditor
+		//TODO
+
+		//Use textEditor to save
+		textEditor.doSaveAs();
+	}
+
+	@Override
+	public boolean isSaveAsAllowed() {
+
+		//TODO: not implemented yet
+		return false;
+	}
+	
 	
 }
