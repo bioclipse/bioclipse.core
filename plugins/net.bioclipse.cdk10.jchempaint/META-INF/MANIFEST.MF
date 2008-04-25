@@ -7,19 +7,13 @@ Bundle-Activator: net.bioclipse.cdk.Activator
 Bundle-Vendor: The Bioclispe Project
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
+ org.eclipse.ui.editors,
+ org.eclipse.jface.text,
+ net.bioclipse.cdk10,
  net.bioclipse.core,
- net.bioclipse.cdk10
-Eclipse-LazyStart: true
-Export-Package:  org.openscience.cdk.applications.jchempaint,
- org.openscience.cdk.applications.jchempaint.action,
- org.openscience.cdk.applications.jchempaint.applet,
- org.openscience.cdk.applications.jchempaint.application,
- org.openscience.cdk.applications.jchempaint.dialogs,
- org.openscience.cdk.applications.jchempaint.dnd,
- org.openscience.cdk.applications.jchempaint.io,
- org.openscience.cdk.applications.jchempaint.resources,
- org.openscience.cdk.applications.jchempaint.resources.text,
- org.openscience.cdk.applications.jchempaint.resources.userhelp_jcp,
- org.openscience.cdk.applications.jchempaint.resources.userhelp_jcp.JavaHelpSearch,
- org.openscience.cdk.applications.jchempaint.resources.userhelp_jcp.contain
+ net.bioclipse.logging,
+ net.bioclipse.ui
+Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Import-Package: org.apache.log4j
