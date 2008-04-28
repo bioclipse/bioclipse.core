@@ -156,6 +156,14 @@
             class="net.bioclipse.ui.views.ActionHistoryView"
             id="net.bioclipse.ui.views.ActionHistoryView">
       </view>
+      <view
+            allowMultiple="false"
+            category="net.bioclipse.ui.category"
+            class="net.bioclipse.ui.views.VirtualView"
+            icon="icons/logo/logo_16_trans.gif"
+            id="net.bioclipse.ui.views.VirtualView"
+            name="Virtual Navigator">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.navigator.viewer">
