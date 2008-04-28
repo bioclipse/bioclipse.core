@@ -21,17 +21,13 @@ import java.util.List;
 import net.bioclipse.core.business.BioclipseException;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.events.ControlListener;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
@@ -46,6 +42,7 @@ import org.openscience.cdk.interfaces.IChemObjectChangeEvent;
 import org.openscience.cdk.interfaces.IChemObjectListener;
 import org.openscience.cdk.interfaces.IMolecule;
 import org.openscience.cdk.io.MDLV2000Reader;
+import org.openscience.cdk.renderer.Renderer2DModel;
 import org.openscience.cdk.tools.HydrogenAdder;
 import org.openscience.cdk.tools.manipulator.ChemModelManipulator;
 
@@ -64,7 +61,6 @@ public class JCPPage extends EditorPart
 	private IChemModel model;
 	private DrawingPanel drawingPanel;
 	private JChemPaintModel jcpModel;
-	private IEditorInput editorInput;
 	private JCPScrollBar jcpScrollBar;
 	private boolean isDirty = false;
 	public ControlListener cl;
@@ -214,8 +210,7 @@ public class JCPPage extends EditorPart
 
 	@Override
 	public boolean isDirty() {
-		//TODO: implement
-		return false;
+		return this.isDirty;
 	}
 
 	@Override
@@ -227,7 +222,7 @@ public class JCPPage extends EditorPart
 
 	@Override
 	public void setFocus() {
-		//TODO: change when available
+		body.setFocus();
 	}
 
 	public DrawingPanel getDrawingPanel() {
@@ -252,18 +247,36 @@ public class JCPPage extends EditorPart
 	}
 
 	public void stateChanged(EventObject event) {
-		// TODO Auto-generated method stub
-		
+		if(event.getSource() instanceof Renderer2DModel) {
+			getDrawingPanel().repaint();
+			if (!this.isDirty() && jcpModel.isModified()) {
+				setDirty(true);
+			}
+		}
 	}
 
+	private void setDirty(boolean bool) {
+		this.isDirty = bool;
+		fireSetDirtyChanged();
+	}
+
+	private void fireSetDirtyChanged() {
+		Runnable r= new Runnable() {
+			public void run() {
+				firePropertyChange(PROP_DIRTY);
+			}
+		};
+		Display fDisplay = getSite().getShell().getDisplay();
+		fDisplay.asyncExec(r);
+
+	}
+	
 	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		drawingPanel.repaint();
 	}
 
 	public void mouseMoved(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		// do nothing
 	}
 	
 	
