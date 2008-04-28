@@ -13,10 +13,15 @@ package net.bioclipse.cdk10.jchempaint.ui.editor;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.io.InputStream;
 import java.util.EventObject;
 import java.util.Iterator;
 import java.util.List;
 
+import net.bioclipse.core.business.BioclipseException;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
@@ -66,6 +71,9 @@ public class JCPPage extends EditorPart
 	IEditorSite site;
 	IEditorInput input;
 	
+	//The underlying file
+	IFile inputFile;;
+	
 	public JCPPage() {
 		super();
 	}
@@ -101,7 +109,13 @@ public class JCPPage extends EditorPart
 	 */
 	private boolean fillWithJCP(Composite composite) {
 		//Get model from the editorInput that is the parsed resourceString
-		model = getModelFromEditorInput();
+		try {
+			model = getModelFromEditorInput();
+		} catch (BioclipseException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
 		if (model != null) {
 			model.addListener(this);
 			drawingPanel = new DrawingPanel(composite.getDisplay());
@@ -140,9 +154,27 @@ public class JCPPage extends EditorPart
 	/**
 	 * Get the IChemModel from the parsedResource
 	 * @return
+	 * @throws BioclipseException 
 	 */
-	private IChemModel getModelFromEditorInput(){
-		// FIXME: Ola, I need to learn how to have access to the editor input
+	private IChemModel getModelFromEditorInput() throws BioclipseException{
+		
+		Object file = input.getAdapter(IFile.class);
+		if (!(file instanceof IFile)) {
+			throw new BioclipseException(
+					"Invalid editor input: Does not provide an IFile");
+		}
+
+		IFile inputFile = (IFile) file;
+		
+		try {
+			InputStream instream=inputFile.getContents();
+			
+			//TODO egonw: parse the inputstream into JCPModel
+			
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 
