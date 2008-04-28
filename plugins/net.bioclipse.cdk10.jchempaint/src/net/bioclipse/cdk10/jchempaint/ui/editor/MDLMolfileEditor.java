@@ -12,6 +12,11 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.MultiPageEditorPart;
 
+/**
+ * JChemPaint-based editor for MDL molfile V2000 files.
+ * 
+ * @author egonw
+ */
 public class MDLMolfileEditor extends MultiPageEditorPart implements IResourceChangeListener{
 
     private static final Logger logger = Logger.getLogger(MDLMolfileEditor.class);
