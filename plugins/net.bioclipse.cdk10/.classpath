@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="org/openscience/cdk/database/XindiceReader.java|org/openscience/cdk/test/libio/joelib/JOELibIOTest.java|org/openscience/cdk/applications/DescriptorCalculator.java|org/openscience/cdk/applications/FileConvertor.java|org/openscience/cdk/applications/demo/EventCMLDemo.java|org/openscience/cdk/applications/jchempaint/application/JChemPaint.java|org/openscience/cdk/internet/DADMLReader.java|org/openscience/cdk/internet/DADMLResult.java|org/openscience/cdk/test/internet/DADMLTest.java|org/openscience/cdk/iupac/parser/AttachedGroup.java|org/openscience/cdk/iupac/parser/MoleculeBuilder.java|org/openscience/cdk/libio/biojava/Convertor.java|org/openscience/cdk/test/iupac/ParserTest.java" kind="src" path="src"/>
-	<classpathentry kind="lib" path="jars/jumbo52.jar"/>
-	<classpathentry kind="lib" path="jars/jgrapht.jar"/>
-	<classpathentry kind="lib" path="jars/vecmath1.2.jar"/>
-	<classpathentry kind="lib" path="jars/xom.jar"/>
-	<classpathentry kind="lib" path="jars/log4j-1.2.jar"/>
-	<classpathentry kind="lib" path="jars/jniinchi-0.4.jar"/>
-	<classpathentry kind="lib" path="jars/jama.jar"/>
-	<classpathentry kind="lib" path="jars/batik-awt-util.jar"/>
-	<classpathentry kind="lib" path="jars/batik-dom.jar"/>
-	<classpathentry kind="lib" path="jars/batik-svggen.jar"/>
-	<classpathentry kind="lib" path="jars/batik-util.jar"/>
-	<classpathentry kind="lib" path="jars/batik-xml.jar"/>
-	<classpathentry kind="lib" path="jars/jai_codec.jar"/>
-	<classpathentry kind="lib" path="jars/jai_core.jar"/>
-	<classpathentry kind="lib" path="jars/sjava-0.68.jar"/>
-	<classpathentry kind="lib" path="jars/jfontchooser.jar"/>
-	<classpathentry kind="lib" path="jars/JRI.jar"/>
+	<classpathentry excluding="org/openscience/cdk/database/XindiceReader.java|org/openscience/cdk/test/libio/joelib/JOELibIOTest.java|org/openscience/cdk/applications/DescriptorCalculator.java|org/openscience/cdk/applications/FileConvertor.java|org/openscience/cdk/applications/demo/EventCMLDemo.java|org/openscience/cdk/applications/jchempaint/application/JChemPaint.java|org/openscience/cdk/internet/DADMLReader.java|org/openscience/cdk/internet/DADMLResult.java|org/openscience/cdk/test/internet/DADMLTest.java|org/openscience/cdk/iupac/parser/AttachedGroup.java|org/openscience/cdk/iupac/parser/MoleculeBuilder.java|org/openscience/cdk/libio/biojava/Convertor.java|org/openscience/cdk/test/iupac/ParserTest.java|org/openscience/cdk/test/" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3.8.1"/>
+	<classpathentry kind="lib" path="jar/vecmath1.2.jar"/>
+	<classpathentry kind="lib" path="jar/xom.jar"/>
+	<classpathentry kind="lib" path="jar/log4j-1.2.jar"/>
+	<classpathentry kind="lib" path="jar/jgrapht.jar"/>
+	<classpathentry kind="lib" path="jar/jumbo52.jar"/>
+	<classpathentry kind="lib" path="jar/jama.jar"/>
+	<classpathentry kind="lib" path="jar/jfontchooser.jar"/>
+	<classpathentry kind="lib" path="jar/batik-awt-util.jar"/>
+	<classpathentry kind="lib" path="jar/batik-dom.jar"/>
+	<classpathentry kind="lib" path="jar/batik-svggen.jar"/>
+	<classpathentry kind="lib" path="jar/batik-util.jar"/>
+	<classpathentry kind="lib" path="jar/batik-xml.jar"/>
+	<classpathentry kind="lib" path="jar/jniinchi-0.4.jar"/>
+	<classpathentry kind="lib" path="jar/jai_codec.jar"/>
+	<classpathentry kind="lib" path="jar/jai_core.jar"/>
+	<classpathentry kind="lib" path="jar/JRI.jar"/>
+	<classpathentry kind="lib" path="jar/sjava-0.68.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
