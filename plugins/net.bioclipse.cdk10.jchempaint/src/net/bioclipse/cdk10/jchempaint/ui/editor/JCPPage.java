@@ -83,12 +83,6 @@ public class JCPPage extends EditorPart
 	@Override
 	public void createPartControl(Composite parent) {
 		
-		body = new Composite(parent, SWT.NONE);
-//		FillLayout layout=new FillLayout();
-//		body.setLayout(layout);
-//		Text txt=new Text(body, SWT.NONE);
-//		txt.setText("This is where the structure should be visualized. TODO: Implement");
-
 		body = new JCPComposite(parent, SWT.EMBEDDED | SWT.H_SCROLL | SWT.V_SCROLL);
 		GridLayout layout = new GridLayout();
 		body.setLayout(layout);
@@ -98,7 +92,7 @@ public class JCPPage extends EditorPart
 			jcpScrollBar = new JCPScrollBar(this, true, true);
 		}
 		else {
-			//TODO open message box stating "no valid file - could not be opnened with JCP"
+			//TODO open message box stating "no valid file - could not be opened with JCP"
 		}
 		body.addFocusListener(new JCPCompFocusListener((JCPComposite) body));
 	}
