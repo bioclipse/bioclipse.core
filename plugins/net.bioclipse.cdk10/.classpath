@@ -1,24 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="org/openscience/cdk/database/XindiceReader.java|org/openscience/cdk/test/libio/joelib/JOELibIOTest.java|org/openscience/cdk/applications/DescriptorCalculator.java|org/openscience/cdk/applications/FileConvertor.java|org/openscience/cdk/applications/demo/EventCMLDemo.java|org/openscience/cdk/applications/jchempaint/application/JChemPaint.java|org/openscience/cdk/internet/DADMLReader.java|org/openscience/cdk/internet/DADMLResult.java|org/openscience/cdk/test/internet/DADMLTest.java|org/openscience/cdk/iupac/parser/AttachedGroup.java|org/openscience/cdk/iupac/parser/MoleculeBuilder.java|org/openscience/cdk/libio/biojava/Convertor.java|org/openscience/cdk/test/iupac/ParserTest.java|org/openscience/cdk/test/" kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="jar/antlr.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/batik-awt-util.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/batik-dom.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/batik-svggen.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/batik-util.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/batik-xml.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/baysmith-io.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/bcel-5.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/biojava-1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/commons-cli.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/dadml.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/jai_codec.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/jai_core.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/jama.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/javacc.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/jfontchooser.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/jgrapht.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/jniinchi-0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/JRI.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/jumbo52.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/log4j-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/mysql-2.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/postgresql7.0-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/sjava-0.68.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/vecmath1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/weka.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/xindice.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/xml-apis.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/xmldb.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/xom.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="lib" path="jar/batik-awt-util.jar"/>
-	<classpathentry kind="lib" path="jar/batik-dom.jar"/>
-	<classpathentry kind="lib" path="jar/batik-svggen.jar"/>
-	<classpathentry kind="lib" path="jar/batik-util.jar"/>
-	<classpathentry kind="lib" path="jar/batik-xml.jar"/>
-	<classpathentry kind="lib" path="jar/jai_codec.jar"/>
-	<classpathentry kind="lib" path="jar/jai_core.jar"/>
-	<classpathentry kind="lib" path="jar/jama.jar"/>
-	<classpathentry kind="lib" path="jar/jfontchooser.jar"/>
-	<classpathentry kind="lib" path="jar/jgrapht.jar"/>
-	<classpathentry kind="lib" path="jar/jniinchi-0.4.jar"/>
-	<classpathentry kind="lib" path="jar/JRI.jar"/>
-	<classpathentry kind="lib" path="jar/jumbo52.jar"/>
-	<classpathentry kind="lib" path="jar/log4j-1.2.jar"/>
-	<classpathentry kind="lib" path="jar/sjava-0.68.jar"/>
-	<classpathentry kind="lib" path="jar/vecmath1.2.jar"/>
-	<classpathentry kind="lib" path="jar/xom.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
