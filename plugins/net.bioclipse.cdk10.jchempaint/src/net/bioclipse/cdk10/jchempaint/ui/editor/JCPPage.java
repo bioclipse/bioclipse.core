@@ -36,6 +36,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
+import org.openscience.cdk.ChemModel;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.controller.Controller2DModel;
 import org.openscience.cdk.event.ICDKChangeListener;
@@ -44,6 +45,7 @@ import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.interfaces.IChemObjectChangeEvent;
 import org.openscience.cdk.interfaces.IChemObjectListener;
 import org.openscience.cdk.interfaces.IMolecule;
+import org.openscience.cdk.io.MDLV2000Reader;
 import org.openscience.cdk.tools.HydrogenAdder;
 import org.openscience.cdk.tools.manipulator.ChemModelManipulator;
 
@@ -169,9 +171,10 @@ public class JCPPage extends EditorPart
 		try {
 			InputStream instream=inputFile.getContents();
 			
-			//TODO egonw: parse the inputstream into JCPModel
+			MDLV2000Reader reader = new MDLV2000Reader(instream);
+			return (IChemModel)reader.read(new ChemModel());
 			
-		} catch (CoreException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
@@ -232,18 +235,15 @@ public class JCPPage extends EditorPart
 	}
 
 	public JChemPaintModel getJCPModel() {
-		// TODO Auto-generated method stub
-		return null;
+		return jcpModel;
 	}
 
 	public Composite getJcpComposite() {
-		// TODO Auto-generated method stub
-		return null;
+		return body;
 	}
 
 	public JCPScrollBar getJcpScrollBar() {
-		// TODO Auto-generated method stub
-		return null;
+		return jcpScrollBar;
 	}
 
 	public void stateChanged(IChemObjectChangeEvent event) {
