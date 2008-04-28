@@ -1,13 +1,17 @@
 /*******************************************************************************
- * Copyright (c) 2008 The Bioclipse Project and others.
+ * Copyright (c) 2006-2007 Tobias Helmus, Stefan Kuhn
+ *               2006-2008 Ola Spjuth, Egon Willighagen
+ *   
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
+ *     Tobias Helmus <tohel@users.sf.net>
+ *     Stefan Kuhn
  *     Ola Spjuth
- *     
+ *     Egon Willighagen <egonw@users.sf.net>
  ******************************************************************************/
 package net.bioclipse.cdk10.jchempaint.ui.editor;
 
