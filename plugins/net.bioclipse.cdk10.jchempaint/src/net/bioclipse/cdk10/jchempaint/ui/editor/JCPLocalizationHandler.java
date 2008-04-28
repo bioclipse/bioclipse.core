@@ -29,6 +29,7 @@
 package net.bioclipse.cdk10.jchempaint.ui.editor;
 
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.openscience.cdk.tools.LoggingTool;
@@ -53,10 +54,11 @@ public class JCPLocalizationHandler
 	 *
 	 *@param  locale  Description of the Parameter
 	 */
-	private JCPLocalizationHandler(Locale locale)
-	{
+	private JCPLocalizationHandler(Locale locale) {
 		logger = new LoggingTool(this);
-		translations = ResourceBundle.getBundle("org/openscience/cdk/applications/jchempaint/resources/text/JCPBundle", locale);
+		translations = ResourceBundle.getBundle(
+			"net/bioclipse/cdk10/jchempaint/ui/editor/resources/JCPBundle", locale
+		);
 	}
 
 
@@ -94,9 +96,13 @@ public class JCPLocalizationHandler
 	 *@param  key  Description of the Parameter
 	 *@return      The string value
 	 */
-	public String getString(String key)
-	{
-		return translations.getString(key);
+	public String getString(String key) {
+		try {
+			return translations.getString(key);
+		} catch (MissingResourceException exception) {
+			System.out.println("Cannot find translation for: " + key);
+		}
+		return key;
 	}
 }
 
