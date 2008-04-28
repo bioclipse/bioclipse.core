@@ -10,6 +10,7 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.core
 Eclipse-LazyStart: true
 Export-Package: javax.vecmath,
+ org.openscience.cdk,
  org.openscience.cdk.applications,
  org.openscience.cdk.applications.jchempaint,
  org.openscience.cdk.applications.jchempaint.action,
