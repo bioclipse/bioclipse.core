@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.io.InputStream;
 import java.util.EventObject;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,6 +30,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -39,6 +41,7 @@ import org.eclipse.ui.part.EditorPart;
 import org.openscience.cdk.ChemModel;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.controller.Controller2DModel;
+import org.openscience.cdk.controller.PopupController2D;
 import org.openscience.cdk.event.ICDKChangeListener;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IChemModel;
@@ -134,10 +137,18 @@ public class JCPPage extends EditorPart
 				}
 			}
 
+			PopupController2D inputAdapter = new BCJCPPopupController(
+				(ChemModel) jcpModel.getChemModel(),
+				jcpModel.getRendererModel(),
+				jcpModel.getControllerModel(), 
+				null, null, 
+				null, new HashMap()
+			);
 			jcpModel.getRendererModel().addCDKChangeListener(this);
 			jcpModel.getControllerModel().setDrawMode(Controller2DModel.LASSO);
 			drawingPanel.setJChemPaintModel(jcpModel);
 			drawingPanel.addMouseMotionListener(this);
+//			drawingPanel.addMouseListener(this);
 			java.awt.Frame jcpFrame = SWT_AWT.new_Frame(composite);
 			jcpFrame.add(drawingPanel);
 			return true;
@@ -268,15 +279,13 @@ public class JCPPage extends EditorPart
 		fDisplay.asyncExec(r);
 
 	}
-	
-	public void mouseDragged(MouseEvent arg0) {
-		drawingPanel.repaint();
+
+	public void mouseDragged(MouseEvent e) {
+		drawingPanel.repaint();		
 	}
 
-	public void mouseMoved(MouseEvent arg0) {
-		// do nothing
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
 	}
-	
-	
 
 }

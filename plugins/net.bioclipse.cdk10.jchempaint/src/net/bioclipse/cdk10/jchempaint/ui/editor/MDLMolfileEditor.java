@@ -3,6 +3,7 @@ package net.bioclipse.cdk10.jchempaint.ui.editor;
 import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.commands.operations.IUndoContext;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -11,6 +12,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.MultiPageEditorPart;
+import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 
 /**
  * JChemPaint-based editor for MDL molfile V2000 files.
@@ -24,12 +26,31 @@ public class MDLMolfileEditor extends MultiPageEditorPart implements IResourceCh
     JCPPage jcpPage;
     TextEditor textEditor;
     int textEditorIndex;
-    
+    private IUndoContext undoContext=null;
+        
+	public IUndoContext getUndoContext() {
+		return undoContext;
+	}
+
 	@Override
 	public void init(IEditorSite site, IEditorInput input)
 			throws PartInitException {
 		super.init(site, input);
 		setPartName(input.getName());
+	}
+
+	public JChemPaintModel getJcpModel() {
+		if (jcpPage != null) {
+			return jcpPage.getJCPModel();
+		}
+		return null;
+	}
+
+	public DrawingPanel getDrawingPanel() {
+		return jcpPage.getDrawingPanel();
+	}
+	public JCPComposite getJcpComposite() {
+		return (JCPComposite)jcpPage.getJcpComposite();
 	}
 
 	/**
@@ -84,6 +105,20 @@ public class MDLMolfileEditor extends MultiPageEditorPart implements IResourceCh
 
 		//React if resource is changed on disc.
 		
+	}
+	
+	@Override
+	public void setFocus() {
+		System.out.println("MDLEditor active page: " + getActivePage());
+		super.setFocus();
+//		switch (getActivePage()) {
+//		case 0:
+//			jcpPage.setFocus();
+//			break;
+//		case 1:
+//			textEditor.setFocus();
+//			break;
+//		}
 	}
 	
 	
