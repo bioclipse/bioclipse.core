@@ -53,6 +53,14 @@ public class ActionHistoryView extends ViewPart implements IHistoryListener {
 		history = Activator.getDefault().getHistoryObject();
 		history.addHistoryListener(this);
 	}
+/**
+ * Clean up on exit
+ */	
+	@Override
+	public void dispose() {
+		history.removeHistoryListener(this);
+		super.dispose();
+	}
 	
 	@Override
 	public void createPartControl(Composite parent) {
