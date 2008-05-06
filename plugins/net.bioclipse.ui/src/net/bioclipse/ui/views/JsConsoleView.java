@@ -354,7 +354,7 @@ public class JsConsoleView extends ScriptingConsoleView
 			
 			for ( Class<?> interfaze : manager.getClass().getInterfaces() )
 				for ( Method method : interfaze.getDeclaredMethods() )
-					if ( method.isAnnotationPresent(Recorded.class) 
+					if ( method.isAnnotationPresent(PublishedMethod.class) 
 					     && !variables.contains( method.getName() ))
 						
 						variables.add( method.getName() );
