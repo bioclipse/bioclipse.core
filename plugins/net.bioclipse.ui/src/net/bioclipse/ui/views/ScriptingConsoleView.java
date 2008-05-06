@@ -163,7 +163,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
 		                text.append( splitIntoSeveralLines(
 		                		result, MAX_OUTPUT_LINE_LENGTH) );
 		                
-		                if ( !result.equals("") )
+		                if ( result != null && !result.equals("") )
 		                    text.append( "\n" );
 	                }
 	                
@@ -533,29 +533,35 @@ public abstract class ScriptingConsoleView extends ViewPart {
 	 */
 	private String splitIntoSeveralLines( String text,
                                           int maxLineLength ) {
+	    
+	    if (text == null || text.length() == 0)
+	        return "";
+	    
+	    if (maxLineLength <= 0)
+	        return text;
 
-		StringBuffer result = new StringBuffer();
-		int currentPos = 0;
-		while ( currentPos < text.length() ) {
+	    StringBuffer result = new StringBuffer();
+	    int currentPos = 0;
+	    while ( currentPos < text.length() ) {
 			
-			int toPos
-				= convenientLineBreakPoint(text, currentPos, maxLineLength); 
+	        int toPos
+			        = convenientLineBreakPoint(text, currentPos, maxLineLength); 
 
-			result.append( text.substring(currentPos, toPos) );
+	        result.append( text.substring(currentPos, toPos) );
 
-			currentPos = toPos;
+	        currentPos = toPos;
 
-			// Line breaks only between lines, and only in the absence of
-			// natural ones.
-			if (currentPos < text.length() && text.charAt(currentPos-1) != '\n')
-				result.append('\n');
+	        // Line breaks only between lines, and only in the absence of
+	        // natural ones.
+	        if (currentPos < text.length() && text.charAt(currentPos-1) != '\n')
+	            result.append('\n');
 			
-			// And we can live without the spaces at which we chose to break.
-			while (currentPos < text.length() && text.charAt(currentPos) == ' ')
-				++currentPos;
-		}
+	        // And we can live without the spaces at which we chose to break.
+	        while (currentPos < text.length() && text.charAt(currentPos) == ' ')
+	            ++currentPos;
+	    }
 		
-		return result.toString();
+	    return result.toString();
 	}
 
 	/**
