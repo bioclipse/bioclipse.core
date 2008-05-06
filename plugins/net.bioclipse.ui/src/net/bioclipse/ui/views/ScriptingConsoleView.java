@@ -6,12 +6,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DropTarget;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.DropTargetListener;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.graphics.Point;
@@ -37,8 +47,16 @@ public abstract class ScriptingConsoleView extends ViewPart {
 	/** The text contents of this console. */
     private Text text;
     
-    /** List of all commands written. */
-    private List<String> commandHistory = new ArrayList<String>();
+    /** List of all commands written.
+     * 
+     * Don't be alarmed by the double braces after the constructor call; they
+     * are amply explained at http://norvig.com/java-iaq.html under the section
+     * "I have a class with six...".
+     */
+    @SuppressWarnings("serial")
+    private List<String> commandHistory = new ArrayList<String>() {{
+        add("");
+    }};
     
     /**
      * An index pointer into the command history. It is reset to point to the
@@ -266,7 +284,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
      * is created.
      */
     public ScriptingConsoleView() {
-        commandHistory.add("");
+
     }
 
     /** Returns the number of occurrences of a character in a string. */
@@ -307,7 +325,9 @@ public abstract class ScriptingConsoleView extends ViewPart {
         });
 
         hookContextMenu();
+        enableResourceDropSupport();
     }
+
     
     /** Makes a system notification sound. */
 	protected void beep() {
@@ -474,6 +494,63 @@ public abstract class ScriptingConsoleView extends ViewPart {
 //        getSite().registerContextMenu(menuMgr, text);
     }
     
+    private void enableResourceDropSupport() {
+        int ops = DND.DROP_MOVE;
+        DropTarget target = new DropTarget(text, ops);
+        target.setTransfer(
+                new Transfer[] { LocalSelectionTransfer.getTransfer()} );
+        
+        target.addDropListener( new DropTargetListener() {
+            public void dragEnter(DropTargetEvent event) {};
+            public void dragOver(DropTargetEvent event) {};
+            public void dragLeave(DropTargetEvent event) {};
+            public void dragOperationChanged(DropTargetEvent event) {};
+            public void dropAccept(DropTargetEvent event) {}
+            public void drop(DropTargetEvent event) {
+              if (event.data == null) {
+                event.detail = DND.DROP_NONE;
+                return;
+              }
+              
+              if (event.data instanceof TreeSelection) {
+                  TreeSelection selection = (TreeSelection) event.data;
+                  
+                  for (Object item : selection.toArray()) {
+                      if (item instanceof IFile) {
+                          IFile file = (IFile)item;
+
+                          addAtCursor( "\"" );
+                          addAtCursor( file.getLocation().toString() );
+                          addAtCursor( "\"" );
+                          
+                          setFocus();
+                      }
+                      if (item instanceof IFolder) {
+                          IFolder folder = (IFolder)item;
+
+                          addAtCursor( "\"" );
+                          addAtCursor( folder.getName() );
+                          addAtCursor( "\"" );
+                          
+                          setFocus();
+                      }
+                      else if (item instanceof IProject) {
+                          IProject project = (IProject)item;
+
+                          addAtCursor( "\"" );
+                          addAtCursor( project.getName() );
+                          addAtCursor( "\"" );
+                          
+                          setFocus();
+                      }
+
+                  }
+                  
+              }
+            }
+          });
+    }
+
     /**
      * Makes the visible part of the text widget show the cursor.
      */
