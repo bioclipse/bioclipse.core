@@ -23,10 +23,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import net.bioclipse.cdk10.jchempaint.outline.CDKChemObject;
 import net.bioclipse.core.business.BioclipseException;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.events.ControlListener;
@@ -36,14 +41,19 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
+import org.openscience.cdk.AtomContainer;
 import org.openscience.cdk.ChemModel;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.controller.Controller2DModel;
 import org.openscience.cdk.controller.PopupController2D;
 import org.openscience.cdk.event.ICDKChangeListener;
+import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
+import org.openscience.cdk.interfaces.IBond;
 import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.interfaces.IChemObjectChangeEvent;
 import org.openscience.cdk.interfaces.IChemObjectListener;
@@ -59,7 +69,7 @@ import org.openscience.cdk.tools.manipulator.ChemModelManipulator;
  */
 public class JCPPage extends EditorPart
 	implements IJCPEditorPart, IChemObjectListener, ICDKChangeListener,
-	           MouseMotionListener {
+	           MouseMotionListener, ISelectionChangedListener, ISelectionListener{
 
 	//The body of the editor
 	private Composite body;
@@ -78,6 +88,10 @@ public class JCPPage extends EditorPart
 	
 	//The underlying file
 	IFile inputFile;;
+
+	//Store highlighted selections
+	private IAtomContainer selectedContent = null;
+
 	
 	public JCPPage() {
 		super();
@@ -98,6 +112,8 @@ public class JCPPage extends EditorPart
 			//TODO open message box stating "no valid file - could not be opened with JCP"
 		}
 		body.addFocusListener(new JCPCompFocusListener((JCPComposite) body));
+		
+		getSite().getPage().addSelectionListener(this);
 	}
 
 	/**
@@ -288,4 +304,52 @@ public class JCPPage extends EditorPart
 		// TODO Auto-generated method stub
 	}
 
+	
+	public void selectionChanged(SelectionChangedEvent event) {
+		reactOnSelection(event.getSelection());
+	}
+
+
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		if(part==this)
+			return;
+		reactOnSelection(selection);
+	}
+
+
+	private void reactOnSelection(ISelection selection) {
+
+		if (jcpModel==null) return;
+
+		//Check if selection includes atoms/bonds and highlight in that case
+		Iterator it=((IStructuredSelection)selection).iterator();
+
+		if (it.hasNext()) {
+
+			if (selectedContent == null) {
+				selectedContent = new AtomContainer();
+			} else {
+				selectedContent.removeAllElements();
+			}
+
+			while( it.hasNext()){
+				Object obj=it.next();
+				if(obj instanceof CDKChemObject){
+					obj=((CDKChemObject)obj).getChemobj();
+					if (obj instanceof IAtom){
+						selectedContent.addAtom((IAtom)obj);
+					}
+					if (obj instanceof IBond){
+						selectedContent.addBond((IBond)obj);
+					}
+				}
+			}
+			jcpModel.getRendererModel().setExternalSelectedPart(selectedContent);
+			this.getDrawingPanel().repaint();
+		}
+
+		
+	}
+
+	
 }

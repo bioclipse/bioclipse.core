@@ -1,5 +1,6 @@
 package net.bioclipse.cdk10.jchempaint.ui.editor;
 
+import net.bioclipse.cdk10.jchempaint.outline.JCPOutlinePage;
 import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;
@@ -12,6 +13,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.MultiPageEditorPart;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 
 /**
@@ -27,7 +29,9 @@ public class MDLMolfileEditor extends MultiPageEditorPart implements IResourceCh
     TextEditor textEditor;
     int textEditorIndex;
     private IUndoContext undoContext=null;
-        
+
+	private JCPOutlinePage fOutlinePage;
+
 	public IUndoContext getUndoContext() {
 		return undoContext;
 	}
@@ -121,5 +125,18 @@ public class MDLMolfileEditor extends MultiPageEditorPart implements IResourceCh
 //		}
 	}
 	
+	@Override
+	public Object getAdapter(Class adapter) {
+		
+		if (IContentOutlinePage.class.equals(adapter)) {
+			if (fOutlinePage == null) {
+				fOutlinePage= new JCPOutlinePage(getEditorInput(), this);
+			}
+			return fOutlinePage;
+		}
+		
+		
+		return super.getAdapter(adapter);
+	}
 	
 }
