@@ -35,7 +35,7 @@ public class StructureContentProvider implements ITreeContentProvider {
 	private final static String CDK_PREFIX = "org.openscience.cdk."; 
 	private final static String PDB_PREFIX = "protein.data.PDB"; 
 
-	StructureContentProvider() {}
+	public StructureContentProvider() {}
 
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof Container) {
