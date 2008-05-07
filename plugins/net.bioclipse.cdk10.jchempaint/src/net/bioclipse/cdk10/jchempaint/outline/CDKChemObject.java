@@ -76,7 +76,7 @@ public class CDKChemObject extends BioObject implements IBioObject{
 //			}
 //			return propSource;
 		}
-		return null;
+		return super.getAdapter(adapter);
 	}
 
 }
