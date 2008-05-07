@@ -21,7 +21,8 @@ import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
  * 
  * @author egonw
  */
-public class MDLMolfileEditor extends MultiPageEditorPart implements IResourceChangeListener{
+public class MDLMolfileEditor extends MultiPageEditorPart 
+        implements IJCPBasedEditor, IResourceChangeListener{
 
     private static final Logger logger = Logger.getLogger(MDLMolfileEditor.class);
 

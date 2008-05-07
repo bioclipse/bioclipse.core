@@ -37,6 +37,7 @@ import javax.swing.JPanel;
 import org.eclipse.swt.widgets.Display;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.renderer.Renderer2D;
+import org.openscience.cdk.renderer.color.IAtomColorer;
 import org.openscience.cdk.tools.manipulator.AtomContainerSetManipulator;
 
 /**
@@ -108,5 +109,11 @@ public class DrawingPanel extends JPanel
 	public Display getDisplay() {
 		return display;
 	}
+	
+	public void setAtomColorer(IAtomColorer colorer){
+	    r2d.getRenderer2DModel().setAtomColorer( colorer );
+	}
+	
+	
 }
 

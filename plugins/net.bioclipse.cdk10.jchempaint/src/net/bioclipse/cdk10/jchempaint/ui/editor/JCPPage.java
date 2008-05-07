@@ -35,7 +35,6 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.events.ControlListener;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -60,6 +59,7 @@ import org.openscience.cdk.interfaces.IChemObjectListener;
 import org.openscience.cdk.interfaces.IMolecule;
 import org.openscience.cdk.io.MDLV2000Reader;
 import org.openscience.cdk.renderer.Renderer2DModel;
+import org.openscience.cdk.renderer.color.IAtomColorer;
 import org.openscience.cdk.tools.HydrogenAdder;
 import org.openscience.cdk.tools.manipulator.ChemModelManipulator;
 
@@ -91,13 +91,30 @@ public class JCPPage extends EditorPart
 
 	//Store highlighted selections
 	private IAtomContainer selectedContent = null;
+	
+	//Custom colorer for the renderer
+	private IAtomColorer colorer;
 
 	
-	public JCPPage() {
+    public IAtomColorer getColorer() {
+        return colorer;
+    }
+
+    
+    public void setColorer( IAtomColorer colorer ) {
+        this.colorer = colorer;
+    }
+
+    public JCPPage() {
 		super();
 	}
 	
-	@Override
+	public JCPPage(IAtomColorer colorer) {
+	    super();
+	    this.colorer=colorer;
+    }
+
+    @Override
 	public void createPartControl(Composite parent) {
 		
 		body = new JCPComposite(parent, SWT.EMBEDDED | SWT.H_SCROLL | SWT.V_SCROLL);
@@ -112,6 +129,9 @@ public class JCPPage extends EditorPart
 			//TODO open message box stating "no valid file - could not be opened with JCP"
 		}
 		body.addFocusListener(new JCPCompFocusListener((JCPComposite) body));
+
+		if (colorer!=null)
+		    drawingPanel.setAtomColorer( colorer );
 		
 		getSite().getPage().addSelectionListener(this);
 	}

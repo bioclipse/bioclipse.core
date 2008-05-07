@@ -93,8 +93,8 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
 		if (!(activeEditorPart == part)) {
 			this.activeEditorPart = part;
 //			super.setActiveEditor(part);
-			if (((MDLMolfileEditor)activeEditorPart).getJcpModel() != null) {
-				registerModel(((MDLMolfileEditor)activeEditorPart).getJcpModel());
+			if (((IJCPBasedEditor)activeEditorPart).getJcpModel() != null) {
+				registerModel(((IJCPBasedEditor)activeEditorPart).getJcpModel());
 				// FIXME egonw: likely crucial call
 //				((MDLMolfileEditor)activeEditorPart).setContributor(this);
 			}
@@ -110,7 +110,7 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
 	public void registerModel(JChemPaintModel model)
 	{
 		if (model != null) {
-			DrawingPanel drawingPanel = ((MDLMolfileEditor)activeEditorPart).getDrawingPanel();
+			DrawingPanel drawingPanel = ((IJCPBasedEditor)activeEditorPart).getDrawingPanel();
 			
 			/*new code -  functional group*/
 			String filename = "org/openscience/cdk/applications/jchempaint/resources/text/funcgroups.txt";
@@ -172,8 +172,8 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
 	}
 	
 	public void updateModel(IChemModel chemModel){
-		((PopupController2D)((MDLMolfileEditor)activeEditorPart).getDrawingPanel().getKeyListeners()[0]).setChemModel(chemModel);
-		((MDLMolfileEditor)activeEditorPart).getDrawingPanel().updateRingSetInRenderer();
+		((PopupController2D)((IJCPBasedEditor)activeEditorPart).getDrawingPanel().getKeyListeners()[0]).setChemModel(chemModel);
+		((IJCPBasedEditor)activeEditorPart).getDrawingPanel().updateRingSetInRenderer();
 	}
 	
 	public void setupPopupMenus(PopupController2D inputAdapter)
