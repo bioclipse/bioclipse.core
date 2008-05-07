@@ -180,6 +180,7 @@ public class JCPPage extends EditorPart
 				null, null, 
 				null, new HashMap()
 			);
+			inputAdapter.addCDKChangeListener(this);
 			jcpModel.getRendererModel().addCDKChangeListener(this);
 			jcpModel.getControllerModel().setDrawMode(Controller2DModel.LASSO);
 			drawingPanel.setJChemPaintModel(jcpModel);
@@ -287,16 +288,17 @@ public class JCPPage extends EditorPart
 	}
 
 	public void stateChanged(IChemObjectChangeEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void stateChanged(EventObject event) {
 		if(event.getSource() instanceof Renderer2DModel) {
 			getDrawingPanel().repaint();
 			if (!this.isDirty() && jcpModel.isModified()) {
 				setDirty(true);
 			}
+		}
+	}
+
+	public void stateChanged(EventObject event) {
+		if (!this.isDirty() && jcpModel.isModified()) {
+			setDirty(true);
 		}
 	}
 

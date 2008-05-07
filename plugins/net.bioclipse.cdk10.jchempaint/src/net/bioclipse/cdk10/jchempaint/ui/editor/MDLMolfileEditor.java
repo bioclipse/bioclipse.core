@@ -32,6 +32,7 @@ public class MDLMolfileEditor extends MultiPageEditorPart
     private IUndoContext undoContext=null;
 
 	private JCPOutlinePage fOutlinePage;
+	private JCPMultiPageEditorContributor contributor;
 
 	public IUndoContext getUndoContext() {
 		return undoContext;
@@ -114,16 +115,7 @@ public class MDLMolfileEditor extends MultiPageEditorPart
 	
 	@Override
 	public void setFocus() {
-		System.out.println("MDLEditor active page: " + getActivePage());
 		super.setFocus();
-//		switch (getActivePage()) {
-//		case 0:
-//			jcpPage.setFocus();
-//			break;
-//		case 1:
-//			textEditor.setFocus();
-//			break;
-//		}
 	}
 	
 	@Override
@@ -138,6 +130,9 @@ public class MDLMolfileEditor extends MultiPageEditorPart
 		
 		
 		return super.getAdapter(adapter);
+
+	public void setContributor(JCPMultiPageEditorContributor multiPageEditorContributor) {
+		this.contributor = multiPageEditorContributor;
 	}
-	
+
 }

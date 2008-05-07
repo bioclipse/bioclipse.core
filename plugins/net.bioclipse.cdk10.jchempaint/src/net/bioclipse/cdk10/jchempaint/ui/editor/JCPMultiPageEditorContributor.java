@@ -24,6 +24,7 @@ import org.openscience.cdk.PseudoAtom;
 import org.openscience.cdk.Reaction;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.controller.PopupController2D;
+import org.openscience.cdk.event.ICDKChangeListener;
 import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.renderer.Renderer2DModel;
 import org.openscience.cdk.smiles.SmilesParser;
@@ -161,7 +162,7 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
 			model.getControllerModel().setBondPointerLength(rendererModel.getBondLength());
 			model.getControllerModel().setRingPointerLength(rendererModel.getBondLength());
 	
-	//		model.getRendererModel().addCDKChangeListener((ICDKChangeListener) activeEditorPart);
+			model.getRendererModel().addCDKChangeListener((ICDKChangeListener) activeEditorPart);
 			inputAdapter.addCDKChangeListener(model);
 			//drawingPanel.setJChemPaintModel(model);
 			drawingPanel.addMouseListener(inputAdapter);
