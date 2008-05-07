@@ -30,6 +30,8 @@ public class CDKChemObject extends BioObject implements IBioObject{
 //	private ChemObjectPropertySource propSource;
 	private String name;
 
+	private IPropertySource propSource;
+	
 	/**
 	 * Used to look up e.g. the molecule of an Atom
 	 */
@@ -71,10 +73,10 @@ public class CDKChemObject extends BioObject implements IBioObject{
 
 	public Object getAdapter(Class adapter) {
 		if (adapter ==IPropertySource.class){
-//			if (propSource ==null){
-//				propSource=new ChemObjectPropertySource(this);
-//			}
-//			return propSource;
+			if (propSource ==null){
+				propSource=new ChemObjectPropertySource(this);
+			}
+			return propSource;
 		}
 		return super.getAdapter(adapter);
 	}
