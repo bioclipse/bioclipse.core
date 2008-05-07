@@ -259,6 +259,6 @@ public class BioList<T extends IBioObject> extends BioObject
 			return propertySource!=null 
 				? propertySource : new BioListPropertySource(this);
 		}
-		return null;
+		return super.getAdapter(adapter);
 	}
 }
