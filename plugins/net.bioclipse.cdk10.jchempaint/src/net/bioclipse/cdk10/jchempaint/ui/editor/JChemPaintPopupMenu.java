@@ -66,7 +66,7 @@ public class JChemPaintPopupMenu extends CDKPopupMenu
 	{
 		logger = new LoggingTool(this);
 		this.contributor = contributor;
-		this.drawingPanel = ((MDLMolfileEditor)contributor.getActiveEditorPart()).getDrawingPanel();
+		this.drawingPanel = ((IJCPBasedEditor)contributor.getActiveEditorPart()).getDrawingPanel();
 		createPopupMenu(type);
 	}
 
