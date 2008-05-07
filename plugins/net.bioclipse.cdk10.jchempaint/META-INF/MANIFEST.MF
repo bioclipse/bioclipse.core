@@ -19,3 +19,8 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Import-Package: org.apache.log4j
+Export-Package: net.bioclipse.cdk10.jchempaint,
+ net.bioclipse.cdk10.jchempaint.outline,
+ net.bioclipse.cdk10.jchempaint.ui.editor,
+ net.bioclipse.cdk10.jchempaint.ui.editor.action,
+ net.bioclipse.cdk10.jchempaint.ui.editor.resources

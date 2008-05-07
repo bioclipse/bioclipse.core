@@ -113,6 +113,13 @@ public class DrawingPanel extends JPanel
 	public void setAtomColorer(IAtomColorer colorer){
 	    r2d.getRenderer2DModel().setAtomColorer( colorer );
 	}
+
+    
+    public Renderer2D getRenderer2D() {
+        return r2d;
+    }
+
+	
 	
 	
 }
