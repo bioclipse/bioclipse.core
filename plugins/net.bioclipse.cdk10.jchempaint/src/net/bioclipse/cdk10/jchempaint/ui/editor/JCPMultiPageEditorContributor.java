@@ -96,7 +96,7 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
 			if (((IJCPBasedEditor)activeEditorPart).getJcpModel() != null) {
 				registerModel(((IJCPBasedEditor)activeEditorPart).getJcpModel());
 				// FIXME egonw: likely crucial call
-//				((MDLMolfileEditor)activeEditorPart).setContributor(this);
+//				((IJCPBasedEditor)activeEditorPart).setContributor(this);
 			}
 		}
 	}
@@ -150,11 +150,11 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
 					ex.printStackTrace();
 				}
 			}
-			PopupController2D inputAdapter = new BCJCPPopupController((ChemModel) model.getChemModel(), model.getRendererModel(),model.getControllerModel(), null, null, ((MDLMolfileEditor)activeEditorPart).getJcpComposite(),funcgroups);
+			PopupController2D inputAdapter = new BCJCPPopupController((ChemModel) model.getChemModel(), model.getRendererModel(),model.getControllerModel(), null, null, ((IJCPBasedEditor)activeEditorPart).getJcpComposite(),funcgroups);
 			JCPBioclipseUndoRedoHandler undoRedoHandler=new JCPBioclipseUndoRedoHandler();
-			undoRedoHandler.setDrawingPanel(((MDLMolfileEditor)this.getActiveEditorPart()).getDrawingPanel());
+			undoRedoHandler.setDrawingPanel(((IJCPBasedEditor)this.getActiveEditorPart()).getDrawingPanel());
 			undoRedoHandler.setJcpm(model);
-			undoRedoHandler.setUndoContext(((MDLMolfileEditor)this.getActiveEditorPart()).getUndoContext());
+			undoRedoHandler.setUndoContext(((IJCPBasedEditor)this.getActiveEditorPart()).getUndoContext());
 			inputAdapter.setUndoRedoHandler(undoRedoHandler);
 			setupPopupMenus(inputAdapter);
 			Renderer2DModel rendererModel = model.getRendererModel();
