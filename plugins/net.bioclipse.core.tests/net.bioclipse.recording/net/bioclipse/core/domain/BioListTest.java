@@ -9,12 +9,7 @@ import org.junit.Test;
 
 public class BioListTest {
 
-	private static class TestBioObject extends BioObject {
-
-		public Object getAdapter(Class adapter) {
-			return null;
-		}
-	}
+	private static class TestBioObject extends BioObject {}
 
 	private BioList<IBioObject> biolist;
 	private IBioObject          bioObject;
