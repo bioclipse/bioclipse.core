@@ -50,180 +50,180 @@ import org.openscience.cdk.tools.LoggingTool;
 public class JChemPaintPopupMenu extends CDKPopupMenu
 {
 
-	private LoggingTool logger;
-	private JCPMultiPageEditorContributor contributor;
-	private static DrawingPanel drawingPanel;
+    private LoggingTool logger;
+    private JCPMultiPageEditorContributor contributor;
+    private static DrawingPanel drawingPanel;
 
 
-	/**
-	 *  Constructor for the JChemPaintPopupMenu object
-	 * @param contributor 
-	 *
-	 *@param  jcpPanel  Description of the Parameter
-	 *@param  type      Description of the Parameter
-	 */
-	public JChemPaintPopupMenu(JCPMultiPageEditorContributor contributor, String type)
-	{
-		logger = new LoggingTool(this);
-		this.contributor = contributor;
-		this.drawingPanel = ((IJCPBasedEditor)contributor.getActiveEditorPart()).getDrawingPanel();
-		createPopupMenu(type);
-	}
+    /**
+     *  Constructor for the JChemPaintPopupMenu object
+     * @param contributor 
+     *
+     *@param  jcpPanel  Description of the Parameter
+     *@param  type      Description of the Parameter
+     */
+    public JChemPaintPopupMenu(JCPMultiPageEditorContributor contributor, String type)
+    {
+        logger = new LoggingTool(this);
+        this.contributor = contributor;
+        this.drawingPanel = ((IJCPBasedEditor)contributor.getActiveEditorPart()).getDrawingPanel();
+        createPopupMenu(type);
+    }
 
 
-	/**
-	 *  Description of the Method
-	 * @param contributor 
-	 *
-	 *@param  jcpPanel  Description of the Parameter
-	 *@param  type      Description of the Parameter
-	 */
-	protected void createPopupMenu(String type)
-	{
-		String[] menuKeys = StringHelper.tokenize(getMenuResourceString(type + "popup"));
-		String menuTitle = JCPLocalizationHandler.getInstance().getString(type + "MenuTitle");
-		JMenuItem titleMenuItem = new JMenuItem(menuTitle);
-		titleMenuItem.setEnabled(false);
-		titleMenuItem.setArmed(false);
-		this.add(titleMenuItem);
-		this.addSeparator();
-		for (int i = 0; i < menuKeys.length; i++)
-		{
-			String menuKey = menuKeys[i];
-			if (menuKey.equals("-"))
-			{
-				this.addSeparator();
-			} else if (menuKey.startsWith("@"))
-			{
-				JMenu me = createMenu(contributor, menuKey.substring(1));
-				this.add(me);
-			} else
-			{
-				JMenuItem item = createMenuItem(menuKey,false);
-				if (item != null)
-				{
-					this.add(item);
-				}
-			}
-		}
-	}
+    /**
+     *  Description of the Method
+     * @param contributor 
+     *
+     *@param  jcpPanel  Description of the Parameter
+     *@param  type      Description of the Parameter
+     */
+    protected void createPopupMenu(String type)
+    {
+        String[] menuKeys = StringHelper.tokenize(getMenuResourceString(type + "popup"));
+        String menuTitle = JCPLocalizationHandler.getInstance().getString(type + "MenuTitle");
+        JMenuItem titleMenuItem = new JMenuItem(menuTitle);
+        titleMenuItem.setEnabled(false);
+        titleMenuItem.setArmed(false);
+        this.add(titleMenuItem);
+        this.addSeparator();
+        for (int i = 0; i < menuKeys.length; i++)
+        {
+            String menuKey = menuKeys[i];
+            if (menuKey.equals("-"))
+            {
+                this.addSeparator();
+            } else if (menuKey.startsWith("@"))
+            {
+                JMenu me = createMenu(contributor, menuKey.substring(1));
+                this.add(me);
+            } else
+            {
+                JMenuItem item = createMenuItem(menuKey,false);
+                if (item != null)
+                {
+                    this.add(item);
+                }
+            }
+        }
+    }
 
 
-	/**
-	 *  Craetes a JMenuItem given by a String and adds the right ActionListener to
-	 *  it.
-	 *
-	 *@param  cmd       String The Strin to identify the MenuItem
-	 *@param  jcpPanel  Description of the Parameter
-	 *@return           JMenuItem The created JMenuItem
-	 */
-	protected JMenuItem createMenuItem(String cmd, boolean withCheckBox)
-	{
-		logger.debug("Creating menu item: ", cmd);
-		String translation = "***" + cmd + "***";
-		try
-		{
-			translation = JCPLocalizationHandler.getInstance().getString(cmd);
-		} catch (MissingResourceException mre)
-		{
-			logger.error("Could not find translation for: " + cmd);
-		}
-		JMenuItem mi = new JMenuItem(translation);
-		if(withCheckBox)
-			mi=new JCheckBoxMenuItem(translation);
-		String astr = JCPPropertyHandler.getInstance().getResourceString(cmd + JCPAction.actionSuffix);
-		if (astr == null)
-		{
-			astr = cmd;
-		}
-		mi.setActionCommand(astr);
-		JCPAction a = new JCPAction().getAction(astr, true,withCheckBox);
-		a.setContributor(contributor);
-		if (a != null)
-		{
-			mi.addActionListener(new PopUpListener(contributor, a));
-			mi.setEnabled(a.isEnabled());
-		} else
-		{
-			logger.warn("Could not find JCPAction class for:" + astr);
-			mi.setEnabled(false);
-		}
-		return mi;
-	}
+    /**
+     *  Craetes a JMenuItem given by a String and adds the right ActionListener to
+     *  it.
+     *
+     *@param  cmd       String The Strin to identify the MenuItem
+     *@param  jcpPanel  Description of the Parameter
+     *@return           JMenuItem The created JMenuItem
+     */
+    protected JMenuItem createMenuItem(String cmd, boolean withCheckBox)
+    {
+        logger.debug("Creating menu item: ", cmd);
+        String translation = "***" + cmd + "***";
+        try
+        {
+            translation = JCPLocalizationHandler.getInstance().getString(cmd);
+        } catch (MissingResourceException mre)
+        {
+            logger.error("Could not find translation for: " + cmd);
+        }
+        JMenuItem mi = new JMenuItem(translation);
+        if(withCheckBox)
+            mi=new JCheckBoxMenuItem(translation);
+        String astr = JCPPropertyHandler.getInstance().getResourceString(cmd + JCPAction.actionSuffix);
+        if (astr == null)
+        {
+            astr = cmd;
+        }
+        mi.setActionCommand(astr);
+        JCPAction a = new JCPAction().getAction(astr, true,withCheckBox);
+        a.setContributor(contributor);
+        if (a != null)
+        {
+            mi.addActionListener(new PopUpListener(contributor, a));
+            mi.setEnabled(a.isEnabled());
+        } else
+        {
+            logger.warn("Could not find JCPAction class for:" + astr);
+            mi.setEnabled(false);
+        }
+        return mi;
+    }
 
 
-	/**
-	 *  Description of the Method
-	 * @param contributor 
-	 *
-	 *@param  jcpPanel  Description of the Parameter
-	 *@param  key       Description of the Parameter
-	 *@return           Description of the Return Value
-	 */
-	protected JMenu createMenu( JCPMultiPageEditorContributor contributor, String key)
-	{
-		logger.debug("Creating menu: ", key);
-		String[] itemKeys = StringHelper.tokenize(getMenuResourceString(key));
-		String translation = "***" + key + "***";
-		try
-		{
-			translation = JCPLocalizationHandler.getInstance().getString(key);
-		} catch (MissingResourceException mre)
-		{
-			logger.error("Could not find translation for: " + key);
-		}
-		JMenu menu = new JCPMenu(translation);
-		for (int i = 0; i < itemKeys.length; i++)
-		{
-			if (itemKeys[i].equals("-"))
-			{
-				menu.addSeparator();
-			} else if (itemKeys[i].startsWith("@"))
-			{
-				String menuTitle = itemKeys[i].substring(1);
-				JMenu me = createMenu(contributor, menuTitle);
-				menu.add(me);
-			}else if (itemKeys[i].endsWith("+")) {
-				menu.add(createMenuItem(itemKeys[i].substring(0,itemKeys[i].length()-1),true));
-			}else
-			{
-				JMenuItem mi = createMenuItem(itemKeys[i],false);
-				menu.add(mi);
-			}
-		}
-		return menu;
-	}
+    /**
+     *  Description of the Method
+     * @param contributor 
+     *
+     *@param  jcpPanel  Description of the Parameter
+     *@param  key       Description of the Parameter
+     *@return           Description of the Return Value
+     */
+    protected JMenu createMenu( JCPMultiPageEditorContributor contributor, String key)
+    {
+        logger.debug("Creating menu: ", key);
+        String[] itemKeys = StringHelper.tokenize(getMenuResourceString(key));
+        String translation = "***" + key + "***";
+        try
+        {
+            translation = JCPLocalizationHandler.getInstance().getString(key);
+        } catch (MissingResourceException mre)
+        {
+            logger.error("Could not find translation for: " + key);
+        }
+        JMenu menu = new JCPMenu(translation);
+        for (int i = 0; i < itemKeys.length; i++)
+        {
+            if (itemKeys[i].equals("-"))
+            {
+                menu.addSeparator();
+            } else if (itemKeys[i].startsWith("@"))
+            {
+                String menuTitle = itemKeys[i].substring(1);
+                JMenu me = createMenu(contributor, menuTitle);
+                menu.add(me);
+            }else if (itemKeys[i].endsWith("+")) {
+                menu.add(createMenuItem(itemKeys[i].substring(0,itemKeys[i].length()-1),true));
+            }else
+            {
+                JMenuItem mi = createMenuItem(itemKeys[i],false);
+                menu.add(mi);
+            }
+        }
+        return menu;
+    }
 
 
-	/**
-	 *  Gets the menuResourceString attribute of the JChemPaint object
-	 *
-	 *@param  key  Description of the Parameter
-	 *@return      The menuResourceString value
-	 */
-	public String getMenuResourceString(String key)
-	{
-		String str;
-		try
-		{
-			str = JCPPropertyHandler.getInstance().getGUIDefinition().getString(key);
-		} catch (MissingResourceException mre)
-		{
-			str = null;
-		}
-		return str;
-	}
+    /**
+     *  Gets the menuResourceString attribute of the JChemPaint object
+     *
+     *@param  key  Description of the Parameter
+     *@return      The menuResourceString value
+     */
+    public String getMenuResourceString(String key)
+    {
+        String str;
+        try
+        {
+            str = JCPPropertyHandler.getInstance().getGUIDefinition().getString(key);
+        } catch (MissingResourceException mre)
+        {
+            str = null;
+        }
+        return str;
+    }
 
 
-	@Override
-	public void show(Component arg0, int arg1, int arg2) {
-		super.show(arg0, arg1, arg2);
-		this.repaint();
-	}
+    @Override
+    public void show(Component arg0, int arg1, int arg2) {
+        super.show(arg0, arg1, arg2);
+        this.repaint();
+    }
 
 
-	public static DrawingPanel getDrawingPanel() {
-		return drawingPanel;
-	}
+    public static DrawingPanel getDrawingPanel() {
+        return drawingPanel;
+    }
 }
 

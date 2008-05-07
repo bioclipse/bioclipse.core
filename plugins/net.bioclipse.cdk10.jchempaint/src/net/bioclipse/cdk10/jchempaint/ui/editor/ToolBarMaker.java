@@ -49,69 +49,70 @@ import org.openscience.cdk.controller.Controller2DModel;
  *@see           JChemPaintViewerOnlyPanel
  */
 public class ToolBarMaker {
-	private static ArrayList actionList = new ArrayList();
+    private static ArrayList actionList = new ArrayList();
 
 
-	public static ArrayList createToolbar(JCPMultiPageEditorContributor contributor) {
-		actionList.clear();
-		JCPPropertyHandler jcpph = JCPPropertyHandler.getInstance();
-		String[] toolKeys = StringHelper.tokenize(getToolbarResourceString("toolbar"));
-		if (toolKeys.length != 0)
-		{
-			String[] sdiToolKeys = new String[(toolKeys.length)];
-			for (int i = 0; i < toolKeys.length; i++)
-			{
-				int j = i - 0;
-				sdiToolKeys[j] = toolKeys[i];
-			}
-			toolKeys = sdiToolKeys;
-		}
-		for (int i=0; i<toolKeys.length; i++) {
-			String key = toolKeys[i];
-			JCPAction jcpAction = null;
-			String astr = jcpph.getResourceString(key + JCPAction.actionSuffix);
-			if (astr != null) {
-				jcpAction = new JCPAction().getAction(astr, false,false);
-				jcpAction.setContributor(contributor);
-				String tip = JCPLocalizationHandler.getInstance().getString(key + "Tooltip");
-				if (tip != null)
-				{
-					jcpAction.setToolTipText(tip);
-				}
-//				logger.debug("action: " + jcpAction);
-			}
-			if (jcpAction != null) {
-				if (key.compareTo("-") == 0) {
-					Object separator = new Separator();
-					actionList.add(separator);
-				}
-				else {
-					URL url = jcpph.getResource(toolKeys[i] + JCPAction.imageSuffix);
-					ImageDescriptor imageDesc = ImageDescriptor.createFromURL(url);
-					jcpAction.setImageDescriptor(imageDesc);
-					actionList.add(jcpAction);
-					if(toolKeys[i].equals("lasso")){
-						url = jcpph.getResource(toolKeys[i]+"active" + JCPAction.imageSuffix);
-						imageDesc = ImageDescriptor.createFromURL(url);
-						jcpAction.setImageDescriptor(imageDesc);
-						contributor.lastaction=jcpAction;
-					}				}
-			}
-		}
-		return actionList;
-	}
-	
-	static String getToolbarResourceString(String key)
-	{
-		String str;
-		try
-		{
-			str = JCPPropertyHandler.getInstance().getGUIDefinition().getString(key);
-		} catch (MissingResourceException mre)
-		{
-			str = null;
-		}
-		return str;
-	}
+    public static ArrayList createToolbar(JCPMultiPageEditorContributor contributor) {
+        actionList.clear();
+        JCPPropertyHandler jcpph = JCPPropertyHandler.getInstance();
+        String[] toolKeys = StringHelper.tokenize(getToolbarResourceString("toolbar"));
+        if (toolKeys.length != 0)
+        {
+            String[] sdiToolKeys = new String[(toolKeys.length)];
+            for (int i = 0; i < toolKeys.length; i++)
+            {
+                int j = i - 0;
+                sdiToolKeys[j] = toolKeys[i];
+            }
+            toolKeys = sdiToolKeys;
+        }
+        for (int i=0; i<toolKeys.length; i++) {
+            String key = toolKeys[i];
+            JCPAction jcpAction = null;
+            String astr = jcpph.getResourceString(key + JCPAction.actionSuffix);
+            if (astr != null) {
+                jcpAction = new JCPAction().getAction(astr, false,false);
+                jcpAction.setContributor(contributor);
+                String tip = JCPLocalizationHandler.getInstance().getString(key + "Tooltip");
+                if (tip != null)
+                {
+                    jcpAction.setToolTipText(tip);
+                }
+//                logger.debug("action: " + jcpAction);
+            }
+            if (jcpAction != null) {
+                if (key.compareTo("-") == 0) {
+                    Object separator = new Separator();
+                    actionList.add(separator);
+                }
+                else {
+                    URL url = jcpph.getResource(toolKeys[i] + JCPAction.imageSuffix);
+                    ImageDescriptor imageDesc = ImageDescriptor.createFromURL(url);
+                    jcpAction.setImageDescriptor(imageDesc);
+                    actionList.add(jcpAction);
+                    if(toolKeys[i].equals("lasso")){
+                        url = jcpph.getResource(toolKeys[i]+"active" + JCPAction.imageSuffix);
+                        imageDesc = ImageDescriptor.createFromURL(url);
+                        jcpAction.setImageDescriptor(imageDesc);
+                        contributor.lastaction=jcpAction;
+                    }
+                }
+            }
+        }
+        return actionList;
+    }
+
+    static String getToolbarResourceString(String key)
+    {
+        String str;
+        try
+        {
+            str = JCPPropertyHandler.getInstance().getGUIDefinition().getString(key);
+        } catch (MissingResourceException mre)
+        {
+            str = null;
+        }
+        return str;
+    }
 }
 

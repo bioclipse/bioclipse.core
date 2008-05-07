@@ -5,12 +5,12 @@ import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 
 public interface IJCPEditorPart {
 
-	
-	public JChemPaintModel getJCPModel();
-	
-	public Composite getJcpComposite();
-	
-	public DrawingPanel getDrawingPanel();
-	
-	public JCPScrollBar getJcpScrollBar();
+    
+    public JChemPaintModel getJCPModel();
+    
+    public Composite getJcpComposite();
+    
+    public DrawingPanel getDrawingPanel();
+    
+    public JCPScrollBar getJcpScrollBar();
 }

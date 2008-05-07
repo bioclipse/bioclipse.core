@@ -52,208 +52,208 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
     
     private static final Logger logger = Logger.getLogger(UserManagerLoginDialog.class);
 
-	private Button         createNewKeyringButton;
-	private Label          usernameLabel;
-	private Label          passwordLabel;
-	private Text           usernameText;
-	private Text           passwordText;
-	private UserContainer  userContainer;
-	private String         username;
-	private String         password;
-	private boolean        userContainerEdited;
-	
-	/**
-	 * Create the dialog
-	 * @param parentShell
-	 */
-	public UserManagerLoginDialog( Shell parentShell, 
-			                       UserContainer userContainer ) {
-		super(parentShell);
-		
-		this.userContainer = userContainer;
-	}
+    private Button         createNewKeyringButton;
+    private Label          usernameLabel;
+    private Label          passwordLabel;
+    private Text           usernameText;
+    private Text           passwordText;
+    private UserContainer  userContainer;
+    private String         username;
+    private String         password;
+    private boolean        userContainerEdited;
+    
+    /**
+     * Create the dialog
+     * @param parentShell
+     */
+    public UserManagerLoginDialog( Shell parentShell, 
+                                   UserContainer userContainer ) {
+        super(parentShell);
+        
+        this.userContainer = userContainer;
+    }
 
-	/**
-	 * Create contents of the dialog
-	 * @param parent
-	 */
-	@Override
-	protected Control createDialogArea(Composite parent) {
-		Composite area = (Composite) super.createDialogArea(parent);
-		Composite container = new Composite(area, SWT.NONE);
-		container.setLayout(new FormLayout());
-		container.setLayoutData(new GridData(GridData.FILL_BOTH));
+    /**
+     * Create contents of the dialog
+     * @param parent
+     */
+    @Override
+    protected Control createDialogArea(Composite parent) {
+        Composite area = (Composite) super.createDialogArea(parent);
+        Composite container = new Composite(area, SWT.NONE);
+        container.setLayout(new FormLayout());
+        container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		usernameLabel = new Label(container, SWT.NONE);
-		final FormData formData = new FormData();
-		formData.top = new FormAttachment(0, 58);
-		formData.bottom = new FormAttachment(0, 75);
-		formData.left = new FormAttachment(0, 34);
-		formData.right = new FormAttachment(0, 105);
-		usernameLabel.setLayoutData(formData);
-		usernameLabel.setText("Username:");
+        usernameLabel = new Label(container, SWT.NONE);
+        final FormData formData = new FormData();
+        formData.top = new FormAttachment(0, 58);
+        formData.bottom = new FormAttachment(0, 75);
+        formData.left = new FormAttachment(0, 34);
+        formData.right = new FormAttachment(0, 105);
+        usernameLabel.setLayoutData(formData);
+        usernameLabel.setText("Username:");
 
-		passwordLabel = new Label(container, SWT.NONE);
-		final FormData formData_1 = new FormData();
-		formData_1.right = new FormAttachment(usernameLabel, 63, SWT.LEFT);
-		formData_1.left = new FormAttachment(usernameLabel, 0, SWT.LEFT);
-		passwordLabel.setLayoutData(formData_1);
-		passwordLabel.setText("Password:");
+        passwordLabel = new Label(container, SWT.NONE);
+        final FormData formData_1 = new FormData();
+        formData_1.right = new FormAttachment(usernameLabel, 63, SWT.LEFT);
+        formData_1.left = new FormAttachment(usernameLabel, 0, SWT.LEFT);
+        passwordLabel.setLayoutData(formData_1);
+        passwordLabel.setText("Password:");
 
-		passwordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
-		formData_1.top = new FormAttachment(passwordText, -17, SWT.BOTTOM);
-		formData_1.bottom = new FormAttachment(passwordText, 0, SWT.BOTTOM);
-		final FormData formData_2 = new FormData();
-		formData_2.top = new FormAttachment(0, 93);
-		passwordText.setLayoutData(formData_2);
+        passwordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
+        formData_1.top = new FormAttachment(passwordText, -17, SWT.BOTTOM);
+        formData_1.bottom = new FormAttachment(passwordText, 0, SWT.BOTTOM);
+        final FormData formData_2 = new FormData();
+        formData_2.top = new FormAttachment(0, 93);
+        passwordText.setLayoutData(formData_2);
 
-		usernameText = new Text(container, SWT.BORDER);
-		formData_2.right = new FormAttachment(usernameText, 0, SWT.RIGHT);
-		formData_2.left = new FormAttachment(usernameText, 0, SWT.LEFT);
-		final FormData formData_3 = new FormData();
-		formData_3.right = new FormAttachment(100, -34);
-		formData_3.top = new FormAttachment(0, 53);
-		formData_3.left = new FormAttachment(usernameLabel, 5, SWT.RIGHT);
-		usernameText.setLayoutData(formData_3);
+        usernameText = new Text(container, SWT.BORDER);
+        formData_2.right = new FormAttachment(usernameText, 0, SWT.RIGHT);
+        formData_2.left = new FormAttachment(usernameText, 0, SWT.LEFT);
+        final FormData formData_3 = new FormData();
+        formData_3.right = new FormAttachment(100, -34);
+        formData_3.top = new FormAttachment(0, 53);
+        formData_3.left = new FormAttachment(usernameLabel, 5, SWT.RIGHT);
+        usernameText.setLayoutData(formData_3);
 
-		createNewKeyringButton = new Button(container, SWT.NONE);
-		createNewKeyringButton.addSelectionListener(new SelectionAdapter() {
-			/*
-			 * CREATE NEW USER 
-			 */
-			public void widgetSelected(SelectionEvent e) {
+        createNewKeyringButton = new Button(container, SWT.NONE);
+        createNewKeyringButton.addSelectionListener(new SelectionAdapter() {
+            /*
+             * CREATE NEW USER 
+             */
+            public void widgetSelected(SelectionEvent e) {
 
-				CreateUserDialog createDialog = 
-					new CreateUserDialog( PlatformUI
-							              .getWorkbench()
-							              .getActiveWorkbenchWindow()
-							              .getShell(),
-							              userContainer );
-				createDialog.open();
-				if(createDialog.getReturnCode() == createDialog.OK) {
-					close();
-					EditUserDialog dialog = 
-						new EditUserDialog( PlatformUI
-								            .getWorkbench()
-								            .getActiveWorkbenchWindow()
-								            .getShell(), 
-								            userContainer );
-					dialog.open();
-					if(dialog.getReturnCode() == dialog.OK) {
-						userContainerEdited = true;
-//						Activator.getDefault()
-//						         .getUserManager()
-//						         .switchUserContainer( userContainer );
-					}
-				}
-			}
-		});
-		final FormData formData_4 = new FormData();
-		formData_4.right = new FormAttachment(100, -34);
-		formData_4.top = new FormAttachment(0, 136);
-		createNewKeyringButton.setLayoutData(formData_4);
-		createNewKeyringButton.setText("Create new Keyring user...");
-		container.setTabList(new Control[] { usernameText, 
-				                             passwordText, 
-				                             passwordLabel, 
-				                             usernameLabel, 
-				                             createNewKeyringButton });
-		setTitle("Log in to the User Manager");
-		//
-		return area;
-	}
+                CreateUserDialog createDialog = 
+                    new CreateUserDialog( PlatformUI
+                                          .getWorkbench()
+                                          .getActiveWorkbenchWindow()
+                                          .getShell(),
+                                          userContainer );
+                createDialog.open();
+                if(createDialog.getReturnCode() == createDialog.OK) {
+                    close();
+                    EditUserDialog dialog = 
+                        new EditUserDialog( PlatformUI
+                                            .getWorkbench()
+                                            .getActiveWorkbenchWindow()
+                                            .getShell(), 
+                                            userContainer );
+                    dialog.open();
+                    if(dialog.getReturnCode() == dialog.OK) {
+                        userContainerEdited = true;
+//                        Activator.getDefault()
+//                                 .getUserManager()
+//                                 .switchUserContainer( userContainer );
+                    }
+                }
+            }
+        });
+        final FormData formData_4 = new FormData();
+        formData_4.right = new FormAttachment(100, -34);
+        formData_4.top = new FormAttachment(0, 136);
+        createNewKeyringButton.setLayoutData(formData_4);
+        createNewKeyringButton.setText("Create new Keyring user...");
+        container.setTabList(new Control[] { usernameText, 
+                                             passwordText, 
+                                             passwordLabel, 
+                                             usernameLabel, 
+                                             createNewKeyringButton });
+        setTitle("Log in to the User Manager");
+        //
+        return area;
+    }
 
-	/**
-	 * Create contents of the button bar
-	 * @param parent
-	 */
-	@Override
-	protected void createButtonsForButtonBar(Composite parent) {
-		createButton( parent, 
-				      IDialogConstants.OK_ID, 
-				      IDialogConstants.OK_LABEL,
-				      true );
-		createButton( parent, 
-				      IDialogConstants.CANCEL_ID,
-				      IDialogConstants.CANCEL_LABEL, 
-				      false );
-	}
+    /**
+     * Create contents of the button bar
+     * @param parent
+     */
+    @Override
+    protected void createButtonsForButtonBar(Composite parent) {
+        createButton( parent, 
+                      IDialogConstants.OK_ID, 
+                      IDialogConstants.OK_LABEL,
+                      true );
+        createButton( parent, 
+                      IDialogConstants.CANCEL_ID,
+                      IDialogConstants.CANCEL_LABEL, 
+                      false );
+    }
 
-	/**
-	 * Return the initial size of the dialog
-	 */
-	@Override
-	protected Point getInitialSize() {
-		return new Point(500, 337);
-	}
-	protected void buttonPressed(int buttonId) {
-		/*
-		 * LOGIN
-		 */
-		if (buttonId == IDialogConstants.OK_ID) {
-			try {
-				username = usernameText.getText();
-				password = passwordText.getText();
-				final String username = this.username;
-				final String password = this.password;
-				PlatformUI
-				.getWorkbench()
-				.getActiveWorkbenchWindow()
-				.run(true, false, new IRunnableWithProgress() {
+    /**
+     * Return the initial size of the dialog
+     */
+    @Override
+    protected Point getInitialSize() {
+        return new Point(500, 337);
+    }
+    protected void buttonPressed(int buttonId) {
+        /*
+         * LOGIN
+         */
+        if (buttonId == IDialogConstants.OK_ID) {
+            try {
+                username = usernameText.getText();
+                password = passwordText.getText();
+                final String username = this.username;
+                final String password = this.password;
+                PlatformUI
+                .getWorkbench()
+                .getActiveWorkbenchWindow()
+                .run(true, false, new IRunnableWithProgress() {
 
-					public void run(IProgressMonitor monitor) 
-					throws InvocationTargetException, InterruptedException {
-						try{
-							int scale = 1000;
-							monitor.beginTask("Signing in...", 2 * scale);
-							Activator.getDefault().getUserManager()
-							.signInWithProgressBar( username,
-			                                        password, 
-			                                        new SubProgressMonitor(
-			                                        		monitor, 
-			                                        		1 * scale) );
-							monitor.worked(1);
-						}
-						catch( final Exception e ) {
-							Display.getDefault().asyncExec(new Runnable() {
+                    public void run(IProgressMonitor monitor) 
+                    throws InvocationTargetException, InterruptedException {
+                        try{
+                            int scale = 1000;
+                            monitor.beginTask("Signing in...", 2 * scale);
+                            Activator.getDefault().getUserManager()
+                            .signInWithProgressBar( username,
+                                                    password, 
+                                                    new SubProgressMonitor(
+                                                            monitor, 
+                                                            1 * scale) );
+                            monitor.worked(1);
+                        }
+                        catch( final Exception e ) {
+                            Display.getDefault().asyncExec(new Runnable() {
 
-								public void run() {
-									MessageDialog.openInformation( 
-											   PlatformUI
-											   .getWorkbench()
-											   .getActiveWorkbenchWindow()
-											   .getShell(), 
-						                       "Could not sign in "
-											   + usernameText.getText(), 
-						                       e.getMessage() );
-								}
-							});
-						}
-						finally {
-							monitor.done();
-						}
-					}
-				});
-			} catch (InvocationTargetException e1) {
-				// TODO Auto-generated catch block
-				LogUtils.debugTrace(logger, e1);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-			    LogUtils.debugTrace(logger, e1);
-			}
-		}
-		super.buttonPressed(buttonId);
-	}
+                                public void run() {
+                                    MessageDialog.openInformation( 
+                                               PlatformUI
+                                               .getWorkbench()
+                                               .getActiveWorkbenchWindow()
+                                               .getShell(), 
+                                               "Could not sign in "
+                                               + usernameText.getText(), 
+                                               e.getMessage() );
+                                }
+                            });
+                        }
+                        finally {
+                            monitor.done();
+                        }
+                    }
+                });
+            } catch (InvocationTargetException e1) {
+                // TODO Auto-generated catch block
+                LogUtils.debugTrace(logger, e1);
+            } catch (InterruptedException e1) {
+                // TODO Auto-generated catch block
+                LogUtils.debugTrace(logger, e1);
+            }
+        }
+        super.buttonPressed(buttonId);
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public boolean isUserContainerEdited() {
-		return userContainerEdited;
-	}
+    public boolean isUserContainerEdited() {
+        return userContainerEdited;
+    }
 }

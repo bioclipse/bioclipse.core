@@ -20,8 +20,8 @@ import java.io.IOException;
  */
 public interface ISequence extends IBioObject {
 
-	public String getName();
-	
-	public String toFasta() throws IOException;
-	public String getPlainSequence() throws IOException;
+    public String getName();
+    
+    public String toFasta() throws IOException;
+    public String getPlainSequence() throws IOException;
 }

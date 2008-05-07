@@ -26,19 +26,19 @@ import org.eclipse.core.runtime.IExecutableExtensionFactory;
 public class UserManagerFactory implements IExecutableExtension, 
                                            IExecutableExtensionFactory {
 
-	private Object userManager;
-	
-	public void setInitializationData( IConfigurationElement config,
-	                                   String propertyName, 
-	                                   Object data ) throws CoreException {
-		
-		userManager = Activator.getDefault().getUserManager();
-		if (userManager == null) {
-			userManager = new Object();
-		}
-	}
+    private Object userManager;
+    
+    public void setInitializationData( IConfigurationElement config,
+                                       String propertyName, 
+                                       Object data ) throws CoreException {
+        
+        userManager = Activator.getDefault().getUserManager();
+        if (userManager == null) {
+            userManager = new Object();
+        }
+    }
 
-	public Object create() throws CoreException {
-		return userManager;
-	}
+    public Object create() throws CoreException {
+        return userManager;
+    }
 }

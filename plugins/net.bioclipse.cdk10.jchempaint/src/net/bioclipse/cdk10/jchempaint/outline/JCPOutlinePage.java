@@ -32,102 +32,102 @@ import org.openscience.cdk.interfaces.IChemModel;
  *
  */
 public class JCPOutlinePage extends ContentOutlinePage 
-							implements ISelectionListener, IAdaptable{
+                            implements ISelectionListener, IAdaptable{
 
-	private final String CONTRIBUTOR_ID
-			="net.bioclipse.cdk10.jchempaint.outline.JCPOutlinePage";
+    private final String CONTRIBUTOR_ID
+            ="net.bioclipse.cdk10.jchempaint.outline.JCPOutlinePage";
 
-	private static final Logger logger = Logger.getLogger(JCPOutlinePage.class);
-	
-	private IEditorInput editorInput;
-	private MDLMolfileEditor editor;
-	private TreeViewer treeViewer;
+    private static final Logger logger = Logger.getLogger(JCPOutlinePage.class);
+    
+    private IEditorInput editorInput;
+    private MDLMolfileEditor editor;
+    private TreeViewer treeViewer;
 
-	//The model root
-	IChemModel chemModel;
+    //The model root
+    IChemModel chemModel;
 
-	/**
-	 * Our constructor
-	 * @param editorInput
-	 * @param mdlEditor
-	 */
-	public JCPOutlinePage(IEditorInput editorInput
-			, MDLMolfileEditor mdlEditor) {
-		super();
-		this.editorInput=editorInput;
-		this.editor=mdlEditor;
+    /**
+     * Our constructor
+     * @param editorInput
+     * @param mdlEditor
+     */
+    public JCPOutlinePage(IEditorInput editorInput
+            , MDLMolfileEditor mdlEditor) {
+        super();
+        this.editorInput=editorInput;
+        this.editor=mdlEditor;
 
-	}
-
-
-	/**
-	 * Set up the treeviewer for the outline with Providers for MDLEditor
-	 */
-	public void createControl(Composite parent) {
-
-		super.createControl(parent);
-
-		treeViewer= getTreeViewer();
-		treeViewer.setContentProvider(new StructureContentProvider());
-		treeViewer.setLabelProvider(new StructureLabelProvider());
-//		viewer.setSorter(new NameSorter());
-		treeViewer.addSelectionChangedListener(this);
-
-		chemModel=editor.getJcpModel().getChemModel();
-		
-		treeViewer.setInput(chemModel);
-		treeViewer.expandToLevel(2);
-
-		getSite().getPage().addSelectionListener(this);
-	}
+    }
 
 
-	/**
-	 * Update selected items if selected in editor
-	 */
-	public void selectionChanged(IWorkbenchPart selectedPart
-			, ISelection selection) {
+    /**
+     * Set up the treeviewer for the outline with Providers for MDLEditor
+     */
+    public void createControl(Composite parent) {
 
-		//Only react on selections in the corresponding editor
-		if (editor!=selectedPart) return;
+        super.createControl(parent);
 
-		/*
-		if (selection instanceof JmolSelection) {
-			JmolSelection jmolSelection = (JmolSelection) selection;
-			System.out.println("** jmol selection caught in outline: " 
-				+ jmolSelection.getFirstElement().toString());
+        treeViewer= getTreeViewer();
+        treeViewer.setContentProvider(new StructureContentProvider());
+        treeViewer.setLabelProvider(new StructureLabelProvider());
+//        viewer.setSorter(new NameSorter());
+        treeViewer.addSelectionChangedListener(this);
 
-			//Look up in tree and select it
-			JmolModelSet ms=(JmolModelSet) treeViewer.getInput();
+        chemModel=editor.getJcpModel().getChemModel();
+        
+        treeViewer.setInput(chemModel);
+        treeViewer.expandToLevel(2);
 
-			JmolObject obj=findInModelSet(jmolSelection, ms);
-			
-			//If none found, just don't select anything
-			if (obj==null) return;
-			
-			IStructuredSelection sel=new StructuredSelection(obj);
-			treeViewer.setSelection(sel);
-			treeViewer.reveal(obj);
-			fireSelectionChanged(sel);
-
-		}
-		*/
-	}
+        getSite().getPage().addSelectionListener(this);
+    }
 
 
+    /**
+     * Update selected items if selected in editor
+     */
+    public void selectionChanged(IWorkbenchPart selectedPart
+            , ISelection selection) {
 
-	/**
-	 * This is our ID for the TabbedPropertiesContributor
-	 */
-	public String getContributorId() {
-		return CONTRIBUTOR_ID;
-	}
+        //Only react on selections in the corresponding editor
+        if (editor!=selectedPart) return;
+
+        /*
+        if (selection instanceof JmolSelection) {
+            JmolSelection jmolSelection = (JmolSelection) selection;
+            System.out.println("** jmol selection caught in outline: " 
+                + jmolSelection.getFirstElement().toString());
+
+            //Look up in tree and select it
+            JmolModelSet ms=(JmolModelSet) treeViewer.getInput();
+
+            JmolObject obj=findInModelSet(jmolSelection, ms);
+            
+            //If none found, just don't select anything
+            if (obj==null) return;
+            
+            IStructuredSelection sel=new StructuredSelection(obj);
+            treeViewer.setSelection(sel);
+            treeViewer.reveal(obj);
+            fireSelectionChanged(sel);
+
+        }
+        */
+    }
 
 
-	public Object getAdapter(Class adapter) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
+    /**
+     * This is our ID for the TabbedPropertiesContributor
+     */
+    public String getContributorId() {
+        return CONTRIBUTOR_ID;
+    }
+
+
+    public Object getAdapter(Class adapter) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 
 }

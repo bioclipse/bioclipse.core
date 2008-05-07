@@ -28,47 +28,47 @@ import org.apache.log4j.Logger;
  */
 public class RecordingAdvice implements IRecordingAdvice {
 
-	private History history;
-	
-	private static final Logger logger = Logger.getLogger(RecordingAdvice.class);
-	
-	
-	public RecordingAdvice(History history) {
-		this.history = history;
-	}
-	
-	
-	public void afterReturning( Object returnValue, 
-			                    Method method,
-			                    Object[] args, 
-			                    Object target ) throws Throwable {
+    private History history;
+    
+    private static final Logger logger = Logger.getLogger(RecordingAdvice.class);
+    
+    
+    public RecordingAdvice(History history) {
+        this.history = history;
+    }
+    
+    
+    public void afterReturning( Object returnValue, 
+                                Method method,
+                                Object[] args, 
+                                Object target ) throws Throwable {
 
-		if ( !method.isAnnotationPresent(Recorded.class) ) {
-			return;
-		}
-		
-		if (target instanceof IBioObject) {
-		    history.addRecord( 
+        if ( !method.isAnnotationPresent(Recorded.class) ) {
+            return;
+        }
+        
+        if (target instanceof IBioObject) {
+            history.addRecord( 
                     new BioObjectRecord( method.getName(),
                                          ((BioObject) target).getUID(),
                                          args,
-                                         returnValue ) );		    
-		}
-		else if (target instanceof IBioclipseManager) {
+                                         returnValue ) );            
+        }
+        else if (target instanceof IBioclipseManager) {
             IBioclipseManager manager = (IBioclipseManager) target;
             history.addRecord( 
                     new ManagerObjectRecord( method.getName(), 
                                              manager.getNamespace(),
                                              args, 
-                                             returnValue ) );		    
-		}
-		else {
-		    String message = "@Recorded method is on object of unexpected "
-		        + "type: " + target.getClass().getName() + "." 
-		        + method.getName();
-		    
-		    assert false: message;        // for development time
-	        logger.warn(message);         // for logged end-user distrib
-		}
-	}
+                                             returnValue ) );            
+        }
+        else {
+            String message = "@Recorded method is on object of unexpected "
+                + "type: " + target.getClass().getName() + "." 
+                + method.getName();
+            
+            assert false: message;        // for development time
+            logger.warn(message);         // for logged end-user distrib
+        }
+    }
 }

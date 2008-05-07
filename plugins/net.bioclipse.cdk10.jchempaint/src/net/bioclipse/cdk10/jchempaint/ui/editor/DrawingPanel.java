@@ -50,77 +50,77 @@ import org.openscience.cdk.tools.manipulator.AtomContainerSetManipulator;
  */
 public class DrawingPanel extends JPanel
 {
-	private JChemPaintModel jchemPaintModel;
-	private Renderer2D r2d;
-	private Display display;
-	
-	/**
-	 *  Constructor for the DrawingPanel object
-	 * @param display 
-	 *
-	 */
-	public DrawingPanel(Display display)
-	{
-		super();
-		this.display = display;
-	}
-	
-	/**
-	 * Set the JChemPaintModel 
-	 * 
-	 * @param model  the JChemPaintModel
-	 */
-	public void setJChemPaintModel(JChemPaintModel model)
-	{       
-		this.jchemPaintModel = model;
-		r2d = new Renderer2D(jchemPaintModel.getRendererModel());
-		r2d.setRenderer2DModel(jchemPaintModel.getRendererModel());
-	}
-	
-	public void updateRingSetInRenderer(){
-		r2d.redoSSSR(AtomContainerSetManipulator.getAllAtomContainers(jchemPaintModel.getChemModel().getMoleculeSet()));
-	}
-	/**
-	 *  Draws bonds, atoms; takes care of highlighting.
-	 *
-	 *@param  g  the Graphics object to paint to
-	 */
-	public void paint(Graphics g)
-	{	
-		super.paint(g);
-		this.setBackground(jchemPaintModel.getRendererModel().getBackColor());
-		if (jchemPaintModel == null) return;
-		Graphics2D g2d = (Graphics2D) g;
-		r2d.paintChemModel(jchemPaintModel.getChemModel(), g2d);
-	}
+    private JChemPaintModel jchemPaintModel;
+    private Renderer2D r2d;
+    private Display display;
+
+    /**
+     *  Constructor for the DrawingPanel object
+     * @param display
+     *
+     */
+    public DrawingPanel(Display display)
+    {
+        super();
+        this.display = display;
+    }
+
+    /**
+     * Set the JChemPaintModel
+     *
+     * @param model  the JChemPaintModel
+     */
+    public void setJChemPaintModel(JChemPaintModel model)
+    {
+        this.jchemPaintModel = model;
+        r2d = new Renderer2D(jchemPaintModel.getRendererModel());
+        r2d.setRenderer2DModel(jchemPaintModel.getRendererModel());
+    }
+
+    public void updateRingSetInRenderer(){
+        r2d.redoSSSR(AtomContainerSetManipulator.getAllAtomContainers(jchemPaintModel.getChemModel().getMoleculeSet()));
+    }
+    /**
+     *  Draws bonds, atoms; takes care of highlighting.
+     *
+     *@param  g  the Graphics object to paint to
+     */
+    public void paint(Graphics g)
+    {
+        super.paint(g);
+        this.setBackground(jchemPaintModel.getRendererModel().getBackColor());
+        if (jchemPaintModel == null) return;
+        Graphics2D g2d = (Graphics2D) g;
+        r2d.paintChemModel(jchemPaintModel.getChemModel(), g2d);
+    }
 
 
-	/**
-	 *  Gets the preferredSize attribute of the JChemPaintPanel object
-	 *
-	 *@return    The preferredSize value
-	 */
-	public Dimension getPreferredSize()
-	{
-		if (jchemPaintModel == null) return new Dimension(794,1123);
-		return jchemPaintModel.getRendererModel().getBackgroundDimension();
-	}
+    /**
+     *  Gets the preferredSize attribute of the JChemPaintPanel object
+     *
+     *@return    The preferredSize value
+     */
+    public Dimension getPreferredSize()
+    {
+        if (jchemPaintModel == null) return new Dimension(794,1123);
+        return jchemPaintModel.getRendererModel().getBackgroundDimension();
+    }
 
-	public Display getDisplay() {
-		return display;
-	}
-	
-	public void setAtomColorer(IAtomColorer colorer){
-	    r2d.getRenderer2DModel().setAtomColorer( colorer );
-	}
+    public Display getDisplay() {
+        return display;
+    }
 
-    
+    public void setAtomColorer(IAtomColorer colorer){
+        r2d.getRenderer2DModel().setAtomColorer( colorer );
+    }
+
+
     public Renderer2D getRenderer2D() {
         return r2d;
     }
 
-	
-	
-	
+
+
+
 }
 

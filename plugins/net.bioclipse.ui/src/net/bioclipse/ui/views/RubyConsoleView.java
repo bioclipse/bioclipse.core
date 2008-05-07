@@ -16,21 +16,21 @@ public class RubyConsoleView extends ScriptingConsoleView {
     }
 
     protected String commandLinePrompt() {
-    	return "ruby> ";
+        return "ruby> ";
     }
 
     protected String executeCommand(String command) {
-    	String result = ruby.eval(command);
-    	return result == null ? "Syntax error" : result;
+        String result = ruby.eval(command);
+        return result == null ? "Syntax error" : result;
     }
 
     @SuppressWarnings("unchecked")
-	public List<String> getAllVariablesIn(String object) {
-		// TODO: Generalize this to dotted completion
-		return "".equals(object) ?
-				new ArrayList<String>( Arrays.asList( executeCommand(
-						"local_variables.join(',')"
-				).split(",") ) ) :
-					Collections.EMPTY_LIST;
-	}
+    public List<String> getAllVariablesIn(String object) {
+        // TODO: Generalize this to dotted completion
+        return "".equals(object) ?
+                new ArrayList<String>( Arrays.asList( executeCommand(
+                        "local_variables.join(',')"
+                ).split(",") ) ) :
+                    Collections.EMPTY_LIST;
+    }
 }

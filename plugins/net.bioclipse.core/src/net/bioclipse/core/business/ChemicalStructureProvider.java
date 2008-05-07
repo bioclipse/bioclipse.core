@@ -12,7 +12,7 @@
 package net.bioclipse.core.business;
 
 public interface ChemicalStructureProvider {
-	
-	public Object getMoleculeImpl();
+    
+    public Object getMoleculeImpl();
 
 }

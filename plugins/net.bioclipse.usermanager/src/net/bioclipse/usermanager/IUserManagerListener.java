@@ -17,5 +17,5 @@ package net.bioclipse.usermanager;
  */
 public interface IUserManagerListener {
 
-	public void receiveUserManagerEvent( UserManagerEvent event );
+    public void receiveUserManagerEvent( UserManagerEvent event );
 }

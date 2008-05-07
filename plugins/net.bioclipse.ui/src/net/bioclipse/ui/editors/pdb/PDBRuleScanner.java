@@ -38,86 +38,86 @@ import org.eclipse.swt.widgets.Display;
  */
 
 public class PDBRuleScanner extends RuleBasedScanner {
-	protected static Color DEFAULT_COLOR= new Color(Display.getCurrent(), new RGB(0, 0, 0));
-	protected static Color HEADER_COLOR= new Color(Display.getCurrent(), new RGB( 150,0 ,150));
-	protected static Color COMMENT_COLOR= new Color(Display.getCurrent(), new RGB(0, 100, 0));
-	protected static Color DATA_COLOR= new Color(Display.getCurrent(), new RGB(75, 75, 200));
-	protected static Color DATAHET_COLOR= new Color(Display.getCurrent(), new RGB(200, 75, 200));
-	protected static Color DATASECONDARY_COLOR= new Color(Display.getCurrent(), new RGB(100, 200, 200));
-	protected static Color DATAATOM_COLOR= new Color(Display.getCurrent(), new RGB(50, 100, 150));
-	protected static Color DATABOND_COLOR= DATAATOM_COLOR;
-	
-	
-	public PDBRuleScanner(PDBKeywords keywords) {
-		
-		IToken headerToken = new Token(new TextAttribute(HEADER_COLOR, null, SWT.BOLD));
-		IToken commentToken= new Token(new TextAttribute(COMMENT_COLOR, null, SWT.ITALIC));
-		IToken dataToken= new Token(new TextAttribute(DATA_COLOR, null, SWT.NORMAL));
-		IToken dataHetToken= new Token(new TextAttribute(DATAHET_COLOR, null, SWT.NORMAL));
-		IToken dataSecondaryToken= new Token(new TextAttribute(DATASECONDARY_COLOR, null, SWT.NORMAL));
-		IToken dataAtomToken= new Token(new TextAttribute(DATAATOM_COLOR, null, SWT.NORMAL));
-		IToken dataBondToken= new Token(new TextAttribute(DATABOND_COLOR, null, SWT.NORMAL));
-		IToken numberToken= new Token(new TextAttribute(DEFAULT_COLOR, null, SWT.ITALIC));
+    protected static Color DEFAULT_COLOR= new Color(Display.getCurrent(), new RGB(0, 0, 0));
+    protected static Color HEADER_COLOR= new Color(Display.getCurrent(), new RGB( 150,0 ,150));
+    protected static Color COMMENT_COLOR= new Color(Display.getCurrent(), new RGB(0, 100, 0));
+    protected static Color DATA_COLOR= new Color(Display.getCurrent(), new RGB(75, 75, 200));
+    protected static Color DATAHET_COLOR= new Color(Display.getCurrent(), new RGB(200, 75, 200));
+    protected static Color DATASECONDARY_COLOR= new Color(Display.getCurrent(), new RGB(100, 200, 200));
+    protected static Color DATAATOM_COLOR= new Color(Display.getCurrent(), new RGB(50, 100, 150));
+    protected static Color DATABOND_COLOR= DATAATOM_COLOR;
+    
+    
+    public PDBRuleScanner(PDBKeywords keywords) {
+        
+        IToken headerToken = new Token(new TextAttribute(HEADER_COLOR, null, SWT.BOLD));
+        IToken commentToken= new Token(new TextAttribute(COMMENT_COLOR, null, SWT.ITALIC));
+        IToken dataToken= new Token(new TextAttribute(DATA_COLOR, null, SWT.NORMAL));
+        IToken dataHetToken= new Token(new TextAttribute(DATAHET_COLOR, null, SWT.NORMAL));
+        IToken dataSecondaryToken= new Token(new TextAttribute(DATASECONDARY_COLOR, null, SWT.NORMAL));
+        IToken dataAtomToken= new Token(new TextAttribute(DATAATOM_COLOR, null, SWT.NORMAL));
+        IToken dataBondToken= new Token(new TextAttribute(DATABOND_COLOR, null, SWT.NORMAL));
+        IToken numberToken= new Token(new TextAttribute(DEFAULT_COLOR, null, SWT.ITALIC));
 
-//		WordRule keywordRule = new WordRule(new KeywordWordDetector(),defaultToken);
-//		SingleLineRule linerule=new SingleLineRule("*", null,keyToken, "#".charAt(0), true);
+//        WordRule keywordRule = new WordRule(new KeywordWordDetector(),defaultToken);
+//        SingleLineRule linerule=new SingleLineRule("*", null,keyToken, "#".charAt(0), true);
 
-		
-		ArrayList<IPredicateRule> listOfRules=new ArrayList<IPredicateRule>();
-		
-		//Add all header keywords as line rules
-		for (int i = 0; i < keywords.getKeywordsHeader().length; i++) {
-			SingleLineRule linerule=new SingleLineRule(keywords.getKeywordsHeader()[i], null,headerToken, "#".charAt(0), true);
-			listOfRules.add(linerule);
-		}
-		
-		//Add all comments to rule
-		for (int i = 0; i < keywords.getKeywordsComments().length; i++) {
-			SingleLineRule linerule=new SingleLineRule(keywords.getKeywordsComments()[i], null,commentToken, "#".charAt(0), true);
-			listOfRules.add(linerule);
-		}
-		
-		//Add all data to rule
-		for (int i = 0; i < keywords.getKeywordsData().length; i++) {
-			SingleLineRule linerule=new SingleLineRule(keywords.getKeywordsData()[i], null,dataToken, "#".charAt(0), true);
-			listOfRules.add(linerule);
-		}
+        
+        ArrayList<IPredicateRule> listOfRules=new ArrayList<IPredicateRule>();
+        
+        //Add all header keywords as line rules
+        for (int i = 0; i < keywords.getKeywordsHeader().length; i++) {
+            SingleLineRule linerule=new SingleLineRule(keywords.getKeywordsHeader()[i], null,headerToken, "#".charAt(0), true);
+            listOfRules.add(linerule);
+        }
+        
+        //Add all comments to rule
+        for (int i = 0; i < keywords.getKeywordsComments().length; i++) {
+            SingleLineRule linerule=new SingleLineRule(keywords.getKeywordsComments()[i], null,commentToken, "#".charAt(0), true);
+            listOfRules.add(linerule);
+        }
+        
+        //Add all data to rule
+        for (int i = 0; i < keywords.getKeywordsData().length; i++) {
+            SingleLineRule linerule=new SingleLineRule(keywords.getKeywordsData()[i], null,dataToken, "#".charAt(0), true);
+            listOfRules.add(linerule);
+        }
 
-		//Add all dataHet to rule
-		for (int i = 0; i < keywords.getKeywordsDataHet().length; i++) {
-			SingleLineRule linerule=new SingleLineRule(keywords.getKeywordsDataHet()[i], null,dataHetToken, "#".charAt(0), true);
-			listOfRules.add(linerule);
-		}
+        //Add all dataHet to rule
+        for (int i = 0; i < keywords.getKeywordsDataHet().length; i++) {
+            SingleLineRule linerule=new SingleLineRule(keywords.getKeywordsDataHet()[i], null,dataHetToken, "#".charAt(0), true);
+            listOfRules.add(linerule);
+        }
 
-		//Add all dataSecondary to rule
-		for (int i = 0; i < keywords.getKeywordsDataSecondary().length; i++) {
-			SingleLineRule linerule=new SingleLineRule(keywords.getKeywordsDataSecondary()[i], null,dataSecondaryToken, "#".charAt(0), true);
-			listOfRules.add(linerule);
-		}
+        //Add all dataSecondary to rule
+        for (int i = 0; i < keywords.getKeywordsDataSecondary().length; i++) {
+            SingleLineRule linerule=new SingleLineRule(keywords.getKeywordsDataSecondary()[i], null,dataSecondaryToken, "#".charAt(0), true);
+            listOfRules.add(linerule);
+        }
 
-		//Add all dataAtom to rule
-		for (int i = 0; i < keywords.getKeywordsDataAtom().length; i++) {
-			SingleLineRule linerule=new SingleLineRule(keywords.getKeywordsDataAtom()[i], null,dataAtomToken, "#".charAt(0), true);
-			listOfRules.add(linerule);
-		}
+        //Add all dataAtom to rule
+        for (int i = 0; i < keywords.getKeywordsDataAtom().length; i++) {
+            SingleLineRule linerule=new SingleLineRule(keywords.getKeywordsDataAtom()[i], null,dataAtomToken, "#".charAt(0), true);
+            listOfRules.add(linerule);
+        }
 
-		//Add all dataAtom to rule
-		for (int i = 0; i < keywords.getKeywordsDataBond().length; i++) {
-			SingleLineRule linerule=new SingleLineRule(keywords.getKeywordsDataBond()[i], null,dataBondToken, "#".charAt(0), true);
-			listOfRules.add(linerule);
-		}
+        //Add all dataAtom to rule
+        for (int i = 0; i < keywords.getKeywordsDataBond().length; i++) {
+            SingleLineRule linerule=new SingleLineRule(keywords.getKeywordsDataBond()[i], null,dataBondToken, "#".charAt(0), true);
+            listOfRules.add(linerule);
+        }
 
-		IRule[] rules = new IRule[listOfRules.size()+3];
-		rules[0] = (new EndOfLineRule("#", commentToken));
-		rules[1] = new WhitespaceRule(new KeywordWhitespaceDetector());
+        IRule[] rules = new IRule[listOfRules.size()+3];
+        rules[0] = (new EndOfLineRule("#", commentToken));
+        rules[1] = new WhitespaceRule(new KeywordWhitespaceDetector());
 
-		for (int i=0; i < listOfRules.size(); i++){
-			rules[i+2]=listOfRules.get(i);
-		}
+        for (int i=0; i < listOfRules.size(); i++){
+            rules[i+2]=listOfRules.get(i);
+        }
 
-		rules[listOfRules.size()+2] = new NumberRule(numberToken);
-		
-		setRules(rules);
-	}
+        rules[listOfRules.size()+2] = new NumberRule(numberToken);
+        
+        setRules(rules);
+    }
 }
 

@@ -23,72 +23,72 @@ import org.eclipse.ui.IPerspectiveFactory;
  */
 public class Perspective implements IPerspectiveFactory {
 
-	IPageLayout storedLayout;
+    IPageLayout storedLayout;
 
-	/**
-	 * This perspective's ID
-	 */
-	public static final String ID_PERSPECTIVE =
-		"net.bioclipse.ui.Perspective";
+    /**
+     * This perspective's ID
+     */
+    public static final String ID_PERSPECTIVE =
+        "net.bioclipse.ui.Perspective";
 
-	public static final String ID_NAVIGATOR = 
-		"net.bioclipse.navigator";
+    public static final String ID_NAVIGATOR = 
+        "net.bioclipse.navigator";
 
-	public static final String ID_JAVSCRIPT_CONSOLE = 
-		"net.bioclipse.ui.views.JsConsoleView";
+    public static final String ID_JAVSCRIPT_CONSOLE = 
+        "net.bioclipse.ui.views.JsConsoleView";
 
-	/**
-	 * Create initial layout
-	 */
-	public void createInitialLayout(IPageLayout layout) {
+    /**
+     * Create initial layout
+     */
+    public void createInitialLayout(IPageLayout layout) {
 
-		String editorArea = layout.getEditorArea();
-		layout.setEditorAreaVisible(true);
-		layout.setFixed(false);
-		layout.addPerspectiveShortcut(ID_PERSPECTIVE);
+        String editorArea = layout.getEditorArea();
+        layout.setEditorAreaVisible(true);
+        layout.setFixed(false);
+        layout.addPerspectiveShortcut(ID_PERSPECTIVE);
 
-		//Add layouts for views
-		IFolderLayout left_folder_layout =
-			layout.createFolder(
-					"explorer",
-					IPageLayout.LEFT,
-					0.20f,
-					editorArea);
+        //Add layouts for views
+        IFolderLayout left_folder_layout =
+            layout.createFolder(
+                    "explorer",
+                    IPageLayout.LEFT,
+                    0.20f,
+                    editorArea);
 
-		IFolderLayout right_folder_layout =
-			layout.createFolder(
-					"outline",
-					IPageLayout.RIGHT,
-					0.70f,
-					editorArea);
+        IFolderLayout right_folder_layout =
+            layout.createFolder(
+                    "outline",
+                    IPageLayout.RIGHT,
+                    0.70f,
+                    editorArea);
 
-		IFolderLayout bottom_folder_layout =
-			layout.createFolder(
-					"properties",
-					IPageLayout.BOTTOM,
-					0.70f,
-					editorArea);
+        IFolderLayout bottom_folder_layout =
+            layout.createFolder(
+                    "properties",
+                    IPageLayout.BOTTOM,
+                    0.70f,
+                    editorArea);
 
 
-		//Add views
-		left_folder_layout.addView(ID_NAVIGATOR);
-		bottom_folder_layout.addView(ID_JAVSCRIPT_CONSOLE);
-		bottom_folder_layout.addView(IPageLayout.ID_PROP_SHEET);
-		bottom_folder_layout.addView(IPageLayout.ID_PROGRESS_VIEW);
-		right_folder_layout.addView(IPageLayout.ID_OUTLINE);
+        //Add views
+        left_folder_layout.addView(ID_NAVIGATOR);
+        bottom_folder_layout.addView(ID_JAVSCRIPT_CONSOLE);
+        bottom_folder_layout.addView(IPageLayout.ID_PROP_SHEET);
+        bottom_folder_layout.addView(IPageLayout.ID_PROGRESS_VIEW);
+        right_folder_layout.addView(IPageLayout.ID_OUTLINE);
 
-		//Add NewWizards shortcuts
-		//TODO
-//		layout.addNewWizardShortcut("net.bioclipse.wizards.NewFolderWizard");
+        //Add NewWizards shortcuts
+        //TODO
+//        layout.addNewWizardShortcut("net.bioclipse.wizards.NewFolderWizard");
 
-		//Add ShowView shortcuts
-		layout.addShowViewShortcut(ID_NAVIGATOR);    
-		layout.addShowViewShortcut(ID_JAVSCRIPT_CONSOLE);    
-		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);    
-		layout.addShowViewShortcut(IPageLayout.ID_PROGRESS_VIEW);    
-		layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);    
-		layout.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);    
-		layout.addShowViewShortcut(IPageLayout.ID_TASK_LIST);    
+        //Add ShowView shortcuts
+        layout.addShowViewShortcut(ID_NAVIGATOR);    
+        layout.addShowViewShortcut(ID_JAVSCRIPT_CONSOLE);    
+        layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);    
+        layout.addShowViewShortcut(IPageLayout.ID_PROGRESS_VIEW);    
+        layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);    
+        layout.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);    
+        layout.addShowViewShortcut(IPageLayout.ID_TASK_LIST);    
 
-	}
+    }
 }

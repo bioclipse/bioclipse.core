@@ -7,7 +7,7 @@ import net.bioclipse.scripting.OutputProvider;
 
 public interface JsPluginable {
 
-	void eval(ArrayList<Object> al) throws IOException;
+    void eval(ArrayList<Object> al) throws IOException;
 
-	void setOutputProvider(OutputProvider outputProvider);
+    void setOutputProvider(OutputProvider outputProvider);
 }

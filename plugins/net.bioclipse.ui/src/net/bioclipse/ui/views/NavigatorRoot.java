@@ -19,32 +19,32 @@ import org.eclipse.ui.model.*;
 public class NavigatorRoot implements IAdaptable,
                                       IPersistableElement,
                                       IElementFactory {
-	public NavigatorRoot() {
-	}
+    public NavigatorRoot() {
+    }
 
-	@SuppressWarnings("unchecked")
-	public Object getAdapter(Class adapter) {
-		
-		if (adapter == IPersistableElement.class) return this;
-		
-		if (adapter == IWorkbenchAdapter.class)
-			return ResourcesPlugin.getWorkspace().getRoot().getAdapter(adapter);
-		
-		return null;
-	}
+    @SuppressWarnings("unchecked")
+    public Object getAdapter(Class adapter) {
+        
+        if (adapter == IPersistableElement.class) return this;
+        
+        if (adapter == IWorkbenchAdapter.class)
+            return ResourcesPlugin.getWorkspace().getRoot().getAdapter(adapter);
+        
+        return null;
+    }
 
-	public String getFactoryId() {
-		
-		return this.getClass().getCanonicalName();
-	}
+    public String getFactoryId() {
+        
+        return this.getClass().getCanonicalName();
+    }
 
-	public void saveState(IMemento memento) {
-		
-		return;
-	}
+    public void saveState(IMemento memento) {
+        
+        return;
+    }
 
-	public IAdaptable createElement(IMemento memento) {
-		
-		return ResourcesPlugin.getWorkspace().getRoot();
-	}
+    public IAdaptable createElement(IMemento memento) {
+        
+        return ResourcesPlugin.getWorkspace().getRoot();
+    }
 }

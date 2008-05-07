@@ -5,19 +5,19 @@ import org.eclipse.swt.events.FocusListener;
 
 public class JCPCompFocusListener implements FocusListener {
 
-	private JCPComposite comp;
+    private JCPComposite comp;
 
-	public JCPCompFocusListener(JCPComposite jcpComposite) {
-		this.comp = jcpComposite;
-	}
+    public JCPCompFocusListener(JCPComposite jcpComposite) {
+        this.comp = jcpComposite;
+    }
 
-	public void focusGained(FocusEvent e) {
-		comp.setHasFocus(true);
+    public void focusGained(FocusEvent e) {
+        comp.setHasFocus(true);
 
-	}
+    }
 
-	public void focusLost(FocusEvent e) {
-		comp.setHasFocus(false);
-	}
+    public void focusLost(FocusEvent e) {
+        comp.setHasFocus(false);
+    }
 
 }

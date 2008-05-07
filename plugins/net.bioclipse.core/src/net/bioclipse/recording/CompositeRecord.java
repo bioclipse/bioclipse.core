@@ -9,19 +9,19 @@ import java.util.Map;
  */
 public class CompositeRecord implements IRecord {
 
-	protected Map<String, String> scripts = new HashMap<String, String>();
-	
-	public void addScriptRecord( String scriptLanguage, String scriptRecord ) {
+    protected Map<String, String> scripts = new HashMap<String, String>();
+    
+    public void addScriptRecord( String scriptLanguage, String scriptRecord ) {
 
-		scripts.put(scriptLanguage, scriptRecord);
-	}
+        scripts.put(scriptLanguage, scriptRecord);
+    }
 
-	public String getScript( String scriptLanguage ) 
-		          throws NoSuchScriptLanguageFound {
-		
-		if( !scripts.containsKey(scriptLanguage) ) {
-			throw new NoSuchScriptLanguageFound(scriptLanguage);
-		}
-		return scripts.get(scriptLanguage);
-	}
+    public String getScript( String scriptLanguage ) 
+                  throws NoSuchScriptLanguageFound {
+        
+        if( !scripts.containsKey(scriptLanguage) ) {
+            throw new NoSuchScriptLanguageFound(scriptLanguage);
+        }
+        return scripts.get(scriptLanguage);
+    }
 }

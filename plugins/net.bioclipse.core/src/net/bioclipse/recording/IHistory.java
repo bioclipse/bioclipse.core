@@ -20,13 +20,13 @@ import java.util.List;
  */
 public interface IHistory {
 
-	public void addRecord(IRecord record);
+    public void addRecord(IRecord record);
 
-	public List<IRecord> getRecords();
-	
-	public int getRecordCount();
-	
-	public void addHistoryListener(IHistoryListener l);
-	
-	public void removeHistoryListener(IHistoryListener l);
+    public List<IRecord> getRecords();
+    
+    public int getRecordCount();
+    
+    public void addHistoryListener(IHistoryListener l);
+    
+    public void removeHistoryListener(IHistoryListener l);
 }

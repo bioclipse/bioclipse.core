@@ -13,28 +13,28 @@ import org.eclipse.ui.PlatformUI;
 
 public class SearchAction  implements IWorkbenchWindowActionDelegate {
 
-	public void dispose() {
-	}
-	public void init(IWorkbenchWindow window) {
-	}
+    public void dispose() {
+    }
+    public void init(IWorkbenchWindow window) {
+    }
 
-	public void run(IAction action) {
+    public void run(IAction action) {
 
-		Logger logger = Activator.getLogger();
-		logger.debug("SearchAction.run()");
+        Logger logger = Activator.getLogger();
+        logger.debug("SearchAction.run()");
 
-		SearchDialog loginDialog = 
-			new SearchDialog( PlatformUI
-					          .getWorkbench()
-					          .getActiveWorkbenchWindow()
-					          .getShell() );
-		
-		loginDialog.open();
-		if(loginDialog.getReturnCode() == Window.OK) {
-			logger.debug("SearchAction succeeded");
-		}
-	}
+        SearchDialog loginDialog = 
+            new SearchDialog( PlatformUI
+                              .getWorkbench()
+                              .getActiveWorkbenchWindow()
+                              .getShell() );
+        
+        loginDialog.open();
+        if(loginDialog.getReturnCode() == Window.OK) {
+            logger.debug("SearchAction succeeded");
+        }
+    }
 
-	public void selectionChanged(IAction action, ISelection selection) {
-	}
+    public void selectionChanged(IAction action, ISelection selection) {
+    }
 }

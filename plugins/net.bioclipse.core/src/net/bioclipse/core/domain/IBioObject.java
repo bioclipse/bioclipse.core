@@ -22,14 +22,14 @@ import org.eclipse.core.runtime.IAdaptable;
  *
  */
 public interface IBioObject extends IAdaptable {
-	
-	/**
-	 * @return Eclipse resource
-	 */
-	public IResource getResource();
-	
-	/**
-	 * @return an unique id for the object
-	 */
-	public String getUID();
+    
+    /**
+     * @return Eclipse resource
+     */
+    public IResource getResource();
+    
+    /**
+     * @return an unique id for the object
+     */
+    public String getUID();
 }

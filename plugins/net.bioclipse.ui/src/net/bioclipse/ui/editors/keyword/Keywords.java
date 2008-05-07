@@ -18,40 +18,40 @@ package net.bioclipse.ui.editors.keyword;
  */
 public abstract class Keywords {
 
-	String[][] stringlist;
-	
-	public String[][] getStringlist() {
-		return stringlist;
-	}
+    String[][] stringlist;
+    
+    public String[][] getStringlist() {
+        return stringlist;
+    }
 
-	public void setStringlist(String[][] stringlist) {
-		this.stringlist = stringlist;
-	}
+    public void setStringlist(String[][] stringlist) {
+        this.stringlist = stringlist;
+    }
 
-	/**
-	 * Concatenate the String[][] above into one array. Can make use of concatenateStringArrays,
-	 */
-	public String[] getAllKeywords(){
+    /**
+     * Concatenate the String[][] above into one array. Can make use of concatenateStringArrays,
+     */
+    public String[] getAllKeywords(){
 
-		int totallength=0;
-		for (int i=0; i< stringlist.length;i++){
-			totallength=totallength+stringlist[i].length;
-		}
+        int totallength=0;
+        for (int i=0; i< stringlist.length;i++){
+            totallength=totallength+stringlist[i].length;
+        }
 
-		if (totallength<=0) return null;
-		String[] allKeywords=new String[totallength];
+        if (totallength<=0) return null;
+        String[] allKeywords=new String[totallength];
 
-		int cnt=0;
-		for (int i=0; i< stringlist.length;i++){
-			for (int j=0; j<stringlist[i].length;j++){
-				allKeywords[cnt]=stringlist[i][j];
-				cnt++;
-			}
-		}
-		
-		return allKeywords;
-	}
+        int cnt=0;
+        for (int i=0; i< stringlist.length;i++){
+            for (int j=0; j<stringlist[i].length;j++){
+                allKeywords[cnt]=stringlist[i][j];
+                cnt++;
+            }
+        }
+        
+        return allKeywords;
+    }
 
-	
-	
+    
+    
 }

@@ -27,44 +27,44 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
  *
  */
 public class KeywordSourceViewerConfig extends SourceViewerConfiguration {
-	private RuleBasedScanner scanner;
-//	private static Color DEFAULT_KEYWORD_COLOR = new Color(Display.getCurrent(), new RGB(0, 0, 0));
+    private RuleBasedScanner scanner;
+//    private static Color DEFAULT_KEYWORD_COLOR = new Color(Display.getCurrent(), new RGB(0, 0, 0));
 
-	public KeywordSourceViewerConfig() {
+    public KeywordSourceViewerConfig() {
 
-	}
+    }
 
-	/**
-	 * Define reconciler for MyEditor
-	 */
-	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
-		PresentationReconciler reconciler = new PresentationReconciler();
-		DefaultDamagerRepairer dr = new DefaultDamagerRepairer(getScanner());
-		reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
-		reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
-		return reconciler;
-	}
-	
-	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
+    /**
+     * Define reconciler for MyEditor
+     */
+    public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
+        PresentationReconciler reconciler = new PresentationReconciler();
+        DefaultDamagerRepairer dr = new DefaultDamagerRepairer(getScanner());
+        reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
+        reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
+        return reconciler;
+    }
+    
+    public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
 
-		ContentAssistant assistant = new ContentAssistant();
-		assistant.setContentAssistProcessor(
-			new KeywordCompletionProcessor(),
-			IDocument.DEFAULT_CONTENT_TYPE);
+        ContentAssistant assistant = new ContentAssistant();
+        assistant.setContentAssistProcessor(
+            new KeywordCompletionProcessor(),
+            IDocument.DEFAULT_CONTENT_TYPE);
 
-		assistant.enableAutoActivation(true);
-		assistant.enableAutoInsert(true);
-		assistant.setAutoActivationDelay(500);
-		assistant.setProposalPopupOrientation(
-			IContentAssistant.PROPOSAL_OVERLAY);
-		return assistant;
-	}
+        assistant.enableAutoActivation(true);
+        assistant.enableAutoInsert(true);
+        assistant.setAutoActivationDelay(500);
+        assistant.setProposalPopupOrientation(
+            IContentAssistant.PROPOSAL_OVERLAY);
+        return assistant;
+    }
 
-	public RuleBasedScanner getScanner() {
-		return scanner;
-	}
+    public RuleBasedScanner getScanner() {
+        return scanner;
+    }
 
-	public void setScanner(RuleBasedScanner scanner) {
-		this.scanner = scanner;
-	}
+    public void setScanner(RuleBasedScanner scanner) {
+        this.scanner = scanner;
+    }
 }

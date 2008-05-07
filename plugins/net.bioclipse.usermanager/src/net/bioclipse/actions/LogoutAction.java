@@ -26,21 +26,21 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
  */
 public class LogoutAction implements IWorkbenchWindowActionDelegate {
 
-	//Use logging configured in com.tools.logging plugin
-//	private static final Logger logger = Activator.getLogManager().getLogger(LoginAction.class.toString());
-	
-	public void dispose() {
-	}
-	public void init(IWorkbenchWindow window) {
-	}
+    //Use logging configured in com.tools.logging plugin
+//    private static final Logger logger = Activator.getLogManager().getLogger(LoginAction.class.toString());
+    
+    public void dispose() {
+    }
+    public void init(IWorkbenchWindow window) {
+    }
 
-	public void run(IAction action) {
+    public void run(IAction action) {
 
-//		logger.debug("LoginAction.run()");
+//        logger.debug("LoginAction.run()");
 
-		Activator.getDefault().getUserManager().logOut();
-	}
+        Activator.getDefault().getUserManager().logOut();
+    }
 
-	public void selectionChanged(IAction action, ISelection selection) {
-	}
+    public void selectionChanged(IAction action, ISelection selection) {
+    }
 }

@@ -13,7 +13,7 @@ import net.bioclipse.scripting.GroovyEnvironment;
 public class GroovyConsoleView extends ScriptingConsoleView {
 
     private GroovyEnvironment groovy
-    	= Activator.getDefault().GROOVY_SESSION;
+        = Activator.getDefault().GROOVY_SESSION;
     
     /**
      * The constructor. Called by Eclipse reflection when a new console
@@ -23,23 +23,23 @@ public class GroovyConsoleView extends ScriptingConsoleView {
      */
     public GroovyConsoleView() {
 
-    	super();
+        super();
     }
 
     /* (non-Javadoc)
      * @see net.bioclipse.core.views.ScriptingConsoleView#commandLinePrefix()
      */
-	@Override
-	protected String commandLinePrompt() {
-		return "groovy> ";
-	}
+    @Override
+    protected String commandLinePrompt() {
+        return "groovy> ";
+    }
 
     /* (non-Javadoc)
      * @see net.bioclipse.core.views.ScriptingConsoleView#executeCommand(java.lang.String)
      */
-	@Override
-	protected String executeCommand(String command) {
-		return groovy.eval(command);
-	}
+    @Override
+    protected String executeCommand(String command) {
+        return groovy.eval(command);
+    }
 
 }

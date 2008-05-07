@@ -20,11 +20,11 @@ import org.eclipse.jface.text.rules.IWhitespaceDetector;
  */
 public class KeywordWhitespaceDetector implements IWhitespaceDetector {
 
-	/**
-	 * @return true if whitespace
-	 */
-	public boolean isWhitespace(char c) {
-	    return Character.isWhitespace(c);
-		//return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
-	}
+    /**
+     * @return true if whitespace
+     */
+    public boolean isWhitespace(char c) {
+        return Character.isWhitespace(c);
+        //return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
+    }
 }

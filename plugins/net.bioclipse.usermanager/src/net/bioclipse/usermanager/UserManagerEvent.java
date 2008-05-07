@@ -19,22 +19,22 @@ package net.bioclipse.usermanager;
  */
 public enum UserManagerEvent {
 
-	/**
-	 * Event fired when logging in
-	 */
-	LOGIN (),
-	
-	/**
-	 * Event fired when logging out 
-	 */
-	LOGOUT(),
-	
-	/**
-	 * Event fired when properties of the Keyring has been updated
-	 */
-	UPDATE();
-	
-	private UserManagerEvent() {
-		
-	}
+    /**
+     * Event fired when logging in
+     */
+    LOGIN (),
+    
+    /**
+     * Event fired when logging out 
+     */
+    LOGOUT(),
+    
+    /**
+     * Event fired when properties of the Keyring has been updated
+     */
+    UPDATE();
+    
+    private UserManagerEvent() {
+        
+    }
 }

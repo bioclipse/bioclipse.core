@@ -8,22 +8,22 @@ package net.bioclipse.recording;
  */
 public class ScriptRecord implements IRecord {
 
-	public enum Language {
-		JS;
-	}
+    public enum Language {
+        JS;
+    }
 
-	private String js;
-	
-	public void setScript(Language l, String script) {
-		this.js = script;
-	}
-	
-	public String getScript(Language l) {
-		switch (l) {
-		case JS:
-			return js;
-		default:
-			throw new IllegalArgumentException(l + "not supported");
-		}
-	}
+    private String js;
+    
+    public void setScript(Language l, String script) {
+        this.js = script;
+    }
+    
+    public String getScript(Language l) {
+        switch (l) {
+        case JS:
+            return js;
+        default:
+            throw new IllegalArgumentException(l + "not supported");
+        }
+    }
 }

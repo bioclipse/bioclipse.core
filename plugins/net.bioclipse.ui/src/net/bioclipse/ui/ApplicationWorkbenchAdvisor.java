@@ -33,7 +33,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         configurer.setSaveAndRestore(true);
     }
 
-	public String getInitialWindowPerspectiveId() {
-		return Perspective.ID_PERSPECTIVE;
-	}
+    public String getInitialWindowPerspectiveId() {
+        return Perspective.ID_PERSPECTIVE;
+    }
 }

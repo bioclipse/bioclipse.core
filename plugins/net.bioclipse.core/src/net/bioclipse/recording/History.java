@@ -21,44 +21,44 @@ import java.util.List;
  */
 public class History implements IHistory {
 
-	private List<IRecord> records;
-	private List<IHistoryListener> historyListeners;
-	
-	public History() {
-		records          = new ArrayList<IRecord>();
-		historyListeners = new ArrayList<IHistoryListener>();
-	}
-	
-	/* (non-Javadoc)
-	 * @see net.bioclipse.recording.IHistory#addRecord(net.bioclipse.recording.MethodRecord)
-	 */
-	public void addRecord( IRecord record ) {
-		records.add(record);
-		fireHistoryEvent( new HistoryEvent() );
-	}
-	
-	private void fireHistoryEvent(HistoryEvent e) {
-		for(IHistoryListener l : historyListeners) {
-			l.receiveHistoryEvent(e);
-		}
-	}
-	
-	/* (non-Javadoc)
-	 * @see net.bioclipse.recording.IHistory#getRecords()
-	 */
-	public List<IRecord> getRecords() {
-		return new ArrayList<IRecord>(records);
-	}
-	
-	public int getRecordCount() {
-		return records.size();
-	}
+    private List<IRecord> records;
+    private List<IHistoryListener> historyListeners;
+    
+    public History() {
+        records          = new ArrayList<IRecord>();
+        historyListeners = new ArrayList<IHistoryListener>();
+    }
+    
+    /* (non-Javadoc)
+     * @see net.bioclipse.recording.IHistory#addRecord(net.bioclipse.recording.MethodRecord)
+     */
+    public void addRecord( IRecord record ) {
+        records.add(record);
+        fireHistoryEvent( new HistoryEvent() );
+    }
+    
+    private void fireHistoryEvent(HistoryEvent e) {
+        for(IHistoryListener l : historyListeners) {
+            l.receiveHistoryEvent(e);
+        }
+    }
+    
+    /* (non-Javadoc)
+     * @see net.bioclipse.recording.IHistory#getRecords()
+     */
+    public List<IRecord> getRecords() {
+        return new ArrayList<IRecord>(records);
+    }
+    
+    public int getRecordCount() {
+        return records.size();
+    }
 
-	public void addHistoryListener(IHistoryListener l) {
-		historyListeners.add(l);
-	}
+    public void addHistoryListener(IHistoryListener l) {
+        historyListeners.add(l);
+    }
 
-	public void removeHistoryListener(IHistoryListener l) {
-		historyListeners.remove(l);
-	}
+    public void removeHistoryListener(IHistoryListener l) {
+        historyListeners.remove(l);
+    }
 }

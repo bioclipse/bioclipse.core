@@ -43,66 +43,66 @@ import org.openscience.cdk.tools.LoggingTool;
 public class JCPLocalizationHandler
 {
 
-	private static JCPLocalizationHandler instance;
+    private static JCPLocalizationHandler instance;
 
-	private LoggingTool logger;
-	private ResourceBundle translations;
-
-
-	/**
-	 *  Constructor for the JCPLocalizationHandler object
-	 *
-	 *@param  locale  Description of the Parameter
-	 */
-	private JCPLocalizationHandler(Locale locale) {
-		logger = new LoggingTool(this);
-		translations = ResourceBundle.getBundle(
-			"net/bioclipse/cdk10/jchempaint/ui/editor/resources/JCPBundle", locale
-		);
-	}
+    private LoggingTool logger;
+    private ResourceBundle translations;
 
 
-	/**
-	 *  Gets the instance attribute of the JCPLocalizationHandler class
-	 *
-	 *@param  locale  Description of the Parameter
-	 *@return         The instance value
-	 */
-	public static JCPLocalizationHandler getInstance(Locale locale)
-	{
-		JCPLocalizationHandler.instance = new JCPLocalizationHandler(locale);
-		return JCPLocalizationHandler.instance;
-	}
+    /**
+     *  Constructor for the JCPLocalizationHandler object
+     *
+     *@param  locale  Description of the Parameter
+     */
+    private JCPLocalizationHandler(Locale locale) {
+        logger = new LoggingTool(this);
+        translations = ResourceBundle.getBundle(
+            "net/bioclipse/cdk10/jchempaint/ui/editor/resources/JCPBundle", locale
+        );
+    }
 
 
-	/**
-	 *  Gets the instance attribute of the JCPLocalizationHandler class
-	 *
-	 *@return    The instance value
-	 */
-	public static JCPLocalizationHandler getInstance()
-	{
-		if (JCPLocalizationHandler.instance == null)
-		{
-			JCPLocalizationHandler.instance = getInstance(new Locale("en", "EN"));
-		}
-		return JCPLocalizationHandler.instance;
-	}
+    /**
+     *  Gets the instance attribute of the JCPLocalizationHandler class
+     *
+     *@param  locale  Description of the Parameter
+     *@return         The instance value
+     */
+    public static JCPLocalizationHandler getInstance(Locale locale)
+    {
+        JCPLocalizationHandler.instance = new JCPLocalizationHandler(locale);
+        return JCPLocalizationHandler.instance;
+    }
 
 
-	/**
-	 *  Gets the string attribute of the JCPLocalizationHandler object
-	 *
-	 *@param  key  Description of the Parameter
-	 *@return      The string value
-	 */
-	public String getString(String key) {
-		try {
-			return translations.getString(key);
-		} catch (MissingResourceException exception) {
-			System.out.println("Cannot find translation for: " + key);
-		}
-		return key;
-	}
+    /**
+     *  Gets the instance attribute of the JCPLocalizationHandler class
+     *
+     *@return    The instance value
+     */
+    public static JCPLocalizationHandler getInstance()
+    {
+        if (JCPLocalizationHandler.instance == null)
+        {
+            JCPLocalizationHandler.instance = getInstance(new Locale("en", "EN"));
+        }
+        return JCPLocalizationHandler.instance;
+    }
+
+
+    /**
+     *  Gets the string attribute of the JCPLocalizationHandler object
+     *
+     *@param  key  Description of the Parameter
+     *@return      The string value
+     */
+    public String getString(String key) {
+        try {
+            return translations.getString(key);
+        } catch (MissingResourceException exception) {
+            System.out.println("Cannot find translation for: " + key);
+        }
+        return key;
+    }
 }
 

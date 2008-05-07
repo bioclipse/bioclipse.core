@@ -29,66 +29,66 @@ import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 
 
 public class NewQSARRProjectWizard extends Wizard implements INewWizard {
-	
-	private WizardNewProjectCreationPage fFirstPage;
-//	private WizardNewProjectReferencePage fReferencePage;
 
-//	private IConfigurationElement fPerspConfig;
-	
+    private WizardNewProjectCreationPage fFirstPage;
+//    private WizardNewProjectReferencePage fReferencePage;
+
+//    private IConfigurationElement fPerspConfig;
+
     public NewQSARRProjectWizard() {
-    		super();
+            super();
 //        setDefaultPageImageDescriptor();
-        setWindowTitle("New QSAR project"); 
+        setWindowTitle("New QSAR project");
     }
-  
+
     public void addPages() {
-    	
+
         super.addPages();
         fFirstPage = new WizardNewProjectCreationPage("New QSAR project");
         addPage(fFirstPage);
-                
+
     }
-    
+
     @Override
     public boolean performFinish() {
 /* to compile, FIXME
-    	// befor super, because eclipse-pages access ui
-    	fNewRProject = new ProjectCreator(
-    			fFirstPage.getProjectName(),
-    			(fFirstPage.useDefaults()) ? null : fFirstPage.getLocationPath(),
-    			(fReferencePage != null) ? fReferencePage.getReferencedProjects() : null,
-    			fFirstPage.getSelectedWorkingSets()
-    			) {
-    		@Override
-    		protected void doConfigProject(IProject project, IProgressMonitor monitor) throws CoreException {
-    			RProject.addNature(fNewRProject.getProjectHandle(), monitor);
-    		}
-    	};
-    	boolean result = super.performFinish();
+        // befor super, because eclipse-pages access ui
+        fNewRProject = new ProjectCreator(
+                fFirstPage.getProjectName(),
+                (fFirstPage.useDefaults()) ? null : fFirstPage.getLocationPath(),
+                (fReferencePage != null) ? fReferencePage.getReferencedProjects() : null,
+                fFirstPage.getSelectedWorkingSets()
+                ) {
+            @Override
+            protected void doConfigProject(IProject project, IProgressMonitor monitor) throws CoreException {
+                RProject.addNature(fNewRProject.getProjectHandle(), monitor);
+            }
+        };
+        boolean result = super.performFinish();
 
-    	IProject newProject = null;
+        IProject newProject = null;
         if (result && newProject != null) {
-        	updatePerspective(fPerspConfig);
-        	selectAndReveal(newProject);
+            updatePerspective(fPerspConfig);
+            selectAndReveal(newProject);
         }
-    	return result;
-*/    	
-    	return false;
+        return result;
+*/
+        return false;
     }
-    
-	protected void doFinish(IProgressMonitor monitor) throws InterruptedException, CoreException, InvocationTargetException {
-    
-		try {
-			monitor.beginTask("Create new R project...", 1000); //$NON-NLS-1$
-//			fNewRProject.createProject(new SubProgressMonitor(monitor, 1000) );
-//		fFirstPage.saveSettings();
-		}
-		finally {
-			monitor.done();
-		}
-	}
 
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
-	}
-    
+    protected void doFinish(IProgressMonitor monitor) throws InterruptedException, CoreException, InvocationTargetException {
+
+        try {
+            monitor.beginTask("Create new R project...", 1000); //$NON-NLS-1$
+//            fNewRProject.createProject(new SubProgressMonitor(monitor, 1000) );
+//        fFirstPage.saveSettings();
+        }
+        finally {
+            monitor.done();
+        }
+    }
+
+    public void init(IWorkbench workbench, IStructuredSelection selection) {
+    }
+
 }

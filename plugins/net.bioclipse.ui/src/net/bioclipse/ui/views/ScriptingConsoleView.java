@@ -44,7 +44,7 @@ import org.eclipse.ui.texteditor.IWorkbenchActionDefinitionIds;
  */
 public abstract class ScriptingConsoleView extends ViewPart {
 
-	/** The text contents of this console. */
+    /** The text contents of this console. */
     private Text text;
     
     /** List of all commands written.
@@ -65,22 +65,22 @@ public abstract class ScriptingConsoleView extends ViewPart {
      */
     private int currentHistoryLine = 0;
     
-	/**
-	 * Tab completion has a sort of short-term memory in the form of this
-	 * instance variable, which remembers the expansion "result" of the last
-	 * tab completion. Something like this is needed so that the tab completer
-	 * can beep the first time upon encountering an ambiguous completion, and
-	 * print the alternatives the second time.
-	 * 
-	 * Note also that even this isn't perfect. There's an unlikely false
-	 * positive effect involved in that the value of this variable survives
-	 * to the next set of tab completions -- let's say that the user tab
-	 * completes on "foo" and gets first a beep and then a list of alternatives.
-	 * Five minutes later when she does the same thing, she will not get a
-	 * beep, because this variable still contains "foo". 
-	 */
-	private String lastPrefix = null;
-	
+    /**
+     * Tab completion has a sort of short-term memory in the form of this
+     * instance variable, which remembers the expansion "result" of the last
+     * tab completion. Something like this is needed so that the tab completer
+     * can beep the first time upon encountering an ambiguous completion, and
+     * print the alternatives the second time.
+     * 
+     * Note also that even this isn't perfect. There's an unlikely false
+     * positive effect involved in that the value of this variable survives
+     * to the next set of tab completions -- let's say that the user tab
+     * completes on "foo" and gets first a beep and then a list of alternatives.
+     * Five minutes later when she does the same thing, she will not get a
+     * beep, because this variable still contains "foo". 
+     */
+    private String lastPrefix = null;
+    
     /**
      * Represents something to do when a specific key is pressed. Java 5 doesn't
      * have closures, so we use anonymous classes with a method in it instead,
@@ -115,82 +115,82 @@ public abstract class ScriptingConsoleView extends ViewPart {
     @SuppressWarnings("serial")
     private Map<Integer, KeyAction> actionTable
         = new HashMap<Integer, KeyAction>() {{
-        	
+            
         put( new Integer(SWT.CR), new KeyAction() {
             public void receiveKey(KeyEvent e) {
-            	
-            	synchronized (text) {
+                
+                synchronized (text) {
 
-            		// Sometimes we end up with spurious newlines at the end
-            		// of pastes. This leads to the preconditions not being
-            		// upheld for currentCommand(). Here we try to save those
-            		// preconditions.
-            		while (!lastLineIsCommandLine())
-            			text.setText(
-            					text.getText().substring(
-            							0,
-            							text.getText().lastIndexOf('\n')
-            					) + "; "
-            					+ text.getText().substring(
-            							text.getText().lastIndexOf('\n') + 1
-            					)
-            			);
-            		
-	                String command = currentCommand().trim();
-	                text.append( "\n" );
-	                
-	                if (command.matches( "^//\\s*quiet$" ))
-	                    verbose = false;
-	                if (command.matches( "^//\\s*verbose$" ))
-	                    verbose = true;
-	                
-	                e.doit = false;
-	                
-	                int blockLevel = occurrences(command, '{')
-	                			   - occurrences(command, '}');
-	  
-	                if ( blockLevel > 0
-	                	 || endsWithBinaryOperator(command) ) {
-	                	
-	                	text.append( continuationLinePrompt() );
-	                	text.showSelection();
-	                	
-	                	return;
-	                }
-	
-	                command = command.replace('\n', ' ');
-	                
-	                if ( !"".equals(command) ) {
-		                commandHistory.remove( commandHistory.size() - 1 );
-		                
-		                commandHistory.add( command );
-		                commandHistory.add( "" );
-		                currentHistoryLine = commandHistory.size() - 1;
-	                }
-	                
-	                String result;
-	                
-	                try {
-	                	result = executeCommand(command);
-	                }
-	                catch (Exception ex) {
-	                	result = "Evaluation fatal error: " + ex.getMessage();
-	                }
-	                
-	                if (verbose) {
-		                text.append( splitIntoSeveralLines(
-		                		result, MAX_OUTPUT_LINE_LENGTH) );
-		                
-		                if ( result != null && !result.equals("") )
-		                    text.append( "\n" );
-	                }
-	                
-	                text.append( commandLinePrompt() );
-	
-	                scrollDownToPrompt();
-	                
-	                outputIsMidLine = false;
-            	}
+                    // Sometimes we end up with spurious newlines at the end
+                    // of pastes. This leads to the preconditions not being
+                    // upheld for currentCommand(). Here we try to save those
+                    // preconditions.
+                    while (!lastLineIsCommandLine())
+                        text.setText(
+                                text.getText().substring(
+                                        0,
+                                        text.getText().lastIndexOf('\n')
+                                ) + "; "
+                                + text.getText().substring(
+                                        text.getText().lastIndexOf('\n') + 1
+                                )
+                        );
+                    
+                    String command = currentCommand().trim();
+                    text.append( "\n" );
+                    
+                    if (command.matches( "^//\\s*quiet$" ))
+                        verbose = false;
+                    if (command.matches( "^//\\s*verbose$" ))
+                        verbose = true;
+                    
+                    e.doit = false;
+                    
+                    int blockLevel = occurrences(command, '{')
+                                   - occurrences(command, '}');
+      
+                    if ( blockLevel > 0
+                         || endsWithBinaryOperator(command) ) {
+                        
+                        text.append( continuationLinePrompt() );
+                        text.showSelection();
+                        
+                        return;
+                    }
+    
+                    command = command.replace('\n', ' ');
+                    
+                    if ( !"".equals(command) ) {
+                        commandHistory.remove( commandHistory.size() - 1 );
+                        
+                        commandHistory.add( command );
+                        commandHistory.add( "" );
+                        currentHistoryLine = commandHistory.size() - 1;
+                    }
+                    
+                    String result;
+                    
+                    try {
+                        result = executeCommand(command);
+                    }
+                    catch (Exception ex) {
+                        result = "Evaluation fatal error: " + ex.getMessage();
+                    }
+                    
+                    if (verbose) {
+                        text.append( splitIntoSeveralLines(
+                                result, MAX_OUTPUT_LINE_LENGTH) );
+                        
+                        if ( result != null && !result.equals("") )
+                            text.append( "\n" );
+                    }
+                    
+                    text.append( commandLinePrompt() );
+    
+                    scrollDownToPrompt();
+                    
+                    outputIsMidLine = false;
+                }
             }
         });
         
@@ -198,7 +198,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
             public void receiveKey(KeyEvent e) {
                 if (currentHistoryLine > 0)
                     setCurrentCommand(
-                    		commandHistory.get(--currentHistoryLine) );
+                            commandHistory.get(--currentHistoryLine) );
     
                 e.doit = false;
             }
@@ -208,7 +208,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
             public void receiveKey(KeyEvent e) {
                 if (currentHistoryLine < commandHistory.size() - 1)
                     setCurrentCommand(
-                    		commandHistory.get(++currentHistoryLine) );
+                            commandHistory.get(++currentHistoryLine) );
 
                 e.doit = false;
             }
@@ -217,21 +217,21 @@ public abstract class ScriptingConsoleView extends ViewPart {
         put( new Integer(SWT.ARROW_LEFT), new KeyAction() {
             public void receiveKey(KeyEvent e) {
                 text.setSelection(text.getCaretPosition() - 1);
-            	e.doit = cursorIsOnCommandLine();
+                e.doit = cursorIsOnCommandLine();
                 text.setSelection(text.getCaretPosition() + 1);
             }
         });
 
         put( new Integer(SWT.ARROW_RIGHT), new KeyAction() {
             public void receiveKey(KeyEvent e) {
-            	e.doit = cursorIsOnCommandLine();
+                e.doit = cursorIsOnCommandLine();
             }
         });
 
         put( new Integer(SWT.HOME), new KeyAction() {
             public void receiveKey(KeyEvent e) {
-            	e.doit = false;
-            	text.setSelection(startOfCommandLine());
+                e.doit = false;
+                text.setSelection(startOfCommandLine());
             }
         });
 
@@ -252,15 +252,15 @@ public abstract class ScriptingConsoleView extends ViewPart {
                     text.setSelection( oldSelection.y );
                     
                     if (cursorIsOnCommandLine()) {
-                    	int newStart
-                    		= text.getText().lastIndexOf("\n", oldSelection.y)
-                    		   + 1 + commandLinePrompt().length();
-                    	
-                    	if (newStart == oldSelection.y) {
-                    		e.doit = false;
-                    		return;
-                    	}
-                    	
+                        int newStart
+                            = text.getText().lastIndexOf("\n", oldSelection.y)
+                               + 1 + commandLinePrompt().length();
+                        
+                        if (newStart == oldSelection.y) {
+                            e.doit = false;
+                            return;
+                        }
+                        
                         text.setSelection(newStart, oldSelection.y);
                         return; // and thus delete only the command
                     }
@@ -271,13 +271,13 @@ public abstract class ScriptingConsoleView extends ViewPart {
             }
         });
         
-		put(new Integer(SWT.TAB), new KeyAction() {
-			public void receiveKey(KeyEvent e) {
-				tabComplete();
-				e.doit = false;
-			}
-		});
-	}};
+        put(new Integer(SWT.TAB), new KeyAction() {
+            public void receiveKey(KeyEvent e) {
+                tabComplete();
+                e.doit = false;
+            }
+        });
+    }};
 
     /**
      * The constructor. Called by Eclipse reflection when a new console
@@ -288,17 +288,17 @@ public abstract class ScriptingConsoleView extends ViewPart {
     }
 
     /** Returns the number of occurrences of a character in a string. */
-	private int occurrences(String command, char c) {
-		
-		int pos = -1, occurrences = 0;
-		
-		while ((pos = command.indexOf(c, pos+1)) != -1)
-			occurrences++;
-		
-		return occurrences;
-	}
+    private int occurrences(String command, char c) {
+        
+        int pos = -1, occurrences = 0;
+        
+        while ((pos = command.indexOf(c, pos+1)) != -1)
+            occurrences++;
+        
+        return occurrences;
+    }
 
-	/** Receives a KeyEvent e and takes appropriate action. */
+    /** Receives a KeyEvent e and takes appropriate action. */
     private void handleKey(KeyEvent e) {
 
         if (actionTable.containsKey( e.keyCode )) {
@@ -330,9 +330,9 @@ public abstract class ScriptingConsoleView extends ViewPart {
 
     
     /** Makes a system notification sound. */
-	protected void beep() {
-		Display.getCurrent().beep();
-	}
+    protected void beep() {
+        Display.getCurrent().beep();
+    }
 
     /**
      * An inserted character is one which, when the corresponding key is
@@ -343,8 +343,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
      *         character
      */
     private static boolean isInsertedChar(KeyEvent e) {
-    	return e.keyCode >= 32 && e.keyCode < 128
-        	&& (e.stateMask == 0 || e.stateMask == SWT.SHIFT);
+        return e.keyCode >= 32 && e.keyCode < 128
+            && (e.stateMask == 0 || e.stateMask == SWT.SHIFT);
     }
     
     /**
@@ -358,16 +358,16 @@ public abstract class ScriptingConsoleView extends ViewPart {
      *         line
      */
     private boolean lastLineIsCommandLine() {
-    	
-    	String allText = text.getText();
-    	
-    	int endOfLastLine = text.getCharCount(),
-    	    startOfLastLine = allText.lastIndexOf("\n", endOfLastLine - 1) + 1;
-    	
-    	String lastLine = allText.substring( startOfLastLine, endOfLastLine );
-    	
-    	return lastLine.startsWith(commandLinePrompt())
-    	       || lastLine.startsWith(continuationLinePrompt());
+        
+        String allText = text.getText();
+        
+        int endOfLastLine = text.getCharCount(),
+            startOfLastLine = allText.lastIndexOf("\n", endOfLastLine - 1) + 1;
+        
+        String lastLine = allText.substring( startOfLastLine, endOfLastLine );
+        
+        return lastLine.startsWith(commandLinePrompt())
+               || lastLine.startsWith(continuationLinePrompt());
     }
     
     /**
@@ -393,9 +393,9 @@ public abstract class ScriptingConsoleView extends ViewPart {
                   prompt = wholeLine.substring(0, commandLinePrompt().length());
         
         if (prompt.equals(commandLinePrompt()))
-        	return command;
+            return command;
         else
-        	return currentCommand(startOfLine - 1) + "\n" + command;
+            return currentCommand(startOfLine - 1) + "\n" + command;
     }
     
     /**
@@ -439,7 +439,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
      * @return the position relative the start of the command line
      */
     protected int positionOnCommandLine() {
-    	return text.getCaretPosition() - startOfCommandLine();
+        return text.getCaretPosition() - startOfCommandLine();
     }
     
     /**
@@ -554,156 +554,156 @@ public abstract class ScriptingConsoleView extends ViewPart {
     /**
      * Makes the visible part of the text widget show the cursor.
      */
-	private void scrollDownToPrompt() {
-		text.update();
-		text.showSelection();
-	}
+    private void scrollDownToPrompt() {
+        text.update();
+        text.showSelection();
+    }
 
-	/**
-	 * Finds a good place to break a long line into several lines. Prefers not
-	 * breaking (if the line is shorter than the maximal allowed line length),
-	 * or breaking at a space (if there is one). Otherwise, breaks at the last
-	 * possible point.
-	 * 
-	 * Note that with the current implementation, tab characters will freak
-	 * this method out in ugly but non-dangerous ways. 
-	 * 
-	 * @param text the text to be broken up
-	 * @param currentPos the starting point of the breaking up. It's cheaper to
-	 *                   pass around indexes like this than to split strings
-	 *                   repeatedly
-	 * @param maxLineLength the length of the largest possible line
-	 * 
-	 * @return the index where the breaking should be made
-	 */
-	private int convenientLineBreakPoint( String text,
-			                              int currentPos,
-			                              int maxLineLength ) {
-
-		// Prefer not to break at all...
-		if ( currentPos + maxLineLength >= text.length() )
-			return text.length();
-		
-		// ...or to break where there is already a break...
-		if ( text.substring(currentPos,
-				            currentPos + maxLineLength).contains("\n") )
-			return text.indexOf('\n', currentPos) + 1;
-		
-		// ...or at the last possible space...
-		if ( text.substring(currentPos,
-				            currentPos + maxLineLength).contains(" ") )
-			return text.lastIndexOf(' ', currentPos + maxLineLength);
-		
-		// ...or just break at the last possible moment, no matter what.
-		return currentPos + maxLineLength;
-	}
-
-	/**
-	 * Splits text into several lines, each not longer than the proposed line
-	 * length. The text returned has <code>\n</code> characters inserted, in
-	 * such a way that the distance between two consecutive such characters is
-	 * never longer than proposed line length.
-	 * 
-	 * @param text the text to be split up
-	 * @param maxLineLength the proposed line length
-	 * @return the same text but with line breaks
-	 */
-	private String splitIntoSeveralLines( String text,
+    /**
+     * Finds a good place to break a long line into several lines. Prefers not
+     * breaking (if the line is shorter than the maximal allowed line length),
+     * or breaking at a space (if there is one). Otherwise, breaks at the last
+     * possible point.
+     * 
+     * Note that with the current implementation, tab characters will freak
+     * this method out in ugly but non-dangerous ways. 
+     * 
+     * @param text the text to be broken up
+     * @param currentPos the starting point of the breaking up. It's cheaper to
+     *                   pass around indexes like this than to split strings
+     *                   repeatedly
+     * @param maxLineLength the length of the largest possible line
+     * 
+     * @return the index where the breaking should be made
+     */
+    private int convenientLineBreakPoint( String text,
+                                          int currentPos,
                                           int maxLineLength ) {
-	    
-	    if (text == null || text.length() == 0)
-	        return "";
-	    
-	    if (maxLineLength <= 0)
-	        return text;
 
-	    StringBuffer result = new StringBuffer();
-	    int currentPos = 0;
-	    while ( currentPos < text.length() ) {
-			
-	        int toPos
-			        = convenientLineBreakPoint(text, currentPos, maxLineLength); 
+        // Prefer not to break at all...
+        if ( currentPos + maxLineLength >= text.length() )
+            return text.length();
+        
+        // ...or to break where there is already a break...
+        if ( text.substring(currentPos,
+                            currentPos + maxLineLength).contains("\n") )
+            return text.indexOf('\n', currentPos) + 1;
+        
+        // ...or at the last possible space...
+        if ( text.substring(currentPos,
+                            currentPos + maxLineLength).contains(" ") )
+            return text.lastIndexOf(' ', currentPos + maxLineLength);
+        
+        // ...or just break at the last possible moment, no matter what.
+        return currentPos + maxLineLength;
+    }
 
-	        result.append( text.substring(currentPos, toPos) );
+    /**
+     * Splits text into several lines, each not longer than the proposed line
+     * length. The text returned has <code>\n</code> characters inserted, in
+     * such a way that the distance between two consecutive such characters is
+     * never longer than proposed line length.
+     * 
+     * @param text the text to be split up
+     * @param maxLineLength the proposed line length
+     * @return the same text but with line breaks
+     */
+    private String splitIntoSeveralLines( String text,
+                                          int maxLineLength ) {
+        
+        if (text == null || text.length() == 0)
+            return "";
+        
+        if (maxLineLength <= 0)
+            return text;
 
-	        currentPos = toPos;
+        StringBuffer result = new StringBuffer();
+        int currentPos = 0;
+        while ( currentPos < text.length() ) {
+            
+            int toPos
+                    = convenientLineBreakPoint(text, currentPos, maxLineLength); 
 
-	        // Line breaks only between lines, and only in the absence of
-	        // natural ones.
-	        if (currentPos < text.length() && text.charAt(currentPos-1) != '\n')
-	            result.append('\n');
-			
-	        // And we can live without the spaces at which we chose to break.
-	        while (currentPos < text.length() && text.charAt(currentPos) == ' ')
-	            ++currentPos;
-	    }
-		
-	    return result.toString();
-	}
+            result.append( text.substring(currentPos, toPos) );
 
-	/**
-	 * Prints a piece of text to the console. The text ends up before the
-	 * active command line.
-	 * 
-	 * @param message the text to be printed
-	 */
-	public void printMessage(String message) {
-		
-		if (message == null)
-			return;
-		
-		// Non-printable characters are removed because people have complained
-		// of seeing them. See http://en.wikipedia.org/wiki/Robustness_Principle
-		// for more information. Also, feel free to add other disturbing non-
-		// printables here.
-		message = message.replaceAll("\u0008", "");
-		
-		if (message.length() > MAX_OUTPUT_LINE_LENGTH)
-			message = splitIntoSeveralLines(message, MAX_OUTPUT_LINE_LENGTH);
-		
-		synchronized (text) {
-				
-	    	boolean onCommandLine = cursorIsOnCommandLine();
-	    	
-	    	String allText = text.getText();
-	        int oldPos = text.getCaretPosition(),
-	            posBeforePrompt = allText.lastIndexOf("\n") + 1;
-	
-	        if ( !outputIsMidLine )
-	        	message = "\n" + message;
-	        
-	        if (posBeforePrompt < 1) {
-	        	posBeforePrompt = 1;
-	        	message += "\n";
-	        }
-	        
-	        String newText = allText.substring(0, posBeforePrompt - 1)
-	                       + message
-	                       + allText.substring(posBeforePrompt - 1);
-	
-	        text.setText(newText);
-	    	
-	        if (onCommandLine)
-	        	text.setSelection(oldPos + message.length());
-	        else
-	        	text.setSelection(oldPos);
-	        
-	        scrollDownToPrompt();
-	        text.redraw();
+            currentPos = toPos;
 
-	        outputIsMidLine = !message.endsWith("\n") || message.equals("\n");
-		}
-	}
-	
-	/**
-	 * Empties the console of contents. Does not add back a prompt, since this
-	 * is commonly done later in the REPL loop.
-	 */
-	public void clearConsole() {
-		synchronized (text) {
-			text.setText( "" );
-		}
-	}
+            // Line breaks only between lines, and only in the absence of
+            // natural ones.
+            if (currentPos < text.length() && text.charAt(currentPos-1) != '\n')
+                result.append('\n');
+            
+            // And we can live without the spaces at which we chose to break.
+            while (currentPos < text.length() && text.charAt(currentPos) == ' ')
+                ++currentPos;
+        }
+        
+        return result.toString();
+    }
+
+    /**
+     * Prints a piece of text to the console. The text ends up before the
+     * active command line.
+     * 
+     * @param message the text to be printed
+     */
+    public void printMessage(String message) {
+        
+        if (message == null)
+            return;
+        
+        // Non-printable characters are removed because people have complained
+        // of seeing them. See http://en.wikipedia.org/wiki/Robustness_Principle
+        // for more information. Also, feel free to add other disturbing non-
+        // printables here.
+        message = message.replaceAll("\u0008", "");
+        
+        if (message.length() > MAX_OUTPUT_LINE_LENGTH)
+            message = splitIntoSeveralLines(message, MAX_OUTPUT_LINE_LENGTH);
+        
+        synchronized (text) {
+                
+            boolean onCommandLine = cursorIsOnCommandLine();
+            
+            String allText = text.getText();
+            int oldPos = text.getCaretPosition(),
+                posBeforePrompt = allText.lastIndexOf("\n") + 1;
+    
+            if ( !outputIsMidLine )
+                message = "\n" + message;
+            
+            if (posBeforePrompt < 1) {
+                posBeforePrompt = 1;
+                message += "\n";
+            }
+            
+            String newText = allText.substring(0, posBeforePrompt - 1)
+                           + message
+                           + allText.substring(posBeforePrompt - 1);
+    
+            text.setText(newText);
+            
+            if (onCommandLine)
+                text.setSelection(oldPos + message.length());
+            else
+                text.setSelection(oldPos);
+            
+            scrollDownToPrompt();
+            text.redraw();
+
+            outputIsMidLine = !message.endsWith("\n") || message.equals("\n");
+        }
+    }
+    
+    /**
+     * Empties the console of contents. Does not add back a prompt, since this
+     * is commonly done later in the REPL loop.
+     */
+    public void clearConsole() {
+        synchronized (text) {
+            text.setText( "" );
+        }
+    }
     
     /**
      * Passing the focus request to the viewer's control.
@@ -715,14 +715,14 @@ public abstract class ScriptingConsoleView extends ViewPart {
     /** Returns whether a string ends with a binary operator. */
     protected boolean endsWithBinaryOperator(String command) {
 
-    	for (char c : new char[] { '+', '-', '*', '/', '%',
-    			                   '=', '<', '>', '&', '|',
-    			                   ',' } )
-    		if (command.endsWith("" + c))
-    			return true;
-    	
-    	return false;
-	}
+        for (char c : new char[] { '+', '-', '*', '/', '%',
+                                   '=', '<', '>', '&', '|',
+                                   ',' } )
+            if (command.endsWith("" + c))
+                return true;
+        
+        return false;
+    }
 
     /**
      * Returns all variable names contained in a certain container object.
@@ -730,91 +730,91 @@ public abstract class ScriptingConsoleView extends ViewPart {
      * @return A list of all the variable names in the container object
      */
     @SuppressWarnings("unchecked")
-	protected List<String> getAllVariablesIn(String object) {
-    	return Collections.EMPTY_LIST;
+    protected List<String> getAllVariablesIn(String object) {
+        return Collections.EMPTY_LIST;
     }
     
     /* Returns the longest common prefix of all strings in a list. */
-	private String commonPrefix(List<String> strings) {
-		if (strings.size() == 0)
-			return "";
-		
-		String commonPrefix = strings.get(0);
-		for (String s : strings)
-			while ( !s.startsWith(commonPrefix) )
-				commonPrefix
-				    = commonPrefix.substring(0, commonPrefix.length() - 1);
-		
-		return commonPrefix;
-	}
+    private String commonPrefix(List<String> strings) {
+        if (strings.size() == 0)
+            return "";
+        
+        String commonPrefix = strings.get(0);
+        for (String s : strings)
+            while ( !s.startsWith(commonPrefix) )
+                commonPrefix
+                    = commonPrefix.substring(0, commonPrefix.length() - 1);
+        
+        return commonPrefix;
+    }
     
     /**
      * Automatically writes to the command line the rest of a variable or
      * method name. Beeps if no unique such completion exists. Gives a list
      * of possible completions if called a second time.
      */
-	protected void tabComplete() {
-		
-		String command = currentCommand();
-		int pos = positionOnCommandLine() - 1;
-		
-		String prefix = "";
-		for (char additionalCharacter; pos >= 0 && Character.isLetterOrDigit(
-				additionalCharacter = command.charAt(pos)); --pos)
-			prefix = additionalCharacter + prefix;
-		
-		String object = "";
-		if ( pos > 0 && command.charAt(pos) == '.' ) {
-			--pos;
-			object = "";
-			for (char additionalCharacter; pos >= 0
-			     && (Character.isLetterOrDigit(
-			    		 additionalCharacter = command.charAt(pos) )
-			    	 || additionalCharacter == '.' ); --pos)
-				
-				object = additionalCharacter + object;
-		}
-		
-		List<String> variables = getAllVariablesIn(object);
-		
-		List<String> interestingVariables = new ArrayList<String>();
-		for (String variable : variables)
-			if (variable.startsWith( prefix ))
-				interestingVariables.add( variable );
-		
-		String longestPossiblePrefix = commonPrefix(interestingVariables);
+    protected void tabComplete() {
+        
+        String command = currentCommand();
+        int pos = positionOnCommandLine() - 1;
+        
+        String prefix = "";
+        for (char additionalCharacter; pos >= 0 && Character.isLetterOrDigit(
+                additionalCharacter = command.charAt(pos)); --pos)
+            prefix = additionalCharacter + prefix;
+        
+        String object = "";
+        if ( pos > 0 && command.charAt(pos) == '.' ) {
+            --pos;
+            object = "";
+            for (char additionalCharacter; pos >= 0
+                 && (Character.isLetterOrDigit(
+                         additionalCharacter = command.charAt(pos) )
+                     || additionalCharacter == '.' ); --pos)
+                
+                object = additionalCharacter + object;
+        }
+        
+        List<String> variables = getAllVariablesIn(object);
+        
+        List<String> interestingVariables = new ArrayList<String>();
+        for (String variable : variables)
+            if (variable.startsWith( prefix ))
+                interestingVariables.add( variable );
+        
+        String longestPossiblePrefix = commonPrefix(interestingVariables);
 
-		if ( prefix.length() > longestPossiblePrefix.length() ) {
-			beep();
-		}
-		else if ( longestPossiblePrefix.equals(lastPrefix)
-			 && interestingVariables.size() > 1 ) {
-			
-			Collections.sort( interestingVariables );
-			String varList = interestingVariables.toString();
-			varList
-				= varList.substring(1, varList.length() - 1).replace(',', ' ');
-			printMessage( varList + "\n" );
-		}
-		else {
-			addAtCursor( longestPossiblePrefix.substring( prefix.length() ));
-			
-			if (interestingVariables.size() != 1)
-				beep();
-		}
-		
-		lastPrefix = longestPossiblePrefix;
-	}
+        if ( prefix.length() > longestPossiblePrefix.length() ) {
+            beep();
+        }
+        else if ( longestPossiblePrefix.equals(lastPrefix)
+             && interestingVariables.size() > 1 ) {
+            
+            Collections.sort( interestingVariables );
+            String varList = interestingVariables.toString();
+            varList
+                = varList.substring(1, varList.length() - 1).replace(',', ' ');
+            printMessage( varList + "\n" );
+        }
+        else {
+            addAtCursor( longestPossiblePrefix.substring( prefix.length() ));
+            
+            if (interestingVariables.size() != 1)
+                beep();
+        }
+        
+        lastPrefix = longestPossiblePrefix;
+    }
     
-	/**
-	 * Inserts text at the cursor.
-	 * 
-	 * @param newText the text to insert
-	 */
+    /**
+     * Inserts text at the cursor.
+     * 
+     * @param newText the text to insert
+     */
     protected void addAtCursor(String newText) {
-    	int oldPosition = text.getSelection().x;
-    	
-    	String allText = text.getText();
+        int oldPosition = text.getSelection().x;
+        
+        String allText = text.getText();
         
         String textWithNewTextAdded
             = allText.substring( 0, text.getCaretPosition() )
@@ -841,18 +841,18 @@ public abstract class ScriptingConsoleView extends ViewPart {
      * @return the continuation line prompt
      */
     protected String continuationLinePrompt() {
-    	String normalPrompt = commandLinePrompt();
-    	
-    	String continuationPrompt = "...> ";
-    	
-    	if (continuationPrompt.length() > normalPrompt.length())
-    		continuationPrompt = continuationPrompt.substring(
-    				continuationPrompt.length() - normalPrompt.length() );
-    	
-    	while (continuationPrompt.length() < normalPrompt.length())
-    		continuationPrompt = " " + continuationPrompt;
-    	
-    	return continuationPrompt;
+        String normalPrompt = commandLinePrompt();
+        
+        String continuationPrompt = "...> ";
+        
+        if (continuationPrompt.length() > normalPrompt.length())
+            continuationPrompt = continuationPrompt.substring(
+                    continuationPrompt.length() - normalPrompt.length() );
+        
+        while (continuationPrompt.length() < normalPrompt.length())
+            continuationPrompt = " " + continuationPrompt;
+        
+        return continuationPrompt;
     }
 
     /**

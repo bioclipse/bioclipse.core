@@ -35,16 +35,16 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     }
     
     public void preWindowOpen() {
-		IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
-		configurer.setInitialSize(new Point(1100, 700));
-		configurer.setShowProgressIndicator(true);
-		configurer.setShowFastViewBars(false);
-		configurer.setShowCoolBar(true);
-		configurer.setShowStatusLine(true);
-		configurer.setShowPerspectiveBar(true);
+        IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
+        configurer.setInitialSize(new Point(1100, 700));
+        configurer.setShowProgressIndicator(true);
+        configurer.setShowFastViewBars(false);
+        configurer.setShowCoolBar(true);
+        configurer.setShowStatusLine(true);
+        configurer.setShowPerspectiveBar(true);
 
-		PlatformUI.getPreferenceStore().setValue(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS, false);
-		PlatformUI.getPreferenceStore().setValue(IWorkbenchPreferenceConstants.DOCK_PERSPECTIVE_BAR, "topRight");
+        PlatformUI.getPreferenceStore().setValue(IWorkbenchPreferenceConstants.SHOW_TRADITIONAL_STYLE_TABS, false);
+        PlatformUI.getPreferenceStore().setValue(IWorkbenchPreferenceConstants.DOCK_PERSPECTIVE_BAR, "topRight");
 
         configurer.setTitle("Bioclipse");
 

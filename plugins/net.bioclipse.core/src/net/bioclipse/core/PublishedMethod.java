@@ -6,6 +6,6 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 public @interface PublishedMethod {
 
-	String params() default "";
-	String methodSummary();
+    String params() default "";
+    String methodSummary();
 }

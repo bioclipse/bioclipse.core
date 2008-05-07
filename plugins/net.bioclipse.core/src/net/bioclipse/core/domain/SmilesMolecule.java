@@ -12,14 +12,14 @@ import org.eclipse.core.resources.IResource;
  */
 public class SmilesMolecule extends BioObject implements IMolecule {
 
-	String smiles;
-	
-	public String getSmiles() throws BioclipseException {
-		return smiles;
-	}
+    String smiles;
+    
+    public String getSmiles() throws BioclipseException {
+        return smiles;
+    }
 
-	public boolean has3dCoords() {
-		return false;
-	}
-	
+    public boolean has3dCoords() {
+        return false;
+    }
+    
 }

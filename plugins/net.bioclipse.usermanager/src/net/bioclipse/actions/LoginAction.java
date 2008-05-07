@@ -29,36 +29,36 @@ import org.eclipse.ui.PlatformUI;
  */
 public class LoginAction implements IWorkbenchWindowActionDelegate {
 
-	public void dispose() {
-	}
-	public void init(IWorkbenchWindow window) {
-	}
+    public void dispose() {
+    }
+    public void init(IWorkbenchWindow window) {
+    }
 
-	public void run(IAction action) {
+    public void run(IAction action) {
 
-//		logger.debug("LoginAction.run()");
+//        logger.debug("LoginAction.run()");
 
-		UserContainer sandboxUserContainer = Activator
-		                                     .getDefault()
+        UserContainer sandboxUserContainer = Activator
+                                             .getDefault()
                                              .getUserManager()
                                              .getSandBoxUserContainer();
-		
-		UserManagerLoginDialog loginDialog = 
-			new UserManagerLoginDialog( PlatformUI
-					                    .getWorkbench()
-					                    .getActiveWorkbenchWindow()
-					                    .getShell(),
-					                    sandboxUserContainer );
-		
-		loginDialog.open();
-		if(loginDialog.getReturnCode() == loginDialog.OK) {
-			if( loginDialog.isUserContainerEdited() ) {
-				Activator.getDefault().getUserManager()
-				         .switchUserContainer(sandboxUserContainer);
-			}
-		}
-	}
+        
+        UserManagerLoginDialog loginDialog = 
+            new UserManagerLoginDialog( PlatformUI
+                                        .getWorkbench()
+                                        .getActiveWorkbenchWindow()
+                                        .getShell(),
+                                        sandboxUserContainer );
+        
+        loginDialog.open();
+        if(loginDialog.getReturnCode() == loginDialog.OK) {
+            if( loginDialog.isUserContainerEdited() ) {
+                Activator.getDefault().getUserManager()
+                         .switchUserContainer(sandboxUserContainer);
+            }
+        }
+    }
 
-	public void selectionChanged(IAction action, ISelection selection) {
-	}
+    public void selectionChanged(IAction action, ISelection selection) {
+    }
 }

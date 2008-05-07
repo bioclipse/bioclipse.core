@@ -31,102 +31,102 @@ public class MDLMolfileEditor extends MultiPageEditorPart
     int textEditorIndex;
     private IUndoContext undoContext=null;
 
-	private JCPOutlinePage fOutlinePage;
-	private JCPMultiPageEditorContributor contributor;
+    private JCPOutlinePage fOutlinePage;
+    private JCPMultiPageEditorContributor contributor;
 
-	public IUndoContext getUndoContext() {
-		return undoContext;
-	}
+    public IUndoContext getUndoContext() {
+        return undoContext;
+    }
 
-	public void init(IEditorSite site, IEditorInput input)
-			throws PartInitException {
-		super.init(site, input);
-		setPartName(input.getName());
-	}
+    public void init(IEditorSite site, IEditorInput input)
+            throws PartInitException {
+        super.init(site, input);
+        setPartName(input.getName());
+    }
 
-	public JChemPaintModel getJcpModel() {
-		if (jcpPage != null) {
-			return jcpPage.getJCPModel();
-		}
-		return null;
-	}
+    public JChemPaintModel getJcpModel() {
+        if (jcpPage != null) {
+            return jcpPage.getJCPModel();
+        }
+        return null;
+    }
 
-	public DrawingPanel getDrawingPanel() {
-		return jcpPage.getDrawingPanel();
-	}
-	public JCPComposite getJcpComposite() {
-		return (JCPComposite)jcpPage.getJcpComposite();
-	}
+    public DrawingPanel getDrawingPanel() {
+        return jcpPage.getDrawingPanel();
+    }
+    public JCPComposite getJcpComposite() {
+        return (JCPComposite)jcpPage.getJcpComposite();
+    }
 
-	/**
-	 * Create JCP on page 1 and texteditor on page2
-	 */
-	protected void createPages() {
-		
-		jcpPage=new JCPPage();
-		textEditor=new TextEditor();
-		
-		try {
-			int ix=addPage(jcpPage, getEditorInput());
-			setPageText(ix, "Structure");
+    /**
+     * Create JCP on page 1 and texteditor on page2
+     */
+    protected void createPages() {
+        
+        jcpPage=new JCPPage();
+        textEditor=new TextEditor();
+        
+        try {
+            int ix=addPage(jcpPage, getEditorInput());
+            setPageText(ix, "Structure");
 
-			textEditorIndex=addPage(textEditor, getEditorInput());
-			setPageText(textEditorIndex, "Source");
-		} catch (PartInitException e) {
-			LogUtils.debugTrace(logger, e);
-		}
-		
-	}
+            textEditorIndex=addPage(textEditor, getEditorInput());
+            setPageText(textEditorIndex, "Source");
+        } catch (PartInitException e) {
+            LogUtils.debugTrace(logger, e);
+        }
+        
+    }
 
-	public void doSave(IProgressMonitor monitor) {
-		
-		//Synch from JCP to texteditor
-		//TODO
+    public void doSave(IProgressMonitor monitor) {
+        
+        //Synch from JCP to texteditor
+        //TODO
 
-		//Use textEditor to save
-		textEditor.doSave(monitor);
-		
-	}
+        //Use textEditor to save
+        textEditor.doSave(monitor);
+        
+    }
 
-	public void doSaveAs() {
-		//Synch from JCP to texteditor
-		//TODO
+    public void doSaveAs() {
+        //Synch from JCP to texteditor
+        //TODO
 
-		//Use textEditor to save
-		textEditor.doSaveAs();
-	}
+        //Use textEditor to save
+        textEditor.doSaveAs();
+    }
 
-	public boolean isSaveAsAllowed() {
+    public boolean isSaveAsAllowed() {
 
-		//TODO: not implemented yet
-		return false;
-	}
+        //TODO: not implemented yet
+        return false;
+    }
 
-	public void resourceChanged(IResourceChangeEvent event) {
+    public void resourceChanged(IResourceChangeEvent event) {
 
-		//React if resource is changed on disc.
-		
-	}
-	
-	public void setFocus() {
-		super.setFocus();
-	}
-	
-	public Object getAdapter(Class adapter) {
-		
-		if (IContentOutlinePage.class.equals(adapter)) {
-			if (fOutlinePage == null) {
-				fOutlinePage= new JCPOutlinePage(getEditorInput(), this);
-			}
-			return fOutlinePage;
-		}
-		
-		
-		return super.getAdapter(adapter);
-	}
+        //React if resource is changed on disc.
+        
+    }
+    
+    public void setFocus() {
+        super.setFocus();
+    }
+    
+    public Object getAdapter(Class adapter) {
+        
+        if (IContentOutlinePage.class.equals(adapter)) {
+            if (fOutlinePage == null) {
+                fOutlinePage= new JCPOutlinePage(getEditorInput(), this);
+            }
+            return fOutlinePage;
+        }
+        
+        
+        return super.getAdapter(adapter);
+    }
 
-	public void setContributor(JCPMultiPageEditorContributor multiPageEditorContributor) {
-		this.contributor = multiPageEditorContributor;
-	}
+    public void setContributor(JCPMultiPageEditorContributor multiPageEditorContributor) {
+        this.contributor = multiPageEditorContributor;
+    }
 
 }

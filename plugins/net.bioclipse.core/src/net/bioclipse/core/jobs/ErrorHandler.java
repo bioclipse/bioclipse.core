@@ -41,7 +41,7 @@ public class ErrorHandler {
         }
         else {
             if (e.getMessage() != null) {
-            	//Null as throwable instead of e to remove duplicate error posting.
+                //Null as throwable instead of e to remove duplicate error posting.
                 returnValue = new Status(IStatus.ERROR,pluginId,500,e.getMessage(),null);
             }
             else {

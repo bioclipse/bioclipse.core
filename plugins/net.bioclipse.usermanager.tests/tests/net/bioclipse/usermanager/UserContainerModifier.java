@@ -13,8 +13,8 @@ import net.bioclipse.usermanager.UserContainer;
  */
 public abstract class UserContainerModifier {
 
-	public static void addAccountType( UserContainer userContainer,
-			                           AccountType accountType ) {
-		userContainer.availableAccountTypes.add(accountType);
-	}
+    public static void addAccountType( UserContainer userContainer,
+                                       AccountType accountType ) {
+        userContainer.availableAccountTypes.add(accountType);
+    }
 }

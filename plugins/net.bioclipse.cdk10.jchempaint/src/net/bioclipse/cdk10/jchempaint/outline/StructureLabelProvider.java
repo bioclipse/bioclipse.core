@@ -27,67 +27,67 @@ import org.openscience.cdk.interfaces.IChemObject;
  */
 public class StructureLabelProvider extends LabelProvider {
 
-	// cached images
-	private final static Image carbonImage 
-		= Activator.imageDescriptorFromPlugin(
-			Activator.PLUGIN_ID, "icons/atom_c.gif").createImage();
-	private final static Image hydrogenImage 
-	= Activator.imageDescriptorFromPlugin(
-		Activator.PLUGIN_ID, "icons/atom_h.gif").createImage();
-	private final static Image nitrogenImage 
-	= Activator.imageDescriptorFromPlugin(
-		Activator.PLUGIN_ID, "icons/atom_n.gif").createImage();
-	private final static Image oxygenImage 
-	= Activator.imageDescriptorFromPlugin(
-		Activator.PLUGIN_ID, "icons/atom_o.gif").createImage();
+    // cached images
+    private final static Image carbonImage 
+        = Activator.imageDescriptorFromPlugin(
+            Activator.PLUGIN_ID, "icons/atom_c.gif").createImage();
+    private final static Image hydrogenImage 
+    = Activator.imageDescriptorFromPlugin(
+        Activator.PLUGIN_ID, "icons/atom_h.gif").createImage();
+    private final static Image nitrogenImage 
+    = Activator.imageDescriptorFromPlugin(
+        Activator.PLUGIN_ID, "icons/atom_n.gif").createImage();
+    private final static Image oxygenImage 
+    = Activator.imageDescriptorFromPlugin(
+        Activator.PLUGIN_ID, "icons/atom_o.gif").createImage();
 
-	
-	public String getText(Object obj) {
-		
-		if (obj instanceof Container) {
-			Container c=(Container)obj;
-			return c!=null ? c.getName() : "???";
-		}
-		else if (obj instanceof CDKChemObject) {
-			CDKChemObject co = (CDKChemObject) obj;
-			return co.getName()!=null ? co.getName() : "???";
-		}
+    
+    public String getText(Object obj) {
+        
+        if (obj instanceof Container) {
+            Container c=(Container)obj;
+            return c!=null ? c.getName() : "???";
+        }
+        else if (obj instanceof CDKChemObject) {
+            CDKChemObject co = (CDKChemObject) obj;
+            return co.getName()!=null ? co.getName() : "???";
+        }
 
-		return obj.toString();
-	}
-	
-	public Image getImage(Object element) {
+        return obj.toString();
+    }
+    
+    public Image getImage(Object element) {
 
-			if (element instanceof CDKChemObject) {
-				CDKChemObject obj=(CDKChemObject)element;
+            if (element instanceof CDKChemObject) {
+                CDKChemObject obj=(CDKChemObject)element;
 
-				IChemObject chemobj=obj.getChemobj();
+                IChemObject chemobj=obj.getChemobj();
 
-				if (chemobj instanceof IAtom) {
-					IAtom atom = (IAtom) chemobj;
-					if (atom.getSymbol().compareTo("C")==0){
-						return carbonImage;
-					}
-					else if (atom.getSymbol().compareTo("H")==0){
-						return hydrogenImage;
-					}
-					else if (atom.getSymbol().compareTo("N")==0){
-						return nitrogenImage;
-					}
-					else if (atom.getSymbol().compareTo("O")==0){
-						return oxygenImage;
-					}
-				}
-				if (chemobj instanceof IBond) {
-					//TODO: add image for bonds
-					return null;
-				}
+                if (chemobj instanceof IAtom) {
+                    IAtom atom = (IAtom) chemobj;
+                    if (atom.getSymbol().compareTo("C")==0){
+                        return carbonImage;
+                    }
+                    else if (atom.getSymbol().compareTo("H")==0){
+                        return hydrogenImage;
+                    }
+                    else if (atom.getSymbol().compareTo("N")==0){
+                        return nitrogenImage;
+                    }
+                    else if (atom.getSymbol().compareTo("O")==0){
+                        return oxygenImage;
+                    }
+                }
+                if (chemobj instanceof IBond) {
+                    //TODO: add image for bonds
+                    return null;
+                }
 
-			}
+            }
 
-			//No match, no image
-			return null;
-	}
+            //No match, no image
+            return null;
+    }
 }
 
 class NameSorter extends ViewerSorter {

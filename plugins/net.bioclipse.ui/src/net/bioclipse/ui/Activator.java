@@ -113,20 +113,20 @@ public class Activator extends BioclipseActivator {
 
 
     private void initBioclipseCache() {
-    	try {
-    		File folder=BioclipseCache.getCacheDir();
-    		if (folder!=null)
-    			logger.info("Bioclipse cache dir: " + folder.getAbsolutePath());
-    		else
-    			logger.info("Error initializing Bioclipse cache dir.");
-		} catch (CoreException e) {
-			logger.info("Error initializing Bioclipse cache dir: " + e.getMessage());
-		}
-		
-	}
+        try {
+            File folder=BioclipseCache.getCacheDir();
+            if (folder!=null)
+                logger.info("Bioclipse cache dir: " + folder.getAbsolutePath());
+            else
+                logger.info("Error initializing Bioclipse cache dir.");
+        } catch (CoreException e) {
+            logger.info("Error initializing Bioclipse cache dir: " + e.getMessage());
+        }
+        
+    }
 
 
-	public IHistory getHistoryObject() {
+    public IHistory getHistoryObject() {
         IHistory history = null;
         try {
             history = (IHistory) finderTracker.waitForService(1000 * 30);

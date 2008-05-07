@@ -18,9 +18,9 @@ package net.bioclipse.core.domain;
  */
 public interface IMobyObject {
 
-	public String getId();
-	public void setId(String id);
-	public String getNamespace();
-	public void setNamespace(String namespace);	
-	
+    public String getId();
+    public void setId(String id);
+    public String getNamespace();
+    public void setNamespace(String namespace);    
+    
 }

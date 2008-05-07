@@ -16,34 +16,34 @@ import org.osgi.framework.BundleContext;
  */
 public class BioclipseActivator extends AbstractUIPlugin {
 
-	// The shared instance.
-	private static BioclipseActivator plugin;
+    // The shared instance.
+    private static BioclipseActivator plugin;
 
-	private static final Logger logger = Logger.getLogger(BioclipseActivator.class);
-	
-	/**
-	 * The constructor.
-	 */
-	public BioclipseActivator() {
-		plugin = this;
-	}
+    private static final Logger logger = Logger.getLogger(BioclipseActivator.class);
+    
+    /**
+     * The constructor.
+     */
+    public BioclipseActivator() {
+        plugin = this;
+    }
 
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-	}
+    public void start(BundleContext context) throws Exception {
+        super.start(context);
+    }
 
-	/**
-	 * This method is called when the plug-in is stopped
-	 */
-	public void stop(BundleContext context) throws Exception {
-		super.stop(context);
-		plugin = null;
-	}
+    /**
+     * This method is called when the plug-in is stopped
+     */
+    public void stop(BundleContext context) throws Exception {
+        super.stop(context);
+        plugin = null;
+    }
 
-	/**
-	 * Returns the shared instance.
-	 */
-	public static BioclipseActivator getDefault() {
-		return plugin;
-	}
+    /**
+     * Returns the shared instance.
+     */
+    public static BioclipseActivator getDefault() {
+        return plugin;
+    }
 }

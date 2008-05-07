@@ -17,33 +17,33 @@ import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 
 public class FileImportWizard extends Wizard implements IImportWizard {
-	
-	FileImportWizardPage mainPage;
+    
+    FileImportWizardPage mainPage;
 
-	public FileImportWizard() {
-		super();
-	}
+    public FileImportWizard() {
+        super();
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
-	 */
-	public boolean performFinish() {
-		IFile file = mainPage.createNewFile();
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.wizard.Wizard#performFinish()
+     */
+    public boolean performFinish() {
+        IFile file = mainPage.createNewFile();
         if (file == null)
             return false;
         return true;
-	}
-	 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
-	 */
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		setWindowTitle("File Import Wizard"); //NON-NLS-1
-		setNeedsProgressMonitor(true);
-		mainPage = new FileImportWizardPage("Import File",selection); //NON-NLS-1
-	}
-	
-	/* (non-Javadoc)
+    }
+     
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
+     */
+    public void init(IWorkbench workbench, IStructuredSelection selection) {
+        setWindowTitle("File Import Wizard"); //NON-NLS-1
+        setNeedsProgressMonitor(true);
+        mainPage = new FileImportWizardPage("Import File",selection); //NON-NLS-1
+    }
+    
+    /* (non-Javadoc)
      * @see org.eclipse.jface.wizard.IWizard#addPages()
      */
     public void addPages() {

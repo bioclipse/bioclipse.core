@@ -12,40 +12,40 @@ import nu.psnet.quickimage.widgets.QuickImageCanvas;
  * 
  */
 public class QManager {
-	private QuickImageCanvas imageCanvas;
-	private QStatusCanvas statusCanvas;
-	private ImageOrganizer imageOrganizer;
-	private QuickImageEditor imageEditor;
+    private QuickImageCanvas imageCanvas;
+    private QStatusCanvas statusCanvas;
+    private ImageOrganizer imageOrganizer;
+    private QuickImageEditor imageEditor;
 
-	public QuickImageCanvas getImageCanvas() {
-		return imageCanvas;
-	}
+    public QuickImageCanvas getImageCanvas() {
+        return imageCanvas;
+    }
 
-	public void setImageCanvas(QuickImageCanvas imageCanvas) {
-		this.imageCanvas = imageCanvas;
-	}
+    public void setImageCanvas(QuickImageCanvas imageCanvas) {
+        this.imageCanvas = imageCanvas;
+    }
 
-	public QuickImageEditor getImageEditor() {
-		return imageEditor;
-	}
+    public QuickImageEditor getImageEditor() {
+        return imageEditor;
+    }
 
-	public void setImageEditor(QuickImageEditor imageEditor) {
-		this.imageEditor = imageEditor;
-	}
+    public void setImageEditor(QuickImageEditor imageEditor) {
+        this.imageEditor = imageEditor;
+    }
 
-	public ImageOrganizer getImageOrganizer() {
-		return imageOrganizer;
-	}
+    public ImageOrganizer getImageOrganizer() {
+        return imageOrganizer;
+    }
 
-	public void setImageOrganizer(ImageOrganizer imageOrganizer) {
-		this.imageOrganizer = imageOrganizer;
-	}
+    public void setImageOrganizer(ImageOrganizer imageOrganizer) {
+        this.imageOrganizer = imageOrganizer;
+    }
 
-	public QStatusCanvas getStatusCanvas() {
-		return statusCanvas;
-	}
+    public QStatusCanvas getStatusCanvas() {
+        return statusCanvas;
+    }
 
-	public void setStatusCanvas(QStatusCanvas statusCanvas) {
-		this.statusCanvas = statusCanvas;
-	}
+    public void setStatusCanvas(QStatusCanvas statusCanvas) {
+        this.statusCanvas = statusCanvas;
+    }
 }

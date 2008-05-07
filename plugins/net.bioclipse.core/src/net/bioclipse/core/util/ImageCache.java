@@ -24,29 +24,29 @@ import org.eclipse.swt.graphics.Image;
  *
  */
 public class ImageCache {
-	private final Map<ImageDescriptor, Image> imageMap;
+    private final Map<ImageDescriptor, Image> imageMap;
 
-	public ImageCache() {
-		super();
-		imageMap = new HashMap<ImageDescriptor, Image>();	
-	}
+    public ImageCache() {
+        super();
+        imageMap = new HashMap<ImageDescriptor, Image>();    
+    }
 
-	@SuppressWarnings("unchecked")
-	public Image getImage(ImageDescriptor imageDescriptor) {
-		if (imageDescriptor == null)
-			return null;
-		Image image = (Image) imageMap.get(imageDescriptor);
-		if (image == null) {
-			image = imageDescriptor.createImage();
-			imageMap.put(imageDescriptor, image);
-		}
-		return image;
-	}
+    @SuppressWarnings("unchecked")
+    public Image getImage(ImageDescriptor imageDescriptor) {
+        if (imageDescriptor == null)
+            return null;
+        Image image = (Image) imageMap.get(imageDescriptor);
+        if (image == null) {
+            image = imageDescriptor.createImage();
+            imageMap.put(imageDescriptor, image);
+        }
+        return image;
+    }
 
-	public void dispose() {
-		for (Image img : imageMap.values()){
-			img.dispose();
-		}
-		imageMap.clear();
-	}
+    public void dispose() {
+        for (Image img : imageMap.values()){
+            img.dispose();
+        }
+        imageMap.clear();
+    }
 }

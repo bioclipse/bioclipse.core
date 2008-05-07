@@ -30,358 +30,358 @@ import org.eclipse.core.runtime.Platform;
 /**
  * A console for a Javascript session. For more on Javascript, see
  * <a href="http://www.ecmascript.org/">the ECMAScript home page</a>.
- * 
+ *
  * @author masak
  *
  */
 public class JsConsoleView extends ScriptingConsoleView
                            implements EchoListener {
-	
-    private static final Logger logger = Logger.getLogger(JsConsoleView.class);
-    
-	private static Matcher jsBacktickMatcher;
-	
-	static {
-		String noBackTick
-          = "("                                   // capture into group:
-			  + "(?:"                               // either...
-			    + "[^`\'\"]+"                          // no backticks or quotes
-			    + "|"                                  // ...or...
-			    + "(?:\"(?:[^\"\\\\]|(?:\\\\.))*\")"   // a double quoted string
-			    + "|"                                  // ...or...
-		        + "(?:\'(?:[^\'\\\\]|(?:\\\\.))*\')"   // a single quoted string
-		      + ")*+"                               // zero or more of the above
-		    + ")";
 
-		jsBacktickMatcher
-		  = Pattern.compile( noBackTick + "`" + noBackTick + "`" ).matcher("");
-	}
-	
-	private static JsEnvironment js
-		= net.bioclipse.scripting.Activator.getDefault().JS_SESSION;
-	
-	static {
-		js.eval("function clear() {}");
-	}
-    
-    private JsPluginable rConnection = null;
-    
-    private static enum Mode {
-    	JS,
-    	R;
+    private static final Logger logger = Logger.getLogger(JsConsoleView.class);
+
+    private static Matcher jsBacktickMatcher;
+
+    static {
+        String noBackTick
+          = "("                                   // capture into group:
+              + "(?:"                               // either...
+                + "[^`\'\"]+"                          // no backticks or quotes
+                + "|"                                  // ...or...
+                + "(?:\"(?:[^\"\\\\]|(?:\\\\.))*\")"   // a double quoted string
+                + "|"                                  // ...or...
+                + "(?:\'(?:[^\'\\\\]|(?:\\\\.))*\')"   // a single quoted string
+              + ")*+"                               // zero or more of the above
+            + ")";
+
+        jsBacktickMatcher
+          = Pattern.compile( noBackTick + "`" + noBackTick + "`" ).matcher("");
     }
-    
+
+    private static JsEnvironment js
+        = net.bioclipse.scripting.Activator.getDefault().JS_SESSION;
+
+    static {
+        js.eval("function clear() {}");
+    }
+
+    private JsPluginable rConnection = null;
+
+    private static enum Mode {
+        JS,
+        R;
+    }
+
     private Mode mode = Mode.JS;
-    
-	/**
+
+    /**
      * The constructor. Called by Eclipse reflection when a new console
      * is created.
-     * 
+     *
      * @see ScriptingConsoleView.<init>
      */
     public JsConsoleView() {
-    	super();
-       	Activator.getDefault().CONSOLE.addListener(this);
+        super();
+        Activator.getDefault().CONSOLE.addListener(this);
     }
-    
+
     void setMode(Mode newMode) {
-    	if (newMode == Mode.R && rConnection == null)
-    		installR();
-    	
-    	if (newMode == Mode.R && rConnection == null) {
-    		printMessage("R is not installed -- get net.bioclipse.r");
-    		return;
-    	}
-    	
-    	mode = newMode;
+        if (newMode == Mode.R && rConnection == null)
+            installR();
+
+        if (newMode == Mode.R && rConnection == null) {
+            printMessage("R is not installed -- get net.bioclipse.r");
+            return;
+        }
+
+        mode = newMode;
     }
-    
+
     /* (non-Javadoc)
      * @see net.bioclipse.core.views.ScriptingConsoleView#commandLinePrefix()
      */
     protected String commandLinePrompt() {
-    	return mode == Mode.JS ? "js> " : "R> ";
+        return mode == Mode.JS ? "js> " : "R> ";
     }
 
-	private void installR() {
+    private void installR() {
 
-		IExtensionRegistry registry = Platform.getExtensionRegistry();
-		
-		if (registry == null) { // for example, when we are running the tests
-			logger.debug("Registry does not exist. If tests are running, "
-					+ "this is in order.");
-			return;             // nothing we can do anyway
-		}
-		
-		IExtensionPoint extensionPoint
-			= registry.getExtensionPoint("net.bioclipse.ui.r_provider");
+        IExtensionRegistry registry = Platform.getExtensionRegistry();
 
-		IExtension[] extensions = extensionPoint.getExtensions();
+        if (registry == null) { // for example, when we are running the tests
+            logger.debug("Registry does not exist. If tests are running, "
+                    + "this is in order.");
+            return;             // nothing we can do anyway
+        }
 
-		if (extensions.length == 0)
-			return;
-		
-		IExtension e = extensions[0];
-		IConfigurationElement[] cfgElems = e.getConfigurationElements();
-		
-		for (IConfigurationElement cfgElem : cfgElems) {
-			
-			try {
-				this.rConnection = (JsPluginable)cfgElem
-					               .createExecutableExtension("service");
-				this.rConnection.setOutputProvider( new OutputProvider(){
-						public void output(final String r) {
-							Activator.getDefault().CONSOLE.echo(r);
-						}
-					}
-				);
-			}
-			catch (Exception ex) {
-				throw new RuntimeException(
-						"Failed to instantiate factory: "
-						+ cfgElem.getAttribute("class")
-						+ "\n in type: "
-						+ extensionPoint.getUniqueIdentifier()
-						+ "\n in plugin: "
-						+ e.getExtensionPointUniqueIdentifier()
-						+ "\n"
-						+ ex.getMessage());
-			}
-		}
-	}
+        IExtensionPoint extensionPoint
+            = registry.getExtensionPoint("net.bioclipse.ui.r_provider");
 
-	private String executeJsCommand(String command) {
-		String result = js.eval(command);
-    	
-		return result == "undefined" ? "" : result;
-	}
+        IExtension[] extensions = extensionPoint.getExtensions();
 
-	private String executeRCommand(String command) {
+        if (extensions.length == 0)
+            return;
 
-		ArrayList<Object> al;
-		try {
-			al = interpolateJsVariables(command);
-		}
-		catch (RuntimeException rte) {
-			return rte.toString();
-		}
-			
-		try {
-			rConnection.eval(al);
-		} catch (IOException e) {
-			LogUtils.debugTrace(logger, e);
-		}
+        IExtension e = extensions[0];
+        IConfigurationElement[] cfgElems = e.getConfigurationElements();
 
-		return "";
-	}
+        for (IConfigurationElement cfgElem : cfgElems) {
 
-	private ArrayList<Object> interpolateJsVariables(String command) {
-		
-		ArrayList<Object> al = new ArrayList<Object>();
-		jsBacktickMatcher.reset(command);
+            try {
+                this.rConnection = (JsPluginable)cfgElem
+                                   .createExecutableExtension("service");
+                this.rConnection.setOutputProvider( new OutputProvider(){
+                        public void output(final String r) {
+                            Activator.getDefault().CONSOLE.echo(r);
+                        }
+                    }
+                );
+            }
+            catch (Exception ex) {
+                throw new RuntimeException(
+                        "Failed to instantiate factory: "
+                        + cfgElem.getAttribute("class")
+                        + "\n in type: "
+                        + extensionPoint.getUniqueIdentifier()
+                        + "\n in plugin: "
+                        + e.getExtensionPointUniqueIdentifier()
+                        + "\n"
+                        + ex.getMessage());
+            }
+        }
+    }
 
-		int e = 0;
-		while(jsBacktickMatcher.find()){
-			
-			al.add(jsBacktickMatcher.group(1));
-			al.add(js.evalToObject(jsBacktickMatcher.group(2)));
-			e = jsBacktickMatcher.end();
-		}
-		al.add(command.substring(e));
+    private String executeJsCommand(String command) {
+        String result = js.eval(command);
 
-		return al;
-	}
+        return result == "undefined" ? "" : result;
+    }
+
+    private String executeRCommand(String command) {
+
+        ArrayList<Object> al;
+        try {
+            al = interpolateJsVariables(command);
+        }
+        catch (RuntimeException rte) {
+            return rte.toString();
+        }
+
+        try {
+            rConnection.eval(al);
+        } catch (IOException e) {
+            LogUtils.debugTrace(logger, e);
+        }
+
+        return "";
+    }
+
+    private ArrayList<Object> interpolateJsVariables(String command) {
+
+        ArrayList<Object> al = new ArrayList<Object>();
+        jsBacktickMatcher.reset(command);
+
+        int e = 0;
+        while(jsBacktickMatcher.find()){
+
+            al.add(jsBacktickMatcher.group(1));
+            al.add(js.evalToObject(jsBacktickMatcher.group(2)));
+            e = jsBacktickMatcher.end();
+        }
+        al.add(command.substring(e));
+
+        return al;
+    }
 
     /* (non-Javadoc)
      * @see net.bioclipse.core.views.ScriptingConsoleView#executeCommand(java.lang.String)
      */
     protected String executeCommand(String command) {
-    	if (command == null)
-    		return "";
-    	
-    	if (command.equals("clear") || command.equals("clear()")) {
-    		clearConsole();
-    		return "";
-    	}
-    	
-    	if (command.startsWith("help")) {
-    		return helpString(command);
-    	}
-    	
-    	if (mode == Mode.JS) {
-    		if ("R".equals(command.trim())) {
-    			setMode(Mode.R);
-    			return "";
-    		}
-    		return executeJsCommand(command);
-    	}
-    	else {
-    		if ("q()".equals(command.trim())) {
-    			setMode(Mode.JS);
-    			return "";
-    		}
-    		return executeRCommand(command);
-    	}
+        if (command == null)
+            return "";
+
+        if (command.equals("clear") || command.equals("clear()")) {
+            clearConsole();
+            return "";
+        }
+
+        if (command.startsWith("help")) {
+            return helpString(command);
+        }
+
+        if (mode == Mode.JS) {
+            if ("R".equals(command.trim())) {
+                setMode(Mode.R);
+                return "";
+            }
+            return executeJsCommand(command);
+        }
+        else {
+            if ("q()".equals(command.trim())) {
+                setMode(Mode.JS);
+                return "";
+            }
+            return executeRCommand(command);
+        }
     }
 
-	/**
-	 * Returns a help string documenting a Manager or one of its methods.
-	 * These help strings are printed to the console in response to the
-	 * command "help x" (where x is a manager) or "help x.y" (where y is
-	 * a method).
-	 * 
-	 * @param command the complete command from the console input
-	 * @return a string documenting a manager or one of its methods
-	 */
-	private String helpString(String command) {
-		
-		if (command == null)
-			return "";
-		
-		final String errorMessage = "Usage of help: `help <manager>` " +
-				                    "or: `help <manager>.<method>`"; 
-		StringBuilder result = new StringBuilder();
-		
-		if( "help".equals(command.trim()) ) return errorMessage;
-		String helpObject = command.substring(5);
-		if(helpObject.contains(".")) {
-			
-			String[] parts = helpObject.split("\\.");
-			
-			if(parts.length != 2)
-				return errorMessage;
+    /**
+     * Returns a help string documenting a Manager or one of its methods.
+     * These help strings are printed to the console in response to the
+     * command "help x" (where x is a manager) or "help x.y" (where y is
+     * a method).
+     *
+     * @param command the complete command from the console input
+     * @return a string documenting a manager or one of its methods
+     */
+    private String helpString(String command) {
 
-			String managerName = parts[0];
-			String methodName  = parts[1];
-			
-			IBioclipseManager manager = js.getManager(managerName);
-			if(manager == null)
-				return "No such manager: " + managerName 
-				       + "\n" + errorMessage;
-			
-			for ( Class<?> interfaze : manager.getClass().getInterfaces() ) {
-				for ( Method method : interfaze.getMethods() ) {
+        if (command == null)
+            return "";
 
-					if ( method.getName().equals(methodName) && 
-						 method.isAnnotationPresent(PublishedMethod.class)	) {
-						
-						PublishedMethod publishedMethod 
-							= method.getAnnotation(PublishedMethod.class);
+        final String errorMessage = "Usage of help: `help <manager>` " +
+                                    "or: `help <manager>.<method>`";
+        StringBuilder result = new StringBuilder();
 
-						String line 
-							= dashes(managerName.length()
-									 + method.getName().length()
-									 + publishedMethod.params().length()
-									 + 3,
-									 MAX_OUTPUT_LINE_LENGTH);
-						
-						result.append( line );
-						result.append( '\n' );
-						
-						result.append( managerName );
-						result.append( '.' );
-						result.append( method.getName() );
-						result.append( '(' );
-						result.append( publishedMethod.params() );
-						result.append( ")\n" );
-						
-						result.append( line );
-						result.append( '\n' );
+        if( "help".equals(command.trim()) ) return errorMessage;
+        String helpObject = command.substring(5);
+        if(helpObject.contains(".")) {
 
-						result.append( publishedMethod.methodSummary() );
-						result.append( '\n' );
-					}
-				}
-			}
-		}
-		else {
-			IBioclipseManager manager = js.getManager(helpObject);
-			
-			if (manager == null)
-				return "No such method: " + helpObject 
-				       + "\n" + errorMessage;
-			
-			StringBuilder managerDescription = new StringBuilder();
-			for ( Class<?> interfaze : manager.getClass().getInterfaces() )
-				if ( interfaze.isAnnotationPresent(PublishedClass.class) )
-					managerDescription.append(
-							interfaze.getAnnotation(
-									PublishedClass.class
-							).value()
-					);
-							
+            String[] parts = helpObject.split("\\.");
 
-			String line = dashes(helpObject.length(), MAX_OUTPUT_LINE_LENGTH);
-			
-			result.append(line);
-			result.append( '\n' );
+            if(parts.length != 2)
+                return errorMessage;
 
-			result.append(helpObject);
-			result.append( '\n' );
+            String managerName = parts[0];
+            String methodName  = parts[1];
 
-			result.append(line);
-			result.append( '\n' );
-			
-			result.append( managerDescription );
-			result.append( '\n' );
-		}
-		
-		return result.toString();
-	}
+            IBioclipseManager manager = js.getManager(managerName);
+            if(manager == null)
+                return "No such manager: " + managerName
+                       + "\n" + errorMessage;
 
-	private String dashes(int length, int maxLength) {
-		
-		StringBuilder result = new StringBuilder();
-		
-		for ( int i = 0; i < Math.min(length, maxLength); ++i )
-			result.append('-');
-		
-		return result.toString();
-	}
+            for ( Class<?> interfaze : manager.getClass().getInterfaces() ) {
+                for ( Method method : interfaze.getMethods() ) {
 
-	public void receiveLogEvent(EchoEvent e) {
-		printMessage(e.getMessage());		
-	}
-	
-	protected List<String> getAllVariablesIn(String object) {
-		
-		if (object == null || "".equals(object))
-			object = "this";
-		
-		IBioclipseManager manager = js.getManager(object);
-		if ( null != manager ) {
-			List<String> variables = new ArrayList<String>();
-			
-			for ( Class<?> interfaze : manager.getClass().getInterfaces() )
-				for ( Method method : interfaze.getDeclaredMethods() )
-					if ( method.isAnnotationPresent(PublishedMethod.class) 
-					     && !variables.contains( method.getName() ))
-						
-						variables.add( method.getName() );
-			
-			return variables;
-		}
-		
-		List<String> variables
-		  = new ArrayList<String>( Arrays.asList( executeJsCommand(
-				"zzz1 = new Array(); zzz2 = 0;"
-				+ "for (var zzz3 in " + object + ") { zzz1[zzz2++] = zzz3 }"
-				+ "zzz1"
-			).split(",") ) );
-		
-		// The following happens sometimes when we tab complete on something
-		// unexpected. We choose to beep instead of outputting "syntax error".
-		if (variables.size() == 1 &&
-				("syntax error".equals(variables.get(0)) ||
-	             variables.get(0).startsWith("ReferenceError"))) {
-			beep();
-			return new ArrayList<String>();
-		}
-		
-		variables.remove("zzz1");
-		variables.remove("zzz2");
-		variables.remove("zzz3");
-		
-		return variables;
-	}
+                    if ( method.getName().equals(methodName) &&
+                         method.isAnnotationPresent(PublishedMethod.class) ) {
+
+                        PublishedMethod publishedMethod
+                            = method.getAnnotation(PublishedMethod.class);
+
+                        String line
+                            = dashes(managerName.length()
+                                     + method.getName().length()
+                                     + publishedMethod.params().length()
+                                     + 3,
+                                     MAX_OUTPUT_LINE_LENGTH);
+
+                        result.append( line );
+                        result.append( '\n' );
+
+                        result.append( managerName );
+                        result.append( '.' );
+                        result.append( method.getName() );
+                        result.append( '(' );
+                        result.append( publishedMethod.params() );
+                        result.append( ")\n" );
+
+                        result.append( line );
+                        result.append( '\n' );
+
+                        result.append( publishedMethod.methodSummary() );
+                        result.append( '\n' );
+                    }
+                }
+            }
+        }
+        else {
+            IBioclipseManager manager = js.getManager(helpObject);
+
+            if (manager == null)
+                return "No such method: " + helpObject
+                       + "\n" + errorMessage;
+
+            StringBuilder managerDescription = new StringBuilder();
+            for ( Class<?> interfaze : manager.getClass().getInterfaces() )
+                if ( interfaze.isAnnotationPresent(PublishedClass.class) )
+                    managerDescription.append(
+                            interfaze.getAnnotation(
+                                    PublishedClass.class
+                            ).value()
+                    );
+
+
+            String line = dashes(helpObject.length(), MAX_OUTPUT_LINE_LENGTH);
+
+            result.append(line);
+            result.append( '\n' );
+
+            result.append(helpObject);
+            result.append( '\n' );
+
+            result.append(line);
+            result.append( '\n' );
+
+            result.append( managerDescription );
+            result.append( '\n' );
+        }
+
+        return result.toString();
+    }
+
+    private String dashes(int length, int maxLength) {
+
+        StringBuilder result = new StringBuilder();
+
+        for ( int i = 0; i < Math.min(length, maxLength); ++i )
+            result.append('-');
+
+        return result.toString();
+    }
+
+    public void receiveLogEvent(EchoEvent e) {
+        printMessage(e.getMessage());
+    }
+
+    protected List<String> getAllVariablesIn(String object) {
+
+        if (object == null || "".equals(object))
+            object = "this";
+
+        IBioclipseManager manager = js.getManager(object);
+        if ( null != manager ) {
+            List<String> variables = new ArrayList<String>();
+
+            for ( Class<?> interfaze : manager.getClass().getInterfaces() )
+                for ( Method method : interfaze.getDeclaredMethods() )
+                    if ( method.isAnnotationPresent(PublishedMethod.class)
+                         && !variables.contains( method.getName() ))
+
+                        variables.add( method.getName() );
+
+            return variables;
+        }
+
+        List<String> variables
+          = new ArrayList<String>( Arrays.asList( executeJsCommand(
+                "zzz1 = new Array(); zzz2 = 0;"
+                + "for (var zzz3 in " + object + ") { zzz1[zzz2++] = zzz3 }"
+                + "zzz1"
+            ).split(",") ) );
+
+        // The following happens sometimes when we tab complete on something
+        // unexpected. We choose to beep instead of outputting "syntax error".
+        if (variables.size() == 1 &&
+                ("syntax error".equals(variables.get(0)) ||
+                 variables.get(0).startsWith("ReferenceError"))) {
+            beep();
+            return new ArrayList<String>();
+        }
+
+        variables.remove("zzz1");
+        variables.remove("zzz2");
+        variables.remove("zzz3");
+
+        return variables;
+    }
 }

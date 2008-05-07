@@ -15,53 +15,53 @@ import java.util.ArrayList;
 
 public class Container {
 
-	String name;
-	ArrayList<CDKChemObject> children;
-	ArrayList<Container> subfolders;
+    String name;
+    ArrayList<CDKChemObject> children;
+    ArrayList<Container> subfolders;
 
-	public Container(String name) {
-		this.name=name;
-		children=new ArrayList<CDKChemObject>();
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public ArrayList<CDKChemObject> getChildren() {
-		return children;
-	}
-	public void setChildren(ArrayList<CDKChemObject> children) {
-		this.children = children;
-	}
-	public ArrayList<Container> getSubfolders() {
-		return subfolders;
-	}
-	public void setSubfolders(ArrayList<Container> subfolders) {
-		this.subfolders = subfolders;
-	}
+    public Container(String name) {
+        this.name=name;
+        children=new ArrayList<CDKChemObject>();
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public ArrayList<CDKChemObject> getChildren() {
+        return children;
+    }
+    public void setChildren(ArrayList<CDKChemObject> children) {
+        this.children = children;
+    }
+    public ArrayList<Container> getSubfolders() {
+        return subfolders;
+    }
+    public void setSubfolders(ArrayList<Container> subfolders) {
+        this.subfolders = subfolders;
+    }
 
-	//Convenience methods for children
-	public void addChild(CDKChemObject co){
-		children.add(co);
-	}
-	public void removeChild(CDKChemObject co){
-		children.remove(co);
-	}
-	
-	//Convenience methods for subfolders
-	public void addSubFolder(Container co){
-		subfolders.add(co);
-	}
-	public void removeSubFolder(Container co){
-		subfolders.remove(co);
-	}
+    //Convenience methods for children
+    public void addChild(CDKChemObject co){
+        children.add(co);
+    }
+    public void removeChild(CDKChemObject co){
+        children.remove(co);
+    }
+    
+    //Convenience methods for subfolders
+    public void addSubFolder(Container co){
+        subfolders.add(co);
+    }
+    public void removeSubFolder(Container co){
+        subfolders.remove(co);
+    }
 
 
-	public void clear(){
-		children.clear();
-		subfolders.clear();
-	}
-	
+    public void clear(){
+        children.clear();
+        subfolders.clear();
+    }
+    
 }

@@ -13,14 +13,14 @@ package net.bioclipse.core.business;
 
 public class BioclipseException extends Exception {
 
-	private static final long serialVersionUID = -9210522509375410904L;
+    private static final long serialVersionUID = -9210522509375410904L;
 
-	public BioclipseException(String message) {
-		super(message);
-	}
-	
-	public BioclipseException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public BioclipseException(String message) {
+        super(message);
+    }
+    
+    public BioclipseException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
 }

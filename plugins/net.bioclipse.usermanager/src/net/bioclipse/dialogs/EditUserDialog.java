@@ -6,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     
+ *
  *******************************************************************************/
 
 package net.bioclipse.dialogs;
@@ -58,555 +58,555 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * Dialog for editing an user and the users accounts 
- * 
+ * Dialog for editing an user and the users accounts
+ *
  * @author jonalv
  *
  */
 public class EditUserDialog extends Dialog {
 
-	private static final String ALREADY_SUCH_AN_ACCOUNT
-		= "There is already an account of that type.";
-	private static final String FILL_IN_REQUIRED
-		= "Please fill in the values for all required account properties.";
-	
-	private Text accountTypeText;
-	private Label accountTypeLabel;
-	private TableViewer propertiesTableViewer;
-	private Label propertiesLabel;
-	private ListViewer accountsListViewer;
-	private Group accountGroup;
-	private Button deleteAccountButton;
-	private Button addAccountButton;
-	private Button changeKeyringUserButton;
-	private Table propertiesTable;
-	private List list;
-	
-	private UserContainer sandBoxUserContainer;
-	private EditUserDialogModel model;
-	private static final String[] COLUMN_NAMES = { "Property", 
-		                                          "Value", 
-		                                          "Required" };
-	
-	/**
-	 * Create the dialog
-	 * @param parentShell
-	 */
-	public EditUserDialog( Shell parentShell, 
-			               UserContainer sandBoxUserManager ) {
-		super(parentShell);
-		this.sandBoxUserContainer = sandBoxUserManager;
-		this.model = new EditUserDialogModel(sandBoxUserManager);
-	}
+    private static final String ALREADY_SUCH_AN_ACCOUNT
+        = "There is already an account of that type.";
+    private static final String FILL_IN_REQUIRED
+        = "Please fill in the values for all required account properties.";
 
-	/**
-	 * Create contents of the dialog
-	 * @param parent
-	 */
-	@Override
-	protected Control createDialogArea(Composite parent) {
-		Composite container = (Composite) super.createDialogArea(parent);
-		container.setLayout(new FormLayout());
+    private Text accountTypeText;
+    private Label accountTypeLabel;
+    private TableViewer propertiesTableViewer;
+    private Label propertiesLabel;
+    private ListViewer accountsListViewer;
+    private Group accountGroup;
+    private Button deleteAccountButton;
+    private Button addAccountButton;
+    private Button changeKeyringUserButton;
+    private Table propertiesTable;
+    private List list;
 
-		accountGroup = new Group(container, SWT.NONE);
-		accountGroup.setText("Account");
-		final FormData formData = new FormData();
-		formData.left = new FormAttachment(29, 0);
-		formData.top = new FormAttachment(0, 5);
-		formData.bottom = new FormAttachment(100, -5);
-		formData.right = new FormAttachment(100, -5);
-		accountGroup.setLayoutData(formData);
-		accountGroup.setLayout(new FormLayout());
+    private UserContainer sandBoxUserContainer;
+    private EditUserDialogModel model;
+    private static final String[] COLUMN_NAMES = { "Property",
+                                                  "Value",
+                                                  "Required" };
 
-		accountsListViewer = new ListViewer(container, SWT.BORDER | SWT.SINGLE);
-		accountsListViewer.addSelectionChangedListener( 
-			new ISelectionChangedListener() {
-			/*
-			 * SELECTION CHANGED ON THE ACCOUNTS LIST
-			 */
-			public void selectionChanged(SelectionChangedEvent event) {
-				
-				refreshOnSelectionChanged();
-			}
-		});
-		accountsListViewer.setSorter(new Sorter());
-		accountsListViewer.setLabelProvider(new ListLabelProvider());
-		accountsListViewer.setContentProvider(new ListContentProvider());
-		accountsListViewer.setInput( model.dummyAccounts.keySet() );
-		
-		list = accountsListViewer.getList();
+    /**
+     * Create the dialog
+     * @param parentShell
+     */
+    public EditUserDialog( Shell parentShell,
+                           UserContainer sandBoxUserManager ) {
+        super(parentShell);
+        this.sandBoxUserContainer = sandBoxUserManager;
+        this.model = new EditUserDialogModel(sandBoxUserManager);
+    }
 
-		final FormData formData_2 = new FormData();
-		formData_2.bottom = new FormAttachment(0, 77);
-		formData_2.top = new FormAttachment(0, 60);
-		formData_2.right = new FormAttachment(0, 127);
-		formData_2.left = new FormAttachment(0, 50);
+    /**
+     * Create contents of the dialog
+     * @param parent
+     */
+    @Override
+    protected Control createDialogArea(Composite parent) {
+        Composite container = (Composite) super.createDialogArea(parent);
+        container.setLayout(new FormLayout());
 
-		final FormData formData_3 = new FormData();
-		formData_3.left = new FormAttachment(0, 152);
-		formData_3.right = new FormAttachment(100, -295);
-		formData_3.top = new FormAttachment(0, 90);
+        accountGroup = new Group(container, SWT.NONE);
+        accountGroup.setText("Account");
+        final FormData formData = new FormData();
+        formData.left = new FormAttachment(29, 0);
+        formData.top = new FormAttachment(0, 5);
+        formData.bottom = new FormAttachment(100, -5);
+        formData.right = new FormAttachment(100, -5);
+        accountGroup.setLayoutData(formData);
+        accountGroup.setLayout(new FormLayout());
 
-		final FormData formData_1_1 = new FormData();
-		formData_1_1.bottom = new FormAttachment(0, 117);
-		formData_1_1.top = new FormAttachment(0, 100);
+        accountsListViewer = new ListViewer(container, SWT.BORDER | SWT.SINGLE);
+        accountsListViewer.addSelectionChangedListener(
+            new ISelectionChangedListener() {
+            /*
+             * SELECTION CHANGED ON THE ACCOUNTS LIST
+             */
+            public void selectionChanged(SelectionChangedEvent event) {
 
-		propertiesLabel = new Label(accountGroup, SWT.NONE);
-		final FormData formData_5 = new FormData();
-		formData_5.right = new FormAttachment(0, 79);
-		formData_5.left = new FormAttachment(0, 5);
-		propertiesLabel.setLayoutData(formData_5);
-		propertiesLabel.setText("Properties:");
+                refreshOnSelectionChanged();
+            }
+        });
+        accountsListViewer.setSorter(new Sorter());
+        accountsListViewer.setLabelProvider(new ListLabelProvider());
+        accountsListViewer.setContentProvider(new ListContentProvider());
+        accountsListViewer.setInput( model.dummyAccounts.keySet() );
 
-		propertiesTableViewer = new TableViewer(accountGroup, SWT.BORDER);
-		propertiesTableViewer.setLabelProvider(new TableLabelProvider());
-		propertiesTableViewer.setContentProvider(new TableContentProvider());
-		propertiesTable = propertiesTableViewer.getTable();
-		formData_5.top = new FormAttachment(propertiesTable, -25, SWT.TOP);
-		formData_5.bottom = new FormAttachment(propertiesTable, -5, SWT.TOP);
-		
-		/*
-		 * Table columns
-		 */
-		TableColumn column1 = new TableColumn(propertiesTable, SWT.LEFT, 0);
-		column1.setText(COLUMN_NAMES [0]);
-		column1.setWidth(100);
-		TableColumn column2 = new TableColumn(propertiesTable, SWT.LEFT, 1);
-		column2.setText(COLUMN_NAMES[1]);
-		column2.setWidth(100);
-		TableColumn column3 = new TableColumn(propertiesTable, SWT.LEFT, 2);
-		column3.setText(COLUMN_NAMES[2]);
-		column3.setWidth(100);
-		propertiesTable.setLinesVisible(true);
-		propertiesTable.setHeaderVisible(true);
-		
-		/*
-		 * Cell editors 
-		 */
-		CellEditor[] editors = new CellEditor[COLUMN_NAMES.length];
-		editors[1] = new TextCellEditor(propertiesTable);
-		propertiesTableViewer.setCellEditors(editors);
-		propertiesTableViewer.setCellModifier( new PropertyCellModifier() );
-		
-		final FormData formData_4 = new FormData();
-		formData_4.top = new FormAttachment(0, 85);
-		formData_4.bottom = new FormAttachment(100, -33);
-		formData_4.left = new FormAttachment(propertiesLabel, 0, SWT.LEFT);
-		formData_4.right = new FormAttachment(100, -5);
-		propertiesTable.setLayoutData(formData_4);
-		propertiesTableViewer.setColumnProperties(COLUMN_NAMES);
+        list = accountsListViewer.getList();
 
-		accountTypeLabel = new Label(accountGroup, SWT.NONE);
-		final FormData formData_11 = new FormData();
-		formData_11.top = new FormAttachment(0, 23);
-		formData_11.bottom = new FormAttachment(0, 40);
-		formData_11.left = new FormAttachment(propertiesLabel, 0, SWT.LEFT);
-		accountTypeLabel.setLayoutData(formData_11);
-		accountTypeLabel.setText("Account Type:");
+        final FormData formData_2 = new FormData();
+        formData_2.bottom = new FormAttachment(0, 77);
+        formData_2.top = new FormAttachment(0, 60);
+        formData_2.right = new FormAttachment(0, 127);
+        formData_2.left = new FormAttachment(0, 50);
 
-		accountTypeText = new Text(accountGroup, SWT.BORDER);
-		accountTypeText.setEditable(false);
-		final FormData formData_12 = new FormData();
-		formData_12.right = new FormAttachment(100, -194);
-		formData_12.bottom = new FormAttachment(accountTypeLabel, 0, SWT.BOTTOM);
-		formData_12.left = new FormAttachment(accountTypeLabel, 5, SWT.RIGHT);
-		accountTypeText.setLayoutData(formData_12);
-		accountGroup.setTabList( new Control[] {propertiesLabel, propertiesTable, accountTypeLabel, accountTypeText} );
-		final FormData formData_1 = new FormData();
-		formData_1.right = new FormAttachment(accountGroup, -2, SWT.LEFT);
-		formData_1.left = new FormAttachment(0, 0);
-		formData_1.bottom = new FormAttachment(100, -39);
-		formData_1.top = new FormAttachment(0, 65);
-		list.setLayoutData(formData_1);
+        final FormData formData_3 = new FormData();
+        formData_3.left = new FormAttachment(0, 152);
+        formData_3.right = new FormAttachment(100, -295);
+        formData_3.top = new FormAttachment(0, 90);
 
-		addAccountButton = new Button(container, SWT.NONE);
-		addAccountButton.addSelectionListener(new SelectionAdapter() {
-			/*
-			 * ADD ACCOUNT
-			 */
-			public void widgetSelected(SelectionEvent e) {
-				
-				CreateAccountDialog dialog 
-					= new CreateAccountDialog( PlatformUI
-							                   .getWorkbench()
-							                   .getActiveWorkbenchWindow()
-							                   .getShell(), 
-						                       sandBoxUserContainer );
-				if(dialog.open() == Window.OK) {
-					
-					for( DummyAccount ac : model.dummyAccounts.values() ) {
-						if( ac.accountType.equals( dialog.getAccountType() ) ) {
-							MessageDialog.openInformation( 
-									PlatformUI
-									.getWorkbench()
-									.getActiveWorkbenchWindow()
-									.getShell(), 
-									"Account type already used", 
-									ALREADY_SUCH_AN_ACCOUNT );
-							return;
-						}
-					}
-					
-					DummyAccount d = new DummyAccount();
-					d.accountId   = dialog.getAccountName();
-					d.accountType = dialog.getAccountType();
-					for( Property property : d.accountType.getProperties() ) {
-						d.properties.put(property.getName(), "");
-					}
-					model.dummyAccounts.put(d.accountId, d);
-					refreshList();
-					accountTypeText.setText(d.accountType.toString());
-					int pos = 0;
-					for( String item : list.getItems() ) {
-						if(dialog.getAccountName().equals(item)) {
-							break;
-						}
-						pos++;	
-					}
-					list.select(pos);
-					refreshTable();
-					refreshOnSelectionChanged();
-				}
-			}
-			
-		});
-		final FormData formData_6 = new FormData();
-		formData_6.bottom = new FormAttachment(accountGroup, 0, SWT.BOTTOM);
-		formData_6.left = new FormAttachment(list, 0, SWT.LEFT);
-		addAccountButton.setLayoutData(formData_6);
-		addAccountButton.setText("Add account...");
+        final FormData formData_1_1 = new FormData();
+        formData_1_1.bottom = new FormAttachment(0, 117);
+        formData_1_1.top = new FormAttachment(0, 100);
 
-		deleteAccountButton = new Button(container, SWT.NONE);
-		deleteAccountButton.addSelectionListener(new SelectionAdapter() {
-			/*
-			 * DELETE ACCOUNT
-			 */
-			public void widgetSelected(SelectionEvent e) {
-				model.dummyAccounts.remove( 
-						accountsListViewer.getList().getSelection()[0] );
-				refreshList();
-				if(accountsListViewer.getList().getItemCount() > 0) {
-					accountsListViewer.getList().select(0);
-				}
-				refreshOnSelectionChanged();
-			}
-		});
-		final FormData formData_7 = new FormData();
-		formData_7.bottom = new FormAttachment(addAccountButton, 0, SWT.BOTTOM);
-		formData_7.right = new FormAttachment(accountGroup, -5, SWT.LEFT);
-		deleteAccountButton.setLayoutData(formData_7);
-		deleteAccountButton.setText("Delete account");
+        propertiesLabel = new Label(accountGroup, SWT.NONE);
+        final FormData formData_5 = new FormData();
+        formData_5.right = new FormAttachment(0, 79);
+        formData_5.left = new FormAttachment(0, 5);
+        propertiesLabel.setLayoutData(formData_5);
+        propertiesLabel.setText("Properties:");
 
-		changeKeyringUserButton = new Button(container, SWT.NONE);
-		changeKeyringUserButton.addSelectionListener(new SelectionAdapter() {
-			/*
-			 * CHANGE USER PASSWORD
-			 */
-			public void widgetSelected(SelectionEvent e) {
-				ChangePasswordDialog dialog = 
-					new ChangePasswordDialog( PlatformUI
-							                  .getWorkbench()
-							                  .getActiveWorkbenchWindow()
-							                  .getShell() );
-				if(dialog.open() == Window.OK) {
-					sandBoxUserContainer.changePassword( dialog.getOldPassword(), 
-							                        dialog.getNewPassword() );
-				}
-			}
-		});
-		final FormData formData_8 = new FormData();
-		formData_8.top = new FormAttachment(0, 21);
-		formData_8.left = new FormAttachment(0, 33);
-		changeKeyringUserButton.setLayoutData(formData_8);
-		changeKeyringUserButton.setText("Change Keyring User Password");
-		container.setTabList(new Control[] { changeKeyringUserButton, 
-				                             addAccountButton, 
-				                             deleteAccountButton, 
-				                             accountGroup, 
-				                             list } );
+        propertiesTableViewer = new TableViewer(accountGroup, SWT.BORDER);
+        propertiesTableViewer.setLabelProvider(new TableLabelProvider());
+        propertiesTableViewer.setContentProvider(new TableContentProvider());
+        propertiesTable = propertiesTableViewer.getTable();
+        formData_5.top = new FormAttachment(propertiesTable, -25, SWT.TOP);
+        formData_5.bottom = new FormAttachment(propertiesTable, -5, SWT.TOP);
 
-		return container;
-	}
+        /*
+         * Table columns
+         */
+        TableColumn column1 = new TableColumn(propertiesTable, SWT.LEFT, 0);
+        column1.setText(COLUMN_NAMES [0]);
+        column1.setWidth(100);
+        TableColumn column2 = new TableColumn(propertiesTable, SWT.LEFT, 1);
+        column2.setText(COLUMN_NAMES[1]);
+        column2.setWidth(100);
+        TableColumn column3 = new TableColumn(propertiesTable, SWT.LEFT, 2);
+        column3.setText(COLUMN_NAMES[2]);
+        column3.setWidth(100);
+        propertiesTable.setLinesVisible(true);
+        propertiesTable.setHeaderVisible(true);
 
-	/**
-	 * Create contents of the button bar
-	 * @param parent
-	 */
-	@Override
-	protected void createButtonsForButtonBar(Composite parent) {
-		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
-				true);
-		createButton(parent, IDialogConstants.CANCEL_ID,
-				IDialogConstants.CANCEL_LABEL, false);
-	}
+        /*
+         * Cell editors
+         */
+        CellEditor[] editors = new CellEditor[COLUMN_NAMES.length];
+        editors[1] = new TextCellEditor(propertiesTable);
+        propertiesTableViewer.setCellEditors(editors);
+        propertiesTableViewer.setCellModifier( new PropertyCellModifier() );
 
-	/**
-	 * Return the initial size of the dialog
-	 */
-	@Override
-	protected Point getInitialSize() {
-		return new Point(985, 625);
-	}
-	
-	protected void configureShell(Shell newShell) {
-		super.configureShell(newShell);
-		newShell.setText("Keyring User Properties");
-	}
-	
-	private void refreshList() {
-		
-		accountsListViewer.setInput( model.dummyAccounts.keySet() );
-	}
-	
-	private void refreshTable() {
-		if( list.getSelection().length > 0 ) {
-			propertiesTableViewer.refresh();
-		}
-	}
-	
-	private void refreshOnSelectionChanged() {
+        final FormData formData_4 = new FormData();
+        formData_4.top = new FormAttachment(0, 85);
+        formData_4.bottom = new FormAttachment(100, -33);
+        formData_4.left = new FormAttachment(propertiesLabel, 0, SWT.LEFT);
+        formData_4.right = new FormAttachment(100, -5);
+        propertiesTable.setLayoutData(formData_4);
+        propertiesTableViewer.setColumnProperties(COLUMN_NAMES);
 
-		String selectedAccountId
-			= accountsListViewer.getList().getSelection()[0];
-		accountTypeText.setText(
-				model.dummyAccounts.get( selectedAccountId)
-				                         .accountType.toString() );
-		propertiesTableViewer.setInput( 
-				model.dummyAccounts.get(selectedAccountId) );
-	}
+        accountTypeLabel = new Label(accountGroup, SWT.NONE);
+        final FormData formData_11 = new FormData();
+        formData_11.top = new FormAttachment(0, 23);
+        formData_11.bottom = new FormAttachment(0, 40);
+        formData_11.left = new FormAttachment(propertiesLabel, 0, SWT.LEFT);
+        accountTypeLabel.setLayoutData(formData_11);
+        accountTypeLabel.setText("Account Type:");
 
-	protected void buttonPressed(int buttonId) {
-		if (buttonId == IDialogConstants.OK_ID) {
-			
-			// We need to move focus away from any open editors before we
-			// check if the dialog is completed, so we do this. Doesn't matter
-			// what we move focus to, really.
-			addAccountButton.setFocus();
-			
-			if( !dialogInputIsComplete() ) {
-				MessageDialog.openInformation( PlatformUI
-						                       .getWorkbench()
-						                       .getActiveWorkbenchWindow()
-						                       .getShell(), 
-						                       "Not complete", 
-						                       FILL_IN_REQUIRED);
-				return;
-			}
-			saveDummyAccountToSandBoxUserManager();
-		}
-//		UserContainer.fireUpdate();
-		super.buttonPressed(buttonId);
-	}
+        accountTypeText = new Text(accountGroup, SWT.BORDER);
+        accountTypeText.setEditable(false);
+        final FormData formData_12 = new FormData();
+        formData_12.right = new FormAttachment(100, -194);
+        formData_12.bottom = new FormAttachment(accountTypeLabel, 0, SWT.BOTTOM);
+        formData_12.left = new FormAttachment(accountTypeLabel, 5, SWT.RIGHT);
+        accountTypeText.setLayoutData(formData_12);
+        accountGroup.setTabList( new Control[] {propertiesLabel, propertiesTable, accountTypeLabel, accountTypeText} );
+        final FormData formData_1 = new FormData();
+        formData_1.right = new FormAttachment(accountGroup, -2, SWT.LEFT);
+        formData_1.left = new FormAttachment(0, 0);
+        formData_1.bottom = new FormAttachment(100, -39);
+        formData_1.top = new FormAttachment(0, 65);
+        list.setLayoutData(formData_1);
 
-	private void saveDummyAccountToSandBoxUserManager() {
-		
-		sandBoxUserContainer.clearAccounts();
-		
-		for( DummyAccount dm : model.dummyAccounts.values() ) {
-			sandBoxUserContainer.createAccount( dm.accountId, 
-					                          dm.properties,
-					                          dm.accountType );
-		}
-	}
-	
-	private boolean dialogInputIsComplete() {
+        addAccountButton = new Button(container, SWT.NONE);
+        addAccountButton.addSelectionListener(new SelectionAdapter() {
+            /*
+             * ADD ACCOUNT
+             */
+            public void widgetSelected(SelectionEvent e) {
 
-		for(DummyAccount dm : model.dummyAccounts.values() ) {
-			for( Property p : dm.accountType.getRequiredProperties() ) {
-				if( dm.properties.get( p.getName() ).equals("") ) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-	
-	/**
-	 * Label provider for the accounts list
-	 * 
-	 * @author jonathan
-	 *
-	 */
-	class ListLabelProvider extends LabelProvider {
-		public String getText(Object element) {
-			return element.toString();
-		}
-		public Image getImage(Object element) {
-			return null;
-		}
-	}
-	
-	/**
-	 * Content provider for the accounts list
-	 * 
-	 * @author jonathan
-	 *
-	 */
-	class ListContentProvider implements IStructuredContentProvider {
-		public Object[] getElements(Object inputElement) {
-			return ( (Set<?>)inputElement ).toArray();
-		}
-		public void dispose() {
-		}
-		public void inputChanged( Viewer viewer, 
-				                  Object oldInput, 
-				                  Object newInput ) {
-		}
-	}
-	
-	/**
-	 * Sorter for the accounts list 
-	 * 
-	 * @author jonathan
-	 *
-	 */
-	class Sorter extends ViewerSorter {
-		public int compare(Viewer viewer, Object e1, Object e2) {
-			return e1.toString().compareTo(e2.toString());
-		}
-	}
-	
-	/**
-	 * Content provider for the properties table 
-	 * 
-	 * @author jonathan
-	 *
-	 */
-	class TableContentProvider implements IStructuredContentProvider {
-		public Object[] getElements(Object inputElement) {
-			DummyAccount dm = (DummyAccount)inputElement;
-			HashMap<String, String> properties 
-				= (HashMap<String, String>)dm.properties;
-			ArrayList<ArrayList<String>> rows
-				= new ArrayList<ArrayList<String>>();
-			for( String key : properties.keySet() ) {
-				ArrayList<String> row = new ArrayList<String>();
-				row.add(key);
-				row.add(properties.get(key));
-				row.add(dm.accountType.getProperty(key).isRequired()+"");
-				rows.add(row);
-			}
-			return rows.toArray();
-		}
-		public void dispose() {
-		}
-		public void inputChanged( Viewer viewer, 
-				                  Object oldInput, 
-				                  Object newInput ) {
-		}
-	}
-	
-	/**
-	 * Label provider for the properties table 
-	 * 
-	 * @author jonathan
-	 *
-	 */
-	class TableLabelProvider extends LabelProvider 
-	                         implements ITableLabelProvider {
-		public String getColumnText(Object element, int columnIndex) {
-			return ( (ArrayList<?>)element ).get(columnIndex).toString();
-		}
-		public Image getColumnImage(Object element, int columnIndex) {
-			return null;
-		}
-	}	
-	
-	/**
-	 * Cell modifier for the properties table
-	 * 
-	 * @author jonathan
-	 *
-	 */
-	class PropertyCellModifier implements ICellModifier {
+                CreateAccountDialog dialog
+                    = new CreateAccountDialog( PlatformUI
+                                               .getWorkbench()
+                                               .getActiveWorkbenchWindow()
+                                               .getShell(),
+                                               sandBoxUserContainer );
+                if(dialog.open() == Window.OK) {
 
-		public boolean canModify(Object element, String property) {
-			
-			int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
-			if( columnIndex == 1) {
-				return true;
-			}
-			return false;
-		}
+                    for( DummyAccount ac : model.dummyAccounts.values() ) {
+                        if( ac.accountType.equals( dialog.getAccountType() ) ) {
+                            MessageDialog.openInformation(
+                                    PlatformUI
+                                    .getWorkbench()
+                                    .getActiveWorkbenchWindow()
+                                    .getShell(),
+                                    "Account type already used",
+                                    ALREADY_SUCH_AN_ACCOUNT );
+                            return;
+                        }
+                    }
 
-		public Object getValue(Object element, String property) {
-			
-			int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
-			ArrayList<?> row = (ArrayList<?>)element;
-			
-			return row.get(columnIndex).toString();
-		}
+                    DummyAccount d = new DummyAccount();
+                    d.accountId   = dialog.getAccountName();
+                    d.accountType = dialog.getAccountType();
+                    for( Property property : d.accountType.getProperties() ) {
+                        d.properties.put(property.getName(), "");
+                    }
+                    model.dummyAccounts.put(d.accountId, d);
+                    refreshList();
+                    accountTypeText.setText(d.accountType.toString());
+                    int pos = 0;
+                    for( String item : list.getItems() ) {
+                        if(dialog.getAccountName().equals(item)) {
+                            break;
+                        }
+                        pos++;
+                    }
+                    list.select(pos);
+                    refreshTable();
+                    refreshOnSelectionChanged();
+                }
+            }
 
-		public void modify(Object element, String property, Object value) {
-			
-			int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
-			if(element instanceof Item) {
-				element = ((Item) element).getData();
-			}
-			ArrayList<?> row = (ArrayList<?>)element;
-			
-			switch (columnIndex) {
-			case 0:
-				break;
-	
-			case 1:
-				model.dummyAccounts.get(
-						accountsListViewer.getList().getSelection()[0] ).
-						properties.put( (String)row.get(0), (String)value);
-				refreshTable();
-				break;
-			default:
-				break;
-			}
-		}
-	}
-	
-	/**
-	 * Data holder for the edit super user dialog that can be thrown away if 
-	 * canceled, or stored if "Ok" is pressed.
-	 * 
-	 * @author jonathan
-	 *
-	 */
-	class EditUserDialogModel {
-		
-		HashMap<String, DummyAccount> dummyAccounts 
-			= new HashMap<String, DummyAccount>();
-		
-		public EditUserDialogModel(UserContainer userContainer) {
-			
-			for ( String accountId : userContainer
-					                 .getLoggedInUsersAccountNames() ) {
-				
-				DummyAccount d = new DummyAccount();
-				d.accountId    = accountId;
-				d.accountType  = userContainer.getAccountType(accountId);
-				
-				for( String property : userContainer
-						               .getPropertyKeys(accountId) ) {
-					/*
-					 * getProperty decrypts the property value
-					 */
-					d.properties.put(property, userContainer
-							                   .getProperty( accountId, 
-							                		         property ));
-				}
-				dummyAccounts.put(d.accountId, d);
-			}
-		}
-	}
-	
-	/**
-	 * Simple data storing class representing an account.
-	 * 
-	 * @author jonathan
-	 *
-	 */
-	class DummyAccount {
-		
-		String accountId = "";
-		AccountType accountType;
-		
-		HashMap<String, String> properties = new HashMap<String, String>();
-	}
+        });
+        final FormData formData_6 = new FormData();
+        formData_6.bottom = new FormAttachment(accountGroup, 0, SWT.BOTTOM);
+        formData_6.left = new FormAttachment(list, 0, SWT.LEFT);
+        addAccountButton.setLayoutData(formData_6);
+        addAccountButton.setText("Add account...");
+
+        deleteAccountButton = new Button(container, SWT.NONE);
+        deleteAccountButton.addSelectionListener(new SelectionAdapter() {
+            /*
+             * DELETE ACCOUNT
+             */
+            public void widgetSelected(SelectionEvent e) {
+                model.dummyAccounts.remove(
+                        accountsListViewer.getList().getSelection()[0] );
+                refreshList();
+                if(accountsListViewer.getList().getItemCount() > 0) {
+                    accountsListViewer.getList().select(0);
+                }
+                refreshOnSelectionChanged();
+            }
+        });
+        final FormData formData_7 = new FormData();
+        formData_7.bottom = new FormAttachment(addAccountButton, 0, SWT.BOTTOM);
+        formData_7.right = new FormAttachment(accountGroup, -5, SWT.LEFT);
+        deleteAccountButton.setLayoutData(formData_7);
+        deleteAccountButton.setText("Delete account");
+
+        changeKeyringUserButton = new Button(container, SWT.NONE);
+        changeKeyringUserButton.addSelectionListener(new SelectionAdapter() {
+            /*
+             * CHANGE USER PASSWORD
+             */
+            public void widgetSelected(SelectionEvent e) {
+                ChangePasswordDialog dialog =
+                    new ChangePasswordDialog( PlatformUI
+                                              .getWorkbench()
+                                              .getActiveWorkbenchWindow()
+                                              .getShell() );
+                if(dialog.open() == Window.OK) {
+                    sandBoxUserContainer.changePassword( dialog.getOldPassword(),
+                                                    dialog.getNewPassword() );
+                }
+            }
+        });
+        final FormData formData_8 = new FormData();
+        formData_8.top = new FormAttachment(0, 21);
+        formData_8.left = new FormAttachment(0, 33);
+        changeKeyringUserButton.setLayoutData(formData_8);
+        changeKeyringUserButton.setText("Change Keyring User Password");
+        container.setTabList(new Control[] { changeKeyringUserButton,
+                                             addAccountButton,
+                                             deleteAccountButton,
+                                             accountGroup,
+                                             list } );
+
+        return container;
+    }
+
+    /**
+     * Create contents of the button bar
+     * @param parent
+     */
+    @Override
+    protected void createButtonsForButtonBar(Composite parent) {
+        createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
+                true);
+        createButton(parent, IDialogConstants.CANCEL_ID,
+                IDialogConstants.CANCEL_LABEL, false);
+    }
+
+    /**
+     * Return the initial size of the dialog
+     */
+    @Override
+    protected Point getInitialSize() {
+        return new Point(985, 625);
+    }
+
+    protected void configureShell(Shell newShell) {
+        super.configureShell(newShell);
+        newShell.setText("Keyring User Properties");
+    }
+
+    private void refreshList() {
+
+        accountsListViewer.setInput( model.dummyAccounts.keySet() );
+    }
+
+    private void refreshTable() {
+        if( list.getSelection().length > 0 ) {
+            propertiesTableViewer.refresh();
+        }
+    }
+
+    private void refreshOnSelectionChanged() {
+
+        String selectedAccountId
+            = accountsListViewer.getList().getSelection()[0];
+        accountTypeText.setText(
+                model.dummyAccounts.get( selectedAccountId)
+                                         .accountType.toString() );
+        propertiesTableViewer.setInput(
+                model.dummyAccounts.get(selectedAccountId) );
+    }
+
+    protected void buttonPressed(int buttonId) {
+        if (buttonId == IDialogConstants.OK_ID) {
+
+            // We need to move focus away from any open editors before we
+            // check if the dialog is completed, so we do this. Doesn't matter
+            // what we move focus to, really.
+            addAccountButton.setFocus();
+
+            if( !dialogInputIsComplete() ) {
+                MessageDialog.openInformation( PlatformUI
+                                               .getWorkbench()
+                                               .getActiveWorkbenchWindow()
+                                               .getShell(),
+                                               "Not complete",
+                                               FILL_IN_REQUIRED);
+                return;
+            }
+            saveDummyAccountToSandBoxUserManager();
+        }
+//        UserContainer.fireUpdate();
+        super.buttonPressed(buttonId);
+    }
+
+    private void saveDummyAccountToSandBoxUserManager() {
+
+        sandBoxUserContainer.clearAccounts();
+
+        for( DummyAccount dm : model.dummyAccounts.values() ) {
+            sandBoxUserContainer.createAccount( dm.accountId,
+                                              dm.properties,
+                                              dm.accountType );
+        }
+    }
+
+    private boolean dialogInputIsComplete() {
+
+        for(DummyAccount dm : model.dummyAccounts.values() ) {
+            for( Property p : dm.accountType.getRequiredProperties() ) {
+                if( dm.properties.get( p.getName() ).equals("") ) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Label provider for the accounts list
+     *
+     * @author jonathan
+     *
+     */
+    class ListLabelProvider extends LabelProvider {
+        public String getText(Object element) {
+            return element.toString();
+        }
+        public Image getImage(Object element) {
+            return null;
+        }
+    }
+
+    /**
+     * Content provider for the accounts list
+     *
+     * @author jonathan
+     *
+     */
+    class ListContentProvider implements IStructuredContentProvider {
+        public Object[] getElements(Object inputElement) {
+            return ( (Set<?>)inputElement ).toArray();
+        }
+        public void dispose() {
+        }
+        public void inputChanged( Viewer viewer,
+                                  Object oldInput,
+                                  Object newInput ) {
+        }
+    }
+
+    /**
+     * Sorter for the accounts list
+     *
+     * @author jonathan
+     *
+     */
+    class Sorter extends ViewerSorter {
+        public int compare(Viewer viewer, Object e1, Object e2) {
+            return e1.toString().compareTo(e2.toString());
+        }
+    }
+
+    /**
+     * Content provider for the properties table
+     *
+     * @author jonathan
+     *
+     */
+    class TableContentProvider implements IStructuredContentProvider {
+        public Object[] getElements(Object inputElement) {
+            DummyAccount dm = (DummyAccount)inputElement;
+            HashMap<String, String> properties
+                = (HashMap<String, String>)dm.properties;
+            ArrayList<ArrayList<String>> rows
+                = new ArrayList<ArrayList<String>>();
+            for( String key : properties.keySet() ) {
+                ArrayList<String> row = new ArrayList<String>();
+                row.add(key);
+                row.add(properties.get(key));
+                row.add(dm.accountType.getProperty(key).isRequired()+"");
+                rows.add(row);
+            }
+            return rows.toArray();
+        }
+        public void dispose() {
+        }
+        public void inputChanged( Viewer viewer,
+                                  Object oldInput,
+                                  Object newInput ) {
+        }
+    }
+
+    /**
+     * Label provider for the properties table
+     *
+     * @author jonathan
+     *
+     */
+    class TableLabelProvider extends LabelProvider
+                             implements ITableLabelProvider {
+        public String getColumnText(Object element, int columnIndex) {
+            return ( (ArrayList<?>)element ).get(columnIndex).toString();
+        }
+        public Image getColumnImage(Object element, int columnIndex) {
+            return null;
+        }
+    }
+
+    /**
+     * Cell modifier for the properties table
+     *
+     * @author jonathan
+     *
+     */
+    class PropertyCellModifier implements ICellModifier {
+
+        public boolean canModify(Object element, String property) {
+
+            int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
+            if( columnIndex == 1) {
+                return true;
+            }
+            return false;
+        }
+
+        public Object getValue(Object element, String property) {
+
+            int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
+            ArrayList<?> row = (ArrayList<?>)element;
+
+            return row.get(columnIndex).toString();
+        }
+
+        public void modify(Object element, String property, Object value) {
+
+            int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
+            if(element instanceof Item) {
+                element = ((Item) element).getData();
+            }
+            ArrayList<?> row = (ArrayList<?>)element;
+
+            switch (columnIndex) {
+            case 0:
+                break;
+
+            case 1:
+                model.dummyAccounts.get(
+                        accountsListViewer.getList().getSelection()[0] ).
+                        properties.put( (String)row.get(0), (String)value);
+                refreshTable();
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
+    /**
+     * Data holder for the edit super user dialog that can be thrown away if
+     * canceled, or stored if "Ok" is pressed.
+     *
+     * @author jonathan
+     *
+     */
+    class EditUserDialogModel {
+
+        HashMap<String, DummyAccount> dummyAccounts
+            = new HashMap<String, DummyAccount>();
+
+        public EditUserDialogModel(UserContainer userContainer) {
+
+            for ( String accountId : userContainer
+                                     .getLoggedInUsersAccountNames() ) {
+
+                DummyAccount d = new DummyAccount();
+                d.accountId    = accountId;
+                d.accountType  = userContainer.getAccountType(accountId);
+
+                for( String property : userContainer
+                                       .getPropertyKeys(accountId) ) {
+                    /*
+                     * getProperty decrypts the property value
+                     */
+                    d.properties.put(property, userContainer
+                                               .getProperty( accountId,
+                                                             property ));
+                }
+                dummyAccounts.put(d.accountId, d);
+            }
+        }
+    }
+
+    /**
+     * Simple data storing class representing an account.
+     *
+     * @author jonathan
+     *
+     */
+    class DummyAccount {
+
+        String accountId = "";
+        AccountType accountType;
+
+        HashMap<String, String> properties = new HashMap<String, String>();
+    }
 }

@@ -17,12 +17,12 @@ package net.bioclipse.recording;
  */
 public interface IScriptGenerator {
 
-	/**
-	 * Generates a script from the given records
-	 * 
-	 * @param records
-	 * @return the script commands
-	 */
-	public String[] generateScript(IRecord[] records);
+    /**
+     * Generates a script from the given records
+     * 
+     * @param records
+     * @return the script commands
+     */
+    public String[] generateScript(IRecord[] records);
 
 }

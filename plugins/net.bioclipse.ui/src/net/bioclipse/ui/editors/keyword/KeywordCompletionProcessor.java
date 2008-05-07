@@ -24,103 +24,103 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
  */
 public class KeywordCompletionProcessor implements IContentAssistProcessor {
 
-	
-	
-	/* (non-Javadoc)
-	 * Method declared on IContentAssistProcessor
-	 */
-	public ICompletionProposal[] computeCompletionProposals(
-		ITextViewer viewer,
-		int documentOffset) {
+    
+    
+    /* (non-Javadoc)
+     * Method declared on IContentAssistProcessor
+     */
+    public ICompletionProposal[] computeCompletionProposals(
+        ITextViewer viewer,
+        int documentOffset) {
 
         WordPartDetector wordPart = new WordPartDetector(viewer, documentOffset);
 
 //        logger.debug("Wordpart: " + wordPart.getString());
-		
+        
 /*
-			int myOffset;
-			int sublen=10;
-			if (documentOffset-10<0){
-				myOffset=0;
-				sublen=documentOffset;
-			}
-			else
-				myOffset=documentOffset-10;
+            int myOffset;
+            int sublen=10;
+            if (documentOffset-10<0){
+                myOffset=0;
+                sublen=documentOffset;
+            }
+            else
+                myOffset=documentOffset-10;
 
-			String startStr = viewer.getDocument().get(myOffset,sublen);
-//			logger.debug("s: " + startStr);
-	
-			int myLastIndex;
-			if (startStr.lastIndexOf(" ") < startStr.lastIndexOf("\n"))
-				myLastIndex=startStr.lastIndexOf("\n");
-			else
-				myLastIndex=startStr.lastIndexOf(" ");
+            String startStr = viewer.getDocument().get(myOffset,sublen);
+//            logger.debug("s: " + startStr);
+    
+            int myLastIndex;
+            if (startStr.lastIndexOf(" ") < startStr.lastIndexOf("\n"))
+                myLastIndex=startStr.lastIndexOf("\n");
+            else
+                myLastIndex=startStr.lastIndexOf(" ");
 
-			String searchStr=startStr.substring(myLastIndex+1);
-			
-//			logger.debug("To validate against: " + searchStr);
+            String searchStr=startStr.substring(myLastIndex+1);
+            
+//            logger.debug("To validate against: " + searchStr);
 
-			*/
+            */
 
         //Look up all that starts with this startStr
-			String[] lookedUp=KeywordEditor.lookUpNames(wordPart.getString());
+            String[] lookedUp=KeywordEditor.lookUpNames(wordPart.getString());
 
-			ICompletionProposal[] result =
-				new ICompletionProposal[lookedUp.length];
+            ICompletionProposal[] result =
+                new ICompletionProposal[lookedUp.length];
 
-			for (int i = 0; i < lookedUp.length; i++) {
-				result[i] = new CompletionProposal(lookedUp[i], 
-								documentOffset-wordPart.getString().length(), 
-								wordPart.getString().length(), 
-								lookedUp[i].length());
-			}
-			return result;
-			
-	}
+            for (int i = 0; i < lookedUp.length; i++) {
+                result[i] = new CompletionProposal(lookedUp[i], 
+                                documentOffset-wordPart.getString().length(), 
+                                wordPart.getString().length(), 
+                                lookedUp[i].length());
+            }
+            return result;
+            
+    }
 
-	/* (non-Javadoc)
-	 * Method declared on IContentAssistProcessor
-	 */
-	public char[] getCompletionProposalAutoActivationCharacters() {
-		return new char[] { '\n', ' ' };
-//		return null;
-	}
+    /* (non-Javadoc)
+     * Method declared on IContentAssistProcessor
+     */
+    public char[] getCompletionProposalAutoActivationCharacters() {
+        return new char[] { '\n', ' ' };
+//        return null;
+    }
 
-	/* (non-Javadoc)
-	 * Method declared on IContentAssistProcessor
-	 */
-	public char[] getContextInformationAutoActivationCharacters() {
-		return null;
-	}
+    /* (non-Javadoc)
+     * Method declared on IContentAssistProcessor
+     */
+    public char[] getContextInformationAutoActivationCharacters() {
+        return null;
+    }
 
-	// For Context information 
-	/* (non-Javadoc)
-	 * Method declared on IContentAssistProcessor
-	 */
-	public IContextInformationValidator getContextInformationValidator() {
-		return null;
-	}
+    // For Context information 
+    /* (non-Javadoc)
+     * Method declared on IContentAssistProcessor
+     */
+    public IContextInformationValidator getContextInformationValidator() {
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * Method declared on IContentAssistProcessor
-	 */
-	public IContextInformation[] computeContextInformation(
-		ITextViewer viewer,
-		int documentOffset) {
+    /* (non-Javadoc)
+     * Method declared on IContentAssistProcessor
+     */
+    public IContextInformation[] computeContextInformation(
+        ITextViewer viewer,
+        int documentOffset) {
 
-//		IContextInformation[] ci=new ContextInformation[1];
-//		ci[0]=new ContextInformation("ola","ola");
-//		return ci;
+//        IContextInformation[] ci=new ContextInformation[1];
+//        ci[0]=new ContextInformation("ola","ola");
+//        return ci;
 
-		return null;
-	
-	}
+        return null;
+    
+    }
 
-	
-	/* (non-Javadoc)
-	 * Method declared on IContentAssistProcessor
-	 */
-	public String getErrorMessage() {
-		return null;
-	}
+    
+    /* (non-Javadoc)
+     * Method declared on IContentAssistProcessor
+     */
+    public String getErrorMessage() {
+        return null;
+    }
 }

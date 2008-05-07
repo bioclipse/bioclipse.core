@@ -28,48 +28,48 @@ import org.eclipse.ui.views.properties.IPropertySource;
  */
 public abstract class BioObject implements IBioObject {
 
-	/**
-	 * An as-good-as-unique ID.
-	 */
-	private final String uid = UUID.randomUUID().toString();
+    /**
+     * An as-good-as-unique ID.
+     */
+    private final String uid = UUID.randomUUID().toString();
 
-	/**
-	 * The underlying IResource, may be null
-	 */
-	private IResource resource;
+    /**
+     * The underlying IResource, may be null
+     */
+    private IResource resource;
 
-	/**
-	 * The PropertySource available as adapter
-	 */
-	private IPropertySource propertySource;
-	
-	public BioObject() {
-		
-	}
-	
-	/**
-	 * Returns this the ID of this <code>BioObject</code>.
-	 */
-	public String getUID() {
-		return uid;
-	}
+    /**
+     * The PropertySource available as adapter
+     */
+    private IPropertySource propertySource;
+    
+    public BioObject() {
+        
+    }
+    
+    /**
+     * Returns this the ID of this <code>BioObject</code>.
+     */
+    public String getUID() {
+        return uid;
+    }
 
-	/**
-	 * Returns the resource behind this <code>BioObject</code>, or
-	 * <code>null</code> if no such resource exists.
-	 */
-	public IResource getResource() {
-		return resource;
-	}
+    /**
+     * Returns the resource behind this <code>BioObject</code>, or
+     * <code>null</code> if no such resource exists.
+     */
+    public IResource getResource() {
+        return resource;
+    }
 
-	/**
-	 * Basic properties. Should be overridden by subclasses.
-	 */
-	public Object getAdapter(Class adapter) {
-		if (adapter == IPropertySource.class){
-			return propertySource!=null 
-				? propertySource : new BioObjectPropertySource(this);
-		}
-		return null;
-	}
+    /**
+     * Basic properties. Should be overridden by subclasses.
+     */
+    public Object getAdapter(Class adapter) {
+        if (adapter == IPropertySource.class){
+            return propertySource!=null 
+                ? propertySource : new BioObjectPropertySource(this);
+        }
+        return null;
+    }
 }
