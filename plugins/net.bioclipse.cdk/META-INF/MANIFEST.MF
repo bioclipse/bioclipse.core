@@ -167,5 +167,5 @@ Bundle-ClassPath: .,
  jar/vecmath1.2-1.14.jar,
  jar/xom-1.1.jar,
  jar/jama-1.0.2.jar,
- jar/kxml2-2.3.0.jar
+ jar/xpp3-1.1.4c.jar
 Import-Package: org.apache.log4j
