@@ -22,11 +22,20 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Stack;
 
+import org.eclipse.ui.views.properties.IPropertySource;
+
 import net.bioclipse.core.Recorded;
+import net.bioclipse.core.domain.props.BioListPropertySource;
+import net.bioclipse.core.domain.props.BioObjectPropertySource;
 
 public class BioList<T extends IBioObject> extends BioObject 
                                            implements List<T> {
-	
+
+	/**
+	 * The PropertySource available as adapter
+	 */
+	private IPropertySource propertySource;
+
 	//<bioList.id, list of bioObjects in that biolist>
 	private static Map<String, List<String>> createdLists 
 		 = new HashMap<String, List<String>>();
@@ -243,9 +252,13 @@ public class BioList<T extends IBioObject> extends BioObject
 	}
 
 	/**
-	 * For properties
+	 * Basic properties. Should be overridden by subclasses.
 	 */
 	public Object getAdapter(Class adapter) {
+		if (adapter == IPropertySource.class){
+			return propertySource!=null 
+				? propertySource : new BioListPropertySource(this);
+		}
 		return null;
 	}
 }

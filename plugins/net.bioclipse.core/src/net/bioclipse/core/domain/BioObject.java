@@ -14,13 +14,16 @@ package net.bioclipse.core.domain;
 
 import java.util.UUID;
 
+import net.bioclipse.core.domain.props.BioObjectPropertySource;
+
 import org.eclipse.core.resources.IResource;
+import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
  * Base implementation of the <code>IBioObject</Code> interface which is 
  * meant to be extended.
  * 
- * @author jonalv
+ * @author jonalv, ola
  *
  */
 public abstract class BioObject implements IBioObject {
@@ -29,8 +32,16 @@ public abstract class BioObject implements IBioObject {
 	 * An as-good-as-unique ID.
 	 */
 	private final String uid = UUID.randomUUID().toString();
-	
+
+	/**
+	 * The underlying IResource, may be null
+	 */
 	private IResource resource;
+
+	/**
+	 * The PropertySource available as adapter
+	 */
+	private IPropertySource propertySource;
 	
 	public BioObject() {
 		
@@ -49,5 +60,16 @@ public abstract class BioObject implements IBioObject {
 	 */
 	public IResource getResource() {
 		return resource;
+	}
+
+	/**
+	 * Basic properties. Should be overridden by subclasses.
+	 */
+	public Object getAdapter(Class adapter) {
+		if (adapter == IPropertySource.class){
+			return propertySource!=null 
+				? propertySource : new BioObjectPropertySource(this);
+		}
+		return null;
 	}
 }

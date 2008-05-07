@@ -21,10 +21,5 @@ public class SmilesMolecule extends BioObject implements IMolecule {
 	public boolean has3dCoords() {
 		return false;
 	}
-
-	public Object getAdapter(Class adapter) {
-		return null;
-	}
-
 	
 }

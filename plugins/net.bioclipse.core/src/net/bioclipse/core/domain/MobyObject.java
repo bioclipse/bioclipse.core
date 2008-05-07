@@ -37,8 +37,4 @@ public class MobyObject extends BioObject{
 		this.namespace = namespace;
 	}
 
-	public Object getAdapter(Class adapter) {
-		return null;
-	}
-
 }
