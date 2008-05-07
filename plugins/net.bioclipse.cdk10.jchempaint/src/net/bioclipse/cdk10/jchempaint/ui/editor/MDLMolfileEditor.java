@@ -38,7 +38,6 @@ public class MDLMolfileEditor extends MultiPageEditorPart
 		return undoContext;
 	}
 
-	@Override
 	public void init(IEditorSite site, IEditorInput input)
 			throws PartInitException {
 		super.init(site, input);
@@ -62,7 +61,6 @@ public class MDLMolfileEditor extends MultiPageEditorPart
 	/**
 	 * Create JCP on page 1 and texteditor on page2
 	 */
-	@Override
 	protected void createPages() {
 		
 		jcpPage=new JCPPage();
@@ -80,7 +78,6 @@ public class MDLMolfileEditor extends MultiPageEditorPart
 		
 	}
 
-	@Override
 	public void doSave(IProgressMonitor monitor) {
 		
 		//Synch from JCP to texteditor
@@ -91,7 +88,6 @@ public class MDLMolfileEditor extends MultiPageEditorPart
 		
 	}
 
-	@Override
 	public void doSaveAs() {
 		//Synch from JCP to texteditor
 		//TODO
@@ -100,7 +96,6 @@ public class MDLMolfileEditor extends MultiPageEditorPart
 		textEditor.doSaveAs();
 	}
 
-	@Override
 	public boolean isSaveAsAllowed() {
 
 		//TODO: not implemented yet
@@ -113,12 +108,10 @@ public class MDLMolfileEditor extends MultiPageEditorPart
 		
 	}
 	
-	@Override
 	public void setFocus() {
 		super.setFocus();
 	}
 	
-	@Override
 	public Object getAdapter(Class adapter) {
 		
 		if (IContentOutlinePage.class.equals(adapter)) {
@@ -130,6 +123,7 @@ public class MDLMolfileEditor extends MultiPageEditorPart
 		
 		
 		return super.getAdapter(adapter);
+	}
 
 	public void setContributor(JCPMultiPageEditorContributor multiPageEditorContributor) {
 		this.contributor = multiPageEditorContributor;
