@@ -125,7 +125,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
                     // of pastes. This leads to the preconditions not being
                     // upheld for currentCommand(). Here we try to save those
                     // preconditions.
-                    while (!lastLineIsCommandLine())
+                    while ( !lastLineIsCommandLine() ) {
                         text.setText(
                                 text.getText().substring(
                                         0,
@@ -135,6 +135,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
                                         text.getText().lastIndexOf('\n') + 1
                                 )
                         );
+                    }
                     
                     String command = currentCommand().trim();
                     text.append( "\n" );
@@ -555,7 +556,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
      * Makes the visible part of the text widget show the cursor.
      */
     private void scrollDownToPrompt() {
-        text.update();
+        text.redraw();
         text.showSelection();
     }
 
