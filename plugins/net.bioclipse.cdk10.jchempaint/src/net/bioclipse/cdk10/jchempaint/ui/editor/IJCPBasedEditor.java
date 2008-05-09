@@ -18,5 +18,6 @@ public interface IJCPBasedEditor {
 
     public JCPComposite getJcpComposite();
     
+    public JCPPage getJCPPage();
     
 }

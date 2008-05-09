@@ -129,4 +129,8 @@ public class MDLMolfileEditor extends MultiPageEditorPart
         this.contributor = multiPageEditorContributor;
     }
 
+    public JCPPage getJCPPage() {
+        return jcpPage;
+    }
+
 }

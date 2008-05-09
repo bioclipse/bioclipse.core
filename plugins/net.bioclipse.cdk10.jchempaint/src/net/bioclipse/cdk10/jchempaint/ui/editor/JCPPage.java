@@ -297,6 +297,12 @@ public class JCPPage extends EditorPart
     }
 
     public void stateChanged(EventObject event) {
+        //Added by Ola to get a repaint on stateChanged.
+        //Don't know if this is the way to go, but it works
+        //TODO: Verify solution
+        if(event.getSource() instanceof Renderer2DModel) {
+            getDrawingPanel().repaint();
+        }
         if (!this.isDirty() && jcpModel.isModified()) {
             setDirty(true);
         }

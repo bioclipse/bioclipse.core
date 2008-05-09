@@ -169,7 +169,7 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
             }
             else if (activeEditorPart instanceof IJCPBasedEditor) {
                 IJCPBasedEditor jcpEdPart = (IJCPBasedEditor) activeEditorPart;
-                //FIXME: need we addd CDKChangedListener to the JCPPage of the editor?
+                model.getRendererModel().addCDKChangeListener(jcpEdPart.getJCPPage());
             }
             inputAdapter.addCDKChangeListener(model);
             //drawingPanel.setJChemPaintModel(model);
