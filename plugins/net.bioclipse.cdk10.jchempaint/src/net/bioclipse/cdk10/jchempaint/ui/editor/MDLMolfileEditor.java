@@ -10,6 +10,7 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IShowEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.MultiPageEditorPart;
@@ -71,6 +72,7 @@ public class MDLMolfileEditor extends MultiPageEditorPart
         
         try {
             int ix=addPage(jcpPage, getEditorInput());
+            jcpPage.activateJCP();
             setPageText(ix, "Structure");
 
             textEditorIndex=addPage(textEditor, getEditorInput());

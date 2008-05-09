@@ -23,9 +23,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import net.bioclipse.cdk.business.Activator;
+import net.bioclipse.cdk.domain.CDKMolecule;
+import net.bioclipse.cdk.domain.CDKMoleculeList;
+import net.bioclipse.cdk10.jchempaint.business.CDK10Manager;
 import net.bioclipse.cdk10.jchempaint.outline.CDKChemObject;
 import net.bioclipse.core.business.BioclipseException;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.viewers.ISelection;
@@ -39,13 +44,16 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.openscience.cdk.AtomContainer;
 import org.openscience.cdk.ChemModel;
+import org.openscience.cdk.MoleculeSet;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.controller.Controller2DModel;
 import org.openscience.cdk.controller.PopupController2D;
@@ -57,11 +65,14 @@ import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.interfaces.IChemObjectChangeEvent;
 import org.openscience.cdk.interfaces.IChemObjectListener;
 import org.openscience.cdk.interfaces.IMolecule;
+import org.openscience.cdk.interfaces.IMoleculeSet;
 import org.openscience.cdk.io.MDLV2000Reader;
 import org.openscience.cdk.renderer.Renderer2DModel;
 import org.openscience.cdk.renderer.color.IAtomColorer;
 import org.openscience.cdk.tools.HydrogenAdder;
+import org.openscience.cdk.tools.manipulator.AtomContainerManipulator;
 import org.openscience.cdk.tools.manipulator.ChemModelManipulator;
+import org.openscience.cdk.tools.manipulator.MoleculeSetManipulator;
 
 /**
  * An EditorPage for JchemPaint
@@ -70,6 +81,8 @@ import org.openscience.cdk.tools.manipulator.ChemModelManipulator;
 public class JCPPage extends EditorPart
     implements IJCPEditorPart, IChemObjectListener, ICDKChangeListener,
                MouseMotionListener, ISelectionChangedListener, ISelectionListener{
+
+    private static final Logger logger = Logger.getLogger(JCPPage.class);
 
     //The body of the editor
     private Composite body;
@@ -108,7 +121,8 @@ public class JCPPage extends EditorPart
     public JCPPage() {
         super();
     }
-    
+
+
     public JCPPage(IAtomColorer colorer) {
         super();
         this.colorer=colorer;
@@ -120,18 +134,6 @@ public class JCPPage extends EditorPart
         body = new JCPComposite(parent, SWT.EMBEDDED | SWT.H_SCROLL | SWT.V_SCROLL);
         GridLayout layout = new GridLayout();
         body.setLayout(layout);
-        if (fillWithJCP(body)) {
-            cl = new JCPControlListener(this);
-            body.addControlListener(cl);
-            jcpScrollBar = new JCPScrollBar(this, true, true);
-        }
-        else {
-            //TODO open message box stating "no valid file - could not be opened with JCP"
-        }
-        body.addFocusListener(new JCPCompFocusListener((JCPComposite) body));
-
-        if (colorer!=null)
-            drawingPanel.setAtomColorer( colorer );
         
         getSite().getPage().addSelectionListener(this);
     }
@@ -202,22 +204,56 @@ public class JCPPage extends EditorPart
      */
     private IChemModel getModelFromEditorInput() throws BioclipseException{
         
+        /*
         Object file = input.getAdapter(IFile.class);
         if (!(file instanceof IFile)) {
             throw new BioclipseException(
                     "Invalid editor input: Does not provide an IFile");
         }
 
-        IFile inputFile = (IFile) file;
-        
-        try {
-            InputStream instream=inputFile.getContents();
-            
-            MDLV2000Reader reader = new MDLV2000Reader(instream);
-            return (IChemModel)reader.read(new ChemModel());
-            
-        } catch (Exception e) {
-            e.printStackTrace();
+        inputFile = (IFile) file;
+*/
+ 
+        if ( input instanceof SDFileEditorInput ) {
+            SDFileEditorInput finput = (SDFileEditorInput) input;
+            inputFile=finput.getFile();
+
+
+            try {
+                InputStream instream=inputFile.getContents();
+
+                CDK10Manager man=new CDK10Manager();
+                List molList=man.loadMolecules(instream);
+
+                int ix=finput.getIndex();
+                
+                logger.debug( "Selecte molecule: " + ix + " of " + molList.size());
+                
+                IMoleculeSet s=new MoleculeSet();
+                s.addAtomContainer( (IAtomContainer)molList.get( ix ) );
+                IChemModel cmodel=new ChemModel();
+                cmodel.setMoleculeSet( s );
+
+                return cmodel;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else if ( input instanceof IFileEditorInput ) {
+            IFileEditorInput finput = (IFileEditorInput) input;
+            inputFile=finput.getFile();
+
+
+            try {
+                InputStream instream=inputFile.getContents();
+
+                MDLV2000Reader reader = new MDLV2000Reader(instream);
+                return (IChemModel)reader.read(new ChemModel());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         
         return null;
@@ -303,6 +339,9 @@ public class JCPPage extends EditorPart
         if(event.getSource() instanceof Renderer2DModel) {
             getDrawingPanel().repaint();
         }
+        else if(event.getSource() instanceof IEditorPart) {
+            getDrawingPanel().repaint();
+        }
         if (!this.isDirty() && jcpModel.isModified()) {
             setDirty(true);
         }
@@ -378,6 +417,25 @@ public class JCPPage extends EditorPart
 
         
     }
+
+
+    public void activateJCP() {
+
+        if (fillWithJCP(body)) {
+            cl = new JCPControlListener(this);
+            body.addControlListener(cl);
+            jcpScrollBar = new JCPScrollBar(this, true, true);
+        }
+        else {
+            //TODO open message box stating "no valid file - could not be opened with JCP"
+        }
+        body.addFocusListener(new JCPCompFocusListener((JCPComposite) body));
+
+        if (colorer!=null)
+            drawingPanel.setAtomColorer( colorer );
+        
+    }
+
 
     
 }
