@@ -92,6 +92,7 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
 //    @Override
     public void setActiveEditor(IEditorPart part) {
         if (!(activeEditorPart == part)) {
+            
             this.activeEditorPart = part;
 //            super.setActiveEditor(part);
             if (((IJCPBasedEditor)activeEditorPart).getJcpModel() != null) {
@@ -161,8 +162,15 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
             Renderer2DModel rendererModel = model.getRendererModel();
             model.getControllerModel().setBondPointerLength(rendererModel.getBondLength());
             model.getControllerModel().setRingPointerLength(rendererModel.getBondLength());
-    
-            model.getRendererModel().addCDKChangeListener((ICDKChangeListener) activeEditorPart);
+            
+            if ( activeEditorPart instanceof ICDKChangeListener ) {
+                ICDKChangeListener cdkPart = (ICDKChangeListener) activeEditorPart;
+                model.getRendererModel().addCDKChangeListener(cdkPart);
+            }
+            else if (activeEditorPart instanceof IJCPBasedEditor) {
+                IJCPBasedEditor jcpEdPart = (IJCPBasedEditor) activeEditorPart;
+                //FIXME: need we addd CDKChangedListener to the JCPPage of the editor?
+            }
             inputAdapter.addCDKChangeListener(model);
             //drawingPanel.setJChemPaintModel(model);
             drawingPanel.addMouseListener(inputAdapter);
