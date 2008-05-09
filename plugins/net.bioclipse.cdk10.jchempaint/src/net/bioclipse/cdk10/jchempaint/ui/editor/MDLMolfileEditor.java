@@ -26,6 +26,9 @@ public class MDLMolfileEditor extends MultiPageEditorPart
 
     private static final Logger logger = Logger.getLogger(MDLMolfileEditor.class);
 
+    public static final String EDITOR_ID 
+        = "net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor";
+
     JCPPage jcpPage;
     TextEditor textEditor;
     int textEditorIndex;
