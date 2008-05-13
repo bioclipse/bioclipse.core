@@ -73,11 +73,13 @@ public class JCPOutlinePage extends ContentOutlinePage
 //        viewer.setSorter(new NameSorter());
         treeViewer.addSelectionChangedListener(this);
 
-        if (editor.getJcpModel()!=null){
-            chemModel=editor.getJcpModel().getChemModel();
-            treeViewer.setInput(chemModel);
-            treeViewer.expandToLevel(2);
-        }
+        if (editor.getJcpModel()==null) return;
+        
+        chemModel=editor.getJcpModel().getChemModel();
+        
+        treeViewer.setInput(chemModel);
+        treeViewer.expandToLevel(2);
+
         getSite().getPage().addSelectionListener(this);
     }
 
