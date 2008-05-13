@@ -1,9 +1,11 @@
 package net.bioclipse.scripting;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.util.LogUtils;
 
@@ -142,7 +144,7 @@ public class JsEnvironment implements ScriptingEnvironment {
         }
         catch (EvaluatorException e) {
             LogUtils.debugTrace(logger, e);
-            return e.getMessage();
+            return explanationAboutParameters( expression, e );
         }
         catch (EcmaError e) {
             LogUtils.debugTrace(logger, e);
@@ -152,6 +154,89 @@ public class JsEnvironment implements ScriptingEnvironment {
             LogUtils.debugTrace(logger, e);
             return e.getMessage();
         }
+    }
+
+    private String explanationAboutParameters( String expression,
+                                               EvaluatorException exception ) {
+
+        String message = exception.getMessage();
+        if (message.startsWith( "Can't find method " )) {
+            int iPeriod = message.indexOf( '.' ),
+                 iParen = message.indexOf( '(' );
+            
+            String calledMethod = message.substring( iPeriod + 1, iParen );
+            
+            if (expression.contains( "." + calledMethod + "(" )) {
+                
+                int iService
+                    = expression.indexOf( "." + calledMethod + "(" ) - 1;
+                while ( iService > 0 && Character.isJavaIdentifierPart(
+                           expression.charAt( iService - 1 )) )
+                    --iService;
+                
+                String managerName
+                    = expression.substring( iService,
+                                            expression.indexOf(
+                                               '.', iService ) );
+              
+                IBioclipseManager manager = getManager(managerName);
+
+                String params = null;
+                int requiredParams = 0;
+                if(manager != null) {
+
+                    for ( Class<?> interfaze :
+                            manager.getClass().getInterfaces() ) {
+                        for ( Method method : interfaze.getMethods() ) {
+   
+                            if ( method.getName().equals(calledMethod) &&
+                                 method.isAnnotationPresent(
+                                     PublishedMethod.class) ) {
+   
+                                PublishedMethod publishedMethod
+                                    = method.getAnnotation(
+                                        PublishedMethod.class);
+   
+                                params = publishedMethod.params();
+                                requiredParams
+                                    = numberOfSuchCharactersIn(
+                                          params, ',' ) + 1;
+                                
+                                if ( "".equals(publishedMethod.params()
+                                               .trim()) )
+                                    requiredParams = 0;
+                            }
+                        }
+                    }
+                
+                    int calledParams
+                        = numberOfSuchCharactersIn(message, ',') + 1;
+                    if ( message.substring( iParen + 1,
+                                            message.indexOf( ')' ))
+                                                .trim().equals( "" ) )
+                        calledParams = 0;
+
+                    if (calledParams != requiredParams)
+                        return "The method " + calledMethod
+                             + " can not be called with " + calledParams
+                             + " parameter" + (calledParams == 1 ? "" : "s")
+                             + ", it needs " + requiredParams + ".\n"
+                             + managerName + '.' + calledMethod
+                             + '(' + params + ")";
+                }
+            }
+        }
+        
+        return exception.getMessage();
+    }
+
+    private int numberOfSuchCharactersIn( String s, char c ) {
+
+        int occurrances = 0, pos = 0;
+        while ((pos = s.indexOf( c, pos ) + 1) != 0)
+            ++occurrances;
+
+        return occurrances;
     }
 
     private StringBuilder listToString( List<?> list, String opener,
