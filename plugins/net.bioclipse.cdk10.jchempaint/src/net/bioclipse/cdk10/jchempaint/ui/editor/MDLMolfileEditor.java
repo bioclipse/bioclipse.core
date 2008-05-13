@@ -72,7 +72,7 @@ public class MDLMolfileEditor extends MultiPageEditorPart
         
         try {
             int ix=addPage(jcpPage, getEditorInput());
-            jcpPage.activateJCP();
+//            jcpPage.activateJCP();
             setPageText(ix, "Structure");
 
             textEditorIndex=addPage(textEditor, getEditorInput());
