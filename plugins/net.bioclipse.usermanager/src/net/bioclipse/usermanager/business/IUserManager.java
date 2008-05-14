@@ -106,7 +106,8 @@ public interface IUserManager extends IBioclipseManager {
      */
     @Recorded
     @PublishedMethod (methodSummary = "Wether an account with a given " +
-                                      "account id exists")
+                                      "account id exists", 
+                      params = "String accountId")
     public boolean accountExists( String accountId );
 
     /**
