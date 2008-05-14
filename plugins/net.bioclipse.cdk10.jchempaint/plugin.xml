@@ -8,6 +8,7 @@
             name="MDLMolfileEditor"
             icon="icons/molecule2D.gif"
             extensions="mol,mdl"
+            default="true"
             contributorClass="net.bioclipse.cdk10.jchempaint.ui.editor.JCPMultiPageEditorContributor"
             class="net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor"
             id="net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor">
