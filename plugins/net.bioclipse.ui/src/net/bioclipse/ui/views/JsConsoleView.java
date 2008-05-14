@@ -16,15 +16,18 @@ import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.scripting.JsEnvironment;
 import net.bioclipse.scripting.OutputProvider;
 import net.bioclipse.ui.Activator;
+import net.bioclipse.ui.ConsoleEchoer;
 import net.bioclipse.ui.EchoEvent;
 import net.bioclipse.ui.EchoListener;
 import net.bioclipse.ui.JsPluginable;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.internal.filesystem.local.InfiniteProgress;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 
 /**
@@ -383,5 +386,67 @@ public class JsConsoleView extends ScriptingConsoleView
         variables.remove("zzz3");
 
         return variables;
+    }
+    
+    public static class ConsoleProgressMonitor implements IProgressMonitor {
+
+        private static final int WIDTH = 50;
+        private int totalWork;
+        private int current;
+        private boolean isCanceled;
+        private int painted = 1; 
+        
+        public void beginTask( String name, int totalWork ) {
+            this.totalWork = totalWork;
+            Activator.getDefault().CONSOLE.echo( 
+                "|1%" + spaces(WIDTH - 8) + "100%|\nx" );
+        }
+
+        private String spaces( int i ) {
+            
+            StringBuilder s = new StringBuilder();
+            for ( int j = 0; j < i; j++ ) {
+                s.append( " " );
+            }
+            return s.toString();
+        }
+
+        public void done() {
+            current = totalWork;
+            updateText();
+        }
+
+        public void internalWorked( double work ) {
+        }
+
+        public boolean isCanceled() {
+            return isCanceled;
+        }
+
+        public void setCanceled( boolean value ) {
+            this.isCanceled = value;
+        }
+
+        public void setTaskName( String name ) {
+        }
+
+        public void subTask( String name ) {
+        }
+
+        public void worked( int work ) {
+            this.current += work;
+            updateText();
+        }
+
+        private void updateText() {
+            double done = current / (totalWork * 1.0) ;
+            if( done*WIDTH > painted ) {
+                double numOfExes = done*WIDTH-painted;
+                for( int i = 0 ; i < numOfExes ; i++) {
+                    Activator.getDefault().CONSOLE.echo( "x" );
+                    painted++;
+                }
+            }
+        }
     }
 }
