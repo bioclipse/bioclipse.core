@@ -35,12 +35,11 @@ import java.util.Iterator;
 
 import javax.swing.undo.UndoableEdit;
 
-import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
+import net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.Atom;
 import org.openscience.cdk.ChemModel;
-import org.openscience.cdk.applications.jchempaint.DrawingPanel;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.applications.undoredo.AddHydrogenEdit;
 import org.openscience.cdk.controller.Controller2DModel;
@@ -117,7 +116,7 @@ public class AddHydrogenAction extends JCPAction
 		{
 			hydrogenAdder = new HydrogenAdder("org.openscience.cdk.tools.ValencyChecker");
 		}
-		jcpmodel = ((JCPPage)this.getContributor().getActiveEditorPart()).getJcpModel();
+		jcpmodel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
 		if (jcpmodel != null)
 		{
 			IChemObject object = null;
@@ -162,7 +161,7 @@ public class AddHydrogenAction extends JCPAction
             else if (type.equals("allimplicit")) {
                edit = new  AddHydrogenEdit(model, hydrogenAtomMap);
             }
-//            UndoableAction.pushToUndoRedoStack(edit,jcpmodel,((JCPPage)this.getContributor().getActiveEditorPart()).getUndoContext(), ((JCPPage)this.getContributor().getActiveEditorPart()).getDrawingPanel());
+//            UndoableAction.pushToUndoRedoStack(edit,jcpmodel,((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getUndoContext(), ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel());
 			if (type.equals("implicit"))
 			{
 				if(!jcpmodel.getControllerModel().getAutoUpdateImplicitHydrogens()){
@@ -172,7 +171,7 @@ public class AddHydrogenAction extends JCPAction
 				}
 			}
             jcpmodel.fireChange();
-//			DrawingPanel drawingPanel = ((JCPPage)this.getContributor().getActiveEditorPart()).getDrawingPanel();
+//			DrawingPanel drawingPanel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel();
 //			drawingPanel.repaint();
 		}
 	}

@@ -34,7 +34,7 @@ import java.util.Iterator;
 
 import javax.swing.undo.UndoableEdit;
 
-import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
+import net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.AtomContainer;
@@ -69,7 +69,7 @@ public class AdjustBondOrdersAction extends JCPAction
 	public void run(ActionEvent e)
 	{
         HashMap changedBonds = null;
-        JChemPaintModel jcpModel = ((JCPPage)this.getContributor().getActiveEditorPart()).getJcpModel();
+        JChemPaintModel jcpModel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
         ChemModel model = (ChemModel) jcpModel.getChemModel();
 		logger.debug("Adjusting bondorders: " + type);
 		if (type.equals("clear"))
@@ -136,8 +136,8 @@ public class AdjustBondOrdersAction extends JCPAction
 			}
 		}
         UndoableEdit  edit = new AdjustBondOrdersEdit(changedBonds);
-        JChemPaintModel jcpmodel = ((JCPPage)this.getContributor().getActiveEditorPart()).getJcpModel();
-//        UndoableAction.pushToUndoRedoStack(edit,jcpmodel,((JCPPage)this.getContributor().getActiveEditorPart()).getUndoContext(), ((JCPPage)this.getContributor().getActiveEditorPart()).getDrawingPanel());
+        JChemPaintModel jcpmodel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
+//        UndoableAction.pushToUndoRedoStack(edit,jcpmodel,((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getUndoContext(), ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel());
 	}
 }
 

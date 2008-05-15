@@ -36,14 +36,13 @@ import javax.swing.undo.UndoableEdit;
 import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
 
-import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
+import net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.AtomContainer;
 import org.openscience.cdk.MoleculeSet;
 import org.openscience.cdk.Reaction;
 import org.openscience.cdk.ReactionSet;
-import org.openscience.cdk.applications.jchempaint.DrawingPanel;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.applications.undoredo.CleanUpEdit;
 import org.openscience.cdk.geometry.GeometryTools;
@@ -81,7 +80,7 @@ public class CleanupAction extends JCPAction
 	public void run(ActionEvent e)
 	{	
 		HashMap atomCoordsMap = new HashMap();
-        JChemPaintModel jcpmodel = ((JCPPage)this.getContributor().getActiveEditorPart()).getJcpModel();
+        JChemPaintModel jcpmodel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
         logger.info("Going to performe a clean up...");
 		if (jcpmodel != null)
 		{
@@ -127,7 +126,7 @@ public class CleanupAction extends JCPAction
                 
                 UndoableEdit  edit = new CleanUpEdit(atomCoordsMap);
                 
-//                UndoableAction.pushToUndoRedoStack(edit,jcpmodel,((JCPPage)this.getContributor().getActiveEditorPart()).getUndoContext(), ((JCPPage)this.getContributor().getActiveEditorPart()).getDrawingPanel());
+//                UndoableAction.pushToUndoRedoStack(edit,jcpmodel,((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getUndoContext(), ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel());
 			}
 			IReactionSet reactionSet = model.getReactionSet();
 			if (reactionSet != null)
@@ -154,7 +153,7 @@ public class CleanupAction extends JCPAction
 
 			jcpmodel.getRendererModel().setSelectedPart(new AtomContainer());
 			jcpmodel.fireChange();
-//			DrawingPanel drawingPanel = ((JCPPage)this.getContributor().getActiveEditorPart()).getDrawingPanel();
+//			DrawingPanel drawingPanel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel();
 //			drawingPanel.updateRingSetInRenderer();
 		}
 	}
@@ -168,7 +167,7 @@ public class CleanupAction extends JCPAction
 	 */
 	private IMolecule relayoutMolecule(IMolecule molecule)
 	{
-		JChemPaintModel jcpmodel = ((JCPPage)this.getContributor().getActiveEditorPart()).getJcpModel();
+		JChemPaintModel jcpmodel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
 		IMolecule cleanedMol = molecule;
        if (molecule != null)
 		{

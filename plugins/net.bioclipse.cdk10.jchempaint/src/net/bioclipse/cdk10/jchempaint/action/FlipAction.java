@@ -34,10 +34,9 @@ import java.util.Iterator;
 import javax.swing.undo.UndoableEdit;
 import javax.vecmath.Point2d;
 
-import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
+import net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
-import org.openscience.cdk.applications.jchempaint.DrawingPanel;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.applications.undoredo.FlipEdit;
 import org.openscience.cdk.geometry.GeometryTools;
@@ -60,7 +59,7 @@ public class FlipAction extends JCPAction {
         logger.info("  type  " + type);
 //        logger.debug("  source ", e.getSource());
         HashMap atomCoordsMap = new HashMap();
-        JChemPaintModel jcpModel = ((JCPPage)this.getContributor().getActiveEditorPart()).getJcpModel();
+        JChemPaintModel jcpModel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
         Renderer2DModel renderModel = jcpModel.getRendererModel();
         boolean horiz = "horizontal".equals(type);
         IAtomContainer object = null;
@@ -94,10 +93,10 @@ public class FlipAction extends JCPAction {
                 }
             }
             UndoableEdit  edit = new FlipEdit(atomCoordsMap);
-//            UndoableAction.pushToUndoRedoStack(edit,jcpModel,((JCPPage)this.getContributor().getActiveEditorPart()).getUndoContext(), ((JCPPage)this.getContributor().getActiveEditorPart()).getDrawingPanel());
+//            UndoableAction.pushToUndoRedoStack(edit,jcpModel,((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getUndoContext(), ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel());
             // fire a change so that the view gets updated
             jcpModel.fireChange();
-//            DrawingPanel drawingPanel = ((JCPPage)this.getContributor().getActiveEditorPart()).getDrawingPanel();
+//            DrawingPanel drawingPanel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel();
 //            drawingPanel.repaint();
         }
     }

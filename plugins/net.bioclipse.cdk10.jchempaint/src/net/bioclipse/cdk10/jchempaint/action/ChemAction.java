@@ -31,7 +31,7 @@ package net.bioclipse.cdk10.jchempaint.action;
 import java.net.URL;
 import java.util.EventObject;
 
-import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
+import net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -63,7 +63,8 @@ public class ChemAction extends JCPAction
 	 */
 	public void run()
 	{
-		JChemPaintModel jcpm = ((JCPPage)this.getContributor().getActiveEditorPart()).getJcpModel();
+		System.out.println("active editor: " + this.getContributor().getActiveEditorPart().getClass().getName());
+		JChemPaintModel jcpm = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
 		//This handles highlighting of active action in toolbar
 		JCPPropertyHandler jcpph = JCPPropertyHandler.getInstance();
 		URL url = jcpph.getResource(getType()+"active" + JCPAction.imageSuffix);

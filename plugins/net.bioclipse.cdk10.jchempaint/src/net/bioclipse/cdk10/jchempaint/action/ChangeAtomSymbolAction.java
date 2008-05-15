@@ -32,7 +32,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.undo.UndoableEdit;
 
-import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
+import net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.Atom;
@@ -59,7 +59,7 @@ public class ChangeAtomSymbolAction extends JCPAction
 	public void run(ActionEvent event) 
 	{
 		logger.debug("About to change atom type of relevant atom!");
-		JChemPaintModel jcpm = ((JCPPage)this.getContributor().getActiveEditorPart()).getJcpModel();
+		JChemPaintModel jcpm = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
 		
 		if (jcpm != null)
 		{
@@ -90,7 +90,7 @@ public class ChangeAtomSymbolAction extends JCPAction
 				logger.debug(exception);
 			}
             UndoableEdit  edit = new ChangeAtomSymbolEdit(atomInRange, formerSymbol, symbol);
-//            UndoableAction.pushToUndoRedoStack(edit,jcpm,((JCPPage)this.getContributor().getActiveEditorPart()).getUndoContext(), ((JCPPage)this.getContributor().getActiveEditorPart()).getDrawingPanel());
+//            UndoableAction.pushToUndoRedoStack(edit,jcpm,((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getUndoContext(), ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel());
 			jcpm.fireChange();
 		}
 	}

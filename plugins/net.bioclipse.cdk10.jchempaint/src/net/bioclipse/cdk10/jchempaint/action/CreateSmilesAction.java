@@ -32,7 +32,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JFrame;
 
-import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
+import net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.ChemModel;
@@ -79,7 +79,7 @@ public class CreateSmilesAction extends JCPAction
 		String chiralsmiles ="";
 		try
 		{
-			JChemPaintModel jcpModel = ((JCPPage)this.getContributor().getActiveEditorPart()).getJcpModel();
+			JChemPaintModel jcpModel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
 			ChemModel model = (ChemModel) jcpModel.getChemModel();
             SmilesGenerator generator = new SmilesGenerator();
 			IAtomContainer container = model.getMoleculeSet().getAtomContainer(0);

@@ -33,7 +33,7 @@ import java.util.Iterator;
 
 import javax.swing.JOptionPane;
 
-import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
+import net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.Atom;
@@ -67,7 +67,7 @@ public class CreateReactionAction extends JCPAction
 		IChemObject object = getSource(event);
 
 		logger.debug("CreateReaction action");
-		JChemPaintModel jcpmodel = ((JCPPage)this.getContributor().getActiveEditorPart()).getJcpModel();
+		JChemPaintModel jcpmodel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
 		
 		IChemModel model = jcpmodel.getChemModel();
 		IReactionSet reactionSet = model.getReactionSet();

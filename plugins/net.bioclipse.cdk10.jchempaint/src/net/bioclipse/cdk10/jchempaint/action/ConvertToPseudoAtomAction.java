@@ -31,7 +31,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.undo.UndoableEdit;
 
-import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
+import net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.Atom;
@@ -54,7 +54,7 @@ public class ConvertToPseudoAtomAction extends JCPAction {
 	public void run(ActionEvent event) {
         logger.debug("Converting to: " + type);
         IChemObject object = getSource(event);
-        JChemPaintModel jcpmodel = ((JCPPage)this.getContributor().getActiveEditorPart()).getJcpModel();
+        JChemPaintModel jcpmodel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
         org.openscience.cdk.interfaces.IChemModel model = jcpmodel.getChemModel();
         if (object != null) {
             if (object instanceof Atom) {
@@ -66,7 +66,7 @@ public class ConvertToPseudoAtomAction extends JCPAction {
                     atom, pseudo);
                 UndoableEdit  edit = new ConvertToPseudoAtomEdit(relevantContainer, 
                         atom, pseudo);
-//                UndoableAction.pushToUndoRedoStack(edit,jcpmodel,((JCPPage)this.getContributor().getActiveEditorPart()).getUndoContext(), ((JCPPage)this.getContributor().getActiveEditorPart()).getDrawingPanel());
+//                UndoableAction.pushToUndoRedoStack(edit,jcpmodel,((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getUndoContext(), ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel());
             } else {
                 logger.error("Object not an Atom! Cannot convert into a PseudoAtom!");
             }

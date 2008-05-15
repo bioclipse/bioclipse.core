@@ -29,16 +29,14 @@ package net.bioclipse.cdk10.jchempaint.action;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.JOptionPane;
 import javax.swing.undo.UndoableEdit;
 
-import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
+import net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.Atom;
 import org.openscience.cdk.ElectronContainer;
 import org.openscience.cdk.SingleElectron;
-import org.openscience.cdk.applications.jchempaint.DrawingPanel;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.applications.undoredo.ConvertToRadicalEdit;
 import org.openscience.cdk.config.AtomTypeFactory;
@@ -56,7 +54,7 @@ public class ConvertToRadicalAction extends JCPAction {
     public void run(ActionEvent event) {
         logger.debug("Converting to radical: " + type);
         IChemObject object = getSource(event);
-        JChemPaintModel jcpmodel = ((JCPPage)this.getContributor().getActiveEditorPart()).getJcpModel();
+        JChemPaintModel jcpmodel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
         IChemModel model = jcpmodel.getChemModel();
         if (object != null) {
             if (object instanceof Atom) {
@@ -70,13 +68,13 @@ public class ConvertToRadicalAction extends JCPAction {
                 	ElectronContainer electronContainer = new SingleElectron(atom);
                     relevantContainer.addElectronContainer(electronContainer);
                     UndoableEdit  edit = new ConvertToRadicalEdit(relevantContainer, electronContainer);
-//                    UndoableAction.pushToUndoRedoStack(edit,jcpmodel,((JCPPage)this.getContributor().getActiveEditorPart()).getUndoContext(), ((JCPPage)this.getContributor().getActiveEditorPart()).getDrawingPanel());
+//                    UndoableAction.pushToUndoRedoStack(edit,jcpmodel,((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getUndoContext(), ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel());
                     logger.info("Added single electron to atom");
                     logger.debug("new AC: " + relevantContainer);
                     
                 }
                 else {
-//                	DrawingPanel drawingPanel = ((JCPPage)this.getContributor().getActiveEditorPart()).getDrawingPanel();
+//                	DrawingPanel drawingPanel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel();
 //                	JOptionPane.showMessageDialog(drawingPanel,"A radical cannot be added to this atom." +
 //        		" Re-try with less hydrogens.");
                 }

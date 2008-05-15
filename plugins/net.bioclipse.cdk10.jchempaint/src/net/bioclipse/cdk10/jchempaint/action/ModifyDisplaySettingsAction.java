@@ -30,11 +30,10 @@ package net.bioclipse.cdk10.jchempaint.action;
 
 import java.awt.event.ActionEvent;
 
-import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
+import net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
-import org.openscience.cdk.applications.jchempaint.dialogs.ModifyRenderOptionsDialog;
 import org.openscience.cdk.renderer.Renderer2DModel;
 
 
@@ -59,7 +58,7 @@ public class ModifyDisplaySettingsAction extends JCPAction
 	public void run(ActionEvent e)
 	{
 		logger.debug("Modify display settings in mode");
-		JChemPaintModel jcpm = ((JCPPage)this.getContributor().getActiveEditorPart()).getJcpModel();
+		JChemPaintModel jcpm = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
 		Renderer2DModel renderModel = jcpm.getRendererModel();
 //		ModifyRenderOptionsDialog dialog =
 //				new ModifyRenderOptionsDialog(this.getContributor().getActiveEditorPart().getEditorSite().getShell(), 0, renderModel);

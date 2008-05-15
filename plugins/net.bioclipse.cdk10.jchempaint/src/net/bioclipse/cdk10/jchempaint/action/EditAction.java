@@ -31,16 +31,13 @@ package net.bioclipse.cdk10.jchempaint.action;
 import java.awt.event.ActionEvent;
 import java.util.Iterator;
 
-import javax.swing.JOptionPane;
-
-import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
+import net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.Atom;
 import org.openscience.cdk.AtomContainer;
 import org.openscience.cdk.Bond;
 import org.openscience.cdk.Reaction;
-import org.openscience.cdk.applications.jchempaint.DrawingPanel;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.controller.Controller2DModel;
 import org.openscience.cdk.interfaces.IAtom;
@@ -81,7 +78,7 @@ public class EditAction extends JCPAction {
 //		// learn some stuff about event
 //		logger.debug("Event source: ", event.getSource().getClass().getName());
 //		logger.debug("  ChemObject: ", getSource(event));
-		JChemPaintModel jcpModel = ((JCPPage)this.getContributor().getActiveEditorPart()).getJcpModel();
+		JChemPaintModel jcpModel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
 		Renderer2DModel renderModel = jcpModel.getRendererModel();
 		IChemModel chemModel = jcpModel.getChemModel();
 		
@@ -117,7 +114,7 @@ public class EditAction extends JCPAction {
 		else if (type.equals("cutSelected")) {
 			logger.debug("Deleting all selected atoms...");
 			if (renderModel.getSelectedPart() == null || renderModel.getSelectedPart().getAtomCount() == 0) {
-//				DrawingPanel drawingPanel = ((JCPPage)this.getContributor().getActiveEditorPart()).getDrawingPanel();
+//				DrawingPanel drawingPanel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel();
 //				JOptionPane.showMessageDialog(drawingPanel, "No selection made. Please select some atoms first!", "Error warning", JOptionPane.WARNING_MESSAGE);
 			}
 			else {
