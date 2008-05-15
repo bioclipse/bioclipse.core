@@ -50,6 +50,8 @@ import org.openscience.cdk.controller.CDKPopupMenu;
  */
 public class JCPAction extends Action {
 
+	public org.apache.log4j.Logger logger = Logger.getLogger(JCPAction.class);
+	
     /**
      *  Description of the Field
      */
@@ -264,21 +266,22 @@ public class JCPAction extends Action {
         {
             classname = actionname;
         }
-//        logger.debug("Action class: " + classname);
-//        logger.debug("Action type:  " +  type);
+        classname = classname.replace("org.openscience.cdk.applications.", "net.bioclipse.cdk10.");
+//        System.out.println("Action class: " + classname);
+//        System.out.println("Action type:  " +  type);
 
         // now get actual JCPAction class
         if (!isPopupAction && actions.containsKey(actionname))
         {
-//            logger.debug("Taking JCPAction from action cache for:" + actionname);
+//            System.out.println("Taking JCPAction from action cache for:" + actionname);
             return (JCPAction) actions.get(actionname);
         } else if (isPopupAction && popupActions.containsKey(actionname))
         {
-//            logger.debug("Taking JCPAction from popup cache for:" + actionname);
+//            System.out.println("Taking JCPAction from popup cache for:" + actionname);
             return (JCPAction) popupActions.get(actionname);
         } else
         {
-//            logger.debug("Loading JCPAction class for:" + classname);
+//            System.out.println("Loading JCPAction class for:" + classname);
             Object o = null;
             try
             {
@@ -293,8 +296,9 @@ public class JCPAction extends Action {
                 }
             } catch (Exception exc)
             {
-//                logger.error("Could not find/instantiate class: " + classname);
+//            	System.out.println("Could not find/instantiate class: " + classname);
 //                logger.debug(exc);
+//            	exc.printStackTrace();
                 return dummy;
             }
             if (o instanceof JCPAction)
@@ -314,7 +318,7 @@ public class JCPAction extends Action {
                 return a;
             } else
             {
-//                logger.error("Action is not a JCPAction!");
+//                System.out.println("Action is not a JCPAction!");
             }
         }
         return dummy;
@@ -349,7 +353,12 @@ public class JCPAction extends Action {
     }
 
 
+    public void run() {
+    	System.out.println("button hit run()...");
+    }
+
     public void run(ActionEvent e) {
+    	System.out.println("button hit run(ActionEvent)...");
     }
 
 

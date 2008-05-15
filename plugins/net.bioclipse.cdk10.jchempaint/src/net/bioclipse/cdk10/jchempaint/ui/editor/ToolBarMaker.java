@@ -33,7 +33,9 @@ import java.util.ArrayList;
 import java.util.MissingResourceException;
 
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
+import net.bioclipse.ui.ConsoleEchoer;
 
+import org.apache.log4j.Logger;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.openscience.cdk.applications.jchempaint.StringHelper;
@@ -51,6 +53,7 @@ import org.openscience.cdk.controller.Controller2DModel;
 public class ToolBarMaker {
     private static ArrayList actionList = new ArrayList();
 
+    org.apache.log4j.Logger logger = Logger.getLogger(ToolBarMaker.class);
 
     public static ArrayList createToolbar(JCPMultiPageEditorContributor contributor) {
         actionList.clear();
@@ -78,7 +81,8 @@ public class ToolBarMaker {
                 {
                     jcpAction.setToolTipText(tip);
                 }
-//                logger.debug("action: " + jcpAction);
+//                System.out.println("action: " + jcpAction);
+//                System.out.println(" label: " + jcpAction.getText());
             }
             if (jcpAction != null) {
                 if (key.compareTo("-") == 0) {
