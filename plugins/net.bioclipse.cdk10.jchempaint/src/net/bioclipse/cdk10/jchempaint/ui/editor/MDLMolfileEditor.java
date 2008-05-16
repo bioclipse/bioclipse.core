@@ -109,19 +109,16 @@ public class MDLMolfileEditor extends MultiPageEditorPart
     }
 
     public void doSave(IProgressMonitor monitor) {
+        this.showBusy(true);
         //Synch from JCP to texteditor
         updateTextEditorFromJCP();
-
         //Use textEditor to save
         textEditor.doSave(monitor);
+        this.showBusy(false);
     }
 
     public void doSaveAs() {
-        //Synch from JCP to texteditor
-        updateTextEditorFromJCP();
-
-        //Use textEditor to save
-        textEditor.doSaveAs();
+        doSave(null);
     }
 
     public boolean isSaveAsAllowed() {
