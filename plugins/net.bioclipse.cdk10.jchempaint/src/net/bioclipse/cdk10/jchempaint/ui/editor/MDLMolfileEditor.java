@@ -75,8 +75,10 @@ public class MDLMolfileEditor extends MultiPageEditorPart
 //            jcpPage.activateJCP();
             setPageText(ix, "Structure");
 
-            textEditorIndex=addPage(textEditor, getEditorInput());
-            setPageText(textEditorIndex, "Source");
+            // COMMENT: single page editor, because synching tab content
+            // is not implemented
+//            textEditorIndex=addPage(textEditor, getEditorInput());
+//            setPageText(textEditorIndex, "Source");
         } catch (PartInitException e) {
             LogUtils.debugTrace(logger, e);
         }
