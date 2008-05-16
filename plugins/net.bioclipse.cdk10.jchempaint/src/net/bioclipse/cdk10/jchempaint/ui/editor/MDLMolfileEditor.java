@@ -12,6 +12,7 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
@@ -114,9 +115,16 @@ public class MDLMolfileEditor extends MultiPageEditorPart
         updateTextEditorFromJCP();
         //Use textEditor to save
         textEditor.doSave(monitor);
+        jcpPage.setDirty(false);
+        firePropertyChange( IEditorPart.PROP_DIRTY );
         this.showBusy(false);
     }
 
+    @Override
+    public boolean isDirty() {
+        return jcpPage.isDirty() || textEditor.isDirty();
+    }
+    
     public void doSaveAs() {
         doSave(null);
     }

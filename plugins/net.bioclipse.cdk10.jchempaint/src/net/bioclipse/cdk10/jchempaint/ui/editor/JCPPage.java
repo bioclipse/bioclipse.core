@@ -388,7 +388,7 @@ public class JCPPage extends EditorPart
         }
     }
 
-    private void setDirty(boolean bool) {
+    protected void setDirty(boolean bool) {
         this.isDirty = bool;
         fireSetDirtyChanged();
     }
