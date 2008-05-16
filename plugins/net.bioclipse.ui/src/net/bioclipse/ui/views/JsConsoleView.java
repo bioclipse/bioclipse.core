@@ -396,9 +396,14 @@ public class JsConsoleView extends ScriptingConsoleView
              )
         );
         
+        int attemptsLeft = 10;
         synchronized (variables) {
             while (variables[0] == null) {
                 try {
+                    Thread.sleep( 50 );
+                    if (--attemptsLeft <= 0) // js is probably busy then
+                        return Collections.EMPTY_LIST;
+                    
                     variables.wait();
                 } catch ( InterruptedException e ) {
                     return Collections.EMPTY_LIST;
