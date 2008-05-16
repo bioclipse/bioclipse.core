@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
-import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.scripting.JsEnvironment;
