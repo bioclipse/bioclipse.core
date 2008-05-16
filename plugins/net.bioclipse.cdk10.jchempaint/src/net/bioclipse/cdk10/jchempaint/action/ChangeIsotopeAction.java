@@ -32,7 +32,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.undo.UndoableEdit;
 
-import net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor;
+import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.Atom;
@@ -60,7 +60,7 @@ public class ChangeIsotopeAction extends JCPAction
 	public void run(ActionEvent event)
 	{
 		logger.debug("About to change atom type of relevant atom!");
-		JChemPaintModel jcpm = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
+		JChemPaintModel jcpm = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
 		if (jcpm != null)
 		{
 			IChemObject object = getSource(event);
@@ -112,7 +112,7 @@ public class ChangeIsotopeAction extends JCPAction
 				}
 				atom.setMassNumber(isotopeNumber);
                 UndoableEdit  edit = new ChangeIsotopeEdit(atom, formerIsotopeNumber, isotopeNumber);
-//		        UndoableAction.pushToUndoRedoStack(edit,jcpm,((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getUndoContext(), ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel());
+//		        UndoableAction.pushToUndoRedoStack(edit,jcpm,((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getUndoContext(), ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel());
 				jcpm.fireChange();
 			}
 		}

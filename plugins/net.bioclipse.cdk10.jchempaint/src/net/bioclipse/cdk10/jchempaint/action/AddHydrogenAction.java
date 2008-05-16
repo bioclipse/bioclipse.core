@@ -35,7 +35,7 @@ import java.util.Iterator;
 
 import javax.swing.undo.UndoableEdit;
 
-import net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor;
+import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.Atom;
@@ -116,7 +116,7 @@ public class AddHydrogenAction extends JCPAction
 		{
 			hydrogenAdder = new HydrogenAdder("org.openscience.cdk.tools.ValencyChecker");
 		}
-		jcpmodel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
+		jcpmodel = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
 		if (jcpmodel != null)
 		{
 			IChemObject object = null;
@@ -161,7 +161,7 @@ public class AddHydrogenAction extends JCPAction
             else if (type.equals("allimplicit")) {
                edit = new  AddHydrogenEdit(model, hydrogenAtomMap);
             }
-//            UndoableAction.pushToUndoRedoStack(edit,jcpmodel,((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getUndoContext(), ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel());
+//            UndoableAction.pushToUndoRedoStack(edit,jcpmodel,((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getUndoContext(), ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel());
 			if (type.equals("implicit"))
 			{
 				if(!jcpmodel.getControllerModel().getAutoUpdateImplicitHydrogens()){
@@ -171,7 +171,7 @@ public class AddHydrogenAction extends JCPAction
 				}
 			}
             jcpmodel.fireChange();
-//			DrawingPanel drawingPanel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel();
+//			DrawingPanel drawingPanel = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel();
 //			drawingPanel.repaint();
 		}
 	}

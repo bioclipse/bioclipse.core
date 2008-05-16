@@ -36,7 +36,7 @@ import javax.swing.undo.UndoableEdit;
 import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
 
-import net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor;
+import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.AtomContainer;
@@ -80,7 +80,7 @@ public class CleanupAction extends JCPAction
 	public void run(ActionEvent e)
 	{	
 		HashMap atomCoordsMap = new HashMap();
-        JChemPaintModel jcpmodel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
+        JChemPaintModel jcpmodel = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
         logger.info("Going to performe a clean up...");
 		if (jcpmodel != null)
 		{
@@ -126,7 +126,7 @@ public class CleanupAction extends JCPAction
                 
                 UndoableEdit  edit = new CleanUpEdit(atomCoordsMap);
                 
-//                UndoableAction.pushToUndoRedoStack(edit,jcpmodel,((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getUndoContext(), ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel());
+//                UndoableAction.pushToUndoRedoStack(edit,jcpmodel,((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getUndoContext(), ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel());
 			}
 			IReactionSet reactionSet = model.getReactionSet();
 			if (reactionSet != null)
@@ -153,7 +153,7 @@ public class CleanupAction extends JCPAction
 
 			jcpmodel.getRendererModel().setSelectedPart(new AtomContainer());
 			jcpmodel.fireChange();
-//			DrawingPanel drawingPanel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel();
+//			DrawingPanel drawingPanel = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel();
 //			drawingPanel.updateRingSetInRenderer();
 		}
 	}
@@ -167,7 +167,7 @@ public class CleanupAction extends JCPAction
 	 */
 	private IMolecule relayoutMolecule(IMolecule molecule)
 	{
-		JChemPaintModel jcpmodel = ((MDLMolfileEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
+		JChemPaintModel jcpmodel = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
 		IMolecule cleanedMol = molecule;
        if (molecule != null)
 		{
