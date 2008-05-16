@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,22 +13,23 @@ import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.util.LogUtils;
-import net.bioclipse.scripting.JsEnvironment;
+import net.bioclipse.scripting.Hook;
+import net.bioclipse.scripting.JsAction;
+import net.bioclipse.scripting.JsThread;
 import net.bioclipse.scripting.OutputProvider;
 import net.bioclipse.ui.Activator;
-import net.bioclipse.ui.ConsoleEchoer;
 import net.bioclipse.ui.EchoEvent;
 import net.bioclipse.ui.EchoListener;
 import net.bioclipse.ui.JsPluginable;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.internal.filesystem.local.InfiniteProgress;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * A console for a Javascript session. For more on Javascript, see
@@ -59,11 +61,11 @@ public class JsConsoleView extends ScriptingConsoleView
           = Pattern.compile( noBackTick + "`" + noBackTick + "`" ).matcher("");
     }
 
-    private static JsEnvironment js
-        = net.bioclipse.scripting.Activator.getDefault().JS_SESSION;
+    private static JsThread jsThread
+        = net.bioclipse.scripting.Activator.getDefault().JS_THREAD;
 
     static {
-        js.eval("function clear() {}");
+        jsThread.enqueue( "function clear() {}" );
     }
 
     private JsPluginable rConnection = null;
@@ -152,10 +154,18 @@ public class JsConsoleView extends ScriptingConsoleView
         }
     }
 
-    private String executeJsCommand(String command) {
-        String result = js.eval(command);
-
-        return result == "undefined" ? "" : result;
+    private void executeJsCommand(String command) {
+        jsThread.enqueue(new JsAction(command,
+                                      new Hook() {
+            public void run(final String result) {
+                Display.getDefault().asyncExec( new Runnable() {
+                    public void run() {
+                        if ( !"undefined".equals(result) )
+                            printMessage(result + "\n");
+                    }
+                } );
+            }
+        }));
     }
 
     private String executeRCommand(String command) {
@@ -186,7 +196,7 @@ public class JsConsoleView extends ScriptingConsoleView
         while(jsBacktickMatcher.find()){
 
             al.add(jsBacktickMatcher.group(1));
-            al.add(js.evalToObject(jsBacktickMatcher.group(2)));
+            al.add(JsThread.js.evalToObject(jsBacktickMatcher.group(2)));
             e = jsBacktickMatcher.end();
         }
         al.add(command.substring(e));
@@ -215,7 +225,8 @@ public class JsConsoleView extends ScriptingConsoleView
                 setMode(Mode.R);
                 return "";
             }
-            return executeJsCommand(command);
+            executeJsCommand(command);
+            return "";
         }
         else {
             if ("q()".equals(command.trim())) {
@@ -256,7 +267,7 @@ public class JsConsoleView extends ScriptingConsoleView
             String managerName = parts[0];
             String methodName  = parts[1];
 
-            IBioclipseManager manager = js.getManager(managerName);
+            IBioclipseManager manager = JsThread.js.getManager(managerName);
             if(manager == null)
                 return "No such manager: " + managerName
                        + "\n" + errorMessage;
@@ -297,7 +308,7 @@ public class JsConsoleView extends ScriptingConsoleView
             }
         }
         else {
-            IBioclipseManager manager = js.getManager(helpObject);
+            IBioclipseManager manager = JsThread.js.getManager(helpObject);
 
             if (manager == null)
                 return "No such method: " + helpObject
@@ -345,12 +356,13 @@ public class JsConsoleView extends ScriptingConsoleView
         printMessage(e.getMessage());
     }
 
+    @SuppressWarnings("unchecked")
     protected List<String> getAllVariablesIn(String object) {
 
         if (object == null || "".equals(object))
             object = "this";
 
-        IBioclipseManager manager = js.getManager(object);
+        IBioclipseManager manager = JsThread.js.getManager(object);
         if ( null != manager ) {
             List<String> variables = new ArrayList<String>();
 
@@ -364,27 +376,50 @@ public class JsConsoleView extends ScriptingConsoleView
             return variables;
         }
 
-        List<String> variables
-          = new ArrayList<String>( Arrays.asList( executeJsCommand(
-                "zzz1 = new Array(); zzz2 = 0;"
-                + "for (var zzz3 in " + object + ") { zzz1[zzz2++] = zzz3 }"
-                + "zzz1"
-            ).split(",") ) );
+        final List<String>[] variables = new List[1];
+        
+        jsThread.enqueue(
+            new JsAction( "zzz1 = new Array(); zzz2 = 0;"
+                          + "for (var zzz3 in " + object
+                          + ") { zzz1[zzz2++] = zzz3 } zzz1",
+                          new Hook() {
+                              public void run(String array) {
+                                  synchronized (variables) {
+                                      variables[0]
+                                          = new ArrayList<String>(
+                                                  Arrays.asList(
+                                                      array.split( "," )));
+                                      variables.notifyAll();
+                                  }
+                              }
+                          }
+             )
+        );
+        
+        synchronized (variables) {
+            while (variables[0] == null) {
+                try {
+                    variables.wait();
+                } catch ( InterruptedException e ) {
+                    return Collections.EMPTY_LIST;
+                }
+            }
+        }
 
         // The following happens sometimes when we tab complete on something
         // unexpected. We choose to beep instead of outputting "syntax error".
-        if (variables.size() == 1 &&
-                ("syntax error".equals(variables.get(0)) ||
-                 variables.get(0).startsWith("ReferenceError"))) {
+        if (variables[0].size() == 1 &&
+                ("syntax error".equals(variables[0].get(0)) ||
+                 variables[0].get(0).startsWith("ReferenceError"))) {
             beep();
             return new ArrayList<String>();
         }
 
-        variables.remove("zzz1");
-        variables.remove("zzz2");
-        variables.remove("zzz3");
+        variables[0].remove("zzz1");
+        variables[0].remove("zzz2");
+        variables[0].remove("zzz3");
 
-        return variables;
+        return variables[0];
     }
     
     public static class ConsoleProgressMonitor implements IProgressMonitor {
@@ -398,7 +433,7 @@ public class JsConsoleView extends ScriptingConsoleView
         public void beginTask( String name, int totalWork ) {
             this.totalWork = totalWork;
             Activator.getDefault().CONSOLE.echo( 
-                "|1%" + spaces(WIDTH - 8) + "100%|\nx" );
+                "|1%" + spaces(WIDTH - 8) + "100%|\n|" );
         }
 
         private String spaces( int i ) {
@@ -440,9 +475,9 @@ public class JsConsoleView extends ScriptingConsoleView
         private void updateText() {
             double done = current / (totalWork * 1.0) ;
             if( done*WIDTH > painted ) {
-                double numOfExes = done*WIDTH-painted;
-                for( int i = 0 ; i < numOfExes ; i++) {
-                    Activator.getDefault().CONSOLE.echo( "x" );
+                double numOfChars = done*WIDTH-painted;
+                for( int i = 0 ; i < numOfChars ; i++) {
+                    Activator.getDefault().CONSOLE.echo( "|" );
                     painted++;
                 }
             }

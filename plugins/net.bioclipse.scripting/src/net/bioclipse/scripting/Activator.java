@@ -14,7 +14,8 @@ public class Activator extends Plugin {
     // The shared instance
     private static Activator plugin;
     
-    public final JsEnvironment     JS_SESSION     = new JsEnvironment();
+    public final JsThread          JS_THREAD = new JsThread();
+    
     public final GroovyEnvironment GROOVY_SESSION = new GroovyEnvironment();
     public final RubyEnvironment   RUBY_SESSION   = new RubyEnvironment();
     
@@ -31,6 +32,7 @@ public class Activator extends Plugin {
     public void start(BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
+        JS_THREAD.start();
     }
 
     /*
