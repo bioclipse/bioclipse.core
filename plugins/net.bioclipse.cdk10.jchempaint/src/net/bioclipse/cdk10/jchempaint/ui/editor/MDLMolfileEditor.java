@@ -1,5 +1,8 @@
 package net.bioclipse.cdk10.jchempaint.ui.editor;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import net.bioclipse.cdk10.jchempaint.outline.JCPOutlinePage;
 import net.bioclipse.core.util.LogUtils;
 
@@ -10,12 +13,14 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IShowEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
+import org.openscience.cdk.exception.CDKException;
+import org.openscience.cdk.interfaces.IChemModel;
+import org.openscience.cdk.io.MDLWriter;
 
 /**
  * JChemPaint-based editor for MDL molfile V2000 files.
@@ -77,42 +82,54 @@ public class MDLMolfileEditor extends MultiPageEditorPart
 
             // COMMENT: single page editor, because synching tab content
             // is not implemented
-//            textEditorIndex=addPage(textEditor, getEditorInput());
-//            setPageText(textEditorIndex, "Source");
+            textEditorIndex=addPage(textEditor, getEditorInput());
+            setPageText(textEditorIndex, "Source");
         } catch (PartInitException e) {
             LogUtils.debugTrace(logger, e);
         }
         
     }
 
+    private String asText() {
+        StringWriter stringWriter = new StringWriter(2000);
+        MDLWriter mdlWriter = new MDLWriter(stringWriter);
+        IChemModel model = this.getJcpModel().getChemModel();
+        try {
+            mdlWriter.write(model);
+        } catch (CDKException e) {
+            e.printStackTrace(new PrintWriter(stringWriter));
+        }
+        return stringWriter.toString();
+    }
+
+    public void updateTextEditorFromJCP() {
+        textEditor.getDocumentProvider()
+            .getDocument(textEditor.getEditorInput())
+            .set(asText());
+    }
+
     public void doSave(IProgressMonitor monitor) {
-        
         //Synch from JCP to texteditor
-        //TODO
+        updateTextEditorFromJCP();
 
         //Use textEditor to save
         textEditor.doSave(monitor);
-        
     }
 
     public void doSaveAs() {
         //Synch from JCP to texteditor
-        //TODO
+        updateTextEditorFromJCP();
 
         //Use textEditor to save
         textEditor.doSaveAs();
     }
 
     public boolean isSaveAsAllowed() {
-
-        //TODO: not implemented yet
-        return false;
+        return true;
     }
 
     public void resourceChanged(IResourceChangeEvent event) {
-
         //React if resource is changed on disc.
-        
     }
     
     public void setFocus() {
@@ -127,8 +144,6 @@ public class MDLMolfileEditor extends MultiPageEditorPart
             }
             return fOutlinePage;
         }
-        
-        
         return super.getAdapter(adapter);
     }
 
