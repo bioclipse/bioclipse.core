@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="org/openscience/cdk/test/**/*|org/openscience/cdk/applications/DescriptorCalculator.java|org/openscience/cdk/applications/DistLargeInfo.java|org/openscience/cdk/applications/File2Text.java|org/openscience/cdk/applications/FileConvertor.java|org/openscience/cdk/applications/FileFormatGuesser.java|org/openscience/cdk/applications/FingerPrinter.java|org/openscience/cdk/applications/SDFSubstructureFinder.java|org/openscience/cdk/applications/SubstructureFinder.java|org/openscience/cdk/applications/TanimotoCoefficient.java|org/openscience/cdk/applications/Validator.java|org/openscience/cdk/applications/demo/|org/openscience/cdk/applications/jchempaint/application/JChemPaint.java|org/openscience/cdk/database/XindiceReader.java|org/openscience/cdk/iupac/parser/|org/openscience/cdk/smiles/smarts/|org/openscience/cdk/libio/biojava/Convertor.java|org/openscience/cdk/pharmacophore/" kind="src" path="src"/>
-	<classpathentry exported="true" kind="lib" path="jar/batik-awt-util.jar" sourcepath="net.bioclipse.cdksrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/batik-dom.jar" sourcepath="net.bioclipse.cdksrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/batik-svggen.jar" sourcepath="net.bioclipse.cdksrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/batik-util.jar" sourcepath="net.bioclipse.cdksrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/batik-xml.jar" sourcepath="net.bioclipse.cdksrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/dadml.jar" sourcepath="net.bioclipse.cdksrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/jai_codec.jar" sourcepath="net.bioclipse.cdksrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/jai_core.jar" sourcepath="net.bioclipse.cdksrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/jfontchooser.jar" sourcepath="net.bioclipse.cdksrc.zip"/>
 	<classpathentry exported="true" kind="lib" path="jar/jgrapht-0.6.0.jar" sourcepath="net.bioclipse.cdksrc.zip"/>
 	<classpathentry exported="true" kind="lib" path="jar/jniinchi-0.4.jar" sourcepath="net.bioclipse.cdksrc.zip"/>
 	<classpathentry exported="true" kind="lib" path="jar/JRI.jar" sourcepath="net.bioclipse.cdksrc.zip"/>
