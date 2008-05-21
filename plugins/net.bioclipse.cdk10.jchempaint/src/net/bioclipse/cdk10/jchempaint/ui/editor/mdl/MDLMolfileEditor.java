@@ -1,9 +1,14 @@
-package net.bioclipse.cdk10.jchempaint.ui.editor;
+package net.bioclipse.cdk10.jchempaint.ui.editor.mdl;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import net.bioclipse.cdk10.jchempaint.outline.JCPOutlinePage;
+import net.bioclipse.cdk10.jchempaint.ui.editor.DrawingPanel;
+import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
+import net.bioclipse.cdk10.jchempaint.ui.editor.JCPComposite;
+import net.bioclipse.cdk10.jchempaint.ui.editor.JCPMultiPageEditorContributor;
+import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;

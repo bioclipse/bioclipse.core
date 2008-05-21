@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
+import net.bioclipse.cdk10.jchempaint.ui.editor.mdl.MDLMolfileEditor;
 
 public class PopUpListener implements ActionListener {
 

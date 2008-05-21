@@ -10,7 +10,7 @@
             extensions="mol,mdl"
             default="true"
             contributorClass="net.bioclipse.cdk10.jchempaint.ui.editor.JCPMultiPageEditorContributor"
-            class="net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor"
+            class="net.bioclipse.cdk10.jchempaint.ui.editor.mdl.MDLMolfileEditor"
             id="net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor">
       </editor>
    </extension>

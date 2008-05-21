@@ -12,7 +12,7 @@
 package net.bioclipse.cdk10.jchempaint.outline;
 
 
-import net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor;
+import net.bioclipse.cdk10.jchempaint.ui.editor.mdl.MDLMolfileEditor;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IAdaptable;
