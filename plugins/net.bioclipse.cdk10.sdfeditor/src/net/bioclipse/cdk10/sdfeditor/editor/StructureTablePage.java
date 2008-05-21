@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor;
+import net.bioclipse.cdk10.jchempaint.ui.editor.mdl.MDLMolfileEditor;
 import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;
