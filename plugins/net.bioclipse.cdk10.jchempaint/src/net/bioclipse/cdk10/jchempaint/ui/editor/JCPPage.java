@@ -110,6 +110,8 @@ public class JCPPage extends EditorPart
     //Custom colorer for the renderer
     private IAtomColorer colorer;
 
+    //The AWT frame
+    java.awt.Frame jcpFrame;
     
     /*
      *  GETTERS AND SETTERS
@@ -179,6 +181,13 @@ public class JCPPage extends EditorPart
         GridLayout layout = new GridLayout();
         body.setLayout(layout);
 
+        body.addFocusListener(new JCPCompFocusListener((JCPComposite) body));
+        
+        drawingPanel = new DrawingPanel(body.getDisplay());
+
+        jcpScrollBar = new JCPScrollBar(this, true, true);
+
+        
         //Update JCPModel from chemModel, get from editor input
         try {
             if (newModel==null){
@@ -192,23 +201,9 @@ public class JCPPage extends EditorPart
             return;
         }
 
-        //More listeners
-        cl = new JCPControlListener(this);
-        body.addControlListener(cl);
-        jcpScrollBar = new JCPScrollBar(this, true, true);
 
-        //Set up drawing panel for JCP
-        drawingPanel = new DrawingPanel(body.getDisplay());
-        java.awt.Frame jcpFrame = SWT_AWT.new_Frame(body);
-        jcpFrame.add(drawingPanel);
-        drawingPanel.setJChemPaintModel(jcpModel);
+        
         drawingPanel.addMouseMotionListener(this);
-
-        body.addFocusListener(new JCPCompFocusListener((JCPComposite) body));
-
-        //If colorer exists, use it
-        if (colorer!=null)
-            drawingPanel.setAtomColorer( colorer );
 
         //Listen for Eclipse selections
         getSite().getPage().addSelectionListener(this);
@@ -248,6 +243,14 @@ public class JCPPage extends EditorPart
         
         //TODO: Remove any old listeners to chemModel
         //FIXME!!
+        
+        //Remove old listeners and components
+        if (jcpFrame!=null)
+            jcpFrame.removeAll();
+
+        if (cl!=null)
+            body.removeControlListener( cl);
+
 
         //Cache new model in page
         chemModel=newModel;
@@ -286,6 +289,23 @@ public class JCPPage extends EditorPart
         jcpModel.getControllerModel().setDrawMode(Controller2DModel.LASSO);
 //      drawingPanel.addMouseListener(this);
 
+
+        //More listeners
+        cl = new JCPControlListener(this);
+        body.addControlListener(cl);
+
+        //Set up drawing panel for JCP
+        drawingPanel = new DrawingPanel(body.getDisplay());
+        drawingPanel.setJChemPaintModel(jcpModel);
+        jcpFrame = SWT_AWT.new_Frame(body);
+        
+        //Remove any old drawingPanel and add the new one
+        jcpFrame.add(drawingPanel);
+
+        
+        //If colorer exists, use it
+        if (colorer!=null)
+            drawingPanel.setAtomColorer( colorer );
 
             
     }
