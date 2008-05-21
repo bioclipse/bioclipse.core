@@ -12,6 +12,7 @@
 
 package net.bioclipse.cdk10.jchempaint.ui.editor.cml;
 
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -21,10 +22,12 @@ import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.JCPComposite;
 import net.bioclipse.cdk10.jchempaint.ui.editor.JCPMultiPageEditorContributor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.commands.operations.IUndoContext;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -35,11 +38,17 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.openscience.cdk.ChemFile;
+import org.openscience.cdk.ChemModel;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.exception.CDKException;
+import org.openscience.cdk.interfaces.IChemFile;
 import org.openscience.cdk.interfaces.IChemModel;
+import org.openscience.cdk.io.CMLReader;
 import org.openscience.cdk.io.CMLWriter;
+import org.openscience.cdk.io.MDLV2000Reader;
 import org.openscience.cdk.io.MDLWriter;
+import org.openscience.cdk.renderer.color.IAtomColorer;
 
 /**
  * JChemPaint-based editor for CML files.
@@ -52,7 +61,7 @@ public class CMLfileEditor extends MultiPageEditorPart
     private static final Logger logger = Logger.getLogger(CMLfileEditor.class);
 
     public static final String EDITOR_ID 
-        = "net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor";
+        = "net.bioclipse.cdk10.jchempaint.ui.editor.cml.CMLfileEditor";
 
     JCPPage jcpPage;
     TextEditor textEditor;
@@ -90,8 +99,18 @@ public class CMLfileEditor extends MultiPageEditorPart
      * Create JCP on page 1 and texteditor on page2
      */
     protected void createPages() {
+
+        IChemModel chemModel=null;
         
-        jcpPage=new JCPPage();
+        try {
+            chemModel=getModelFromEditorInput();
+        } catch ( BioclipseException e1 ) {
+            e1.printStackTrace();
+            return;
+        }
+        
+
+        jcpPage=new JCPPage(chemModel);
         textEditor=new TextEditor();
         
         try {
@@ -111,6 +130,9 @@ public class CMLfileEditor extends MultiPageEditorPart
         StringWriter stringWriter = new StringWriter(2000);
         
         CMLWriter cmlWriter=new CMLWriter(stringWriter);
+        
+        //FIXME: add pretty printing
+        
         IChemModel model = this.getJcpModel().getChemModel();
         try {
             cmlWriter.write(model);
@@ -176,5 +198,45 @@ public class CMLfileEditor extends MultiPageEditorPart
     public JCPPage getJCPPage() {
         return jcpPage;
     }
+    
+    /**
+     * Get the IChemModel from the parsedResource
+     * @return
+     * @throws BioclipseException 
+     */
+    public IChemModel getModelFromEditorInput() throws BioclipseException{
+
+        Object file = getEditorInput().getAdapter(IFile.class);
+        if (!(file instanceof IFile)) {
+            throw new BioclipseException(
+                    "Invalid editor input: Does not provide an IFile");
+        }
+
+        IFile inputFile = (IFile) file;
+        
+        try {
+            InputStream instream=inputFile.getContents();
+            
+            CMLReader reader = new CMLReader(instream);
+            IChemFile cf=(IChemFile)reader.read(new ChemFile());
+            
+            IChemModel cm=cf.getChemSequence( 0 ).getChemModel( 0 );
+            
+            return cm;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+
+    /**
+     * Use default colorer
+     */
+    public IAtomColorer getColorer() {
+        return null;
+    }
+
 
 }

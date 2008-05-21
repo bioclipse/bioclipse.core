@@ -1,5 +1,6 @@
 package net.bioclipse.cdk10.jchempaint.ui.editor.mdl;
 
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -9,10 +10,12 @@ import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.JCPComposite;
 import net.bioclipse.cdk10.jchempaint.ui.editor.JCPMultiPageEditorContributor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.commands.operations.IUndoContext;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -23,10 +26,13 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.openscience.cdk.ChemModel;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.interfaces.IChemModel;
+import org.openscience.cdk.io.MDLV2000Reader;
 import org.openscience.cdk.io.MDLWriter;
+import org.openscience.cdk.renderer.color.IAtomColorer;
 
 /**
  * JChemPaint-based editor for MDL molfile V2000 files.
@@ -45,6 +51,8 @@ public class MDLMolfileEditor extends MultiPageEditorPart
     TextEditor textEditor;
     int textEditorIndex;
     private IUndoContext undoContext=null;
+    
+    IAtomColorer colorer;
 
     private JCPOutlinePage fOutlinePage;
     private JCPMultiPageEditorContributor contributor;
@@ -57,6 +65,12 @@ public class MDLMolfileEditor extends MultiPageEditorPart
             throws PartInitException {
         super.init(site, input);
         setPartName(input.getName());
+        colorer=getColorer();
+    }
+
+    //Default for MDLMolfileEditor is no additional colorer
+    public IAtomColorer getColorer() {
+        return null;
     }
 
     public JChemPaintModel getJcpModel() {
@@ -78,7 +92,20 @@ public class MDLMolfileEditor extends MultiPageEditorPart
      */
     protected void createPages() {
         
-        jcpPage=new JCPPage();
+        IChemModel chemModel=null;
+        
+        try {
+            chemModel=getModelFromEditorInput();
+        } catch ( BioclipseException e1 ) {
+            e1.printStackTrace();
+            return;
+        }
+
+        if (colorer!=null)
+            jcpPage=new JCPPage(chemModel, colorer);
+        else
+            jcpPage=new JCPPage(chemModel);
+            
         textEditor=new TextEditor();
         
         try {
@@ -161,6 +188,34 @@ public class MDLMolfileEditor extends MultiPageEditorPart
 
     public JCPPage getJCPPage() {
         return jcpPage;
+    }
+
+    /**
+     * Get the IChemModel from the parsedResource
+     * @return
+     * @throws BioclipseException 
+     */
+    public IChemModel getModelFromEditorInput() throws BioclipseException{
+
+        Object file = getEditorInput().getAdapter(IFile.class);
+        if (!(file instanceof IFile)) {
+            throw new BioclipseException(
+                    "Invalid editor input: Does not provide an IFile");
+        }
+
+        IFile inputFile = (IFile) file;
+        
+        try {
+            InputStream instream=inputFile.getContents();
+            
+            MDLV2000Reader reader = new MDLV2000Reader(instream);
+            return (IChemModel)reader.read(new ChemModel());
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return null;
     }
 
 }

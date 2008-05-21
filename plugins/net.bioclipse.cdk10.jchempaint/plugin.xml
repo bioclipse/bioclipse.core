@@ -13,6 +13,15 @@
             class="net.bioclipse.cdk10.jchempaint.ui.editor.mdl.MDLMolfileEditor"
             id="net.bioclipse.cdk10.jchempaint.ui.editor.mdl.MDLMolfileEditor">
       </editor>
+      <editor
+            name="CMLfileEditor"
+            icon="icons/molecule2D.gif"
+            extensions="cml,xml"
+            default="true"
+            contributorClass="net.bioclipse.cdk10.jchempaint.ui.editor.JCPMultiPageEditorContributor"
+            class="net.bioclipse.cdk10.jchempaint.ui.editor.cml.CMLfileEditor"
+            id="net.bioclipse.cdk10.jchempaint.ui.editor.cml.CMLfileEditor">
+      </editor>
    </extension>
 
 

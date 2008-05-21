@@ -159,13 +159,16 @@ public class JCPPage extends EditorPart
     /*
      *  CONSTRUCTORS
      */
+    
+    IChemModel newModel;
 
-    public JCPPage() {
+    public JCPPage(IChemModel chemModel_in) {
         super();
+        newModel=chemModel_in;
     }
     
-    public JCPPage(IAtomColorer colorer) {
-        super();
+    public JCPPage(IChemModel chemModel_in, IAtomColorer colorer) {
+        this(chemModel_in);
         this.colorer=colorer;
     }
 
@@ -178,9 +181,8 @@ public class JCPPage extends EditorPart
 
         //Update JCPModel from chemModel, get from editor input
         try {
-            IChemModel newModel=getModelFromEditorInput();
             if (newModel==null){
-                showMessage( "Could not get molecule from editor input" );
+                logger.debug( "No molecule provided by editor" );
                 return;
             }
             updateJCPModel(newModel);
@@ -290,33 +292,6 @@ public class JCPPage extends EditorPart
 
     
     
-    /**
-     * Get the IChemModel from the parsedResource
-     * @return
-     * @throws BioclipseException 
-     */
-    private IChemModel getModelFromEditorInput() throws BioclipseException{
-        
-        Object file = input.getAdapter(IFile.class);
-        if (!(file instanceof IFile)) {
-            throw new BioclipseException(
-                    "Invalid editor input: Does not provide an IFile");
-        }
-
-        IFile inputFile = (IFile) file;
-        
-        try {
-            InputStream instream=inputFile.getContents();
-            
-            MDLV2000Reader reader = new MDLV2000Reader(instream);
-            return (IChemModel)reader.read(new ChemModel());
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        return null;
-    }
 
     /**
      * Not used
