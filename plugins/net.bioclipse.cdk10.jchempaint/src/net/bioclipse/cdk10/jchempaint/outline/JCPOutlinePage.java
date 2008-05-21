@@ -12,6 +12,7 @@
 package net.bioclipse.cdk10.jchempaint.outline;
 
 
+import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.mdl.MDLMolfileEditor;
 
 import org.apache.log4j.Logger;
@@ -40,7 +41,7 @@ public class JCPOutlinePage extends ContentOutlinePage
     private static final Logger logger = Logger.getLogger(JCPOutlinePage.class);
     
     private IEditorInput editorInput;
-    private MDLMolfileEditor editor;
+    private IJCPBasedEditor editor;
     private TreeViewer treeViewer;
 
     //The model root
@@ -52,7 +53,7 @@ public class JCPOutlinePage extends ContentOutlinePage
      * @param mdlEditor
      */
     public JCPOutlinePage(IEditorInput editorInput
-            , MDLMolfileEditor mdlEditor) {
+            , IJCPBasedEditor mdlEditor) {
         super();
         this.editorInput=editorInput;
         this.editor=mdlEditor;

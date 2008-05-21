@@ -1,4 +1,16 @@
-package net.bioclipse.cdk10.jchempaint.ui.editor.mdl;
+ /*******************************************************************************
+ * Copyright (c) 2008 The Bioclipse Project and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Ola Spjuth
+ *
+ ******************************************************************************/
+
+package net.bioclipse.cdk10.jchempaint.ui.editor.cml;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -26,20 +38,21 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.interfaces.IChemModel;
+import org.openscience.cdk.io.CMLWriter;
 import org.openscience.cdk.io.MDLWriter;
 
 /**
- * JChemPaint-based editor for MDL molfile V2000 files.
+ * JChemPaint-based editor for CML files.
  * 
- * @author egonw, ola
+ * @author ola
  */
-public class MDLMolfileEditor extends MultiPageEditorPart 
+public class CMLfileEditor extends MultiPageEditorPart 
         implements IJCPBasedEditor, IResourceChangeListener{
 
-    private static final Logger logger = Logger.getLogger(MDLMolfileEditor.class);
+    private static final Logger logger = Logger.getLogger(CMLfileEditor.class);
 
     public static final String EDITOR_ID 
-        = "net.bioclipse.cdk10.jchempaint.ui.editor.mdl.MDLMolfileEditor";
+        = "net.bioclipse.cdk10.jchempaint.ui.editor.MDLMolfileEditor";
 
     JCPPage jcpPage;
     TextEditor textEditor;
@@ -96,10 +109,11 @@ public class MDLMolfileEditor extends MultiPageEditorPart
 
     private String asText() {
         StringWriter stringWriter = new StringWriter(2000);
-        MDLWriter mdlWriter = new MDLWriter(stringWriter);
+        
+        CMLWriter cmlWriter=new CMLWriter(stringWriter);
         IChemModel model = this.getJcpModel().getChemModel();
         try {
-            mdlWriter.write(model);
+            cmlWriter.write(model);
         } catch (CDKException e) {
             e.printStackTrace(new PrintWriter(stringWriter));
         }
