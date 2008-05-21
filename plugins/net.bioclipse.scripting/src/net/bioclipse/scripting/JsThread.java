@@ -9,8 +9,6 @@ public class JsThread extends Thread {
     
     private LinkedList<JsAction> actions;
     
-    private Logger logger = Logger.getLogger( this.getClass() );
-    
     public void run() {
         js = new JsEnvironment();
         actions = new LinkedList<JsAction>();
@@ -34,18 +32,12 @@ public class JsThread extends Thread {
     }
     
     public synchronized void enqueue(JsAction action) {
-        int tries = 10;
-        while (actions == null)  // BIG UGLY HACK!
+        while (actions == null) { // BIG UGLY HACK!
             try {
-                if (tries-- <= 0) {
-                    
-                    logger.error( "Timed out waiting for scripting to load" );
-                    break;
-                }
-                
                 Thread.sleep( 500 );
             } catch ( InterruptedException e ) {
             }
+        }
         
         synchronized (actions) {
             actions.addLast( action );
