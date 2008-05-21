@@ -1,5 +1,6 @@
 package net.bioclipse.core;
 
+import net.bioclipse.core.business.IMoleculeManager;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.recording.IHistory;
 import net.bioclipse.recording.IRecordingAdvice;
@@ -27,6 +28,7 @@ public class Activator extends Plugin {
     
     private ServiceTracker historyTracker;
     private ServiceTracker recordingAdviceTracker;
+    private ServiceTracker moleculeManagerTracker;
 
     
     public Activator() {
@@ -36,16 +38,21 @@ public class Activator extends Plugin {
     public void start(BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
-        historyTracker = new ServiceTracker( context, 
-                IHistory.class.getName(), 
-                null );
+        historyTracker 
+            = new ServiceTracker( context, 
+                                  IHistory.class.getName(), 
+                                  null );
         historyTracker.open();
-        recordingAdviceTracker = new ServiceTracker( context, 
-                IRecordingAdvice.class.getName(), 
-                null );
+        recordingAdviceTracker 
+            = new ServiceTracker( context, 
+                                  IRecordingAdvice.class.getName(), 
+                                  null );
         recordingAdviceTracker.open();
+        moleculeManagerTracker 
+            = new ServiceTracker( context,
+                                  IMoleculeManager.class.getName(),
+                                  null );
     }
-
     
     public void stop(BundleContext context) throws Exception {
         plugin = null;
@@ -91,5 +98,22 @@ public class Activator extends Plugin {
             throw new IllegalStateException("Could not get the recordingAdvice");
         }
         return recordingAdvice;
+    }
+
+
+    public IMoleculeManager getMoleculeManager() {
+        IMoleculeManager moleculeManager = null;
+        try {
+            moleculeManager = (IMoleculeManager)
+                recordingAdviceTracker.waitForService( SERVICE_TIMEOUT_MILLIS );
+        }
+        catch ( InterruptedException e ) {
+            logger.error("Error getting MoleculeManager" + e);
+            LogUtils.debugTrace( logger, e );
+        }
+        if(moleculeManager == null) {
+            throw new IllegalStateException("could not get moleculeManager");
+        }
+        return moleculeManager;
     }
 }

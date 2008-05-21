@@ -3,23 +3,32 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * www.eclipse.org—epl-v10.html <http://www.eclipse.org/legal/epl-v10.html>
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
- *     Ola Spjuth
+ *     Jonathan Alvarsson
  *     
  ******************************************************************************/
 package net.bioclipse.core.domain;
 
 import net.bioclipse.core.business.BioclipseException;
 
+import org.eclipse.core.resources.IResource;
+
+
 /**
- * An interface to represent a Small Molecule that can be represented with 
- * Smiles notation. Since we can get SMILES, we can also get 2D coordinates.
- * @author ola
+ * @author jonalv
  *
  */
-public interface IMolecule extends IBioObject{
+public class Molecule extends BioObject implements IMolecule {
 
-    public String getSmiles() throws BioclipseException;
+    private String smiles;
+    
+    public Molecule(String smiles) {
+        this.smiles = smiles;
+    }
+    
+    public String getSmiles() throws BioclipseException {
+        return smiles;
+    }
 }

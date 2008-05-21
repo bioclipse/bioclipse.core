@@ -17,5 +17,9 @@
   
   <bean id="history"
         class="net.bioclipse.recording.History" />
+        
+  <bean id="moleculeManagerTarget" 
+        class="net.bioclipse.core.business.MoleculeManager">
+  </bean>
  
 </beans>

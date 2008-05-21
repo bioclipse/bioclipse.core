@@ -15,5 +15,25 @@
                 interface="net.bioclipse.recording.IRecordingAdvice" />
 
   <osgi:service id="wrapInProxyAdviceOSGI" ref="wrapInProxyAdvice"
-                interface="net.bioclipse.recording.IWrapInProxyAdvice" />             
+                interface="net.bioclipse.recording.IWrapInProxyAdvice" /> 
+                
+  <bean id="recordingAdvisor"
+        class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice"  ref="recordingAdvice" />
+        <property name="pattern" value=".*" /> <!-- See also class implementation -->
+  </bean>
+  
+  <bean id="moleculeManager"
+        class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="target" 
+              ref="moleculeManagerTarget" />
+    <property name="proxyInterfaces" 
+              value="net.bioclipse.core.business.IMoleculeManager" />
+    <property name="interceptorNames">
+        <list>
+            <value>recordingAdvisor</value>
+            <value>wrapInProxyAdvice</value>
+        </list>
+    </property>
+  </bean>            
 </beans>
