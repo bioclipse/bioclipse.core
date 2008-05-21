@@ -40,6 +40,12 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
+import org.openscience.cdk.ChemModel;
+import org.openscience.cdk.MoleculeSet;
+import org.openscience.cdk.interfaces.IAtomContainer;
+import org.openscience.cdk.interfaces.IChemModel;
+import org.openscience.cdk.interfaces.IMoleculeSet;
+import org.openscience.cdk.io.CMLReader;
 
 public class SDFEditor extends FormEditor implements IResourceChangeListener, 
                                                 IAdaptable/*, IShowEditorInpu*/{
@@ -82,7 +88,7 @@ public class SDFEditor extends FormEditor implements IResourceChangeListener,
         tablePage=new StructureTablePage(this, propHeaders.toArray(new String[0]));
 
         //JCP page
-        jcpPage=new JCPPage();
+        jcpPage=new JCPPage(null);
 
         //Texteditor. For now, not added due to memory consumption
 //        textEditor = new TextEditor();
@@ -114,14 +120,41 @@ public class SDFEditor extends FormEditor implements IResourceChangeListener,
 
     @Override
     protected void pageChange( int newPageIndex ) {
-/*        
         if (getCurrentPage()==0){
-            //We are in structureTable
-            //Get selected index in table and set in JCP
+            if (newPageIndex==1){
+                //We are in structureTable but should switch to JCP
+                //Get selected index in table and set in JCP
 
-            int ix=tablePage.getSelectedIndex( tablePage.getSelection() );
+                int ix=tablePage.getSelectedIndex( tablePage.getSelection() );
 
+                //Handle case when we have no selected index (like first time)
+                if (ix<0) ix=0;
+
+                Object obj=entries[ix].getMoleculeImpl();
+                if ( obj instanceof IAtomContainer ) {
+                    //What else could it be than an AC? :-)
+                    IAtomContainer ac = (IAtomContainer) obj;
+                    
+                    IChemModel ml=new ChemModel();
+                    IMoleculeSet ms=new MoleculeSet();
+                    ms.addAtomContainer( ac );
+                    ml.setMoleculeSet( ms );
+                    
+                    try {
+                        jcpPage.updateJCPModel( ml);
+                    } catch ( BioclipseException e ) {
+                        logger.debug( "Cannot set new chemModel for JCP." );
+                    }
+
+                }
+
+                System.out.println("Should select index: " + ix);
+            }
         }
+
+        
+        
+/*        
         else if (getCurrentPage()==1){
             //We are in JCP
             //Get selected index in JCP and set in table
@@ -289,4 +322,5 @@ public class SDFEditor extends FormEditor implements IResourceChangeListener,
         
     }
     */
+    
 }
