@@ -27,6 +27,7 @@ import net.bioclipse.cdk10.sdfeditor.CDK10Molecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.util.LogUtils;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -48,7 +49,6 @@ import org.openscience.cdk.MoleculeSet;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.interfaces.IMoleculeSet;
-import org.openscience.cdk.io.CMLReader;
 
 public class SDFEditor extends FormEditor 
         implements IJCPbasedMPE, IResourceChangeListener, IAdaptable{
@@ -180,8 +180,8 @@ public class SDFEditor extends FormEditor
                         logger.debug("Cannot display in second type the object: " +
                         		"" + obj.getClass().getName());
                     }
-                    
                     //Store current index to avoid unnecessary updating
+                    System.out.println("New selected index: " + ix);
                     oldIx = ix;
                 }
             }
