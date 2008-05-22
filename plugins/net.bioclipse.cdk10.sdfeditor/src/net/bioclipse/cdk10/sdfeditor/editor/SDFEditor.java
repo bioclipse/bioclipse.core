@@ -149,7 +149,8 @@ public class SDFEditor extends FormEditor
                 //We are in structureTable but should switch to JCP
                 //Get selected index in table and set in JCP
 
-                int ix=tablePage.getSelectedIndex( tablePage.getSelection() );
+                int ix=currentModel;
+//                int ix=tablePage.getSelectedIndex( tablePage.getSelection() );
 
                 //Handle case when we have no selected index (like first time)
                 if (ix<0) ix=0;

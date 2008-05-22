@@ -225,7 +225,9 @@ public class JCPPage extends EditorPart
     @Override
     public void dispose() {
         
-        jcpModel.getRendererModel().removeCDKChangeListener( this );
+        if (jcpModel!=null)
+            if (jcpModel.getRendererModel()!=null)
+                jcpModel.getRendererModel().removeCDKChangeListener( this );
 
         getSite().getPage().removeSelectionListener(this);
         drawingPanel.removeAll();

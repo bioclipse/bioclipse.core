@@ -26,8 +26,10 @@ import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.OwnerDrawLabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -36,6 +38,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
@@ -63,12 +66,19 @@ public class StructureTablePage extends FormPage /*implements ISelectionProvider
 
     /** Store last selection */
     private StructureEntitySelection selectedRows;
-
+    
+    //Store the parent MPE
+    SDFEditor sdfEditor;
+    
 
     public StructureTablePage(FormEditor editor, String[] colHeaders) {
         super(editor, "bc.structuretable", "Structure table");
         this.colHeaders=colHeaders;
         selectionListeners=new ArrayList<ISelectionChangedListener>();
+        
+        if ( editor instanceof  SDFEditor) {
+            sdfEditor = (SDFEditor) editor;
+        }
 
 //      selectedRows=new StructureEntitySelection();
     }
@@ -112,6 +122,22 @@ public class StructureTablePage extends FormPage /*implements ISelectionProvider
             col2.getColumn().setAlignment(SWT.LEFT);
             tableLayout.addColumnData(new ColumnPixelData(100));
         }
+        
+        viewer.addSelectionChangedListener( new ISelectionChangedListener(){
+            public void selectionChanged( SelectionChangedEvent event ) {
+                
+                if ( event.getSelection() instanceof IStructuredSelection ) {
+                    IStructuredSelection sel = (IStructuredSelection) event.getSelection();
+                    Object obj=sel.getFirstElement();
+                    if ( obj instanceof StructureTableEntry ) {
+                        StructureTableEntry entry = (StructureTableEntry) obj;
+                        sdfEditor.setCurrentModel( entry.index );
+                    }
+                }
+                
+            }
+            
+        });
 
         viewer.addDoubleClickListener( new IDoubleClickListener(){
 
@@ -265,6 +291,10 @@ public class StructureTablePage extends FormPage /*implements ISelectionProvider
     public void setSelection(ISelection selection) {
         if (!(selection instanceof StructureEntitySelection)) return;
         this.selectedRows=(StructureEntitySelection)selection;
+        
+        //Also set selected in viewer
+        viewer.setSelection( (StructureEntitySelection)selection );
+        
     }
 
     private void showMessage(String message) {
