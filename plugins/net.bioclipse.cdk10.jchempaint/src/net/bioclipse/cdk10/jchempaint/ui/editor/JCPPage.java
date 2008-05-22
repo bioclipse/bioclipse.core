@@ -203,7 +203,6 @@ public class JCPPage extends EditorPart
 
 
         
-        drawingPanel.addMouseMotionListener(this);
 
         //Listen for Eclipse selections
         getSite().getPage().addSelectionListener(this);
@@ -299,14 +298,17 @@ public class JCPPage extends EditorPart
         drawingPanel.setJChemPaintModel(jcpModel);
         jcpFrame = SWT_AWT.new_Frame(body);
         
-        //Remove any old drawingPanel and add the new one
+        //Add the new drawingpanel to JCPFrame
         jcpFrame.add(drawingPanel);
 
+        drawingPanel.addMouseMotionListener(this);
         
         //If colorer exists, use it
         if (colorer!=null)
             drawingPanel.setAtomColorer( colorer );
 
+        //FIXME: Right now, there's a problem with repaint if switched to this
+        //from SDFileEditor.
             
     }
 
@@ -422,6 +424,10 @@ public class JCPPage extends EditorPart
     }
 
 
+    /**
+     * React upon selections in Eclipse
+     * @param selection
+     */
     private void reactOnSelection(ISelection selection) {
 
         if (jcpModel==null) return;
@@ -455,6 +461,14 @@ public class JCPPage extends EditorPart
             this.getDrawingPanel().repaint();
         }
 
+        
+    }
+
+    public void goNextModel() {
+
+        // TODO Auto-generated method stub
+        
+        
         
     }
 

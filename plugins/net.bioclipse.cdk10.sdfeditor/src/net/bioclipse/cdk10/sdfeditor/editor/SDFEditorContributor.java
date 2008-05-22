@@ -11,13 +11,16 @@
  ******************************************************************************/
 package net.bioclipse.cdk10.sdfeditor.editor;
 
+
+import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
+import net.bioclipse.cdk10.sdfeditor.Activator;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
@@ -31,7 +34,10 @@ import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 
 public class SDFEditorContributor extends MultiPageEditorActionBarContributor {
     private IEditorPart activeEditorPart;
-    private Action sampleAction;
+
+    private Action nextAction, prevAction;
+    
+    
     /**
      * Creates a multi-page contributor.
      */
@@ -92,23 +98,50 @@ public class SDFEditorContributor extends MultiPageEditorActionBarContributor {
         }
     }
     private void createActions() {
-        sampleAction = new Action() {
+        
+        prevAction = new Action() {
             public void run() {
-                MessageDialog.openInformation(null, "Jalview Plug-in", "Sample Jalview Action Executed");
+                
+                //TODO: go to the previous structure in SDFile
+                System.out.println("PREV struct");
+                
             }
         };
-        sampleAction.setText("Sample Action");
-        sampleAction.setToolTipText("Sample Action tool tip");
-        sampleAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-                getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
+        prevAction.setText("Previous");
+        prevAction.setToolTipText("Go to previous structure in file");
+        prevAction.setImageDescriptor(Activator.imageDescriptorFromPlugin(
+                   Activator.PLUGIN_ID, "icons/prev.gif" ));
+
+        nextAction = new Action() {
+            public void run() {
+                
+                if ( activeEditorPart instanceof JCPPage ) {
+                    JCPPage jcppage = (JCPPage) activeEditorPart;
+                    
+                    jcppage.goNextModel();
+                    
+                }
+                
+                //TODO: go to the next structure in SDFile
+                System.out.println("NEXT struct");
+                
+            }
+        };
+        nextAction.setText("Next");
+        nextAction.setToolTipText("Go to next structure in file");
+        nextAction.setImageDescriptor(Activator.imageDescriptorFromPlugin(
+                   Activator.PLUGIN_ID, "icons/next.gif" ));
+    
     }
     public void contributeToMenu(IMenuManager manager) {
         IMenuManager menu = new MenuManager("Editor &Menu");
         manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS, menu);
-        menu.add(sampleAction);
+        menu.add(prevAction);
+        menu.add(nextAction);
     }
     public void contributeToToolBar(IToolBarManager manager) {
         manager.add(new Separator());
-        manager.add(sampleAction);
+        manager.add(prevAction);
+        manager.add(nextAction);
     }
 }
