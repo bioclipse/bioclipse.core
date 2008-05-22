@@ -51,6 +51,7 @@ import org.openscience.cdk.ChemModel;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.controller.Controller2DModel;
 import org.openscience.cdk.controller.PopupController2D;
+import org.openscience.cdk.event.ChemObjectChangeEvent;
 import org.openscience.cdk.event.ICDKChangeListener;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
@@ -309,7 +310,15 @@ public class JCPPage extends EditorPart
 
         //FIXME: Right now, there's a problem with repaint if switched to this
         //from SDFileEditor.
-            
+
+        //Doesn't help :-(
+        jcpModel.fireChange(new ChemObjectChangeEvent(getJcpModel().getRendererModel()));
+        drawingPanel.repaint();
+        jcpFrame.repaint();
+        setFocus();
+        body.redraw();
+        
+        
     }
 
     
