@@ -26,7 +26,6 @@ import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.OwnerDrawLabelProvider;
 import org.eclipse.jface.viewers.TableLayout;
@@ -37,7 +36,6 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
@@ -128,7 +126,7 @@ public class StructureTablePage extends FormPage /*implements ISelectionProvider
                     }
                     
                     logger.debug( "DC detected on index: " + ix 
-                                  + "in entry list" );
+                                  + " in entry list" );
                     
                     IFileEditorInput finput 
                         = (IFileEditorInput) getEditorInput();
@@ -149,6 +147,7 @@ public class StructureTablePage extends FormPage /*implements ISelectionProvider
 
                     } catch (PartInitException e) {
                         LogUtils.debugTrace(logger, e);
+                        logger.debug("Error while opening file: " + e.getMessage(), e);
                     }
 
 
