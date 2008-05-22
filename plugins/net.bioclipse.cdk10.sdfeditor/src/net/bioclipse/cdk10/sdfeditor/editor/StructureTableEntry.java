@@ -61,10 +61,15 @@ public class StructureTableEntry implements ChemicalStructureProvider {
 
     //The cached image
     Image image;
+    
+    //The index of the entry
+    int index;
+    
 
-    public StructureTableEntry(IAtomContainer molecule, Object[] objects) {
+    public StructureTableEntry(int index, IAtomContainer molecule, Object[] objects) {
         this.molecule=molecule;
         this.columns=objects;
+        this.index=index;
     }
 
 
@@ -74,7 +79,8 @@ public class StructureTableEntry implements ChemicalStructureProvider {
      */
     public void draw(Event event) {
 
-        if (event.index==0){
+        //If on structure column, draw structure
+        if (event.index==StructureTablePage.STRUCTURE_COLUMN){
             if (image!=null)
                 event.gc.drawImage(image, event.x, event.y);
             else{
@@ -87,6 +93,7 @@ public class StructureTableEntry implements ChemicalStructureProvider {
                 event.gc.drawImage(image, event.x, event.y);
             }
         }
+        //If any otehr column, draw text
         else{
             drawProperty(event);
         }
@@ -99,12 +106,21 @@ public class StructureTableEntry implements ChemicalStructureProvider {
      * @param event
      */
     private void drawProperty(Event event) {
+
+        //Draw index on column 0
+        if (event.index==StructureTablePage.INDEX_COLUMN){
+            event.gc.drawText(String.valueOf( index ), event.x, event.y);
+            return;
+        }
+
+        
         if (event.index>columns.length){
             event.gc.drawText("???", event.x, event.y);
             return;
         }
 
-        String str=String.valueOf(columns[event.index-1]);
+        //Minus 2 because of 0=index, 1= structure
+        String str=String.valueOf(columns[event.index-2]);
         if (str==null)
             str="N/A";
         event.gc.drawText(str, event.x, event.y);
@@ -120,10 +136,13 @@ public class StructureTableEntry implements ChemicalStructureProvider {
         int xsize = event.width;
         int ysize = event.height;
 
+        int xsizeIX = 0;  //width of index column
+
         //Get width from widget column
         if (event.widget instanceof Table) {
             Table table = (Table) event.widget;
-            xsize=table.getColumn(0).getWidth();
+            xsize=table.getColumn(StructureTablePage.STRUCTURE_COLUMN).getWidth();
+            xsizeIX=table.getColumn(StructureTablePage.INDEX_COLUMN).getWidth();
         }
 
         renderer = new Renderer2D(new Renderer2DModel());
@@ -138,6 +157,7 @@ public class StructureTableEntry implements ChemicalStructureProvider {
 
         Graphics graphics = bufImage.createGraphics();
         graphics.setColor( Color.WHITE );
+        
         graphics.fillRect( 0, 0, xsize, ysize );
 
         IAtomContainer drawMolecule=molecule;

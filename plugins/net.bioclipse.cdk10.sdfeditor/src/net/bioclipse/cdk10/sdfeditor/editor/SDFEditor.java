@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPbasedMPE;
 import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 import net.bioclipse.cdk10.sdfeditor.CDK10Manager;
 import net.bioclipse.cdk10.sdfeditor.CDK10Molecule;
@@ -35,6 +36,8 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
@@ -47,8 +50,8 @@ import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.interfaces.IMoleculeSet;
 import org.openscience.cdk.io.CMLReader;
 
-public class SDFEditor extends FormEditor implements IResourceChangeListener, 
-                                                IAdaptable/*, IShowEditorInpu*/{
+public class SDFEditor extends FormEditor 
+        implements IJCPbasedMPE, IResourceChangeListener, IAdaptable{
 
     private static final Logger logger = Logger.getLogger(SDFEditor.class);
 
@@ -63,6 +66,22 @@ public class SDFEditor extends FormEditor implements IResourceChangeListener,
     //Model for the editor: Based on CDK
     StructureTableEntry[] entries;
     ArrayList<String> propHeaders;
+
+    //Index of the current model
+    int currentModel;
+
+    
+    public int getCurrentModel() {
+    
+        return currentModel;
+    }
+
+
+    
+    public void setCurrentModel( int currentModel ) {
+    
+        this.currentModel = currentModel;
+    }
 
 
     public StructureTableEntry[] getEntries() {
@@ -91,6 +110,12 @@ public class SDFEditor extends FormEditor implements IResourceChangeListener,
 
         //JCP page
         jcpPage=new JCPPage(null);
+        
+        //Make page aware that this is its parent MPE
+        jcpPage.setMPE(this);
+        
+        //We start with index 0 of the file
+        currentModel=0;
 
         //Texteditor. For now, not added due to memory consumption
 //        textEditor = new TextEditor();
@@ -133,38 +158,46 @@ public class SDFEditor extends FormEditor implements IResourceChangeListener,
                 if (ix<0) ix=0;
 
                 if (ix != oldIx) {
+
                     Object obj=entries[ix].getMoleculeImpl();
                     if ( obj instanceof IAtomContainer ) {
                         //What else could it be than an AC? :-)
                         IAtomContainer ac = (IAtomContainer) obj;
 
-                        IChemModel ml=new ChemModel();
-                        IMoleculeSet ms=new MoleculeSet();
-                        ms.addAtomContainer( ac );
-                        ml.setMoleculeSet( ms );
-
+                        IChemModel ml=getChemModelByIndex( ix );
+                        if (ml==null){
+                            logger.debug( "Error getting chemmodel by index: "
+                                          + ix );
+                            return;
+                        }
                         try {
                             jcpPage.updateJCPModel( ml);
                         } catch ( BioclipseException e ) {
-                            logger.debug( "Cannot set new chemModel for JCP: " + e.getMessage() );
+                            logger.debug( "Cannot set new chemModel for JCP." );
                         }
 
                     } else {
-                        logger.debug("Cannot display in second type the object: " + obj.getClass().getName());
+                        logger.debug("Cannot display in second type the object: " +
+                        		"" + obj.getClass().getName());
                     }
+                    
+                    //Store current index to avoid unnecessary updating
+                    oldIx = ix;
                 }
-
-                System.out.println("Should select index: " + ix);
-                oldIx = ix;
             }
         }
 
         
         
-/*        
         else if (getCurrentPage()==1){
-            //We are in JCP
-            //Get selected index in JCP and set in table
+            if (newPageIndex==1){
+                //We are in JCP, but have switched to structtable
+                //We 
+
+            }
+        }
+
+        /*
             Object obj=((IStructuredSelection)tablePage
                             .getSelection()).getFirstElement();
             
@@ -188,6 +221,23 @@ public class SDFEditor extends FormEditor implements IResourceChangeListener,
         */
         super.pageChange( newPageIndex );
         
+    }
+
+
+    private IChemModel getChemModelByIndex( int ix ) {
+
+        Object obj=entries[ix].getMoleculeImpl();
+        if (!( obj instanceof IAtomContainer )) {
+            return null;
+        }
+        //What else could it be than an AC? :-)
+        IAtomContainer ac = (IAtomContainer) obj;
+
+        IChemModel ml=new ChemModel();
+        IMoleculeSet ms=new MoleculeSet();
+        ms.addAtomContainer( ac );
+        ml.setMoleculeSet( ms );
+        return ml;
     }
     
     
@@ -256,7 +306,7 @@ public class SDFEditor extends FormEditor implements IResourceChangeListener,
                     monitor.beginTask("Reading SDFile...", molList.size()+1);
 
                     ArrayList<StructureTableEntry> newlist=new ArrayList<StructureTableEntry>();
-
+                    int count=0;
                     for (CDK10Molecule mol : molList){
 
                         Map<Object, Object> props=mol.getAtomContainer().getProperties();
@@ -279,9 +329,10 @@ public class SDFEditor extends FormEditor implements IResourceChangeListener,
                             vals.add(obj);
                         }
 
-                        StructureTableEntry entry=new StructureTableEntry(mol.getAtomContainer(), vals.toArray());
+                        StructureTableEntry entry=new StructureTableEntry(count, mol.getAtomContainer(), vals.toArray());
                         newlist.add(entry);
                         monitor.worked(1);
+                        count++;
                     }
                     setEntries(newlist.toArray(new StructureTableEntry[0]));
 
@@ -306,6 +357,63 @@ public class SDFEditor extends FormEditor implements IResourceChangeListener,
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+    }
+
+
+    public IChemModel getNextModel() {
+
+        System.out.println("Current model index: " + getCurrentModel());
+        
+        int ix=getCurrentModel();
+        if (ix<0) ix=0;
+
+        //get next
+        ix++;
+
+        //Handle case when we have no selected index (like first time)
+        if (ix>=entries.length){
+            logger.debug( "Too high index!" );
+            ix=entries.length-1;
+        }
+        if (ix<0) ix=0;
+        
+        setCurrentModel( ix );
+
+        //Set selection in table
+        tablePage.setSelection( new StructureEntitySelection(entries[ix]) );
+
+        System.out.println("New model index: " + getCurrentModel());
+
+        return getChemModelByIndex( ix );
+
+  
+    }
+
+
+    public IChemModel getPrevModel() {
+
+        int ix=getCurrentModel();
+        if (ix<0) ix=0;
+
+        //get previous
+        ix--;
+
+        //Handle case when we have no selected index (like first time)
+        if (ix>=entries.length){
+            logger.debug( "Too high index!" );
+            ix=entries.length-1;
+        }
+        if (ix<0) ix=0;
+        
+        setCurrentModel( ix );
+
+        //Set selection in table
+        tablePage.setSelection( new StructureEntitySelection(entries[ix]) );
+
+        System.out.println("New model index: " + getCurrentModel());
+
+        return getChemModelByIndex( ix );
 
     }
 

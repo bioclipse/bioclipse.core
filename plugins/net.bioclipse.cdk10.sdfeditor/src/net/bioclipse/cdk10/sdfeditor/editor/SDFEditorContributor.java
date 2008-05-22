@@ -102,9 +102,12 @@ public class SDFEditorContributor extends MultiPageEditorActionBarContributor {
         prevAction = new Action() {
             public void run() {
                 
-                //TODO: go to the previous structure in SDFile
-                System.out.println("PREV struct");
-                
+                if ( activeEditorPart instanceof JCPPage ) {
+                    JCPPage jcppage = (JCPPage) activeEditorPart;
+                    
+                    jcppage.goPrevModel();
+                    
+                }
             }
         };
         prevAction.setText("Previous");
@@ -121,10 +124,6 @@ public class SDFEditorContributor extends MultiPageEditorActionBarContributor {
                     jcppage.goNextModel();
                     
                 }
-                
-                //TODO: go to the next structure in SDFile
-                System.out.println("NEXT struct");
-                
             }
         };
         nextAction.setText("Next");
@@ -140,6 +139,7 @@ public class SDFEditorContributor extends MultiPageEditorActionBarContributor {
         menu.add(nextAction);
     }
     public void contributeToToolBar(IToolBarManager manager) {
+        
         manager.add(new Separator());
         manager.add(prevAction);
         manager.add(nextAction);

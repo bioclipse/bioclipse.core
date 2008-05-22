@@ -52,6 +52,10 @@ public class StructureTablePage extends FormPage /*implements ISelectionProvider
 
     private static final Logger logger = Logger.getLogger(StructureTablePage.class);
 
+    //Declare constants for use in table
+    public static final int INDEX_COLUMN=0;
+    public static final int STRUCTURE_COLUMN=1;
+
     private Table table;
     private TableViewer viewer;
     private String[] colHeaders;
@@ -93,6 +97,11 @@ public class StructureTablePage extends FormPage /*implements ISelectionProvider
 
         TableLayout tableLayout = new TableLayout();
         table.setLayout(tableLayout);
+
+        //Add index column
+        TableViewerColumn ixcol=new TableViewerColumn(viewer,SWT.BORDER);
+        ixcol.getColumn().setText("Index");
+        tableLayout.addColumnData(new ColumnPixelData(40));
 
         //Add Structure column
         TableViewerColumn col=new TableViewerColumn(viewer,SWT.BORDER);

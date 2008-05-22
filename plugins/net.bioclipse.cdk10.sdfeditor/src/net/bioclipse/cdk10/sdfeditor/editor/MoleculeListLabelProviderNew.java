@@ -28,7 +28,9 @@ public class MoleculeListLabelProviderNew extends OwnerDrawLabelProvider{
         //Get width from widget column
         if (event.widget instanceof Table) {
             Table table = (Table) event.widget;
-            xsize=table.getColumn(0).getWidth();
+            
+            //Column 1 is always structure, 0 is index
+            xsize=table.getColumn(StructureTablePage.STRUCTURE_COLUMN).getWidth();
         }
         
         //Minimum sizes
@@ -37,7 +39,6 @@ public class MoleculeListLabelProviderNew extends OwnerDrawLabelProvider{
 
         event.setBounds(new Rectangle(event.x, event.y, xsize,
                 ysize));
-        
     }
 
 

@@ -29,6 +29,11 @@ public class StructureEntitySelection implements IStructuredSelection {
         selectionSet=set;
     }
 
+    public StructureEntitySelection(StructureTableEntry entry) {
+        selectionSet=new HashSet<StructureTableEntry>();
+        selectionSet.add(entry);
+    }
+
     public Object getFirstElement() {
         return selectionSet.toArray()[0];
     }
