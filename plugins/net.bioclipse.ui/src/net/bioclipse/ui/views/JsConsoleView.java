@@ -359,6 +359,14 @@ public class JsConsoleView extends ScriptingConsoleView
     @SuppressWarnings("unchecked")
     protected List<String> getAllVariablesIn(String object) {
 
+        // Tab completion has to get in line, just as everything else. Instead
+        // of blocking the console waiting for a command to finish, we take the
+        // easy way out and disallow tab completion while a command is running.
+        if ( JsThread.isBusy() ) {
+            beep();
+            return new ArrayList<String>();
+        }        
+        
         if (object == null || "".equals(object))
             object = "this";
 

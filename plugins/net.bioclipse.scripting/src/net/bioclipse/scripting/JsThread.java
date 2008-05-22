@@ -2,12 +2,11 @@ package net.bioclipse.scripting;
 
 import java.util.LinkedList;
 
-import org.apache.log4j.Logger;
-
 public class JsThread extends Thread {
+
     public static JsEnvironment js;
-    
     private LinkedList<JsAction> actions;
+    private static boolean busy;
     
     public void run() {
         js = new JsEnvironment();
@@ -24,7 +23,9 @@ public class JsThread extends Thread {
 
                 JsAction nextAction = actions.removeFirst();
                 
+                busy = true;
                 String result = js.eval( nextAction.getCommand() );
+                busy = false;
                 
                 nextAction.runPostCommandHook(result);
             }
@@ -43,6 +44,10 @@ public class JsThread extends Thread {
             actions.addLast( action );
             actions.notifyAll();
         }
+    }
+    
+    public static synchronized boolean isBusy() {
+        return busy;
     }
     
     public void enqueue(String command) {
