@@ -52,6 +52,8 @@ public class SDFEditor extends FormEditor implements IResourceChangeListener,
 
     private static final Logger logger = Logger.getLogger(SDFEditor.class);
 
+    private int oldIx;
+
     //If used, if JCP should be shown
     private JCPPage jcpPage;
 
@@ -130,25 +132,30 @@ public class SDFEditor extends FormEditor implements IResourceChangeListener,
                 //Handle case when we have no selected index (like first time)
                 if (ix<0) ix=0;
 
-                Object obj=entries[ix].getMoleculeImpl();
-                if ( obj instanceof IAtomContainer ) {
-                    //What else could it be than an AC? :-)
-                    IAtomContainer ac = (IAtomContainer) obj;
-                    
-                    IChemModel ml=new ChemModel();
-                    IMoleculeSet ms=new MoleculeSet();
-                    ms.addAtomContainer( ac );
-                    ml.setMoleculeSet( ms );
-                    
-                    try {
-                        jcpPage.updateJCPModel( ml);
-                    } catch ( BioclipseException e ) {
-                        logger.debug( "Cannot set new chemModel for JCP." );
-                    }
+                if (ix != oldIx) {
+                    Object obj=entries[ix].getMoleculeImpl();
+                    if ( obj instanceof IAtomContainer ) {
+                        //What else could it be than an AC? :-)
+                        IAtomContainer ac = (IAtomContainer) obj;
 
+                        IChemModel ml=new ChemModel();
+                        IMoleculeSet ms=new MoleculeSet();
+                        ms.addAtomContainer( ac );
+                        ml.setMoleculeSet( ms );
+
+                        try {
+                            jcpPage.updateJCPModel( ml);
+                        } catch ( BioclipseException e ) {
+                            logger.debug( "Cannot set new chemModel for JCP: " + e.getMessage() );
+                        }
+
+                    } else {
+                        logger.debug("Cannot display in second type the object: " + obj.getClass().getName());
+                    }
                 }
 
                 System.out.println("Should select index: " + ix);
+                oldIx = ix;
             }
         }
 
