@@ -27,7 +27,6 @@ import net.bioclipse.cdk10.sdfeditor.CDK10Molecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.util.LogUtils;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -37,8 +36,6 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
@@ -193,8 +190,11 @@ public class SDFEditor extends FormEditor
         
         else if (getCurrentPage()==1){
             if (newPageIndex==1){
-                //We are in JCP, but have switched to structtable
-                //We 
+                //We are in JCP, but have switched to structure table
+                //We know the selected index so this should be trivial
+                
+                tablePage.setSelection( 
+                          new StructureEntitySelection(entries[currentModel]));
 
             }
         }
