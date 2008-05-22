@@ -485,6 +485,8 @@ public class JsConsoleView extends ScriptingConsoleView
                     Activator.getDefault().CONSOLE.echo( "|" );
                     painted++;
                 }
+                if (current == totalWork)
+                    Activator.getDefault().CONSOLE.echo( "\n" );
             }
         }
     }
