@@ -17,7 +17,6 @@ package net.bioclipse.cdk10.jchempaint.ui.editor;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.io.InputStream;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -46,12 +45,12 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
+import org.eclipse.ui.part.MultiPageEditorPart;
 import org.openscience.cdk.AtomContainer;
 import org.openscience.cdk.ChemModel;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.controller.Controller2DModel;
 import org.openscience.cdk.controller.PopupController2D;
-import org.openscience.cdk.event.ChemObjectChangeEvent;
 import org.openscience.cdk.event.ICDKChangeListener;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
@@ -60,13 +59,10 @@ import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.interfaces.IChemObjectChangeEvent;
 import org.openscience.cdk.interfaces.IChemObjectListener;
 import org.openscience.cdk.interfaces.IMolecule;
-import org.openscience.cdk.interfaces.IMoleculeSet;
-import org.openscience.cdk.io.MDLV2000Reader;
 import org.openscience.cdk.renderer.Renderer2DModel;
 import org.openscience.cdk.renderer.color.IAtomColorer;
 import org.openscience.cdk.tools.HydrogenAdder;
 import org.openscience.cdk.tools.manipulator.ChemModelManipulator;
-import org.openscience.cdk.tools.manipulator.MoleculeSetManipulator;
 
 /**
  * An EditorPage for JchemPaint
@@ -164,6 +160,8 @@ public class JCPPage extends EditorPart
      */
     
     IChemModel newModel;
+
+    private MultiPageEditorPart MPE;
 
     public JCPPage(IChemModel chemModel_in) {
         super();
@@ -467,14 +465,55 @@ public class JCPPage extends EditorPart
         
     }
 
+    /**
+     * If in MPE, get next model from MPE
+     */
     public void goNextModel() {
 
-        // TODO Auto-generated method stub
-        
-        
-        
+        if (MPE==null){
+            logger.debug("JCP has no MPE parent. GoNext is not possible.");
+            return;
+        }
+        if ( MPE instanceof IJCPbasedMPE ) {
+            IChemModel newCM=((IJCPbasedMPE)MPE).getNextModel();
+            try {
+                updateJCPModel( newCM );
+            } catch ( BioclipseException e ) {
+                logger.debug("Problem updating JCP with model.");
+                return;
+            }
+        }
+
     }
 
+    /**
+     * If in MPE, get prev model from MPE
+     */
+    public void goPrevModel() {
 
+        if (MPE==null){
+            logger.debug("JCP has no MPE parent. GoNext is not possible.");
+            return;
+        }
+        if ( MPE instanceof IJCPbasedMPE ) {
+            IChemModel newCM=((IJCPbasedMPE)MPE).getPrevModel();
+            try {
+                updateJCPModel( newCM );
+            } catch ( BioclipseException e ) {
+                logger.debug("Problem updating JCP with model.");
+                return;
+            }
+        }
+
+    }
+    
+    //These 2 methods are part of an ugly solution to allow JCP to be aware of if 
+    //it's contained as a subpage in an MPE.
+    public void setMPE( MultiPageEditorPart MPE ) {
+        this.MPE=MPE;
+    }
+    public MultiPageEditorPart getMPE() {
+        return MPE;
+    }
     
 }
