@@ -156,6 +156,7 @@ public class StructureTablePage extends FormPage /*implements ISelectionProvider
                     if ( obj instanceof StructureTableEntry ) {
                         StructureTableEntry entry = (StructureTableEntry) obj;
                         sdfEditor.setCurrentModel( entry.index );
+                        System.out.println("entry.index=" + entry.index);
                     }
                 }
                 

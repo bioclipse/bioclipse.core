@@ -155,8 +155,13 @@ public class SDFEditor extends FormEditor
                 //Handle case when we have no selected index (like first time)
                 if (ix<0) ix=0;
 
-                if (ix != oldIx) {
+                if (ix==oldIx){
+                    //No need to set new model, just update
 
+                    // ugly trigger for a repaint
+                    jcpPage.cl.controlResized( null );
+                }
+                
                     Object obj=entries[ix].getMoleculeImpl();
                     if ( obj instanceof IAtomContainer ) {
                         //What else could it be than an AC? :-)
@@ -179,11 +184,8 @@ public class SDFEditor extends FormEditor
                         		"" + obj.getClass().getName());
                     }
                     //Store current index to avoid unnecessary updating
-                    System.out.println("New selected index: " + ix);
                     oldIx = ix;
-                    // ugly trigger for a repaint
-                    jcpPage.cl.controlResized( null );
-                }
+
             }
         }
 
