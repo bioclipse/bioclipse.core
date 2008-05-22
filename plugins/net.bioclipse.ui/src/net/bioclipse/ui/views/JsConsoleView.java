@@ -18,6 +18,7 @@ import net.bioclipse.scripting.JsAction;
 import net.bioclipse.scripting.JsThread;
 import net.bioclipse.scripting.OutputProvider;
 import net.bioclipse.ui.Activator;
+import net.bioclipse.ui.ConsoleEchoer;
 import net.bioclipse.ui.EchoEvent;
 import net.bioclipse.ui.EchoListener;
 import net.bioclipse.ui.JsPluginable;
@@ -442,11 +443,15 @@ public class JsConsoleView extends ScriptingConsoleView
         private int current;
         private boolean isCanceled;
         private int painted = 1; 
+        private static final ConsoleEchoer CONSOLE 
+            = Activator.getDefault().CONSOLE; 
+
+        public ConsoleProgressMonitor() {
+            CONSOLE.echo( "|1%" + spaces(WIDTH - 8) + "100%|\n|" );
+        }
         
         public void beginTask( String name, int totalWork ) {
             this.totalWork = totalWork;
-            Activator.getDefault().CONSOLE.echo( 
-                "|1%" + spaces(WIDTH - 8) + "100%|\n|" );
         }
 
         private String spaces( int i ) {
@@ -460,6 +465,7 @@ public class JsConsoleView extends ScriptingConsoleView
 
         public void done() {
             current = totalWork;
+            CONSOLE.echo( "\n" );
             updateText();
         }
 
@@ -490,11 +496,9 @@ public class JsConsoleView extends ScriptingConsoleView
             if( done*WIDTH > painted ) {
                 double numOfChars = done*WIDTH-painted;
                 for( int i = 0 ; i < numOfChars ; i++) {
-                    Activator.getDefault().CONSOLE.echo( "|" );
+                    CONSOLE.echo( "|" );
                     painted++;
                 }
-                if (current == totalWork)
-                    Activator.getDefault().CONSOLE.echo( "\n" );
             }
         }
     }
