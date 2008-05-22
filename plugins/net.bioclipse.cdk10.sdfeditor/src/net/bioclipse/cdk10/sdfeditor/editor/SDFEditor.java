@@ -55,7 +55,7 @@ public class SDFEditor extends FormEditor
 
     private static final Logger logger = Logger.getLogger(SDFEditor.class);
 
-    private int oldIx;
+    private int oldIx = -1;
 
     //If used, if JCP should be shown
     private JCPPage jcpPage;
@@ -183,6 +183,8 @@ public class SDFEditor extends FormEditor
                     //Store current index to avoid unnecessary updating
                     System.out.println("New selected index: " + ix);
                     oldIx = ix;
+                    // ugly trigger for a repaint
+                    jcpPage.cl.controlResized( null );
                 }
             }
         }
