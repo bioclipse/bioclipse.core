@@ -203,6 +203,8 @@ public class JCPPage extends EditorPart
         }
 
 
+        //Reduce flicker on windows machines.
+        System.setProperty("sun.awt.noerasebackground", "true");
         
 
         //Listen for Eclipse selections
@@ -308,16 +310,8 @@ public class JCPPage extends EditorPart
         if (colorer!=null)
             drawingPanel.setAtomColorer( colorer );
 
-        //FIXME: Right now, there's a problem with repaint if switched to this
-        //from SDFileEditor.
-
-        //Doesn't help :-(
-        jcpModel.fireChange(new ChemObjectChangeEvent(getJcpModel().getRendererModel()));
-        drawingPanel.repaint();
-        jcpFrame.repaint();
-        setFocus();
-        body.redraw();
-        
+        //Ugly fix to force repaint.
+        cl.controlResized( null );
         
     }
 
