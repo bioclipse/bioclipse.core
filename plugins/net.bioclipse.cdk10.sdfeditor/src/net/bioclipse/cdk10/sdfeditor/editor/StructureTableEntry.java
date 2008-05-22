@@ -114,7 +114,7 @@ public class StructureTableEntry implements ChemicalStructureProvider {
         }
 
         
-        if (event.index>columns.length){
+        if (event.index>=columns.length+2){
             event.gc.drawText("???", event.x, event.y);
             return;
         }

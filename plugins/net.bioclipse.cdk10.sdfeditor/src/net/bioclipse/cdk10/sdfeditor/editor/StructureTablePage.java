@@ -33,6 +33,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -109,18 +110,41 @@ public class StructureTablePage extends FormPage /*implements ISelectionProvider
         //Add index column
         TableViewerColumn ixcol=new TableViewerColumn(viewer,SWT.BORDER);
         ixcol.getColumn().setText("Index");
-        tableLayout.addColumnData(new ColumnPixelData(40));
+        tableLayout.addColumnData(new ColumnPixelData(50));
+        ColumnViewerSorter cSorter = new ColumnViewerSorter(viewer,ixcol) {
+            protected int doCompare(Viewer viewer, Object e1, Object e2) {
+                StructureTableEntry s1=(StructureTableEntry)e1;
+                StructureTableEntry s2=(StructureTableEntry)e2;
+                if (s1.index==s2.index) return 0;
+                if (s1.index<s2.index) return -1;
+                return +1;
+            }
+          };
 
+        
         //Add Structure column
         TableViewerColumn col=new TableViewerColumn(viewer,SWT.BORDER);
         col.getColumn().setText("Structure");
         tableLayout.addColumnData(new ColumnPixelData(100));
 
+        int colIndex=0;
         for (String colkey : colHeaders){
             TableViewerColumn col2=new TableViewerColumn(viewer,SWT.BORDER);
             col2.getColumn().setText(colkey);
             col2.getColumn().setAlignment(SWT.LEFT);
             tableLayout.addColumnData(new ColumnPixelData(100));
+            new ColumnViewerSorter(viewer,col2, colIndex) {
+                protected int doCompare(Viewer viewer, Object e1, Object e2) {
+                    StructureTableEntry s1=(StructureTableEntry)e1;
+                    StructureTableEntry s2=(StructureTableEntry)e2;
+                    Object o1=s1.columns[getColIndex()];
+                    Object o2=s2.columns[getColIndex()];
+                    
+                    return String.valueOf( o1 )
+                        .compareTo( String.valueOf( o2 ));
+                }
+              };
+              colIndex++;
         }
         
         viewer.addSelectionChangedListener( new ISelectionChangedListener(){
@@ -195,6 +219,9 @@ public class StructureTablePage extends FormPage /*implements ISelectionProvider
         else{
             logger.debug("Editor moleculeList is empty.");
         }
+
+        //Set sorter
+        cSorter.setSorter(cSorter, ColumnViewerSorter.ASC);
 
         //Post selections in Table to Eclipse
         getSite().setSelectionProvider(viewer);
