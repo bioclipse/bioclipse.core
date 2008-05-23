@@ -134,7 +134,9 @@ public class SDFEditor extends FormEditor
 
             
             try {
-                TABLE_PAGE_INDEX=addPage(tablePage/*, getEditorInput()*/);
+                //We need to call addPages with editor input to be treated 
+                //as editor, and hence respond to dirty changes
+                TABLE_PAGE_INDEX=addPage(tablePage, getEditorInput());
 
                 JCP_PAGE_INDEX=addPage(jcpPage, getEditorInput());
 //                jcpPage.activateJCP();
@@ -261,12 +263,20 @@ public class SDFEditor extends FormEditor
         return ml;
     }
     
-    
+    @Override
+    public boolean isDirty() {
 
+        if (jcpPage.isDirty()) return true;
+        if (tablePage.isDirty()) return true;
+
+        return false;
+    }
 
     @Override
     public void doSave(IProgressMonitor monitor) {
         //TODO
+        
+        
     }
 
     @Override
@@ -295,6 +305,8 @@ public class SDFEditor extends FormEditor
 
         try {
 
+            //TODO: should not be progMonDial, as it opens before Workbench.
+            //Maybe a WorkbenchProgress or just a BG thread?
             new ProgressMonitorDialog(getSite().getShell()).run(false, true, new IRunnableWithProgress(){
 
                 public void run(IProgressMonitor monitor)

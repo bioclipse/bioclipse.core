@@ -38,6 +38,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IEditorInput;
@@ -73,7 +74,9 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
     
     //Store the parent MPE
     SDFEditor sdfEditor;
-    
+
+    //Store dirty state
+    private boolean dirty;
 
     public StructureTablePage(FormEditor editor, String[] colHeaders) {
         super(editor, "bc.structuretable", "Structure table");
@@ -83,6 +86,8 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
         if ( editor instanceof  SDFEditor) {
             sdfEditor = (SDFEditor) editor;
         }
+        
+        dirty=false;
 
 //      selectedRows=new StructureEntitySelection();
     }
@@ -130,24 +135,28 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
         col.getColumn().setText("Structure");
         tableLayout.addColumnData(new ColumnPixelData(100));
 
+        //Add properties columns
         int colIndex=0;
         for (String colkey : colHeaders){
-            TableViewerColumn col2=new TableViewerColumn(viewer,SWT.BORDER);
-            col2.getColumn().setText(colkey);
-            col2.getColumn().setAlignment(SWT.LEFT);
+            TableViewerColumn propCol=new TableViewerColumn(viewer,SWT.BORDER);
+            propCol.getColumn().setText(colkey);
+            propCol.getColumn().setAlignment(SWT.LEFT);
             tableLayout.addColumnData(new ColumnPixelData(100));
-            new ColumnViewerSorter(viewer,col2, colIndex) {
+            new ColumnViewerSorter(viewer,propCol, colIndex) {
                 protected int doCompare(Viewer viewer, Object e1, Object e2) {
                     StructureTableEntry s1=(StructureTableEntry)e1;
                     StructureTableEntry s2=(StructureTableEntry)e2;
                     Object o1=s1.columns[getColIndex()];
                     Object o2=s2.columns[getColIndex()];
-                    
+
                     return String.valueOf( o1 )
-                        .compareTo( String.valueOf( o2 ));
+                    .compareTo( String.valueOf( o2 ));
                 }
-              };
-              colIndex++;
+            };
+
+            propCol.setEditingSupport(new StructureTableEditingSupport(
+                                                                       viewer,colIndex, this));
+            colIndex++;
         }
         
         viewer.addSelectionChangedListener( new ISelectionChangedListener(){
@@ -210,10 +219,9 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
         cSorter.setSorter(cSorter, ColumnViewerSorter.ASC);
 
         //Post selections in Table to Eclipse
-        getSite().setSelectionProvider(viewer);
-
+        getEditor().getSite().setSelectionProvider(viewer);
         
-        getSite().getPage().addSelectionListener(this);
+        getEditor().getSite().getPage().addSelectionListener(this);
 
     }
 
@@ -349,4 +357,32 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
         
     }
 
+    /**
+     * We provide our own dirty state
+     * @param dirty
+     */
+    public void setDirty( boolean dirty ) {
+        if (this.dirty==dirty) return;
+        this.dirty=dirty;
+        firePropertyChange(PROP_DIRTY);
+    }
+
+
+    /**
+     * We provide our own dirty state.
+     */
+    @Override
+    public boolean isDirty() {
+        return dirty;
+    }
+
+    /**
+     * A formPage is not an editor, and hence we override 
+     * in order to respond to dirty changes
+     */
+    @Override
+    public boolean isEditor() {
+        return true;
+    }
+    
 }
