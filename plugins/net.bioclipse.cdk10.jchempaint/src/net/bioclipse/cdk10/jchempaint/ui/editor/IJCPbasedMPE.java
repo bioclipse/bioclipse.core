@@ -12,5 +12,6 @@ public interface IJCPbasedMPE {
 
     public IChemModel getNextModel();
     public IChemModel getPrevModel();
+    public IChemModel getModel( int i );
 
 }

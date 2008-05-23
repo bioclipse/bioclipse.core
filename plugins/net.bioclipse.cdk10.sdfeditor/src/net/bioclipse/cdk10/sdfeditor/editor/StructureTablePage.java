@@ -332,8 +332,7 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
         if (selectedRows!=null)
             if (selectedRows.equals( selection )) return;
         
-        System.out.println("Table listen: " + selection.toString());
-        
+//        System.out.println("Table listen: " + selection.toString());
 
         //Collect supported selected objects
         HashSet<StructureTableEntry> set=new HashSet<StructureTableEntry>();

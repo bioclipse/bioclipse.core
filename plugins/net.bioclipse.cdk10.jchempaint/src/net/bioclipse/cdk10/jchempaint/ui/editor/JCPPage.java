@@ -428,10 +428,11 @@ public class JCPPage extends EditorPart
 
 
     /**
-     * React upon selections in Eclipse
+     * React upon selections in Eclipse, handles selections of CDKChemObjects,
+     * such as Atoms and Bonds.
      * @param selection
      */
-    private void reactOnSelection(ISelection selection) {
+    public void reactOnSelection(ISelection selection) {
 
         if (jcpModel==null) return;
         
@@ -507,6 +508,26 @@ public class JCPPage extends EditorPart
             }
         }
 
+    }
+    
+    public void goModel(int i){
+        if (MPE==null){
+            logger.debug("JCP has no MPE parent. GoNext is not possible.");
+            return;
+        }
+        if ( MPE instanceof IJCPbasedMPE ) {
+            IChemModel newCM=((IJCPbasedMPE)MPE).getModel(i);
+            if (newCM==null){
+                logger.error( "Could not get model with index: " + i );
+                return;
+            }
+            try {
+                updateJCPModel( newCM );
+            } catch ( BioclipseException e ) {
+                logger.debug("Problem updating JCP with model.");
+                return;
+            }
+        }
     }
     
     //These 2 methods are part of an ugly solution to allow JCP to be aware of if 

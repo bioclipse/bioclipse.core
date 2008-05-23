@@ -58,7 +58,7 @@ public class SDFEditor extends FormEditor
     private int oldIx = -1;
 
     //If used, if JCP should be shown
-    private JCPPage jcpPage;
+    private SDFJCPPage jcpPage;
 
 //    private TextEditor textEditor;
     private StructureTablePage tablePage;
@@ -115,7 +115,7 @@ public class SDFEditor extends FormEditor
         tablePage=new StructureTablePage(this, propHeaders.toArray(new String[0]));
 
         //JCP page
-        jcpPage=new JCPPage(null);
+        jcpPage=new SDFJCPPage(null);
         
         //Make page aware that this is its parent MPE
         jcpPage.setMPE(this);
@@ -195,6 +195,9 @@ public class SDFEditor extends FormEditor
                     //Store current index to avoid unnecessary updating
                     oldIx = ix;
 
+                    //Set visible so we can listen for selections
+                    jcpPage.setVisible( true );
+                    
             }
         }
 
@@ -207,6 +210,9 @@ public class SDFEditor extends FormEditor
                 
                 tablePage.setSelection( 
                           new StructureEntitySelection(entries[currentModel]));
+
+                //Set visible so we can listen for selections
+                jcpPage.setVisible( false );
 
             }
         }
@@ -239,7 +245,8 @@ public class SDFEditor extends FormEditor
 
 
     private IChemModel getChemModelByIndex( int ix ) {
-
+        if (ix>=entries.length) return null;
+        
         Object obj=entries[ix].getMoleculeImpl();
         if (!( obj instanceof IAtomContainer )) {
             return null;
@@ -397,10 +404,7 @@ public class SDFEditor extends FormEditor
         //Set selection in table
         tablePage.setSelection( new StructureEntitySelection(entries[ix]) );
 
-        System.out.println("New model index: " + getCurrentModel());
-
         return getChemModelByIndex( ix );
-
   
     }
 
@@ -425,10 +429,20 @@ public class SDFEditor extends FormEditor
         //Set selection in table
         tablePage.setSelection( new StructureEntitySelection(entries[ix]) );
 
-        System.out.println("New model index: " + getCurrentModel());
-
         return getChemModelByIndex( ix );
 
+    }
+
+    public IChemModel getModel( int ix ) {
+
+        if (ix<0) ix=0;
+        
+        setCurrentModel( ix );
+
+        //Set selection in table
+        tablePage.setSelection( new StructureEntitySelection(entries[ix]) );
+
+        return getChemModelByIndex( ix );
     }
 
 
@@ -442,6 +456,9 @@ public class SDFEditor extends FormEditor
         }
         return super.getAdapter(adapter);
     }
+
+
+
 
     
 }
