@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+
+
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            contentProvider="net.bioclipse.cdk10.ui.content.MoleculeContentProvider"
+            id="net.bioclipse.cdk10.ui.content.MoleculeContent"
+            labelProvider="net.bioclipse.cdk10.ui.content.MoleculeLabelProvider"
+            name="Molecule Content">
+         <triggerPoints>
+         <and>
+            <instanceof value="org.eclipse.core.resources.IResource"/>
+            <or>
+            <test
+            	forcePluginActivation="true"
+            	property="org.eclipse.core.resources.extension"
+            	value="sdf"/>
+            <test
+            	forcePluginActivation="true"
+            	property="org.eclipse.core.resources.extension"
+            	value="cml"/>
+            </or>
+         </and>
+         </triggerPoints>
+      </navigatorContent>
+   </extension>
+
+<!-- Add MoleculeContent to expand molecules with CDK -->
+<extension
+      point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding
+            viewerId="net.bioclipse.navigator">
+            <includes>
+            <contentExtension
+                  pattern="net.bioclipse.cdk10.ui.content.MoleculeContent">
+            </contentExtension>
+            </includes>
+      </viewerContentBinding>
+</extension>
+
+</plugin>
