@@ -325,11 +325,15 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
 
         if (part.equals( this )) return;
         if (part.equals( sdfEditor )) return;
+
+        if (!( selection instanceof IStructuredSelection )) return;
+        IStructuredSelection sel = (IStructuredSelection) selection;
+
+        if (selectedRows!=null)
+            if (selectedRows.equals( selection )) return;
         
         System.out.println("Table listen: " + selection.toString());
         
-        if (!( selection instanceof IStructuredSelection )) return;
-        IStructuredSelection sel = (IStructuredSelection) selection;
 
         //Collect supported selected objects
         HashSet<StructureTableEntry> set=new HashSet<StructureTableEntry>();
@@ -341,8 +345,8 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
         }
 
         //Set as selection in table
-        StructureEntitySelection entrySel=new StructureEntitySelection(set);
-        setSelection( entrySel);
+        selectedRows=new StructureEntitySelection(set);
+        setSelection( selectedRows);
         
     }
 

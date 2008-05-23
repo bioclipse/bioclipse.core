@@ -8,16 +8,20 @@ import org.apache.log4j.Logger;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
 
-public class SDFOutlinePage extends ContentOutlinePage {
+public class SDFOutlinePage extends ContentOutlinePage implements ISelectionListener{
 
 //    private static final Logger logger = Logger.getLogger(SDFOutlinePage.class);
 
@@ -116,6 +120,27 @@ public class SDFOutlinePage extends ContentOutlinePage {
         });
         
         getTreeViewer().setInput( editor.getEntries() );
+
+        //Listen for selections in Eclipse
+        getSite().getPage().addSelectionListener(this);
+
+        
+    }
+
+    /**
+     * Forward selections to treeviewer
+     */
+    public void selectionChanged( IWorkbenchPart part, ISelection selection ) {
+        
+        if (part.equals( this )) return;
+        if (!( selection instanceof IStructuredSelection )) return;
+        IStructuredSelection sel = (IStructuredSelection) selection;
+
+        //Only set selection if something new
+        if (((IStructuredSelection)getTreeViewer().getSelection()).toList().containsAll( sel.toList() ))
+            return;
+        else
+            getTreeViewer().setSelection( selection );
         
     }
     
