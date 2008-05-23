@@ -59,8 +59,6 @@ public class SDFJCPPage extends JCPPage implements ISelectionListener{
         if (!( sel.getFirstElement() instanceof StructureTableEntry )) return;
         StructureTableEntry entry = (StructureTableEntry) sel.getFirstElement();
         
-        System.out.println("JCP listen: " + entry);
-        
         goModel( entry.getIndex() );
         
     }
