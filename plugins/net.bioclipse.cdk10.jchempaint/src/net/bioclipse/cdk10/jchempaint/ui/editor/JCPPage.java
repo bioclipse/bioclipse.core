@@ -274,7 +274,8 @@ public class JCPPage extends EditorPart
                 try{
                     hydrogenAdder.addImplicitHydrogensToSatisfyValency(molecule);
                 }catch(Exception ex){
-                    //do nothing
+                    logger.debug( ex.getMessage(), ex );
+                    ex.printStackTrace();
                 }
             }
         }
