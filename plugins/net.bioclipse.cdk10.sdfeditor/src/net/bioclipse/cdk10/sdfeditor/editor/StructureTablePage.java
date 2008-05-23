@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 import net.bioclipse.cdk10.jchempaint.ui.editor.mdl.MDLMolfileEditor;
 import net.bioclipse.core.util.LogUtils;
 
@@ -42,7 +43,9 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -50,7 +53,7 @@ import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
-public class StructureTablePage extends FormPage /*implements ISelectionProvider*/{
+public class StructureTablePage extends FormPage implements ISelectionListener{
 
     private static final Logger logger = Logger.getLogger(StructureTablePage.class);
 
@@ -156,7 +159,6 @@ public class StructureTablePage extends FormPage /*implements ISelectionProvider
                     if ( obj instanceof StructureTableEntry ) {
                         StructureTableEntry entry = (StructureTableEntry) obj;
                         sdfEditor.setCurrentModel( entry.index );
-                        System.out.println("entry.index=" + entry.index);
                     }
                 }
                 
@@ -169,7 +171,9 @@ public class StructureTablePage extends FormPage /*implements ISelectionProvider
             public void doubleClick( DoubleClickEvent event ) {
                     
                     int ix = getSelectedIndex( event.getSelection() );
-                    
+
+//                    sdfEditor.setCurrentModel( ix );
+
                     if (ix<0){
                         //Should not happen
                         showMessage( "Index of double-clicked is negative." );
@@ -179,28 +183,9 @@ public class StructureTablePage extends FormPage /*implements ISelectionProvider
                     logger.debug( "DC detected on index: " + ix 
                                   + " in entry list" );
                     
-                    IFileEditorInput finput 
-                        = (IFileEditorInput) getEditorInput();
-//                    SDFileEditorInput input
-//                        = new SDFileEditorInput(finput.getFile(), ix);
-                    
-                    
-
-                    String editorId= MDLMolfileEditor.EDITOR_ID;
-                    IWorkbenchPage page= getEditorSite().getPage();
-                    try {
-                        IEditorPart editor=page.openEditor(finput,
-                                                           editorId);
-//                        if (editor instanceof MDLMolfileEditor) {
-//                            MDLMolfileEditor bmed = (MDLMolfileEditor) editor;
-//                            //TODO: init data?
-//                        }
-
-                    } catch (PartInitException e) {
-                        LogUtils.debugTrace(logger, e);
-                        logger.debug("Error while opening file: " + e.getMessage(), e);
-                    }
-
+                    sdfEditor.setCurrentModel( ix );
+                    sdfEditor.pageChange( 1 );
+                    sdfEditor.getActivePageInstance().setFocus();
 
             }
 
@@ -226,6 +211,9 @@ public class StructureTablePage extends FormPage /*implements ISelectionProvider
 
         //Post selections in Table to Eclipse
         getSite().setSelectionProvider(viewer);
+
+        
+        getSite().getPage().addSelectionListener(this);
 
     }
 
@@ -330,6 +318,32 @@ public class StructureTablePage extends FormPage /*implements ISelectionProvider
                                       viewer.getControl().getShell(),
                                       "Message",
                                       message);
+    }
+
+
+    public void selectionChanged( IWorkbenchPart part, ISelection selection ) {
+
+        if (part.equals( this )) return;
+        if (part.equals( sdfEditor )) return;
+        
+        System.out.println("Table listen: " + selection.toString());
+        
+        if (!( selection instanceof IStructuredSelection )) return;
+        IStructuredSelection sel = (IStructuredSelection) selection;
+
+        //Collect supported selected objects
+        HashSet<StructureTableEntry> set=new HashSet<StructureTableEntry>();
+        for (Object obj : sel.toList()){
+            if ( obj instanceof StructureTableEntry ) {
+                StructureTableEntry entry = (StructureTableEntry) obj;
+                set.add( entry );
+            }
+        }
+
+        //Set as selection in table
+        StructureEntitySelection entrySel=new StructureEntitySelection(set);
+        setSelection( entrySel);
+        
     }
 
 }

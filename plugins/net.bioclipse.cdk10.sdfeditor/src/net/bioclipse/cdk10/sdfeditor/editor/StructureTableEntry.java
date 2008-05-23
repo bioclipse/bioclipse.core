@@ -66,6 +66,13 @@ public class StructureTableEntry implements ChemicalStructureProvider {
     int index;
     
 
+    
+    public int getIndex() {
+    
+        return index;
+    }
+
+
     public StructureTableEntry(int index, IAtomContainer molecule, Object[] objects) {
         this.molecule=molecule;
         this.columns=objects;
@@ -319,5 +326,16 @@ public class StructureTableEntry implements ChemicalStructureProvider {
     }
 
 
+    @Override
+    public String toString() {
+        String ret=""+index + ": [";
+        for (Object obj : columns){
+            ret=ret+obj.toString()+", ";
+        }
+        ret=ret.substring( 0, ret.length()-2 );
+        ret=ret+"]";
+        
+        return ret;
+    }
 
 }

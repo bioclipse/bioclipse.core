@@ -20,10 +20,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import net.bioclipse.cdk10.jchempaint.outline.JCPOutlinePage;
 import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPbasedMPE;
 import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 import net.bioclipse.cdk10.sdfeditor.CDK10Manager;
 import net.bioclipse.cdk10.sdfeditor.CDK10Molecule;
+import net.bioclipse.cdk10.sdfeditor.outline.SDFOutlinePage;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.util.LogUtils;
 
@@ -41,6 +43,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.openscience.cdk.ChemModel;
 import org.openscience.cdk.MoleculeSet;
 import org.openscience.cdk.interfaces.IAtomContainer;
@@ -67,6 +70,12 @@ public class SDFEditor extends FormEditor
     //Index of the current model
     int currentModel;
 
+    //Store indices for pages
+    public static int TABLE_PAGE_INDEX;
+    public static int JCP_PAGE_INDEX;
+
+    //The OutlinePage
+    IContentOutlinePage fOutlinePage;
     
     public int getCurrentModel() {
     
@@ -125,11 +134,11 @@ public class SDFEditor extends FormEditor
 
             
             try {
-                addPage(tablePage/*, getEditorInput()*/);
+                TABLE_PAGE_INDEX=addPage(tablePage/*, getEditorInput()*/);
 
-                int ix=addPage(jcpPage, getEditorInput());
+                JCP_PAGE_INDEX=addPage(jcpPage, getEditorInput());
 //                jcpPage.activateJCP();
-                setPageText(ix, "Single entry");
+                setPageText(JCP_PAGE_INDEX, "Single entry");
                 
 //Texteditor not added
 //            int index = addPage(textEditor, getEditorInput());
@@ -144,13 +153,13 @@ public class SDFEditor extends FormEditor
 
     @Override
     protected void pageChange( int newPageIndex ) {
-        if (getCurrentPage()==0){
-            if (newPageIndex==1){
+        if (getCurrentPage()==TABLE_PAGE_INDEX){
+            if (newPageIndex==JCP_PAGE_INDEX){
                 //We are in structureTable but should switch to JCP
                 //Get selected index in table and set in JCP
 
                 int ix=currentModel;
-//                int ix=tablePage.getSelectedIndex( tablePage.getSelection() );
+                System.out.println("We should switch to JCP with index: " + ix);
 
                 //Handle case when we have no selected index (like first time)
                 if (ix<0) ix=0;
@@ -191,8 +200,8 @@ public class SDFEditor extends FormEditor
 
         
         
-        else if (getCurrentPage()==1){
-            if (newPageIndex==1){
+        else if (getCurrentPage()==JCP_PAGE_INDEX){
+            if (newPageIndex==TABLE_PAGE_INDEX){
                 //We are in JCP, but have switched to structure table
                 //We know the selected index so this should be trivial
                 
@@ -422,25 +431,17 @@ public class SDFEditor extends FormEditor
 
     }
 
-/*
-    public void showEditorInput( IEditorInput editorInput ) {
 
-        removePage( 0 );
+    public Object getAdapter(Class adapter) {
         
-        jcpPage=new JCPPage();
-        
-        try {
-            int ix=addPage(jcpPage, editorInput);
-//            jcpPage.activateJCP();
-            setPageText(ix, "Structure");
-            jcpPage.getDrawingPanel().repaint();
-            //FIXME: does not repaint JCP properly!
-
-        } catch (PartInitException e) {
-            LogUtils.debugTrace(logger, e);
+        if (IContentOutlinePage.class.equals(adapter)) {
+            if (fOutlinePage == null) {
+                fOutlinePage= new SDFOutlinePage(getEditorInput(), this);
+            }
+            return fOutlinePage;
         }
-        
+        return super.getAdapter(adapter);
     }
-    */
+
     
 }
