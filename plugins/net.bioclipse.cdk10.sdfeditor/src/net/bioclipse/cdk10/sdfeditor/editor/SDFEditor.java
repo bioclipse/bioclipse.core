@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.IEditorInput;
@@ -274,9 +276,61 @@ public class SDFEditor extends FormEditor
 
     @Override
     public void doSave(IProgressMonitor monitor) {
-        //TODO
+
+        //This is the file we should write to
+        IFile file=getFileFromInput();
+        if (file==null){
+            logger.error( "Could not get file. Save canceled. ");
+            showMessage(  "Could not get file. Save canceled. ");
+            return;
+        }
+
+        //So, serialize the entries[] to a ChemFile
+        List<CDK10Molecule> mols = new ArrayList<CDK10Molecule>();
+        int cnt=0;
+        for (StructureTableEntry entry : entries){
+            IAtomContainer ac=(IAtomContainer)entry.getMoleculeImpl();
+
+//            System.out.println("Mol: " + entry.getIndex());
+            
+            //Add the properties with key->value to the AC
+            Hashtable props=new Hashtable();
+            int pcnt=0;
+            for (String pkey : propHeaders){
+                String val=String.valueOf( entry.columns[pcnt] );
+//                System.out.println("    Added property: " + pkey + " -> " + val);
+                props.put( pkey, val );
+                pcnt++;
+            }
+            
+            ac.setProperties( props );
+
+            CDK10Molecule mol=new CDK10Molecule(ac);
+            mols.add( mol );
+            
+            cnt++;
+        }
         
+        CDK10Manager manager= new CDK10Manager();
+        try {
+            manager.saveMoleculesAsSDF(mols, file);
+        } catch ( InvocationTargetException e ) {
+            LogUtils.debugTrace( logger, e );
+            logger.error( "There was an error saving file: " + file );
+            showMessage( "There was an error saving file: " + file  );
+            return;
+        } catch ( InterruptedException e ) {
+            logger.debug( "Save of file: " + file.getName() 
+                          + " was interrupted");
+        }
         
+    }
+
+    private void showMessage(String message) {
+        MessageDialog.openInformation(
+                                      getSite().getShell(),
+                                      "Message",
+                                      message);
     }
 
     @Override
@@ -301,6 +355,9 @@ public class SDFEditor extends FormEditor
         //TODO
     }
 
+    /**
+     * Get contents from input and parse into model object
+     */
     private void parseInput(){
 
         try {
@@ -313,17 +370,9 @@ public class SDFEditor extends FormEditor
                 throws InvocationTargetException, InterruptedException {
 
 
-                    IEditorInput input=getEditorInput();
-                    if (!(input instanceof IFileEditorInput)) {
-                        logger.debug("Not FIleEditorInput.");
-                        //TODO: Close editor?
-                        return;
-                    }
-                    IFileEditorInput finput = (IFileEditorInput) input;
-
-                    IFile file=finput.getFile();
-                    if (!(file.exists())){
-                        logger.debug("File does not exist.");
+                    IFile file = getFileFromInput();
+                    if (file==null){
+                        logger.debug("Could not get file from editor input.");
                         //TODO: Close editor?
                         return;
                     }
@@ -394,6 +443,24 @@ public class SDFEditor extends FormEditor
     }
 
 
+    /**
+     * Get IFIle from editorInput
+     * @return
+     */
+    private IFile getFileFromInput() {
+
+        IEditorInput input=getEditorInput();
+        if (!(input instanceof IFileEditorInput)) {
+            return null;
+        }
+        IFileEditorInput finput = (IFileEditorInput) input;
+
+        IFile file=finput.getFile();
+        if (!(file.exists())){
+            return null;
+        }
+        return file;
+    }
     public IChemModel getNextModel() {
 
         System.out.println("Current model index: " + getCurrentModel());

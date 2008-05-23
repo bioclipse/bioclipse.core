@@ -11,11 +11,16 @@
  ******************************************************************************/
 package net.bioclipse.cdk10.sdfeditor;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,14 +31,25 @@ import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.action.StatusLineManager;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.openscience.cdk.CDKConstants;
+import org.openscience.cdk.ChemModel;
 import org.openscience.cdk.DefaultChemObjectBuilder;
+import org.openscience.cdk.MoleculeSet;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.exception.InvalidSmilesException;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IChemFile;
+import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.interfaces.IChemObjectBuilder;
+import org.openscience.cdk.interfaces.IMoleculeSet;
 import org.openscience.cdk.io.IChemObjectReader;
+import org.openscience.cdk.io.MDLWriter;
 import org.openscience.cdk.io.ReaderFactory;
 import org.openscience.cdk.io.formats.IResourceFormat;
 import org.openscience.cdk.io.iterator.IteratingMDLReader;
@@ -128,7 +144,13 @@ public class CDK10Manager{
         return molecule.getSmiles();
     }
 
-    public void saveMolecule(CDK10Molecule seq) throws IllegalStateException {
+    /**
+     * Save the molecule to specified file
+     * @param molecule
+     * @param file
+     * @throws IllegalStateException
+     */
+    public void saveMolecule(CDK10Molecule molecule, IFile file) throws IllegalStateException {
         // TODO Auto-generated method stub
 
     }
@@ -173,5 +195,66 @@ public class CDK10Manager{
         public void remove() {
             reader.remove();
         }
+    }
+
+    public void saveMoleculesAsSDF( final List<CDK10Molecule> mols,
+                                    final IFile file )
+                        throws InvocationTargetException, InterruptedException {
+
+        WorkspaceModifyOperation op = new WorkspaceModifyOperation(){
+
+            @Override
+            protected void execute( IProgressMonitor monitor )
+                      throws CoreException, InvocationTargetException,
+                                                         InterruptedException {
+
+                monitor.beginTask( "Saving file: " 
+                                   + file.getName(), 4 );
+                monitor.subTask( "Serializing molecules" );
+                monitor.worked( 1 );
+                
+                //Collect all ACs in chemfile
+                IMoleculeSet ms= new MoleculeSet();
+                for (CDK10Molecule cdk10mol : mols){
+                    ms.addAtomContainer( cdk10mol.getAtomContainer() );
+                }
+
+                IChemModel model=new ChemModel();
+                model.setMoleculeSet( ms );
+
+                monitor.worked( 1 );
+
+                //Serialize ChemFile to SDF as byte[]
+                ByteArrayOutputStream bos=new ByteArrayOutputStream();
+                MDLWriter writer=new MDLWriter(bos);
+                
+                //FIXME: CDK don't save properties, so need workaround
+                
+                try {
+                    writer.write( model );
+                } catch ( CDKException e ) {
+                    throw new InvocationTargetException(e);
+                }
+
+                //Get result from outputStream
+                byte[] buffer = bos.toByteArray();
+
+                //Set up an inputStream
+                ByteArrayInputStream bis=new ByteArrayInputStream(buffer);
+
+                monitor.subTask( "Writing to file" );
+                monitor.worked( 1 );
+
+                //Write contents to file
+                file.setContents( bis, false, false, monitor );
+
+                monitor.done();
+
+            }
+            
+        };
+
+        PlatformUI.getWorkbench().getProgressService().run(true,false,op);
+
     }
 }
