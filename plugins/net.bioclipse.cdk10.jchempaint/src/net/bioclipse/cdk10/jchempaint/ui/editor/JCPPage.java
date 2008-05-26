@@ -392,6 +392,7 @@ public class JCPPage extends EditorPart
     public void setDirty(boolean bool) {
         boolean hasChanged = this.isDirty == bool;
         this.isDirty = bool;
+        if (jcpModel==null) return;
         if (!bool) jcpModel.resetIsModified();
         if (hasChanged) fireSetDirtyChanged();
     }
