@@ -16,18 +16,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
-import net.bioclipse.cdk10.jchempaint.ui.editor.mdl.MDLMolfileEditor;
-import net.bioclipse.core.util.LogUtils;
+import net.bioclipse.cdk10.sdfeditor.Activator;
 
 import org.apache.log4j.Logger;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.OwnerDrawLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -38,16 +42,14 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.ISelectionListener;
-import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
@@ -56,7 +58,8 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 public class StructureTablePage extends FormPage implements ISelectionListener{
 
-    private static final Logger logger = Logger.getLogger(StructureTablePage.class);
+    private static final Logger logger = Logger.getLogger(
+                                                      StructureTablePage.class);
 
     //Declare constants for use in table
     public static final int INDEX_COLUMN=0;
@@ -77,6 +80,8 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
 
     //Store dirty state
     private boolean dirty;
+    
+    IAction editAction, exportAction, doubleClickAction;
 
     public StructureTablePage(FormEditor editor, String[] colHeaders) {
         super(editor, "bc.structuretable", "Structure table");
@@ -101,12 +106,13 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
         FormToolkit toolkit = managedForm.getToolkit();
         ScrolledForm form = managedForm.getForm();
         form.setText("Structure table");
-//      form.setBackgroundImage(FormArticlePlugin.getDefault().getImage(FormArticlePlugin.IMG_FORM_BG));
+//      form.setBackgroundImage(FormArticlePlugin.getDefault().getImage(BOGUS));
         final Composite body = form.getBody();
         FillLayout layout=new FillLayout();
         body.setLayout(layout);
 
-        viewer = new TableViewer(body, SWT.BORDER  | SWT.MULTI |  SWT.FULL_SELECTION | SWT.VIRTUAL);
+        viewer = new TableViewer(body, SWT.BORDER  | SWT.MULTI | 
+                                            SWT.FULL_SELECTION | SWT.VIRTUAL);
         table = viewer.getTable();
         table.setHeaderVisible(true);
         table.setLinesVisible(true);
@@ -155,7 +161,7 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
             };
 
             propCol.setEditingSupport(new StructureTableEditingSupport(
-                                                                       viewer,colIndex, this));
+                                                        viewer,colIndex, this));
             colIndex++;
         }
         
@@ -163,7 +169,8 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
             public void selectionChanged( SelectionChangedEvent event ) {
                 
                 if ( event.getSelection() instanceof IStructuredSelection ) {
-                    IStructuredSelection sel = (IStructuredSelection) event.getSelection();
+                    IStructuredSelection sel = (IStructuredSelection) 
+                                                    event.getSelection();
                     Object obj=sel.getFirstElement();
                     if ( obj instanceof StructureTableEntry ) {
                         StructureTableEntry entry = (StructureTableEntry) obj;
@@ -179,28 +186,12 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
 
             public void doubleClick( DoubleClickEvent event ) {
                     
-                    int ix = getSelectedIndex( event.getSelection() );
-
-//                    sdfEditor.setCurrentModel( ix );
-
-                    if (ix<0){
-                        //Should not happen
-                        showMessage( "Index of double-clicked is negative." );
-                        return;
-                    }
-                    
-                    logger.debug( "DC detected on index: " + ix 
-                                  + " in entry list" );
-                    
-                    sdfEditor.setCurrentModel( ix );
-                    sdfEditor.pageChange( 1 );
-                    sdfEditor.getActivePageInstance().setFocus();
 
             }
 
 
         });
-
+        
         viewer.setContentProvider(new MoleculeListContentProvider());
         viewer.setLabelProvider(new MoleculeListLabelProviderNew());
         viewer.setUseHashlookup(true);
@@ -208,7 +199,8 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
 
         StructureTableEntry[] mlist=((SDFEditor)getEditor()).getEntries();
         if (mlist!=null){
-            logger.debug("Setting table input with: " + mlist.length + " molecules.");
+            logger.debug("Setting table input with: " + mlist.length +
+                                                                 " molecules.");
             viewer.setInput(mlist);
         }
         else{
@@ -218,6 +210,15 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
         //Set sorter
         cSorter.setSorter(cSorter, ColumnViewerSorter.ASC);
 
+        
+        //Configure and add actions
+        makeActions();
+        hookContextMenu();
+        hookDoubleClickAction();
+        contributeToActionBars();
+        
+        
+        
         //Post selections in Table to Eclipse
         getEditor().getSite().setSelectionProvider(viewer);
         
@@ -225,13 +226,129 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
 
     }
 
-//    protected IEditorInput createEditorInput( StructureTableEntry entry,
-//                                              StructureTableEntry[] entries ) {
-//
-//        // TODO Auto-generated method stub
-//        return null;
-//    }
+    /**
+     * Create the actions
+     */
+    private void makeActions() {
 
+        doubleClickAction = new Action() {
+            public void run() {
+                
+                ISelection sel=viewer.getSelection();
+                
+                switchPage( sel );
+
+            }
+
+        };
+
+        /** Action to export structure to file */
+        exportAction= new Action() {
+            public void run() {
+                
+                ISelection sel=viewer.getSelection();
+                
+                System.out.println("Export: " + sel);
+                
+                //TODO: implement
+                
+            }
+        };
+        exportAction.setText("Export structure");
+        exportAction.setToolTipText("Export the enrty to file");
+        exportAction.setImageDescriptor(Activator
+            .imageDescriptorFromPlugin(Activator.PLUGIN_ID,"icons/export.gif"));
+
+        /** Action to edit structure. Switches to Single Structure Page */
+        editAction= new Action() {
+            public void run() {
+                
+                ISelection sel=viewer.getSelection();
+                switchPage( sel );
+                
+            }
+        };
+        editAction.setText("Edit structure");
+        editAction.setToolTipText("Edit the structure in structure editor");
+        editAction.setImageDescriptor(Activator
+                                  .imageDescriptorFromPlugin(
+                                  Activator.PLUGIN_ID,"icons/molecule2D.gif"));
+
+    }    
+    
+    private void hookContextMenu() {
+        MenuManager menuMgr = new MenuManager("#PopupMenu");
+        menuMgr.setRemoveAllWhenShown(true);
+        menuMgr.addMenuListener(new IMenuListener() {
+            public void menuAboutToShow(IMenuManager manager) {
+                StructureTablePage.this.fillContextMenu(manager);
+            }
+        });
+        Menu menu = menuMgr.createContextMenu(viewer.getControl());
+        viewer.getControl().setMenu(menu);
+        getSite().registerContextMenu(menuMgr, viewer);
+    }
+
+    private void fillContextMenu(IMenuManager manager) {
+
+        manager.add(editAction);
+        manager.add(exportAction);
+
+        manager.add(new Separator());
+//      drillDownAdapter.addNavigationActions(manager);
+
+        // Other plug-ins can contribute there actions here
+        manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+    }
+
+    
+    private void hookDoubleClickAction() {
+        viewer.addDoubleClickListener(new IDoubleClickListener() {
+            public void doubleClick(DoubleClickEvent event) {
+                doubleClickAction.run();
+            }
+        });
+    }
+
+    private void contributeToActionBars() {
+        IActionBars bars = getEditorSite().getActionBars();
+//        fillLocalPullDown(bars.getMenuManager());
+        fillLocalToolBar(bars.getToolBarManager());
+    }
+
+    private void fillLocalToolBar(IToolBarManager manager) {
+        manager.add(exportAction);
+//        manager.add(new Separator());
+//        drillDownAdapter.addNavigationActions(manager);
+    }
+    
+
+    /**
+     * Switch page to single structure view, with selected object
+     * @param sel
+     */
+    private void switchPage( ISelection sel ) {
+
+        if (sel==null){
+            logger.debug("No selection in DC");
+            return;
+        }
+        int ix = getSelectedIndex( sel );
+
+      if (ix<0){
+          //Should not happen
+          showMessage( "Index of selection is negative!?!" );
+          return;
+      }
+      
+      logger.debug( "Switch page with index: " + ix );
+      
+      sdfEditor.setCurrentModel( ix );
+      sdfEditor.pageChange( 1 );
+      sdfEditor.getActivePageInstance().setFocus();
+    }
+    
+    
     /*
      * Below is for providing selections from table to e.g. outline view
      */
@@ -263,13 +380,12 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
         StructureTableEntry entry = (StructureTableEntry) obj;
 
         //These are all entries in editor
-        StructureTableEntry[] entries 
-            = sdfEditor.entries;
+        StructureTableEntry[] entries = sdfEditor.entries;
 
         int ix=-1;
         //Find index of the DC'ed entry
         for (int i=0; i<sdfEditor.entries.length; i++){
-            if (sdfEditor.entries[i].equals( entry )){
+            if (entries[i].equals( entry )){
                 ix=i;
             }
         }
@@ -277,7 +393,7 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
     }
     
     
-    public void addSelectionChangedListener(ISelectionChangedListener listener) {
+    public void addSelectionChangedListener(ISelectionChangedListener listener){
         if(!selectionListeners.contains(listener))
         {
             selectionListeners.add(listener);
@@ -295,9 +411,10 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
         //Recurse
         for(TableItem item : itm){
             if (item.getData() instanceof StructureTableEntry) {
-                StructureTableEntry entry = (StructureTableEntry) item.getData();
-                System.out.println("** Added selected in structtab: " + entry.getMoleculeImpl().hashCode());
-                newSet.add(entry);
+               StructureTableEntry entry = (StructureTableEntry) item.getData();
+               System.out.println("** Added selected in structtab: " 
+                                  + entry.getMoleculeImpl().hashCode());
+               newSet.add(entry);
             }
         }
 
@@ -307,7 +424,7 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
     }
 
     public void removeSelectionChangedListener(
-                                               ISelectionChangedListener listener) {
+                    ISelectionChangedListener listener) {
         if(selectionListeners.contains(listener))
             selectionListeners.remove(listener);
     }
