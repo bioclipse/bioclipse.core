@@ -16,7 +16,9 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.scripting,
  net.bioclipse.cdk10,
  net.bioclipse.cdk10.jchempaint,
- org.eclipse.ui.views
+ org.eclipse.ui.views,
+ org.eclipse.ui.navigator,
+ org.eclipse.ui.navigator.resources
 Eclipse-LazyStart: true
 Import-Package: org.apache.log4j
 Export-Package: net.bioclipse.cdk10.sdfeditor,

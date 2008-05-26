@@ -11,14 +11,21 @@
  ******************************************************************************/
 package net.bioclipse.cdk10.sdfeditor.editor;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import net.bioclipse.cdk10.sdfeditor.Activator;
+import net.bioclipse.ui.dialogs.WSFileDialog;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
@@ -39,22 +46,30 @@ import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
+import org.eclipse.ui.dialogs.FileSelectionDialog;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.navigator.CommonNavigator;
 
 public class StructureTablePage extends FormPage implements ISelectionListener{
 
@@ -247,10 +262,69 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
             public void run() {
                 
                 ISelection sel=viewer.getSelection();
+                if (sel==null){
+                    showMessage( "Please select a result ot export." );
+                    return;
+                }
                 
-                System.out.println("Export: " + sel);
+                //Get a filename to save as
+                FileDialog dialog = new FileDialog (getEditorSite().getShell()
+                                                    , SWT.SAVE);
+                dialog.setFilterNames (new String [] {"MDL Files","SDF Files"
+                        , "All Files (*.*)"});
+                dialog.setFilterExtensions (new String [] {"*.mol", "*.sdf"
+                        , "*.*"}); //Windows wild cards
                 
-                //TODO: implement
+
+                //Check navigator for last selected project
+                IViewPart v=PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+                        .getActivePage().findView( "net.bioclipse.navigator" );
+                CommonNavigator nav=(CommonNavigator)v; 
+                
+                String location=null;
+                if (nav!=null){
+                    if ( nav.getCommonViewer().getSelection() instanceof IResource ) {
+                        IResource res = (IResource) nav.getCommonViewer().getSelection();
+                        IProject project=res.getProject();
+                        location=project.getLocation().toOSString();
+                    }
+                }
+                else{
+                    location=ResourcesPlugin.getWorkspace().getRoot()
+                    .getLocation().toOSString();
+
+                }
+                
+                //On Mac OS X, this is fixed in Eclipse > 20080409
+                //see bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=101948
+                dialog.setFilterPath (location);
+
+                dialog.setFileName ("exported.mol");
+                
+                final String saveFile=dialog.open();
+
+                
+                
+//                WSFileDialog dialog=new WSFileDialog(getEditorSite().getShell(),
+//                                             SWT.SINGLE,"Specify file to save");
+
+                
+                WorkspaceModifyOperation op=new WorkspaceModifyOperation(){
+
+                    @Override
+                    protected void execute( IProgressMonitor monitor )
+                                                      throws CoreException,
+                                                      InvocationTargetException,
+                                                      InterruptedException {
+
+                        //TODO: Do the export
+                        logger.debug("Saving to file: " + saveFile);
+                        
+                    }
+                    
+                };
+                
+                
                 
             }
         };
