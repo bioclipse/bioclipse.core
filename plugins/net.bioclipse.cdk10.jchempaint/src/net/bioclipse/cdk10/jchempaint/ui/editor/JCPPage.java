@@ -142,9 +142,9 @@ public class JCPPage extends EditorPart
         return drawingPanel;
     }
 
-    public JChemPaintModel getJCPModel() {
-        return jcpModel;
-    }
+//    public JChemPaintModel getJCPModel() {
+//        return jcpModel;
+//    }
 
     public Composite getJcpComposite() {
         return body;

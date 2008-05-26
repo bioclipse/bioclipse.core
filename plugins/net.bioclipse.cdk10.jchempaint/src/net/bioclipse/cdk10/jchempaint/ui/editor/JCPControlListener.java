@@ -61,8 +61,8 @@ public class JCPControlListener implements ControlListener {
      *
      */
     private void rendererPositions(){
-        IChemModel editorModel = jcpEditor.getJCPModel().getChemModel();
-        Renderer2DModel r2dm = jcpEditor.getJCPModel().getRendererModel();
+        IChemModel editorModel = jcpEditor.getJcpModel().getChemModel();
+        Renderer2DModel r2dm = jcpEditor.getJcpModel().getRendererModel();
         
         IAtomContainer molecule = editorModel.getMoleculeSet().getAtomContainer(0);
 

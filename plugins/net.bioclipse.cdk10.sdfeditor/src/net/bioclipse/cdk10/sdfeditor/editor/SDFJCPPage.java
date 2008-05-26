@@ -10,6 +10,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.renderer.color.IAtomColorer;
 
+import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 
 

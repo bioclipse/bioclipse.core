@@ -37,6 +37,7 @@ import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
 
 import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
+import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.AtomContainer;
@@ -80,7 +81,17 @@ public class CleanupAction extends JCPAction
 	public void run(ActionEvent e)
 	{	
 		HashMap atomCoordsMap = new HashMap();
-        JChemPaintModel jcpmodel = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
+
+		JChemPaintModel jcpmodel=null;
+		if ( this.getContributor().getActiveEditorPart() instanceof IJCPBasedEditor ) {
+        IJCPBasedEditor ed = (IJCPBasedEditor) this.getContributor().getActiveEditorPart();
+        jcpmodel = ed.getJcpModel();
+    }
+		else if (this.getContributor().getActiveEditorPart() instanceof JCPPage ){
+        JCPPage ed = (JCPPage) this.getContributor().getActiveEditorPart();
+        jcpmodel = ed.getJcpModel();
+		}
+		
         logger.info("Going to performe a clean up...");
 		if (jcpmodel != null)
 		{
@@ -167,7 +178,15 @@ public class CleanupAction extends JCPAction
 	 */
 	private IMolecule relayoutMolecule(IMolecule molecule)
 	{
-		JChemPaintModel jcpmodel = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
+	    JChemPaintModel jcpmodel=null;
+	    if ( this.getContributor().getActiveEditorPart() instanceof IJCPBasedEditor ) {
+	        IJCPBasedEditor ed = (IJCPBasedEditor) this.getContributor().getActiveEditorPart();
+	        jcpmodel = ed.getJcpModel();
+	    }
+	    else if (this.getContributor().getActiveEditorPart() instanceof JCPPage ){
+	        JCPPage ed = (JCPPage) this.getContributor().getActiveEditorPart();
+	        jcpmodel = ed.getJcpModel();
+	    }
 		IMolecule cleanedMol = molecule;
        if (molecule != null)
 		{

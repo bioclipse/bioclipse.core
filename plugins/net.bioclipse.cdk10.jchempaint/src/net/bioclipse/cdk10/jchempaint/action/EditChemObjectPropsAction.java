@@ -31,6 +31,7 @@ package net.bioclipse.cdk10.jchempaint.action;
 import java.awt.event.ActionEvent;
 
 import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
+import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.Atom;
@@ -60,7 +61,17 @@ public class EditChemObjectPropsAction extends JCPAction {
 	 * @param  event  Description of the Parameter
 	 */
 	public void run(ActionEvent event) {
-		JChemPaintModel jcpmodel = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
+
+	    JChemPaintModel jcpmodel=null;
+    if ( this.getContributor().getActiveEditorPart() instanceof IJCPBasedEditor ) {
+        IJCPBasedEditor ed = (IJCPBasedEditor) this.getContributor().getActiveEditorPart();
+        jcpmodel = ed.getJcpModel();
+    }
+    else if (this.getContributor().getActiveEditorPart() instanceof JCPPage ){
+        JCPPage ed = (JCPPage) this.getContributor().getActiveEditorPart();
+        jcpmodel = ed.getJcpModel();
+    }
+		
 		if (jcpmodel != null) {
 			IChemObject object = getSource(event);
 			logger.debug("Showing object properties for: " + object);

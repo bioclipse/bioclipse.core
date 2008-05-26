@@ -35,6 +35,7 @@ import java.util.Iterator;
 import javax.swing.undo.UndoableEdit;
 
 import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
+import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.AtomContainer;
@@ -69,7 +70,16 @@ public class AdjustBondOrdersAction extends JCPAction
 	public void run(ActionEvent e)
 	{
         HashMap changedBonds = null;
-        JChemPaintModel jcpModel = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
+        JChemPaintModel jcpModel=null;
+        if ( this.getContributor().getActiveEditorPart() instanceof IJCPBasedEditor ) {
+            IJCPBasedEditor ed = (IJCPBasedEditor) this.getContributor().getActiveEditorPart();
+            jcpModel = ed.getJcpModel();
+        }
+        else if (this.getContributor().getActiveEditorPart() instanceof JCPPage ){
+            JCPPage ed = (JCPPage) this.getContributor().getActiveEditorPart();
+            jcpModel = ed.getJcpModel();
+        }
+
         ChemModel model = (ChemModel) jcpModel.getChemModel();
 		logger.debug("Adjusting bondorders: " + type);
 		if (type.equals("clear"))

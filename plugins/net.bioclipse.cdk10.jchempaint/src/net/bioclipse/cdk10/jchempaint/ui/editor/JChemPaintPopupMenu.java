@@ -37,6 +37,7 @@ import javax.swing.JMenuItem;
 
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
+import org.eclipse.core.commands.operations.IUndoContext;
 import org.openscience.cdk.applications.jchempaint.StringHelper;
 import org.openscience.cdk.controller.CDKPopupMenu;
 import org.openscience.cdk.tools.LoggingTool;
@@ -66,7 +67,18 @@ public class JChemPaintPopupMenu extends CDKPopupMenu
     {
         logger = new LoggingTool(this);
         this.contributor = contributor;
-        this.drawingPanel = ((IJCPBasedEditor)contributor.getActiveEditorPart()).getDrawingPanel();
+        
+        DrawingPanel drawingPanel =null;
+        if ( contributor.getActiveEditorPart() instanceof IJCPBasedEditor ) {
+            drawingPanel = ((IJCPBasedEditor)contributor.getActiveEditorPart()).getDrawingPanel();
+            }
+        else if ( contributor.getActiveEditorPart() instanceof JCPPage ) {
+            drawingPanel = ((JCPPage)contributor.getActiveEditorPart()).getDrawingPanel();
+        }
+        else return;
+
+        
+        this.drawingPanel = drawingPanel;
         createPopupMenu(type);
     }
 

@@ -33,6 +33,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.undo.UndoableEdit;
 
 import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
+import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.Atom;
@@ -60,8 +61,17 @@ public class ChangeIsotopeAction extends JCPAction
 	public void run(ActionEvent event)
 	{
 		logger.debug("About to change atom type of relevant atom!");
-		JChemPaintModel jcpm = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
-		if (jcpm != null)
+    JChemPaintModel jcpm=null;
+    if ( this.getContributor().getActiveEditorPart() instanceof IJCPBasedEditor ) {
+        IJCPBasedEditor ed = (IJCPBasedEditor) this.getContributor().getActiveEditorPart();
+        jcpm = ed.getJcpModel();
+    }
+    else if (this.getContributor().getActiveEditorPart() instanceof JCPPage ){
+        JCPPage ed = (JCPPage) this.getContributor().getActiveEditorPart();
+        jcpm = ed.getJcpModel();
+    }
+
+    if (jcpm != null)
 		{
 			IChemObject object = getSource(event);
 			logger.debug("Source of call: " + object);

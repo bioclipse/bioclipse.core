@@ -35,6 +35,7 @@ import javax.swing.undo.UndoableEdit;
 import javax.vecmath.Point2d;
 
 import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
+import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
@@ -59,8 +60,18 @@ public class FlipAction extends JCPAction {
         logger.info("  type  " + type);
 //        logger.debug("  source ", e.getSource());
         HashMap atomCoordsMap = new HashMap();
-        JChemPaintModel jcpModel = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
-        Renderer2DModel renderModel = jcpModel.getRendererModel();
+
+        JChemPaintModel jcpmodel=null;
+        if ( this.getContributor().getActiveEditorPart() instanceof IJCPBasedEditor ) {
+            IJCPBasedEditor ed = (IJCPBasedEditor) this.getContributor().getActiveEditorPart();
+            jcpmodel = ed.getJcpModel();
+        }
+        else if (this.getContributor().getActiveEditorPart() instanceof JCPPage ){
+            JCPPage ed = (JCPPage) this.getContributor().getActiveEditorPart();
+            jcpmodel = ed.getJcpModel();
+        }
+
+        Renderer2DModel renderModel = jcpmodel.getRendererModel();
         boolean horiz = "horizontal".equals(type);
         IAtomContainer object = null;
         if (renderModel.getSelectedPart() != null) {
@@ -68,7 +79,7 @@ public class FlipAction extends JCPAction {
         }
         //if nothing selected flip the whole structure
         else {
-        	object = jcpModel.getChemModel().getMoleculeSet().getAtomContainer(0);
+        	object = jcpmodel.getChemModel().getMoleculeSet().getAtomContainer(0);
         }
         if (object != null && (horiz || "vertical".equals(type))) {
             IAtomContainer toflip = object;
@@ -95,7 +106,7 @@ public class FlipAction extends JCPAction {
             UndoableEdit  edit = new FlipEdit(atomCoordsMap);
 //            UndoableAction.pushToUndoRedoStack(edit,jcpModel,((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getUndoContext(), ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel());
             // fire a change so that the view gets updated
-            jcpModel.fireChange();
+            jcpmodel.fireChange();
 //            DrawingPanel drawingPanel = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel();
 //            drawingPanel.repaint();
         }

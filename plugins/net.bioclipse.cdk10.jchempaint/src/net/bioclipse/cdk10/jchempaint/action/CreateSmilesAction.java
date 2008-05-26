@@ -33,6 +33,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 
 import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
+import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.ChemModel;
@@ -79,14 +80,24 @@ public class CreateSmilesAction extends JCPAction
 		String chiralsmiles ="";
 		try
 		{
-			JChemPaintModel jcpModel = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
-			ChemModel model = (ChemModel) jcpModel.getChemModel();
+	      JChemPaintModel jcpmodel=null;
+	      if ( this.getContributor().getActiveEditorPart() instanceof IJCPBasedEditor ) {
+	          IJCPBasedEditor ed = (IJCPBasedEditor) this.getContributor().getActiveEditorPart();
+	          jcpmodel = ed.getJcpModel();
+	      }
+	      else if (this.getContributor().getActiveEditorPart() instanceof JCPPage ){
+	          JCPPage ed = (JCPPage) this.getContributor().getActiveEditorPart();
+	          jcpmodel = ed.getJcpModel();
+	      }
+
+			
+			ChemModel model = (ChemModel) jcpmodel.getChemModel();
             SmilesGenerator generator = new SmilesGenerator();
 			IAtomContainer container = model.getMoleculeSet().getAtomContainer(0);
 			Molecule molecule = new Molecule(container);
 			Molecule moleculewithh=(Molecule)molecule.clone();
 			new HydrogenAdder().addExplicitHydrogensToSatisfyValency(moleculewithh);
-			double bondLength = GeometryTools.getBondLengthAverage(container,jcpModel.getRendererModel().getRenderingCoordinates());
+			double bondLength = GeometryTools.getBondLengthAverage(container,jcpmodel.getRendererModel().getRenderingCoordinates());
 		    new HydrogenPlacer().placeHydrogens2D(moleculewithh, bondLength);
 			smiles = generator.createSMILES(molecule);
 			boolean[] bool=new boolean[moleculewithh.getBondCount()];

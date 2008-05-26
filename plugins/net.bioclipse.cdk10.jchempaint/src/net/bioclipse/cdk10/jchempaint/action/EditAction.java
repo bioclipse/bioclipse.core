@@ -32,6 +32,7 @@ import java.awt.event.ActionEvent;
 import java.util.Iterator;
 
 import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
+import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.Atom;
@@ -78,9 +79,18 @@ public class EditAction extends JCPAction {
 //		// learn some stuff about event
 //		logger.debug("Event source: ", event.getSource().getClass().getName());
 //		logger.debug("  ChemObject: ", getSource(event));
-		JChemPaintModel jcpModel = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
-		Renderer2DModel renderModel = jcpModel.getRendererModel();
-		IChemModel chemModel = jcpModel.getChemModel();
+      JChemPaintModel jcpmodel=null;
+      if ( this.getContributor().getActiveEditorPart() instanceof IJCPBasedEditor ) {
+          IJCPBasedEditor ed = (IJCPBasedEditor) this.getContributor().getActiveEditorPart();
+          jcpmodel = ed.getJcpModel();
+      }
+      else if (this.getContributor().getActiveEditorPart() instanceof JCPPage ){
+          JCPPage ed = (JCPPage) this.getContributor().getActiveEditorPart();
+          jcpmodel = ed.getJcpModel();
+      }
+
+		Renderer2DModel renderModel = jcpmodel.getRendererModel();
+		IChemModel chemModel = jcpmodel.getChemModel();
 		
 		IChemObject object = null;
 		if (event == null) {
@@ -109,7 +119,7 @@ public class EditAction extends JCPAction {
 					ChemModelManipulator.removeElectronContainer(chemModel, bond);
 				}
 			}
-			jcpModel.fireChange();
+			jcpmodel.fireChange();
 		}
 		else if (type.equals("cutSelected")) {
 			logger.debug("Deleting all selected atoms...");
@@ -125,26 +135,26 @@ public class EditAction extends JCPAction {
 				}
 			}
 			renderModel.setSelectedPart(new org.openscience.cdk.AtomContainer());
-			jcpModel.fireChange();
+			jcpmodel.fireChange();
 		}
 		else if (type.equals("selectAll")) {
-			renderModel.setSelectedPart(jcpModel.getChemModel().getMoleculeSet().getAtomContainer(0));
+			renderModel.setSelectedPart(jcpmodel.getChemModel().getMoleculeSet().getAtomContainer(0));
 			//TODO needs some workaround for the eclipse toolbar buttons...
 //			((JButton)jcpPanel.lastAction.get(0)).setBackground(Color.LIGHT_GRAY);
 //			jcpPanel.lastAction.set(0,jcpPanel.getMoveButton());
 //			jcpPanel.getMoveButton().setBackground(Color.GRAY);
-			jcpModel.getControllerModel().setDrawMode(Controller2DModel.MOVE);
-			jcpModel.fireChange();
+			jcpmodel.getControllerModel().setDrawMode(Controller2DModel.MOVE);
+			jcpmodel.fireChange();
 		} else if (type.equals("selectMolecule")) {
 //			object = getSource(event);
 			if (object instanceof Atom) {
-				renderModel.setSelectedPart(ChemModelManipulator.getRelevantAtomContainer(jcpModel.getChemModel(),(Atom)object));
+				renderModel.setSelectedPart(ChemModelManipulator.getRelevantAtomContainer(jcpmodel.getChemModel(),(Atom)object));
 			} else if (object instanceof IBond) {
-				renderModel.setSelectedPart(ChemModelManipulator.getRelevantAtomContainer(jcpModel.getChemModel(),(Bond)object));
+				renderModel.setSelectedPart(ChemModelManipulator.getRelevantAtomContainer(jcpmodel.getChemModel(),(Bond)object));
 			} else {
 				logger.warn("selectMolecule not defined for the calling object " + object);
 			}
-			jcpModel.fireChange();
+			jcpmodel.fireChange();
 		} else if (type.equals("selectFromChemObject")) {
 			// FIXME: implement for others than Reaction, Atom, Bond
 //			IChemObject object = getSource(event);
@@ -152,18 +162,18 @@ public class EditAction extends JCPAction {
 				AtomContainer container = new org.openscience.cdk.AtomContainer();
 				container.addAtom((Atom) object);
 				renderModel.setSelectedPart(container);
-				jcpModel.fireChange();
+				jcpmodel.fireChange();
 			}
 			else if (object instanceof IBond) {
 				AtomContainer container = new org.openscience.cdk.AtomContainer();
 				container.addBond((Bond) object);
 				renderModel.setSelectedPart(container);
-				jcpModel.fireChange();
+				jcpmodel.fireChange();
 			}
 			else if (object instanceof Reaction) {
 				//TODO I changed this because of disappearing getAllInOneMethods, but unclear if right
 				renderModel.setSelectedPart(((Reaction) object).getReactants().getAtomContainer(0));
-				jcpModel.fireChange();
+				jcpmodel.fireChange();
 			}
 			else {
 				logger.warn("Cannot select everything in : " + object);
@@ -175,7 +185,7 @@ public class EditAction extends JCPAction {
 				Reaction reaction = (Reaction) object;
 				//TODO I changed this because of disappearing getAllInOneMethods, but unclear if right
 				renderModel.setSelectedPart(reaction.getReactants().getAtomContainer(0));
-				jcpModel.fireChange();
+				jcpmodel.fireChange();
 			}
 			else {
 				logger.warn("Cannot select reactants from : " + object);
@@ -187,7 +197,7 @@ public class EditAction extends JCPAction {
 				Reaction reaction = (Reaction) object;
 				//TODO I changed this because of disappearing getAllInOneMethods, but unclear if right
 				renderModel.setSelectedPart(reaction.getProducts().getAtomContainer(0));
-				jcpModel.fireChange();
+				jcpmodel.fireChange();
 			}
 			else {
 				logger.warn("Cannot select reactants from : " + object);

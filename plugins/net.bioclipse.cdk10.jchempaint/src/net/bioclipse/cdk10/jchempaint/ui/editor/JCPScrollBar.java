@@ -92,9 +92,9 @@ public class JCPScrollBar
      * @param type    Scroll to move: Horizontal or Vertical
      */
     private void moveCoordinaten(int value, String type){
-        IChemModel editorModel = jcpEditor.getJCPModel().getChemModel();
+        IChemModel editorModel = jcpEditor.getJcpModel().getChemModel();
 
-        Renderer2DModel r2dm = jcpEditor.getJCPModel().getRendererModel();
+        Renderer2DModel r2dm = jcpEditor.getJcpModel().getRendererModel();
         Dimension dimension = r2dm.getBackgroundDimension();
         int dh = dimension.height;
         int dv = dimension.width;

@@ -8,6 +8,8 @@ import java.util.StringTokenizer;
 
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
+import org.eclipse.core.commands.operations.IUndoContext;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
@@ -83,16 +85,48 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
     }
 //    @Override
     public void setActivePage(IEditorPart activeEditor) {
-//        if (activeEditorPart == activeEditor)
-//            return;
-//        activeEditorPart = activeEditor;        
+        
+        this.activeEditorPart = activeEditor;
+
+        //Only care about JCPBased editors
+        if (!( activeEditor instanceof JCPPage )) {
+            
+            //Disable actions if not JCPpage
+            for (Object obj : actionList){
+                Action action=(Action)obj;
+                action.setEnabled( false );
+            }
+            
+            return;
+        }
+
+        //Enable actions if JCPPage
+        for (Object obj : actionList){
+            Action action=(Action)obj;
+            action.setEnabled( true );
+        }
+        
+        JCPPage jcpPage=(JCPPage)activeEditor;
+        
+        if (jcpPage.getJcpModel() != null) {
+            
+            //TODO: unregister last model?
+            
+            registerModel(jcpPage.getJcpModel());
+        }
+
     }
 
 
 //    @Override
     public void setActiveEditor(IEditorPart part) {
+        
         if (!(activeEditorPart == part)) {
             
+            if (!( part instanceof IJCPBasedEditor )) {
+                return;
+            }
+
             this.activeEditorPart = part;
 //            super.setActiveEditor(part);
             if (((IJCPBasedEditor)activeEditorPart).getJcpModel() != null) {
@@ -112,7 +146,20 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
     public void registerModel(JChemPaintModel model)
     {
         if (model != null) {
-            DrawingPanel drawingPanel = ((IJCPBasedEditor)activeEditorPart).getDrawingPanel();
+            DrawingPanel drawingPanel =null;
+            JCPComposite jcpcomp=null;
+            IUndoContext undoContext=null;
+            if ( activeEditorPart instanceof IJCPBasedEditor ) {
+                drawingPanel = ((IJCPBasedEditor)activeEditorPart).getDrawingPanel();
+                jcpcomp=((IJCPBasedEditor)activeEditorPart).getJcpComposite();
+                undoContext=((IJCPBasedEditor)this.getActiveEditorPart()).getUndoContext();
+                }
+            else if ( activeEditorPart instanceof JCPPage ) {
+                drawingPanel = ((JCPPage)activeEditorPart).getDrawingPanel();
+                jcpcomp=(JCPComposite) ((JCPPage)activeEditorPart).getJcpComposite();
+//                undoContext=((IJCPBasedEditor)((JCPPage)this.getActiveEditorPart()).getMPE()).getUndoContext();
+            }
+            else return;
             
             /*new code -  functional group*/
             String filename = "org/openscience/cdk/applications/jchempaint/resources/text/funcgroups.txt";
@@ -152,11 +199,17 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
                     ex.printStackTrace();
                 }
             }
-            PopupController2D inputAdapter = new BCJCPPopupController((ChemModel) model.getChemModel(), model.getRendererModel(),model.getControllerModel(), null, null, ((IJCPBasedEditor)activeEditorPart).getJcpComposite(),funcgroups);
+            
+
+            PopupController2D inputAdapter = new BCJCPPopupController(
+                (ChemModel) model.getChemModel(), 
+                model.getRendererModel(),model.getControllerModel(), null, null, 
+                jcpcomp,funcgroups);
+            
             JCPBioclipseUndoRedoHandler undoRedoHandler=new JCPBioclipseUndoRedoHandler();
-            undoRedoHandler.setDrawingPanel(((IJCPBasedEditor)this.getActiveEditorPart()).getDrawingPanel());
+            undoRedoHandler.setDrawingPanel(drawingPanel);
             undoRedoHandler.setJcpm(model);
-            undoRedoHandler.setUndoContext(((IJCPBasedEditor)this.getActiveEditorPart()).getUndoContext());
+            undoRedoHandler.setUndoContext(undoContext);
             inputAdapter.setUndoRedoHandler(undoRedoHandler);
             setupPopupMenus(inputAdapter);
             Renderer2DModel rendererModel = model.getRendererModel();
@@ -171,6 +224,9 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
                 IJCPBasedEditor jcpEdPart = (IJCPBasedEditor) activeEditorPart;
                 model.getRendererModel().addCDKChangeListener(jcpEdPart.getJCPPage());
             }
+            else if (activeEditorPart instanceof JCPPage) {
+                model.getRendererModel().addCDKChangeListener((JCPPage)activeEditorPart);
+            }
             inputAdapter.addCDKChangeListener(model);
             //drawingPanel.setJChemPaintModel(model);
             drawingPanel.addMouseListener(inputAdapter);
@@ -181,8 +237,20 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
     }
     
     public void updateModel(IChemModel chemModel){
-        ((PopupController2D)((IJCPBasedEditor)activeEditorPart).getDrawingPanel().getKeyListeners()[0]).setChemModel(chemModel);
-        ((IJCPBasedEditor)activeEditorPart).getDrawingPanel().updateRingSetInRenderer();
+        
+        DrawingPanel drawingPanel =null;
+        if ( activeEditorPart instanceof IJCPBasedEditor ) {
+            drawingPanel = ((IJCPBasedEditor)activeEditorPart).getDrawingPanel();
+        }
+        else if ( activeEditorPart instanceof JCPPage ) {
+            drawingPanel = ((JCPPage)activeEditorPart).getDrawingPanel();
+            
+        }
+        else return;
+
+        
+        ((PopupController2D)drawingPanel.getKeyListeners()[0]).setChemModel(chemModel);
+        drawingPanel.updateRingSetInRenderer();
     }
     
     public void setupPopupMenus(PopupController2D inputAdapter)

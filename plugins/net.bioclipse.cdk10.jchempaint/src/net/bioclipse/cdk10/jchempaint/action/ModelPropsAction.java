@@ -31,6 +31,7 @@ package net.bioclipse.cdk10.jchempaint.action;
 import java.awt.event.ActionEvent;
 
 import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
+import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.eclipse.swt.widgets.Display;
@@ -57,7 +58,16 @@ public class ModelPropsAction extends JCPAction
 	 */
 	public void run(ActionEvent e)
 	{
-		final JChemPaintModel jcpModel = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
+    JChemPaintModel jcpmodel=null;
+    if ( this.getContributor().getActiveEditorPart() instanceof IJCPBasedEditor ) {
+        IJCPBasedEditor ed = (IJCPBasedEditor) this.getContributor().getActiveEditorPart();
+        jcpmodel = ed.getJcpModel();
+    }
+    else if (this.getContributor().getActiveEditorPart() instanceof JCPPage ){
+        JCPPage ed = (JCPPage) this.getContributor().getActiveEditorPart();
+        jcpmodel = ed.getJcpModel();
+    }
+
 		Display display = this.getContributor().getPage().getActivePart().getSite().getShell().getDisplay();
 		display.asyncExec(new Runnable() {
 			public void run() {

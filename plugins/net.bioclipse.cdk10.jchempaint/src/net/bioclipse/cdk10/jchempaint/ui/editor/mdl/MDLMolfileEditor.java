@@ -75,7 +75,7 @@ public class MDLMolfileEditor extends MultiPageEditorPart
 
     public JChemPaintModel getJcpModel() {
         if (jcpPage != null) {
-            return jcpPage.getJCPModel();
+            return jcpPage.getJcpModel();
         }
         return null;
     }

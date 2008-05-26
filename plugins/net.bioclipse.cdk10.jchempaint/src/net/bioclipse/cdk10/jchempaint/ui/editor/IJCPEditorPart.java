@@ -6,7 +6,7 @@ import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 public interface IJCPEditorPart {
 
     
-    public JChemPaintModel getJCPModel();
+    public JChemPaintModel getJcpModel();
     
     public Composite getJcpComposite();
     

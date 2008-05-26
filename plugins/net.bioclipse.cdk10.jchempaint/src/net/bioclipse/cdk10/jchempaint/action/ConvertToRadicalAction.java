@@ -32,6 +32,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.undo.UndoableEdit;
 
 import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
+import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.Atom;
@@ -54,8 +55,19 @@ public class ConvertToRadicalAction extends JCPAction {
     public void run(ActionEvent event) {
         logger.debug("Converting to radical: " + type);
         IChemObject object = getSource(event);
-        JChemPaintModel jcpmodel = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
+        JChemPaintModel jcpmodel=null;
+        if ( this.getContributor().getActiveEditorPart() instanceof IJCPBasedEditor ) {
+            IJCPBasedEditor ed = (IJCPBasedEditor) this.getContributor().getActiveEditorPart();
+            jcpmodel = ed.getJcpModel();
+        }
+        else if (this.getContributor().getActiveEditorPart() instanceof JCPPage ){
+            JCPPage ed = (JCPPage) this.getContributor().getActiveEditorPart();
+            jcpmodel = ed.getJcpModel();
+        }
+
+        
         IChemModel model = jcpmodel.getChemModel();
+        
         if (object != null) {
             if (object instanceof Atom) {
                 Atom atom = (Atom)object;

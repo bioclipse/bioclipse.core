@@ -36,6 +36,7 @@ import java.util.Iterator;
 import javax.swing.undo.UndoableEdit;
 
 import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
+import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.openscience.cdk.Atom;
@@ -116,8 +117,18 @@ public class AddHydrogenAction extends JCPAction
 		{
 			hydrogenAdder = new HydrogenAdder("org.openscience.cdk.tools.ValencyChecker");
 		}
-		jcpmodel = ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getJcpModel();
-		if (jcpmodel != null)
+		
+    jcpmodel=null;
+    if ( this.getContributor().getActiveEditorPart() instanceof IJCPBasedEditor ) {
+        IJCPBasedEditor ed = (IJCPBasedEditor) this.getContributor().getActiveEditorPart();
+        jcpmodel = ed.getJcpModel();
+    }
+    else if (this.getContributor().getActiveEditorPart() instanceof JCPPage ){
+        JCPPage ed = (JCPPage) this.getContributor().getActiveEditorPart();
+        jcpmodel = ed.getJcpModel();
+    }
+
+    if (jcpmodel != null)
 		{
 			IChemObject object = null;
 			if (event == null) {
