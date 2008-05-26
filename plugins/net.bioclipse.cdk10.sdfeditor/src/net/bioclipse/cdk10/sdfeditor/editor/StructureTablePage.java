@@ -18,14 +18,22 @@ import java.util.List;
 import java.util.Set;
 
 import net.bioclipse.cdk10.sdfeditor.Activator;
+import net.bioclipse.cdk10.sdfeditor.CDK10Manager;
+import net.bioclipse.cdk10.sdfeditor.CDK10Molecule;
+import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.ui.dialogs.WSFileDialog;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.internal.resources.File;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
@@ -33,6 +41,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ColumnPixelData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -64,6 +73,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.FileSelectionDialog;
+import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
@@ -96,7 +106,7 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
     //Store dirty state
     private boolean dirty;
     
-    IAction editAction, exportAction, doubleClickAction;
+    IAction editAction, extractAction, doubleClickAction;
 
     public StructureTablePage(FormEditor editor, String[] colHeaders) {
         super(editor, "bc.structuretable", "Structure table");
@@ -258,24 +268,40 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
         };
 
         /** Action to export structure to file */
-        exportAction= new Action() {
+        extractAction= new Action() {
             public void run() {
                 
                 ISelection sel=viewer.getSelection();
                 if (sel==null){
-                    showMessage( "Please select a result ot export." );
+                    showMessage( "Please select one or more " +
+                    		"structures to export." );
                     return;
                 }
+
+                //Extract the molecules to save
+                IStructuredSelection ssel = (IStructuredSelection) sel;
+ 
+                List<StructureTableEntry> selectedEntries
+                                        =new ArrayList<StructureTableEntry>();
+                for (Object obj : ssel.toList()){
+                    StructureTableEntry entry = (StructureTableEntry)obj;
+                    selectedEntries.add( entry );
+                }
+
+                List<CDK10Molecule> mols = StructureSaveHelper.extractCDK10Mols
+                        (selectedEntries.toArray(new StructureTableEntry[0] )
+                         , sdfEditor.propHeaders );
+                
                 
                 //Get a filename to save as
-                FileDialog dialog = new FileDialog (getEditorSite().getShell()
-                                                    , SWT.SAVE);
-                dialog.setFilterNames (new String [] {"MDL Files","SDF Files"
-                        , "All Files (*.*)"});
-                dialog.setFilterExtensions (new String [] {"*.mol", "*.sdf"
-                        , "*.*"}); //Windows wild cards
+//                FileDialog dialog = new FileDialog (getEditorSite().getShell()
+//                                                    , SWT.SAVE);
+//                dialog.setFilterNames (new String [] {"MDL Files","SDF Files"
+//                        , "All Files (*.*)"});
+//                dialog.setFilterExtensions (new String [] {"*.mol", "*.sdf"
+//                        , "*.*"}); //Windows wild cards
                 
-
+                
                 //Check navigator for last selected project
                 IViewPart v=PlatformUI.getWorkbench().getActiveWorkbenchWindow()
                         .getActivePage().findView( "net.bioclipse.navigator" );
@@ -297,40 +323,53 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
                 
                 //On Mac OS X, this is fixed in Eclipse > 20080409
                 //see bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=101948
-                dialog.setFilterPath (location);
+//                dialog.setFilterPath (location);
+//
+//                dialog.setFileName ("exported.mol");
+//                
+//                final String saveFile=dialog.open();
 
-                dialog.setFileName ("exported.mol");
-                
-                final String saveFile=dialog.open();
+                SaveAsDialog dialog=new SaveAsDialog(getEditorSite().getShell());
+                dialog.setTitle( "Extract molecule(s)" );
+//                dialog.setMessage( "Select where to save extracted 
+//                           molecules",IMessageProvider.INFORMATION );
+                dialog.setOriginalName( "exported.mol");
 
-                
-                
-//                WSFileDialog dialog=new WSFileDialog(getEditorSite().getShell(),
-//                                             SWT.SINGLE,"Specify file to save");
+                int a=dialog.open();
+                if (a==dialog.CANCEL){
+                    logger.debug("Extract mols canceled");
+                    return;
+                }
+                IPath saveIPath=dialog.getResult();
 
-                
-                WorkspaceModifyOperation op=new WorkspaceModifyOperation(){
+                IFile saveIFile=ResourcesPlugin.getWorkspace().getRoot()
+                .getFile(  saveIPath );
+                String saveFile=saveIFile.getLocation().toOSString();
 
-                    @Override
-                    protected void execute( IProgressMonitor monitor )
-                                                      throws CoreException,
-                                                      InvocationTargetException,
-                                                      InterruptedException {
-
-                        //TODO: Do the export
-                        logger.debug("Saving to file: " + saveFile);
-                        
-                    }
+                //USe manager to save file
+                CDK10Manager manager= new CDK10Manager();
+                try {
+                    manager.saveMoleculesAsSDF(mols, saveFile);
                     
-                };
-                
-                
+                    saveIFile.refreshLocal( 0, new NullProgressMonitor() );
+                } catch ( InvocationTargetException e ) {
+                    LogUtils.debugTrace( logger, e );
+                    logger.error( "There was an error saving file: " + saveFile );
+                    showMessage( "There was an error saving file: " + saveFile  );
+                    return;
+                } catch ( InterruptedException e ) {
+                    logger.debug( "Save of file: " + saveFile 
+                                  + " was interrupted");
+                } catch ( CoreException e ) {
+                    logger.error( "There was an error refreshing file: " + saveFile );
+                    showMessage( "There was an error refreshing file: " + saveFile  );
+                }                
                 
             }
         };
-        exportAction.setText("Export structure");
-        exportAction.setToolTipText("Export the enrty to file");
-        exportAction.setImageDescriptor(Activator
+        extractAction.setText("Extract structure(s)");
+        extractAction.setToolTipText("Extract the selected structures to file");
+        extractAction.setImageDescriptor(Activator
             .imageDescriptorFromPlugin(Activator.PLUGIN_ID,"icons/export.gif"));
 
         /** Action to edit structure. Switches to Single Structure Page */
@@ -366,7 +405,7 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
     private void fillContextMenu(IMenuManager manager) {
 
         manager.add(editAction);
-        manager.add(exportAction);
+        manager.add(extractAction);
 
         manager.add(new Separator());
 //      drillDownAdapter.addNavigationActions(manager);
@@ -391,7 +430,7 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
     }
 
     private void fillLocalToolBar(IToolBarManager manager) {
-        manager.add(exportAction);
+        manager.add(extractAction);
 //        manager.add(new Separator());
 //        drillDownAdapter.addNavigationActions(manager);
     }

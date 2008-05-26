@@ -16,6 +16,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -33,6 +34,7 @@ import net.bioclipse.core.util.LogUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.ui.PlatformUI;
@@ -198,9 +200,12 @@ public class CDK10Manager{
     }
 
     public void saveMoleculesAsSDF( final List<CDK10Molecule> mols,
-                                    final IFile file )
+                                    final String filename )
                         throws InvocationTargetException, InterruptedException {
 
+        //Get 
+        
+        
         WorkspaceModifyOperation op = new WorkspaceModifyOperation(){
 
             @Override
@@ -209,7 +214,23 @@ public class CDK10Manager{
                                                          InterruptedException {
 
                 monitor.beginTask( "Saving file: " 
-                                   + file.getName(), 4 );
+                                   + filename, 4 );
+                
+                //Create File to write
+                File writeFile=new File(filename);
+                if (writeFile.exists()){
+                    //TODO: confirm overwrite
+                }
+                else {
+                    try {
+                        writeFile.createNewFile();
+                    } catch ( IOException e ) {
+                        logger.error("Error creating file: " + filename);
+                        throw new InvocationTargetException(e);
+                    }
+                }
+
+                
                 monitor.subTask( "Serializing molecules" );
                 monitor.worked( 1 );
                 
@@ -233,21 +254,50 @@ public class CDK10Manager{
                 try {
                     writer.write( model );
                 } catch ( CDKException e ) {
+                    logger.debug("Error serializing using MDLWriter: " + filename);
                     throw new InvocationTargetException(e);
                 }
 
                 //Get result from outputStream
                 byte[] buffer = bos.toByteArray();
 
-                //Set up an inputStream
-                ByteArrayInputStream bis=new ByteArrayInputStream(buffer);
-
                 monitor.subTask( "Writing to file" );
                 monitor.worked( 1 );
 
+                
                 //Write contents to file
-                file.setContents( bis, false, false, monitor );
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(writeFile);
+                    fos.write( buffer );
+                } catch ( FileNotFoundException e ) {
+                    logger.debug("File not found: " + filename);
+                    throw new InvocationTargetException(e);
+                } catch ( IOException e ) {
+                    logger.debug("Error writing file: " + filename + ". " 
+                                 + e.getMessage());
+                    throw new InvocationTargetException(e);
+                }finally{
+                    try {
+                        fos.close();
+                    } catch ( IOException e ) {
+                        logger.debug("Error closing file: " + filename + ". " 
+                                     + e.getMessage());
+                        throw new InvocationTargetException(e);
+                    }
+                }
+                
+                //We need to refresh the workspace for the project containing
+                //the created file.
+                //FIXME
+  
+                //Using eclipse resources below. Not used currently.
+                //Set up an inputStream
+//                ByteArrayInputStream bis=new ByteArrayInputStream(buffer);
+//                file.setContents( bis, false, false, monitor );
 
+                
+                logger.debug( "Wrote file: " +filename );
                 monitor.done();
 
             }

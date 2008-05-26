@@ -37,6 +37,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -284,45 +285,33 @@ public class SDFEditor extends FormEditor
             showMessage(  "Could not get file. Save canceled. ");
             return;
         }
-
+        
         //So, serialize the entries[] to a ChemFile
-        List<CDK10Molecule> mols = new ArrayList<CDK10Molecule>();
-        int cnt=0;
-        for (StructureTableEntry entry : entries){
-            IAtomContainer ac=(IAtomContainer)entry.getMoleculeImpl();
-
-//            System.out.println("Mol: " + entry.getIndex());
-            
-            //Add the properties with key->value to the AC
-            Hashtable props=new Hashtable();
-            int pcnt=0;
-            for (String pkey : propHeaders){
-                String val=String.valueOf( entry.columns[pcnt] );
-//                System.out.println("    Added property: " + pkey + " -> " + val);
-                props.put( pkey, val );
-                pcnt++;
-            }
-            
-            ac.setProperties( props );
-
-            CDK10Molecule mol=new CDK10Molecule(ac);
-            mols.add( mol );
-            
-            cnt++;
-        }
+        //Extract mols from entries
+        List<CDK10Molecule> mols = StructureSaveHelper.extractCDK10Mols(entries
+                                                                 , propHeaders);
         
         CDK10Manager manager= new CDK10Manager();
         try {
-            manager.saveMoleculesAsSDF(mols, file);
+            manager.saveMoleculesAsSDF(mols, file.getLocation().toOSString());
+            jcpPage.setDirty( false );
+            tablePage.setDirty( false );
+
+            //Refresh the IFile for the workspace to be up2date
+            file.refreshLocal( 0, new NullProgressMonitor() );
+
         } catch ( InvocationTargetException e ) {
             LogUtils.debugTrace( logger, e );
             logger.error( "There was an error saving file: " + file );
             showMessage( "There was an error saving file: " + file  );
-            return;
         } catch ( InterruptedException e ) {
             logger.debug( "Save of file: " + file.getName() 
                           + " was interrupted");
+        } catch ( CoreException e ) {
+            logger.error( "There was an error refreshing WS: " + file );
+            showMessage( "There was an error refreshing WS: " + file  );
         }
+        
         
     }
 
