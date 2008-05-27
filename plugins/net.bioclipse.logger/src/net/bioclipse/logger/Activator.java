@@ -16,6 +16,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.util.Enumeration;
@@ -276,8 +277,24 @@ public class Activator extends Plugin {
             pathAsFileObj = new File(pathAsURIObj);
         } catch (Exception e) {
             // ok, try to interpret as a plain pathname
-            
+
             pathAsFileObj = new File(pathPropertyVal);
+
+            //Workaround for Windows: Go via URL. No idea why.
+            //Added by Ola 2008-05-27
+            if (pathAsFileObj.canRead()==false){
+            	URL url;
+    			try {
+    				url = new URL(pathPropertyVal);
+    	            return url.getPath();
+    			} catch (MalformedURLException e1) {
+    				e1.printStackTrace();
+    			}
+            	
+            }
+
+            
+            
         }
         
         assert pathAsFileObj != null : "pathAsFileObj should not be null here.";
