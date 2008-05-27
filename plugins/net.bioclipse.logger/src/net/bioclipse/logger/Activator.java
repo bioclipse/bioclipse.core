@@ -283,14 +283,21 @@ public class Activator extends Plugin {
             //Workaround for Windows: Go via URL. No idea why.
             //Added by Ola 2008-05-27
             if (pathAsFileObj.canRead()==false){
-            	URL url;
-    			try {
-    				url = new URL(pathPropertyVal);
-    	            return url.getPath();
-    			} catch (MalformedURLException e1) {
-    				e1.printStackTrace();
-    			}
-            	
+                URL url;
+                try {
+                    url = new URL(pathPropertyVal);
+                    String retPath=url.getPath();
+                    
+                    //Remove trailing slashes
+                    if (retPath.endsWith( "/" ) || retPath.endsWith( "\\" )){
+                        retPath=retPath.substring( 0,retPath.length()-1 );
+                    }
+                    return retPath;
+                    
+                } catch (MalformedURLException e1) {
+                    e1.printStackTrace();
+                }
+
             }
 
             
