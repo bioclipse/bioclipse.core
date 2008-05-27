@@ -36,12 +36,17 @@ public class WSFileDialog extends Dialog {
 	private IResource rootElement;
 	private boolean expand;
 	private String[] extensions;
-    private FilePatternFilter patternFilter = new FilePatternFilter();
-    private ResourceWorkingSetFilter workingSetFilter = new ResourceWorkingSetFilter();
+	private FilePatternFilter patternFilter = new FilePatternFilter();
+	private ResourceWorkingSetFilter workingSetFilter 
+	                            = new ResourceWorkingSetFilter();
+	private UndesiredResourcesFilter undesiredResourcesFilter
+	                            = new UndesiredResourcesFilter();
 	private IWorkingSet workingSet;
 	private int selectionStyle;
 	private IResource[] result;
 	private String title;
+
+	 private List<IResource> blackList;
 
 	/**
 	 * @param parentShell this shell will be blocked by the modal WSFileDialog
@@ -52,8 +57,11 @@ public class WSFileDialog extends Dialog {
 	 * @param extensions if specified only files with these extensions are shown
 	 * @param workingSet if specified only files in this workingSet are shown
 	 */
-	public WSFileDialog(Shell parentShell, int selectionStyle, String title, IResource rootElement, boolean expand, String[] extensions, IWorkingSet workingSet) {
-		super(parentShell);
+	public WSFileDialog(Shell parentShell, int selectionStyle, String title
+	                    , IResource rootElement, boolean expand
+	                    , String[] extensions, IWorkingSet workingSet) {
+
+    super(parentShell);
 		setShellStyle(getShellStyle() | SWT.RESIZE);
 		this.title = title;
 		this.rootElement = rootElement;
@@ -130,6 +138,10 @@ public class WSFileDialog extends Dialog {
 			workingSetFilter.setWorkingSet(workingSet);
 			viewer.addFilter(workingSetFilter);
 		}
+
+		if (blackList!=null)
+		    viewer.addFilter( new UndesiredResourcesFilter() );
+		
 	}
 
 	/**
@@ -228,4 +240,42 @@ public class WSFileDialog extends Dialog {
 	        return false;
 		}
 	}
+	
+	
+	 /**
+   * ViewerFilter to only show non-derived folders and those files matching the file extensions
+   * @author Frank Sauer
+   */
+  private class UndesiredResourcesFilter extends ViewerFilter {
+
+      /** Omit resources in blacklist
+       */
+      public boolean select(Viewer viewer, Object parentElement, Object element) {
+
+          if (!(element instanceof IResource)) {
+              return false;
+          }
+          IResource resource = (IResource) element;
+
+          if (blackList.contains( resource )) return false;
+          else return true;
+
+      }
+  }
+
+  public void addBlacklistFilter(List<IResource> list){
+      this.blackList=list;
+  }
+    
+    public List<IResource> getUndesiredList() {
+    
+        return blackList;
+    }
+
+    
+    public void setUndesiredList( List<IResource> undesiredList ) {
+    
+        this.blackList = undesiredList;
+    }
+
 }
