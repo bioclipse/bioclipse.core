@@ -165,6 +165,8 @@ public class SDFEditor extends FormEditor
 
                     // ugly trigger for a repaint
                     jcpPage.cl.controlResized( null );
+                    super.pageChange( newPageIndex );
+                    return;
                 }
                 
                 Object obj = entries[ix].getMoleculeImpl();
@@ -173,7 +175,7 @@ public class SDFEditor extends FormEditor
                     IAtomContainer ac = (IAtomContainer) obj;
 
                     IChemModel ml = getChemModelByIndex( ix );
-                    if (ml == null){
+                    if (ml == null) {
                         logger.debug( "Error getting chemmodel by index: "
                                       + ix );
                         return;
