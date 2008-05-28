@@ -15,6 +15,7 @@
  ******************************************************************************/
 package net.bioclipse.cdk10.jchempaint.ui.editor;
 
+import java.awt.Panel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.EventObject;
@@ -259,8 +260,8 @@ public class JCPPage extends EditorPart
 
         //Add listeners and create JCPModel from ChemModel
         chemModel.addListener(this);
-
-        jcpModel = new JChemPaintModel(chemModel);
+        
+        jcpModel = new JChemPaintModel(chemModel);        
         jcpModel.getControllerModel().setAutoUpdateImplicitHydrogens(true);
         jcpModel.getRendererModel().setShowEndCarbons(true);
         HydrogenAdder hydrogenAdder = new HydrogenAdder("org.openscience.cdk.tools.ValencyChecker");
@@ -298,20 +299,24 @@ public class JCPPage extends EditorPart
         body.addControlListener(cl);
 
         //Set up drawing panel for JCP
-        drawingPanel = new DrawingPanel(body.getDisplay());
+        //drawingPanel = new DrawingPanel(body.getDisplay());
         drawingPanel.setJChemPaintModel(jcpModel);
-        jcpFrame = SWT_AWT.new_Frame(body);
+        if(jcpFrame==null)
+        	jcpFrame = SWT_AWT.new_Frame(body);
         
         //Add the new drawingpanel to JCPFrame
-        jcpFrame.add(drawingPanel);
+        java.awt.Panel awtPanel=new java.awt.Panel();
+        awtPanel.add(drawingPanel);
+        jcpFrame.add(awtPanel);
 
-        drawingPanel.addMouseMotionListener(this);
+        //drawingPanel.addMouseMotionListener(this);
         
         //If colorer exists, use it
         if (colorer!=null)
             drawingPanel.setAtomColorer( colorer );
 
-        //Ugly fix to force repaint.
+        //Ugly fix to force repaint.        
+        jcpFrame.doLayout();        
         cl.controlResized( null );
         
     }
@@ -364,7 +369,7 @@ public class JCPPage extends EditorPart
 
     @Override
     public void setFocus() {
-        body.setFocus();
+        body.setFocus();        
     }
 
 
@@ -383,6 +388,7 @@ public class JCPPage extends EditorPart
         //TODO: Verify solution
         if(event.getSource() instanceof Renderer2DModel) {
             getDrawingPanel().repaint();
+            jcpFrame.doLayout();
         }
         if (!this.isDirty() && jcpModel.isModified()) {
             setDirty(true);

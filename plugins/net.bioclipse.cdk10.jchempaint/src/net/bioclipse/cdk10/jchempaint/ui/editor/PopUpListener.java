@@ -18,8 +18,13 @@ public class PopUpListener implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         action.run(e);
-        DrawingPanel drawingPanel = ((MDLMolfileEditor)contributor.getActiveEditorPart()).getDrawingPanel();
-        drawingPanel.repaint();
+        if(contributor.getActiveEditorPart() instanceof JCPPage)
+         ((JCPPage)contributor.getActiveEditorPart()).getDrawingPanel().repaint();
+        else{
+        	DrawingPanel drawingPanel=((MDLMolfileEditor)contributor.
+        			getActiveEditorPart()).getDrawingPanel(); 
+        	drawingPanel.repaint();        
+        }
     }
 
 
