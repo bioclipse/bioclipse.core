@@ -77,6 +77,7 @@ public class SDFWriter extends DefaultChemObjectWriter {
                 mdlWriter.close();
                 this.writer.write(sWriter.toString());
                 if (molecules.hasNext()) this.writer.write("$$$$\n");
+                writer.flush();
             }
         } catch (IOException exception) {
             throw new CDKException(
