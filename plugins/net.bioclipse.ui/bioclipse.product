@@ -57,7 +57,6 @@
       <plugin id="net.bioclipse.core"/>
       <plugin id="net.bioclipse.data.sampledata"/>
       <plugin id="net.bioclipse.logger"/>
-      <plugin id="net.bioclipse.r"/>
       <plugin id="net.bioclipse.scripting"/>
       <plugin id="net.bioclipse.services"/>
       <plugin id="net.bioclipse.ui"/>
