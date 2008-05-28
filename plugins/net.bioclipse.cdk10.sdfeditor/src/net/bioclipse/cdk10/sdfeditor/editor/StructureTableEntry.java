@@ -41,6 +41,7 @@ import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.renderer.Renderer2D;
 import org.openscience.cdk.renderer.Renderer2DModel;
+import org.openscience.cdk.renderer.color.IAtomColorer;
 
 /**
  * A class that represents an item in a StructureTable. It consists of an
@@ -65,6 +66,8 @@ public class StructureTableEntry implements ChemicalStructureProvider {
     //The index of the entry
     int index;
     
+    //An optional atomcolorer for coloring molecules and bonds
+    IAtomColorer atomColorer;
 
     
     public int getIndex() {
@@ -72,11 +75,28 @@ public class StructureTableEntry implements ChemicalStructureProvider {
         return index;
     }
 
-
+    /**
+     * Constructor without AtomColorer
+     * @param index
+     * @param molecule
+     * @param objects
+     */
     public StructureTableEntry(int index, IAtomContainer molecule, Object[] objects) {
+        this(index, molecule, objects, null);
+    }
+
+    /**
+     * Constructor, including atomcolorer
+     * @param index
+     * @param molecule
+     * @param objects
+     * @param colorer
+     */
+    public StructureTableEntry(int index, IAtomContainer molecule, Object[] objects, IAtomColorer colorer) {
         this.molecule=molecule;
         this.columns=objects;
         this.index=index;
+        this.atomColorer=colorer;
     }
 
 
@@ -100,7 +120,7 @@ public class StructureTableEntry implements ChemicalStructureProvider {
                 event.gc.drawImage(image, event.x, event.y);
             }
         }
-        //If any otehr column, draw text
+        //If any other column, draw text
         else{
             drawProperty(event);
         }
@@ -156,6 +176,11 @@ public class StructureTableEntry implements ChemicalStructureProvider {
         Dimension screenSize = new Dimension(xsize, ysize);
         renderer.getRenderer2DModel().setBackgroundDimension(screenSize);
         renderer.getRenderer2DModel().setDrawNumbers(false);
+
+        //If colorer available, color atoms
+        if (atomColorer!=null)
+            renderer.getRenderer2DModel().setAtomColorer( atomColorer );
+        
         setCompactedNess(screenSize);
 
 
