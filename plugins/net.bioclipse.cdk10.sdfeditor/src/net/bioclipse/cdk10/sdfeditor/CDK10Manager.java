@@ -25,6 +25,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
+import net.bioclipse.cdk10.sdfeditor.io.SDFWriter;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.BioList;
 import net.bioclipse.core.domain.IBioObject;
@@ -240,19 +241,28 @@ public class CDK10Manager{
                     ms.addAtomContainer( cdk10mol.getAtomContainer() );
                 }
 
-                IChemModel model=new ChemModel();
-                model.setMoleculeSet( ms );
+//                IChemModel model=new ChemModel();
+//                model.setMoleculeSet( ms );
 
                 monitor.worked( 1 );
 
                 //Serialize ChemFile to SDF as byte[]
                 ByteArrayOutputStream bos=new ByteArrayOutputStream();
-                MDLWriter writer=new MDLWriter(bos);
+                SDFWriter writer=new SDFWriter();
+                try {
+                    writer.setWriter( bos );
+                } catch ( CDKException e ) {
+                    logger.error("Error creating writer for SDFWriter file: " 
+                                 + filename + ". MSG: " + e.getMessage());
+                    throw new InvocationTargetException(e);
+                }
                 
+//                MDLWriter writer=new MDLWriter(bos);
                 //FIXME: CDK don't save properties, so need workaround
                 
+                
                 try {
-                    writer.write( model );
+                    writer.write( ms );
                 } catch ( CDKException e ) {
                     logger.debug("Error serializing using MDLWriter: " + filename);
                     throw new InvocationTargetException(e);
