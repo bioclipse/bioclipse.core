@@ -88,6 +88,7 @@ public class JCPPage extends EditorPart
      * The JCP model, containing the model
      */
     private JChemPaintModel jcpModel;
+    private PopupController2D inputAdapter;
 
     // More JCP fields
     private DrawingPanel drawingPanel;
@@ -537,6 +538,14 @@ public class JCPPage extends EditorPart
     }
     public MultiPageEditorPart getMPE() {
         return MPE;
+    }
+
+    public PopupController2D getInputAdapter() {
+        return inputAdapter;
+    }
+
+    public void setInputAdapter(PopupController2D inputAdapter) {
+        this.inputAdapter = inputAdapter;
     }
     
 }

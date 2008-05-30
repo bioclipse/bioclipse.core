@@ -31,6 +31,8 @@ import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.renderer.Renderer2DModel;
 import org.openscience.cdk.smiles.SmilesParser;
 
+import com.sun.org.apache.bcel.internal.generic.PopInstruction;
+
 /**
  * Manages the installation/deinstallation of global actions for multi-page editors.
  * Responsible for the redirection of global actions to the active editor.
@@ -40,7 +42,7 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
     private ArrayList actionList;
     private IEditorPart activeEditorPart;
     public JCPAction lastaction= null;
-    private PopupController2D inputAdapter;
+    
     /**
      * Creates a multi-page contributor.
      */
@@ -151,15 +153,19 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
             DrawingPanel drawingPanel =null;
             JCPComposite jcpcomp=null;
             IUndoContext undoContext=null;
+            JCPPage jcpPage = null;
+            PopupController2D inputAdapter = null;
             if ( activeEditorPart instanceof IJCPBasedEditor ) {
                 drawingPanel = ((IJCPBasedEditor)activeEditorPart).getDrawingPanel();
                 jcpcomp=((IJCPBasedEditor)activeEditorPart).getJcpComposite();
                 undoContext=((IJCPBasedEditor)this.getActiveEditorPart()).getUndoContext();
+                jcpPage=((IJCPBasedEditor)this.getActiveEditorPart()).getJCPPage();
                 }
             else if ( activeEditorPart instanceof JCPPage ) {
                 drawingPanel = ((JCPPage)activeEditorPart).getDrawingPanel();
                 jcpcomp=(JCPComposite) ((JCPPage)activeEditorPart).getJcpComposite();
 //                undoContext=((IJCPBasedEditor)((JCPPage)this.getActiveEditorPart()).getMPE()).getUndoContext();
+                jcpPage = (JCPPage)this.getActiveEditorPart();
             }
             else return;
             
@@ -201,12 +207,13 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
                     ex.printStackTrace();
                 }
             }
-            
+            inputAdapter=jcpPage.getInputAdapter();
             if(inputAdapter==null){
             inputAdapter = new BCJCPPopupController(
                 (ChemModel) model.getChemModel(), 
                 model.getRendererModel(),model.getControllerModel(), null, null, 
                 jcpcomp,funcgroups);
+                jcpPage.setInputAdapter(inputAdapter);
             }
             if(activeEditorPart instanceof JCPPage)
                 inputAdapter.addCDKChangeListener(((JCPPage)activeEditorPart));
