@@ -10,7 +10,7 @@
  *     
  ******************************************************************************/
 
-package net.bioclipse.cdk10.jchempaint.business;
+package net.bioclipse.cdk10.business;
 
 import java.util.Properties;
 
