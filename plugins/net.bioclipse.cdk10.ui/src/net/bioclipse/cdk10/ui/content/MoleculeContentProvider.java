@@ -22,6 +22,8 @@ import net.bioclipse.core.domain.BioList;
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.core.domain.IMolecule;
 
+import net.bioclipse.cdk10.business.CDK10Manager;
+import net.bioclipse.cdk10.business.CDK10Molecule;
 import net.bioclipse.cdk10.sdfeditor.*;
 
 import org.apache.log4j.Logger;

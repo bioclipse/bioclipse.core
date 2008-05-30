@@ -11,7 +11,7 @@
  ******************************************************************************/
 package net.bioclipse.cdk10.ui.content;
 
-import net.bioclipse.cdk10.sdfeditor.CDK10Molecule;
+import net.bioclipse.cdk10.business.CDK10Molecule;
 import net.bioclipse.cdk10.ui.Activator;
 import net.bioclipse.core.domain.IMolecule;
 
