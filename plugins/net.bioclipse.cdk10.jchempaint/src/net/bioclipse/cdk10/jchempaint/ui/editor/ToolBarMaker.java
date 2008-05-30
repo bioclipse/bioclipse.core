@@ -90,6 +90,9 @@ public class ToolBarMaker {
             else if (toolKeys[i].equalsIgnoreCase( "redo" )){
                 logger.debug("Omitting Open action in JCP");
             }
+            else if (toolKeys[i].equalsIgnoreCase( "select" )){
+                logger.debug("Omitting Open action in JCP");
+            }
             else{
 
                 JCPAction jcpAction = null;
