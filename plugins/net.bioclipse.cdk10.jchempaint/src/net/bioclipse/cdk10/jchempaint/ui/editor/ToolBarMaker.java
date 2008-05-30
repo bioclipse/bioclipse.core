@@ -28,10 +28,12 @@
  */
 package net.bioclipse.cdk10.jchempaint.ui.editor;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.MissingResourceException;
 
+import net.bioclipse.cdk10.jchempaint.Activator;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 import net.bioclipse.ui.ConsoleEchoer;
 
@@ -53,7 +55,7 @@ import org.openscience.cdk.controller.Controller2DModel;
 public class ToolBarMaker {
     private static ArrayList actionList = new ArrayList();
 
-    org.apache.log4j.Logger logger = Logger.getLogger(ToolBarMaker.class);
+    static org.apache.log4j.Logger logger = Logger.getLogger(ToolBarMaker.class);
 
     public static ArrayList createToolbar(JCPMultiPageEditorContributor contributor) {
         actionList.clear();
@@ -71,34 +73,60 @@ public class ToolBarMaker {
         }
         for (int i=0; i<toolKeys.length; i++) {
             String key = toolKeys[i];
-            JCPAction jcpAction = null;
-            String astr = jcpph.getResourceString(key + JCPAction.actionSuffix);
-            if (astr != null) {
-                jcpAction = new JCPAction().getAction(astr, false,false);
-                jcpAction.setContributor(contributor);
-                String tip = JCPLocalizationHandler.getInstance().getString(key + "Tooltip");
-                if (tip != null)
-                {
-                    jcpAction.setToolTipText(tip);
-                }
-//                System.out.println("action: " + jcpAction);
-//                System.out.println(" label: " + jcpAction.getText());
+
+            //Omit some actions in Bioclipse
+            if (toolKeys[i].equalsIgnoreCase( "new" )){
+                logger.debug("Omitting New action in JCP");
             }
-            if (jcpAction != null) {
-                if (key.compareTo("-") == 0) {
-                    Object separator = new Separator();
-                    actionList.add(separator);
+            else if (toolKeys[i].equalsIgnoreCase( "open" )){
+                logger.debug("Omitting Open action in JCP");
+            }
+            else if (toolKeys[i].equalsIgnoreCase( "saveAs" )){
+                logger.debug("Omitting Open action in JCP");
+            }
+            else if (toolKeys[i].equalsIgnoreCase( "undo" )){
+                logger.debug("Omitting Open action in JCP");
+            }
+            else if (toolKeys[i].equalsIgnoreCase( "redo" )){
+                logger.debug("Omitting Open action in JCP");
+            }
+            else{
+
+                JCPAction jcpAction = null;
+                String astr = jcpph.getResourceString(key + JCPAction.actionSuffix);
+                if (astr != null) {
+                    jcpAction = new JCPAction().getAction(astr, false,false);
+                    jcpAction.setContributor(contributor);
+                    String tip = JCPLocalizationHandler.getInstance().getString(key + "Tooltip");
+                    if (tip != null)
+                    {
+                        jcpAction.setToolTipText(tip);
+                    }
+//                  System.out.println("action: " + jcpAction);
+//                  System.out.println(" label: " + jcpAction.getText());
                 }
-                else {
-                    URL url = jcpph.getResource(toolKeys[i] + JCPAction.imageSuffix);
-                    ImageDescriptor imageDesc = ImageDescriptor.createFromURL(url);
-                    jcpAction.setImageDescriptor(imageDesc);
-                    actionList.add(jcpAction);
-                    if(toolKeys[i].equals("lasso")){
-                        url = jcpph.getResource(toolKeys[i]+"active" + JCPAction.imageSuffix);
-                        imageDesc = ImageDescriptor.createFromURL(url);
+                if (jcpAction != null) {
+                    if (key.compareTo("-") == 0) {
+                        Object separator = new Separator();
+                        actionList.add(separator);
+                    }
+                    else {
+                        URL url = jcpph.getResource(toolKeys[i] + JCPAction.imageSuffix);
+                        if (toolKeys[i].equals( "select" )){
+                            try {
+                                url=new URL("bundleresource://184/net/bioclipse/cdk10/jchempaint/ui/editor/resources/small-bin/square.gif");
+                            } catch ( MalformedURLException e ) {
+                            }
+                        }
+                        ImageDescriptor imageDesc = ImageDescriptor.createFromURL(url);
                         jcpAction.setImageDescriptor(imageDesc);
-                        contributor.lastaction=jcpAction;
+                        actionList.add(jcpAction);
+                        if(toolKeys[i].equals("lasso")){
+//                          url = jcpph.getResource(toolKeys[i]+"active" + JCPAction.imageSuffix);
+//                          imageDesc = ImageDescriptor.createFromURL(url);
+//                          jcpAction.setImageDescriptor(imageDesc);
+                            contributor.lastaction=jcpAction;
+                        }
                     }
                 }
             }
