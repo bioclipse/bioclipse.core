@@ -26,7 +26,10 @@ import java.util.HashMap;
 import javax.vecmath.Point2d;
 import javax.vecmath.Point3d;
 
+import net.bioclipse.cdk10.business.CDK10Molecule;
 import net.bioclipse.core.business.ChemicalStructureProvider;
+import net.bioclipse.core.domain.BioObject;
+import net.bioclipse.core.domain.IMolecule;
 
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
@@ -49,7 +52,8 @@ import org.openscience.cdk.renderer.color.IAtomColorer;
  * @author ola
  *
  */
-public class StructureTableEntry implements ChemicalStructureProvider {
+public class StructureTableEntry extends BioObject 
+                                    implements ChemicalStructureProvider {
 
     private Renderer2D renderer;
     private IAtomContainer molecule;
@@ -363,4 +367,16 @@ public class StructureTableEntry implements ChemicalStructureProvider {
         return ret;
     }
 
+    @Override
+    public Object getAdapter( Class adapter ) {
+    
+        if (adapter == IMolecule.class){
+            CDK10Molecule mol10=new CDK10Molecule(molecule);
+            return mol10;
+        }
+        
+        return super.getAdapter( adapter );
+    }
+    
+    
 }
