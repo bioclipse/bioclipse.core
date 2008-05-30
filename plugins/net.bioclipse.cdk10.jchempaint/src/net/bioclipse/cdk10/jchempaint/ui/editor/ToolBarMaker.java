@@ -76,22 +76,16 @@ public class ToolBarMaker {
 
             //Omit some actions in Bioclipse
             if (toolKeys[i].equalsIgnoreCase( "new" )){
-                logger.debug("Omitting New action in JCP");
             }
             else if (toolKeys[i].equalsIgnoreCase( "open" )){
-                logger.debug("Omitting Open action in JCP");
             }
             else if (toolKeys[i].equalsIgnoreCase( "saveAs" )){
-                logger.debug("Omitting Open action in JCP");
             }
             else if (toolKeys[i].equalsIgnoreCase( "undo" )){
-                logger.debug("Omitting Open action in JCP");
             }
             else if (toolKeys[i].equalsIgnoreCase( "redo" )){
-                logger.debug("Omitting Open action in JCP");
             }
             else if (toolKeys[i].equalsIgnoreCase( "select" )){
-                logger.debug("Omitting Open action in JCP");
             }
             else{
 
