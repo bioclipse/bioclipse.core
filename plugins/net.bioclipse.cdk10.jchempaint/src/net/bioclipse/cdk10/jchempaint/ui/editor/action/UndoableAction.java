@@ -13,6 +13,7 @@ import org.eclipse.core.commands.operations.OperationHistoryFactory;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 
@@ -138,7 +139,7 @@ public class UndoableAction implements IUndoableOperation{
             undoaction.addContext(undoContext);
 
             try{
-              operationHistory.execute(undoaction, null, null);
+              operationHistory.execute(undoaction, new NullProgressMonitor(), null);
             }catch(Exception ex){
                 ex.printStackTrace();
             }
