@@ -21,13 +21,14 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import net.bioclipse.cdk10.business.CDK10Manager;
+import net.bioclipse.cdk10.business.CDK10Molecule;
 import net.bioclipse.cdk10.jchempaint.outline.JCPOutlinePage;
 import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPbasedMPE;
 import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
-import net.bioclipse.cdk10.sdfeditor.CDK10Manager;
-import net.bioclipse.cdk10.sdfeditor.CDK10Molecule;
 import net.bioclipse.cdk10.sdfeditor.outline.SDFOutlinePage;
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.domain.BioList;
 import net.bioclipse.core.util.LogUtils;
 
 import org.eclipse.core.resources.IFile;
@@ -140,6 +141,11 @@ public class SDFEditor extends FormEditor
 //Texteditor not added
 //            int index = addPage(textEditor, getEditorInput());
 //            setPageText(index, textEditor.getTitle());
+            
+            IFile file = getFileFromInput();
+            if (file != null) {
+                setPartName( file.getName() );
+            }
 
         } 
         catch (PartInitException e) {
@@ -354,8 +360,7 @@ public class SDFEditor extends FormEditor
                         instream = file.getContents();
                         
                         CDK10Manager manager= new CDK10Manager();
-                        List<CDK10Molecule> molList = manager
-                                                      .loadMolecules(instream);
+                        List<CDK10Molecule> molList = manager.loadMolecules(instream);
                     logger.debug("In editor: " + molList.size() + " molecules.");
 
                     monitor.beginTask("Reading SDFile...", molList.size()+1);

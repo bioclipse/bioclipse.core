@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.openscience.cdk.interfaces.IAtomContainer;
 
-import net.bioclipse.cdk10.sdfeditor.CDK10Molecule;
+import net.bioclipse.cdk10.business.CDK10Molecule;
 
 
 public class StructureSaveHelper {

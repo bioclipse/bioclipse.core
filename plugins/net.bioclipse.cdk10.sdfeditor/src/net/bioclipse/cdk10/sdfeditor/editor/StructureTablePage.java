@@ -17,9 +17,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.bioclipse.cdk10.business.CDK10Manager;
+import net.bioclipse.cdk10.business.CDK10Molecule;
 import net.bioclipse.cdk10.sdfeditor.Activator;
-import net.bioclipse.cdk10.sdfeditor.CDK10Manager;
-import net.bioclipse.cdk10.sdfeditor.CDK10Molecule;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.ui.dialogs.WSFileDialog;
 
