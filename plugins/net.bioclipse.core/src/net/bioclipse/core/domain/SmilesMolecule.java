@@ -18,8 +18,11 @@ public class SmilesMolecule extends BioObject implements IMolecule {
         return smiles;
     }
 
-    public boolean has3dCoords() {
-        return false;
+    /**
+     * A molecule with only SMILES cannot produce CML other than via CDK
+     */ 
+    public String getCML() {
+        return null;
     }
     
 }
