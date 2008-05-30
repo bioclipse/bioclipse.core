@@ -281,14 +281,6 @@ public class JCPPage extends EditorPart
             }
         }
 
-        PopupController2D inputAdapter = new BCJCPPopupController(
-                                                                  (ChemModel) jcpModel.getChemModel(),
-                                                                  jcpModel.getRendererModel(),
-                                                                  jcpModel.getControllerModel(), 
-                                                                  null, null, 
-                                                                  null, new HashMap()
-        );
-        inputAdapter.addCDKChangeListener(this);
         jcpModel.getRendererModel().addCDKChangeListener(this);
         jcpModel.getControllerModel().setDrawMode(Controller2DModel.LASSO);
 //      drawingPanel.addMouseListener(this);

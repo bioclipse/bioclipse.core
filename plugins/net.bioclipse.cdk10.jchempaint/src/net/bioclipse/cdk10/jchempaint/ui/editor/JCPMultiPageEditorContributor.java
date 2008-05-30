@@ -40,6 +40,7 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
     private ArrayList actionList;
     private IEditorPart activeEditorPart;
     public JCPAction lastaction= null;
+    private PopupController2D inputAdapter;
     /**
      * Creates a multi-page contributor.
      */
@@ -130,7 +131,8 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
             this.activeEditorPart = part;
 //            super.setActiveEditor(part);
             if (((IJCPBasedEditor)activeEditorPart).getJcpModel() != null) {
-                registerModel(((IJCPBasedEditor)activeEditorPart).getJcpModel());
+                // this is done in setActivePage() as well don't want to register more than once
+//                registerModel(((IJCPBasedEditor)activeEditorPart).getJcpModel());
                 // FIXME egonw: likely crucial call
 //                ((IJCPBasedEditor)activeEditorPart).setContributor(this);
             }
@@ -200,12 +202,14 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
                 }
             }
             
-
-            PopupController2D inputAdapter = new BCJCPPopupController(
+            if(inputAdapter==null){
+            inputAdapter = new BCJCPPopupController(
                 (ChemModel) model.getChemModel(), 
                 model.getRendererModel(),model.getControllerModel(), null, null, 
                 jcpcomp,funcgroups);
-            
+            }
+            if(activeEditorPart instanceof JCPPage)
+                inputAdapter.addCDKChangeListener(((JCPPage)activeEditorPart));
             JCPBioclipseUndoRedoHandler undoRedoHandler=new JCPBioclipseUndoRedoHandler();
             undoRedoHandler.setDrawingPanel(drawingPanel);
             undoRedoHandler.setJcpm(model);
