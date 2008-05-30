@@ -19,10 +19,12 @@ public class SmilesMolecule extends BioObject implements IMolecule {
     }
 
     /**
-     * A molecule with only SMILES cannot produce CML other than via CDK
+     * A molecule with only SMILES cannot produce CML other than via CDK, hence 
+     * always throws BioclipseException.
+     * @throws BioclipseException 
      */ 
-    public String getCML() {
-        return null;
+    public String getCML() throws BioclipseException {
+        throw new BioclipseException("Cannot get CML from SmilesMolecule");
     }
     
 }

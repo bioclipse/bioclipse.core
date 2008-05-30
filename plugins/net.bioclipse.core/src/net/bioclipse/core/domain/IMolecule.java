@@ -31,7 +31,8 @@ public interface IMolecule extends IBioObject{
 
     /**
      * @return the IMolecule serialized to CML
+     * @throws BioclipseException if serialization fails
      */
-    public String getCML();
+    public String getCML() throws BioclipseException;
     
 }
