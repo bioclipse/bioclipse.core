@@ -104,8 +104,12 @@ public class Activator extends Plugin {
     public IMoleculeManager getMoleculeManager() {
         IMoleculeManager moleculeManager = null;
         try {
-            moleculeManager = (IMoleculeManager)
-                recordingAdviceTracker.waitForService( SERVICE_TIMEOUT_MILLIS );
+            Object service = recordingAdviceTracker.waitForService( SERVICE_TIMEOUT_MILLIS );
+            if (service instanceof IMoleculeManager) {
+                moleculeManager = (IMoleculeManager)service;
+            } else {
+                logger.error("Unexpected service type (expected IMoleculeManager): " + service.getClass().getName());
+            }
         }
         catch ( InterruptedException e ) {
             logger.error("Error getting MoleculeManager: " + e.getMessage(), e);
