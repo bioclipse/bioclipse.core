@@ -88,7 +88,7 @@ public class JsEnvironment implements ScriptingEnvironment {
                     service = element.createExecutableExtension("service");
                 }
                 catch (CoreException e) {
-                    logger.error("Failed to get a service: " + e);
+                    logger.error("Failed to get a service: " + e.getMessage(), e);
                     continue;
                 }
                 if( service != null &&

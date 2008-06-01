@@ -108,7 +108,7 @@ public class Activator extends Plugin {
                 recordingAdviceTracker.waitForService( SERVICE_TIMEOUT_MILLIS );
         }
         catch ( InterruptedException e ) {
-            logger.error("Error getting MoleculeManager" + e);
+            logger.error("Error getting MoleculeManager: " + e.getMessage(), e);
             LogUtils.debugTrace( logger, e );
         }
         if(moleculeManager == null) {
