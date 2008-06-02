@@ -71,6 +71,87 @@ public class CDK10Manager{
 
 
 
+    /**
+     * Load a molecule from an InputStream. If many molecules, just return
+     * first. To return list of molecules, use loadMolecules(...)
+     */
+    public CDK10Molecule loadMolecule(InputStream instream)
+        throws IOException, BioclipseException {
+
+        if (readerFactory==null){
+            readerFactory=new ReaderFactory();
+            CDK10ManagerHelper.registerFormats(readerFactory);
+        }
+
+        //Create the reader
+        IChemObjectReader reader= readerFactory.createReader(instream);
+
+        if (reader==null) {
+            throw new BioclipseException("Could not create reader in CDK.");
+        }
+
+        IChemFile chemFile = new org.openscience.cdk.ChemFile();
+
+        // Do some customizations...
+        CDK10ManagerHelper.customizeReading(reader, chemFile);
+
+        //Read file
+        try {
+            chemFile=(IChemFile)reader.read(chemFile);
+        } catch (CDKException e) {
+            // TODO Auto-generated catch block
+            LogUtils.debugTrace(logger, e);
+        }
+
+        //Store the chemFormat used for the reader
+        IResourceFormat chemFormat=reader.getFormat();
+        System.out.println("Rad CDK chemfile with format: "
+                           + chemFormat.getFormatName());
+
+        List<IAtomContainer> atomContainersList
+            = ChemFileManipulator.getAllAtomContainers(chemFile);
+        int nuMols=atomContainersList.size();
+        System.out.println("This file contained: " + nuMols + " molecules");
+
+        //If we have one AtomContainer, return a CDKMolecule with this ac
+        //If we have more than one AtomContainer, return a list of the molecules
+        //FIXME: requires common interface for CDKImplementations
+        
+        if (atomContainersList.size()==1){
+            CDK10Molecule retmol
+                = new CDK10Molecule((IAtomContainer)atomContainersList.get(0));
+            return retmol;
+        }
+        
+        List moleculesList=new BioList<CDK10Molecule>();
+
+        for (int i=0; i<atomContainersList.size();i++){
+            IAtomContainer ac=null;
+            Object obj=atomContainersList.get(i);
+            if (obj instanceof org.openscience.cdk.interfaces.IMolecule) {
+                ac=(org.openscience.cdk.interfaces.IMolecule)obj;
+            }else if (obj instanceof IAtomContainer) {
+                ac=(IAtomContainer)obj;
+            }
+
+            CDK10Molecule mol=new CDK10Molecule(ac);
+            String moleculeName="Molecule " + i; 
+            if (ac instanceof IMolecule) {
+                org.openscience.cdk.interfaces.IMolecule imol
+                    = (org.openscience.cdk.interfaces.IMolecule) ac;
+                String molName=(String) imol.getProperty(CDKConstants.TITLE);
+                if (molName!=null && (!(molName.equals("")))){
+                    moleculeName=molName;
+                }
+            }
+            mol.setName(moleculeName);
+            
+            moleculesList.add(mol);
+        }
+        
+        //Just return the first molecule. To return all, use loadMolecules(..)
+        return (CDK10Molecule) moleculesList.get(0);
+    }
 
     /**
      * Load one or more molecules from an InputStream and return a CDKMoleculeList.
@@ -315,5 +396,23 @@ public class CDK10Manager{
 
         PlatformUI.getWorkbench().getProgressService().run(true,false,op);
 
+    }
+
+
+
+    /**
+     * Create molecule from String
+     * @throws BioclipseException 
+     * @throws BioclipseException 
+     * @throws IOException 
+     */
+    public CDK10Molecule fromString( String molstring ) throws BioclipseException, IOException {
+
+        if (molstring==null) throw new BioclipseException("Input cannot be null");
+
+        ByteArrayInputStream bais=new ByteArrayInputStream(molstring.getBytes());
+        
+        return loadMolecule( bais );
+        
     }
 }

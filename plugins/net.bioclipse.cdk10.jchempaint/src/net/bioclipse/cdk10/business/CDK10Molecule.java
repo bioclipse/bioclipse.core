@@ -122,8 +122,8 @@ public class CDK10Molecule extends BioObject implements IMolecule{
 
         if (bo==null) throw new BioclipseException("Convert to CML resulted in " +
         "empty String.");
-
-        return bo.toString();
+        
+         return bo.toString();
     }
 
     /**
