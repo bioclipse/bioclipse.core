@@ -209,15 +209,23 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
             }
             inputAdapter=jcpPage.getInputAdapter();
             if(inputAdapter==null){
-                // TODO if we update the chemmodel this needs to be recreated and old listeners removed
             inputAdapter = new BCJCPPopupController(
                 (ChemModel) model.getChemModel(), 
                 model.getRendererModel(),model.getControllerModel(), null, null, 
                 jcpcomp,funcgroups);
                 jcpPage.setInputAdapter(inputAdapter);
-            }
-            if(activeEditorPart instanceof JCPPage)
+                
+                inputAdapter.addCDKChangeListener(model);
+                //drawingPanel.setJChemPaintModel(model);
+                drawingPanel.addMouseListener(inputAdapter);
+                drawingPanel.addMouseMotionListener(inputAdapter);
+                //Somehow this registration does not work. If it would, element symbols could be changed via keyboard
+                drawingPanel.addKeyListener(inputAdapter);
+                if(activeEditorPart instanceof JCPPage)
                 inputAdapter.addCDKChangeListener(((JCPPage)activeEditorPart));
+            }
+            
+                
             
             // Undo/Redo stuff
             JCPBioclipseUndoRedoHandler undoRedoHandler=new JCPBioclipseUndoRedoHandler();
@@ -243,12 +251,7 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
             else if (activeEditorPart instanceof JCPPage) {
                 model.getRendererModel().addCDKChangeListener((JCPPage)activeEditorPart);
             }
-            inputAdapter.addCDKChangeListener(model);
-            //drawingPanel.setJChemPaintModel(model);
-            drawingPanel.addMouseListener(inputAdapter);
-            drawingPanel.addMouseMotionListener(inputAdapter);
-            //Somehow this registration does not work. If it would, element symbols could be changed via keyboard
-            drawingPanel.addKeyListener(inputAdapter);
+            
         }
     }
     

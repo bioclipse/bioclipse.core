@@ -15,18 +15,22 @@
  ******************************************************************************/
 package net.bioclipse.cdk10.jchempaint.ui.editor;
 
-import java.awt.Panel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import net.bioclipse.cdk10.jchempaint.outline.CDKChemObject;
 import net.bioclipse.core.business.BioclipseException;
 
 import org.apache.log4j.Logger;
+
+import org.eclipse.core.commands.operations.IUndoContext;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -41,14 +45,19 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.MultiPageEditorPart;
+import org.openscience.cdk.Atom;
 import org.openscience.cdk.AtomContainer;
+import org.openscience.cdk.Bond;
 import org.openscience.cdk.ChemModel;
+import org.openscience.cdk.PseudoAtom;
+import org.openscience.cdk.Reaction;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.controller.Controller2DModel;
 import org.openscience.cdk.controller.PopupController2D;
@@ -62,6 +71,7 @@ import org.openscience.cdk.interfaces.IChemObjectListener;
 import org.openscience.cdk.interfaces.IMolecule;
 import org.openscience.cdk.renderer.Renderer2DModel;
 import org.openscience.cdk.renderer.color.IAtomColorer;
+import org.openscience.cdk.smiles.SmilesParser;
 import org.openscience.cdk.tools.HydrogenAdder;
 import org.openscience.cdk.tools.manipulator.ChemModelManipulator;
 
@@ -247,6 +257,9 @@ public class JCPPage extends EditorPart
         
         //TODO: Remove any old listeners to chemModel
         //FIXME!!
+        if(inputAdapter!=null)
+                inputAdapter.removeCDKChangeListener(this);
+        drawingPanel.removeMouseListener(inputAdapter);
         inputAdapter=null;
         //Remove old listeners and components
         if (jcpFrame!=null)
@@ -527,6 +540,7 @@ public class JCPPage extends EditorPart
             }
             try {
                 updateJCPModel( newCM );
+                registerModel(this, jcpModel);
             } catch ( BioclipseException e ) {
                 logger.debug("Problem updating JCP with model.");
                 return;
@@ -550,5 +564,116 @@ public class JCPPage extends EditorPart
     public void setInputAdapter(PopupController2D inputAdapter) {
         this.inputAdapter = inputAdapter;
     }
+
+    public void registerModel(IEditorPart activeEditorPart,JChemPaintModel model)
+    {
+        if (model != null) {
+            DrawingPanel drawingPanel =null;
+            JCPComposite jcpcomp=null;
+            IUndoContext undoContext=null;
+            JCPPage jcpPage = null;
+            PopupController2D inputAdapter = null;
+            if ( activeEditorPart instanceof IJCPBasedEditor ) {
+                drawingPanel = ((IJCPBasedEditor)activeEditorPart).getDrawingPanel();
+                jcpcomp=((IJCPBasedEditor)activeEditorPart).getJcpComposite();
+                undoContext=((IJCPBasedEditor)activeEditorPart).getUndoContext();
+                jcpPage=((IJCPBasedEditor)activeEditorPart).getJCPPage();
+                }
+            else if ( activeEditorPart instanceof JCPPage ) {
+                drawingPanel = ((JCPPage)activeEditorPart).getDrawingPanel();
+                jcpcomp=(JCPComposite) ((JCPPage)activeEditorPart).getJcpComposite();
+                //undoContext=(((JCPPage)this.getActiveEditorPart()).getMPE()).getUndoContext();
+                jcpPage = (JCPPage)activeEditorPart;
+            }
+            else return;
+            
+            /*new code -  functional group*/
+            String filename = "org/openscience/cdk/applications/jchempaint/resources/text/funcgroups.txt";
+            InputStream ins = this.getClass().getClassLoader().getResourceAsStream(filename);
+            
+            HashMap funcgroups = new HashMap();
+            SmilesParser sp=new SmilesParser();
+            StringBuffer sb=new StringBuffer();
+            if (ins != null) {
+                InputStreamReader isr = new InputStreamReader(ins);
+                try{
+                    while(true){
+                        int i=isr.read();
+                        if(i==-1){
+                            break;
+                        }else if(((char)i)=='\n' || ((char)i)=='\r'){
+                            if(!sb.toString().equals("")){
+                                StringTokenizer st=new StringTokenizer(sb.toString());
+                                String key=(String)st.nextElement();
+                                String value=(String)st.nextElement();
+                                funcgroups.put(key, sp.parseSmiles(value));
+                                funcgroups.put(key.toUpperCase(), sp.parseSmiles(value));
+                                sb=new StringBuffer();
+                            }
+                        }else{
+                            sb.append((char)i);
+                        }
+                    }
+                    if(!sb.toString().equals("")){
+                        StringTokenizer st=new StringTokenizer(sb.toString());
+                        String key=(String)st.nextElement();
+                        String value=(String)st.nextElement();
+                        funcgroups.put(key, sp.parseSmiles(value));
+                        funcgroups.put(key.toUpperCase(), sp.parseSmiles(value));
+                    }
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+            inputAdapter=jcpPage.getInputAdapter();
+            if(inputAdapter==null){
+                // TODO if we update the chemmodel this needs to be recreated and old listeners removed
+            inputAdapter = new BCJCPPopupController(
+                (ChemModel) model.getChemModel(), 
+                model.getRendererModel(),model.getControllerModel(), null, null, 
+                jcpcomp,funcgroups);
+                jcpPage.setInputAdapter(inputAdapter);
+                
+                inputAdapter.addCDKChangeListener(model);
+                //drawingPanel.setJChemPaintModel(model);
+                drawingPanel.addMouseListener(inputAdapter);
+                drawingPanel.addMouseMotionListener(inputAdapter);
+                //Somehow this registration does not work. If it would, element symbols could be changed via keyboard
+                drawingPanel.addKeyListener(inputAdapter);
+                if(activeEditorPart instanceof JCPPage)
+                inputAdapter.addCDKChangeListener(((JCPPage)activeEditorPart));
+            }
+            
+                
+            
+            // Undo/Redo stuff
+            JCPBioclipseUndoRedoHandler undoRedoHandler=new JCPBioclipseUndoRedoHandler();
+            undoRedoHandler.setDrawingPanel(drawingPanel);
+            undoRedoHandler.setJcpm(model);
+            undoRedoHandler.setUndoContext(undoContext);
+            inputAdapter.setUndoRedoHandler(undoRedoHandler);
+            
+            
+            //setupPopupMenus(inputAdapter);
+            Renderer2DModel rendererModel = model.getRendererModel();
+            model.getControllerModel().setBondPointerLength(rendererModel.getBondLength());
+            model.getControllerModel().setRingPointerLength(rendererModel.getBondLength());
+            
+            if ( activeEditorPart instanceof ICDKChangeListener ) {
+                ICDKChangeListener cdkPart = (ICDKChangeListener) activeEditorPart;
+                model.getRendererModel().addCDKChangeListener(cdkPart);
+            }
+            else if (activeEditorPart instanceof IJCPBasedEditor) {
+                IJCPBasedEditor jcpEdPart = (IJCPBasedEditor) activeEditorPart;
+                model.getRendererModel().addCDKChangeListener(jcpEdPart.getJCPPage());
+            }
+            else if (activeEditorPart instanceof JCPPage) {
+                model.getRendererModel().addCDKChangeListener((JCPPage)activeEditorPart);
+            }
+            
+        }
+    }
+
+    
     
 }
