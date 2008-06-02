@@ -85,9 +85,9 @@ public class DrawingPanel extends JPanel
      *
      *@param  g  the Graphics object to paint to
      */
-    public void paint(Graphics g)
+    public void paintComponent(Graphics g)
     {
-        super.paint(g);
+        super.paintComponent(g);
         this.setBackground(jchemPaintModel.getRendererModel().getBackColor());
         if (jchemPaintModel == null) return;
         Graphics2D g2d = (Graphics2D) g;
