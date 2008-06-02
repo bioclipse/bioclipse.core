@@ -247,22 +247,25 @@ public class JCPPage extends EditorPart
         
         //TODO: Remove any old listeners to chemModel
         //FIXME!!
-        
+        inputAdapter=null;
         //Remove old listeners and components
         if (jcpFrame!=null)
-            jcpFrame.removeAll();
+            ;//jcpFrame.removeAll();
 
         if (cl!=null)
             body.removeControlListener( cl);
-
-
+        if(chemModel!=null)
+            chemModel.removeListener(this);
         //Cache new model in page
         chemModel=newModel;
 
         //Add listeners and create JCPModel from ChemModel
         chemModel.addListener(this);
         
-        jcpModel = new JChemPaintModel(chemModel);        
+//        if(jcpModel==null)
+            jcpModel = new JChemPaintModel(chemModel);
+//        else
+//            jcpModel.setChemModel(chemModel);
         jcpModel.getControllerModel().setAutoUpdateImplicitHydrogens(true);
         jcpModel.getRendererModel().setShowEndCarbons(true);
         HydrogenAdder hydrogenAdder = new HydrogenAdder("org.openscience.cdk.tools.ValencyChecker");
@@ -282,7 +285,7 @@ public class JCPPage extends EditorPart
             }
         }
 
-        jcpModel.getRendererModel().addCDKChangeListener(this);
+        //jcpModel.getRendererModel().addCDKChangeListener(this);
         jcpModel.getControllerModel().setDrawMode(Controller2DModel.LASSO);
 //      drawingPanel.addMouseListener(this);
 
@@ -294,14 +297,14 @@ public class JCPPage extends EditorPart
         //Set up drawing panel for JCP
         //drawingPanel = new DrawingPanel(body.getDisplay());
         drawingPanel.setJChemPaintModel(jcpModel);
-        if(jcpFrame==null)
+        if(jcpFrame==null){
         	jcpFrame = SWT_AWT.new_Frame(body);
         
         //Add the new drawingpanel to JCPFrame
         java.awt.Panel awtPanel=new java.awt.Panel();
         awtPanel.add(drawingPanel);
         jcpFrame.add(awtPanel);
-
+        }
         //drawingPanel.addMouseMotionListener(this);
         
         //If colorer exists, use it

@@ -164,7 +164,7 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
             else if ( activeEditorPart instanceof JCPPage ) {
                 drawingPanel = ((JCPPage)activeEditorPart).getDrawingPanel();
                 jcpcomp=(JCPComposite) ((JCPPage)activeEditorPart).getJcpComposite();
-//                undoContext=((IJCPBasedEditor)((JCPPage)this.getActiveEditorPart()).getMPE()).getUndoContext();
+                //undoContext=(((JCPPage)this.getActiveEditorPart()).getMPE()).getUndoContext();
                 jcpPage = (JCPPage)this.getActiveEditorPart();
             }
             else return;
@@ -209,6 +209,7 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
             }
             inputAdapter=jcpPage.getInputAdapter();
             if(inputAdapter==null){
+                // TODO if we update the chemmodel this needs to be recreated and old listeners removed
             inputAdapter = new BCJCPPopupController(
                 (ChemModel) model.getChemModel(), 
                 model.getRendererModel(),model.getControllerModel(), null, null, 
@@ -217,11 +218,15 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
             }
             if(activeEditorPart instanceof JCPPage)
                 inputAdapter.addCDKChangeListener(((JCPPage)activeEditorPart));
+            
+            // Undo/Redo stuff
             JCPBioclipseUndoRedoHandler undoRedoHandler=new JCPBioclipseUndoRedoHandler();
             undoRedoHandler.setDrawingPanel(drawingPanel);
             undoRedoHandler.setJcpm(model);
             undoRedoHandler.setUndoContext(undoContext);
             inputAdapter.setUndoRedoHandler(undoRedoHandler);
+            
+            
             setupPopupMenus(inputAdapter);
             Renderer2DModel rendererModel = model.getRendererModel();
             model.getControllerModel().setBondPointerLength(rendererModel.getBondLength());
