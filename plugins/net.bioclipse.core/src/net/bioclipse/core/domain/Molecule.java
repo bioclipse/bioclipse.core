@@ -23,6 +23,10 @@ import org.eclipse.core.resources.IResource;
 public class Molecule extends BioObject implements IMolecule {
 
     private String smiles;
+
+    Molecule() {
+
+    }
     
     public Molecule(String smiles) {
         this.smiles = smiles;
@@ -38,6 +42,6 @@ public class Molecule extends BioObject implements IMolecule {
      * @throws BioclipseException 
      */ 
     public String getCML() throws BioclipseException {
-        throw new BioclipseException("Cannot get CML from SmilesMolecule");
+        throw new UnsupportedOperationException("Cannot get CML from SmilesMolecule");
     }
 }

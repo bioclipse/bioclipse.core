@@ -16,6 +16,9 @@
 
   <osgi:service id="wrapInProxyAdviceOSGI" ref="wrapInProxyAdvice"
                 interface="net.bioclipse.recording.IWrapInProxyAdvice" /> 
+
+  <osgi:service id="moleculeManagerOSGI" ref="moleculeManager"
+                interface="net.bioclipse.core.business.IMoleculeManager" />
                 
   <bean id="recordingAdvisor"
         class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">

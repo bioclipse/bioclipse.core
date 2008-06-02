@@ -52,6 +52,7 @@ public class Activator extends Plugin {
             = new ServiceTracker( context,
                                   IMoleculeManager.class.getName(),
                                   null );
+        moleculeManagerTracker.open();
     }
     
     public void stop(BundleContext context) throws Exception {
@@ -104,11 +105,14 @@ public class Activator extends Plugin {
     public IMoleculeManager getMoleculeManager() {
         IMoleculeManager moleculeManager = null;
         try {
-            Object service = recordingAdviceTracker.waitForService( SERVICE_TIMEOUT_MILLIS );
+            Object service = moleculeManagerTracker
+                             .waitForService( SERVICE_TIMEOUT_MILLIS );
             if (service instanceof IMoleculeManager) {
                 moleculeManager = (IMoleculeManager)service;
             } else {
-                logger.error("Unexpected service type (expected IMoleculeManager): " + service.getClass().getName());
+                logger.error( "Unexpected service type " +
+                		      "(expected IMoleculeManager): " + 
+                		      service.getClass().getName() );
             }
         }
         catch ( InterruptedException e ) {
