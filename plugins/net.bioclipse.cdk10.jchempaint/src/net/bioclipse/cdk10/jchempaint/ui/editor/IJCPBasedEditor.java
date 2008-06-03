@@ -35,5 +35,7 @@ public interface IJCPBasedEditor {
      * @return
      */
     public IChemModel getModelFromEditorInput() throws BioclipseException;
+
+    public IChemModel getChemModel();
     
 }
