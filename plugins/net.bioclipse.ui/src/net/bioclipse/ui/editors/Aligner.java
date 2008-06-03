@@ -8,6 +8,7 @@ import java.util.Scanner;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
@@ -46,6 +47,7 @@ public class Aligner extends EditorPart {
     private List<String> sequences;
     
     private Canvas canvas;
+    private int canvasWidthInSquares, canvasHeightInSquares;
     
     @Override
     public void doSave( IProgressMonitor monitor ) {
@@ -60,7 +62,8 @@ public class Aligner extends EditorPart {
         throws PartInitException {
         
         if (!(input instanceof IFileEditorInput))
-            throw new PartInitException("Invalid Input: Must be IFileEditorInput");
+            throw new PartInitException(
+                "Invalid Input: Must be IFileEditorInput");
         
         setSite(site);
         setInput(input);
@@ -102,6 +105,12 @@ public class Aligner extends EditorPart {
             if (sb.length() > 0)
                 sequences.add( sb.toString() );            
         }
+        
+        canvasHeightInSquares = sequences.size();
+        canvasWidthInSquares = 0;
+        for ( String sequence : sequences )
+            if ( canvasWidthInSquares < sequence.length() )
+                canvasWidthInSquares = sequence.length();
     }
 
     @Override
@@ -116,14 +125,18 @@ public class Aligner extends EditorPart {
 
     @Override
     public void createPartControl( Composite parent ) {
-        Composite body = new Composite(parent, SWT.H_SCROLL );
+        ScrolledComposite sc
+            = new ScrolledComposite( parent, SWT.H_SCROLL | SWT.V_SCROLL );
         
-        FillLayout layout = new FillLayout();
-        body.setLayout(layout);
+        Composite c = new Composite(sc, SWT.NONE);
+        c.setLayout(new FillLayout());
         
-        canvas = new Canvas(body, SWT.BORDER );
+        canvas = new Canvas( c, SWT.NONE );
         canvas.setLocation( 0, 0 );
-
+        c.setSize( canvasWidthInSquares * squareSize,
+                   canvasHeightInSquares * squareSize );
+        sc.setContent( c );
+        
         canvas.addPaintListener( new PaintListener() {
             public void paintControl(PaintEvent e) {
                 GC gc = e.gc;
