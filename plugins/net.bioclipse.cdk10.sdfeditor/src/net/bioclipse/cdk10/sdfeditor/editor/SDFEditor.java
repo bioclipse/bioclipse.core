@@ -23,14 +23,19 @@ import org.apache.log4j.Logger;
 
 import net.bioclipse.cdk10.business.CDK10Manager;
 import net.bioclipse.cdk10.business.CDK10Molecule;
+import net.bioclipse.cdk10.jchempaint.colorers.PropertyColorer;
 import net.bioclipse.cdk10.jchempaint.outline.JCPOutlinePage;
+import net.bioclipse.cdk10.jchempaint.ui.editor.DrawingPanel;
+import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPbasedMPE;
+import net.bioclipse.cdk10.jchempaint.ui.editor.JCPComposite;
 import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 import net.bioclipse.cdk10.sdfeditor.outline.SDFOutlinePage;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.BioList;
 import net.bioclipse.core.util.LogUtils;
 
+import org.eclipse.core.commands.operations.IUndoContext;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -50,12 +55,14 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.openscience.cdk.ChemModel;
 import org.openscience.cdk.MoleculeSet;
+import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.interfaces.IMoleculeSet;
+import org.openscience.cdk.renderer.color.IAtomColorer;
 
 public class SDFEditor extends FormEditor 
-       implements IJCPbasedMPE, IResourceChangeListener, IAdaptable {
+       implements IJCPbasedMPE, IJCPBasedEditor, IResourceChangeListener, IAdaptable {
 
     private static final Logger logger = Logger.getLogger(SDFEditor.class);
 
@@ -113,7 +120,7 @@ public class SDFEditor extends FormEditor
                                            propHeaders.toArray(new String[0]));
 
         //JCP page
-        jcpPage = new SDFJCPPage(null);
+        jcpPage = new SDFJCPPage(null, getColorer());
         
         //Make page aware that this is its parent MPE
         jcpPage.setMPE(this);
@@ -512,6 +519,42 @@ public class SDFEditor extends FormEditor
             return fOutlinePage;
         }
         return super.getAdapter(adapter);
+    }
+
+    
+    
+    
+    public IChemModel getChemModel() {
+        return jcpPage.getChemModel();
+    }
+
+    public IAtomColorer getColorer() {
+        return new PropertyColorer();
+    }
+
+    public DrawingPanel getDrawingPanel() {
+        return jcpPage.getDrawingPanel();
+    }
+
+    public JCPPage getJCPPage() {
+        return jcpPage;
+    }
+
+    public JCPComposite getJcpComposite() {
+        return (JCPComposite)jcpPage.getJcpComposite();
+    }
+
+    public JChemPaintModel getJcpModel() {
+        return jcpPage.getJcpModel();
+    }
+
+    public IChemModel getModelFromEditorInput() throws BioclipseException {
+        System.out.println("OOPS, thought this was unused!");
+        return null;
+    }
+
+    public IUndoContext getUndoContext() {
+        return null;
     }
     
 }

@@ -240,7 +240,7 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
         makeActions();
         hookContextMenu();
         hookDoubleClickAction();
-        contributeToActionBars();
+//        contributeToActionBars();
         
         
         
