@@ -3,17 +3,17 @@
 <schema targetNamespace="net.bioclipse.cdk10.jchempaint">
 <annotation>
       <appInfo>
-         <meta.schema plugin="net.bioclipse.cdk10.jchempaint" id="net.bioclipse.cdk10.atomcolorer" name="AtomColorer"/>
+         <meta.schema plugin="net.bioclipse.cdk10.jchempaint" id="net.bioclipse.cdk10.colorer" name="ColorerAction"/>
       </appInfo>
       <documentation>
-         An extension point to allow for addition of Colorers, which color the active Molecule bases on some algorithm.
+         [Enter description of this extension point.]
       </documentation>
    </annotation>
 
    <element name="extension">
       <complexType>
          <sequence minOccurs="1" maxOccurs="unbounded">
-            <element ref="AtomColorer"/>
+            <element ref="colorer" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -42,7 +42,7 @@
       </complexType>
    </element>
 
-   <element name="AtomColorer">
+   <element name="colorer">
       <complexType>
          <attribute name="id" type="string" use="required">
             <annotation>
@@ -74,7 +74,7 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":org.openscience.cdk.renderer.color.IAtomColorer"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.jface.action.IAction"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -86,7 +86,7 @@
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         TBD
+         [Enter the first release in which this extension point appears.]
       </documentation>
    </annotation>
 

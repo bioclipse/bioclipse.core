@@ -4,18 +4,28 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.eclipse.core.commands.operations.IUndoContext;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
+import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.action.ToolBarContributionItem;
+import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
@@ -85,7 +95,85 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
                 manager.add((IContributionItem) entry);
             }
         }
+
+        //Add colorer action
+        manager.add(new Separator("colorers"));
+        
+        List<IAction> colorers=getColorersFromEP();
+        for (IAction colorer : colorers){
+            manager.add(colorer);
+        }
+
+        //Add colorer action
+        manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+        
     }
+    
+
+    
+    private List<IAction> getColorersFromEP() {
+
+        ArrayList<IAction> colorers=new ArrayList<IAction>();
+        
+        IExtensionRegistry registry = Platform.getExtensionRegistry();
+
+        IExtensionPoint serviceObjectExtensionPoint = registry
+        .getExtensionPoint("net.bioclipse.cdk10.colorer");
+        
+        if (serviceObjectExtensionPoint==null) return null;
+
+        IExtension[] serviceObjectExtensions 
+        = serviceObjectExtensionPoint.getExtensions();
+
+        if (serviceObjectExtensions==null || serviceObjectExtensions.length<=0) return null;
+
+        for(IExtension extension : serviceObjectExtensions) {
+            for( IConfigurationElement element 
+                    : extension.getConfigurationElements() ) {
+
+                if (element.getName().equals("colorer")){
+                    try {
+                        IAction action=(IAction) element.createExecutableExtension( "class" );
+                        action.setText( element.getAttribute("name") );
+                        action.setId( element.getAttribute("id") );
+                        String iconpath=element.getAttribute("icon");
+                        if (iconpath!=null){
+                            
+                        }
+                        colorers.add( action );
+                        System.out.println("Added action: " + action.getText());
+                    } catch ( CoreException e ) {
+                        System.out.println("Could not add action: " + element.getAttribute("name"));
+                    }
+                }
+                }
+            }
+        
+        return colorers;
+    }
+
+
+    @Override
+    public void contributeToCoolBar( ICoolBarManager coolBar ) {
+        IToolBarManager manager = new ToolBarManager(coolBar.getStyle());
+        coolBar.add(new ToolBarContributionItem(manager, "external_tools"));
+
+//        manager.add(new Separator());
+//        for (int i=0; i< actionList.size(); i++) {
+//            Object entry = actionList.get(i);
+//            if (entry instanceof IAction) {
+//                manager.add((IAction) entry);
+//            }
+//            else if (entry instanceof Separator) {
+//                manager.add((IContributionItem) entry);
+//            }
+//        }
+//        
+//        //Add colorer action
+//        manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+
+    }
+    
 //    @Override
     public void setActivePage(IEditorPart activeEditor) {
         

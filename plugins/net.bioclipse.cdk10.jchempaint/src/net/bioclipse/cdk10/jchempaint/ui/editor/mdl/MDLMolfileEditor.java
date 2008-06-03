@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import net.bioclipse.cdk10.jchempaint.colorers.PropertyColorer;
 import net.bioclipse.cdk10.jchempaint.outline.JCPOutlinePage;
 import net.bioclipse.cdk10.jchempaint.ui.editor.DrawingPanel;
 import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
@@ -89,9 +90,9 @@ public class MDLMolfileEditor extends MultiPageEditorPart
         colorer=getColorer();
     }
 
-    //Default for MDLMolfileEditor is CPK
+    //Default for MDLMolfileEditor is PropertyColorer
     public IAtomColorer getColorer() {
-        return new CPKAtomColors();
+        return new PropertyColorer();
     }
 
     public JChemPaintModel getJcpModel() {

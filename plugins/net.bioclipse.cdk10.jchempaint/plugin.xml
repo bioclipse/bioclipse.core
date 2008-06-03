@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
-   <extension-point id="net.bioclipse.cdk10.atomcolorer" name="AtomColorer" schema="schema/net.bioclipse.cdk10.atomcolorer.exsd"/>
+   <extension-point id="net.bioclipse.cdk10.colorer" name="ColorerAction" schema="schema/net.bioclipse.cdk10.colorer.exsd"/>
 
    <extension
          point="org.eclipse.ui.editors">
@@ -25,14 +25,13 @@
       </editor>
    </extension>
    <extension
-         point="net.bioclipse.cdk10.atomcolorer">
-      <AtomColorer
-            class="org.openscience.cdk.renderer.color.CPKAtomColors"
-            id="net.bioclipse.cdk10.jchempaint.ColorerCPK"
-            name="CPK">
-      </AtomColorer>
+         point="net.bioclipse.cdk10.colorer">
+         <colorer
+               class="net.bioclipse.cdk10.jchempaint.colorers.actions.CPKAction"
+               id="net.bioclipse.cdk10.jchempaint.colorers.actions.CPKAction"
+               name="CPK">
+         </colorer>
    </extension>
-   
    
 
 </plugin>
