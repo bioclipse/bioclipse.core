@@ -128,7 +128,8 @@ public class MDLMolfileEditor extends MultiPageEditorPart
         }
         
         org.openscience.cdk.interfaces.IMolecule mol=chemModel.getMoleculeSet().getMolecule( 0 );
-        if (GeometryTools.has2DCoordinates( mol )==false){
+//        if (GeometryTools.has2DCoordinates( mol )==false){
+            //FIXME: add to CDK
             StructureDiagramGenerator sdg = new StructureDiagramGenerator();
             try {
                 sdg.setMolecule((org.openscience.cdk.interfaces.IMolecule)mol.clone());
@@ -143,7 +144,7 @@ public class MDLMolfileEditor extends MultiPageEditorPart
                 e.printStackTrace();
             }
 
-        }
+//        }
         
         
 
