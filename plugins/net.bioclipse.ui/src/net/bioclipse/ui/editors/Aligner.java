@@ -16,6 +16,8 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -42,11 +44,12 @@ public class Aligner extends EditorPart {
         basicAAColor    = colorManager.getColor(new RGB(0xD0, 0xFF, 0xFF)),
         smallAAColor    = colorManager.getColor(new RGB(0xFF, 0xD0, 0xD0)),
         cysteineColor   = colorManager.getColor(new RGB(0xFF, 0xFF, 0xD0)),
-        textColor       = display.getSystemColor( SWT.COLOR_BLACK );
+        textColor       = display.getSystemColor( SWT.COLOR_BLACK ),
+        nameColor       = display.getSystemColor( SWT.COLOR_WHITE ),
+        buttonColor     = colorManager.getColor(new RGB(0x66, 0x66, 0x66));
 
-    private List<String> sequences;
+    private List<String> sequences, sequenceNames;
     
-    private Canvas canvas;
     private int canvasWidthInSquares, canvasHeightInSquares;
     
     @Override
@@ -73,7 +76,8 @@ public class Aligner extends EditorPart {
     public void setInput( IEditorInput input ) {
         super.setInput(input);
         
-        sequences = new ArrayList<String>();
+        sequences     = new ArrayList<String>();
+        sequenceNames = new ArrayList<String>();
         if (input instanceof FileEditorInput) {
             FileEditorInput fei = (FileEditorInput)input;
             if (!fei.exists())
@@ -92,6 +96,8 @@ public class Aligner extends EditorPart {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 if (line.startsWith( ">" )) {
+                    line = line.split( "\\s+" )[0];
+                    sequenceNames.add( line.substring( 1 ) );
                     if (sb.length() > 0)
                         sequences.add( sb.toString() );
                     sb = new StringBuilder();
@@ -125,13 +131,44 @@ public class Aligner extends EditorPart {
 
     @Override
     public void createPartControl( Composite parent ) {
+        GridLayout layout = new GridLayout();
+        layout.numColumns = 2;
+        layout.horizontalSpacing = 0;
+        layout.verticalSpacing = 0;
+        parent.setLayout( layout );
+        
+        Canvas nameCanvas = new Canvas( parent, SWT.NONE );
+        GridData data = new GridData(GridData.FILL_VERTICAL);
+        data.widthHint = 8 * squareSize;
+        nameCanvas.setLayoutData( data );
+        
+        nameCanvas.addPaintListener( new PaintListener() {
+            public void paintControl(PaintEvent e) {
+                GC gc = e.gc;
+                gc.setForeground( nameColor );
+                gc.setBackground( buttonColor );
+                gc.setTextAntialias( SWT.ON );
+                gc.setFont( new Font(gc.getDevice(), "Arial", 14, SWT.NONE) );
+
+                int yCoord = 0;
+                for ( String name : sequenceNames ) {
+                    gc.fillRectangle(0, yCoord, 8 * squareSize, squareSize);
+                    gc.drawText( name, 5, yCoord + 2 );
+                    yCoord += squareSize;
+                }
+            }
+        });
+        
         ScrolledComposite sc
             = new ScrolledComposite( parent, SWT.H_SCROLL | SWT.V_SCROLL );
+        GridData sc_data = new GridData(GridData.VERTICAL_ALIGN_BEGINNING
+                                        | GridData.FILL_BOTH);
+        sc.setLayoutData( sc_data );
         
         Composite c = new Composite(sc, SWT.NONE);
         c.setLayout(new FillLayout());
         
-        canvas = new Canvas( c, SWT.NONE );
+        Canvas canvas = new Canvas( c, SWT.NONE );
         canvas.setLocation( 0, 0 );
         c.setSize( canvasWidthInSquares * squareSize,
                    canvasHeightInSquares * squareSize );
@@ -173,7 +210,6 @@ public class Aligner extends EditorPart {
 
     @Override
     public void setFocus() {
-        canvas.setFocus();
     }
 
 }
