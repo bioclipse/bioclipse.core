@@ -11,6 +11,7 @@ import net.bioclipse.cdk10.jchempaint.ui.editor.JCPComposite;
 import net.bioclipse.cdk10.jchempaint.ui.editor.JCPMultiPageEditorContributor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;
@@ -27,11 +28,16 @@ import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.openscience.cdk.ChemModel;
+import org.openscience.cdk.MoleculeSet;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.exception.CDKException;
+import org.openscience.cdk.geometry.GeometryTools;
 import org.openscience.cdk.interfaces.IChemModel;
+import org.openscience.cdk.interfaces.IMoleculeSet;
 import org.openscience.cdk.io.MDLV2000Reader;
 import org.openscience.cdk.io.MDLWriter;
+import org.openscience.cdk.layout.StructureDiagramGenerator;
+import org.openscience.cdk.renderer.color.CPKAtomColors;
 import org.openscience.cdk.renderer.color.IAtomColorer;
 
 /**
@@ -57,6 +63,21 @@ public class MDLMolfileEditor extends MultiPageEditorPart
     private JCPOutlinePage fOutlinePage;
     private JCPMultiPageEditorContributor contributor;
 
+    private IChemModel chemModel;
+
+    
+    
+    public IChemModel getChemModel() {
+    
+        return chemModel;
+    }
+
+    
+    public void setChemModel( IChemModel chemModel ) {
+    
+        this.chemModel = chemModel;
+    }
+
     public IUndoContext getUndoContext() {
         return undoContext;
     }
@@ -68,9 +89,9 @@ public class MDLMolfileEditor extends MultiPageEditorPart
         colorer=getColorer();
     }
 
-    //Default for MDLMolfileEditor is no additional colorer
+    //Default for MDLMolfileEditor is CPK
     public IAtomColorer getColorer() {
-        return null;
+        return new CPKAtomColors();
     }
 
     public JChemPaintModel getJcpModel() {
@@ -92,7 +113,7 @@ public class MDLMolfileEditor extends MultiPageEditorPart
      */
     protected void createPages() {
         
-        IChemModel chemModel=null;
+        chemModel=null;
         
         try {
             chemModel=getModelFromEditorInput();
@@ -100,6 +121,31 @@ public class MDLMolfileEditor extends MultiPageEditorPart
             e1.printStackTrace();
             return;
         }
+        
+        if (chemModel==null){
+            logger.error("Could not parse file!! " );
+            return;
+        }
+        
+        org.openscience.cdk.interfaces.IMolecule mol=chemModel.getMoleculeSet().getMolecule( 0 );
+        if (GeometryTools.has2DCoordinates( mol )==false){
+            StructureDiagramGenerator sdg = new StructureDiagramGenerator();
+            try {
+                sdg.setMolecule((org.openscience.cdk.interfaces.IMolecule)mol.clone());
+                sdg.generateCoordinates();
+                mol = sdg.getMolecule();
+                IMoleculeSet ms= new MoleculeSet();
+                ms.addAtomContainer( mol );
+                chemModel.setMoleculeSet( ms );
+            } catch ( CloneNotSupportedException e ) {
+                e.printStackTrace();
+            } catch ( Exception e ) {
+                e.printStackTrace();
+            }
+
+        }
+        
+        
 
         if (colorer!=null)
             jcpPage=new JCPPage(chemModel, colorer);

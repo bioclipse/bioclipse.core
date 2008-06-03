@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -414,5 +415,68 @@ public class CDK10Manager{
         
         return loadMolecule( bais );
         
+    }
+
+
+
+    public String getMolFormat( CDK10Molecule cdk10mol ) {
+
+        ByteArrayOutputStream bos=new ByteArrayOutputStream();
+        
+        try {
+            MDLWriter writer=new MDLWriter(bos);
+            writer.write( cdk10mol.getAtomContainer() );
+            writer.close();
+            String retString=bos.toString();
+            System.out.println("RET: " + retString);
+            return retString;
+        } catch ( CDKException e ) {
+            e.printStackTrace();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+        }
+        
+        //Not working
+        return null;
+    }
+
+
+
+    /**
+     * Write the <i>molecule</i> to the WS-relative <i>path</i> in
+     * a supported <i>format</i>
+     * @param cdk10mol
+     * @param name
+     * @param format
+     * @throws CDKException 
+     * @throws IOException 
+     */
+    public File write( CDK10Molecule molecule, String path, String format ) 
+                                    throws CDKException, IOException {
+
+            File file=new File(path);
+            FileOutputStream fos = new FileOutputStream(file);
+            //For now, hardcoded to mol-format
+
+            MDLWriter writer=new MDLWriter(fos);
+            writer.write( molecule.getAtomContainer() );
+            writer.close();
+
+            return file;
+    }
+
+
+    /**
+     * Load molecule from path
+     * @param path
+     * @return 
+     * @throws BioclipseException 
+     * @throws IOException 
+     */
+    public CDK10Molecule loadMolecule( String path ) throws IOException, BioclipseException {
+
+        FileInputStream is=new FileInputStream(path);
+        return loadMolecule( is );
+
     }
 }

@@ -71,6 +71,8 @@ public class CMLfileEditor extends MultiPageEditorPart
     private JCPOutlinePage fOutlinePage;
     private JCPMultiPageEditorContributor contributor;
 
+    IChemModel chemModel;
+
     public IUndoContext getUndoContext() {
         return undoContext;
     }
@@ -100,7 +102,7 @@ public class CMLfileEditor extends MultiPageEditorPart
      */
     protected void createPages() {
 
-        IChemModel chemModel=null;
+        chemModel=null;
         
         try {
             chemModel=getModelFromEditorInput();
@@ -236,6 +238,10 @@ public class CMLfileEditor extends MultiPageEditorPart
      */
     public IAtomColorer getColorer() {
         return null;
+    }
+
+    public IChemModel getChemModel() {
+        return chemModel;
     }
 
 

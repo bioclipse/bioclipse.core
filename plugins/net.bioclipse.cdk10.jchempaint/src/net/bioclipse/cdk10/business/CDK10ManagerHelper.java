@@ -54,6 +54,9 @@ public class CDK10ManagerHelper {
         if (fac.getFormats().contains(MDLV3000Format.getInstance())==false){
             fac.registerFormat((IChemFormatMatcher) MDLV3000Format.getInstance());
         }
+        if (fac.getFormats().contains(Mol2Format.getInstance())==false){
+            fac.registerFormat((IChemFormatMatcher) Mol2Format.getInstance());
+        }
         
 
     }
