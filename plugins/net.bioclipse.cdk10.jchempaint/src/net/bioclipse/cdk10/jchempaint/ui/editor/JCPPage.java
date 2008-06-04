@@ -332,7 +332,7 @@ public class JCPPage extends EditorPart
                         
                         HashMap<IAtom, String> h = new HashMap<IAtom, String>();
                         for (int i=0; i<ac.getAtomCount();i++){
-                            IAtom atom=ac.getAtom( 0 );
+                            IAtom atom=ac.getAtom( i );
                             h.put( atom, "Atom type: " + atom.getAtomTypeName() );
                         }
                         getDrawingPanel().getRenderer2D().getRenderer2DModel().setToolTipTextMap( h );
