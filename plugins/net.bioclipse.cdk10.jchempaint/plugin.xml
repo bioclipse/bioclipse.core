@@ -30,7 +30,7 @@
                class="net.bioclipse.cdk10.jchempaint.colorers.actions.CPKAction"
                id="net.bioclipse.cdk10.jchempaint.colorers.actions.CPKAction"
                name="CPK"
-               icon="icons/molecule2D.gif">
+               icon="icons/molecule3D.gif">
          </colorer>
    </extension>
    
