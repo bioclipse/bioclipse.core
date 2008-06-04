@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import net.bioclipse.cdk10.jchempaint.Activator;
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
 import org.eclipse.core.commands.operations.IUndoContext;
@@ -26,9 +27,11 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarContributionItem;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.openscience.cdk.Atom;
 import org.openscience.cdk.Bond;
 import org.openscience.cdk.ChemModel;
@@ -137,8 +140,13 @@ public class JCPMultiPageEditorContributor extends MultiPageEditorActionBarContr
                         action.setText( element.getAttribute("name") );
                         action.setId( element.getAttribute("id") );
                         String iconpath=element.getAttribute("icon");
+                        
                         if (iconpath!=null){
+                            String ns = element.getDeclaringExtension().getNamespaceIdentifier();
+                            ImageDescriptor desc =
+                              AbstractUIPlugin.imageDescriptorFromPlugin(ns, iconpath); 
                             
+                            action.setImageDescriptor( desc );
                         }
                         colorers.add( action );
                         System.out.println("Added action: " + action.getText());
