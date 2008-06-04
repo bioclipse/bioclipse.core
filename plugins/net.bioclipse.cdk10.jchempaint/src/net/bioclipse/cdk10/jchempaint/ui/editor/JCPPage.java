@@ -324,6 +324,21 @@ public class JCPPage extends EditorPart
         if (colorer!=null)
             drawingPanel.setAtomColorer( colorer );
 
+        if (jcpModel!=null)
+            if (jcpModel.getChemModel()!=null)
+                if (jcpModel.getChemModel().getMoleculeSet()!=null)
+                    if (jcpModel.getChemModel().getMoleculeSet().getMoleculeCount()>0){
+                        IAtomContainer ac=jcpModel.getChemModel().getMoleculeSet().getMolecule( 0 );
+                        
+                        HashMap<IAtom, String> h = new HashMap<IAtom, String>();
+                        for (int i=0; i<ac.getAtomCount();i++){
+                            IAtom atom=ac.getAtom( 0 );
+                            h.put( atom, "Atom type: " + atom.getAtomTypeName() );
+                        }
+                        getDrawingPanel().getRenderer2D().getRenderer2DModel().setToolTipTextMap( h );
+                        
+                    }
+
         //Ugly fix to force repaint.        
         jcpFrame.doLayout();        
         cl.controlResized( null );
