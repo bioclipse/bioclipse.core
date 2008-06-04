@@ -29,7 +29,8 @@
          <colorer
                class="net.bioclipse.cdk10.jchempaint.colorers.actions.CPKAction"
                id="net.bioclipse.cdk10.jchempaint.colorers.actions.CPKAction"
-               name="CPK">
+               name="CPK"
+               icon="icons/molecule2D.gif">
          </colorer>
    </extension>
    
