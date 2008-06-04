@@ -44,8 +44,6 @@ import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.renderer.Renderer2DModel;
 import org.openscience.cdk.smiles.SmilesParser;
 
-import com.sun.org.apache.bcel.internal.generic.PopInstruction;
-
 /**
  * Manages the installation/deinstallation of global actions for multi-page editors.
  * Responsible for the redirection of global actions to the active editor.
