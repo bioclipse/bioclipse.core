@@ -20,10 +20,14 @@ public class PopUpListener implements ActionListener {
         action.run(e);
         if(contributor.getActiveEditorPart() instanceof JCPPage)
          ((JCPPage)contributor.getActiveEditorPart()).getDrawingPanel().repaint();
-        else{
+        else if(contributor.getActiveEditorPart() instanceof MDLMolfileEditor){
         	DrawingPanel drawingPanel=((MDLMolfileEditor)contributor.
         			getActiveEditorPart()).getDrawingPanel(); 
         	drawingPanel.repaint();        
+        }else{
+            // TODO fixed ClassCastException for SDFEditor but still possible for other Exceptions
+             
+            ((IJCPBasedEditor)contributor.getActiveEditorPart()).getDrawingPanel().repaint();
         }
     }
 
