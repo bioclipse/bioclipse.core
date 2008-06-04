@@ -72,9 +72,11 @@ public class DrawingPanel extends JPanel
      */
     public void setJChemPaintModel(JChemPaintModel model)
     {
+        this.removeMouseMotionListener(r2d);
         this.jchemPaintModel = model;
         r2d = new Renderer2D(jchemPaintModel.getRendererModel());
         r2d.setRenderer2DModel(jchemPaintModel.getRendererModel());
+        this.addMouseMotionListener(r2d);
     }
 
     public void updateRingSetInRenderer(){
