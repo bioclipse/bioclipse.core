@@ -10,6 +10,7 @@ public class AlignmentEditor extends MultiPageEditorPart {
 
     @Override
     protected void createPages() {
+        setPartName( getEditorInput().getName() );
         try {
             int pageIndex1 = this.addPage( new Aligner(), getEditorInput() );
             setPageText(pageIndex1, "Alignment");
