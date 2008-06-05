@@ -2,7 +2,9 @@ package net.bioclipse.ui.editors;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.eclipse.core.runtime.CoreException;
@@ -33,20 +35,33 @@ public class Aligner extends EditorPart {
 
     private int squareSize = 20;
     
-    static Display display = Display.getCurrent();
-    static ColorManager colorManager = new ColorManager();
+    static final Display display = Display.getCurrent();
+    static final ColorManager colorManager = new ColorManager();
     
-    static private Color
+    static private final Color
         normalAAColor   = display.getSystemColor( SWT.COLOR_WHITE ),
-        polarAAColor    = colorManager.getColor(new RGB(0xD0, 0xFF, 0xD0)),
-        nonpolarAAColor = colorManager.getColor(new RGB(0xFF, 0xFF, 0xD0)),
-        acidicAAColor   = colorManager.getColor(new RGB(0xFF, 0xD0, 0xA0)),
-        basicAAColor    = colorManager.getColor(new RGB(0xD0, 0xFF, 0xFF)),
-        smallAAColor    = colorManager.getColor(new RGB(0xFF, 0xD0, 0xD0)),
-        cysteineColor   = colorManager.getColor(new RGB(0xFF, 0xFF, 0xD0)),
+        polarAAColor    = colorManager.getColor( new RGB(0xD0, 0xFF, 0xD0) ),
+        nonpolarAAColor = colorManager.getColor( new RGB(0xFF, 0xFF, 0xD0) ),
+        acidicAAColor   = colorManager.getColor( new RGB(0xFF, 0xD0, 0xA0) ),
+        basicAAColor    = colorManager.getColor( new RGB(0xD0, 0xFF, 0xFF) ),
+        smallAAColor    = colorManager.getColor( new RGB(0xFF, 0xD0, 0xD0) ),
+        cysteineColor   = colorManager.getColor( new RGB(0xFF, 0xFF, 0xD0) ),
         textColor       = display.getSystemColor( SWT.COLOR_BLACK ),
         nameColor       = display.getSystemColor( SWT.COLOR_WHITE ),
-        buttonColor     = colorManager.getColor(new RGB(0x66, 0x66, 0x66));
+        buttonColor     = colorManager.getColor( new RGB(0x66, 0x66, 0x66) ),
+        consensusColor  = colorManager.getColor( new RGB(0xAA, 0xAA, 0xAA) );
+    
+    static private final Color[] consensusColors
+        = new Color[] { colorManager.getColor( new RGB(0xFF, 0xFF, 0xDD) ), // 1
+                        colorManager.getColor( new RGB(0xEE, 0xEE, 0xCC) ), // 2
+                        colorManager.getColor( new RGB(0xDD, 0xDD, 0xBB) ), // 3
+                        colorManager.getColor( new RGB(0xCC, 0xCC, 0xAA) ), // 4
+                        colorManager.getColor( new RGB(0xBB, 0xBB, 0x99) ), // 5
+                        colorManager.getColor( new RGB(0xAA, 0xAA, 0x88) ), // 6
+                        colorManager.getColor( new RGB(0x99, 0x99, 0x77) ), // 7
+                        colorManager.getColor( new RGB(0x88, 0x88, 0x66) ), // 8
+                        colorManager.getColor( new RGB(0x77, 0x77, 0x55) )  // 9
+                      };
 
     private List<String> sequences, sequenceNames;
     
@@ -96,7 +111,7 @@ public class Aligner extends EditorPart {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 if (line.startsWith( ">" )) {
-                    line = line.split( "\\s+" )[0];
+                    line = line.split( "\\s+" )[0].replaceFirst( ".*\\|", "" );
                     sequenceNames.add( line.substring( 1 ) );
                     if (sb.length() > 0)
                         sequences.add( sb.toString() );
@@ -109,7 +124,14 @@ public class Aligner extends EditorPart {
                 sb.append(line);
             }
             if (sb.length() > 0)
-                sequences.add( sb.toString() );            
+                sequences.add( sb.toString() );
+            
+            // We only show a consensus sequence if there is more than one
+            // sequence already.
+            if (sequences.size() > 1) {
+                sequenceNames.add("Consensus");
+                sequences.add( consensusSequence(sequences) );
+            }
         }
         
         canvasHeightInSquares = sequences.size();
@@ -117,6 +139,41 @@ public class Aligner extends EditorPart {
         for ( String sequence : sequences )
             if ( canvasWidthInSquares < sequence.length() )
                 canvasWidthInSquares = sequence.length();
+    }
+
+    private String consensusSequence( final List<String> sequences ) {
+
+        final StringBuilder consensus = new StringBuilder();
+        for ( int i = 0, n = maxLength(sequences); i < n; ++i ) {
+            consensus.append( consensusChar(sequences, i) );
+        }
+        
+        return consensus.toString();
+    }
+    
+    private int maxLength( final List<String> strings ) {
+        
+        int maxLength = 0;
+        for ( String s : strings )
+            if ( maxLength < s.length() )
+                maxLength = s.length();
+        
+        return maxLength;
+    }
+    
+    private char consensusChar( final List<String> sequences, final int index ) {
+        
+        Map<Character, Boolean> chars
+            = new HashMap<Character, Boolean>();
+        
+        for ( String seq : sequences )
+            chars.put( seq.length() > index ? seq.charAt(index) : '\0', true );
+        
+        return chars.size() == 1
+               ? chars.keySet().iterator().next()
+               : chars.size() < 10
+                 ? Character.forDigit( chars.size(), 10 )
+                 : '9';
     }
 
     @Override
@@ -150,11 +207,16 @@ public class Aligner extends EditorPart {
                 gc.setTextAntialias( SWT.ON );
                 gc.setFont( new Font(gc.getDevice(), "Arial", 14, SWT.NONE) );
 
-                int yCoord = 0;
+                int index = 0;
                 for ( String name : sequenceNames ) {
-                    gc.fillRectangle(0, yCoord, 8 * squareSize, squareSize);
-                    gc.drawText( name, 5, yCoord + 2 );
-                    yCoord += squareSize;
+                    
+                    if ( index > 0 && index == sequenceNames.size()-1 )
+                        gc.setBackground( consensusColor );
+                    
+                    gc.fillRectangle(0, index * squareSize,
+                                    8 * squareSize, squareSize);
+                    gc.drawText( name, 5, index * squareSize + 2 );
+                    ++index;
                 }
             }
         });
@@ -190,16 +252,30 @@ public class Aligner extends EditorPart {
                         
                         String cc = c + "";
                         gc.setBackground(
-                            "HKR".contains(  cc ) ? basicAAColor
-                          : "DE".contains(   cc ) ? acidicAAColor
+                             "HKR".contains( cc ) ? basicAAColor
+                          :   "DE".contains( cc ) ? acidicAAColor
                           : "TQSN".contains( cc ) ? polarAAColor
-                          : "FYW".contains(  cc ) ? nonpolarAAColor
-                          : "GP".contains(   cc ) ? smallAAColor
-                          : c == 'C'              ? cysteineColor
+                          :  "FYW".contains( cc ) ? nonpolarAAColor
+                          :   "GP".contains( cc ) ? smallAAColor
+                          :    'C' == c           ? cysteineColor
                                                   : normalAAColor );
+                        if ( yCoord > 0
+                             && yCoord == (sequences.size()-1) * squareSize ) {
+                            
+                            int consensusDegree = 1;
+                            if ( Character.isDigit(c) )
+                                consensusDegree = c - '0';
+                            
+                            gc.setBackground(
+                                consensusColors[ consensusDegree-1 ]
+                            );
+                        }
                         
                         gc.fillRectangle(xCoord, yCoord, squareSize, squareSize);
-                        gc.drawText( "" + c, xCoord + 4, yCoord + 2 );
+                        
+                        if ( Character.isUpperCase( c ))
+                            gc.drawText( "" + c, xCoord + 4, yCoord + 2 );
+                        
                         xCoord += squareSize;
                     }
                     yCoord += squareSize;
