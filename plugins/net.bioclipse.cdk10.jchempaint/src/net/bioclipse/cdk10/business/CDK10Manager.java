@@ -17,12 +17,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -35,23 +32,23 @@ import net.bioclipse.core.util.LogUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.openscience.cdk.CDKConstants;
-import org.openscience.cdk.ChemModel;
 import org.openscience.cdk.DefaultChemObjectBuilder;
 import org.openscience.cdk.MoleculeSet;
+import org.openscience.cdk.ReactionSet;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.exception.InvalidSmilesException;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IChemFile;
-import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.interfaces.IChemObjectBuilder;
 import org.openscience.cdk.interfaces.IMoleculeSet;
+import org.openscience.cdk.interfaces.IReaction;
+import org.openscience.cdk.interfaces.IReactionSet;
 import org.openscience.cdk.io.IChemObjectReader;
+import org.openscience.cdk.io.MDLRXNReader;
 import org.openscience.cdk.io.MDLWriter;
 import org.openscience.cdk.io.ReaderFactory;
 import org.openscience.cdk.io.formats.IResourceFormat;
@@ -222,6 +219,76 @@ public class CDK10Manager{
         }
         
         return moleculesList;
+    }
+    
+    /**
+     * Load one or more reactions from an InputStream and return a CDKReactionList.
+     */
+    public List loadReactions(InputStream instream) throws IOException, BioclipseException {
+
+        if (readerFactory==null){
+            readerFactory=new ReaderFactory();
+            CDK10ManagerHelper.registerFormats(readerFactory);
+        }
+
+        System.out.println("no formats supported: " + readerFactory.getFormats().size());
+//        System.out.println("format guess: " + readerFactory.guessFormat(instream).getFormatName());
+
+        //Create the reader
+        MDLRXNReader reader = new MDLRXNReader(instream);
+        
+        if (reader==null){
+            throw new BioclipseException("Could not create reader in CDK. ");
+        }
+
+        IChemFile chemFile = new org.openscience.cdk.ChemFile();
+
+        // Do some customizations...
+        CDK10ManagerHelper.customizeReading(reader, chemFile);
+
+        //Read file
+        try {
+            chemFile=(IChemFile)reader.read(chemFile);
+        } catch (CDKException e) {
+            // TODO Auto-generated catch block
+            LogUtils.debugTrace(logger, e);
+        }
+
+        //Store the chemFormat used for the reader
+        IResourceFormat chemFormat=reader.getFormat();
+        System.out.println("Rad CDK chemfile with format: " + chemFormat.getFormatName());
+
+        List<IReaction> reactionsList = ChemFileManipulator.getAllReactions(chemFile);
+        int nuMols = reactionsList.size();
+        System.out.println("This file contained: " + nuMols + " molecules");
+
+        List reactionList=new BioList<IBioObject>();
+//        CDKMolecule[] moleculesData = new CDKMolecule[atomContainersList.size()];
+
+        for (int i=0; i<reactionsList.size();i++){
+        	IReaction re=null;
+            Object obj=reactionsList.get(i);
+            if (obj instanceof IReaction) {
+            	re=(IReaction)obj;
+            }else if (obj instanceof IAtomContainer) {
+            	re=(IReaction)obj;
+            }
+
+            CDK10Reaction react=new CDK10Reaction(re);
+            String reactionName="Reaction " + i; 
+            if (react instanceof IReaction) {
+                IReaction ireact = (IReaction) react;
+                String reactName=(String) ireact.getProperty(CDKConstants.TITLE);
+                if (reactName!=null && (!(reactName.equals("")))){
+                    reactionName=reactName;
+                }
+            }
+            react.setName(reactionName);
+            
+            reactionList.add(react);
+        }
+        
+        return reactionList;
     }
 
     public String calculateSmiles(IMolecule molecule) throws BioclipseException {
@@ -398,6 +465,126 @@ public class CDK10Manager{
         PlatformUI.getWorkbench().getProgressService().run(true,false,op);
 
     }
+
+    public void saveReactionsAsRDF( final List<CDK10Reaction> reactions,
+                                    final String filename )
+                        throws InvocationTargetException, InterruptedException {
+
+        //Get 
+        
+        
+        WorkspaceModifyOperation op = new WorkspaceModifyOperation(){
+
+            @Override
+            protected void execute( IProgressMonitor monitor )
+                      throws CoreException, InvocationTargetException,
+                                                         InterruptedException {
+
+                monitor.beginTask( "Saving file: " 
+                                   + filename, 4 );
+                
+                //Create File to write
+                File writeFile=new File(filename);
+                if (writeFile.exists()){
+                    //TODO: confirm overwrite
+                }
+                else {
+                    try {
+                        writeFile.createNewFile();
+                    } catch ( IOException e ) {
+                        logger.error("Error creating file: " + filename);
+                        throw new InvocationTargetException(e);
+                    }
+                }
+
+                
+                monitor.subTask( "Serializing reactions" );
+                monitor.worked( 1 );
+                
+                //Collect all Reacts in chemfile
+                IReactionSet rs= new ReactionSet();
+                for(CDK10Reaction cdk10reaction : reactions){
+                    rs.addReaction( cdk10reaction.getReaction() );
+                }
+
+//                IChemModel model=new ChemModel();
+//                model.setMoleculeSet( ms );
+
+                monitor.worked( 1 );
+
+                //Serialize ChemFile to SDF as byte[]
+                ByteArrayOutputStream bos=new ByteArrayOutputStream();
+                RDFWriter writer=new RDFWriter();
+                try {
+                    writer.setWriter( bos );
+                } catch ( CDKException e ) {
+                    logger.error("Error creating writer for SDFWriter file: " 
+                                 + filename + ". MSG: " + e.getMessage());
+                    throw new InvocationTargetException(e);
+                }
+                
+//                MDLWriter writer=new MDLWriter(bos);
+                //FIXME: CDK don't save properties, so need workaround
+                
+                
+                try {
+                    writer.write( rs );
+                } catch ( CDKException e ) {
+                    logger.debug("Error serializing using MDLWriter: " + filename);
+                    throw new InvocationTargetException(e);
+                }
+
+                //Get result from outputStream
+                byte[] buffer = bos.toByteArray();
+
+                monitor.subTask( "Writing to file" );
+                monitor.worked( 1 );
+
+                
+                //Write contents to file
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(writeFile);
+                    fos.write( buffer );
+                } catch ( FileNotFoundException e ) {
+                    logger.debug("File not found: " + filename);
+                    throw new InvocationTargetException(e);
+                } catch ( IOException e ) {
+                    logger.debug("Error writing file: " + filename + ". " 
+                                 + e.getMessage());
+                    throw new InvocationTargetException(e);
+                }finally{
+                    try {
+                        fos.close();
+                    } catch ( IOException e ) {
+                        logger.debug("Error closing file: " + filename + ". " 
+                                     + e.getMessage());
+                        throw new InvocationTargetException(e);
+                    }
+                }
+                
+                //We need to refresh the workspace for the project containing
+                //the created file.
+                //FIXME
+  
+                //Using eclipse resources below. Not used currently.
+                //Set up an inputStream
+//                ByteArrayInputStream bis=new ByteArrayInputStream(buffer);
+//                file.setContents( bis, false, false, monitor );
+
+                
+                logger.debug( "Wrote file: " +filename );
+                monitor.done();
+
+            }
+            
+        };
+
+        PlatformUI.getWorkbench().getProgressService().run(true,false,op);
+
+    }
+    
+    
 
 
 
