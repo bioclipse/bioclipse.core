@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="net.bioclipse.cdk10.rdfeditor.editor.RDFEditor"
+            contributorClass="net.bioclipse.cdk10.jchempaint.ui.editor.JCPMultiPageEditorContributor"
+            default="true"
+            extensions="rdf"
+            icon="icons/molecule2D.gif"
+            id="net.bioclipse.cdk10.rdfeditor.editor.RDFEditor"
+            name="RDF Editor">
+      </editor>
+   </extension>
+
+
+</plugin>
