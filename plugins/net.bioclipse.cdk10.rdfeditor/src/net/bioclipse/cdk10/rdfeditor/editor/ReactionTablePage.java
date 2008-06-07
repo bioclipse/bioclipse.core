@@ -73,12 +73,11 @@ import org.eclipse.ui.navigator.CommonNavigator;
 
 public class ReactionTablePage extends FormPage implements ISelectionListener{
 
-    private static final Logger logger = Logger.getLogger(
-                                                      ReactionTablePage.class);
+    private static final Logger logger = Logger.getLogger(ReactionTablePage.class);
 
     //Declare constants for use in table
-    public static final int INDEX_COLUMN=0;
-    public static final int REACTION_COLUMN=1;
+    public static final int INDEX_COLUMN = 0;
+    public static final int REACTION_COLUMN = 1;
 
     private Table table;
     private TableViewer viewer;

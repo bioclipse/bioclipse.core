@@ -45,9 +45,11 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.openscience.cdk.ChemModel;
 import org.openscience.cdk.ReactionSet;
+import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.interfaces.IReaction;
 import org.openscience.cdk.interfaces.IReactionSet;
+import org.openscience.cdk.smiles.SmilesGenerator;
 
 public class RDFEditor extends FormEditor 
        implements IJCPbasedMPE, IResourceChangeListener, IAdaptable {
@@ -104,8 +106,7 @@ public class RDFEditor extends FormEditor
         parseInput();
 
         //Tables page
-        tablePage = new ReactionTablePage(this, 
-                                           propHeaders.toArray(new String[0]));
+        tablePage = new ReactionTablePage(this, propHeaders.toArray(new String[0]));
 
         //JCP page
         jcpPage = new RDFJCPPage(null);
@@ -253,6 +254,13 @@ public class RDFEditor extends FormEditor
         IChemModel ml = new ChemModel();
         IReactionSet rs = new ReactionSet();
         rs.addReaction( react );
+        try {
+            SmilesGenerator sg = new SmilesGenerator();
+			System.out.println(sg.createSMILES(react));
+		} catch (CDKException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         ml.setReactionSet( rs );
         return ml;
     }
