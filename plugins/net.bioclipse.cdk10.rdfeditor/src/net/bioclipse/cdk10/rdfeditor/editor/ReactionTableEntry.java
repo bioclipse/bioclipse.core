@@ -22,6 +22,9 @@ import java.awt.image.IndexColorModel;
 import java.awt.image.WritableRaster;
 import java.util.HashMap;
 
+import javax.vecmath.Point2d;
+import javax.vecmath.Point3d;
+
 import net.bioclipse.cdk10.business.CDK10Reaction;
 import net.bioclipse.core.business.ReactionStructureProvider;
 import net.bioclipse.core.domain.BioObject;
@@ -34,6 +37,9 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Table;
+import org.openscience.cdk.geometry.GeometryTools;
+import org.openscience.cdk.interfaces.IAtom;
+import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IReaction;
 import org.openscience.cdk.renderer.Renderer2D;
 import org.openscience.cdk.renderer.Renderer2DModel;
@@ -189,17 +195,17 @@ public class ReactionTableEntry extends BioObject implements ReactionStructurePr
 
         IReaction drawReaction = reaction;
 
-//        //If no 2D coords
+        //If no 2D coords
 //        if (GeometryTools.has2DCoordinates(molecule)==false){
 //            //Test if 3D coords
 //            if (GeometryTools.has3DCoordinates(molecule)==true){
 //                //Collapse on XY plane
 //                try {
-//                    drawMolecule=(IAtomContainer) molecule.clone();
+//                	drawReaction=(IAtomContainer) molecule.clone();
 //
 //                    //For each molecule,
-//                    for (int i=0; i< drawMolecule.getAtomCount(); i++){
-//                        IAtom atom=drawMolecule.getAtom(i);
+//                    for (int i=0; i< drawReaction.getAtomCount(); i++){
+//                        IAtom atom=drawReaction.getAtom(i);
 //                        Point3d p3=atom.getPoint3d();
 //                        Point2d p2=new Point2d();
 //                        p2.x=p3.x;
@@ -214,13 +220,16 @@ public class ReactionTableEntry extends BioObject implements ReactionStructurePr
 //            }
 //        }
 
-//        GeometryTools.translateAllPositive(drawreaction,coordinates);
-//        GeometryTools.scaleMolecule(drawMolecule, screenSize, 0.8,coordinates);
-//        GeometryTools.center(drawreaction, screenSize,coordinates);
+        GeometryTools.translateAllPositive(drawReaction,coordinates);
+//        GeometryTools.scaleMolecule(drawReaction, screenSize, 0.8,coordinates);
+        GeometryTools.center(drawReaction, screenSize,coordinates);
 
         renderer.getRenderer2DModel().setRenderingCoordinates(coordinates);
         renderer.getRenderer2DModel().setBackgroundDimension(screenSize);
-        renderer.paintReaction(drawReaction,(Graphics2D)graphics);
+        renderer.paintReaction(
+        		drawReaction,
+                (Graphics2D)graphics
+        );
 
         Image swtimage = new Image(
                 Display.getDefault(),
