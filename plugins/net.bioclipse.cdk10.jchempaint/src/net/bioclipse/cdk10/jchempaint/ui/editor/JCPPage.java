@@ -325,11 +325,13 @@ public class JCPPage extends EditorPart
             drawingPanel.setAtomColorer( colorer );
 
         if (jcpModel!=null)
-            if (jcpModel.getChemModel()!=null)
-                if (jcpModel.getChemModel().getMoleculeSet()!=null)
-                    if (jcpModel.getChemModel().getMoleculeSet().getMoleculeCount()>0){
-                        IAtomContainer ac=jcpModel.getChemModel().getMoleculeSet().getMolecule( 0 );
-                        
+            if (jcpModel.getChemModel()!=null){
+            	// The chemModel is not specific for only IAtomContainers e.g. IReaction
+            	List<IAtomContainer> acList = ChemModelManipulator.getAllAtomContainers(jcpModel.getChemModel());
+            	if(acList != null && acList.size() != 0){
+            		for(Iterator<IAtomContainer> it = acList.iterator();it.hasNext();){
+            			IAtomContainer ac = it.next();
+
                         HashMap<IAtom, String> h = new HashMap<IAtom, String>();
                         for (int i=0; i<ac.getAtomCount();i++){
                             IAtom atom=ac.getAtom( i );
@@ -337,8 +339,10 @@ public class JCPPage extends EditorPart
                         }
                         getDrawingPanel().getRenderer2D().getRenderer2DModel().setToolTipTextMap( h );
                         
-                    }
-
+            		}
+            	}
+            }
+        
         //Ugly fix to force repaint.        
         jcpFrame.doLayout();        
         cl.controlResized( null );
