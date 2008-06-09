@@ -34,7 +34,7 @@ import org.eclipse.ui.part.FileEditorInput;
 public class Aligner extends EditorPart {
 
     private int squareSize = 20;
-    
+        
     static final Display display = Display.getCurrent();
     static final ColorManager colorManager = new ColorManager();
     
@@ -135,10 +135,7 @@ public class Aligner extends EditorPart {
         }
         
         canvasHeightInSquares = sequences.size();
-        canvasWidthInSquares = 0;
-        for ( String sequence : sequences )
-            if ( canvasWidthInSquares < sequence.length() )
-                canvasWidthInSquares = sequence.length();
+        canvasWidthInSquares = maxLength( sequences );
     }
 
     private String consensusSequence( final List<String> sequences ) {
@@ -221,13 +218,13 @@ public class Aligner extends EditorPart {
             }
         });
         
-        ScrolledComposite sc
+        final ScrolledComposite sc
             = new ScrolledComposite( parent, SWT.H_SCROLL | SWT.V_SCROLL );
         GridData sc_data = new GridData(GridData.VERTICAL_ALIGN_BEGINNING
                                         | GridData.FILL_BOTH);
         sc.setLayoutData( sc_data );
         
-        Composite c = new Composite(sc, SWT.NONE);
+        final Composite c = new Composite(sc, SWT.NONE);
         c.setLayout(new FillLayout());
         
         Canvas canvas = new Canvas( c, SWT.NONE );
@@ -236,6 +233,12 @@ public class Aligner extends EditorPart {
                    canvasHeightInSquares * squareSize );
         sc.setContent( c );
         
+        final char fasta[][] = new char[ sequences.size() ][];
+        
+        int i = 0;
+        for ( String sequence : sequences )
+            fasta[i++] = sequence.toCharArray();
+        
         canvas.addPaintListener( new PaintListener() {
             public void paintControl(PaintEvent e) {
                 GC gc = e.gc;
@@ -243,14 +246,21 @@ public class Aligner extends EditorPart {
                 gc.setFont( new Font(gc.getDevice(), "Arial", 14, SWT.NONE) );
                 gc.setForeground( textColor );
 
-                int yCoord = 0;
-                for ( String sequence : sequences ) {
-                    char[] fasta = sequence.toCharArray();
-                    
-                    int xCoord = 0;
-                    for ( char c : fasta ) {
+                int firstVisibleColumn
+                        = sc.getHorizontalBar().getSelection() / squareSize,
+                    lastVisibleColumn
+                        = firstVisibleColumn
+                          + sc.getBounds().width / squareSize
+                          + 2; // this seems to be just enough
+                
+                for ( int column = firstVisibleColumn;
+                      column < lastVisibleColumn; ++column ) {
+
+                    for ( int row = 0; row < canvasHeightInSquares; ++row ) {
                         
+                        char c = fasta[row][column];
                         String cc = c + "";
+
                         gc.setBackground(
                              "HKR".contains( cc ) ? basicAAColor
                           :   "DE".contains( cc ) ? acidicAAColor
@@ -259,8 +269,8 @@ public class Aligner extends EditorPart {
                           :   "GP".contains( cc ) ? smallAAColor
                           :    'C' == c           ? cysteineColor
                                                   : normalAAColor );
-                        if ( yCoord > 0
-                             && yCoord == (sequences.size()-1) * squareSize ) {
+                        
+                        if ( row > 0  &&  row == sequences.size() - 1 ) {
                             
                             int consensusDegree = 1;
                             if ( Character.isDigit(c) )
@@ -271,14 +281,14 @@ public class Aligner extends EditorPart {
                             );
                         }
                         
+                        int xCoord = column * squareSize;
+                        int yCoord =    row * squareSize;
+                        
                         gc.fillRectangle(xCoord, yCoord, squareSize, squareSize);
                         
                         if ( Character.isUpperCase( c ))
                             gc.drawText( "" + c, xCoord + 4, yCoord + 2 );
-                        
-                        xCoord += squareSize;
                     }
-                    yCoord += squareSize;
                 }
             }
         });
