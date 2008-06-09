@@ -138,7 +138,7 @@ public class ReactionTablePage extends FormPage implements ISelectionListener{
         //Add index column
         TableViewerColumn ixcol=new TableViewerColumn(viewer,SWT.BORDER);
         ixcol.getColumn().setText("Index");
-        tableLayout.addColumnData(new ColumnPixelData(50));
+        tableLayout.addColumnData(new ColumnPixelData(70));
         ColumnViewerSorter cSorter = new ColumnViewerSorter(viewer,ixcol) {
             protected int doCompare(Viewer viewer, Object e1, Object e2) {
                 ReactionTableEntry s1=(ReactionTableEntry)e1;
@@ -153,7 +153,7 @@ public class ReactionTablePage extends FormPage implements ISelectionListener{
         //Add Structure column
         TableViewerColumn col=new TableViewerColumn(viewer,SWT.BORDER);
         col.getColumn().setText("Reaction");
-        tableLayout.addColumnData(new ColumnPixelData(100));
+        tableLayout.addColumnData(new ColumnPixelData(400));
 
         //Add properties columns
         int colIndex=0;
@@ -296,7 +296,7 @@ public class ReactionTablePage extends FormPage implements ISelectionListener{
                         .getActivePage().findView( "net.bioclipse.navigator" );
                 CommonNavigator nav=(CommonNavigator)v; 
                 
-                String location=null;
+                String location = null;
                 if (nav!=null){
                     if ( nav.getCommonViewer().getSelection() instanceof IResource ) {
                         IResource res = (IResource) nav.getCommonViewer().getSelection();

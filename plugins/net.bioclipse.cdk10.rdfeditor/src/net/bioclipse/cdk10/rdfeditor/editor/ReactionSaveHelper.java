@@ -19,13 +19,13 @@ public class ReactionSaveHelper {
         for (ReactionTableEntry entry : entries){
             IReaction reaction = (IReaction)entry.getReactionImpl();
 
-//            System.out.println("Mol: " + entry.getIndex());
+//            System.out.println("Reaction: " + entry.getIndex());
             
             //Add the properties with key->value to the AC
-            Hashtable props=new Hashtable();
+            Hashtable<String, String> props=new Hashtable<String, String>();
             int pcnt=0;
             for (String pkey : propHeaders){
-                String val=String.valueOf( entry.columns[pcnt] );
+                String val = String.valueOf( entry.columns[pcnt] );
 //                System.out.println("    Added property: " + pkey + " -> " + val);
                 props.put( pkey, val );
                 pcnt++;
