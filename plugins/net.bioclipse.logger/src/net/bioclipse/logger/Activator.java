@@ -313,6 +313,12 @@ public class Activator extends Plugin {
             assert false: msg;
             warn(MISCONFIG_WARNING + "\n" + msg);
         }
+
+        if (key==null || path==null){
+            System.out.println("Omitting property: " + key + " with value: " + path);
+            return;
+        }
+        
    
         System.setProperty(key, path);
     }
