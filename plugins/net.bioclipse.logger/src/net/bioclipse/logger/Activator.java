@@ -269,7 +269,9 @@ public class Activator extends Plugin {
         String pathPropertyVal = System.getProperty(propName);
         if (pathPropertyVal == null)
             return null;
-
+        
+        pathPropertyVal=pathPropertyVal.replaceAll("\\s", "%20");
+        
         try {
             // try to interpret as URI (e.g., file: URI)
             
@@ -277,31 +279,8 @@ public class Activator extends Plugin {
             pathAsFileObj = new File(pathAsURIObj);
         } catch (Exception e) {
             // ok, try to interpret as a plain pathname
-
+        	pathPropertyVal= pathPropertyVal.replaceAll("%20", " ");
             pathAsFileObj = new File(pathPropertyVal);
-
-            //Workaround for Windows: Go via URL. No idea why.
-            //Added by Ola 2008-05-27
-            if (pathAsFileObj.canRead()==false){
-                URL url;
-                try {
-                    url = new URL(pathPropertyVal);
-                    String retPath=url.getPath();
-                    
-                    //Remove trailing slashes
-                    if (retPath.endsWith( "/" ) || retPath.endsWith( "\\" )){
-                        retPath=retPath.substring( 0,retPath.length()-1 );
-                    }
-                    return retPath;
-                    
-                } catch (MalformedURLException e1) {
-                    e1.printStackTrace();
-                }
-
-            }
-
-            
-            
         }
         
         assert pathAsFileObj != null : "pathAsFileObj should not be null here.";
@@ -335,10 +314,7 @@ public class Activator extends Plugin {
             assert false: msg;
             warn(MISCONFIG_WARNING + "\n" + msg);
         }
-        
-        System.out.println("** Setting BC property: " + key 
-                                              + " to " + path);
-        
+   
         System.setProperty(key, path);
     }
     
