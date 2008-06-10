@@ -270,16 +270,15 @@ public class Activator extends Plugin {
         if (pathPropertyVal == null)
             return null;
         
-        pathPropertyVal=pathPropertyVal.replaceAll("\\s", "%20");
+       
         
         try {
             // try to interpret as URI (e.g., file: URI)
             
-            URI pathAsURIObj = new URI(pathPropertyVal);
+            URI pathAsURIObj = new URI(pathPropertyVal.replaceAll("\\s", "%20"));
             pathAsFileObj = new File(pathAsURIObj);
         } catch (Exception e) {
-            // ok, try to interpret as a plain pathname
-        	pathPropertyVal= pathPropertyVal.replaceAll("%20", " ");
+            // ok, try to interpret as a plain pathnames        	
             pathAsFileObj = new File(pathPropertyVal);
         }
         
