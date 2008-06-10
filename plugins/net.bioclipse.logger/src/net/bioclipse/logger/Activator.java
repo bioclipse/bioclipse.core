@@ -336,6 +336,9 @@ public class Activator extends Plugin {
             warn(MISCONFIG_WARNING + "\n" + msg);
         }
         
+        System.out.println("** Setting BC property: " + key 
+                                              + " to " + path);
+        
         System.setProperty(key, path);
     }
     
