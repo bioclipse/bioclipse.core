@@ -324,6 +324,8 @@ public class JCPPage extends EditorPart
         if (colorer!=null)
             drawingPanel.setAtomColorer( colorer );
 
+        /*
+        //Test tooltips: AtomTypes
         if (jcpModel!=null)
             if (jcpModel.getChemModel()!=null){
             	// The chemModel is not specific for only IAtomContainers e.g. IReaction
@@ -342,6 +344,7 @@ public class JCPPage extends EditorPart
             		}
             	}
             }
+*/
         
         //Ugly fix to force repaint.        
         jcpFrame.doLayout();        
