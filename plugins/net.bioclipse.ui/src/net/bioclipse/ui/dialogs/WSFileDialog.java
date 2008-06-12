@@ -9,6 +9,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.DecoratingLabelProvider;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -121,6 +123,13 @@ public class WSFileDialog extends Dialog {
 		initContentProvider(viewer);
 		initLabelProvider(viewer);
 		initFilters(viewer);
+		viewer.addDoubleClickListener( new IDoubleClickListener(){
+
+            public void doubleClick( DoubleClickEvent event ) {
+                okPressed();
+            }
+		    
+		});
 		viewer.setInput(rootElement);
 		if (expand) {
 			viewer.expandToLevel(2);
