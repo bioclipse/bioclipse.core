@@ -11,11 +11,15 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -49,7 +53,9 @@ public class Aligner extends EditorPart {
         textColor       = display.getSystemColor( SWT.COLOR_BLACK ),
         nameColor       = display.getSystemColor( SWT.COLOR_WHITE ),
         buttonColor     = colorManager.getColor( new RGB(0x66, 0x66, 0x66) ),
-        consensusColor  = colorManager.getColor( new RGB(0xAA, 0xAA, 0xAA) );
+        consensusColor  = colorManager.getColor( new RGB(0xAA, 0xAA, 0xAA) ),
+        selectionColor1 = display.getSystemColor( SWT.COLOR_BLACK ),
+        selectionColor2 = display.getSystemColor( SWT.COLOR_WHITE );
     
     static private final Color[] consensusColors
         = new Color[] { colorManager.getColor( new RGB(0xFF, 0xFF, 0xDD) ), // 1
@@ -66,6 +72,12 @@ public class Aligner extends EditorPart {
     private List<String> sequences, sequenceNames;
     
     private int canvasWidthInSquares, canvasHeightInSquares;
+
+    private int consensusRow;
+
+    private Point selectionStart = new Point(0, 0),
+                  selectionEnd = new Point(0, 0);
+    private boolean currentlySelecting = false;
     
     @Override
     public void doSave( IProgressMonitor monitor ) {
@@ -128,7 +140,8 @@ public class Aligner extends EditorPart {
             
             // We only show a consensus sequence if there is more than one
             // sequence already.
-            if (sequences.size() > 1) {
+            consensusRow  = sequences.size();
+            if (consensusRow > 1) {
                 sequenceNames.add("Consensus");
                 sequences.add( consensusSequence(sequences) );
             }
@@ -207,7 +220,7 @@ public class Aligner extends EditorPart {
                 int index = 0;
                 for ( String name : sequenceNames ) {
                     
-                    if ( index > 0 && index == sequenceNames.size()-1 )
+                    if ( index == consensusRow )
                         gc.setBackground( consensusColor );
                     
                     gc.fillRectangle(0, index * squareSize,
@@ -225,9 +238,9 @@ public class Aligner extends EditorPart {
         sc.setLayoutData( sc_data );
         
         final Composite c = new Composite(sc, SWT.NONE);
-        c.setLayout(new FillLayout());
+        c.setLayout( new FillLayout() );
         
-        Canvas canvas = new Canvas( c, SWT.NONE );
+        final Canvas canvas = new Canvas( c, SWT.NONE );
         canvas.setLocation( 0, 0 );
         c.setSize( canvasWidthInSquares * squareSize,
                    canvasHeightInSquares * squareSize );
@@ -251,14 +264,24 @@ public class Aligner extends EditorPart {
                     lastVisibleColumn
                         = firstVisibleColumn
                           + sc.getBounds().width / squareSize
-                          + 2; // this seems to be just enough
+                          + 2; // compensate for 2 possible round-downs
                 
+                drawSequences( fasta, firstVisibleColumn, lastVisibleColumn, gc );
+                
+                drawSelection( gc );
+            }
+
+            private void drawSequences( final char[][] fasta,
+                                        int firstVisibleColumn,
+                                        int lastVisibleColumn, GC gc ) {
+
                 for ( int column = firstVisibleColumn;
                       column < lastVisibleColumn; ++column ) {
 
                     for ( int row = 0; row < canvasHeightInSquares; ++row ) {
                         
-                        char c = fasta[row][column];
+                        char c = fasta[row].length > column
+                                 ? fasta[row][column] : ' ';
                         String cc = c + "";
 
                         gc.setBackground(
@@ -270,7 +293,7 @@ public class Aligner extends EditorPart {
                           :    'C' == c           ? cysteineColor
                                                   : normalAAColor );
                         
-                        if ( row > 0  &&  row == sequences.size() - 1 ) {
+                        if ( row == consensusRow ) {
                             
                             int consensusDegree = 1;
                             if ( Character.isDigit(c) )
@@ -291,6 +314,73 @@ public class Aligner extends EditorPart {
                     }
                 }
             }
+            
+            private void drawSelection( GC gc ) {
+
+                int xRight  = Math.min( selectionStart.x, selectionEnd.x ),
+                    xLeft   = Math.max( selectionStart.x, selectionEnd.x ),
+                    yTop    = Math.min( selectionStart.y, selectionEnd.y ),
+                    yBottom = Math.max( selectionStart.y, selectionEnd.y );
+                
+                // clipping
+                xRight  = Math.max( xRight, 0 );
+                xLeft   = Math.min( xLeft, canvasWidthInSquares * squareSize );
+                yTop    = Math.max( yTop, 0 );
+                yBottom = Math.min( yBottom,
+                                    (canvasHeightInSquares-1) * squareSize );
+                
+                // rounding down
+                xRight  =  xRight / squareSize * squareSize;
+                yTop    =    yTop / squareSize * squareSize;
+                
+                // rounding up
+                xLeft
+                    =   (xLeft + squareSize - 1) / squareSize * squareSize - 1;
+                yBottom
+                    = (yBottom + squareSize - 1) / squareSize * squareSize - 1; 
+                
+                gc.setForeground( selectionColor1 );
+                gc.drawRectangle( xRight, yTop,
+                                  xLeft - xRight, yBottom - yTop );
+                
+                gc.setForeground( selectionColor2 );
+                gc.drawRectangle( xRight + 1, yTop + 1,
+                                  xLeft - xRight - 2, yBottom - yTop - 2 );
+            }
+        });
+
+        canvas.addMouseListener( new MouseListener() {
+
+            public void mouseDoubleClick( MouseEvent e ) {
+                // we're not interested in double clicks
+            }
+
+            public void mouseDown( MouseEvent e ) {
+                if (e.button == 1) {
+                    currentlySelecting = true;
+                    selectionStart.x = e.x;
+                    selectionStart.y = e.y;
+                }
+            }
+
+            public void mouseUp( MouseEvent e ) {
+                currentlySelecting = false;
+            }
+            
+        });
+        
+        canvas.addMouseMoveListener( new MouseMoveListener() {
+
+            public void mouseMove( MouseEvent e ) {
+
+                // e.stateMask contains info on shift keys
+                if (currentlySelecting) {
+                  selectionEnd.x = e.x;
+                  selectionEnd.y = e.y;
+                  canvas.redraw();
+                }
+            }
+            
         });
     }
 
