@@ -526,7 +526,7 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
             if (item.getData() instanceof StructureTableEntry) {
                StructureTableEntry entry = (StructureTableEntry) item.getData();
                System.out.println("** Added selected in structtab: " 
-                                  + entry.getMoleculeImpl().hashCode());
+                                  + entry.getIndex());
                newSet.add(entry);
             }
         }

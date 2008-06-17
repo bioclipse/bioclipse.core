@@ -27,7 +27,6 @@ import javax.vecmath.Point2d;
 import javax.vecmath.Point3d;
 
 import net.bioclipse.cdk10.business.CDK10Molecule;
-import net.bioclipse.core.business.ChemicalStructureProvider;
 import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IMolecule;
 
@@ -52,8 +51,7 @@ import org.openscience.cdk.renderer.color.IAtomColorer;
  * @author ola
  *
  */
-public class StructureTableEntry extends BioObject 
-                                    implements ChemicalStructureProvider {
+public class StructureTableEntry extends BioObject {
 
     private Renderer2D renderer;
     private IAtomContainer molecule;
@@ -345,16 +343,6 @@ public class StructureTableEntry extends BioObject
         return data;
     }
 
-
-    /**
-     * Return the AtomContainer for access via ChemicalStructureProvider
-     * for e.g. Jmol view to display it.
-     */
-    public Object getMoleculeImpl() {
-        return molecule;
-    }
-
-
     @Override
     public String toString() {
         String ret=""+index + ": [";
@@ -376,6 +364,10 @@ public class StructureTableEntry extends BioObject
         }
         
         return super.getAdapter( adapter );
+    }
+
+    public IAtomContainer getMoleculeImpl() {
+        return molecule;
     }
     
     
