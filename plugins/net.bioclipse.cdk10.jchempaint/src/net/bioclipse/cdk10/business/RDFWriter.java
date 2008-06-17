@@ -83,6 +83,9 @@ public class RDFWriter extends DefaultChemObjectWriter {
                 "Error while writing RXN file: " + exception.getMessage(),
                 exception
             );
+        } catch ( Exception e ) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
     
