@@ -7,5 +7,12 @@ Bundle-Activator: net.bioclipse.core.ui.tests.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.junit4
+ org.junit4,
+ net.bioclipse.core,
+ net.bioclipse.ui,
+ org.eclipse.core.resources,
+ net.bioclipse.services,
+ org.eclipse.jdt.junit4.runtime
 Eclipse-LazyStart: true
+Export-Package: net.bioclipse.ui.tests,
+ net.bioclipse.ui.views
