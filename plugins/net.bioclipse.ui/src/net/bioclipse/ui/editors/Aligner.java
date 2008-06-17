@@ -330,21 +330,25 @@ public class Aligner extends EditorPart {
                                     (canvasHeightInSquares-1) * squareSize );
                 
                 // rounding down
-                xRight  =  xRight / squareSize * squareSize;
-                yTop    =    yTop / squareSize * squareSize;
+                xRight  =                 xRight / squareSize * squareSize;
+                yTop    =                   yTop / squareSize * squareSize;
                 
                 // rounding up
-                xLeft
-                    =   (xLeft + squareSize - 1) / squareSize * squareSize - 1;
-                yBottom
-                    = (yBottom + squareSize - 1) / squareSize * squareSize - 1; 
+                xLeft   =   (xLeft+squareSize-1) / squareSize * squareSize - 1;
+                yBottom = (yBottom+squareSize-1) / squareSize * squareSize - 1;
+                
+                // Special case: marking along the consensus row
+                if ( yTop == yBottom + 1 ) {
+                    yTop = 0;
+                }
                 
                 gc.setForeground( selectionColor1 );
                 gc.drawRectangle( xRight, yTop,
                                   xLeft - xRight, yBottom - yTop );
                 
-                gc.setForeground( selectionColor2 );
-                gc.drawRectangle( xRight + 1, yTop + 1,
+                gc.setBackground( selectionColor2 );
+                gc.setAlpha( 64 ); // 25%
+                gc.fillRectangle( xRight + 1, yTop + 1,
                                   xLeft - xRight - 2, yBottom - yTop - 2 );
             }
         });
