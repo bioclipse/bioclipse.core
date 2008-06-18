@@ -11,7 +11,7 @@
  *     Ola Spjuth                      - minor fixes
  *     Egon Willighagen                - made into a SWT widget
  *******************************************************************************/
-package net.bioclipse.cdk10.jchempaint.widget;
+package net.bioclipse.cdk10.jchempaint.views;
 
 import java.awt.Color;
 import java.awt.Dimension;

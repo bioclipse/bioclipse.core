@@ -39,13 +39,13 @@
       <view
             name="2D-Structure (CDK10)"
 	        icon="icons/molecule2D.gif"
-            category="net.bioclipse.cdk.category"
-            class="net.bioclipse.cdk10.jchempaint.widget.JChemPaintWidget"
-            id="net.bioclipse.cdk10.jchempaint.widget.JChemPaintWidget">
+            category="net.bioclipse.cdk10.category"
+            class="net.bioclipse.cdk10.jchempaint.views.Java2DRendererView"
+            id="net.bioclipse.cdk10.jchempaint.views.Java2DRendererView">
       </view>
       <category
-            id="net.bioclipse.cdk.category"
-            name="Chemoinformatics">
+            id="net.bioclipse.cdk10.category"
+            name="Chemoinformatics CDK10">
       </category>
    </extension>
    

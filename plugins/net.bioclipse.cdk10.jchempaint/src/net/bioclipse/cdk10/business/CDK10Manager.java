@@ -666,4 +666,47 @@ public class CDK10Manager{
         return loadMolecule( is );
 
     }
+    
+    
+    /**
+     * Create molecule from SMILES.
+     * @throws BioclipseException 
+     */
+    public CDK10Molecule fromSmiles(String smilesDescription)
+        throws BioclipseException {
+
+        SmilesParser parser
+            = new SmilesParser(DefaultChemObjectBuilder.getInstance());
+        try {
+            org.openscience.cdk.interfaces.IMolecule mol
+                = parser.parseSmiles(smilesDescription);
+            return new CDK10Molecule(mol);
+        } catch (InvalidSmilesException e) {
+            throw new BioclipseException("SMILES string is invalid");
+        }
+        
+    }
+
+    
+    /**
+     * Create an ICDKMolecule from an IMolecule.
+     * First tries to create ICDKMolecule from CML. If that fails, tries to
+     * create from SMILES.
+     */
+    public CDK10Molecule create( IMolecule m ) throws BioclipseException {
+        //First try to create from CML
+        try {
+            String cmlString=m.getCML();
+            if (cmlString!=null){
+                return fromString( cmlString );
+            }
+        } catch ( IOException e ) {
+            logger.debug( "Could not create mol from CML" );
+        }
+        
+        //Secondly, try to create from SMILES
+        return fromSmiles( m.getSmiles() );
+    }
+
+    
 }
