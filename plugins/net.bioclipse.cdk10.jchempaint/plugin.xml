@@ -33,6 +33,21 @@
                icon="icons/molecule3D.gif">
          </colorer>
    </extension>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            name="2D-Structure (CDK10)"
+	        icon="icons/molecule2D.gif"
+            category="net.bioclipse.cdk.category"
+            class="net.bioclipse.cdk10.jchempaint.widget.JChemPaintWidget"
+            id="net.bioclipse.cdk10.jchempaint.widget.JChemPaintWidget">
+      </view>
+      <category
+            id="net.bioclipse.cdk.category"
+            name="Chemoinformatics">
+      </category>
+   </extension>
    
 
 </plugin>
