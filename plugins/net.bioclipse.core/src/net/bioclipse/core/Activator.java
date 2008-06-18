@@ -1,12 +1,20 @@
 package net.bioclipse.core;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import net.bioclipse.core.business.IMoleculeManager;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.recording.IHistory;
 import net.bioclipse.recording.IRecordingAdvice;
 
 import org.apache.log4j.Logger;
-
+import org.apache.log4j.Priority;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
@@ -38,6 +46,7 @@ public class Activator extends Plugin {
     public void start(BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
+        createVirtualProject();
         historyTracker 
             = new ServiceTracker( context, 
                                   IHistory.class.getName(), 
@@ -53,11 +62,13 @@ public class Activator extends Plugin {
                                   IMoleculeManager.class.getName(),
                                   null );
         moleculeManagerTracker.open();
+        
     }
     
     public void stop(BundleContext context) throws Exception {
         plugin = null;
         super.stop(context);
+        deleteVirtualProject();
     }
 
     
@@ -123,5 +134,32 @@ public class Activator extends Plugin {
             throw new IllegalStateException("could not get moleculeManager");
         }
         return moleculeManager;
+    }
+    
+    protected void createVirtualProject(){
+        
+        String projectName = "Virtual";
+        IProject project = ResourcesPlugin.getWorkspace().
+                getRoot().getProject(projectName);
+        IProjectDescription description = 
+               ResourcesPlugin.getWorkspace().newProjectDescription(projectName);
+        try{
+            description.setLocationURI(new URI("memory:/Virtual"));
+            project.create(description,null);
+            project.open(null);
+        }catch(URISyntaxException use){
+            logger.debug(use.getMessage(),use);
+        }catch(CoreException x){
+            logger.warn("Failed to create virtual project: "+x.getMessage());
+        }
+    }
+    protected void deleteVirtualProject(){
+        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        IProject project = root.getProject("Virtual");
+        try {
+            project.delete(true, null);
+        } catch (CoreException e) {            
+            e.printStackTrace();
+        }
     }
 }
