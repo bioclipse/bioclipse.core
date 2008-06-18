@@ -27,7 +27,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.springframework.bundle.spring.core,
  net.sf.cglib,
  org.springframework.bundle.spring.aspects,
- org.eclipse.ui.views
+ org.eclipse.ui.views,
+ org.eclipse.core.filesystem,
+ org.eclipse.ui.ide
 Bundle-ClassPath: libs/js.jar,
  .,
  libs/groovy-1.0.jar,

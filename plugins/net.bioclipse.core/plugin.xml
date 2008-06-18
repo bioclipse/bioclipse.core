@@ -8,4 +8,45 @@
             service="net.bioclipse.core.business.MoleculeManagerFactory">
       </scriptContribution>
    </extension>
+   <extension
+         point="org.eclipse.core.filesystem.filesystems">
+      <filesystem
+            scheme="memory">
+         <run
+               class="net.bioclipse.core.internal.filesystem.memory.MemoryFileSystem">
+         </run>
+      </filesystem>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.filesystemSupport">
+      <filesystemContributor
+            class="net.bioclipse.core.internal.filesystem.memory.MemoryFileSystemContributor"
+            label="In Memory"
+            scheme="memory">
+      </filesystemContributor>
+      <filesystemContributor
+            class="net.bioclipse.core.internal.filesystem.zip.ZipFileSystemContributor"
+            label="Zip file"
+            scheme="zip">
+      </filesystemContributor>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="net.bioclipse.core.internal.filesystem.memory.MemoryFileStore"
+            class="net.bioclipse.core.internal.filesystem.memory.MemoryAdapterFactory">
+         <adapter
+               type="org.eclipse.ui.model.IWorkbenchAdapter">
+         </adapter>
+      </factory>
+   </extension>
+   <extension
+         point="org.eclipse.core.filesystem.filesystems">
+      <filesystem
+            scheme="zip">
+         <run
+               class="net.bioclipse.core.internal.filesystem.zip.ZipFileSystem">
+         </run>
+      </filesystem>
+   </extension>
 </plugin>
