@@ -15,9 +15,13 @@ package net.bioclipse.cdk10.jchempaint.views;
 
 
 
+import java.util.ArrayList;
+
 import net.bioclipse.cdk10.business.CDK10Manager;
 import net.bioclipse.cdk10.business.CDK10Molecule;
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.domain.AtomIndexSelection;
+import net.bioclipse.core.domain.IAtomSelection;
 import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;
@@ -32,6 +36,7 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.openscience.cdk.AtomContainer;
 import org.openscience.cdk.DefaultChemObjectBuilder;
 import org.openscience.cdk.Molecule;
 import org.openscience.cdk.exception.InvalidSmilesException;
@@ -116,14 +121,16 @@ public class Java2DRendererView extends ViewPart
         //Try to get an IMolecule via the adapter
         else if (obj instanceof IAdaptable) {
             IAdaptable ada=(IAdaptable)obj;
+
             
+            //Start by requesting molecule
             Object molobj=ada
                     .getAdapter( net.bioclipse.core.domain.IMolecule.class );
             if (molobj==null || 
                    (!(molobj instanceof net.bioclipse.core.domain.IMolecule ))){
                 //Nothing to show
-                clearView();
-                return;
+//                clearView();
+//                return;
             }
 
             net.bioclipse.core.domain.IMolecule bcmol 
@@ -165,6 +172,33 @@ public class Java2DRendererView extends ViewPart
                               + e.getMessage() );
             }
 
+            
+            //Handle case where Iadaptable can return atoms to be highlighted
+            Object selobj=ada
+            .getAdapter( IAtomSelection.class );
+//            ArrayList<Integer> atomSelectionIndices=new ArrayList<Integer>();
+
+            if (selobj!=null){
+                IAtomSelection atomSelection=(IAtomSelection)selobj;
+                
+                if ( atomSelection instanceof AtomIndexSelection ) {
+                    AtomIndexSelection isel = (AtomIndexSelection) atomSelection;
+                    int[] selindices = isel.getSelection();
+                    System.out.println("\n** Should highlight these JCP atoms:\n");
+                    IAtomContainer selectedMols=new AtomContainer();
+                    for (int i=0; i<selindices.length;i++){
+                        selectedMols.addAtom( molecule.getAtom( selindices[i] ));
+                        System.out.println(i);
+//                        atomSelectionIndices.add( new Integer(selindices[i]) );
+                    }
+                    canvasView.getRendererModel().setExternalSelectedPart( selectedMols );
+                    canvasView.redraw();
+                }
+                
+                
+            }
+
+            
         }
         
     }
