@@ -126,11 +126,10 @@ public class Java2DRendererView extends ViewPart
             //Start by requesting molecule
             Object molobj=ada
                     .getAdapter( net.bioclipse.core.domain.IMolecule.class );
-            if (molobj==null || 
-                   (!(molobj instanceof net.bioclipse.core.domain.IMolecule ))){
+            if (molobj==null ){
                 //Nothing to show
 //                clearView();
-//                return;
+                return;
             }
 
             net.bioclipse.core.domain.IMolecule bcmol 
