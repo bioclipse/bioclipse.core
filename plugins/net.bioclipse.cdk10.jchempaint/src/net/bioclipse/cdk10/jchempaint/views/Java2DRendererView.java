@@ -215,6 +215,7 @@ public class Java2DRendererView extends ViewPart
             try {
                 canvasView.setAtomContainer(ac);
                 canvasView.setVisible( true );
+                canvasView.getRendererModel().setShowExplicitHydrogens( false );
                 canvasView.redraw();
             } catch (Exception e) {
                 logger.debug("Error displaying molecule in viewer: " + e.getMessage());
