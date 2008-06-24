@@ -184,12 +184,11 @@ public class Java2DRendererView extends ViewPart
                 if ( atomSelection instanceof AtomIndexSelection ) {
                     AtomIndexSelection isel = (AtomIndexSelection) atomSelection;
                     int[] selindices = isel.getSelection();
-                    System.out.println("\n** Should highlight these JCP atoms:\n");
+//                    System.out.println("\n** Should highlight these JCP atoms:\n");
                     IAtomContainer selectedMols=new AtomContainer();
                     for (int i=0; i<selindices.length;i++){
                         selectedMols.addAtom( molecule.getAtom( selindices[i] ));
-                        System.out.println(i);
-//                        atomSelectionIndices.add( new Integer(selindices[i]) );
+//                        System.out.println(i);
                     }
                     canvasView.getRendererModel().setExternalSelectedPart( selectedMols );
                     canvasView.redraw();
