@@ -49,4 +49,74 @@
          </run>
       </filesystem>
    </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="net.bioclipse.core.ui.filesystem.contribution1"
+            objectClass="org.eclipse.core.resources.IFile">
+                <enablement>
+                    <or>
+                       <objectState name="extension" value="jar"/>
+                    <objectState name="extension" value="zip"/>
+                 </or>
+                </enablement>
+         <action
+               class="net.bioclipse.core.ui.filesystem.ExpandZipAction"
+               enablesFor="1"
+               id="net.bioclipse.core.ui.filesystemexpandZip"
+               label="Expand Zip File"
+               menubarPath="additions"/>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="net.bioclipse.core.ui.filesystem.contribution2"
+            objectClass="org.eclipse.core.resources.IFolder">
+                <enablement>
+                    <or>
+                       <objectState name="extension" value="jar"/>
+                    <objectState name="extension" value="zip"/>
+                 </or>
+                </enablement>
+         <action
+               class="net.bioclipse.core.ui.filesystem.CollapseZipAction"
+               enablesFor="1"
+               id="net.bioclipse.core.ui.filesystem.collapseZip"
+               label="Collapse Zip File"
+               menubarPath="additions"/>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="net.bioclipse.core.ui.filesystem.contribution3"
+            objectClass="org.eclipse.core.resources.IResource">
+         <action
+               class="net.bioclipse.core.ui.filesystem.IncludeResourceAction"
+               enablesFor="1"
+               id="net.bioclipse.core.ui.filesystem.includeResource"
+               label="Include Resource"
+               menubarPath="additions"/>
+         <action
+               class="net.bioclipse.core.ui.filesystem.ExcludeResourceAction"
+               enablesFor="1"
+               id="net.bioclipse.core.ui.filesystem.excludeResource"
+               label="Exclude Resource"
+               menubarPath="additions"/>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="net.bioclipse.core.ui.filesystem.contribution4"
+            objectClass="org.eclipse.core.resources.IProject">
+         <action
+               class="net.bioclipse.core.ui.filesystem.CreatedNestedProjectsAction"
+               enablesFor="1"
+               id="net.bioclipse.core.ui.filesystem.createdNested"
+               label="Create Nested Projects"
+               menubarPath="additions"/>
+      </objectContribution>
+   </extension>
 </plugin>

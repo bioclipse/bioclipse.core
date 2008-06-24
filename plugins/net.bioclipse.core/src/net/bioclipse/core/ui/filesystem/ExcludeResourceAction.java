@@ -28,10 +28,13 @@ public class ExcludeResourceAction implements IObjectActionDelegate {
 			if (resource.getType() == IResource.FILE) {
 				IFile link = (IFile) resource;
 				link.createLink(nullURI, IResource.REPLACE | IResource.ALLOW_MISSING_LOCAL, null);
-			} else {
+			} else if (resource.getType() == IResource.FOLDER){
 				IFolder link = (IFolder) resource;
 				link.createLink(nullURI, IResource.REPLACE | IResource.ALLOW_MISSING_LOCAL, null);
+			} else {
+			    // not a folder or file, should it still be excluded?
 			}
+			    
 		} catch (Exception e) {
 			MessageDialog.openError(getShell(), "Error", "Error excluding resource");
 			e.printStackTrace();
