@@ -15,6 +15,7 @@ package net.bioclipse.cdk10.business;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.BitSet;
+import java.util.List;
 
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.fingerprint.Fingerprinter;
@@ -22,6 +23,8 @@ import org.openscience.cdk.geometry.GeometryTools;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.io.CMLWriter;
 import org.openscience.cdk.smiles.SmilesGenerator;
+
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.BioObject;
@@ -165,6 +168,12 @@ public class CDK10Molecule extends BioObject implements IMolecule{
         
         // TODO Auto-generated method stub
         return super.getAdapter( adapter );
+    }
+
+    public List<IMolecule> getConformers() {
+
+        throw new NotImplementedException();
+        
     }
 
 }
