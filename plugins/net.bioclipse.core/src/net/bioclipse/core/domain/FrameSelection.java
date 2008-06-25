@@ -12,30 +12,38 @@
 package net.bioclipse.core.domain;
 
 /**
- * Used to select a series of atoms by index
+ * Used to select a frame in a view.
+ * For example in Jmol, to select a frame for the model
  * @author ola
  *
  */
-public class AtomIndexSelection implements IAtomSelection{
+public class FrameSelection implements IAtomSelection {
 
-    int[] selection;
+    int frame;
+
     
-    public int[] getSelection() {
-
-        return selection;
+    public int getFrame() {
+    
+        return frame;
     }
 
     
-    public void setSelection( int[] selection ) {
+    public void setFrame( int frame ) {
     
-        this.selection = selection;
+        this.frame = frame;
     }
 
 
-    public AtomIndexSelection(int[] selection) {
+    public FrameSelection(int frame) {
 
         super();
-        this.selection = selection;
+        this.frame = frame;
     }
+
+
+    public Object getSelection() {
+        return frame;
+    }
+
 
 }
