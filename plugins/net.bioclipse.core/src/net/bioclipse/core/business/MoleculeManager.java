@@ -12,8 +12,7 @@
 package net.bioclipse.core.business;
 
 import net.bioclipse.core.domain.IMolecule;
-import net.bioclipse.core.domain.Molecule;
-
+import net.bioclipse.core.domain.SmilesMolecule;
 
 /**
  * @author jonalv
@@ -22,7 +21,7 @@ import net.bioclipse.core.domain.Molecule;
 public class MoleculeManager implements IMoleculeManager {
 
     public IMolecule fromSmiles( String smiles ) {
-        return new Molecule(smiles);
+        return new SmilesMolecule(smiles);
     }
 
     public String getNamespace() {

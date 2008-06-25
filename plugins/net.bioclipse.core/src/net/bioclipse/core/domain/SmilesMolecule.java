@@ -1,19 +1,23 @@
 package net.bioclipse.core.domain;
 
-import net.bioclipse.core.business.BioclipseException;
+import java.util.List;
 
-import org.eclipse.core.resources.IResource;
+import net.bioclipse.core.business.BioclipseException;
 
 /**
  * A leightweight implementation of IMolecule that only consists of a Smiles
  * string.
- * @author jonalv
+ * @author jonalv, olas
  *
  */
 public class SmilesMolecule extends BioObject implements IMolecule {
 
     String smiles;
     
+    public SmilesMolecule(String smiles) {
+        this.smiles=smiles;
+    }
+
     public String getSmiles() throws BioclipseException {
         return smiles;
     }
@@ -24,7 +28,13 @@ public class SmilesMolecule extends BioObject implements IMolecule {
      * @throws BioclipseException 
      */ 
     public String getCML() throws BioclipseException {
-        throw new BioclipseException("Cannot get CML from SmilesMolecule");
+        throw new UnsupportedOperationException("SmilesMolecule can not " +
+        		"return CML");
+    }
+
+    public List<IMolecule> getConformers() {
+        throw new UnsupportedOperationException("SmilesMolecule can not " +
+        "return conformers");
     }
     
 }
