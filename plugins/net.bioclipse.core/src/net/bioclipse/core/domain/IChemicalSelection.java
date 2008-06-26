@@ -1,6 +1,6 @@
 package net.bioclipse.core.domain;
 
-public interface IAtomSelection {
+public interface IChemicalSelection {
 
     public Object getSelection();
 

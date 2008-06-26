@@ -17,7 +17,7 @@ package net.bioclipse.core.domain;
  * @author ola
  *
  */
-public class ModelSelection implements IAtomSelection {
+public class ModelSelection implements IChemicalSelection {
 
     int frame;
 
@@ -41,7 +41,7 @@ public class ModelSelection implements IAtomSelection {
     }
 
 
-    public Object getSelection() {
+    public Integer getSelection() {
         return frame;
     }
 

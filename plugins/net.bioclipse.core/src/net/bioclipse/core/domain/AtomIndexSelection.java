@@ -16,7 +16,7 @@ package net.bioclipse.core.domain;
  * @author ola
  *
  */
-public class AtomIndexSelection implements IAtomSelection{
+public class AtomIndexSelection implements IChemicalSelection{
 
     int[] selection;
     
