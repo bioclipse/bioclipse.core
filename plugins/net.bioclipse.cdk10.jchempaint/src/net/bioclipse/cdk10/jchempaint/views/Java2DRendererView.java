@@ -21,7 +21,7 @@ import net.bioclipse.cdk10.business.CDK10Manager;
 import net.bioclipse.cdk10.business.CDK10Molecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.AtomIndexSelection;
-import net.bioclipse.core.domain.IAtomSelection;
+import net.bioclipse.core.domain.IChemicalSelection;
 import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;
@@ -174,11 +174,11 @@ public class Java2DRendererView extends ViewPart
             
             //Handle case where Iadaptable can return atoms to be highlighted
             Object selobj=ada
-            .getAdapter( IAtomSelection.class );
+            .getAdapter( IChemicalSelection.class );
 //            ArrayList<Integer> atomSelectionIndices=new ArrayList<Integer>();
 
             if (selobj!=null){
-                IAtomSelection atomSelection=(IAtomSelection)selobj;
+                IChemicalSelection atomSelection=(IChemicalSelection)selobj;
                 
                 if ( atomSelection instanceof AtomIndexSelection ) {
                     AtomIndexSelection isel = (AtomIndexSelection) atomSelection;
