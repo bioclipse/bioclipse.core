@@ -52,14 +52,10 @@
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
+            adaptable="true"
             id="net.bioclipse.core.ui.filesystem.contribution1"
+            nameFilter="*.zip"
             objectClass="org.eclipse.core.resources.IFile">
-                <enablement>
-                    <or>
-                       <objectState name="extension" value="jar"/>
-                    <objectState name="extension" value="zip"/>
-                 </or>
-                </enablement>
          <action
                class="net.bioclipse.core.ui.filesystem.ExpandZipAction"
                enablesFor="1"
@@ -67,24 +63,18 @@
                label="Expand Zip File"
                menubarPath="additions"/>
       </objectContribution>
-   </extension>
-   <extension
-         point="org.eclipse.ui.popupMenus">
       <objectContribution
+            adaptable="true"
             id="net.bioclipse.core.ui.filesystem.contribution2"
+            nameFilter="*.zip"
             objectClass="org.eclipse.core.resources.IFolder">
-                <enablement>
-                    <or>
-                       <objectState name="extension" value="jar"/>
-                    <objectState name="extension" value="zip"/>
-                 </or>
-                </enablement>
          <action
                class="net.bioclipse.core.ui.filesystem.CollapseZipAction"
                enablesFor="1"
                id="net.bioclipse.core.ui.filesystem.collapseZip"
                label="Collapse Zip File"
-               menubarPath="additions"/>
+               menubarPath="additions">
+         </action>
       </objectContribution>
    </extension>
    <extension
@@ -117,6 +107,35 @@
                id="net.bioclipse.core.ui.filesystem.createdNested"
                label="Create Nested Projects"
                menubarPath="additions"/>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="net.biociplse.core.ui.filesystem.contribution5"
+            nameFilter="*.jar"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="net.bioclipse.core.ui.filesystem.ExpandZipAction"
+               enablesFor="1"
+               id="net.bioclipse.core.ui.filesystemexpandJar"
+               label="Expand Jar File"
+               menubarPath="additions">
+         </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="true"
+            id="net.biociplse.core.ui.filesystem.contribution6"
+            nameFilter="*.jar"
+            objectClass="org.eclipse.core.resources.IFolder">
+         <action
+               class="net.bioclipse.core.ui.filesystem.CollapseZipAction"
+               enablesFor="1"
+               id="net.bioclipse.core.ui.filesystem.collapseJar"
+               label="Collapse Jar File"
+               menubarPath="additions">
+         </action>
       </objectContribution>
    </extension>
 </plugin>
