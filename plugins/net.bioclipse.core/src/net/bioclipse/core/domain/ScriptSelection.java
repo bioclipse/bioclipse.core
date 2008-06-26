@@ -32,7 +32,7 @@ public class ScriptSelection implements IChemicalSelection{
         addScript( script, namespace );
     }
 
-    public Object getSelection() {
+    public Map<String, String> getSelection() {
         return scripts;
     }
     
