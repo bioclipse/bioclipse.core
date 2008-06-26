@@ -11,6 +11,8 @@
  ******************************************************************************/
 package net.bioclipse.core.domain;
 
+import java.util.ArrayList;
+
 /**
  * Used to select a frame in a view.
  * For example in Jmol, to select a frame for the model
@@ -19,30 +21,33 @@ package net.bioclipse.core.domain;
  */
 public class ModelSelection implements IChemicalSelection {
 
-    int frame;
+    ArrayList<Integer> frames;
 
-    
-    public int getFrame() {
-    
-        return frame;
+    public ArrayList<Integer> getFrames() {
+        return frames;
+    }
+    public void setFrames( ArrayList<Integer> frames ) {
+        this.frames = frames;
     }
 
-    
-    public void setFrame( int frame ) {
-    
-        this.frame = frame;
+    /**
+     * Constructor for a ModelSelection.
+     * @param frames ArrayList<Integer> with the models to display
+     */
+    public ModelSelection(ArrayList<Integer> frames) {
+        this.frames = frames;
     }
 
-
-    public ModelSelection(int frame) {
-
-        super();
-        this.frame = frame;
+    /**
+     * Create new ModelSelection with only one index
+     * @param modelIndex
+     */
+    public ModelSelection(int modelIndex) {
+        this.frames = new ArrayList<Integer>();
+        frames.add( new Integer(modelIndex) );
     }
-
-
-    public Integer getSelection() {
-        return frame;
+    public ArrayList<Integer> getSelection() {
+        return frames;
     }
 
 
