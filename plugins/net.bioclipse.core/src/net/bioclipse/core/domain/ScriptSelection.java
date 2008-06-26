@@ -1,5 +1,9 @@
 package net.bioclipse.core.domain;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Provides means to send scripts, where target is identified by a namspace
  * Example of namespace is "jmol"
@@ -9,42 +13,19 @@ package net.bioclipse.core.domain;
  */
 public class ScriptSelection implements IChemicalSelection{
 
-    private String script;
-    private String namespace;
+    //Each command is stored in a map, with Script -> Namespace
+    private Map<String, String> scripts;
     
-    public ScriptSelection(String namespace, String script) {
-        super();
-        this.script = script;
+    public ScriptSelection() {
+        scripts=new HashMap<String, String>();
     }
 
     public Object getSelection() {
-        return script;
-    }
-
-    
-    public String getScript() {
-    
-        return script;
-    }
-
-    
-    public void setScript( String script ) {
-    
-        this.script = script;
-    }
-
-    
-    public String getNamespace() {
-    
-        return namespace;
-    }
-
-    
-    public void setNamespace( String namespace ) {
-    
-        this.namespace = namespace;
+        return scripts;
     }
     
-    
+    public void addScript(String script, String namespace){
+        scripts.put( script, namespace);
+    }
 
 }
