@@ -30,8 +30,8 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            name="Perspective"
-            class="net.bioclipse.ui.Perspective"
+            name="Default"
+            class="net.bioclipse.ui.DefaultPerspective"
             id="net.bioclipse.ui.Perspective">
       </perspective>
    </extension>
@@ -100,13 +100,6 @@
             </implementation>
          </presentation>
       </config>
-   </extension>
-   <extension
-         point="org.eclipse.ui.intro.configExtension">
-      <configExtension
-            content="ext.xml"
-            configId="net.bioclipse.ui.configId">
-      </configExtension>
    </extension>
    <extension
          point="org.eclipse.ui.views">

@@ -34,6 +34,6 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
     }
 
     public String getInitialWindowPerspectiveId() {
-        return Perspective.ID_PERSPECTIVE;
+        return DefaultPerspective.ID_PERSPECTIVE;
     }
 }
