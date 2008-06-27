@@ -517,29 +517,31 @@ public abstract class ScriptingConsoleView extends ViewPart {
                   TreeSelection selection = (TreeSelection) event.data;
                   
                   for (Object item : selection.toArray()) {
-                      String content = "";
-                      if (item instanceof IFile) {
-                          IFile file = (IFile)item;
-
-                          content = "\"" + file.getLocation().toString() + "\"";
-                      }
-                      if (item instanceof IFolder) {
-                          IFolder folder = (IFolder)item;
-
-                          content = "\""
-                                    + folder.getLocation().toString()
-                                    + "\"";
-                      }
-                      else if (item instanceof IProject) {
-                          IProject project = (IProject)item;
-
-                          content = "\""
-                                    + project.getLocation().toString()
-                                    + "\"";
-                      }
+                      
+                      String content
+                          = item instanceof IFile
+                            ? ((IFile)item).getLocation().toString()
+                          : item instanceof IFolder
+                            ? ((IFolder)item).getLocation().toString()
+                          : item instanceof IProject
+                            ? ((IProject)item).getLocation().toString()
+                          : "[O_o]"; // unrecognized content
 
                       if ( !cursorIsOnCommandLine() )
                           putCursorOnCommandLine();
+                      
+                      int pos = text.getCaretPosition();
+                      String
+                          quote        = "\"",
+                          beforeCursor = text.getText().substring( pos-1, pos ),
+                          afterCursor  = pos < text.getText().length() - 1
+                                         ? text.getText().substring(pos, pos+1)
+                                         : quote;
+                      
+                      if ( !beforeCursor.equals(quote) )
+                          content = quote + content;
+                      if ( !afterCursor.equals(quote))
+                          content += quote;
                       
                       addAtCursor(content);
                       setFocus();
