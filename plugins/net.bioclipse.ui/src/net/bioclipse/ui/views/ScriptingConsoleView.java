@@ -73,11 +73,12 @@ public abstract class ScriptingConsoleView extends ViewPart {
      * print the alternatives the second time.
      * 
      * Note also that even this isn't perfect. There's an unlikely false
-     * positive effect involved in that the value of this variable survives
-     * to the next set of tab completions -- let's say that the user tab
-     * completes on "foo" and gets first a beep and then a list of alternatives.
-     * Five minutes later when she does the same thing, she will not get a
-     * beep, because this variable still contains "foo". 
+     * positive when the value of this variable survives to the next set of tab
+     * completions -- let's say that the user tab completes on "foo" and gets
+     * first a beep and then a list of alternatives. She goes for a cup of
+     * coffee, and five minutes later when she presses tab on "foo" again as
+     * part of a different command, she will get the list and not a beep,
+     * because this variable still contains "foo". 
      */
     private String lastPrefix = null;
     
@@ -306,11 +307,10 @@ public abstract class ScriptingConsoleView extends ViewPart {
             actionTable.get( e.keyCode ).receiveKey( e );
         }
         else if (isInsertedChar(e) && !cursorIsOnCommandLine()) {
-            int pos = text.getCharCount();
-            text.setSelection(pos);
+            putCursorOnCommandLine();
         }
     }
-    
+
     /**
      * This is a callback that will allow us to create the viewer and
      * initialize it.
@@ -517,34 +517,32 @@ public abstract class ScriptingConsoleView extends ViewPart {
                   TreeSelection selection = (TreeSelection) event.data;
                   
                   for (Object item : selection.toArray()) {
+                      String content = "";
                       if (item instanceof IFile) {
                           IFile file = (IFile)item;
 
-                          addAtCursor( "\"" );
-                          addAtCursor( file.getLocation().toString() );
-                          addAtCursor( "\"" );
-                          
-                          setFocus();
+                          content = "\"" + file.getLocation().toString() + "\"";
                       }
                       if (item instanceof IFolder) {
                           IFolder folder = (IFolder)item;
 
-                          addAtCursor( "\"" );
-                          addAtCursor( folder.getName() );
-                          addAtCursor( "\"" );
-                          
-                          setFocus();
+                          content = "\""
+                                    + folder.getLocation().toString()
+                                    + "\"";
                       }
                       else if (item instanceof IProject) {
                           IProject project = (IProject)item;
 
-                          addAtCursor( "\"" );
-                          addAtCursor( project.getName() );
-                          addAtCursor( "\"" );
-                          
-                          setFocus();
+                          content = "\""
+                                    + project.getLocation().toString()
+                                    + "\"";
                       }
 
+                      if ( !cursorIsOnCommandLine() )
+                          putCursorOnCommandLine();
+                      
+                      addAtCursor(content);
+                      setFocus();
                   }
                   
               }
@@ -725,6 +723,13 @@ public abstract class ScriptingConsoleView extends ViewPart {
         return false;
     }
 
+    /** Puts the cursor on the command line, after any already written text. */
+    protected void putCursorOnCommandLine() {
+
+        int pos = text.getCharCount();
+        text.setSelection(pos);
+    }
+    
     /**
      * Returns all variable names contained in a certain container object.
      * @param object The container object of interest
