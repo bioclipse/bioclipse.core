@@ -49,5 +49,22 @@
       </category>
    </extension>
    
+    <extension
+       point="org.eclipse.ui.perspectiveExtensions"
+       id="cdk10PerspectiveExtension">
+    <perspectiveExtension
+          targetID="net.bioclipse.pcore.PcorePerspective">
+          <view
+                id="net.bioclipse.cdk10.jchempaint.views.Java2DRendererView"
+                relative="org.eclipse.ui.views.PropertySheet"
+                relationship="right"
+                ratio="0.70">
+          </view>
+          <viewShortcut
+                id="net.bioclipse.cdk10.jchempaint.views.Java2DRendererView">
+          </viewShortcut>
+    </perspectiveExtension>
+ </extension>
+   
 
 </plugin>
