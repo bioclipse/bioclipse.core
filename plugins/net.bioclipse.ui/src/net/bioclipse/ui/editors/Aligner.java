@@ -1,9 +1,9 @@
 package net.bioclipse.ui.editors;
 
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -38,7 +38,7 @@ import org.eclipse.ui.part.FileEditorInput;
 public class Aligner extends EditorPart {
 
     private int squareSize = 20;
-        
+
     static final Display display = Display.getCurrent();
     static final ColorManager colorManager = new ColorManager();
     
@@ -69,7 +69,7 @@ public class Aligner extends EditorPart {
                         colorManager.getColor( new RGB(0x77, 0x77, 0x55) )  // 9
                       };
 
-    private List<String> sequences, sequenceNames;
+    private Map<String, String> sequences; // sequence_name => sequence
     
     private int canvasWidthInSquares, canvasHeightInSquares;
 
@@ -103,8 +103,7 @@ public class Aligner extends EditorPart {
     public void setInput( IEditorInput input ) {
         super.setInput(input);
         
-        sequences     = new ArrayList<String>();
-        sequenceNames = new ArrayList<String>();
+        sequences     = new LinkedHashMap<String, String>();
         if (input instanceof FileEditorInput) {
             FileEditorInput fei = (FileEditorInput)input;
             if (!fei.exists())
@@ -120,38 +119,44 @@ public class Aligner extends EditorPart {
             
             Scanner sc = new Scanner(is);
             StringBuilder sb = new StringBuilder();
+            String oldName = null;
+            
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 if (line.startsWith( ">" )) {
+
+                    if ( oldName != null )
+                        sequences.put( oldName, sb.toString() );
+
                     line = line.split( "\\s+" )[0].replaceFirst( ".*\\|", "" );
-                    sequenceNames.add( line.substring( 1 ) );
-                    if (sb.length() > 0)
-                        sequences.add( sb.toString() );
+                    oldName = line.substring( 1 );
+
                     sb = new StringBuilder();
-                    continue;
                 }
-                // otherwise it's a sequence
-                if (line.charAt( line.length()-1 ) == '\n')
-                    line = line.substring( 0, line.length()-1 );
-                sb.append(line);
+                else { // it's (part of) a sequence
+                    
+                    line.replaceAll( "\\n$", "" );
+                    sb.append(line);
+                }
             }
             if (sb.length() > 0)
-                sequences.add( sb.toString() );
+                sequences.put( oldName, sb.toString() );
             
             // We only show a consensus sequence if there is more than one
             // sequence already.
             consensusRow  = sequences.size();
             if (consensusRow > 1) {
-                sequenceNames.add("Consensus");
-                sequences.add( consensusSequence(sequences) );
+                sequences.put( "Consensus",
+                               consensusSequence( sequences.values() )
+                             );
             }
         }
         
         canvasHeightInSquares = sequences.size();
-        canvasWidthInSquares = maxLength( sequences );
+        canvasWidthInSquares = maxLength( sequences.values() );
     }
 
-    private String consensusSequence( final List<String> sequences ) {
+    private String consensusSequence( final Collection<String> sequences ) {
 
         final StringBuilder consensus = new StringBuilder();
         for ( int i = 0, n = maxLength(sequences); i < n; ++i ) {
@@ -161,7 +166,7 @@ public class Aligner extends EditorPart {
         return consensus.toString();
     }
     
-    private int maxLength( final List<String> strings ) {
+    private int maxLength( final Collection<String> strings ) {
         
         int maxLength = 0;
         for ( String s : strings )
@@ -171,7 +176,8 @@ public class Aligner extends EditorPart {
         return maxLength;
     }
     
-    private char consensusChar( final List<String> sequences, final int index ) {
+    private char consensusChar( final Collection<String> sequences,
+                                final int index ) {
         
         Map<Character, Boolean> chars
             = new HashMap<Character, Boolean>();
@@ -218,7 +224,7 @@ public class Aligner extends EditorPart {
                 gc.setFont( new Font(gc.getDevice(), "Arial", 14, SWT.NONE) );
 
                 int index = 0;
-                for ( String name : sequenceNames ) {
+                for ( String name : sequences.keySet() ) {
                     
                     if ( index == consensusRow )
                         gc.setBackground( consensusColor );
@@ -249,7 +255,7 @@ public class Aligner extends EditorPart {
         final char fasta[][] = new char[ sequences.size() ][];
         
         int i = 0;
-        for ( String sequence : sequences )
+        for ( String sequence : sequences.values() )
             fasta[i++] = sequence.toCharArray();
         
         canvas.addPaintListener( new PaintListener() {
@@ -266,7 +272,7 @@ public class Aligner extends EditorPart {
                           + sc.getBounds().width / squareSize
                           + 2; // compensate for 2 possible round-downs
                 
-                drawSequences( fasta, firstVisibleColumn, lastVisibleColumn, gc );
+                drawSequences(fasta, firstVisibleColumn, lastVisibleColumn, gc);
                 
                 drawSelection( gc );
             }
