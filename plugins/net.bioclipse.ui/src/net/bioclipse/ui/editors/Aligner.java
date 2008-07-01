@@ -388,6 +388,28 @@ public class Aligner extends EditorPart {
                 if (currentlySelecting) {
                   selectionEnd.x = e.x;
                   selectionEnd.y = e.y;
+
+                  int viewPortLeft  = -c.getLocation().x,
+                      viewPortRight = viewPortLeft + sc.getBounds().width,
+                      viewPortTop   = -c.getLocation().y,
+                      maximumLeft   = sc.getHorizontalBar().getMaximum();
+                  
+                  if ( e.x > viewPortRight ) {
+                      viewPortLeft += e.x - viewPortRight;
+                      if (viewPortRight >= maximumLeft )
+                          viewPortLeft = maximumLeft - sc.getBounds().width;
+                  }
+                  else if ( e.x < viewPortLeft ) {
+                      viewPortLeft -= viewPortLeft - e.x;
+                      if (viewPortLeft < 0)
+                          viewPortLeft = 0;
+                  }
+                  
+                  if ( viewPortLeft != -c.getLocation().x ) {
+                      sc.getHorizontalBar().setSelection( viewPortLeft );
+                      c.setLocation( -viewPortLeft, -viewPortTop );
+                  }
+                  
                   canvas.redraw();
                 }
             }
