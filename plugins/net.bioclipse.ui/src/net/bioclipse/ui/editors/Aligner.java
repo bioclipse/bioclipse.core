@@ -368,8 +368,9 @@ public class Aligner extends EditorPart {
             public void mouseDown( MouseEvent e ) {
                 if (e.button == 1) {
                     currentlySelecting = true;
-                    selectionStart.x = e.x;
-                    selectionStart.y = e.y;
+                    selectionStart.x = selectionEnd.x = e.x;
+                    selectionStart.y = selectionEnd.y = e.y;
+                    canvas.redraw();
                 }
             }
 
