@@ -217,7 +217,7 @@ public class JsConsoleView extends ScriptingConsoleView
             return "";
         }
 
-        if (command.startsWith("help")) {
+        if (command.matches("help( .*)?") || command.matches("man( .*)?")) {
             return helpString(command);
         }
 
@@ -256,8 +256,10 @@ public class JsConsoleView extends ScriptingConsoleView
                                     "or: `help <manager>.<method>`";
         StringBuilder result = new StringBuilder();
 
-        if( "help".equals(command.trim()) ) return errorMessage;
-        String helpObject = command.substring(5);
+        if( "help".equals(command.trim()) || "man".equals(command.trim()) )
+            return errorMessage;
+        
+        String helpObject = command.substring(command.indexOf(' ') + 1);
         if(helpObject.contains(".")) {
 
             String[] parts = helpObject.split("\\.");
