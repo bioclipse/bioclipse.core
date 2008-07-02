@@ -21,7 +21,6 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -56,8 +55,7 @@ public class Aligner extends EditorPart {
         buttonColor     = colorManager.getColor( new RGB(0x66, 0x66, 0x66) ),
         consensusColor  = colorManager.getColor( new RGB(0xAA, 0xAA, 0xAA) ),
         selectionColor1 = display.getSystemColor( SWT.COLOR_BLACK ),
-        selectionColor2 = display.getSystemColor( SWT.COLOR_WHITE ),
-        olBorderColor   = display.getSystemColor( SWT.COLOR_BLACK );
+        selectionColor2 = display.getSystemColor( SWT.COLOR_WHITE );
     
     static private final Color[] consensusColors
         = new Color[] { colorManager.getColor( new RGB(0xFF, 0xFF, 0xDD) ), // 1
@@ -80,8 +78,6 @@ public class Aligner extends EditorPart {
     private Point selectionStart = new Point(0, 0),
                   selectionEnd = new Point(0, 0);
     private boolean currentlySelecting = false;
-    
-    private Outline outline;
     
     @Override
     public void doSave( IProgressMonitor monitor ) {
@@ -158,8 +154,6 @@ public class Aligner extends EditorPart {
         
         canvasHeightInSquares = sequences.size();
         canvasWidthInSquares = maxLength( sequences.values() );
-        
-        outline = new Outline(sequences, squareSize, consensusRow);
     }
 
     private static String consensusSequence( final Collection<String>
@@ -282,9 +276,6 @@ public class Aligner extends EditorPart {
                 drawSequences(fasta, firstVisibleColumn, lastVisibleColumn, gc);
                 
                 drawSelection( gc );
-                
-                outline.draw( c.getLocation(), sc.getBounds(),
-                              firstVisibleColumn, gc );
             }
 
             private void drawSequences( final char[][] fasta,
@@ -366,7 +357,7 @@ public class Aligner extends EditorPart {
                 gc.setAlpha( 64 ); // 25%
                 gc.fillRectangle( xRight + 1, yTop + 1,
                                   xLeft - xRight - 2, yBottom - yTop - 2 );
-                gc.setAlpha( 255 ); // restore
+                gc.setAlpha( 255 ); // opaque again
             }
         });
 
@@ -432,81 +423,4 @@ public class Aligner extends EditorPart {
     public void setFocus() {
     }
 
-    protected static class Outline {
-        int innerWidth, innerHeight,
-            outerWidth, outerHeight;
-        
-        int yTop;
-        
-        static final int BORDER_THICKNESS = 1;
-        
-        Color[][] colors;
-        
-        public Outline(Map<String,String> sequences,
-                       int squareSize, int consensusRow) {
-            
-            innerWidth  = maxLength( sequences.values() );
-            innerHeight = sequences.size();
-            
-            outerWidth  = innerWidth  + 2 * BORDER_THICKNESS;
-            outerHeight = innerHeight + 2 * BORDER_THICKNESS;
-            
-            yTop = sequences.size() * squareSize - outerHeight - 1;
-            
-            colors = new Color[innerHeight][innerWidth];
-            int row = 0;
-            for ( String sequence : sequences.values() ) {
-                for ( int column = 0; column < sequence.length(); ++column ) {
-              
-                    char c = sequence.charAt( column );
-                    String cc = c + "";
-
-                    colors[row][column] = 
-                        "HKR".contains( cc ) ? basicAAColor
-                    :   "DE".contains( cc ) ? acidicAAColor
-                    : "TQSN".contains( cc ) ? polarAAColor
-                    :  "FYW".contains( cc ) ? nonpolarAAColor
-                    :   "GP".contains( cc ) ? smallAAColor
-                    :    'C' == c           ? cysteineColor
-                                            : normalAAColor;
-              
-                    if ( row == consensusRow ) {
-                  
-                        int consensusDegree = 1;
-                        if ( Character.isDigit(c) )
-                            consensusDegree = c - '0';
-                  
-                        colors[row][column]
-                          = consensusColors[ consensusDegree-1 ];
-                    }
-                }
-                ++row;
-            }
-
-        }
-
-        public void draw( Point viewPortPos,
-                          Rectangle viewPortSize,
-                          int pos,
-                          GC gc ) {
-            
-            int xRight = -viewPortPos.x + viewPortSize.width - outerWidth - 1;
-            
-            gc.setForeground( olBorderColor );
-            gc.drawRectangle( xRight, yTop,
-                              outerWidth, outerHeight );
-            
-            for (int row = 0; row < innerHeight; ++row) {
-                for (int column = 0; column < innerWidth; ++column) {
-                    gc.setForeground( colors[row][column] );
-                    gc.drawPoint( xRight + 1 + column, yTop + 1 + row );
-                }
-            }
-
-            gc.setAlpha(64); // 25%
-            gc.setBackground( display.getSystemColor( SWT.COLOR_RED ) );
-            gc.fillRectangle( xRight + 1 + pos, yTop + 1, 30, innerHeight );
-            gc.setAlpha(255); // opaque
-        }
-    }
 }
