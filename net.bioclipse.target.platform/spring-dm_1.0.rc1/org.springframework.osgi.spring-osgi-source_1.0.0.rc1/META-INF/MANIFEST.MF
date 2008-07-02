@@ -1,5 +1,0 @@
-Bundle-SymbolicName: org.springframework.osgi.spring-osgi-source; singleton=true
-Bundle-Name: org.springframework.osgi.spring-osgi-source
-Bundle-Version: 1.0.0.rc1
-Bundle-Vendor: interface21
-

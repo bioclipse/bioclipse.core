@@ -58,7 +58,7 @@ public class Activator extends BioclipseActivator {
     private ServiceTracker finderTracker;
     
     private static final String EXTENDER_BUNDLE_NAME = 
-        "org.springframework.osgi.bundle.extender";
+        "org.springframework.bundle.osgi.extender";
 
     private static final String JVM_VERSION_ERROR_MSG = 
         "** Bioclipse startup FAILED **\n" +

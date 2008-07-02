@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.2"?>
 
-<target name="Eclipse Equinox 3.3 &amp; Spring-DM">
+<target name="Spring-osgi-1.0.2">
 
    <location useDefault="true"/>
 
-   <content>
+   <content useAllPlugins="true">
       <plugins>
          <plugin id="backport.util.concurrent.osgi"/>
          <plugin id="com.ibm.icu"/>
@@ -119,10 +119,10 @@
       <features>
       </features>
       <extraLocations>
-         <location path="${project_loc}/required-libs"/>
          <location path="${eclipse_home}/plugins"/>
-         <location path="${project_loc}/spring_2.5.0"/>
-         <location path="${project_loc}/spring-dm_1.0.rc1"/>
+         <location path="${project_loc}/libs"/>
+         <location path="${project_loc}/spring-osgi-1.0.2/dist"/>
+         <location path="${project_loc}/spring-osgi-1.0.2/lib"/>
       </extraLocations>
    </content>
 
