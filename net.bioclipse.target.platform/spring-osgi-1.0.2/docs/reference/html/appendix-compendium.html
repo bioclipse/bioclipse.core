@@ -1,0 +1,79 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Appendix&nbsp;A.&nbsp;Compendium Services</title><link rel="stylesheet" href="css/html.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.72.0"><link rel="start" href="index.html" title="Spring Dynamic Modules Reference Guide"><link rel="up" href="appendixes.html" title="Part&nbsp;III.&nbsp;Appendixes"><link rel="prev" href="appendixes.html" title="Part&nbsp;III.&nbsp;Appendixes"><link rel="next" href="appendix-extensions.html" title="Appendix&nbsp;B.&nbsp;Extensions"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div xmlns:fo="http://www.w3.org/1999/XSL/Format" style="background-color:white;border:none;height:73px;border:1px solid black;"><a style="border:none;" href="http://www.springframework.org/osgi/" title="The Spring Framework - Spring Dynamic Modules"><img style="border:none;" src="images/xdev-spring_logo.jpg"></a><a style="border:none;" href="http://www.SpringSource.com/" title="SpringSource - Spring from the Source"><img style="border:none;position:absolute;padding-top:5px;right:42px;" src="images/s2-banner-rhs.png"></a></div><div class="appendix" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="appendix-compendium"></a>Appendix&nbsp;A.&nbsp;Compendium Services</h2></div></div></div><p>The OSGi Service Platform Service Compendium specification defines a
+    number of additional services that may be supported by OSGi
+    implementations. Spring Dynamic Modules supports an additional
+    "compendium" namespace that provides support for some of these services.
+    By convention, the prefix <code class="literal">osgix</code> is used for this
+    namespace.</p><pre class="programlisting">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans:beans xmlns="http://www.springframework.org/schema/osgi"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+   xmlns:beans="http://www.springframework.org/schema/beans"
+   xsi:schemaLocation="http://www.springframework.org/schema/osgi  
+        http://www.springframework.org/schema/osgi/spring-osgi.xsd
+        http://www.springframework.org/schema/osgi-compendium
+        http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+        http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans.xsd"&gt;
+
+   &lt;!-- use the OSGi namespace elements directly --&gt;
+   &lt;service id="simpleServiceOsgi" ref="simpleService"
+       interface="org.xyz.MyService" /&gt;
+
+   &lt;!-- qualify compendium namespace elements --&gt;
+   &lt;osgix:property-placeholder persistent-id="com.xyz.myapp"/&gt;
+
+&lt;/beans:beans&gt;</pre><p>At present this namespace provides support for the Configuration
+    Admin service. Support for other compendium services may be added in
+    future releases.</p><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="compendium:cm"></a>A.1.&nbsp; Configuration Admin</h2></div></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="compendium:cm:ppc"></a>A.1.1.&nbsp;Property placeholder support</h3></div></div></div><div class="sidebar"><p class="title"><b>Future directions</b></p><p>Please note that in future releases, the property-placeholder
+		  element will be changed to be properly align with Spring Framework
+		  classes and namespace. That is, rather then provide a Spring-DM
+		  specific declaration, the <span class="emphasis"><em>traditional</em></span> Spring
+		  Framework declaration can be used.
+		  </p></div><p>Spring Dynamic Modules provides support for sourcing bean
+        property values from the OSGi Configuration Administration service.
+        This support is enabled via the
+        <code class="literal">property-placeholder</code> element. The property
+        placeholder element provides for replacement of delimited string
+        values (placeholders) in bean property expressions with values sourced
+        from the configuration administration service. The required
+        <code class="literal">persistent-id</code> attribute specifies the persistent
+        identifier to be used as the key for the configuration dictionary. The
+        default delimiter for placeholder strings is "${...}".</p><p>Given the declarations:</p><pre class="programlisting">&lt;osgix:property-placeholder persistent-id="com.xyz.myapp"/&gt;
+
+&lt;bean id="someBean" class="AClass"&gt;
+  &lt;property name="timeout" value="${timeout}"/&gt;
+&lt;/bean&gt;</pre><p>Then the <code class="literal">timeout</code> property of
+        <code class="literal">someBean</code> will be set using the value of the
+        <code class="literal">timeout</code> entry in the configuration dictionary
+        registered under the <code class="literal">com.xyz.myapp</code> persistent
+        id.</p><p>The placeholder strings are evaluated at the time that the bean
+        is instantiated. Changes to the properties made via Configuration
+        Admin subsequent to the creation of the bean do
+        <span class="emphasis"><em>not</em></span> result in re-injection of property values.
+        See the <code class="literal">managed-service</code> and
+        <code class="literal">managed-service-reference</code> elements documented in
+        appendix B if you require this level of integration. The
+        <code class="literal">placeholder-prefix</code> and
+        <code class="literal">placeholder-suffix</code> attributes can be used to change
+        the delimiter strings used for placeholder values.</p><p>It is possible to specify a default set of property values to be
+        used in the event that the configuration dictionary does not contain
+        an entry for a given key. The <code class="literal">defaults-ref</code>
+        attribute can be used to refer to a named bean of
+        <code class="literal">Properties</code> or <code class="interfacename">Map</code> type. Instead
+        of referring to an external bean, the
+        <code class="literal">default-properties</code> nested element may be used to
+        define an inline set of properties.</p><pre class="programlisting">&lt;osgix:property-placeholder persistent-id="com.xyz.myapp"&gt;
+  &lt;default-properties&gt; 
+     &lt;property name="productCategory" value="E792"/&gt;
+     &lt;property name="businessUnit" value="811"/&gt; 
+  &lt;/default-properties&gt;
+&lt;/osgix:property-placeholder&gt;</pre><p>The <code class="literal">persistent-id</code> attribute must refer to the
+        persistent-id of an OSGi <code class="interfacename">ManagedService</code>, it is a
+        configuration error to specify a factory persistent id referring to a
+        <code class="interfacename">ManagedServiceFactory</code>.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="compendium:cm:dict"></a>A.1.2.&nbsp;Configuration Dictionaries</h3></div></div></div><p>Support for directly accessing configuration objects and their
+        associated dictionaries, and for instantiating beans directly from
+        configuration objects is on the Spring Dynamic Modules road map. See
+        <a href="appendix-roadmap.html" title="Appendix&nbsp;E.&nbsp;Roadmap">Appendix&nbsp;E, <i xmlns:xlink="http://www.w3.org/1999/xlink">Roadmap</i></a> for more information.</p></div></div></div><div xmlns:fo="http://www.w3.org/1999/XSL/Format" class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="appendixes.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="appendix-extensions.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Part&nbsp;III.&nbsp;Appendixes&nbsp;</td><td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.SpringSource.com/" title="SpringSource - Spring from the Source">Sponsored by SpringSource
+                                        </a></span></td><td width="40%" align="right" valign="top">&nbsp;Appendix&nbsp;B.&nbsp;Extensions</td></tr></table></div></body></html>

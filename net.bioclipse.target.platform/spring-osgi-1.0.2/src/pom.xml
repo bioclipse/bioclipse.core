@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.springframework.osgi</groupId>
+  <artifactId>spring-osgi</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0.2</version>
+  <name>Spring Dynamic Modules</name>
+  <url>http://www.springframework.org/osgi</url>
+  <description>
+  The Spring Dynamic Modules project makes it easy to build Spring applications
+  that run in an OSGi framework. A Spring application written in this
+  way provides better separation of modules, the ability to
+  dynamically add, remove, and update modules in a running system, the
+  ability to deploy multiple versions of a module simultaneously (and
+  have clients automatically bind to the appropriate one), and a dynamic
+  service model.
+  </description>
+
+  <properties>
+    <!-- Spring version -->   
+    <spring.maven.artifact.version>2.5.1</spring.maven.artifact.version>
+    <spring.base.version>2.5</spring.base.version>
+    
+    <!-- Felix BND plugin settings -->
+    <!-- Spring OSGi base version -->
+    <spring.osgi.base.version>1.0</spring.osgi.base.version>
+   
+    <!--- Spring OSGi packages imported version (respect the OSGi naming pattern)-->
+    <spring.osgi.import.version>1.0.2</spring.osgi.import.version>
+    
+    <!--- Spring OSGi packages exported version -->
+    <spring.osgi.export.version>1.0.2</spring.osgi.export.version>
+    <spring.osgi.bundle.version>1.0.2</spring.osgi.bundle.version>
+
+   
+    <spring.osgi.import.pkg>*</spring.osgi.import.pkg>
+    <spring.osgi.private.pkg></spring.osgi.private.pkg>
+    
+    <!-- complete access to export/import properties -->
+    <spring.osgi.export>!${spring.osgi.private.pkg}, ${spring.osgi.export.pkg}*;version=${spring.osgi.export.version}</spring.osgi.export>
+    <spring.osgi.import>${spring.osgi.import.pkg}</spring.osgi.import>
+
+
+    <symName.prefix>org.springframework.bundle.osgi</symName.prefix>
+    <spring.osgi.symbolic.name>${groupId}.${artifactId}</spring.osgi.symbolic.name>
+
+    <!-- add license.txt to the resulting bundle -->
+    
+    <!-- this property should be defined in each project and indicates the location of the licenses 
+         relative to the submodule/subproject -->
+         
+    <spring.osgi.license.loc>..</spring.osgi.license.loc>
+    <spring.osgi.include.res>
+      src/main/resources, 
+      META-INF/license.txt=${spring.osgi.license.loc}/license.txt, 
+      META-INF/notice.txt=${spring.osgi.license.loc}/notice.txt
+    </spring.osgi.include.res>
+    
+    <!-- End Felix BND plugin settings -->
+
+    <cobertura.file>${basedir}/target/cobertura/cobertura.ser</cobertura.file>
+   <!-- other properties -->
+   <slf4j.version>1.4.3</slf4j.version>
+   
+   <!-- platform versions -->
+   <equinox.ver>3.2.2</equinox.ver>
+   <kf.ver>2.0.3</kf.ver>
+   <felix.ver>1.0.1</felix.ver>
+   
+   <!-- javadoc configuration -->
+   <javadoc.loc>${basedir}/docs/src/javadoc</javadoc.loc>
+   
+   <!-- JDK classifier property -->
+   <jdk-classifier>jdk14</jdk-classifier>
+  </properties>
+
+  <!-- ============================================= -->
+  <!-- Basic configuration: JIRA, SCM, CI, devs etc. -->
+  <!-- ============================================= -->
+
+  <issueManagement>
+    <system>JIRA</system>
+    <url>
+      http://jira.springframework.org/projects/spring/browse/OSGI
+    </url>
+  </issueManagement>
+
+  <ciManagement>
+    <system>bamboo</system>
+    <url>http://build.springframework.org/bamboo/browse/OSGI-TRUNK</url>
+    <notifiers>
+      <notifier>
+        <type>mail</type>
+        <configuration>
+          <address>adrian.colyer@SpringSource.com</address>
+        </configuration>
+      </notifier>
+      <notifier>
+        <type>mail</type>
+        <configuration>
+          <address>costin.leau@SpringSource.com</address>
+        </configuration>
+      </notifier>
+    </notifiers>
+  </ciManagement>
+
+  <scm>
+    <connection>
+      scm:svn:https://springframework.svn.sourceforge.net/svnroot/springframework/spring-osgi/trunk
+    </connection>
+    <developerConnection>
+      scm:svn:https://springframework.svn.sourceforge.net/svnroot/springframework/spring-osgi/trunk
+    </developerConnection>
+    <url>
+      http://fisheye3.cenqua.com/browse/springframework/spring-osgi
+    </url>
+  </scm>
+
+  <inceptionYear>2006</inceptionYear>
+
+  <organization>
+    <name>Spring Framework</name>
+    <url>http://www.springframework.org</url>
+  </organization>
+
+  <developers>
+    <developer>
+      <id>adrian-colyer</id>
+      <name>Adrian Colyer</name>
+      <email>adrian.colyer at SpringSource.com</email>
+      <organization>SpringSource</organization>
+      <organizationUrl>http://www.SpringSource.com</organizationUrl>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <timezone>0</timezone>
+    </developer>
+    <developer>
+      <id>jconstantine</id>
+      <name>Hal Hildebrand</name>
+      <email>hal.hildebrand at oracle.com</email>
+      <organization>Oracle</organization>
+      <organizationUrl>http://www.oracle.com</organizationUrl>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <timezone>-8</timezone>
+    </developer>    
+    <developer>
+      <id>costin_leau</id>
+      <name>Costin Leau</name>
+      <email>costin.leau at SpringSource.com</email>
+      <organization>SpringSource</organization>
+      <organizationUrl>http://www.SpringSource.com</organizationUrl>
+      <roles>
+        <role>Project Admin</role>
+        <role>Developer</role>
+      </roles>
+      <timezone>+2</timezone>
+    </developer>
+    <developer>
+      <id>andypiper</id>
+      <name>Andy Piper</name>
+      <email>andy at bea.com</email>
+      <organization>BEA</organization>
+      <organizationUrl>http://www.bea.com</organizationUrl>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <timezone>0</timezone>
+    </developer>
+
+  </developers>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+      <comments>
+Copyright 2006-2007 the original author or authors.
+ 
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+      </comments>
+    </license>
+  </licenses>
+
+  <!-- =================================================== -->
+  <!-- Project Modules, Dependencies, Plugins and Profiles -->
+  <!-- =================================================== -->
+
+  <!-- modules for Spring-OSGi -->
+  <modules>   
+    <module>mock</module>    
+	<module>io</module>    
+    <module>core</module>
+    <module>extender</module>
+    <module>test-support</module>
+    <module>bundle-archetype</module>
+    <!-- unused at the moment
+    <module>release</module>
+    -->
+  </modules>
+
+  <!-- shared dependencies across modules -->
+  <dependencies>
+    <!-- junit -->
+    <dependency>
+      <groupId>org.springframework.osgi</groupId>
+      <artifactId>junit.osgi</artifactId>
+      <version>3.8.2-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+	<dependency>
+ 	  <groupId>easymock</groupId>
+	  <artifactId>easymock</artifactId>
+	  <version>1.2_Java1.3</version>
+	  <scope>test</scope>
+    </dependency>
+    
+    <!-- commons-logging in slf4j wrapper -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl104-over-slf4j</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>provided</scope>
+	  <exclusions>
+		<exclusion>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</exclusion>
+	  </exclusions>      
+    </dependency>
+    
+    <dependency>
+      <groupId>org.springframework.osgi</groupId>
+      <artifactId>log4j.osgi</artifactId>
+      <version>1.2.15-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>    
+  </dependencies>
+  
+ <build>
+    
+    <extensions>
+      <extension>
+         <groupId>org.springframework.aws</groupId>
+         <artifactId>spring-aws-maven</artifactId>
+         <version>1.2.2</version>
+       </extension>
+    </extensions>
+    
+    <resources>
+      <resource>
+        <filtering>true</filtering>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-plugin-plugin</artifactId>
+          <version>2.3</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+
+    <plugins>
+    
+       <!-- OSGi Felix bundle plugin -->
+       <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>1.0.0</version>
+        <configuration>
+          <instructions>
+           
+           <!-- bundle specific conf -->      
+           <Bundle-Name>${artifactId}</Bundle-Name>
+           <Bundle-SymbolicName>${spring.osgi.symbolic.name}</Bundle-SymbolicName>
+           <Export-Package>${spring.osgi.export}</Export-Package>
+           <Import-Package>${spring.osgi.import}</Import-Package>
+           <Private-Package>${spring.osgi.private.pkg}</Private-Package>
+           <Include-Resource>${spring.osgi.include.res}</Include-Resource>
+           <!-- jar entries -->
+           <Implementation-Title>Spring Dynamic Modules Framework</Implementation-Title>
+		   <Implementation-Version>${pom.version}</Implementation-Version>
+		   <Implementation-Vendor>Spring Dynamic Modules Framework</Implementation-Vendor>
+		   <Implementation-Vendor-Id>org.springframework.osgi</Implementation-Vendor-Id>
+		   <!-- Spring specific entries -->
+		   <Spring-DM-Version>${pom.version}</Spring-DM-Version>
+		   <Spring-Version>${spring.maven.artifact.version}</Spring-Version>
+		   
+		  </instructions>
+        </configuration>
+        <extensions>true</extensions>
+      </plugin> 
+      
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <systemProperties>
+            <property>
+              <name>org.springframework.osgi.test.framework</name>
+              <value>${osgi.test.platform}</value>
+            </property>
+            <property>
+				<name>net.sourceforge.cobertura.datafile</name>
+				<value>${cobertura.file}</value>
+			</property>
+
+          </systemProperties>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+	      <groupId>org.apache.maven.plugins</groupId>
+          <configuration>
+            <source>1.4</source>
+            <target>1.4</target>
+            <debug>true</debug>
+          </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptors>
+             <descriptor>release/src/assembly/bin.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <!-- profiles for equinox, knoplerfish, and felix                 -->
+  <!-- to use these profiles invoke maven with -Pprofile-name, e.g. -->
+  <!-- mvn -Pfelix test 											-->
+  <profiles>
+    <profile>
+      <id>equinox</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.eclipse.osgi</groupId>
+          <artifactId>org.eclipse.osgi</artifactId>
+          <version>${equinox.ver}</version>
+          <type>jar</type>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+      <properties>
+        <osgi.test.platform>org.springframework.osgi.test.platform.EquinoxPlatform</osgi.test.platform>
+        <log4j.ignoreTCL>true</log4j.ignoreTCL>
+      </properties>
+    </profile>
+    
+    <profile>
+      <id>knopflerfish</id>
+      <dependencies>
+        <dependency>
+          <groupId>knopflerfish</groupId>
+          <artifactId>framework</artifactId>
+          <version>${kf.ver}</version>
+          <type>jar</type>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+      <properties>
+        <osgi.test.platform>org.springframework.osgi.test.platform.KnopflerfishPlatform</osgi.test.platform>
+		<log4j.ignoreTCL>true</log4j.ignoreTCL>
+		<org.knopflerfish.osgi.setcontextclassloader>true</org.knopflerfish.osgi.setcontextclassloader>        
+      </properties>
+    </profile>
+    
+    <profile>
+      <id>felix</id>
+      <dependencies>  
+        <dependency>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>org.apache.felix.main</artifactId>
+          <version>${felix.ver}</version>
+          <type>jar</type>
+          <scope>provided</scope>
+          <!-- required to prevent felix to pull in stuff -->
+		  <exclusions>
+            <exclusion>
+              <groupId>org.apache.felix</groupId>
+              <artifactId>org.apache.felix.framework</artifactId>
+            </exclusion>          
+            <exclusion>
+              <groupId>org.apache.felix</groupId>
+              <artifactId>org.apache.felix.shell</artifactId>
+            </exclusion>          
+            <exclusion>
+              <groupId>org.apache.felix</groupId>
+              <artifactId>org.apache.felix.shell.tui</artifactId>
+            </exclusion>          
+            <exclusion>
+              <groupId>org.apache.felix</groupId>
+              <artifactId>org.apache.felix.bundlerepository</artifactId>
+            </exclusion>          
+          </exclusions>            
+        </dependency>
+      </dependencies>
+      <properties>
+        <osgi.test.platform>org.springframework.osgi.test.platform.FelixPlatform</osgi.test.platform>
+		<log4j.ignoreTCL>true</log4j.ignoreTCL>        
+      </properties>
+    </profile>
+
+    <!-- VM 1.5/tiger source files (such as annotations) -->
+    <profile>
+      <id>jdk-1.5+</id>
+        <activation>
+          <jdk>!1.4</jdk>
+        </activation>
+        <modules>
+          <module>annotation</module>
+        </modules>
+        <properties>
+          <!-- use default mtc version for core -->
+          <jdk-classifier></jdk-classifier>
+        </properties>
+    </profile>
+  
+          
+    <!-- integration testing profile -->
+    <profile>
+      <id>it</id>
+      <activation>
+        <property>
+          <name>env-test</name>
+        </property>
+      </activation>
+      <modules>
+      	<module>integration-tests</module>
+      </modules>
+    </profile>
+
+
+	<!-- samples profile -->
+    <profile>
+      <id>samples</id>
+      <activation>
+        <property>
+          <name>env-samples</name>
+        </property>
+      </activation>
+      <modules>
+      	<module>samples</module>
+      </modules>
+    </profile>
+    
+  </profiles>
+       
+       
+  <!-- ======================================= -->
+  <!--          Website and reporting          -->
+  <!-- ======================================= -->
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+		<version>2.0</version>
+        <configuration>
+          <aggregate>false</aggregate>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <configuration>
+          <aggregate>true</aggregate>
+        </configuration>
+      </plugin>
+      
+      <!-- =============== -->
+      <!--     Javadocs    -->
+      <!-- =============== -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <aggregate>true</aggregate>
+		  <stylesheetfile>${javadoc.loc}/javadoc.css</stylesheetfile>
+          <overview>${javadoc.loc}/overview.html</overview>
+          <groups>
+            <group>
+              <title>Spring Dynamic Modules Core</title>
+              <packages>org.springframework.osgi*</packages>
+            </group>
+            <group>
+              <title>Spring Dynamic Modules Extender</title>
+              <packages>org.springframework.osgi.extender*</packages>
+            </group>
+            <group>
+               <title>Spring Dynamic Modules IO</title>
+               <packages>org.springframework.osgi.io*</packages>
+            </group>
+            <group>
+               <title>Spring Dynamic Modules Integration Testing Framework</title>
+               <packages>org.springframework.osgi.test*</packages>
+            </group>
+            <group>
+                <title>Spring Dynamic Modules Mock</title>
+               <packages>org.springframework.osgi.mock*</packages>
+            </group>
+            <group>
+                <title>Spring Dynamic Modules Extensions</title>
+               <packages>org.springframework.osgi.extensions*</packages>
+            </group>
+            <group>
+               <title>Samples</title>
+               <packages>org.springframework.osgi.sample*</packages>
+            </group>
+          </groups>
+          <excludePackageNames>*internal:*samples:org.springframework.osgi.config:org.springframework.osgi.iandt*</excludePackageNames>
+          
+          <!-- enabled as this is the recommandation on 1.4 -->
+          <breakiterator>true</breakiterator>
+          <quiet>true</quiet>
+          <verbose>false</verbose>
+          <show>protected</show>
+          <source>1.5</source>
+          <links>
+            <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
+            <link>
+              http://static.springframework.org/spring/docs/2.5.x/api/
+            </link>
+            <link>http://www2.osgi.org/javadoc/r4/</link>
+            <link>http://asm.objectweb.org/asm223/javadoc/user</link>
+            <link>http://cglib.sourceforge.net/apidocs</link>
+            <link>http://logging.apache.org/log4j/docs/api/</link>
+            <link>http://jakarta.apache.org/commons/logging/apidocs/</link>
+            <link>http://junit.sourceforge.net/javadoc/</link>
+            <link>http://aopalliance.sourceforge.net/doc</link>
+            <!--
+            <link>http://tomcat.apache.org/tomcat-5.5-doc/servletapi/</link>
+            <link>http://dcl.mathcs.emory.edu/util/backport-util-concurrent/doc/api/</link>
+            -->
+          </links>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+      </plugin>
+      
+      <!-- ============== -->
+      <!--     FindBugs   -->
+      <!-- ============== -->
+  <plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>findbugs-maven-plugin</artifactId>
+    <configuration>
+    <!--
+      <xmlOutput>true</xmlOutput>
+      <xmlOutputDirectory>target</xmlOutputDirectory>
+      -->
+      <threshold>Low</threshold>
+      <effort>Max</effort>
+      <!--
+      <debug>true</debug>
+      <relaxed>true</relaxed>
+      -->
+    </configuration>
+  </plugin>
+  
+      <!-- =========== -->
+      <!--     PMD     -->
+      <!-- =========== -->
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+      </plugin>
+      
+      <!-- cobertura  (disabled for now)
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.1</version>
+      </plugin>
+	  -->
+	  <!-- jdepend -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jdepend-maven-plugin</artifactId>
+      </plugin>
+      
+    </plugins>
+   </reporting>
+
+	<distributionManagement>
+		<downloadUrl>http://www.springframework.org/osgi/</downloadUrl>
+		<site>
+			<id>static.springframework.org</id>
+			<name>SpringFramework.org</name>
+			<url>scp://static.springframework.org/var/www/domains/springframework.org/static/htdocs/spring-osgi/snapshot-site</url>
+		</site>
+		<repository>
+			<id>spring-milestone</id>
+			<name>Spring Milestone Repository</name>
+			<url>s3://maven.springframework.org/milestone</url>
+		</repository>    
+		<snapshotRepository>
+			<id>spring-snapshot</id>
+			<name>Spring Snapshot Repository</name>
+			<url>s3://maven.springframework.org/snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+
+  <!-- ================================================ -->
+  <!--            Repository Configuration              -->
+  <!-- ================================================ -->
+
+  <pluginRepositories>
+	
+    <pluginRepository>
+      <id>maven-repo</id>
+      <name>maven repo</name>
+      <url>http://repo1.maven.org/maven2/</url>
+    </pluginRepository>
+
+    <pluginRepository>
+      <id>agilejava</id>
+      <url>http://agilejava.com/maven/</url>
+    </pluginRepository>
+
+
+	<!-- alternative felix BND plugin snapshot -->
+	<pluginRepository>
+		<id>ops4j-snapshots</id>
+		<url>http://repository.ops4j.org/mvn-snapshots</url>
+		<releases>
+			<enabled>false</enabled>
+		</releases>
+	</pluginRepository>
+
+    <!--  Do NOT enable this repository
+    
+    <pluginRepository>
+	 <snapshots><enabled>true</enabled></snapshots>
+	<id>apache-snapshot-repo</id>
+      <name>Apache snapshot repo</name>
+      <url>http://cvs.apache.org/maven-snapshot-repository</url>
+	</pluginRepository>
+    -->
+  </pluginRepositories>
+
+
+  <repositories>
+    <repository>
+      <id>eclipse-repository</id>
+      <name>Eclipse Repository</name>
+      <url>http://repo1.maven.org/eclipse/</url>
+    </repository>
+
+    <repository>
+      <id>safehaus-repository</id>
+      <name>Safehaus Repository</name>
+      <url>http://m2.safehaus.org</url>
+    </repository>
+
+    <repository>
+      <id>spring-ext</id>
+      <name>Spring External Dependencies Repository</name>
+      <url>
+        http://springframework.svn.sourceforge.net/svnroot/springframework/repos/repo-ext/
+      </url>
+    </repository>
+
+
+		<repository>
+			<id>spring-release</id>
+			<name>Spring Portfolio Release Repository</name>
+			<url>http://s3.amazonaws.com/maven.springframework.org/release</url>
+		</repository>
+		<repository>
+			<id>spring-external</id>
+			<name>Spring Portfolio Release Repository</name>
+			<url>http://s3.amazonaws.com/maven.springframework.org/external</url>
+		</repository>
+		<repository>
+			<id>spring-milestone</id>
+			<name>Spring Portfolio Milestone Repository</name>
+			<url>http://s3.amazonaws.com/maven.springframework.org/milestone</url>
+		</repository>
+    
+    <repository>
+      <id>i21-s3-osgi-repo</id>
+      <name>i21 osgi artifacts repo</name>
+      <snapshots>
+         <enabled>true</enabled>
+      </snapshots>
+      <url>http://s3.amazonaws.com/maven.springframework.org/osgi</url>
+    </repository>
+    
+  </repositories>
+
+</project>

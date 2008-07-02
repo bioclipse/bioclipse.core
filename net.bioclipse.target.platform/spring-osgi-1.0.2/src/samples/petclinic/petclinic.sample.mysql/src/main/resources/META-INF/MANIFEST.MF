@@ -1,0 +1,12 @@
+Bundle-Version: 1.0
+Bundle-SymbolicName: [DEMO]OSGi_Sample_mySQL
+Bundle-Name: sample-mysqldb
+Import-Package: org.springframework.beans.factory.config,
+  org.springframework.dao,
+  org.springframework.jdbc,
+  com.mysql.jdbc,
+  org.springframework.context,
+  com.mchange.v2.c3p0,
+  org.springframework.osgi.samples.petclinic
+
+

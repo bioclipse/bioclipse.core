@@ -1,0 +1,132 @@
+SPRING DYNAMIC MODULES FRAMEWORK CHANGELOG
+==========================================
+http://www.springframework.org/osgi
+
+Changes in version 1.0.2 (2008-03-25)
+-------------------------------------
+
+General
+* adjusted the manifests so internal packages are not exported and the versions for both spring and spring-osgi are
+  present
+
+Package org.springframework.osgi.context
+* AbstractOsgiBundleApplicationContext registers the application context as an OSGi service using just the interfaces
+
+Package org.springframework.osgi.extender
+* raised service dependency waiting logging level to INFO (from DEBUG)
+
+Package org.springframework.osgi.util
+* BundleDelegatingClassLoader relies on default hashCode/equals methods to prevent class caching on bundle updates
+
+Package org.springframework.osgi.test
+* Installed bundles have the location set to the backing resource URL if possible, falling back to the description
+
+
+Changes in version 1.0.1 (2008-02-29)
+-------------------------------------
+
+General
+* fixed nested Eclipse classpath entry in spring-osgi bundle archetype
+* added log4j.properties to spring-osgi bundle archetype
+* added OSGi integration test to the spring-osgi bundle archetype
+
+Package org.springframework.context.support
+* the namespace resolver mechanism first checks the local bundle classpath before using the extender namespace service
+
+Package org.springframework.osgi.context
+* fixed AbstractDelegatedExecutionApplicationContext to log errors that occur during the bean factory startup
+
+Package org.springframework.osgi.io
+* improved OsgiBundleResource handling of jars with missing archive entries for folders
+* improved OsgiBundleResourcePatternResolver performance when checking for jar resources
+* improved detection of relative OSGi URLs
+
+Package org.springframework.osgi.test
+* AbstractOsgiTest provides better error messages for bundle that fail to start
+* custom artifact locators can be used with AbstractDependencyManagerTests
+* removed all internal usage of system properties by the testing infrastructure
+* removed the use of serialization inside the testing framework
+* improved automatic manifest generation by parsing only the test parents that are available in the test bundle
+
+
+Changes in version 1.0 final (2008-01-25)
+-----------------------------------------
+
+Package org.springframework.osgi.extensions.annotation
+* aligned bundle symbolic name with the rest of the bundles
+
+Package org.springframework.osgi.service
+* refined the service proxy returned by OsgiServiceProxyFactoryBean so it doesn't allow usage after being destroyed
+
+Package org.springframework.osgi.test
+* removed deprecated mispelled Platforms#KNOPFLEFISH constant
+* KnopflerfishPlatform exports automatically system packages for JDK 1.4/1.5
+* refined test bundle creation to ignore duplicate META-INF/MANIFEST.MF
+* optimized test bundle creation by using no compression
+* AbstractOnTheFlyBundleCreatorTests automatic manifest generation does not add OSGi import entries for packages
+  contained in the test bundle
+
+Package org.springframework.osgi.util
+* OsgiServiceUtils#getAllServices() deprecated method has been removed
+* OsgiServiceUtils#getService() deprecated method has been removed
+* default artifact locator picks up Maven 2 ~/.m2/settings.xml localRepository configuration
+* DebugUtils uses a degradable logger to properly report error messages when the logging implementation is misconfigured
+* BundleDelegatingClassLoader uses a degradable logger to properly report error messages when the logging implementation
+  is misconfigured or the logging classes are not loaded yet
+
+
+Changes in version 1.0 RC2 (2008-01-11)
+---------------------------------------
+
+General
+* removed deprecated methods
+* circular references between service importers, exporter and listeners are now supported
+* distributable bundles include Apache 2 license (META-INF/license.txt and META-INF/notice.txt)
+* all integration tests have been moved under integration-test/ folder
+* by default, the samples and integration tests are not executed (use Maven profiles to include them)
+* Maven 2.0.7 is required for properly building the project under JDK 1.6
+* Knopflerfish 2.0.3 is required for correctly building and running Spring-DM
+
+Package org.springframework.osgi
+* updated spring-osgi.xsd Tservice type to properly reflect OsgiServiceFactoryBean package
+* updated spring-osgi.xsd list, set elements to properly reflect OsgiServiceCollectionFactoryBean package               
+
+* updated bundles symbolic name to follow Spring bundle conventions (org.springframework.bundle.osgi
+  instead of org.springframework.osgi.bundle)
+
+Package org.springframework.osgi.bundle
+* removed deprecated method BundleFactoryBean#setClassloader
+
+Package org.springframework.osgi.config
+* OsgiConfigDefinitionParser visibility changed from public to default
+* OsgiDefaultsDefinition visibility changed from public to default
+* ParserUtils visibility changed from public to default
+
+Package org.springframework.osgi.context
+* AbstractDelegatedExecutionApplicationContext throws clearer exception when the mandatory BundleContext is not set
+
+Package org.springframework.osgi.extender
+* META-INF/spring.handlers, META-INF/spring.schemas files are searched in the bundle space instead of the class space
+
+Package org.springframework.osgi.service
+* fixed double negation in AutoExport.DISABLED javadoc
+* removed deprecated method AbstractOsgiServiceImportFactoryBean#setInterface 
+* service reference importers receive only one event (that of the best matching service) when registered/unregistered 
+  into the OSGi space rather then events of all existing services
+
+Package org.springframework.osgi.test
+* AbstractOnTheFlyBundleCreatorTests rethrows actual exception when creating/loading MANIFEST.MF
+* fixed mispelled KNOPFLERFISH constant in Platforms class (was KNOPFLEFISH)
+* default settings and properties in AbstractConfigurableBundleCreatorTests are now protected
+* AbstractOsgiTests does not implement any more, internal interface OsgiJUnitTest
+* AbstractConfigurableBundleCreatorTests exposes the default jar creation settings through #getDefaultSettings()
+* removed method AbstractDependencyManagerTests#injectArtifactLocator 
+* AbstractDependencyManagerTests#getLocator visibility changed from public to protected
+* AbstractConfigurableBundleCreatorTests jar content pattern has been changed to **/* (from **/*.class, **/*.xml, 
+  **/*.properties)
+* waitOnContextCreation methods visibility changed from public to protected (to be consistent with the rest of the
+  test methods)
+
+Package org.springframework.osgi.util
+* deprecated OsgiServiceUtils#getAllServices()
+* deprecated OsgiServiceUtils#getService()

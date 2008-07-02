@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd">
+
+	
+	<osgix:property-placeholder persistent-id="PropertyPlaceholderTest-123">
+		<osgix:default-properties>
+			<prop key="white">donkey</prop>
+			<prop key="hidden">treasures</prop>
+		</osgix:default-properties>
+	</osgix:property-placeholder>
+
+	<bean id="bean1" class="java.lang.String">
+		<constructor-arg value="${white}" />
+	</bean>
+
+	<bean id="bean2" class="java.lang.String">
+		<constructor-arg value="${hidden}" />
+	</bean>
+
+</beans>

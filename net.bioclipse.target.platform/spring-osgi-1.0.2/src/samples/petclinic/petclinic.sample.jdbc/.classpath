@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/resources"/>
+	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="JUNIT_HOME/junit.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/osgi.sample.domain"/>
+	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-test/2.5.1/spring-test-2.5.1.jar" sourcepath="/SPRING_MOCK_SRC"/>
+	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-jdbc/2.5.1/spring-jdbc-2.5.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-tx/2.5.1/spring-tx-2.5.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-core/2.5.1/spring-core-2.5.1.jar" sourcepath="/SPRING_SRC"/>
+	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-beans/2.5.1/spring-beans-2.5.1.jar" sourcepath="/SPRING_SRC"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

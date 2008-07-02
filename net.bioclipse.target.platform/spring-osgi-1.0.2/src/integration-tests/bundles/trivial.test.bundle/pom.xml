@@ -1,0 +1,34 @@
+<?xml version="1.0"?><project>
+  <parent>
+    <artifactId>spring-osgi-integration-test-bundles</artifactId>
+    <groupId>org.springframework.osgi</groupId>
+    <version>1.0.2</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.springframework.osgi</groupId>
+  <artifactId>org.springframework.osgi.iandt.trivial.tests</artifactId>
+  <packaging>jar</packaging>
+  <name>Spring OSGi Test Bundle: Simple test that uses trivial bundle</name>
+  <description>Contains a single test case that exercises function in 
+   org.springframework.osgi.trivial bundle. Used as a basic proof of 
+   concept for the test harness support.</description>
+  <url>http://www.springframework.org/osgi</url>
+  <dependencies>
+
+    <dependency>
+      <groupId>org.springframework.osgi</groupId>
+      <artifactId>org.springframework.osgi.iandt.trivial</artifactId>
+      <version>${project.parent.version}</version>
+      <scope>provided</scope>
+    </dependency>
+  
+    <!-- JUnit is required at build time not just test time -->
+    <dependency>
+      <groupId>org.springframework.osgi</groupId>
+      <artifactId>junit.osgi</artifactId>
+      <version>3.8.2-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+</project>

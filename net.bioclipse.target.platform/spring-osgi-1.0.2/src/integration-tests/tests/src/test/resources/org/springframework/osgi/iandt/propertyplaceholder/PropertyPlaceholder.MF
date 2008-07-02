@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-Name: Integration test for OSGi property placeholder
+Bundle-SymbolicName: org.springframework.osgi.iandt.propertyplaceholder.integration
+Bundle-Vendor: Spring Framework
+Bundle-Activator: org.springframework.osgi.test.JUnitTestActivator
+Import-Package: junit.framework,
+  org.osgi.framework,
+  org.springframework.osgi.test,
+  org.springframework.osgi.context,
+  org.springframework.osgi.context.support,
+  org.springframework.beans,
+  org.springframework.beans.factory,  
+  org.springframework.context,
+  org.springframework.osgi.service,
+  org.springframework.osgi.util,
+  org.osgi.service.cm

@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<project>
+  <parent>
+    <artifactId>spring-osgi</artifactId>
+    <groupId>org.springframework.osgi</groupId>
+    <version>1.0.2</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.springframework.osgi</groupId>
+  <artifactId>spring-osgi-annotation</artifactId>
+  <packaging>bundle</packaging>
+  <name>Spring OSGi Annotations</name>
+  <url>http://www.springframework.org/osgi</url>
+  <description>
+  Provides OSGi service injection via annotations.
+  </description>
+  
+  <properties>
+	<javadoc.loc>${basedir}/../docs/src/javadoc</javadoc.loc>
+	<spring.osgi.export.pkg>org.springframework.osgi.extensions.annotation</spring.osgi.export.pkg>
+	<spring.osgi.symbolic.name>${symName.prefix}.extensions.annotations</spring.osgi.symbolic.name>
+	<spring.osgi.import.pkg>
+	org.springframework.osgi*;version=${spring.osgi.import.version},
+	org.springframework*;version=${spring.base.version},
+	*
+	</spring.osgi.import.pkg>
+  </properties>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.osgi</groupId>
+      <artifactId>spring-osgi-mock</artifactId>
+      <version>${project.parent.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.osgi</groupId>
+      <artifactId>spring-osgi-core</artifactId>
+      <version>${project.parent.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.osgi</groupId>
+      <artifactId>aopalliance.osgi</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>    
+     
+  </dependencies>
+
+<build>
+  <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+	      <groupId>org.apache.maven.plugins</groupId>
+          <configuration>
+            <source>1.5</source>
+            <target>1.5</target>
+            <debug>true</debug>
+          </configuration>
+      </plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+              <systemProperties>
+                  <property>
+                      <name>org.osgi.vendor.framework</name>
+                      <value>org.springframework.osgi</value>
+                  </property>
+              </systemProperties>
+          </configuration>
+      </plugin>
+  </plugins>
+</build>
+
+  <reporting>
+    <plugins>
+       <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </reporting>
+
+</project>

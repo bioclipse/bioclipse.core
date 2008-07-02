@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd		
+		http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd">
+
+	<!-- osgix:property-placeholder -->
+
+	<util:properties id="external-props"
+		location="org/springframework/osgi/config/properties.props" />
+
+	<!-- simple -->
+	<osgix:property-placeholder persistent-id="com.xyz.myapp" />
+	<!-- average -->
+	<osgix:property-placeholder persistent-id="com.xyz.myapp"
+		defaults-ref="external-props" />
+
+	<!-- full options -->
+	<osgix:property-placeholder persistent-id="com.xyz.myapp"
+		placeholder-prefix="#" placeholder-suffix="%">
+		<osgix:default-properties>
+			<prop key="rod">johnson</prop>
+			<prop key="rick">evans</prop>
+		</osgix:default-properties>
+	</osgix:property-placeholder>
+
+</beans>

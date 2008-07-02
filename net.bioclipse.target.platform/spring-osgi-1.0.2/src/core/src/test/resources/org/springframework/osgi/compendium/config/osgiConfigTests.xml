@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+		http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd">
+
+	<!--  id="zoot"  -->
+    <osgix:managed-service id="zoot" persistent-id="man.from.mars">
+        <osgix:config-listener ref="managed.service" update-method="eat"/>
+        <osgix:config-listener ref="managed.service.2" update-method="eat"/>
+    </osgix:managed-service>
+
+	<!--  id="zootie"  -->
+    <osgix:managed-service-factory id="zootie" persistent-id="man.from.mars.eating.guitars" factory="true" >
+        <osgix:config-listener ref="managed.service.factory" update-method="eat" deleted-method="deleteInstance"/>
+        <osgix:config-listener ref="managed.service.factory.2" update-method="eat" deleted-method="deleteInstance"/>
+    </osgix:managed-service-factory>
+
+    <bean id="managed.service" class="org.springframework.osgi.config.ManagedServiceListener"/>
+    <bean id="managed.service.2" class="org.springframework.osgi.config.ManagedServiceListener"/>
+
+    <bean id="managed.service.factory" class="org.springframework.osgi.config.ManagedServiceFactoryListener"/>
+    <bean id="managed.service.factory.2" class="org.springframework.osgi.config.ManagedServiceFactoryListener"/>
+
+</beans>

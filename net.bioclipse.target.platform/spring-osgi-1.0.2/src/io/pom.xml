@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<project>
+  <parent>
+    <artifactId>spring-osgi</artifactId>
+    <groupId>org.springframework.osgi</groupId>
+    <version>1.0.2</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.springframework.osgi</groupId>
+  <artifactId>spring-osgi-io</artifactId>
+  <packaging>bundle</packaging>
+  <name>Spring OSGi IO</name>
+  <url>http://www.springframework.org/osgi</url>
+  <description>
+  Spring/OSGi IO abstract classes. Provides Resource, ResourceLoader and ResourcePatternResolver
+  for OSGi environments.
+  </description>
+  
+ 
+  <properties>
+  
+    <javadoc.loc>${basedir}/../docs/src/javadoc</javadoc.loc>
+  
+    <spring.osgi.private.pkg>org.springframework.osgi.io.internal</spring.osgi.private.pkg>
+	<spring.osgi.export.pkg>!${spring.osgi.private.pkg}, org.springframework.osgi.io</spring.osgi.export.pkg>
+	
+	<spring.osgi.symbolic.name>${symName.prefix}.io</spring.osgi.symbolic.name>
+  </properties>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.osgi</groupId>
+      <artifactId>spring-osgi-mock</artifactId>
+      <version>${project.parent.version}</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.maven.artifact.version}</version>
+      <!-- assume it's there since io is usually ran as part of a suite -->
+      <scope>provided</scope>
+      <exclusions>      
+      	<exclusion>
+          <groupId>commons-logging</groupId>
+	      <artifactId>commons-logging</artifactId>
+      	</exclusion>
+      </exclusions>        
+    </dependency> 
+
+    
+  </dependencies>
+
+</project>

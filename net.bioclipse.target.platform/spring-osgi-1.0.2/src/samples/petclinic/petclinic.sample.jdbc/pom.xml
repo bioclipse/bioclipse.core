@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<project>
+  <parent>
+    <artifactId>petclinic</artifactId>
+    <groupId>org.springframework.osgi.samples</groupId>
+    <version>1.0.2</version>
+  </parent>
+  
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.springframework.osgi.samples.petclinic</groupId>
+  <artifactId>jdbc</artifactId>
+  <packaging>jar</packaging>
+  <name>Spring OSGi Samples: Simple Petclinic JDBC</name>
+  <version>1.0.2</version>
+  <url>http://www.springframework.org/osgi</url>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>${spring.maven.artifact.version}</version>
+      <scope>provided</scope>      
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.maven.artifact.version}</version>
+      <scope>provided</scope>      
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+      <version>${spring.maven.artifact.version}</version>
+      <scope>provided</scope>      
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${spring.maven.artifact.version}</version>
+      <scope>provided</scope>      
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.osgi.samples.petclinic</groupId>
+      <artifactId>contract</artifactId>
+      <version>${pom.version}</version>
+      <scope>provided</scope>      
+    </dependency>
+    
+  </dependencies>
+
+
+  <repositories>
+    <repository>
+    <id>i21-s3-maven-repo</id>
+      <name>i21 S3 milestone repo</name>
+      <url>http://s3.amazonaws.com/maven.springframework.org/milestone</url>
+    </repository>	
+ </repositories>    
+</project>
