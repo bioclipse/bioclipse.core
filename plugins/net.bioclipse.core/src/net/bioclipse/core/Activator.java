@@ -120,6 +120,8 @@ public class Activator extends Plugin {
                              .waitForService( SERVICE_TIMEOUT_MILLIS );
             if (service instanceof IMoleculeManager) {
                 moleculeManager = (IMoleculeManager)service;
+            } else if (service == null) {
+                logger.error( "MolecularManager service was null...");
             } else {
                 logger.error( "Unexpected service type " +
                 		      "(expected IMoleculeManager): " + 
