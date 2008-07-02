@@ -4,8 +4,13 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -260,6 +265,7 @@ public class JsConsoleView extends ScriptingConsoleView
             return errorMessage;
         
         String helpObject = command.substring(command.indexOf(' ') + 1);
+        //Doing manager method 
         if(helpObject.contains(".")) {
 
             String[] parts = helpObject.split("\\.");
@@ -310,6 +316,7 @@ public class JsConsoleView extends ScriptingConsoleView
                 }
             }
         }
+        //Doing plain manager help
         else {
             IBioclipseManager manager = JsThread.js.getManager(helpObject);
 
@@ -318,16 +325,46 @@ public class JsConsoleView extends ScriptingConsoleView
                        + "\n" + errorMessage;
 
             StringBuilder managerDescription = new StringBuilder();
-            for ( Class<?> interfaze : manager.getClass().getInterfaces() )
-                if ( interfaze.isAnnotationPresent(PublishedClass.class) )
+            for ( Class<?> interfaze : manager.getClass()
+                                              .getInterfaces() ) {
+                
+                if ( interfaze
+                     .isAnnotationPresent(PublishedClass.class) ) {
+
                     managerDescription.append(
                             interfaze.getAnnotation(
                                     PublishedClass.class
                             ).value()
                     );
+                    managerDescription.append( 
+                        "\n\n This manager has " +
+                        "the following methods: \n" );
+                    
+                    List<String> methodNames = new ArrayList<String>();
+                    for ( Method method : interfaze.getMethods() ) {
+                        if ( method.isAnnotationPresent( 
+                             PublishedMethod.class ) ) {
+                            methodNames.add( 
+                                method.getName() + "( "  
+                                + method.getAnnotation( 
+                                  PublishedMethod.class ).params() 
+                                + " )" );
+                        }
+                    }
+                    Collections.sort( methodNames );
+                    for ( String methodName : 
+                          new HashSet<String>(methodNames) ) {
+                        managerDescription.append( methodName );
+                        managerDescription.append( "\n" );
+                    }
+                    
+                    managerDescription.deleteCharAt( 
+                        managerDescription.length()-1 );
+                }
+            }
 
-
-            String line = dashes(helpObject.length(), MAX_OUTPUT_LINE_LENGTH);
+            String line = dashes( helpObject.length(), 
+                                  MAX_OUTPUT_LINE_LENGTH );
 
             result.append(line);
             result.append( '\n' );
