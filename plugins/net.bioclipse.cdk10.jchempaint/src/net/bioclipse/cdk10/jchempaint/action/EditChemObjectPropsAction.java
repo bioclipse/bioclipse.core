@@ -80,8 +80,7 @@ public class EditChemObjectPropsAction extends JCPAction {
 				editor = new PseudoAtomEditor();
 			}
 			else if (object instanceof Atom) {
-			    // FIXME: shk3: Stefan, please let me know how this code should be updated for the new API you introduced. See bug #2008779
-          // editor = new AtomEditor();
+				editor = new AtomEditor(jcpmodel.getChemModel(),jcpmodel.getControllerModel().getUndoSupport());
 			}
 			else if (object instanceof Reaction) {
 				editor = new ReactionEditor();
