@@ -56,7 +56,6 @@
       <plugin id="net.bioclipse.services"/>
       <plugin id="net.bioclipse.ui"/>
       <plugin id="net.sf.cglib"/>
-      <plugin id="org.apache.log4j"/>
       <plugin id="org.apache.lucene"/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>
@@ -107,6 +106,7 @@
       <plugin id="org.springframework.bundle.spring.context"/>
       <plugin id="org.springframework.bundle.spring.core"/>
       <plugin id="org.springframework.osgi.aopalliance.osgi"/>
+      <plugin id="org.springframework.osgi.log4j.osgi"/>
       <plugin id="slf4j.api"/>
       <plugin id="slf4j.log4j12" fragment="true"/>
    </plugins>
