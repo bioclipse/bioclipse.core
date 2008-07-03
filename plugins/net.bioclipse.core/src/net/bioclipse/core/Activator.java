@@ -27,7 +27,10 @@ public class Activator extends Plugin {
     // The plug-in ID
     public static final String PLUGIN_ID = "net.bioclipse.core";
 
-    private static final long SERVICE_TIMEOUT_MILLIS = 10*1000;
+    private static final long SERVICE_TIMEOUT_MILLIS = 10*1000;    
+    
+    // Virtual project
+    private static final String VIRTUAL_PROJECT_NAME = "Virtual";
     
     // The shared instance
     private static Activator plugin;
@@ -46,7 +49,7 @@ public class Activator extends Plugin {
     public void start(BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
-        createVirtualProject();
+        getVirtualProject();
         historyTracker 
             = new ServiceTracker( context, 
                                   IHistory.class.getName(), 
@@ -138,13 +141,11 @@ public class Activator extends Plugin {
         return moleculeManager;
     }
     
-    protected void createVirtualProject(){
+    protected static void createVirtualProject(IProject project){
         
-        String projectName = "Virtual";
-        IProject project = ResourcesPlugin.getWorkspace().
-                getRoot().getProject(projectName);
         IProjectDescription description = 
-               ResourcesPlugin.getWorkspace().newProjectDescription(projectName);
+        		ResourcesPlugin.getWorkspace()
+        		.newProjectDescription(VIRTUAL_PROJECT_NAME);
         try{
             description.setLocationURI(new URI("memory:/Virtual"));
             project.create(description,null);
@@ -155,9 +156,17 @@ public class Activator extends Plugin {
             logger.warn("Failed to create virtual project: "+x.getMessage());
         }
     }
-    protected void deleteVirtualProject(){
+    public static IProject getVirtualProject(){
+    	
+    	IWorkspaceRoot root=ResourcesPlugin.getWorkspace().getRoot();
+    	IProject project=root.getProject(VIRTUAL_PROJECT_NAME);
+    	if(!project.exists())
+    		createVirtualProject(project);
+    	return project;
+    }
+    protected static void  deleteVirtualProject(){
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-        IProject project = root.getProject("Virtual");
+        IProject project = root.getProject(VIRTUAL_PROJECT_NAME);
         try {
             project.delete(true, null);
         } catch (CoreException e) {            
