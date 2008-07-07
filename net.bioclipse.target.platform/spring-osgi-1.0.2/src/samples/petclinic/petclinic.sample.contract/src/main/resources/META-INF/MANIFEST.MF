@@ -1,6 +1,0 @@
-Bundle-SymbolicName: [DEMO]OSGi_Domain
-Bundle-Name: sample-contract
-Bundle-Version: 1.0
-Export-Package: org.springframework.osgi.samples.petclinic;version="1.0.0"
-Import-Package: org.springframework.dao,
-  org.apache.commons.lang.builder
