@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: XOM Plugin
+Bundle-SymbolicName: net.bioclipse.xom;singleton:=true
+Bundle-Activator: net.bioclipse.structuredb.Activator
+Bundle-Version: 1.2.0
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.filebuffers,
+ org.eclipse.ui.views,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.jface.text
+Export-Package: net.xomtools,
+ nu.xom,
+ nu.xom.canonical,
+ nu.xom.converters,
+ nu.xom.xinclude,
+ nu.xom.xslt
+Bundle-ClassPath: .,
+ jars/xom-1.1.jar
+Bundle-Vendor: Bioclipse Team
