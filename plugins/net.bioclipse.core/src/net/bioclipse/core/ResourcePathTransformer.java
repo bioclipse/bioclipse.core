@@ -15,6 +15,8 @@ import java.net.URISyntaxException;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
 /**
  * @author jonalv
@@ -29,15 +31,15 @@ public class ResourcePathTransformer {
         
     }
     
-    public ResourcePathTransformer getInstance() {
+    public static ResourcePathTransformer getInstance() {
         return instance;
     }
     
     public IFile transform(String resourceString) {
   
         IFile result;
-        result = parseURI(resourceString);
-        if (result == null) result = parseRelative(resourceString);
+        result = parseRelative(resourceString);
+        if (result == null) result = parseURI(resourceString);
         if (result == null) result = parsePath(resourceString);
         if (result == null) throw new RuntimeException(
                             "Could not handle " + resourceString );
@@ -50,7 +52,12 @@ public class ResourcePathTransformer {
     }
 
     private IFile parseRelative( String resourceString ) {
-//        TODO FIXME create IFile from the wrokspace relative path
+
+       IPath path = new Path(resourceString);
+       IFile file = ResourcesPlugin.getWorkspace()
+                                   .getRoot().getFile( path );
+       if ( file.exists() )
+           return file;
         return null;
     }
 
