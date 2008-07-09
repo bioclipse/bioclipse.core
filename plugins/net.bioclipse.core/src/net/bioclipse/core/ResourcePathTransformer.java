@@ -14,9 +14,14 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+
 
 /**
  * @author jonalv
@@ -47,8 +52,24 @@ public class ResourcePathTransformer {
     }
 
     private IFile parsePath( String resourceString ) {
-//        TODO FIXME create virtual linked resource and return the IFile
-        return null;
+    	URI uri;
+    	java.io.File localFile=new java.io.File(resourceString);
+    	if(!localFile.exists()) return null;
+    	try{
+    		uri=new URI("file:/"+localFile.getAbsolutePath());
+    	}catch (URISyntaxException e) {
+			return null;
+		}
+    	IProject vProject=Activator.getVirtualProject();
+    	IFile vFile=vProject.getFile(localFile.getName());
+    	if(vFile.exists()) return null;
+    	try {
+			vFile.createLink(uri,IResource.NONE, null);	
+			vFile.refreshLocal(0, new NullProgressMonitor());
+		} catch (CoreException e) {
+			return null;
+		}
+    	return vFile;       
     }
 
     private IFile parseRelative( String resourceString ) {
@@ -76,6 +97,8 @@ public class ResourcePathTransformer {
         } 
         catch ( URISyntaxException e ) {
             return null; //It wasn't an uri...
+        }catch (IllegalArgumentException e){
+        	return null;
         }
     }
 }
