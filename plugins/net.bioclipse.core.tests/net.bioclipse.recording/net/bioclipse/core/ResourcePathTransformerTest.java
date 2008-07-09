@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -102,13 +103,16 @@ public class ResourcePathTransformerTest {
     public void testAbsolutePathToExistingFile() 
                 throws IOException, CoreException {
         
-        URL url = this.getClass().getClassLoader().getResource( 
-            "net.bioclipse.core.ResourcePathTransformerTest.java" );
+        
+        File f=new File(".");
+        String aPath=f.getAbsolutePath().replaceAll("\\.$", "")+
+        "net.bioclipse.recording/net/bioclipse/core/ResourcePathTransformerTest.java";
+//        String aPath=f.getAbsolutePath();
         IFile file = ResourcePathTransformer.getInstance()
-                                            .transform( url.getPath() );
+                                            .transform( aPath );
         assertNotNull( file );
         assertTrue( file.exists() );
-        InputStream stream1 = new FileInputStream( url.getPath() );
+        InputStream stream1 = new FileInputStream( aPath );
         InputStream stream2 = file.getContents();
         int i = -1;
         int j = -1;
@@ -137,7 +141,7 @@ public class ResourcePathTransformerTest {
         IResourceVisitor visitor = new IResourceVisitor() {
             public boolean visit( IResource resource ) throws CoreException {
                 if( resource instanceof IFile &&
-                   !resource.getName().equals( ".project" ) ) {
+                   !resource.getName().equals( ".project" ) && !resource.getName().equals("ResourcePathTransformerTest.java")) {
                     assertEquals ( file, resource );
                 }
                 return true;
