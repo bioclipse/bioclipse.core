@@ -9,6 +9,7 @@ import java.util.Map;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -519,12 +520,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
                   for (Object item : selection.toArray()) {
                       
                       String content
-                          = item instanceof IFile
-                            ? ((IFile)item).getLocation().toString()
-                          : item instanceof IFolder
-                            ? ((IFolder)item).getLocation().toString()
-                          : item instanceof IProject
-                            ? ((IProject)item).getLocation().toString()
+                          = item instanceof IResource
+                            ? ((IResource)item).getFullPath().toOSString()
                           : "[O_o]"; // unrecognized content
 
                       if ( !cursorIsOnCommandLine() )
