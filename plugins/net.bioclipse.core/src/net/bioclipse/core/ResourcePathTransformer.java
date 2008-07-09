@@ -41,7 +41,7 @@ public class ResourcePathTransformer {
         result = parseRelative(resourceString);
         if (result == null) result = parseURI(resourceString);
         if (result == null) result = parsePath(resourceString);
-        if (result == null) throw new RuntimeException(
+        if (result == null) throw new IllegalArgumentException(
                             "Could not handle " + resourceString );
         return result;
     }
