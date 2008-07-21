@@ -43,12 +43,13 @@
 
    <plugins>
       <plugin id="com.ibm.icu"/>
+      <plugin id="jcl104.over.slf4j"/>
       <plugin id="net.bioclipse.core"/>
       <plugin id="net.bioclipse.logger"/>
       <plugin id="net.bioclipse.scripting"/>
       <plugin id="net.bioclipse.ui"/>
       <plugin id="net.sf.cglib"/>
-      <plugin id="org.apache.commons.logging"/>
+      <plugin id="org.apache.lucene"/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>
       <plugin id="org.eclipse.core.databinding"/>
@@ -74,11 +75,15 @@
       <plugin id="org.eclipse.swt.carbon.macosx" fragment="true"/>
       <plugin id="org.eclipse.text"/>
       <plugin id="org.eclipse.ui"/>
+      <plugin id="org.eclipse.ui.browser"/>
       <plugin id="org.eclipse.ui.carbon" fragment="true"/>
+      <plugin id="org.eclipse.ui.cheatsheets"/>
       <plugin id="org.eclipse.ui.editors"/>
       <plugin id="org.eclipse.ui.forms"/>
       <plugin id="org.eclipse.ui.ide"/>
       <plugin id="org.eclipse.ui.intro"/>
+      <plugin id="org.eclipse.ui.navigator"/>
+      <plugin id="org.eclipse.ui.navigator.resources"/>
       <plugin id="org.eclipse.ui.views"/>
       <plugin id="org.eclipse.ui.views.properties.tabbed"/>
       <plugin id="org.eclipse.ui.workbench"/>
@@ -93,6 +98,8 @@
       <plugin id="org.springframework.bundle.spring.core"/>
       <plugin id="org.springframework.osgi.aopalliance.osgi"/>
       <plugin id="org.springframework.osgi.log4j.osgi"/>
+      <plugin id="slf4j.api"/>
+      <plugin id="slf4j.log4j12" fragment="true"/>
    </plugins>
 
 </product>
