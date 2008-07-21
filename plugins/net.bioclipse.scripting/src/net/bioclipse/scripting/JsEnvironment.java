@@ -56,12 +56,8 @@ public class JsEnvironment implements ScriptingEnvironment {
         installJsTools();
     }
 
-    /**
-     * @param name of the manager
-     * @return the manager of the given name
-     */
-    public IBioclipseManager getManager(String name) {
-        return managers.get(name);
+    public Map<String, IBioclipseManager> getManagers() {
+        return new HashMap<String, IBioclipseManager>(managers);
     }
 
     private void installJsTools() {
@@ -179,7 +175,7 @@ public class JsEnvironment implements ScriptingEnvironment {
                                             expression.indexOf(
                                                '.', iService ) );
               
-                IBioclipseManager manager = getManager(managerName);
+                IBioclipseManager manager = getManagers().get(managerName);
 
                 String params = null;
                 int requiredParams = 0;

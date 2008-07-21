@@ -261,8 +261,24 @@ public class JsConsoleView extends ScriptingConsoleView
                                     "or: `help <manager>.<method>`";
         StringBuilder result = new StringBuilder();
 
-        if( "help".equals(command.trim()) || "man".equals(command.trim()) )
-            return errorMessage;
+        if( "help".equals(command.trim()) || "man".equals(command.trim()) ) {
+            StringBuilder sb = new StringBuilder();
+            
+            sb.append(errorMessage);
+            List<String> managerNames
+                = new ArrayList<String>(JsThread.js.getManagers().keySet());
+            if ( !managerNames.isEmpty() ) {
+                Collections.sort( managerNames );
+                sb.append( "\nAvailable managers:\n" );
+                for ( String name : managerNames ) {
+                    sb.append( "  " );
+                    sb.append( name );
+                    sb.append( "\n" );
+                }
+            }
+            
+            return sb.toString();
+        }
         
         String helpObject = command.substring(command.indexOf(' ') + 1);
         //Doing manager method 
@@ -276,7 +292,8 @@ public class JsConsoleView extends ScriptingConsoleView
             String managerName = parts[0];
             String methodName  = parts[1];
 
-            IBioclipseManager manager = JsThread.js.getManager(managerName);
+            IBioclipseManager manager
+                = JsThread.js.getManagers().get(managerName);
             if(manager == null)
                 return "No such manager: " + managerName
                        + "\n" + errorMessage;
@@ -318,7 +335,8 @@ public class JsConsoleView extends ScriptingConsoleView
         }
         //Doing plain manager help
         else {
-            IBioclipseManager manager = JsThread.js.getManager(helpObject);
+            IBioclipseManager manager
+                = JsThread.js.getManagers().get(helpObject);
 
             if (manager == null)
                 return "No such method: " + helpObject
@@ -410,7 +428,7 @@ public class JsConsoleView extends ScriptingConsoleView
         if (object == null || "".equals(object))
             object = "this";
 
-        IBioclipseManager manager = JsThread.js.getManager(object);
+        IBioclipseManager manager = JsThread.js.getManagers().get(object);
         if ( null != manager ) {
             List<String> variables = new ArrayList<String>();
 
