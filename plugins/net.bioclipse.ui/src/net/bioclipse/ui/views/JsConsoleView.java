@@ -437,7 +437,12 @@ public class JsConsoleView extends ScriptingConsoleView
                     if ( method.isAnnotationPresent(PublishedMethod.class)
                          && !variables.contains( method.getName() ))
 
-                        variables.add( method.getName() );
+                        variables.add(
+                            method.getName()
+                            + "("
+                            + (method.getParameterTypes().length == 0
+                                 ? ")" : "")
+                        );
 
             return variables;
         }

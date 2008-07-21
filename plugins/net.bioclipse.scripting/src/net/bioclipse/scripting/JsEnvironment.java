@@ -113,7 +113,7 @@ public class JsEnvironment implements ScriptingEnvironment {
      * Evaluates a given Javascript expression.
      *
      * @param expression the expression to be evaluated
-     * @return the result
+     * @return a stringified version of the result
      */
     public String eval(String expression) {
         try {
