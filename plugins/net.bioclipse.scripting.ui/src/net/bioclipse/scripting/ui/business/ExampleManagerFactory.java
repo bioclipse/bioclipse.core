@@ -9,13 +9,13 @@
  *     Jonathan Alvarsson
  *     
  ******************************************************************************/
-package net.bioclipse.springBasedPrototypePlugin.business;
+package net.bioclipse.scripting.ui.business;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IExecutableExtensionFactory;
-import net.bioclipse.springBasedPrototypePlugin.Activator;
+import net.bioclipse.scripting.ui.Activator;
 
 /**
  * Factory for the exampleManager 

@@ -9,7 +9,7 @@
  *     Jonathan Alvarsson
  *     
  ******************************************************************************/
-package net.bioclipse.springBasedPrototypePlugin.business;
+package net.bioclipse.scripting.ui.business;
 
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.IBioclipseManager;

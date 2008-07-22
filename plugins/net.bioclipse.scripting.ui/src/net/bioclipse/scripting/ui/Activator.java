@@ -1,6 +1,6 @@
-package net.bioclipse.springBasedPrototypePlugin;
+package net.bioclipse.scripting.ui;
 
-import net.bioclipse.springBasedPrototypePlugin.business.IExampleManager;
+import net.bioclipse.scripting.ui.business.IExampleManager;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
