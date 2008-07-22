@@ -23,7 +23,7 @@ import net.bioclipse.scripting.ui.Activator;
  * @author jonalv
  *
  */
-public class ExampleManagerFactory implements IExecutableExtension, 
+public class JsConsoleManagerFactory implements IExecutableExtension, 
                                               IExecutableExtensionFactory {
 
     private Object exampleManager;

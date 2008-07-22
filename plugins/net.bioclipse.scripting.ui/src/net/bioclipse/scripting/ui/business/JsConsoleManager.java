@@ -11,20 +11,22 @@
  ******************************************************************************/
 package net.bioclipse.scripting.ui.business;
 
-import net.bioclipse.core.Recorded;
-import net.bioclipse.core.business.IBioclipseManager;
+import net.bioclipse.ui.Activator;
 
 /**
- * Example manager interface defining all methods of the service object
+ * ExampleManager. All methods declared here that should be reachable 
+ * in the service object must be declared in the corresponding interface  
  * 
  * @author jonalv
  *
  */
-public interface IExampleManager extends IBioclipseManager {
+public class JsConsoleManager implements IJsConsoleManager {
 
-    /**
-     * example method
-     */
-    @Recorded
-    public void example();
+    public void example() {
+        Activator.getDefault().CONSOLE.echo("ExampleManager.example() called"); 
+    }
+
+    public String getNamespace() {
+        return "example";
+    }
 }

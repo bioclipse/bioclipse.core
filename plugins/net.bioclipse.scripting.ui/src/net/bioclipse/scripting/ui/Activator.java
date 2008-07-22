@@ -1,6 +1,6 @@
 package net.bioclipse.scripting.ui;
 
-import net.bioclipse.scripting.ui.business.IExampleManager;
+import net.bioclipse.scripting.ui.business.IJsConsoleManager;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -37,7 +37,7 @@ public class Activator extends AbstractUIPlugin {
         plugin = this;
         
         finderTracker = new ServiceTracker( context, 
-                                            IExampleManager.class.getName(), 
+                                            IJsConsoleManager.class.getName(), 
                                             null );
         finderTracker.open();
     }
@@ -47,10 +47,10 @@ public class Activator extends AbstractUIPlugin {
      * 
      * @return the exampleManager
      */
-    public IExampleManager getExampleManager() {
-        IExampleManager exampleManager = null;
+    public IJsConsoleManager getExampleManager() {
+        IJsConsoleManager exampleManager = null;
         try {
-            exampleManager = (IExampleManager) finderTracker.waitForService(1000*30);
+            exampleManager = (IJsConsoleManager) finderTracker.waitForService(1000*30);
         } catch (InterruptedException e) {
             throw new IllegalStateException("Could not get example manager", e);
         }
