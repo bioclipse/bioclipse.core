@@ -11,6 +11,7 @@
  ******************************************************************************/
 package net.bioclipse.scripting.ui.business;
 
+import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.IBioclipseManager;
 
@@ -22,9 +23,7 @@ import net.bioclipse.core.business.IBioclipseManager;
  */
 public interface IJsConsoleManager extends IBioclipseManager {
 
-    /**
-     * example method
-     */
     @Recorded
-    public void example();
+    @PublishedMethod(methodSummary="Clears the console.")
+    public void clear();
 }

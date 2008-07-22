@@ -1,12 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2007 The Bioclipse Project and others.
+ * Copyright (c) 2008 The Bioclipse Project and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * www.eclipse.org—epl-v10.html <http://www.eclipse.org/legal/epl-v10.html>
+ * <http://www.eclipse.org/legal/epl-v10.html>
  * 
  * Contributors:
  *     Jonathan Alvarsson
+ *     Carl Masak
  *     
  ******************************************************************************/
 package net.bioclipse.scripting.ui.business;
@@ -14,19 +15,18 @@ package net.bioclipse.scripting.ui.business;
 import net.bioclipse.ui.Activator;
 
 /**
- * ExampleManager. All methods declared here that should be reachable 
- * in the service object must be declared in the corresponding interface  
+ * Contains general methods for interacting with the Javascript console.
  * 
- * @author jonalv
+ * @author masak
  *
  */
 public class JsConsoleManager implements IJsConsoleManager {
 
-    public void example() {
-        Activator.getDefault().CONSOLE.echo("ExampleManager.example() called"); 
+    public void clear() {
+        Activator.getDefault().CONSOLE.echo("clear() called"); 
     }
 
     public String getNamespace() {
-        return "example";
+        return "js";
     }
 }
