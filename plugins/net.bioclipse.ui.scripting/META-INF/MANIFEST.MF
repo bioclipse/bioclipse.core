@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SpringBasedPrototypePlugin
-Bundle-SymbolicName: net.bioclipse.springBasedPrototypePlugin;singleton:=true
+Bundle-Name: ScriptingUIPlugin
+Bundle-SymbolicName: net.bioclipse.scripting.ui;singleton:=true
 Bundle-Version: 0.1.0
-Bundle-Activator: net.bioclipse.springBasedPrototypePlugin.Activator
+Bundle-Activator: net.bioclipse.scripting.ui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  net.bioclipse.core,
