@@ -223,14 +223,6 @@
             id="net.bioclipse.ui.editors.XMLEditor"
             name="XML Editor">
       </editor>
-      <editor
-            class="net.bioclipse.ui.editors.AlignmentEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            extensions="fasta"
-            icon="icons/logo/logo_16_trans.gif"
-            id="net.bioclipse.ui.editors.AlignmentEditor"
-            name="Alignment">
-      </editor>
    </extension>
    <extension
          point="org.eclipse.core.runtime.adapters">
