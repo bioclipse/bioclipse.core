@@ -500,10 +500,17 @@ public class JsConsoleView extends ScriptingConsoleView
      * @return any extra characters to be output after the completed name
      */
     protected String tabCompletionHook( String parent, String completedName ) {
+        
+        // a manager gets a period ('.') appended to it, since that's what the
+        // user wants to write anyway. (unless she typed "help" or "man")
         if ( "".equals(parent)
-             && JsThread.js.getManagers().containsKey( completedName ) )
+             && JsThread.js.getManagers().containsKey( completedName )
+             && !currentCommand().startsWith( "help " )
+             && !currentCommand().startsWith( "man " ) )
             return ".";
         
+        // a manager method gets a '(', and possibly a ')' too if it takes
+        // no parameters
         IBioclipseManager manager = JsThread.js.getManagers().get(parent);
         if ( null != manager )
             for ( Class<?> interfaze : manager.getClass().getInterfaces() )
@@ -514,6 +521,7 @@ public class JsConsoleView extends ScriptingConsoleView
                         return "("
                           + (method.getParameterTypes().length == 0 ? ")" : "");
         
+        // in all other cases, we add nothing
         return "";
     }
     
