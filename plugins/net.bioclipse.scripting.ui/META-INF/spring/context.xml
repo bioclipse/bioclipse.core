@@ -23,26 +23,27 @@
   </bean>
 
   <!-- The target that later on will be proxied. Our manager class. -->
-  <bean id="exampleManagerTarget" 
-        class="net.bioclipse.springBasedPrototypePlugin.business.ExampleManager">
+  <bean id="jsConsoleManagerTarget" 
+        class="net.bioclipse.scripting.ui.business.JsConsoleManager">
   </bean>
   
   <!--+ 
       | The proxy puts together the managerTarget, the pointcut advisor
       | and defines which interfaces to be proxied 
       +-->
-  <bean id="exampleManager"
+  <bean id="jsConsoleManager"
   		class="org.springframework.aop.framework.ProxyFactoryBean">
   	<property name="target" 
-  	          ref="exampleManagerTarget" />
+  	          ref="jsConsoleManagerTarget" />
   	<property name="proxyInterfaces" 
-  	          value="net.bioclipse.springBasedPrototypePlugin.business.IExampleManager" />
+  	          value="net.bioclipse.scripting.ui.business.IJsConsoleManager" />
   	<property name="interceptorNames"
   	          value="recordingAdvisor" />
   </bean>
 
   <!-- publishes the final manager (the proxy) -->
-  <osgi:service id="exampleManagerOSGI" 
-                ref="exampleManager"
-                interface="net.bioclipse.springBasedPrototypePlugin.business.IExampleManager" />
+  <osgi:service
+    id="jsConsoleManagerOSGI" 
+    ref="jsConsoleManager"
+    interface="net.bioclipse.scripting.ui.business.IJsConsoleManager" />
 </beans>
