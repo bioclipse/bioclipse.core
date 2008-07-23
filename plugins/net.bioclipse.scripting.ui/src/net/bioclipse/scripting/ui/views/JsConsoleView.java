@@ -500,6 +500,10 @@ public class JsConsoleView extends ScriptingConsoleView
      * @return any extra characters to be output after the completed name
      */
     protected String tabCompletionHook( String parent, String completedName ) {
+        if ( "".equals(parent)
+             && JsThread.js.getManagers().containsKey( completedName ) )
+            return ".";
+        
         IBioclipseManager manager = JsThread.js.getManagers().get(parent);
         if ( null != manager )
             for ( Class<?> interfaze : manager.getClass().getInterfaces() )
