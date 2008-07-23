@@ -14,6 +14,13 @@ public class SmilesMolecule extends BioObject implements IMolecule {
 
     String smiles;
     
+    /*
+     * Needed by Spring for proxying
+     */
+    SmilesMolecule() {
+
+    }
+    
     public SmilesMolecule(String smiles) {
         this.smiles=smiles;
     }
