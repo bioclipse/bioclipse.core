@@ -1,4 +1,4 @@
-package net.bioclipse.ui.views;
+package net.bioclipse.scripting.ui.views;
 
 import net.bioclipse.scripting.Activator;
 import net.bioclipse.scripting.GroovyEnvironment;

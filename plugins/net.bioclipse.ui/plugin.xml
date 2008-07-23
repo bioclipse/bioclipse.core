@@ -115,48 +115,6 @@
             class="org.eclipse.ui.navigator.CommonNavigator"
             id="net.bioclipse.navigator">
       </view>
-      <category
-            name="Scripting"
-            id="net.bioclipse.ScriptingCategory">
-      </category>
-      <view
-            name="Javascript Console"
-            icon="icons/source.gif"
-            category="net.bioclipse.ScriptingCategory"
-            class="net.bioclipse.ui.views.JsConsoleView"
-            id="net.bioclipse.ui.views.JsConsoleView">
-            <description>
-               The Javascript View of Bioclipse
-            </description>
-      </view>
-      <view
-            name="Groovy Console"
-            icon="icons/source.gif"
-            category="net.bioclipse.ScriptingCategory"
-            class="net.bioclipse.ui.views.GroovyConsoleView"
-            id="net.bioclipse.ui.views.GroovyConsoleView">
-      </view>
-      <view
-            name="Ruby Console"
-            icon="icons/source.gif"
-            category="net.bioclipse.ScriptingCategory"
-            class="net.bioclipse.ui.views.RubyConsoleView"
-            id="net.bioclipse.ui.views.RubyConsoleView">
-      </view>
-      <view
-            name="Action History"
-            category="net.bioclipse.ScriptingCategory"
-            class="net.bioclipse.ui.views.ActionHistoryView"
-            id="net.bioclipse.ui.views.ActionHistoryView">
-      </view>
-      <view
-            allowMultiple="false"
-            category="net.bioclipse.ui.category"
-            class="net.bioclipse.ui.views.VirtualView"
-            icon="icons/logo/logo_16_trans.gif"
-            id="net.bioclipse.ui.views.VirtualView"
-            name="Virtual Navigator">
-      </view>
    </extension>
    <extension
          point="org.eclipse.ui.navigator.viewer">
