@@ -784,12 +784,12 @@ public abstract class ScriptingConsoleView extends ViewPart {
             if (variable.startsWith( prefix ))
                 interestingVariables.add( variable );
         
-        String longestPossiblePrefix = commonPrefix(interestingVariables);
+        String longestCommonPrefix = commonPrefix(interestingVariables);
 
-        if ( prefix.length() > longestPossiblePrefix.length() ) {
+        if ( prefix.length() > longestCommonPrefix.length() ) {
             beep();
         }
-        else if ( longestPossiblePrefix.equals(lastPrefix)
+        else if ( longestCommonPrefix.equals(lastPrefix)
              && interestingVariables.size() > 1 ) {
             
             Collections.sort( interestingVariables );
@@ -799,15 +799,31 @@ public abstract class ScriptingConsoleView extends ViewPart {
             printMessage( varList + "\n" );
         }
         else {
-            addAtCursor( longestPossiblePrefix.substring( prefix.length() ));
+            addAtCursor( longestCommonPrefix.substring( prefix.length() ));
+            if ( interestingVariables.size() == 1 )
+                addAtCursor( tabCompletionHook(object, interestingVariables.get(0)) );
             
             if (interestingVariables.size() != 1)
                 beep();
         }
         
-        lastPrefix = longestPossiblePrefix;
+        lastPrefix = longestCommonPrefix;
     }
     
+    /**
+     * Outputs extra characters after the actual name of the completed thing.
+     * For managers, this could be a period ("."), because that's what the
+     * user will write herself anyway. For methods, it could be "(", or "()"
+     * if the method has no parameters.
+     * 
+     * @param object the thing written before the dot (if any) when completing
+     * @param completedVariable the variable that was just tab-completed
+     * @return any extra characters to be output after the completed name
+     */
+    protected String tabCompletionHook( String parent, String completedName ) {
+        return "";
+    }
+
     /**
      * Inserts text at the cursor.
      * 

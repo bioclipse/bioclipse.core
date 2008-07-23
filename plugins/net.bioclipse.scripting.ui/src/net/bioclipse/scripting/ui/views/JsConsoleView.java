@@ -4,13 +4,9 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -437,12 +433,7 @@ public class JsConsoleView extends ScriptingConsoleView
                     if ( method.isAnnotationPresent(PublishedMethod.class)
                          && !variables.contains( method.getName() ))
 
-                        variables.add(
-                            method.getName()
-                            + "("
-                            + (method.getParameterTypes().length == 0
-                                 ? ")" : "")
-                        );
+                        variables.add( method.getName() );
 
             return variables;
         }
@@ -494,8 +485,32 @@ public class JsConsoleView extends ScriptingConsoleView
         variables[0].remove("zzz1");
         variables[0].remove("zzz2");
         variables[0].remove("zzz3");
-
+        
         return variables[0];
+    }
+    
+    /**
+     * Outputs extra characters after the actual name of the completed thing.
+     * For managers, this could be a period ("."), because that's what the
+     * user will write herself anyway. For methods, it could be "(", or "()"
+     * if the method has no parameters.
+     * 
+     * @param object the thing written before the dot (if any) when completing
+     * @param completedVariable the variable that was just tab-completed
+     * @return any extra characters to be output after the completed name
+     */
+    protected String tabCompletionHook( String parent, String completedName ) {
+        IBioclipseManager manager = JsThread.js.getManagers().get(parent);
+        if ( null != manager )
+            for ( Class<?> interfaze : manager.getClass().getInterfaces() )
+                for ( Method method : interfaze.getDeclaredMethods() )
+                    if ( method.isAnnotationPresent(PublishedMethod.class)
+                         && method.getName().equals( completedName ))
+
+                        return "("
+                          + (method.getParameterTypes().length == 0 ? ")" : "");
+        
+        return "";
     }
     
     public static class ConsoleProgressMonitor implements IProgressMonitor {
