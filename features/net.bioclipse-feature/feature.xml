@@ -27,12 +27,28 @@
       <import plugin="org.springframework.bundle.osgi.core" version="1.0.2" match="greaterOrEqual"/>
       <import plugin="org.springframework.bundle.osgi.io" version="1.0.2" match="greaterOrEqual"/>
       <import plugin="org.springframework.osgi.aopalliance.osgi" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="jcl104.over.slf4j" version="1.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.navigator" version="3.3.100" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.navigator.resources" version="3.3.100" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.browser" version="3.2.200" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.cheatsheets" version="3.3.100" match="greaterOrEqual"/>
+      <import plugin="org.apache.ant"/>
       <import plugin="org.eclipse.equinox.common" version="3.2.0" match="compatible"/>
+      <import plugin="org.eclipse.equinox.preferences" version="3.2.0" match="compatible"/>
+      <import plugin="org.eclipse.equinox.registry" version="3.2.0" match="compatible"/>
+      <import plugin="org.eclipse.core.runtime" version="3.3.0" match="compatible"/>
       <import plugin="org.eclipse.core.runtime" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.text" version="3.4.0" match="compatible"/>
       <import plugin="org.eclipse.core.filesystem" version="1.1.0" match="compatible"/>
       <import plugin="org.eclipse.core.filesystem" version="1.0.0" match="compatible"/>
       <import plugin="org.eclipse.core.expressions" version="3.1.0" match="compatible"/>
+      <import plugin="org.eclipse.core.resources" version="3.4.0" match="compatible"/>
+      <import plugin="org.eclipse.osgi" version="3.2.0" match="compatible"/>
+      <import plugin="org.eclipse.core.jobs" version="3.2.0" match="compatible"/>
+      <import plugin="org.eclipse.equinox.registry" version="3.4.0" match="compatible"/>
+      <import plugin="org.eclipse.core.contenttype" version="3.3.0" match="compatible"/>
+      <import plugin="org.eclipse.equinox.app" version="1.0.0" match="compatible"/>
+      <import plugin="org.eclipse.equinox.registry" version="3.3.0"/>
       <import plugin="org.eclipse.osgi.services"/>
       <import plugin="org.eclipse.core.runtime" version="3.1.0" match="compatible"/>
       <import plugin="org.eclipse.core.expressions" version="3.3.0" match="compatible"/>
@@ -42,6 +58,7 @@
       <import plugin="org.eclipse.swt" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.jface" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.jface" version="3.4.0" match="compatible"/>
+      <import plugin="org.eclipse.swt" version="3.0.0" match="compatible"/>
       <import plugin="org.eclipse.core.commands" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.equinox.common" version="3.3.0" match="compatible"/>
       <import plugin="org.eclipse.swt" version="3.3.0" match="compatible"/>
@@ -64,33 +81,16 @@
       <import plugin="org.eclipse.ui" version="3.3.0" match="compatible"/>
       <import plugin="org.eclipse.core.runtime" version="3.4.0" match="compatible"/>
       <import plugin="org.eclipse.jface.databinding" version="1.1.0" match="compatible"/>
+      <import plugin="org.apache.commons.logging"/>
+      <import plugin="org.springframework.bundle.spring.tx"/>
+      <import plugin="org.springframework.osgi.backport-util-concurrent.osgi"/>
       <import plugin="org.eclipse.ui.ide" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.ui.navigator" version="3.2.1" match="compatible"/>
       <import plugin="org.eclipse.ui.views.properties.tabbed" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.ui.workbench.texteditor" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.ui.forms" version="3.3.0" match="compatible"/>
       <import plugin="org.eclipse.ui.views" version="3.2.0" match="compatible"/>
-      <import plugin="jcl104.over.slf4j" version="1.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.navigator" version="3.3.100" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.navigator.resources" version="3.3.100" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.browser" version="3.2.200" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.cheatsheets" version="3.3.100" match="greaterOrEqual"/>
-      <import plugin="org.apache.ant"/>
-      <import plugin="org.eclipse.equinox.preferences" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.equinox.registry" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.core.runtime" version="3.3.0" match="compatible"/>
-      <import plugin="org.eclipse.core.resources" version="3.4.0" match="compatible"/>
-      <import plugin="org.eclipse.osgi" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.core.jobs" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.equinox.registry" version="3.4.0" match="compatible"/>
-      <import plugin="org.eclipse.core.contenttype" version="3.3.0" match="compatible"/>
-      <import plugin="org.eclipse.equinox.app" version="1.0.0" match="compatible"/>
-      <import plugin="org.eclipse.equinox.registry" version="3.3.0"/>
-      <import plugin="org.eclipse.core.variables" version="3.1.0" match="compatible"/>
-      <import plugin="org.eclipse.swt" version="3.0.0" match="compatible"/>
-      <import plugin="org.apache.commons.logging"/>
-      <import plugin="org.springframework.bundle.spring.tx"/>
-      <import plugin="org.springframework.osgi.backport-util-concurrent.osgi"/>
+      <import plugin="org.eclipse.core.resources" version="3.4.0" match="equivalent"/>
    </requires>
 
    <plugin
@@ -193,6 +193,7 @@
 
    <plugin
          id="org.eclipse.core.filesystem.macosx"
+         os="macosx"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -299,13 +300,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.ant.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.osgi"
          download-size="0"
          install-size="0"
@@ -321,6 +315,8 @@
 
    <plugin
          id="org.eclipse.swt.carbon.macosx"
+         os="macosx"
+         ws="carbon"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -350,6 +346,7 @@
 
    <plugin
          id="org.eclipse.ui.carbon"
+         ws="carbon"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -505,13 +502,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.core.variables"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.ui.navigator.resources"
          download-size="0"
          install-size="0"
@@ -523,6 +513,183 @@
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.core.filesystem.hpux.ia64_32"
+         os="hpux"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.core.filesystem.linux.ppc"
+         os="linux"
+         arch="ppc"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.core.filesystem.linux.x86"
+         os="linux"
+         arch="x86"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.core.filesystem.linux.x86_64"
+         os="linux"
+         arch="x86_64"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.core.filesystem.solaris.sparc"
+         os="solaris"
+         arch="sparc"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.core.filesystem.win32.x86"
+         os="win32"
+         arch="x86"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.core.resources.win32.x86"
+         os="win32"
+         arch="x86"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.swt.gtk.linux.ppc"
+         os="linux"
+         ws="gtk"
+         arch="ppc"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.swt.gtk.linux.x86"
+         os="linux"
+         ws="gtk"
+         arch="x86"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.swt.gtk.linux.x86_64"
+         os="linux"
+         ws="gtk"
+         arch="x86_64"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.swt.gtk.solaris.sparc"
+         os="solaris"
+         ws="gtk"
+         arch="sparc"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.swt.motif.aix.ppc"
+         os="aix"
+         ws="motif"
+         arch="ppc"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.swt.motif.hpux.ia64_32"
+         os="hpux"
+         ws="motif"
+         arch="ia64_32"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.swt.win32.win32.x86"
+         os="win32"
+         ws="win32"
+         arch="x86"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.swt.win32.win32.x86_64"
+         os="win32"
+         ws="win32"
+         arch="x86_64"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.swt.wpf.win32.x86"
+         os="win32"
+         ws="wpf"
+         arch="x86"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.ui.win32"
+         os="win32"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
 </feature>
