@@ -17,3 +17,4 @@ Import-Package: org.apache.log4j,
  org.eclipse.ui.editors.text,
  org.eclipse.ui.internal.editors.text,
  org.eclipse.ui.texteditor
+Export-Package: net.bioclipse.scripting.ui.views
