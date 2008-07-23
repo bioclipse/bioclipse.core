@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry exported="true" kind="lib" path="libs/antlr-2.7.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/asm-2.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/groovy-1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/js.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/jruby.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/asm-2.2.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/asm-commons-2.2.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/backport-util-concurrent.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/bsf.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/jline-0.9.91.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="libs/antlr-2.7.5.jar" sourcepath="net.bioclipse.scriptingsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="libs/asm-2.2.jar" sourcepath="net.bioclipse.scriptingsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="libs/groovy-1.0.jar" sourcepath="net.bioclipse.scriptingsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="libs/js.jar" sourcepath="net.bioclipse.scriptingsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="libs/jruby.jar" sourcepath="net.bioclipse.scriptingsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="libs/asm-2.2.3.jar" sourcepath="net.bioclipse.scriptingsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="libs/asm-commons-2.2.3.jar" sourcepath="net.bioclipse.scriptingsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="libs/backport-util-concurrent.jar" sourcepath="net.bioclipse.scriptingsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="libs/bsf.jar" sourcepath="net.bioclipse.scriptingsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="libs/jline-0.9.91.jar" sourcepath="net.bioclipse.scriptingsrc.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

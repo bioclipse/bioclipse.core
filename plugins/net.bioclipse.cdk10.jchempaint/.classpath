@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="net/bioclipse/cdk10/jchempaint/outline/BioPolymerContentProvider.java|net/bioclipse/cdk10/jchempaint/outline/ChemTreeView.java" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry excluding="net/bioclipse/cdk10/jchempaint/outline/BioPolymerContentProvider.java|net/bioclipse/cdk10/jchempaint/outline/ChemTreeView.java" kind="src" path="src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

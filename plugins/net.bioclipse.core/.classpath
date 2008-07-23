@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="net/bioclipse/logging/Activator.java|net/bioclipse/core/domain/IMoleculeCollection.java" kind="src" path="src"/>
-	<classpathentry exported="true" kind="lib" path="libs/js.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/groovy-1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/asm-2.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/antlr-2.7.5.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry excluding="net/bioclipse/logging/Activator.java|net/bioclipse/core/domain/IMoleculeCollection.java" kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="libs/js.jar" sourcepath="net.bioclipse.coresrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="libs/groovy-1.0.jar" sourcepath="net.bioclipse.coresrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="libs/asm-2.2.jar" sourcepath="net.bioclipse.coresrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="libs/antlr-2.7.5.jar" sourcepath="net.bioclipse.coresrc.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
