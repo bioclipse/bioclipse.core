@@ -1,4 +1,4 @@
-package net.bioclipse.actions;
+package net.bioclipse.ui.actions;
 
 import net.bioclipse.ui.dialogs.SearchDialog;
 import net.bioclipse.ui.Activator;

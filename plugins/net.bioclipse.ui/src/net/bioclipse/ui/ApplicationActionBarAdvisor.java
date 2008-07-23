@@ -12,8 +12,12 @@
 package net.bioclipse.ui;
 
 
+import net.bioclipse.ui.actions.AddExtensionsAction;
+import net.bioclipse.ui.actions.UpdateAction;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.GroupMarker;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.IMenuManager;
@@ -85,11 +89,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
     private IWorkbenchAction resetPerspectiveAction;
 
-    /*    FIXME: add actions for online updates
     private IAction updateAction;
 
     private IAction addExtensionAction;
-     */
 
     //TODO: Why is this an IContributionItem?
     private IContributionItem showViewItem;
@@ -178,14 +180,11 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         helpAction = ActionFactory.HELP_CONTENTS.create(window);
         register(helpAction);
 
-//        updateAction = new UpdateAction(window);
-//        register(helpAction);
+        updateAction = new UpdateAction(window);
+        register(helpAction);
 
-//        addExtensionAction = new AddExtensionsAction(window);
-//        register(addExtensionAction);
-
-//        manageAction = new ManageExtensionsAction(window);
-//        register(manageAction);
+        addExtensionAction = new AddExtensionsAction(window);
+        register(addExtensionAction);
 
         aboutAction = ActionFactory.ABOUT.create(window);
         register(aboutAction);
@@ -196,8 +195,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         preferencesAction = ActionFactory.PREFERENCES.create(window);
         register(preferencesAction);
 
-//        introAction = ActionFactory.INTRO.create(window);
-//        register(introAction);
+        introAction = ActionFactory.INTRO.create(window);
+        register(introAction);
         {
             helpSearchAction = ActionFactory.HELP_SEARCH.create(window);
             register(helpSearchAction);
@@ -274,12 +273,12 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
                 "&Help", IWorkbenchActionConstants.M_HELP);
 
         //Intro action
-//        helpMenu.add(introAction);
+        helpMenu.add(introAction);
 
         helpMenu.add(helpAction);
         helpMenu.add(new Separator());
-//        helpMenu.add(updateAction);
-//        helpMenu.add(addExtensionAction);
+        helpMenu.add(updateAction);
+        helpMenu.add(addExtensionAction);
 //        helpMenu.add(manageAction);
         helpMenu.add(new Separator());
 

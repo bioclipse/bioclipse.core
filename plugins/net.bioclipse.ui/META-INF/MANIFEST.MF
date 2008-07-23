@@ -21,10 +21,13 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.navigator;bundle-version="3.3.100",
  org.eclipse.ui.navigator.resources;bundle-version="3.3.100",
  org.eclipse.ui.browser;bundle-version="3.2.200",
- org.eclipse.ui.cheatsheets;bundle-version="3.3.100"
+ org.eclipse.ui.cheatsheets;bundle-version="3.3.100",
+ org.eclipse.update.configurator;bundle-version="3.2.200",
+ org.eclipse.update.core;bundle-version="3.2.200",
+ org.eclipse.update.ui;bundle-version="3.2.100"
 Eclipse-LazyStart: true
-Export-Package: net.bioclipse.actions,
- net.bioclipse.ui,
+Export-Package: net.bioclipse.ui,
+ net.bioclipse.ui.actions,
  net.bioclipse.ui.dialogs,
  net.bioclipse.ui.editors,
  net.bioclipse.ui.editors.keyword,
