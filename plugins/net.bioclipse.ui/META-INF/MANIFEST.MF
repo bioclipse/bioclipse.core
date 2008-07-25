@@ -35,6 +35,5 @@ Export-Package: net.bioclipse.ui,
  net.bioclipse.ui.importWizards,
  net.bioclipse.ui.intro,
  net.bioclipse.ui.prefs,
- net.bioclipse.ui.views,
- net.bioclipse.ui.wizards
+ net.bioclipse.ui.views
 Import-Package: org.apache.log4j
