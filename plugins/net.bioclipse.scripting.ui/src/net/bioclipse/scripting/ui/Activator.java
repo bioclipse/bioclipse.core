@@ -47,17 +47,20 @@ public class Activator extends AbstractUIPlugin {
      * 
      * @return the exampleManager
      */
-    public IJsConsoleManager getExampleManager() {
-        IJsConsoleManager exampleManager = null;
+    public IJsConsoleManager getJsConsoleManager() {
+        IJsConsoleManager jsConsoleManager = null;
         try {
-            exampleManager = (IJsConsoleManager) finderTracker.waitForService(1000*30);
-        } catch (InterruptedException e) {
-            throw new IllegalStateException("Could not get example manager", e);
+            jsConsoleManager
+                = (IJsConsoleManager) finderTracker.waitForService(1000*30);
         }
-        if(exampleManager == null) {
-            throw new IllegalStateException("Could not get example manager");
+        catch (InterruptedException e) {
+            throw
+              new IllegalStateException("Could not get js console manager", e);
         }
-        return exampleManager;
+        if (jsConsoleManager == null) {
+            throw new IllegalStateException("Could not get js console manager");
+        }
+        return jsConsoleManager;
     }
 
     /*

@@ -20,22 +20,22 @@ import net.bioclipse.scripting.ui.Activator;
 /**
  * Factory for the exampleManager 
  * 
- * @author jonalv
+ * @author masak
  *
  */
 public class JsConsoleManagerFactory implements IExecutableExtension, 
-                                              IExecutableExtensionFactory {
+                                                IExecutableExtensionFactory {
 
-    private Object exampleManager;
+    private Object jsConsoleManager;
     
     public void setInitializationData( IConfigurationElement config,
                                        String propertyName, 
                                        Object data) throws CoreException {
     
-        exampleManager = Activator.getDefault().getExampleManager();
+        jsConsoleManager = Activator.getDefault().getJsConsoleManager();
     }
     
     public Object create() throws CoreException {
-        return exampleManager;
+        return jsConsoleManager;
     }
 }

@@ -11,16 +11,18 @@
  ******************************************************************************/
 package net.bioclipse.scripting.ui.business;
 
+import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.IBioclipseManager;
 
 /**
- * Example manager interface defining all methods of the service object
+ * Controls programmatic access to the Javascript Console.
  * 
- * @author jonalv
+ * @author masak
  *
  */
+@PublishedClass(value = "Controls access to the Javascript Console.")
 public interface IJsConsoleManager extends IBioclipseManager {
 
     @Recorded
