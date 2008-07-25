@@ -27,33 +27,14 @@
       <import plugin="org.eclipse.ui.views"/>
       <import plugin="org.eclipse.core.filesystem" version="1.2.0" match="greaterOrEqual"/>
       <import plugin="org.springframework.osgi.log4j.osgi"/>
-      <import plugin="org.junit4"/>
       <import plugin="net.bioclipse.ui"/>
       <import plugin="org.eclipse.ui.editors"/>
       <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.ui.navigator"/>
       <import plugin="org.eclipse.ui.forms"/>
-      <import plugin="org.eclipse.jdt.junit4.runtime"/>
       <import plugin="org.eclipse.ui.views.properties.tabbed"/>
       <import plugin="org.eclipse.ui.navigator.resources"/>
-      <import plugin="org.eclipse.core.filebuffers"/>
-      <import plugin="org.eclipse.ui.workbench.texteditor"/>
-      <import plugin="net.bioclipse.xom" version="1.2.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.resources" version="3.4.0" match="greaterOrEqual"/>
-      <import plugin="net.bioclipse.usermanager"/>
-      <import plugin="net.bioclipse.services"/>
-      <import plugin="org.springframework.bundle.spring.orm"/>
-      <import plugin="org.springframework.bundle.spring.aspects"/>
-      <import plugin="org.springframework.bundle.spring.core"/>
-      <import plugin="org.springframework.bundle.spring.aop"/>
-      <import plugin="org.springframework.bundle.spring.beans"/>
-      <import plugin="org.springframework.bundle.spring.context"/>
-      <import plugin="org.springframework.bundle.spring.tx"/>
-      <import plugin="org.springframework.bundle.spring.jdbc"/>
-      <import plugin="org.springframework.osgi.aopalliance.osgi" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="net.sf.cglib"/>
-      <import plugin="org.apache.commons.logging"/>
    </requires>
 
    <plugin
@@ -64,7 +45,7 @@
          unpack="false"/>
 
    <plugin
-         id="net.bioclipse.cdk.business.test"
+         id="org.openscience.cdk"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -72,13 +53,6 @@
 
    <plugin
          id="net.bioclipse.cdk.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="net.bioclipse.cdk.ui.tests"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -99,13 +73,6 @@
          unpack="false"/>
 
    <plugin
-         id="net.bioclipse.cdk10.rdfeditor"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="net.bioclipse.cdk10.sdfeditor"
          download-size="0"
          install-size="0"
@@ -113,49 +80,7 @@
          unpack="false"/>
 
    <plugin
-         id="net.bioclipse.cdk10.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="net.bioclipse.cml"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.openscience.cdk"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="net.bioclipse.structuredb"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="net.bioclipse.hsqldb"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="net.bioclipse.jmol"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="net.bioclipse.xom"
          download-size="0"
          install-size="0"
          version="0.0.0"
