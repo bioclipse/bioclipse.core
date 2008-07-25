@@ -37,16 +37,16 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            name="2D-Structure (CDK10)"
+            name="2D-Structure"
 	        icon="icons/molecule2D.gif"
-            category="net.bioclipse.cdk10.category"
+            category="net.bioclipse.cdk.category"
             class="net.bioclipse.cdk10.jchempaint.views.Java2DRendererView"
             id="net.bioclipse.cdk10.jchempaint.views.Java2DRendererView">
       </view>
-      <category
+      <!--category
             id="net.bioclipse.cdk10.category"
             name="Chemoinformatics CDK10">
-      </category>
+      </category-->
    </extension>
    
     <extension
