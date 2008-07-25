@@ -8,7 +8,17 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.core,
  org.junit4,
  org.eclipse.core.resources,
- org.eclipse.jdt.junit4.runtime
+ org.eclipse.jdt.junit4.runtime,
+ net.bioclipse.biojava.business.tests;bundle-version="0.1.0",
+ net.bioclipse.biomoby.tests;bundle-version="1.3.1",
+ net.bioclipse.cdk.ui.tests;bundle-version="1.3.1",
+ net.bioclipse.hsqldb.tests;bundle-version="1.0.0",
+ net.bioclipse.scripting.tests;bundle-version="1.0.0",
+ net.bioclipse.structuredb.tests;bundle-version="0.0.1",
+ net.bioclipse.ui.tests;bundle-version="0.1.0",
+ net.bioclipse.usermanager.tests;bundle-version="0.1.0",
+ net.bioclipse.biojava.ui.test;bundle-version="1.3.1",
+ net.bioclipse.cdk.business.test;bundle-version="1.3.1"
 Eclipse-LazyStart: true
 Bundle-Vendor: The Bioclipse project
 Bundle-ClassPath: junit.jar,
