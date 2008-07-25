@@ -10,7 +10,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(value=Suite.class)
 @SuiteClasses( value = { AllBiojavaUiTestsSuite.class,
-                         AllCDKUiTestsSuite.class } )
+                         AllCDKUiTestsSuite.class,
+                         AllCorePluginTestsSuit.class } )
 public class AllBioclipsePluginTestsSuites {
 
 }

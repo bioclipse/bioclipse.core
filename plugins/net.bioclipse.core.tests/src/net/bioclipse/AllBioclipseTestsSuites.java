@@ -1,7 +1,6 @@
 package net.bioclipse;
 
 import net.bioclipse.biojava.business.AllBiojavaBusinessTestsSuite;
-import net.bioclipse.biojava.ui.test.AllBiojavaUiTestsSuite;
 import net.bioclipse.biomoby.tests.AllBiomobyTestsSuite;
 import net.bioclipse.cdk.AllCDKBusinessTestsSuite;
 import net.bioclipse.hsqldb.AllHSQLDBTestsSuite;
@@ -20,6 +19,6 @@ import org.junit.runners.Suite.SuiteClasses;
                          AllHSQLDBTestsSuite.class, 
                          AllScriptingTestsSuite.class,
                          AllStructuredbTestsSuite.class,
-                         })
+                         AllCoreTestsSuite.class, } )
 public class AllBioclipseTestsSuites {
 }
