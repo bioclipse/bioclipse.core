@@ -12,6 +12,8 @@ package net.bioclipse.core.internal.filesystem.memory;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileInfo;
 import org.eclipse.core.filesystem.provider.FileInfo;
@@ -22,7 +24,7 @@ import org.eclipse.core.runtime.*;
  */
 public class MemoryTree {
 	static class DirNode extends Node {
-		private final ArrayList children = new ArrayList();
+		private final List<Node> children = new ArrayList<Node>();
 
 		DirNode(Node parent, String name) {
 			super(parent, name);
