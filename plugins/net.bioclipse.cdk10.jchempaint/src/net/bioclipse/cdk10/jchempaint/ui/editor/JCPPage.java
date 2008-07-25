@@ -304,7 +304,7 @@ public class JCPPage extends EditorPart
 
 
         //More listeners
-        cl = new JCPControlListener(this);
+        if(cl==null)cl = new JCPControlListener(this);
         body.addControlListener(cl);
 
         //Set up drawing panel for JCP
@@ -427,7 +427,7 @@ public class JCPPage extends EditorPart
     }
 
     public void setDirty(boolean bool) {
-        boolean hasChanged = this.isDirty == bool;
+        boolean hasChanged = this.isDirty != bool;        
         this.isDirty = bool;
         if (jcpModel==null) return;
         if (!bool) jcpModel.resetIsModified();
