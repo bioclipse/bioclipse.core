@@ -15,6 +15,8 @@ package net.bioclipse.recording;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.swt.widgets.Display;
+
 /**
  * @author jonalv
  *
@@ -34,7 +36,11 @@ public class History implements IHistory {
      */
     public void addRecord( IRecord record ) {
         records.add(record);
-        fireHistoryEvent( new HistoryEvent() );
+        Display.getDefault().asyncExec( new Runnable() {
+            public void run() {
+                fireHistoryEvent( new HistoryEvent() );
+            }
+        } );
     }
     
     private void fireHistoryEvent(HistoryEvent e) {
