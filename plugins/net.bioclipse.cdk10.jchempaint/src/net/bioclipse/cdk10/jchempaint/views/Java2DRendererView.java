@@ -15,21 +15,16 @@ package net.bioclipse.cdk10.jchempaint.views;
 
 
 
-import java.util.ArrayList;
-
 import net.bioclipse.cdk10.business.CDK10Manager;
 import net.bioclipse.cdk10.business.CDK10Molecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.AtomIndexSelection;
 import net.bioclipse.core.domain.IChemicalSelection;
-import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISelectionListener;
@@ -39,13 +34,11 @@ import org.eclipse.ui.part.ViewPart;
 import org.openscience.cdk.AtomContainer;
 import org.openscience.cdk.DefaultChemObjectBuilder;
 import org.openscience.cdk.Molecule;
-import org.openscience.cdk.exception.InvalidSmilesException;
 import org.openscience.cdk.geometry.GeometryTools;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IChemObjectBuilder;
 import org.openscience.cdk.interfaces.IMolecule;
 import org.openscience.cdk.layout.StructureDiagramGenerator;
-import org.openscience.cdk.smiles.SmilesParser;
 
 /**
  * 2D Rendering widget using the new Java2D based JChemPaint renderer.
@@ -88,7 +81,7 @@ public class Java2DRendererView extends ViewPart
         ISelection selection=PlatformUI.getWorkbench()
             .getActiveWorkbenchWindow().getSelectionService().getSelection();
         reactOnSelection(selection);
-        
+
     }
 
     @Override
@@ -108,7 +101,19 @@ public class Java2DRendererView extends ViewPart
         
         Object obj = ssel.getFirstElement();
         
-        //If we have an ICDKMolecule, just get the AC
+        updateByObject(obj);
+        
+    }
+
+    /**
+     * Set content in view based on input object.
+     * @param obj the input object
+     */
+	private void updateByObject(Object obj) {
+		
+		System.out.println("Updating by object in 2dview: " + obj);
+		
+		//If we have an ICDKMolecule, just get the AC
         if (obj instanceof CDK10Molecule) {
             CDK10Molecule mol = (CDK10Molecule) obj;
             if (mol.getAtomContainer()==null){
@@ -198,8 +203,7 @@ public class Java2DRendererView extends ViewPart
 
             
         }
-        
-    }
+	}
 
 
     /**
@@ -233,4 +237,5 @@ public class Java2DRendererView extends ViewPart
         canvasView.dispose();
         super.dispose();
     }
+
 }
