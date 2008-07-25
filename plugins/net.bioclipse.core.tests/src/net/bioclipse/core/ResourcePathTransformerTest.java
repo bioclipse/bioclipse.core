@@ -105,9 +105,11 @@ public class ResourcePathTransformerTest {
         
         
         File f=new File(".");
-        String aPath=f.getAbsolutePath().replaceAll("\\.$", "")+
-        "net.bioclipse.recording/net/bioclipse/core/ResourcePathTransformerTest.java";
-//        String aPath=f.getAbsolutePath();
+        String separator;
+        String aPath=f.getAbsolutePath().replaceAll("\\.$", "")+"src"+
+        (separator=System.getProperty("file.separator"))+
+        this.getClass().getName().replaceAll("\\.",separator)+".java";
+        
         IFile file = ResourcePathTransformer.getInstance()
                                             .transform( aPath );
         assertNotNull( file );
