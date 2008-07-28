@@ -514,12 +514,16 @@ public class JsConsoleView extends ScriptingConsoleView
      */
     protected String tabCompletionHook( String parent, String completedName ) {
         
+        // if the user typed "help" or "man", we don't want to complete with
+        // anything.
+        if ( currentCommand().startsWith( "help " )
+             || currentCommand().startsWith( "man " ) )
+            return "";
+        
         // a manager gets a period ('.') appended to it, since that's what the
-        // user wants to write anyway. (unless she typed "help" or "man")
+        // user wants to write anyway.
         if ( "".equals(parent)
-             && JsThread.js.getManagers().containsKey( completedName )
-             && !currentCommand().startsWith( "help " )
-             && !currentCommand().startsWith( "man " ) )
+             && JsThread.js.getManagers().containsKey( completedName ) )
             return ".";
         
         // a manager method gets a '(', and possibly a ')' too if it takes
