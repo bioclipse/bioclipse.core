@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="Bioclipse" topic="html/toc.html">
+<toc label="Bioclipse users manual" topic="html/toc.html">
+
    <topic label="Getting Started">
-      <anchor id="gettingstarted"/>
+		<topic label="Using the Navigator" href="html/tutorials/navigator.html" />
+		<topic label="Importing data" href="html/tutorials/importing.html" /> 
+		<topic label="Installing new functionality" href="html/tutorials/updating.html" /> 
+		<topic label="Using the help system" href="html/tutorials/using_help.html" />
+		<topic label="Customizing Bioclipse" href="html/tutorials/customizing.html" /> 
    </topic>
-   <topic label="Concepts">
-      <anchor id="concepts"/>
+
+   <topic label="Bioclipse concepts"  href="html/concepts.html" /> 
+   <topic label="The Bioclipse Workbench">
+		<topic label="The Menu" href="html/workbench/wb_menus.html"/> 
+		<topic label="The Toolbar" href="html/workbench/wb_toolbar.html"/> 
+		<topic label="The Perspectives bar" href="html/workbench/wb_perspectiveBar.html"/> 
+		<topic label="Customizing the Workbench" href="html/workbench/wb_customize.html"/> 
+		<topic label="Editors" href="html/workbench/wb_editors.html"> 
+			<topic label="Text editor" href="html/workbench/editors/ed_textEditor.html"/> 
+			<topic label="XML editor" href="html/workbench/editors/ed_xmlEditor.html"/> 
+		</topic>
+		<topic label="Views" href="html/workbench/wb_views.html"> 
+			<topic label="The Bioclipse Console" href="html/workbench/views/vi_console.html"/> 
+			<topic label="The Properties view" href="html/workbench/views/vi_properties.html"/> 
+			<topic label="The Progress view" href="html/workbench/views/vi_progress.html"/> 
+		</topic>
+		<topic label="Preferences" href="html/workbench/wb_preferences.html"/> 
+		<topic label="The Help system" href="html/workbench/wb_help.html"/>
+
    </topic>
-   <topic label="Tasks">
-      <anchor id="tasks"/>
-   </topic>
-   <topic label="Reference">
-      <anchor id="reference"/>
-   </topic>
-   <topic label="Samples">
-      <anchor id="samples"/>
-   </topic>
+	<topic label="About" href="html/about.html"/>
+	<topic label="License" href="html/license.html"/>
+
 </toc>

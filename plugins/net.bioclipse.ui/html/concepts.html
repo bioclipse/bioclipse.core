@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<title>Bioclipse concepts</title>
+	<link rel="stylesheet" href="../../PRODUCT_PLUGIN/narrow_book.css" type="text/css">
+</head>
+
+<body>
+<h1>Bioclipse concepts</h1>
+
+<p>
+<h3>Perspectives</h3>
+Perspectives are collections of editors and views that are grouped into a page on screen, e.g. the Chemoinformatics perspective in Bioclipse displays views and editors for working with molecules.
+
+<p>
+<h3>Views</h3>
+In SWT, a View is a window that provides some graphical interface to present something for a user, and might let him interact with it. Examples are the BioResource Navigator, the Jmol View and the properties view.
+
+<p>
+<h3>Editors</h3>
+An Editor is focused on letting the user edit an underlying model and follows the load-save cycle. 
+An example is a simple editor for text-files, but could also be more advanced such as a graphical objects editor like the JchemPaint editor.
+
+<p>
+<h3>Plugins</h3>
+Bioclipse is completely made up of plugins. The core of Bioclipse is itself a set of plugins with the most basic 
+functionality, standard views, and editors. The rest of the functionality is contributed via plugins. For example does the bc_jmol plugin 
+contribute a 3D-visualization based on Jmol, bc_cdk provides molecular management and analysis using the CDK libraries etc. This means that 
+a certain plugin must be installed in order for its functionality to be available for the user. This is powerful in many ways; A user may 
+select to run only the desired plugins and not clutter the workbench with unused functionality, and developers have a perfect framework for 
+plugging in their own extensions to Bioclipse and not interfere with other.
+
+</body>
+</html>

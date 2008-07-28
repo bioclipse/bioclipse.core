@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Bioclipse Developers manual" topic="html/developers.html" > 
+   <topic label="Extension points" href="html/developers/ep.html">
+</toc>
