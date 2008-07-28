@@ -22,7 +22,7 @@
 			<topic label="XML editor" href="html/workbench/editors/ed_xmlEditor.html"/> 
 		</topic>
 		<topic label="Views" href="html/workbench/wb_views.html"> 
-			<topic label="The Bioclipse Console" href="html/workbench/views/vi_console.html"/> 
+			<topic label="The Outline view" href="html/workbench/views/vi_outline.html"/> 
 			<topic label="The Properties view" href="html/workbench/views/vi_properties.html"/> 
 			<topic label="The Progress view" href="html/workbench/views/vi_progress.html"/> 
 		</topic>
@@ -30,6 +30,7 @@
 		<topic label="The Help system" href="html/workbench/wb_help.html"/>
 
    </topic>
+	<topic label="Network settings" href="html/networks.html"/>
 	<topic label="About" href="html/about.html"/>
 	<topic label="License" href="html/license.html"/>
 
