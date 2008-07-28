@@ -8,11 +8,9 @@ import net.bioclipse.recording.IHistory;
 import net.bioclipse.recording.IHistoryListener;
 import net.bioclipse.recording.IRecord;
 import net.bioclipse.recording.JsScriptGenerator;
-import net.bioclipse.recording.MethodRecord;
 import net.bioclipse.ui.Activator;
 
 import org.apache.log4j.Logger;
-
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.IPath;

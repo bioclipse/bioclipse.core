@@ -12,6 +12,7 @@
 package net.bioclipse.scripting.ui.views;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.bioclipse.core.domain.IBioObject;
 
@@ -28,7 +29,7 @@ import org.eclipse.core.runtime.IAdaptable;
 
 
 /**
- * Class for visualizing virtual resources.
+ * View containing virtual resources.
  * 
  * @author ola
  *
@@ -72,10 +73,10 @@ public class VirtualView extends ViewPart {
     }
     
     class VirtualParent extends VirtualObject {
-        private ArrayList children;
+        private List<VirtualObject> children;
         public VirtualParent(String name) {
             super(name);
-            children = new ArrayList();
+            children = new ArrayList<VirtualObject>();
         }
         public void addChild(VirtualObject child) {
             children.add(child);
