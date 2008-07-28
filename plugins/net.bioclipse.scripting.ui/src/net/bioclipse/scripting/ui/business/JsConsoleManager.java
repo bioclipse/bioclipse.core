@@ -26,27 +26,28 @@ import org.eclipse.ui.PlatformUI;
  */
 public class JsConsoleManager implements IJsConsoleManager {
 
-    PlatformUI platformUI;
+    private JsConsoleView getJsConsoleView() {
+        IViewReference[] viewRefs = PlatformUI.getWorkbench()
+            .getActiveWorkbenchWindow()
+            .getActivePage()
+            .getViewReferences();
+        for ( IViewReference ref : viewRefs )
+            if ( ref.getView(true) instanceof JsConsoleView )
+                return (JsConsoleView) (ref.getView(true));
+        
+        throw new IllegalStateException("Console not reachable.");
+    }
     
     public void clear() {
         Display.getDefault().asyncExec( new Runnable() {
-            public void run() {
-                JsConsoleView jsConsoleView = null;
-                
-                IViewReference[] viewRefs = PlatformUI.getWorkbench()
-                          .getActiveWorkbenchWindow()
-                          .getActivePage()
-                          .getViewReferences();
-                for ( IViewReference ref : viewRefs )
-                    if ( ref.getView(true) instanceof JsConsoleView )
-                        jsConsoleView = (JsConsoleView) (ref.getView(true));
-                if ( jsConsoleView != null )
-                    jsConsoleView.clearConsole();
-                else
-                    throw new IllegalStateException("Console not reacheable");
-            }
+            public void run() { getJsConsoleView().clearConsole(); }
         } );
-        
+    }
+
+    public void print(final String message) {
+        Display.getDefault().asyncExec( new Runnable() {
+            public void run() { getJsConsoleView().printMessage( message ); }
+        } );
     }
 
     public String getNamespace() {

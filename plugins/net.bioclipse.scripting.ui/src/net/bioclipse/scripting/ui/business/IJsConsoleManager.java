@@ -28,4 +28,9 @@ public interface IJsConsoleManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod(methodSummary="Clears the console.")
     public void clear();
+
+    @Recorded
+    @PublishedMethod(params="String message",
+                     methodSummary="Prints to the console.")
+    public void print(String message);
 }

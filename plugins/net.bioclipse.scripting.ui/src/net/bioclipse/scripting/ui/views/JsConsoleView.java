@@ -68,7 +68,8 @@ public class JsConsoleView extends ScriptingConsoleView
         = net.bioclipse.scripting.Activator.getDefault().JS_THREAD;
 
     static {
-        jsThread.enqueue( "function clear() {}" );
+        jsThread.enqueue( "function clear() { js.clear() }" );
+        jsThread.enqueue( "function print(message) { js.print(message) }" );
     }
 
     private JsPluginable rConnection = null;
@@ -213,11 +214,6 @@ public class JsConsoleView extends ScriptingConsoleView
     protected String executeCommand(String command) {
         if (command == null)
             return "";
-
-        if (command.equals("clear") || command.equals("clear()")) {
-            clearConsole();
-            return "";
-        }
 
         if (command.matches("help( .*)?") || command.matches("man( .*)?")) {
             return helpString(command);
