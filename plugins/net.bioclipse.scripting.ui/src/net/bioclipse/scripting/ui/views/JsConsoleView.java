@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -257,12 +258,15 @@ public class JsConsoleView extends ScriptingConsoleView
                                     "or: `help <manager>.<method>`";
         StringBuilder result = new StringBuilder();
 
-        if( "help".equals(command.trim()) || "man".equals(command.trim()) ) {
+        if ( "help".equals(command.trim()) || 
+             "man".equals(command.trim()) ) {
+            
             StringBuilder sb = new StringBuilder();
             
             sb.append(errorMessage);
             List<String> managerNames
-                = new ArrayList<String>(JsThread.js.getManagers().keySet());
+                = new ArrayList<String>( JsThread.js.getManagers()
+                                                 .keySet() );
             if ( !managerNames.isEmpty() ) {
                 Collections.sort( managerNames );
                 sb.append( "\nAvailable managers:\n" );
@@ -278,11 +282,11 @@ public class JsConsoleView extends ScriptingConsoleView
         
         String helpObject = command.substring(command.indexOf(' ') + 1);
         //Doing manager method 
-        if(helpObject.contains(".")) {
+        if ( helpObject.contains(".") ) {
 
             String[] parts = helpObject.split("\\.");
 
-            if(parts.length != 2)
+            if ( parts.length != 2 )
                 return errorMessage;
 
             String managerName = parts[0];
@@ -290,18 +294,22 @@ public class JsConsoleView extends ScriptingConsoleView
 
             IBioclipseManager manager
                 = JsThread.js.getManagers().get(managerName);
-            if(manager == null)
+            if (manager == null)
                 return "No such manager: " + managerName
                        + "\n" + errorMessage;
 
-            for ( Class<?> interfaze : manager.getClass().getInterfaces() ) {
+            for ( Class<?> interfaze : manager.getClass()
+                                              .getInterfaces() ) {
+
                 for ( Method method : interfaze.getMethods() ) {
 
                     if ( method.getName().equals(methodName) &&
-                         method.isAnnotationPresent(PublishedMethod.class) ) {
+                         method.isAnnotationPresent(
+                             PublishedMethod.class ) ) {
 
                         PublishedMethod publishedMethod
-                            = method.getAnnotation(PublishedMethod.class);
+                            = method.getAnnotation(
+                                PublishedMethod.class );
 
                         String line
                             = dashes(managerName.length()
@@ -329,6 +337,7 @@ public class JsConsoleView extends ScriptingConsoleView
                 }
             }
         }
+
         //Doing plain manager help
         else {
             IBioclipseManager manager
@@ -355,7 +364,18 @@ public class JsConsoleView extends ScriptingConsoleView
                         "the following methods: \n" );
                     
                     List<String> methodNames = new ArrayList<String>();
-                    for ( Method method : interfaze.getMethods() ) {
+                    Method[] methods = interfaze.getMethods();
+                    Arrays.sort( methods, new Comparator<Method>()  {
+                        public int compare( Method m1, Method m2 ) {
+                            int c = m1.getName()
+                                      .compareTo( m2.getName() );
+                            return c != 0 
+                                ? c
+                                :  m1.getParameterTypes().length
+                                 - m2.getParameterTypes().length;
+                        }
+                    });
+                    for ( Method method : methods ) {
                         if ( method.isAnnotationPresent( 
                              PublishedMethod.class ) ) {
                             methodNames.add( 
@@ -365,9 +385,7 @@ public class JsConsoleView extends ScriptingConsoleView
                                 + " )" );
                         }
                     }
-                    Collections.sort( methodNames );
-                    for ( String methodName : 
-                          new HashSet<String>(methodNames) ) {
+                    for ( String methodName : methodNames ) {
                         managerDescription.append( methodName );
                         managerDescription.append( "\n" );
                     }
