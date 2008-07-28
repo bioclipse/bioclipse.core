@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+    <jar path="C:/eclipse/workspace/net.sourceforge.jseditor/jseditor.jar"/>
+    <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/net.sourceforge.jseditor/scripts/src-jseditor.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
+    <manifest manifestVersion="1.0" usesManifest="false" reuseManifest="false" saveManifest="false" generateManifest="true" manifestLocation="/net.sourceforge.jseditor/src-jseditor/META-INF/MANIFEST.MF">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false">
+        <javaElement handleIdentifier="=net.sourceforge.jseditor/src-jseditor"/>
+    </selectedElements>
+</jardesc>
