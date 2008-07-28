@@ -34,9 +34,6 @@ public class DefaultPerspective implements IPerspectiveFactory {
     public static final String ID_NAVIGATOR = 
         "net.bioclipse.navigator";
 
-    public static final String ID_JAVSCRIPT_CONSOLE = 
-        "net.bioclipse.ui.views.JsConsoleView";
-
     /**
      * Create initial layout
      */
@@ -72,7 +69,7 @@ public class DefaultPerspective implements IPerspectiveFactory {
 
         //Add views
         left_folder_layout.addView(ID_NAVIGATOR);
-        bottom_folder_layout.addView(ID_JAVSCRIPT_CONSOLE);
+//        bottom_folder_layout.addView(ID_JAVSCRIPT_CONSOLE);
         bottom_folder_layout.addView(IPageLayout.ID_PROP_SHEET);
         bottom_folder_layout.addView(IPageLayout.ID_PROGRESS_VIEW);
         right_folder_layout.addView(IPageLayout.ID_OUTLINE);
@@ -83,7 +80,6 @@ public class DefaultPerspective implements IPerspectiveFactory {
 
         //Add ShowView shortcuts
         layout.addShowViewShortcut(ID_NAVIGATOR);    
-        layout.addShowViewShortcut(ID_JAVSCRIPT_CONSOLE);    
         layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);    
         layout.addShowViewShortcut(IPageLayout.ID_PROGRESS_VIEW);    
         layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);    
