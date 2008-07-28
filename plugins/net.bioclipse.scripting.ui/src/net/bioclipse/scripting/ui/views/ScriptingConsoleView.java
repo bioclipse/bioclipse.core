@@ -696,8 +696,9 @@ public abstract class ScriptingConsoleView extends ViewPart {
      */
     public void clearConsole() {
         synchronized (text) {
-            text.setText( "" );
+            text.setText( commandLinePrompt() );
         }
+        putCursorOnCommandLine();
     }
     
     /**

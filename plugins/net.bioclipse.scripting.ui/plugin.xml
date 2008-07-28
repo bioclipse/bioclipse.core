@@ -22,7 +22,7 @@
          class="net.bioclipse.scripting.ui.views.JsConsoleView"
          id="net.bioclipse.scripting.ui.views.JsConsoleView">
          <description>
-            The Javascript View of Bioclipse
+            Javascript Console View
          </description>
       </view>
       <view

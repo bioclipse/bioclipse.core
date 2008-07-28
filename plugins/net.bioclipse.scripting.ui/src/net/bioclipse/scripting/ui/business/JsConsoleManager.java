@@ -12,7 +12,11 @@
  ******************************************************************************/
 package net.bioclipse.scripting.ui.business;
 
-import net.bioclipse.ui.Activator;
+import net.bioclipse.scripting.ui.views.JsConsoleView;
+
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Contains general methods for interacting with the Javascript console.
@@ -22,8 +26,27 @@ import net.bioclipse.ui.Activator;
  */
 public class JsConsoleManager implements IJsConsoleManager {
 
+    PlatformUI platformUI;
+    
     public void clear() {
-        Activator.getDefault().CONSOLE.echo("clear() called"); 
+        Display.getDefault().asyncExec( new Runnable() {
+            public void run() {
+                JsConsoleView jsConsoleView = null;
+                
+                IViewReference[] viewRefs = PlatformUI.getWorkbench()
+                          .getActiveWorkbenchWindow()
+                          .getActivePage()
+                          .getViewReferences();
+                for ( IViewReference ref : viewRefs )
+                    if ( ref.getView(true) instanceof JsConsoleView )
+                        jsConsoleView = (JsConsoleView) (ref.getView(true));
+                if ( jsConsoleView != null )
+                    jsConsoleView.clearConsole();
+                else
+                    throw new IllegalStateException("Console not reacheable");
+            }
+        } );
+        
     }
 
     public String getNamespace() {
