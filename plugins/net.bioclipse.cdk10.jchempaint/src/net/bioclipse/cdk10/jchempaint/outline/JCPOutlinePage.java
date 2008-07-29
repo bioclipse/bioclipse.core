@@ -13,7 +13,6 @@ package net.bioclipse.cdk10.jchempaint.outline;
 
 
 import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
-import net.bioclipse.cdk10.jchempaint.ui.editor.mdl.MDLMolfileEditor;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IAdaptable;
@@ -88,33 +87,11 @@ public class JCPOutlinePage extends ContentOutlinePage
     /**
      * Update selected items if selected in editor
      */
-    public void selectionChanged(IWorkbenchPart selectedPart
-            , ISelection selection) {
-
-        //Only react on selections in the corresponding editor
-        if (editor!=selectedPart) return;
-
-        /*
-        if (selection instanceof JmolSelection) {
-            JmolSelection jmolSelection = (JmolSelection) selection;
-            System.out.println("** jmol selection caught in outline: " 
-                + jmolSelection.getFirstElement().toString());
-
-            //Look up in tree and select it
-            JmolModelSet ms=(JmolModelSet) treeViewer.getInput();
-
-            JmolObject obj=findInModelSet(jmolSelection, ms);
-            
-            //If none found, just don't select anything
-            if (obj==null) return;
-            
-            IStructuredSelection sel=new StructuredSelection(obj);
-            treeViewer.setSelection(sel);
-            treeViewer.reveal(obj);
-            fireSelectionChanged(sel);
-
-        }
-        */
+    public void selectionChanged(IWorkbenchPart selectedPart,
+                                 ISelection selection) {
+        // Does nothing for now. See selectionChanged in
+        // net.bioclipse.jmol.views.outline.JmolContentOutlinePage
+        // for implementation inspiration.
     }
 
 
