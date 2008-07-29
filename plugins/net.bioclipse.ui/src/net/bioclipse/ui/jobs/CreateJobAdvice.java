@@ -55,10 +55,10 @@ public class CreateJobAdvice implements ICreateJobAdvice {
                                              lock );  
             
         if ( Thread.currentThread() instanceof ScriptingThread ) {
-            job.setSystem( true );
-            job.setRunWithConsoleMonitor(true);
+            //from console
         }
         else {
+            //from gui
             job.setUser( true );
         }
 

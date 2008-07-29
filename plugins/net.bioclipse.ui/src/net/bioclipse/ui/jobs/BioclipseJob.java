@@ -35,15 +35,10 @@ public class BioclipseJob extends Job {
         this.lock       = lock;
     }
 
-    boolean runWithConsoleMonitor = false;
     private Object returnValue;
     
     protected IStatus run( IProgressMonitor monitor ) {
 
-        if ( runWithConsoleMonitor ) {
-            monitor = new ConsoleProgressMonitor(monitor);
-        }
-        
         Object[] args;
         
         if ( method != invocation.getMethod() ) {
@@ -101,10 +96,5 @@ public class BioclipseJob extends Job {
 
     public synchronized Object getReturnValue() {
         return returnValue;
-    }
-
-    public void setRunWithConsoleMonitor( 
-        boolean runWithConsoleMonitor ) {
-            this.runWithConsoleMonitor = runWithConsoleMonitor;
     }
 }
