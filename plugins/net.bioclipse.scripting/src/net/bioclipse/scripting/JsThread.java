@@ -10,7 +10,7 @@ package net.bioclipse.scripting;
 
 import java.util.LinkedList;
 
-public class JsThread extends Thread {
+public class JsThread extends ScriptingThread {
 
     public static JsEnvironment js;
     private LinkedList<JsAction> actions;
