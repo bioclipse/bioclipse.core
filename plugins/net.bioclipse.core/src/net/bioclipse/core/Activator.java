@@ -17,7 +17,6 @@ import net.bioclipse.recording.IHistory;
 import net.bioclipse.recording.IRecordingAdvice;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -38,7 +37,7 @@ public class Activator extends Plugin {
     private static final long SERVICE_TIMEOUT_MILLIS = 10*1000;    
     
     // Virtual project
-    private static final String VIRTUAL_PROJECT_NAME = "Virtual";
+    public static final String VIRTUAL_PROJECT_NAME = "Virtual";
     
     // The shared instance
     private static Activator plugin;
@@ -79,7 +78,6 @@ public class Activator extends Plugin {
     public void stop(BundleContext context) throws Exception {
         plugin = null;
         super.stop(context);
-        deleteVirtualProject();
     }
 
     
@@ -168,8 +166,10 @@ public class Activator extends Plugin {
     	
     	IWorkspaceRoot root=ResourcesPlugin.getWorkspace().getRoot();
     	IProject project=root.getProject(VIRTUAL_PROJECT_NAME);
-    	if(!project.exists())
+    	if(!project.exists()){
+    	    logger.debug("Could not insert Virtual project in MemoryFilesystem");
     		createVirtualProject(project);
+    	}
     	return project;
     }
     protected static void  deleteVirtualProject(){

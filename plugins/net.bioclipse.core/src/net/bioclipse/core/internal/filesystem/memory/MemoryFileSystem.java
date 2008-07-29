@@ -33,7 +33,7 @@ public class MemoryFileSystem extends FileSystem {
 			return new URI(MemoryFileSystem.SCHEME_MEMORY, null, path.setDevice(null).toPortableString(), null);
 		} catch (URISyntaxException e) {
 			//should not happen
-		    // TODO this throws an exception for every letter until 'memory:' is 
+		    // this throws an exception for every letter until 'memory:' is 
 		    // is written when memory resources are manually created.
 			throw new RuntimeException(e);
 		}

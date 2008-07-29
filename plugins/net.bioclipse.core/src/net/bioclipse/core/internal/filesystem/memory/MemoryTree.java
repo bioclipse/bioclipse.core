@@ -14,6 +14,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.bioclipse.core.Activator;
+
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileInfo;
 import org.eclipse.core.filesystem.provider.FileInfo;
@@ -168,6 +170,28 @@ public class MemoryTree {
 
 	private MemoryTree() {
 		// TREE singleton should be used rather than direct instantiation
+	    try{
+	        IPath path;
+	        mkdir(path=new Path("/"+Activator.VIRTUAL_PROJECT_NAME),true);
+	        
+	        PrintWriter pw=new PrintWriter(openOutputStream(
+	                                   path.append(".project"),EFS.NONE));
+	        pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+	        pw.println("<projectDescription>");
+	        pw.println("<name>Virtual</name>");
+	        pw.println("<comment></comment>");
+	        pw.println("<projects>");
+	        pw.println("</projects>");
+	        pw.println("<buildSpec>");
+	        pw.println("</buildSpec>");
+	        pw.println("<natures>");
+	        pw.println("</natures>");
+	        pw.println("</projectDescription>");
+	        pw.close();
+	    }catch(CoreException x){
+	        // Could not create Virtual project continue as nothing has happened
+	    }
+	    
 	}
 
 	public String[] childNames(IPath path) {
