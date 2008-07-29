@@ -19,6 +19,9 @@
 
   <osgi:service id="moleculeManagerOSGI" ref="moleculeManager"
                 interface="net.bioclipse.core.business.IMoleculeManager" />
+
+  <osgi:service id="createJobAdviceOSGI" ref="createJobAdvice"
+                interface="net.bioclipse.core.business.ICreateJobAdvice" />
                 
   <bean id="recordingAdvisor"
         class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
