@@ -172,7 +172,7 @@ public class Activator extends BioclipseActivator {
         for (int i = 0; i < args.length; i++) {
             logger.debug("Detected argument "+ i + ": " + args[i]);
             
-            if (args[i].equalsIgnoreCase("-noUpdate"))
+            if (args[i].equalsIgnoreCase("-noupdate"))
             	checkForUpdates=false;
             else
             	checkForUpdates=true;
