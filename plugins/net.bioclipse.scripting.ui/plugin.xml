@@ -57,4 +57,23 @@
          name="Virtual Navigator">
       </view>
    </extension>
+   
+    <extension
+       point="org.eclipse.ui.perspectiveExtensions"
+       id="defaultPerspectiveExtension">
+    <perspectiveExtension
+          targetID="net.bioclipse.ui.Perspective">
+          <view
+                id="net.bioclipse.scripting.ui.views.JsConsoleView"
+                relative="org.eclipse.ui.views.PropertySheet"
+                relationship="stack"
+                visible="true">
+          </view>
+          <viewShortcut
+                id="net.bioclipse.scripting.ui.views.JsConsoleView">
+          </viewShortcut>
+    </perspectiveExtension>
+ </extension>
+   
+   
 </plugin>
