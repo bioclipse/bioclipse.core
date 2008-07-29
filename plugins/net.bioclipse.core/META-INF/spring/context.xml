@@ -11,10 +11,6 @@
         </constructor-arg>
   </bean>
   
-  <bean id="createJobAdvice" 
-        class="net.bioclipse.core.business.CreateJobAdvice">
-  </bean>
-  
   <bean id="wrapInProxyAdvice"
         class="net.bioclipse.recording.WrapInProxyAdvice">
   </bean>

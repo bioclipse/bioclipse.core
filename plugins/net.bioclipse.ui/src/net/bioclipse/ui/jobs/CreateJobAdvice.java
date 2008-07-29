@@ -1,22 +1,11 @@
-/*****************************************************************************
- * Copyright (c) 2008 Bioclipse Project
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- *****************************************************************************/
+package net.bioclipse.ui.jobs;
 
-package net.bioclipse.core.business;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 
 import net.bioclipse.core.ResourcePathTransformer;
-import net.bioclipse.core.util.LogUtils;
+import net.bioclipse.core.business.IBioclipseManager;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.eclipse.core.resources.IFile;
@@ -29,6 +18,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 /**
+ * Creates jobs for manager methods
+ * 
  * @author jonalv
  *
  */
@@ -95,7 +86,6 @@ public class CreateJobAdvice implements ICreateJobAdvice {
                 else {
                     args = invocation.getArguments();
                 }
-                
                 try {
                     returnValue = method.invoke( 
                         invocation.getThis(), args );
@@ -119,6 +109,7 @@ public class CreateJobAdvice implements ICreateJobAdvice {
                 return Status.OK_STATUS;
             }
         };
+        
         job.setUser( true );
         job.schedule();
         if ( !invocation.getMethod()

@@ -24,7 +24,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.cheatsheets;bundle-version="3.3.100",
  org.eclipse.update.configurator;bundle-version="3.2.200",
  org.eclipse.update.core;bundle-version="3.2.200",
- org.eclipse.update.ui;bundle-version="3.2.100"
+ org.eclipse.update.ui;bundle-version="3.2.100",
+ org.springframework.osgi.aopalliance.osgi;bundle-version="1.0.0"
 Eclipse-LazyStart: true
 Export-Package: net.bioclipse.ui,
  net.bioclipse.ui.actions,
@@ -34,6 +35,7 @@ Export-Package: net.bioclipse.ui,
  net.bioclipse.ui.editors.pdb,
  net.bioclipse.ui.importWizards,
  net.bioclipse.ui.intro,
+ net.bioclipse.ui.jobs,
  net.bioclipse.ui.prefs,
  net.bioclipse.ui.views
 Import-Package: org.apache.log4j
