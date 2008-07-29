@@ -536,9 +536,9 @@ public abstract class ScriptingConsoleView extends ViewPart {
                       String
                           quote        = "\"",
                           beforeCursor = text.getText().substring( pos-1, pos ),
-                          afterCursor  = pos < text.getText().length() - 1
+                          afterCursor  = pos < text.getText().length()
                                          ? text.getText().substring(pos, pos+1)
-                                         : quote;
+                                         : "";
                       
                       if ( !beforeCursor.equals(quote) )
                           content = quote + content;
