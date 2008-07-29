@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="net.bioclipse.sampledata"
+      id="net.bioclipse.sampledata-feature"
       label="Sampledata Feature"
       version="1.0.0"
       provider-name="The Bioclipse Team">
