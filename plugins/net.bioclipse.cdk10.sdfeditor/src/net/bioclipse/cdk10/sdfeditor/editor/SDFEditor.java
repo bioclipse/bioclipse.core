@@ -56,13 +56,15 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.openscience.cdk.ChemModel;
 import org.openscience.cdk.MoleculeSet;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
+import org.openscience.cdk.geometry.GeometryTools;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.interfaces.IMoleculeSet;
 import org.openscience.cdk.renderer.color.IAtomColorer;
 
 public class SDFEditor extends FormEditor 
-       implements IJCPbasedMPE, IJCPBasedEditor, IResourceChangeListener, IAdaptable {
+       implements IJCPbasedMPE, IJCPBasedEditor, 
+                   IResourceChangeListener, IAdaptable {
 
     private static final Logger logger = Logger.getLogger(SDFEditor.class);
 
@@ -186,7 +188,12 @@ public class SDFEditor extends FormEditor
                 if ( obj instanceof IAtomContainer ) {
                     //What else could it be than an AC? :-)
                     IAtomContainer ac = (IAtomContainer) obj;
-
+                    if(!GeometryTools.has2DCoordinates(ac)){
+                        setActivePage(TABLE_PAGE_INDEX); 
+                        logger.info(
+                           "Entry does not contain 2D-coordinates. Index: "+ix);
+                        return;
+                    }
                     IChemModel ml = getChemModelByIndex( ix );
                     if (ml == null) {
                         logger.debug( "Error getting chemmodel by index: "
