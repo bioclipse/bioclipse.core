@@ -27,4 +27,27 @@
          </adapter>
       </factory>
    </extension>
+   <extension
+point="org.eclipse.ui.decorators">
+<decorator
+lightweight="true"
+location="BOTTOM_RIGHT"
+adaptable="true"
+label="Virtual Resource Decorator"
+icon="icons/virtual.gif"
+state="true"
+id="net.bioclipse.core.virtual.decorator">
+   <enablement>
+      <and>
+         <objectClass
+               name="org.eclipse.core.resources.IResource">
+         </objectClass>
+         <objectState
+               name="path"
+               value="/Virtual*">
+         </objectState>
+      </and>
+   </enablement>
+</decorator>
+</extension>
 </plugin>
