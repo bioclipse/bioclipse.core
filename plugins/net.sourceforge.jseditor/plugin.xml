@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Addi JavaScript/ActionScript 1 Editor"
+            extensions="js,as"
+            icon="icons/js.gif"
+            class="net.sourceforge.jseditor.editors.JSEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            id="net.sourceforge.jseditor.editors.JSEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            name="JavaScript"
+            class="net.sourceforge.jseditor.preferences.JavaScriptPreferencePage"
+            id="net.sourceforge.jseditor.preferences.JavaScriptPreferencePage">
+      </page>
+   </extension>
+
+</plugin>

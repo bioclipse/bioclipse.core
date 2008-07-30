@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JSeditor Plugin
+Bundle-SymbolicName: net.sourceforge.jseditor;singleton:=true
+Bundle-Version: 1.2.0
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.views,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.jface.text,
+ org.eclipse.core.resources;bundle-version="3.4.0",
+ org.eclipse.ui.editors;bundle-version="3.4.0",
+ org.eclipse.ui.ide;bundle-version="3.4.0"
+Bundle-Vendor: Adrian Dinu, Alex Fitzpatrick, Richard Clark
+Bundle-Activator: net.sourceforge.jseditor.JSEditorPlugin
+Export-Package: net.sourceforge.jseditor,
+ net.sourceforge.jseditor.editors,
+ net.sourceforge.jseditor.preferences,
+ net.sourceforge.jseditor.views
+Bundle-ActivationPolicy: lazy
