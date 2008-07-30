@@ -1,5 +1,6 @@
 package net.bioclipse.ui.jobs;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import net.bioclipse.core.ResourcePathTransformer;
@@ -75,21 +76,21 @@ public class BioclipseJob extends Job {
             returnValue = method.invoke( 
                 invocation.getThis(), args );
         } 
-        catch ( final Exception e ) {
-            Display.getDefault().asyncExec( new Runnable() {
-                public void run() {
-                    MessageDialog.openInformation( 
-                        PlatformUI.getWorkbench()
-                                  .getActiveWorkbenchWindow()
-                                  .getShell(),
-                        "Failed to perform task",
-                        "An error has occured" );
-                }
-            });
-            throw new RuntimeException(e);
+        catch ( Exception e ) {
+            returnValue = e;
+            if (e instanceof InvocationTargetException) {
+                returnValue = e.getCause();
+            }
+            throw new RuntimeException( "Exception occured: "
+                                        + e.getClass().getSimpleName() 
+                                        + " - "
+                                        + e.getMessage(),
+                                        e );
         }
-        synchronized ( lock ) {
-            lock.notifyAll();
+        finally {
+            synchronized ( lock ) {
+                lock.notifyAll();
+            }
         }
         return Status.OK_STATUS;
     }
