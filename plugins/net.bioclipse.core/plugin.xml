@@ -50,4 +50,10 @@ id="net.bioclipse.core.virtual.decorator">
    </enablement>
 </decorator>
 </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="net.bioclipse.core.StartupVirtualEditorCloser">
+      </startup>
+   </extension>
 </plugin>
