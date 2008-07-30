@@ -192,35 +192,12 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            name="Text Editor Wee"
-            default="true"
-            icon="icons/alt_window_16.gif"
-            contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
-            class="org.eclipse.ui.editors.text.TextEditor"
-            id="editors.TextEditor">
-      </editor>
-      <editor
-            name="Ola Text Editor"
-            icon="icons/alt_window_16.gif"
-            extensions="ola,ola2"
-            contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
-            class="org.eclipse.ui.editors.text.TextEditor"
-            id="editors.TextEditor2">
-      </editor>
-      <editor
-            name="PDBEditor"
-            icon="icons/logo/logo_16_trans.gif"
-            extensions="pdb2"
-            contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
-            class="net.bioclipse.ui.editors.pdb.PDBEditor"
-            id="net.bioclipse.editors.pdb.PDBEditor">
-      </editor>
-      <editor
             class="net.bioclipse.ui.editors.XMLEditor"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            extensions="xml,biomart,cml"
+            extensions="xml,cml"
             icon="icons/logo/logo_16_trans.gif"
             id="net.bioclipse.ui.editors.XMLEditor"
+            default="false"
             name="XML Editor">
       </editor>
    </extension>
