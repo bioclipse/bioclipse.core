@@ -33,4 +33,9 @@ public interface IJsConsoleManager extends IBioclipseManager {
     @PublishedMethod(params="String message",
                      methodSummary="Prints to the console.")
     public void print(String message);
+
+    @Recorded
+    @PublishedMethod(params="String command",
+                     methodSummary="Evaluates a script.")
+    public String eval(String command);
 }

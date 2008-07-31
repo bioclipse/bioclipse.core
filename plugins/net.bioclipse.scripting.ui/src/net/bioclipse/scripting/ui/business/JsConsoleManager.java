@@ -53,4 +53,10 @@ public class JsConsoleManager implements IJsConsoleManager {
     public String getNamespace() {
         return "js";
     }
+
+    public String eval( String command ) {
+        // obviously stubbed. more correct code coming.
+        print(command);
+        return "";
+    }
 }
