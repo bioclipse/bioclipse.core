@@ -19,3 +19,4 @@ Export-Package: net.sourceforge.jseditor,
  net.sourceforge.jseditor.views
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
+Import-Package: org.apache.log4j
