@@ -370,6 +370,7 @@
         </content-type>
 
         <content-type
+              base-type="org.eclipse.core.runtime.text"
               file-extensions="pdb"
               id="net.bioclipse.contenttypes.pdb"
               name="PDBContentType"
@@ -377,10 +378,31 @@
         </content-type>
 
         <content-type
+              base-type="org.eclipse.core.runtime.text"
               file-extensions="mdl,mol"
-              id="net.bioclipse.contenttypes.mdlMolFile"
-              name="MdlMolfileContentType"
+              id="net.bioclipse.contenttypes.mdlMolFile2D"
+              name="MdlMolfileContentType2D"
               priority="high">
+		 <describer class="net.bioclipse.ui.contenttypes.MdlMolFileCoordinatesDescriber">
+              <parameter
+                    name="type"
+                    value="2D">
+              </parameter>
+       	</describer>
+        </content-type>
+
+        <content-type
+              base-type="org.eclipse.core.runtime.text"
+              file-extensions="mdl,mol"
+              id="net.bioclipse.contenttypes.mdlMolFile3D"
+              name="MdlMolfileContentType3D"
+              priority="high">
+		 <describer class="net.bioclipse.ui.contenttypes.MdlMolFileCoordinatesDescriber">
+              <parameter
+                    name="type"
+                    value="3D">
+              </parameter>
+       	</describer>
         </content-type>
 
      </extension>  
