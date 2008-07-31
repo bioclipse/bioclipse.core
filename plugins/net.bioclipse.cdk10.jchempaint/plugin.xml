@@ -8,20 +8,17 @@
       <editor
             name="MDLMolfileEditor"
             icon="icons/molecule2D.gif"
-            extensions="mol,mdl"
-            default="true"
             contributorClass="net.bioclipse.cdk10.jchempaint.ui.editor.JCPMultiPageEditorContributor"
             class="net.bioclipse.cdk10.jchempaint.ui.editor.mdl.MDLMolfileEditor"
             id="net.bioclipse.cdk10.jchempaint.ui.editor.mdl.MDLMolfileEditor">
             <contentTypeBinding
-                  contentTypeId="net.bioclipse.contenttypes.mdlMolFile">
+                  contentTypeId="net.bioclipse.contenttypes.mdlMolFile2D">
             </contentTypeBinding>
       </editor>
 
       <editor
             name="CMLfileEditor"
             icon="icons/molecule2D.gif"
-            default="true"
             contributorClass="net.bioclipse.cdk10.jchempaint.ui.editor.JCPMultiPageEditorContributor"
             class="net.bioclipse.cdk10.jchempaint.ui.editor.cml.CMLfileEditor"
             id="net.bioclipse.cdk10.jchempaint.ui.editor.cml.CMLfileEditor">
