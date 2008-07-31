@@ -11,6 +11,8 @@
  ******************************************************************************/
 package net.bioclipse.scripting.ui.business;
 
+import org.eclipse.core.resources.IFile;
+
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
@@ -38,4 +40,14 @@ public interface IJsConsoleManager extends IBioclipseManager {
     @PublishedMethod(params="String command",
                      methodSummary="Evaluates a script.")
     public String eval(String command);
+
+    @Recorded
+    @PublishedMethod(params="IFile file",
+                     methodSummary="Runs a js script file.")
+    public String executeFile(IFile file);
+
+    @Recorded
+    @PublishedMethod(params="String filePath",
+                     methodSummary="Runs a js script file.")
+    public String executeFile(String filePath);
 }

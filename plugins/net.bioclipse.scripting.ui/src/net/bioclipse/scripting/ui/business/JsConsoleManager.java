@@ -14,6 +14,7 @@ package net.bioclipse.scripting.ui.business;
 
 import net.bioclipse.scripting.ui.views.JsConsoleView;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.PlatformUI;
@@ -67,5 +68,17 @@ public class JsConsoleManager implements IJsConsoleManager {
             })
         );
         return evalResult[0];
+    }
+
+    public String executeFile( IFile file ) {
+
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String executeFile( String filePath ) {
+
+        // TODO Auto-generated method stub
+        return null;
     }
 }
