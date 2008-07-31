@@ -134,6 +134,7 @@
 
    <features>
       <feature id="net.bioclipse_feature" version="1.3.1"/>
+      <feature id="net.bioclipse.chemoinformatics_feature" version="2.0.0"/>
    </features>
 
 </product>

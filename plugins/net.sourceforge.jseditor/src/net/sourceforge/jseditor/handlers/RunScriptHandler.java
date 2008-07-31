@@ -1,5 +1,6 @@
 package net.sourceforge.jseditor.handlers;
 
+import net.bioclipse.scripting.ui.Activator;
 import net.sourceforge.jseditor.editors.JSEditor;
 
 import org.apache.log4j.Logger;
@@ -7,6 +8,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -26,13 +28,14 @@ public class RunScriptHandler extends AbstractHandler implements IHandler {
         }
         JSEditor jsEditor = (JSEditor) editor;
 
-//        if (editor.isDirty())
-//            return null; // error handling, anyone?
+        if (editor.isDirty())
+            return null; // error handling, anyone?
         
         IEditorInput input = jsEditor.getEditorInput();
-        logger.debug(input.toString());
         
+        Activator.getDefault()
+                 .getJsConsoleManager()
+                 .executeFile( (IFile)input.getAdapter( IFile.class ) );
         return null;
     }
-
 }

@@ -18,4 +18,6 @@ Import-Package: net.bioclipse.scripting,
  org.eclipse.ui.editors.text,
  org.eclipse.ui.internal.editors.text,
  org.eclipse.ui.texteditor
-Export-Package: net.bioclipse.scripting.ui.views
+Export-Package: net.bioclipse.scripting.ui,
+ net.bioclipse.scripting.ui.business,
+ net.bioclipse.scripting.ui.views

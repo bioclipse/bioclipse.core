@@ -12,6 +12,8 @@
  ******************************************************************************/
 package net.bioclipse.scripting.ui.business;
 
+import java.io.BufferedInputStream;
+
 import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.scripting.ui.views.JsConsoleView;
 
@@ -22,6 +24,9 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.PlatformUI;
+
+import com.sun.java_cup.internal.runtime.Scanner;
+
 import net.bioclipse.scripting.Activator;
 import net.bioclipse.scripting.Hook;
 import net.bioclipse.scripting.JsAction;
@@ -89,8 +94,14 @@ public class JsConsoleManager implements IJsConsoleManager {
         
         monitor.beginTask( "read file", 1 );
         try {
-            contents = file.getContents().toString();
-        } catch ( CoreException ce ) {
+            java.util.Scanner sc = new java.util.Scanner(file.getContents());
+            StringBuffer sb = new StringBuffer();
+            while ( sc.hasNextLine() ) {
+                sb.append( sc.nextLine() );
+            }
+            contents = sb.toString();
+        } 
+        catch ( CoreException ce ) {
             throw new RuntimeException("Could not run the script "
                                        + file.getName(), ce);
         }
