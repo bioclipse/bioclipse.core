@@ -379,6 +379,14 @@
 
         <content-type
               base-type="org.eclipse.core.runtime.text"
+              file-extensions="sdf"
+              id="net.bioclipse.contenttypes.sdf"
+              name="SDFContentType"
+              priority="high">
+        </content-type>
+
+        <content-type
+              base-type="org.eclipse.core.runtime.text"
               file-extensions="mdl,mol"
               id="net.bioclipse.contenttypes.mdlMolFile2D"
               name="MdlMolfileContentType2D"
