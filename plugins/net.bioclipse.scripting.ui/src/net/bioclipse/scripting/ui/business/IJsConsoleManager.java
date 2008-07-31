@@ -12,6 +12,7 @@
 package net.bioclipse.scripting.ui.business;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IProgressMonitor;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
@@ -42,9 +43,10 @@ public interface IJsConsoleManager extends IBioclipseManager {
     public String eval(String command);
 
     @Recorded
-    @PublishedMethod(params="IFile file",
-                     methodSummary="Runs a js script file.")
     public void executeFile(IFile file);
+
+    @Recorded
+    public void executeFile(IFile file, IProgressMonitor monitor);
 
     @Recorded
     @PublishedMethod(params="String filePath",

@@ -12,9 +12,13 @@
  ******************************************************************************/
 package net.bioclipse.scripting.ui.business;
 
+import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.scripting.ui.views.JsConsoleView;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.PlatformUI;
@@ -71,12 +75,32 @@ public class JsConsoleManager implements IJsConsoleManager {
     }
 
     public void executeFile( IFile file ) {
-
-        // TODO Auto-generated method stub
+        executeFile(file, new NullProgressMonitor());
     }
 
     public void executeFile( String filePath ) {
+        executeFile(
+          ResourcePathTransformer.getInstance().transform( filePath )
+        );
+    }
 
-        // TODO Auto-generated method stub
+    public void executeFile( IFile file, final IProgressMonitor monitor ) {
+        String contents;
+        
+        monitor.beginTask( "read file", 1 );
+        try {
+            contents = file.getContents().toString();
+        } catch ( CoreException ce ) {
+            throw new RuntimeException("Could not run the script "
+                                       + file.getName(), ce);
+        }
+        monitor.worked( 1 );
+        Activator.getDefault().JS_THREAD.enqueue(
+            new JsAction(contents, new Hook() {
+                public void run( String result ) {
+                    monitor.done();
+                }
+            })
+        );
     }
 }
