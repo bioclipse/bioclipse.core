@@ -7,10 +7,11 @@ Bundle-Activator: net.bioclipse.scripting.ui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  net.bioclipse.core,
- net.bioclipse.scripting,
- net.bioclipse.ui
+ net.bioclipse.ui,
+ net.bioclipse.scripting;bundle-version="1.0.0"
 Eclipse-LazyStart: true
-Import-Package: org.apache.log4j,
+Import-Package: net.bioclipse.scripting,
+ org.apache.log4j,
  org.eclipse.core.filesystem,
  org.eclipse.core.resources,
  org.eclipse.jface.text,
