@@ -70,15 +70,13 @@ public class JsConsoleManager implements IJsConsoleManager {
         return evalResult[0];
     }
 
-    public String executeFile( IFile file ) {
+    public void executeFile( IFile file ) {
 
         // TODO Auto-generated method stub
-        return null;
     }
 
-    public String executeFile( String filePath ) {
+    public void executeFile( String filePath ) {
 
         // TODO Auto-generated method stub
-        return null;
     }
 }

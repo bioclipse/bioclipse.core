@@ -44,10 +44,10 @@ public interface IJsConsoleManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod(params="IFile file",
                      methodSummary="Runs a js script file.")
-    public String executeFile(IFile file);
+    public void executeFile(IFile file);
 
     @Recorded
     @PublishedMethod(params="String filePath",
                      methodSummary="Runs a js script file.")
-    public String executeFile(String filePath);
+    public void executeFile(String filePath);
 }
