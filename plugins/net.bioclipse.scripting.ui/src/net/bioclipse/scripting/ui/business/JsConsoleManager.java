@@ -17,6 +17,9 @@ import net.bioclipse.scripting.ui.views.JsConsoleView;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.PlatformUI;
+import net.bioclipse.scripting.Activator;
+import net.bioclipse.scripting.Hook;
+import net.bioclipse.scripting.JsAction;
 
 /**
  * Contains general methods for interacting with the Javascript console.
@@ -55,8 +58,14 @@ public class JsConsoleManager implements IJsConsoleManager {
     }
 
     public String eval( String command ) {
-        // obviously stubbed. more correct code coming.
-        print(command);
-        return "";
+        final String[] evalResult = new String[1];
+        Activator.getDefault().JS_THREAD.enqueue(
+            new JsAction(command, new Hook() {
+                public void run( String result ) {
+                    evalResult[0] = result;
+                }
+            })
+        );
+        return evalResult[0];
     }
 }
