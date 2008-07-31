@@ -21,6 +21,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.PlatformUI;
@@ -110,6 +111,23 @@ public class JsConsoleManager implements IJsConsoleManager {
             new JsAction(contents, new Hook() {
                 public void run( String result ) {
                     monitor.done();
+                    if ( !"undefined".equals( result ) ) {
+                        message(result);
+                    }
+                }
+
+                private void message(final String text) {
+
+                    Display.getDefault().asyncExec( new Runnable() {
+                        public void run() {
+                            MessageDialog.openInformation( 
+                                 PlatformUI.getWorkbench()
+                                           .getActiveWorkbenchWindow()
+                                           .getShell(),
+                                 "Script finished",
+                                 text ); 
+                        }
+                    } );
                 }
             })
         );
