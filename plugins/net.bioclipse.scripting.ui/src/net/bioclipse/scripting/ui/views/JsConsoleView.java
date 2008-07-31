@@ -27,7 +27,6 @@ import net.bioclipse.scripting.JsAction;
 import net.bioclipse.scripting.JsThread;
 import net.bioclipse.scripting.OutputProvider;
 import net.bioclipse.ui.Activator;
-import net.bioclipse.ui.ConsoleEchoer;
 import net.bioclipse.ui.EchoEvent;
 import net.bioclipse.ui.EchoListener;
 import net.bioclipse.ui.JsPluginable;
@@ -37,7 +36,6 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.widgets.Display;
 
