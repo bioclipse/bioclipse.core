@@ -24,8 +24,7 @@ public class Activator extends Plugin {
     
     public final JsThread          JS_THREAD = new JsThread();
     
-    public final GroovyEnvironment GROOVY_SESSION = new GroovyEnvironment();
-    public final RubyEnvironment   RUBY_SESSION   = new RubyEnvironment();
+    // Ruby and Groovy environments removed after r6413.
     
     /**
      * The constructor
