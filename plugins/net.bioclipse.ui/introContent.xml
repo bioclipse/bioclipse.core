@@ -2,5 +2,5 @@
 <introContent>
     <page id="root" content="content/root.xhtml"/>
     <page id="introduction" content="content/introduction.xhtml"/>
-    <page id="whatsnew" content="content/whatsnew.xhtml"/>
+    <page id="whatcanIdo" content="content/whatcanIdo.xhtml"/>
 </introContent>
