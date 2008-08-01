@@ -38,7 +38,7 @@ public class UIManager implements IUIManager {
         return "ui";
     }
 
-    public void delete( IFile file ) {
+    public void remove( IFile file ) {
 
     	//TODO: jonalv use real progressmonitor
     	try {
@@ -66,8 +66,8 @@ public class UIManager implements IUIManager {
     	
     }
 
-    public void delete( String filePath ) {
-        delete(ResourcePathTransformer.getInstance().transform( filePath ));
+    public void remove( String filePath ) {
+        remove(ResourcePathTransformer.getInstance().transform( filePath ));
     }
 
     public void open( String filePath ) {

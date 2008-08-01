@@ -39,8 +39,8 @@ public interface IUIManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod(params="String filePath",
                      methodSummary="Deletes a file.")
-    public void delete(String filePath);
+    public void remove(String filePath);
 
     @Recorded
-    public void delete(IFile file);
+    public void remove(IFile file);
 }
