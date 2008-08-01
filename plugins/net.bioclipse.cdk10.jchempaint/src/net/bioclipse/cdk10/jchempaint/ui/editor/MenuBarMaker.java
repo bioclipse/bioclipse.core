@@ -31,7 +31,7 @@ import org.openscience.cdk.applications.jchempaint.StringHelper;
 
 public class MenuBarMaker {
     private static ArrayList actionList = new ArrayList();
-    private static String guiString = "stable";
+    private static String guiString = "bioclipse";
     private static JCPMultiPageEditorContributor contributor;
     
     public static ArrayList createMenuBar(JCPMultiPageEditorContributor theContributor, IMenuManager menuManager) {
