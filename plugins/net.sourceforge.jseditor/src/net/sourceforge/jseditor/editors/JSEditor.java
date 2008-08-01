@@ -95,6 +95,7 @@ public class JSEditor extends TextEditor implements ISelectionChangedListener
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public Object getAdapter(Class key)
 	{
 		if (key.equals(IContentOutlinePage.class))

@@ -45,7 +45,7 @@ public class JSSyntaxScanner extends BufferedRuleBasedScanner {
 	 * Creates a new JSSyntaxScanner object.
 	 */
 	public JSSyntaxScanner() {
-		List rules = new ArrayList();
+		List<IRule> rules = new ArrayList<IRule>();
 
 		rules.add(new MultiLineRule("/*", "*/", TOKEN_COMMENT));
 		rules.add(new SingleLineRule("//", "", TOKEN_COMMENT));
@@ -68,7 +68,7 @@ public class JSSyntaxScanner extends BufferedRuleBasedScanner {
 	 * set the rule list
 	 * @param rules
 	 */
-	private void setRuleList(List rules)
+	private void setRuleList(List<IRule> rules)
 	{
 		IRule[] result = new IRule[rules.size()];
 		rules.toArray(result);

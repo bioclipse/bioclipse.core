@@ -29,7 +29,6 @@
 package net.sourceforge.jseditor;
 
 import org.eclipse.ui.plugin.*;
-import org.eclipse.core.runtime.*;
 import org.eclipse.core.resources.*;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.osgi.framework.BundleContext;
@@ -57,7 +56,8 @@ public class JSEditorPlugin extends AbstractUIPlugin
    /**
     * current func list
     */
-   private List currentFunctions = new LinkedList();
+   @SuppressWarnings("unchecked")
+private List currentFunctions = new LinkedList();
 
    @Override
 	public void start(BundleContext context) throws Exception {
@@ -127,6 +127,7 @@ public class JSEditorPlugin extends AbstractUIPlugin
 	 * Returns the currentFunctions.
 	 * @return List
 	 */
+	@SuppressWarnings("unchecked")
 	public List getCurrentFunctions()
 	{
 		return currentFunctions;
@@ -136,6 +137,7 @@ public class JSEditorPlugin extends AbstractUIPlugin
 	 * Sets the currentFunctions.
 	 * @param currentFunctions The currentFunctions to set
 	 */
+	@SuppressWarnings("unchecked")
 	public void setCurrentFunctions(List currentFunctions)
 	{
 		this.currentFunctions = currentFunctions;

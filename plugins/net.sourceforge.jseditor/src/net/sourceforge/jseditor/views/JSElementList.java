@@ -37,7 +37,7 @@ import org.eclipse.ui.model.IWorkbenchAdapter;
  */
 public class JSElementList implements IWorkbenchAdapter, IAdaptable
 {
-	protected List children = new ArrayList();
+	protected List<JSElement> children = new ArrayList<JSElement>();
 
 	/**
 	 * Creates a new adaptable list with the given children.
@@ -62,11 +62,12 @@ public class JSElementList implements IWorkbenchAdapter, IAdaptable
 	 * Creates a new adaptable list with the given children.
 	 * @param newChildren
 	 */
+	@SuppressWarnings("unchecked")
 	public JSElementList(List newChildren)
 	{
 		for (int i = 0; i < newChildren.size(); i++)
 		{
-			children.add(newChildren.get(i));
+			children.add((JSElement) newChildren.get(i));
 		}
 	}
 
@@ -76,6 +77,7 @@ public class JSElementList implements IWorkbenchAdapter, IAdaptable
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public JSElementList add(Iterator iterator)
 	{
 		while (iterator.hasNext())
@@ -106,6 +108,7 @@ public class JSElementList implements IWorkbenchAdapter, IAdaptable
 	 *
 	 * @return 
 	 */
+	@SuppressWarnings("unchecked")
 	public Object getAdapter(Class adapter)
 	{
 		if (adapter == IWorkbenchAdapter.class)

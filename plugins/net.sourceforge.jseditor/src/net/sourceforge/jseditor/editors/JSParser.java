@@ -68,13 +68,13 @@ public class JSParser
 	private static String[] systemClassNames= {"Array","String"};
 
 
-	protected HashMap systemClassMap = new HashMap();
+	protected HashMap<String, String> systemClassMap = new HashMap<String, String>();
 	  
 	protected IDocument sourceDocument;
-	protected HashMap functions = new HashMap();
-	protected HashMap classes = new HashMap();
-	protected HashMap globalVariables = new HashMap();
-	protected List elementList = new LinkedList();
+	protected HashMap<String, JSFunctionElement> functions = new HashMap<String, JSFunctionElement>();
+	protected HashMap<String, JSElement> classes = new HashMap<String, JSElement>();
+	protected HashMap<String, JSGlobalVariableElement> globalVariables = new HashMap<String, JSGlobalVariableElement>();
+	protected List<JSElement> elementList = new LinkedList<JSElement>();
 	protected JSSyntaxScanner scanner = new JSSyntaxScanner();
 
 	/**
@@ -151,7 +151,7 @@ public class JSParser
 	 * 
 	 * @return an element collection representing the parsed input
 	 */
-	public List parse(IFile file)
+	public List<?> parse(IFile file)
 	{
 		return parse(new Document(getText(file)));
 	}
@@ -163,7 +163,7 @@ public class JSParser
 	 * 
 	 * @return an element collection representing the parsed input
 	 */
-	public List parse(IDocument aSourceDocument)
+	public List<JSElement> parse(IDocument aSourceDocument)
 	{
 		sourceDocument = aSourceDocument;
 		
@@ -230,6 +230,7 @@ public class JSParser
 				if (functions.containsKey(className) || classes.containsKey(className))
 				{
 					String memberName = functionName.substring(functionName.lastIndexOf(".") + 1);
+					@SuppressWarnings("unused")
 					JSFunctionElement aMethod =
 						this.addClassMethod(memberName, className, arguments, offset, offset, length);
 				}
@@ -313,6 +314,7 @@ public class JSParser
 		{
 			String functionName = aVariable.getName();
 			int offset = aVariable.getOffset();
+			@SuppressWarnings("unused")
 			int length = aVariable.getLength();
 			
 			int functionOffset = scanner.getTokenOffset();
@@ -420,6 +422,7 @@ public class JSParser
 							String functionSignature = getExpression(tokenOffset, tokenLength);
 							String arguments = getArgumentString(functionSignature);
 	
+							@SuppressWarnings("unused")
 							JSFunctionElement aMethod =
 								addClassMethod(memberName, className, arguments, classOffset, tokenOffset, tokenLength);
 							

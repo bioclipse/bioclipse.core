@@ -41,7 +41,7 @@ public class JSStringScanner extends RuleBasedScanner
    public JSStringScanner(Color aColor)
    {
       IToken string = new Token(new TextAttribute(aColor));
-      Vector rules = new Vector();
+      Vector<IRule> rules = new Vector<IRule>();
 
       // Add rule for single and double quotes
       rules.add(new SingleLineRule("\"", "\"", string, '\\'));

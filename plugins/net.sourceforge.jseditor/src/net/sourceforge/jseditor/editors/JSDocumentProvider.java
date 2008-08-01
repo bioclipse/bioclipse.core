@@ -20,7 +20,7 @@ package net.sourceforge.jseditor.editors;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentPartitioner;
-import org.eclipse.jface.text.rules.DefaultPartitioner;
+import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.ui.editors.text.FileDocumentProvider;
 
 /**
@@ -60,7 +60,7 @@ public class JSDocumentProvider extends FileDocumentProvider {
 
 		if (document != null) {
 			IDocumentPartitioner partitioner =
-				new DefaultPartitioner(new JSPartitionScanner(), colorTokens);
+				new FastPartitioner(new JSPartitionScanner(), colorTokens);
 			partitioner.connect(document);
 			document.setDocumentPartitioner(partitioner);
 		}

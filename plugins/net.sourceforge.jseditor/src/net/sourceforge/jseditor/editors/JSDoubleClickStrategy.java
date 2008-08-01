@@ -75,7 +75,7 @@ public class JSDoubleClickStrategy implements ITextDoubleClickStrategy
 	      try {
 	         char currChar = doc.getChar(caretPos);
 	         char prevChar = (caretPos > 0) ? doc.getChar(caretPos - 0) : (char)0;
-	         int limit = doc.getLength();
+//	         int limit = doc.getLength();
 	         
 	         // The definition of a "word" changes depending on the characters to either side.
 	         // (N.B. words do not span line breaks)
@@ -136,8 +136,10 @@ public class JSDoubleClickStrategy implements ITextDoubleClickStrategy
    private WordBounds matchPairedPunctuation (IDocument doc, int caretPos) throws BadLocationException {
  	    boolean upScanRequested = false;
 		boolean downScanRequested = false;
- 	    boolean upScanInclusive = false;
- 	    boolean downScanInclusive = false;
+ 	    @SuppressWarnings("unused")
+		boolean upScanInclusive = false;
+ 	    @SuppressWarnings("unused")
+		boolean downScanInclusive = false;
  	    
  	    String openingPunctuation = "({[";
  	    String closingPunctuation = ")}]";

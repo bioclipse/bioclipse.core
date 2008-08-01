@@ -19,7 +19,6 @@ package net.sourceforge.jseditor.editors;
 
 import java.util.*;
 import org.eclipse.jface.text.rules.*;
-import org.eclipse.jface.text.*;
 
 import org.eclipse.swt.graphics.Color;
 
@@ -39,8 +38,8 @@ public class JSScanner extends RuleBasedScanner
     */
    public JSScanner(Color aColor)
    {
-      List rules = new ArrayList();
-      IToken procInstr = new Token(new TextAttribute(aColor));
+      List<IRule> rules = new ArrayList<IRule>();
+//      IToken procInstr = new Token(new TextAttribute(aColor));
 
       // Add generic whitespace rule.
       rules.add(new WhitespaceRule(new JSWhitespaceDetector()));

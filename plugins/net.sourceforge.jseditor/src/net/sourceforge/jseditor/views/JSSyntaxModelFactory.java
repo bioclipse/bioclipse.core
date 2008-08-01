@@ -36,6 +36,7 @@ import net.sourceforge.jseditor.editors.JSParser;
 public class JSSyntaxModelFactory
 {
 	private static JSSyntaxModelFactory instance = new JSSyntaxModelFactory();
+	@SuppressWarnings("unused")
 	private boolean registryLoaded = false;
 
 	/**
@@ -79,6 +80,7 @@ public class JSSyntaxModelFactory
 	 * 
 	 * @return 
 	 */
+	@SuppressWarnings("unchecked")
 	private List getSyntacticElements(IFile file)
 	{
 		return (new JSParser()).parse(file);
@@ -89,6 +91,7 @@ public class JSSyntaxModelFactory
 		* 
 		* @return 
 		*/
+	@SuppressWarnings("unchecked")
 	private List getSyntacticElements(IDocument document)
 	{
 		return (new JSParser()).parse(document);

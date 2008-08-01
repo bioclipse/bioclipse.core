@@ -78,7 +78,7 @@ public class JSPartitionScanner extends RuleBasedPartitionScanner {
 	 * Creates a new JSPartitionScanner object.
 	 */
 	public JSPartitionScanner() {
-		List rules = new ArrayList();
+		List<IPredicateRule> rules = new ArrayList<IPredicateRule>();
 
 		rules.add(new MultiLineRule("/*", "*/", TOKEN_COMMENT));
 		rules.add(new EndOfLineRule("//", TOKEN_COMMENT));
@@ -93,7 +93,7 @@ public class JSPartitionScanner extends RuleBasedPartitionScanner {
 	}
 
 
-	private void setRuleList(List rules)
+	private void setRuleList(List<IPredicateRule> rules)
 	{
 		IPredicateRule[] result = new IPredicateRule[rules.size()];
 		rules.toArray(result);

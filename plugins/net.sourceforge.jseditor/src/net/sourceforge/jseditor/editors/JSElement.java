@@ -39,7 +39,7 @@ abstract public class JSElement implements IWorkbenchAdapter, IAdaptable, JSElem
 	protected int length;
 
 	protected JSElement parent;
-	protected List children;
+	protected List<JSElement> children;
 
 	/**
 	 * Creates a new JSElement and stores parent element and location in the text.
@@ -53,7 +53,7 @@ abstract public class JSElement implements IWorkbenchAdapter, IAdaptable, JSElem
 		this.name = aName;
 		this.offset = offset;
 		this.length = length;
-		this.children = new LinkedList();
+		this.children = new LinkedList<JSElement>();
 	}
 
 	/**
@@ -62,6 +62,7 @@ abstract public class JSElement implements IWorkbenchAdapter, IAdaptable, JSElem
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public Object getAdapter(Class adapter)
 	{
 		if (adapter == IWorkbenchAdapter.class)

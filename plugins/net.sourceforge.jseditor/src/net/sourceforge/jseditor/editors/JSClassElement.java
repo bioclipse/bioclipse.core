@@ -21,7 +21,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
  */
 public class JSClassElement extends JSElement
 {
-	protected HashMap childrenByName;
+	protected HashMap<String, JSElement> childrenByName;
 	protected boolean isPrototype = false;
 
 	/**
@@ -32,7 +32,7 @@ public class JSClassElement extends JSElement
 	public JSClassElement(String aName, int offset, int length)
 	{
 		super(aName, offset, length);
-		childrenByName = new HashMap();
+		childrenByName = new HashMap<String, JSElement>();
 	}
 
 	/* (non-Javadoc)

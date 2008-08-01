@@ -20,7 +20,6 @@ package net.sourceforge.jseditor.editors;
 import org.eclipse.jface.resource.ImageDescriptor;
 import net.sourceforge.jseditor.JSEditorPlugin;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
