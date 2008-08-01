@@ -96,12 +96,14 @@ public class CMLfileEditor extends AbstractJCPEditor{
      */
     public IChemModel getModelFromEditorInput() throws BioclipseException{
 
-        Object file = getEditorInput().getAdapter(IFile.class);
+        IFile file = (IFile)getEditorInput().getAdapter(IFile.class);
         if (!(file instanceof IFile)) {
             throw new BioclipseException(
                     "Invalid editor input: Does not provide an IFile");
         }
-
+        if(file!=null && !file.exists())
+            return null;
+        
         IFile inputFile = (IFile) file;
         
         try {

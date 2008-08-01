@@ -145,6 +145,13 @@ public abstract class AbstractJCPEditor extends MultiPageEditorPart
             
             if (chemModel==null){
                 logger.error("Could not parse file!! " );
+                try {
+                    jcpPage=new JCPPage(chemModel);
+                    textEditorIndex=addPage(
+                                 textEditor=new TextEditor(), getEditorInput());
+                } catch (PartInitException e) {
+                    
+                }
                 return;
             }
             
