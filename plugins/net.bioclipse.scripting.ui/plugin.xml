@@ -25,22 +25,7 @@
             Javascript Console View
          </description>
       </view>
-      <view
-         allowMultiple="false"
-         name="Groovy Console"
-         icon="icons/source.gif"
-         category="net.bioclipse.ScriptingCategory"
-         class="net.bioclipse.scripting.ui.views.GroovyConsoleView"
-         id="net.bioclipse.scripting.ui.views.GroovyConsoleView">
-      </view>
-      <view
-         allowMultiple="false"
-         name="Ruby Console"
-         icon="icons/source.gif"
-         category="net.bioclipse.ScriptingCategory"
-         class="net.bioclipse.scripting.ui.views.RubyConsoleView"
-         id="net.bioclipse.scripting.ui.views.RubyConsoleView">
-      </view>
+      <!-- Ruby and Groovy consoles used to reside here. See r6394. -->
       <view
          allowMultiple="false"
          name="Action History"
