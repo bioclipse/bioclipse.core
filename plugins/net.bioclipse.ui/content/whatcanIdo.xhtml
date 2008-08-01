@@ -13,15 +13,14 @@
 
 <h2>Introduction</h2>
 <p>
-Bioclipse 2.0-alpha is an alpha release, which is mainly targeted towards developers. 
-It is not to be considered stabele and has meny known (and probably many unknown) bugs. 
-Nevertheless, it still has functionality and this page will describe some of the 
-things that you can do with Bioclipse 2.0-alpha.
+Bioclipse 2.0-alpha is an alpha release, is targeted towards developers.
 </p>
 
 <p>
-Bioclipse 2.0-alpha consists mainly of chemoinformatics features. Even though Bioclipse 1.x 
-had bioinformatics features, they are not shipped with this version and will be available later.
+Bioclipse 2.0-alpha mainly consists of chemoinformatics features. Due to the
+data model re-engineering in Bioclipse 2, the Bioclipse 1.x bioinformatics
+features are yet to be incorporated. They will be available again in a later
+version.
 </p>
 
 <br/>
@@ -39,25 +38,26 @@ had bioinformatics features, they are not shipped with this version and will be 
 
 <tr>
 <td width="40%">
-<center><img src="images/navigator.png" height="400"></img></center>
+<center><img src="images/navigator.png" height="400" alt=""></img></center>
 </td>
 
 <td>
 <h3>1.1 Bioclipse Explorer</h3>
-<p>Bioclipse does not work directly on the file system but utilizes a Workspace. A 
-workspace is a directory in the filesystem that contains a special .metadata subdirectory. 
+<p>Bioclipse does not work directly on the file system but utilizes a workspace,
+a directory in the filesystem that contains a special .metadata subdirectory. 
 The .metadata directory contains all the workspace's private information, such as 
 settings, caches, etc. The workspace organizes top-level projects, folders, and files 
 in a hierarchical structure.
 </p>
 <p>
-Bioclipse Explorer, also known as the Bioclipse Navigator (or simply Navigator) is the central view for 
-manipulating resources (e.g. Files). It supports common features like drag and drop, cut and paste, rename, delete etc. 
+Bioclipse Explorer, also known as the Bioclipse Navigator (or simply Navigator)
+is the central view for manipulating resources (e.g. Files). It supports common
+features, such as drag-and-drop, cut-and-paste, rename, delete etc. 
 </p>
 
 <p>
-There is always one project called <i>Virtual</i>. Any files copied here are kept only 
-in memory and will not survive a restart of Bioclipse.
+There is always one project called <i>Virtual</i>. Any files copied here are
+kept only in memory and will not survive a restart of Bioclipse.
 </p>
 
 </td>
@@ -70,20 +70,20 @@ in memory and will not survive a restart of Bioclipse.
 </tr>
 <tr>
 <td width="40%">
-<center><img src="images/importWiz.png" height="400"></img></center>
+<center><img src="images/importWiz.png" height="400" alt=""></img></center>
 </td>
 <td>
 <h3>1.2 Import data into Bioclipse</h3>
 <p>To add files to Bioclipse you need at least one top level Project in Bioclipse. 
-In the top menu, select <b>File > New > Project...</b> to open the New Project Wizard. 
-Choose <b>Project</b> and enter a name for the project, then Finish. Now you can 
-drag and drop or copy/cut and paste files from your computer into this project.
+In the top menu, select <b>File &gt; New &gt; Project...</b> to open the New Project
+Wizard. Choose <b>Project</b> and enter a name for the project, then Finish. Now
+you can drag and drop or copy/cut and paste files from your computer into this project.
 </p>
 
 <p>
-Another way to import data into a project is via the <b>Import...</b> action. Open the menu 
-<b>File > Import...</b> wizard and select <b>File System</b>. Here you can browse 
-and check any files that you'd like to import into Bioclipse.
+Another way to import data into a project is via the <b>Import...</b> action.
+Open the menu <b>File &gt; Import...</b> wizard and select <b>File System</b>.
+Here you can browse and check any files that you'd like to import into Bioclipse.
 </p>
 
 <p>
@@ -91,9 +91,9 @@ The simplest way to get data into Bioclipse is to install the Sample Data Projec
 This needs to be downloaded and installed from Bioclipse Update Site (see section 1.3 below).
 
 After installing the feature and restarting Bioclipse, select menu 
-<b>File > New > Project...</b> to open the New Project Wizard. 
-Choose <b>Sample Data Project</b> and enter a name for the project, click Next and 
-choose what you'd like to install. Finish.
+<b>File &gt; New &gt; Project...</b> to open the New Project Wizard. 
+Choose <b>Sample Data Project</b> and enter a name for the project, click "Next" and 
+choose what you'd like to install. Click "Finish".
 </p>
 
 </td>
@@ -106,15 +106,15 @@ choose what you'd like to install. Finish.
 </tr>
 <tr>
 <td width="40%">
-<center><img src="images/update.png" width="400"></img></center>
+<center><img src="images/update.png" width="400" alt=""></img></center>
 </td>
 <td>
 <h3>1.3 Install new features</h3>
 <p>
-Choose menu <b>Help > Search for new features...</b>. Bioclipse will contact the 
-update site and display features that you can download and install. If you are behind 
+Choose menu <b>Help &gt; Search for new features...</b>. Bioclipse will contact the 
+update site and display features that you can download and install. If you are located behind 
 a proxy server, you can set proxy settings in the Preferences, section Networks (see section 1.5 below). 
-t is possible to add additional update sites in the Preferences under section <i>Update Sites</i>.
+It is possible to add additional update sites in the Preferences under section <i>Update Sites</i>.
 </p>
 
 </td>
@@ -127,13 +127,13 @@ t is possible to add additional update sites in the Preferences under section <i
 </tr>
 <tr>
 <td width="40%">
-<center><img src="images/showView.png" height="300"></img></center>
+<center><img src="images/showView.png" height="300" alt=""></img></center>
 </td>
 <td>
 <h3>1.4 Show views</h3>
 <p>
-Bioclipse comes packaged with several Views (separate windows in the workbench) that is of use for 
-chemoinformatics. Use the menu <b>Window > Show View > Other...</b> and select any view to open. 
+Bioclipse comes bundled with several Views (separate windows in the workbench) of use within 
+chemoinformatics. Use the menu <b>Window &gt; Show View &gt; Other...</b> and select any view to open. 
 For example, you can add the 2DStructure view, that displays any selected molecules in 2D.
 </p>
 </td>
@@ -147,7 +147,7 @@ For example, you can add the 2DStructure view, that displays any selected molecu
 </tr>
 <tr>
 <td width="40%">
-<center><img src="images/prefs.png" height="400"></img></center>
+<center><img src="images/prefs.png" height="400" alt=""></img></center>
 </td>
 <td>
 <h3>1.5 Customize Bioclipse</h3>
@@ -176,13 +176,13 @@ and under Bioclipse on Mac OS X.
 <!--  New section  -->
 <tr>
 <td width="40%">
-<center><img src="images/jcp.png" width="400"></img></center>
+<center><img src="images/jcp.png" width="400" alt=""></img></center>
 </td>
 <td>
 <h3>2.1 Viewing/Editing chemical structures in 2D</h3>
 <p>
 If you double-click a file with 2D coordinates (currently only CML and MDL/MOL file formats are suported), 
-the 2D editor ( called JChemPaint or simply JCP) opens up, allowing for editing 
+the 2D editor (called JChemPaint or simply JCP) opens up, allowing for editing 
 of the chemical structure. When done you can save the file (<i>Save as..</i> is not implemented yet). 
 The outline view gives a hierarchical view of the molecule, enumerating atoms/bonds. 
 Click in the outline view to highlight in the JCP editor.
@@ -198,12 +198,12 @@ Click in the outline view to highlight in the JCP editor.
 </tr>
 <tr>
 <td width="40%">
-<center><img src="images/sdfeditor.png" width="400"></img></center>
+<center><img src="images/sdfeditor.png" width="400" alt=""></img></center>
 </td>
 <td>
 <h3>2.2 Working with SDFiles</h3>
 <p>
-If you double-click an SDFile (with fileextension .sdf), the SDFEditor opens up. 
+If you double-click an SDFile (with file extension .sdf), the SDFEditor opens up. 
 Here you can see the molecules in tabular format, but you can easily switch to 
 displaying/editing individual molecules by clicking the <i>Source</i> tab at the bottom of the editor. 
 Also, use the outline to easily navigate the file. You can also edit the properties 
@@ -227,16 +227,16 @@ SDFileEditor displays this molecule in 3D in the JmolView, and in 2D in the 2DVi
 </tr>
 <tr>
 <td width="40%">
-<center><img src="images/jmoleditor.png" width="400"></img></center><br/>
-<center><img src="images/sdfeditor3d.png" width="400"></img></center>
+<center><img src="images/jmoleditor.png" width="400" alt=""></img></center><br/>
+<center><img src="images/sdfeditor3d.png" width="400" alt=""></img></center>
 </td>
 <td>
 <h3>2.3 Visualizing chemical structures in 3D</h3>
 <p>
 If you double-click a file with 3D coordinates (currently only PDB, MDL/MOL, and CML files are supported), 
-the JmolEditor will open. Click and drag to rotate. Hold shift, click and drag to zoom. 
+the JmolEditor will open. Click and drag to rotate. Holding down shift, click and drag to zoom. 
 Use the Jmol menu to manipulate the presentation. The outline view can be used to 
-highlight parts of biopolymers (such as proteins). Non-biopolymer highlighting will be added soon.
+highlight parts of biopolymers (such as proteins).
 </p>
 
 </td>
@@ -257,16 +257,16 @@ highlight parts of biopolymers (such as proteins). Non-biopolymer highlighting w
 <!--  New section  -->
 <tr>
 <td width="40%">
-<center><img src="images/jsconsole.png" width="400"></img></center>
+<center><img src="images/jsconsole.png" width="400" alt=""></img></center>
 </td>
 <td>
 <h3>3.1 The Console</h3>
 <p>
 Bioclipse is equipped with a Javascript console for issuing Javascript commands to Bioclipse. 
-If not open, find it under menu <b>Window > Show views > other...</b>. In the console, click 
-the <i>Tab</i> key to show the actual managers (which are command namespaces if that makes things clearer ;-)). 
-Type, for example, <i>help cdk</i> to see the available commands for cdk. There are 
-sample Javascripts in the SampleData Project, and also see the Bioclipse Wiki for 
+If not open, find it under menu <b>Window &gt; Show views &gt; other...</b>. In the console, click 
+the <i>Tab</i> key to show the available functions and namespaces. 
+Type, for example, <i>help cdk</i> to see the available commands within the cdk namespace.
+There are sample Javascripts in the SampleData Project, and also see the Bioclipse Wiki for 
 more information regarding the scripting language.
 </p>
 
@@ -281,13 +281,13 @@ more information regarding the scripting language.
 </tr>
 <tr>
 <td width="40%">
-<center><img src="images/jseditor.png" width="400"></img></center>
+<center><img src="images/jseditor.png" width="400" alt=""></img></center>
 </td>
 <td>
 <h3>3.2 Writing and running scripts</h3>
 <p>
 Javascript files (with file extension .js) are opened in the JSEditor with syntax 
-highlighting. In the toolba, there is a "PLAY" button to run the script.
+highlighting. In the toolbar, there is a "play" button to run the script.
 </p>
 
 </td>
