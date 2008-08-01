@@ -15,6 +15,15 @@ package net.bioclipse.ui.business;
 import net.bioclipse.core.ResourcePathTransformer;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.part.Page;
 
 /**
  * Contains general methods for interacting with the Bioclipse graphical
@@ -29,12 +38,32 @@ public class UIManager implements IUIManager {
         return "ui";
     }
 
-    // TOFU: Hi olas. :)
-    
     public void delete( IFile file ) {
+
+    	//TODO: jonalv use real progressmonitor
+    	try {
+			file.delete(true, new NullProgressMonitor());
+		} catch (PartInitException e) {
+			throw new RuntimeException(e);
+		} catch (CoreException e) {
+			throw new RuntimeException(e);
+		}
+
     }
 
-    public void open( IFile file ) {
+    public void open( final IFile file ) {
+
+        Display.getDefault().asyncExec(new Runnable() {    // do not use async, we need the GUI!
+            public void run() {
+		    	IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		    	try {
+					IDE.openEditor(page, file);
+				} catch (PartInitException e) {
+					throw new RuntimeException(e);
+				}
+            }
+        });
+    	
     }
 
     public void delete( String filePath ) {
