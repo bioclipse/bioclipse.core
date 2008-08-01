@@ -65,7 +65,7 @@
             <command
                   commandId="net.sourceforge.jseditor.actions.runscript"
                   tooltip="Run script"
-                  icon="icons/js.gif">
+                  icon="icons/run_script.gif">
                <visibleWhen>
                   <reference
                         definitionId="net.bioclipse.definitions.activeJSEditor">
