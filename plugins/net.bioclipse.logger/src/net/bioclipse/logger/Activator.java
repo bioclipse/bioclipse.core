@@ -100,7 +100,7 @@ public class Activator extends Plugin {
             ("bioclipse.defaultLogDir",
              "macosx".equals(System.getProperty("osgi.os"))
                 ? pathnameFromProperty("user.home") + "/Library/Logs/Bioclipse"
-                : pathnameFromProperty("osgi.instance.area"));
+                : pathnameFromProperty("user.home")); 
 
         public final String key;
         public final String path;
