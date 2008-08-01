@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JSeditor Plugin
 Bundle-SymbolicName: net.sourceforge.jseditor;singleton:=true
-Bundle-Version: 1.2.0
+Bundle-Version: 2.0.0.alpha01
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.views,

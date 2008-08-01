@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse.sampledata-feature"
       label="Sampledata Feature"
-      version="1.0.0"
+      version="2.0.0.alpha01"
       provider-name="The Bioclipse Team">
 
    <description url="http://www.example.com/description">

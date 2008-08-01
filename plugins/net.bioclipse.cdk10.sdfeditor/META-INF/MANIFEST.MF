@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Sdfeditor Plug-in
 Bundle-SymbolicName: net.bioclipse.cdk10.sdfeditor;singleton:=true
-Bundle-Version: 1.3.1
+Bundle-Version: 2.0.0.alpha01
 Bundle-Activator: net.bioclipse.cdk10.sdfeditor.Activator
-Bundle-Vendor: Ola Spjuth
+Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.ide,

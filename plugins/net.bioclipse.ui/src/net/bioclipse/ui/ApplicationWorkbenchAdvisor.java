@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.bioclipse.ui.prefs.IPreferenceConstants;
+
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -56,6 +58,10 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
     public void initialize(IWorkbenchConfigurer configurer) {
         super.initialize(configurer);
         configurer.setSaveAndRestore(true);
+
+        //FIXME: remove hardcoded update site
+		String defstr="Bioclipse Update Site" + IPreferenceConstants.PREFERENCES_DELIMITER+ BioclipseConstants.UPDATE_SITE;
+    	PlatformUI.getPreferenceStore().putValue(IPreferenceConstants.UPDATE_SITES, defstr);
 
     }
     

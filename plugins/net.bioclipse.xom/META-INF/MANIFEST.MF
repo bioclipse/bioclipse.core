@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: XOM Plugin
 Bundle-SymbolicName: net.bioclipse.xom;singleton:=true
 Bundle-Activator: net.bioclipse.structuredb.Activator
-Bundle-Version: 1.2.0
+Bundle-Version: 2.0.0.alpha01
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.filebuffers,

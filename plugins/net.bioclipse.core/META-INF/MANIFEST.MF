@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Domain Plug-in
 Bundle-SymbolicName: net.bioclipse.core;singleton:=true
 DynamicImport-Package: *
-Bundle-Version: 0.1.0
+Bundle-Version: 2.0.0.alpha01
 Export-Package: net.bioclipse.core,
  net.bioclipse.core.business,
  net.bioclipse.core.domain,
