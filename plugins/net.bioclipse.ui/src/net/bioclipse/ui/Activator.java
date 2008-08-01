@@ -110,9 +110,6 @@ public class Activator extends BioclipseActivator {
         finderTracker = new ServiceTracker(context, IHistory.class.getName(),
                 null);
         finderTracker.open();
-        
-        
-        
     }
 
 
