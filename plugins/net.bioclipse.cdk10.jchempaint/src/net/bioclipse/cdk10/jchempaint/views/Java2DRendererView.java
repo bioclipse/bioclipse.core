@@ -111,7 +111,7 @@ public class Java2DRendererView extends ViewPart
      */
 	private void updateByObject(Object obj) {
 		
-		System.out.println("Updating by object in 2dview: " + obj);
+//		System.out.println("Updating by object in 2dview: " + obj);
 		
 		//If we have an ICDKMolecule, just get the AC
         if (obj instanceof CDK10Molecule) {
