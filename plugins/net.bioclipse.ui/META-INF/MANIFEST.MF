@@ -26,7 +26,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.update.core;bundle-version="3.2.200",
  org.eclipse.update.ui;bundle-version="3.2.100",
  org.springframework.osgi.aopalliance.osgi;bundle-version="1.0.0"
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: net.bioclipse.ui,
  net.bioclipse.ui.actions,
  net.bioclipse.ui.dialogs,
@@ -39,3 +39,4 @@ Export-Package: net.bioclipse.ui,
  net.bioclipse.ui.prefs,
  net.bioclipse.ui.views
 Import-Package: org.apache.log4j
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
