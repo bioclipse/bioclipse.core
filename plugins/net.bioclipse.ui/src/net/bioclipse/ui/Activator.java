@@ -261,8 +261,5 @@ public class Activator extends BioclipseActivator {
     public static Logger getLogger() {
         return logger;
     }
-    
-
-
 }
 
