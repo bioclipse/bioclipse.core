@@ -27,7 +27,7 @@ public class Activator extends AbstractUIPlugin {
     // The shared instance
     private static Activator plugin;
     
-    // tracks the example manager
+    // tracks the js console manager
     private ServiceTracker finderTracker;
     
     /**

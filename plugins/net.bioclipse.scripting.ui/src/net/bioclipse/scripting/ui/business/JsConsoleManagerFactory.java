@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.IExecutableExtensionFactory;
 import net.bioclipse.scripting.ui.Activator;
 
 /**
- * Factory for the exampleManager 
+ * Factory for <code>JsConsoleManager</code>.
  * 
  * @author masak
  *
