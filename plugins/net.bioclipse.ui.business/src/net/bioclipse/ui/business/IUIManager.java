@@ -29,14 +29,16 @@ import org.eclipse.core.resources.IFile;
 public interface IUIManager extends IBioclipseManager {
 
     @Recorded
-    @PublishedMethod(methodSummary="Opens a file in an editor.")
+    @PublishedMethod(params="String filePath",
+                     methodSummary="Opens a file in an editor.")
     public void open(String filePath);
 
     @Recorded
     public void open(IFile file);
     
     @Recorded
-    @PublishedMethod(methodSummary="Deletes a file.")
+    @PublishedMethod(params="String filePath",
+                     methodSummary="Deletes a file.")
     public void delete(String filePath);
 
     @Recorded
