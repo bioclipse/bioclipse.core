@@ -1,7 +1,6 @@
 package net.bioclipse.ui.contenttypes;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,6 +18,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.content.IContentDescription;
 import org.eclipse.osgi.util.NLS;
 
+@SuppressWarnings("restriction")
 public class MdlMolFileCoordinatesDescriber extends TextContentDescriber 
 										 implements IExecutableExtension {
 	
@@ -75,8 +75,8 @@ public class MdlMolFileCoordinatesDescriber extends TextContentDescriber
 		double totalZ=0;
 		for (int i=0; i<atoms;i++){
 			line=br.readLine();
-            double x = Double.parseDouble(line.substring(0, 10).trim());
-            double y = Double.parseDouble(line.substring(10, 20).trim());
+//            double x = Double.parseDouble(line.substring(0, 10).trim());
+//            double y = Double.parseDouble(line.substring(10, 20).trim());
             double z = Double.parseDouble(line.substring(20, 30).trim());
             totalZ += Math.abs(z); // *all* values should be zero, not just the sum
 		}
@@ -99,6 +99,7 @@ public class MdlMolFileCoordinatesDescriber extends TextContentDescriber
 	/**
 	 * Store parameters
 	 */
+	@SuppressWarnings("unchecked")
 	public void setInitializationData(final IConfigurationElement config, final String propertyName, final Object data) throws CoreException {
 		if (data instanceof String)
 			elementToFind = (String) data;

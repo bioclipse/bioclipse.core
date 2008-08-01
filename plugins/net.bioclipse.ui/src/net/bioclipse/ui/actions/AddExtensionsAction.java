@@ -14,7 +14,6 @@ package net.bioclipse.ui.actions;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
 import net.bioclipse.ui.Activator;
@@ -22,10 +21,8 @@ import net.bioclipse.ui.prefs.UpdateSitesPreferencePage;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.update.search.BackLevelFilter;
 import org.eclipse.update.search.EnvironmentFilter;
@@ -63,6 +60,7 @@ public class AddExtensionsAction extends Action implements IAction {
 		});
 	}
 
+	@SuppressWarnings("unchecked")
 	private UpdateSearchRequest getSearchRequest() {
 		UpdateSearchRequest result = new UpdateSearchRequest(
 				UpdateSearchRequest.createDefaultSiteSearchCategory(),

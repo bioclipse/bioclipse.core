@@ -104,7 +104,8 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         return DefaultPerspective.ID_PERSPECTIVE;
     }
 	
-    private void lauchAutomaticUpdates(IProgressMonitor monitor)
+    @SuppressWarnings({ "deprecation", "unchecked" })
+	private void lauchAutomaticUpdates(IProgressMonitor monitor)
         throws MalformedURLException, CoreException, InvocationTargetException {
 
         //    	IProgressMonitor monitor = new NullProgressMonitor();
@@ -183,7 +184,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
                 op.execute(monitor, null);
             }
             boolean restartRequired = ls.save();
-            //			logger.debug("Restart required: " + restartRequired);
+            logger.debug("Restart required (seems always true): " + restartRequired);
             showMessage("Updates for Bioclipse have been "
                         + "downloaded and installed.");
         }

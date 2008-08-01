@@ -24,7 +24,6 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.eclipse.update.internal.operations.UpdateUtils;
 import org.eclipse.update.search.BackLevelFilter;
 import org.eclipse.update.search.EnvironmentFilter;
 import org.eclipse.update.search.UpdateSearchRequest;
@@ -60,6 +59,7 @@ public class UpdateAction extends Action implements IAction {
 		});
 	}
 	
+	@SuppressWarnings("unchecked")
 	private UpdateSearchRequest getSearchRequest() {
 		UpdateSearchRequest result = new UpdateSearchRequest(
 				UpdateSearchRequest.createDefaultUpdatesSearchCategory(),

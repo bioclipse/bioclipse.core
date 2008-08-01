@@ -10,9 +10,6 @@
  *******************************************************************************/
 package net.bioclipse.ui;
 
-import org.apache.log4j.Logger;
-
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -29,7 +26,7 @@ public class BioclipseActivator extends AbstractUIPlugin {
     // The shared instance.
     private static BioclipseActivator plugin;
 
-    private static final Logger logger = Logger.getLogger(BioclipseActivator.class);
+//    private static final Logger logger = Logger.getLogger(BioclipseActivator.class);
     
     /**
      * The constructor.

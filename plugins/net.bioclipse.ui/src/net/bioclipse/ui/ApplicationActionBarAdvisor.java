@@ -15,7 +15,6 @@ package net.bioclipse.ui;
 import net.bioclipse.ui.actions.AddExtensionsAction;
 import net.bioclipse.ui.actions.UpdateAction;
 
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;

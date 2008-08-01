@@ -45,6 +45,7 @@ IWorkbenchPreferencePage {
 	private static final Logger logger = Logger.getLogger(UpdateSitesPreferencePage.class.toString());
 	
 	private IPreferenceStore store;
+	@SuppressWarnings("unchecked")
 	private ArrayList appList;
 //	private CheckboxTableViewer checkboxTableViewer;
 	private TableViewer checkboxTableViewer;
@@ -91,6 +92,7 @@ IWorkbenchPreferencePage {
 	}
 	
 	class ApplicationsContentProvider implements IStructuredContentProvider {
+		@SuppressWarnings("unchecked")
 		public Object[] getElements(Object inputElement) {
 				if (inputElement instanceof ArrayList) {
 					ArrayList retList = (ArrayList) inputElement;
@@ -252,6 +254,7 @@ IWorkbenchPreferencePage {
 	 * @return Arraylist of String[] containing the preferences
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	public static ArrayList getPreferencesFromStore() {
     	String entireString=PlatformUI.getPreferenceStore().getString(IPreferenceConstants.UPDATE_SITES);
     	return convertPreferenceStringToArraylist(entireString);
@@ -261,6 +264,7 @@ IWorkbenchPreferencePage {
 	 * @return Arraylist of String[] containing the preferences
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	public static ArrayList getDefaultPreferencesFromStore() {
     	String entireString=PlatformUI.getPreferenceStore().getDefaultString(IPreferenceConstants.UPDATE_SITES);
     	return convertPreferenceStringToArraylist(entireString);
@@ -301,6 +305,7 @@ IWorkbenchPreferencePage {
 	 * @param appList2
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private String convertToPreferenceString(ArrayList appList2) {
 		Iterator it=appList2.iterator();
 		String ret="";

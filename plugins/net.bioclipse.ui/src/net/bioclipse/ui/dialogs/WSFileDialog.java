@@ -31,10 +31,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.ResourceWorkingSetFilter;
-import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
-import org.eclipse.ui.views.navigator.ResourceNavigator;
 
 
 /**
@@ -49,8 +47,8 @@ public class WSFileDialog extends Dialog {
 	private FilePatternFilter patternFilter = new FilePatternFilter();
 	private ResourceWorkingSetFilter workingSetFilter 
 	                            = new ResourceWorkingSetFilter();
-	private UndesiredResourcesFilter undesiredResourcesFilter
-	                            = new UndesiredResourcesFilter();
+//	private UndesiredResourcesFilter undesiredResourcesFilter
+//	                            = new UndesiredResourcesFilter();
 	private IWorkingSet workingSet;
 	private int selectionStyle;
 	private IResource[] result;
@@ -182,6 +180,7 @@ public class WSFileDialog extends Dialog {
 	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
+	@SuppressWarnings("unchecked")
 	protected void okPressed() {
 		ISelection selection = viewer.getSelection();
 		List data = new ArrayList();

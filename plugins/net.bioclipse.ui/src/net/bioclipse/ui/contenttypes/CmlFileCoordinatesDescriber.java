@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.content.IContentDescription;
 import org.eclipse.osgi.util.NLS;
 
+@SuppressWarnings("restriction")
 public class CmlFileCoordinatesDescriber extends TextContentDescriber 
 										 implements IExecutableExtension {
 	
@@ -69,6 +70,7 @@ public class CmlFileCoordinatesDescriber extends TextContentDescriber
 	/**
 	 * Store parameters
 	 */
+	@SuppressWarnings("unchecked")
 	public void setInitializationData(final IConfigurationElement config, final String propertyName, final Object data) throws CoreException {
 		if (data instanceof String)
 			elementToFind = (String) data;
