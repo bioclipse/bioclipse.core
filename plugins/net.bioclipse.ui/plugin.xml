@@ -299,19 +299,19 @@
    </extension>
 
 
-  <extension
+  <!--extension
         point="org.eclipse.ui.importWizards">
      <wizard
            category="org.eclipse.ui.basic"
            class="net.bioclipse.ui.importWizards.FileImportWizard"
            icon="icons/sample.gif"
            id="net.bioclipse.ui.importWizards.FileImportWizard"
-           name="Import File">
+           name="Import single file">
         <description>
            Import a file from the local file system into the workspace.
         </description>
      </wizard>
-  </extension>
+  </extension-->
   
   <!--extension point="org.eclipse.ui.actionSets">
     <actionSet label="Search..."
@@ -326,11 +326,22 @@
   </extension-->
 
 
+    <extension
+          point="org.eclipse.core.runtime.contentTypes">
+          <content-type
+                base-type="org.eclipse.core.runtime.xml"
+                id="net.bioclipse.contenttypes.cml"
+                name="Chemical Markup Language (CML)"
+                file-extensions="cml,xml"
+                priority="normal">
+          </content-type>
+    </extension>
+
+
 <extension
            point="org.eclipse.core.runtime.contentTypes">
         <content-type
-              base-type="org.eclipse.core.runtime.xml"
-              file-extensions="cml,xml"
+              base-type="net.bioclipse.contenttypes.cml"
 	          id="net.bioclipse.contenttypes.cml.molecule2d"
               name="CMLmoleculeContentType2D"
               priority="high">
@@ -356,8 +367,7 @@
         </content-type>
 
         <content-type
-              base-type="org.eclipse.core.runtime.xml"
-              file-extensions="cml,xml"
+              base-type="net.bioclipse.contenttypes.cml"
 	          id="net.bioclipse.contenttypes.cml.molecule3d"
               name="CMLmoleculeContentType3D"
               priority="high">
