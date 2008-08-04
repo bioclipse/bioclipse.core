@@ -2,5 +2,5 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="Bioclipse Developers manual" topic="html/developers.html" > 
-   <topic label="Extension points" href="html/developers/ep.html">
+   <topic label="Extension points" href="html/developers/ep.html"/>
 </toc>

@@ -2,5 +2,5 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="Tutorials" link_to="toc.xml#gettingstarted"> 
-	<topic label="Main Topic"  href="html/tutorials/maintopic.html"> 
+	<topic label="Main Topic"  href="html/tutorials/maintopic.html"/> 
 </toc>
