@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="net.bioclipse.chemoinformatics_feature"
-      label="Chemoinformatics_feature Feature"
+      label="Chemoinformatics Feature"
       version="2.0.0.alpha01"
-      provider-name="The Bioclispe Team">
+      provider-name="The Bioclipse Team"
+      plugin="net.bioclipse.cdk.ui">
 
    <description>
       Chemoinformatics functionality for Bioclipse, mainly based on Chemistry Development Kit (CDK).
@@ -26,6 +27,10 @@ addressing incompatibility between the EPL and the GPL v.2.
 The Eclipse Public License accompanies this distribution, and is available at
 http://www.eclipse.org/legal/epl-v10.html
    </license>
+
+   <url>
+      <update label="Bioclipse2 update site" url="http://update2.bioclipse.net"/>
+   </url>
 
    <requires>
       <import plugin="org.eclipse.ui"/>
