@@ -60,7 +60,18 @@ public class JChemPaintWidget extends Canvas {
     private Dimension oldDimensions;
     private IAtomContainer oldMolecule;
     
-    /**
+    private boolean forceRepaint=false;
+    
+
+	public boolean isForceRepaint() {
+		return forceRepaint;
+	}
+
+	public void setForceRepaint(boolean forceRepaint) {
+		this.forceRepaint = forceRepaint;
+	}
+
+	/**
      * The constructor.
      */
     public JChemPaintWidget(Composite parent, int style) {
@@ -124,10 +135,11 @@ public class JChemPaintWidget extends Canvas {
         int ysize = this.getSize().y;
         if (molecule == oldMolecule &&
             oldDimensions.width == this.getSize().x &&
-            oldDimensions.height == this.getSize().y) {
+            oldDimensions.height == this.getSize().y && isForceRepaint()==false) {
 //            System.out.println(("Nothing has changed. Done creating new Image."));
             return;
         }
+        setForceRepaint(false);
         if (oldDimensions == null ||
             oldDimensions.width != this.getSize().x ||
             oldDimensions.height != this.getSize().y) {

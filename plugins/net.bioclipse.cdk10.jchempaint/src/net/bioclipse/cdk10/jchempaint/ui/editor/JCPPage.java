@@ -19,12 +19,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import net.bioclipse.cdk10.business.CDK10Molecule;
 import net.bioclipse.cdk10.jchempaint.outline.CDKChemObject;
 import net.bioclipse.core.business.BioclipseException;
 
@@ -36,8 +38,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.events.ControlListener;
@@ -46,6 +50,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
@@ -81,7 +86,8 @@ import org.openscience.cdk.tools.manipulator.ChemModelManipulator;
  */
 public class JCPPage extends EditorPart
     implements IJCPEditorPart, IChemObjectListener, ICDKChangeListener,
-               MouseMotionListener, ISelectionChangedListener, ISelectionListener{
+               MouseMotionListener, ISelectionChangedListener, 
+               ISelectionListener, ISelectionProvider{
 
     private static final Logger logger = Logger.getLogger(JCPPage.class);
 
@@ -90,12 +96,12 @@ public class JCPPage extends EditorPart
     
     
     /**
-     * The ChemModel, containing the molecule
+     * The ChemModel, containing the molecule. A CDK object
      */
     private IChemModel chemModel;
 
     /**
-     * The JCP model, containing the model
+     * The JCP model, containing the model. A CDK-JCP object
      */
     private JChemPaintModel jcpModel;
     private PopupController2D inputAdapter;
@@ -111,7 +117,7 @@ public class JCPPage extends EditorPart
     IEditorInput input;
     
     //The underlying file
-    IFile inputFile;;
+    IFile inputFile;
 
     //Store highlighted selections
     private IAtomContainer selectedContent = null;
@@ -122,11 +128,22 @@ public class JCPPage extends EditorPart
     //The AWT frame
     java.awt.Frame jcpFrame;
     
+    //The CDKMolecule that we provide via getSelection
+    private CDK10Molecule cdk10Molecule;
+    
     /*
      *  GETTERS AND SETTERS
      */
 
-    public IChemModel getChemModel() {
+    public CDK10Molecule getCdk10Molecule() {
+		return cdk10Molecule;
+	}
+
+	public void setCdk10Molecule(CDK10Molecule cdk10Molecule) {
+		this.cdk10Molecule = cdk10Molecule;
+	}
+
+	public IChemModel getChemModel() {
         return chemModel;
     }
     
@@ -167,17 +184,27 @@ public class JCPPage extends EditorPart
     }
 
 
-    /*
-     *  CONSTRUCTORS
+    /**
+     * What is this for?
      */
-    
     IChemModel newModel;
 
+    /**
+     * The MPE that we are in
+     */
     private MultiPageEditorPart MPE;
 
+    /** Registered selectionListeners*/
+    private List<ISelectionChangedListener> selectionListeners;
+
+    
+    
+    
     public JCPPage(IChemModel chemModel_in) {
         super();
         newModel=chemModel_in;
+        selectionListeners=new ArrayList<ISelectionChangedListener>();
+        selectedContent=new AtomContainer();
     }
     
     public JCPPage(IChemModel chemModel_in, IAtomColorer colorer) {
@@ -206,19 +233,22 @@ public class JCPPage extends EditorPart
                 return;
             }
             updateJCPModel(newModel);
+            
         } catch ( BioclipseException e1 ) {
             logger.debug( "No valid JCPModel - could not be opened with JCP" );
             showMessage( "No valid JCPModel - could not be opened with JCP" );
             return;
         }
 
-
         //Reduce flicker on windows machines.
         System.setProperty("sun.awt.noerasebackground", "true");
-        
 
-        //Listen for Eclipse selections
+        //Listen for Eclipse selections, e.g. to highlight atoms
         getSite().getPage().addSelectionListener(this);
+
+        //Provide selections to Eclipse workbench, e.g. atom selections in JCP
+        getSite().setSelectionProvider(this);
+
     }
 
     
@@ -473,9 +503,16 @@ public class JCPPage extends EditorPart
      */
     public void reactOnSelection(ISelection selection) {
 
+
         if (jcpModel==null) return;
-        
-        if (!( selection instanceof IStructuredSelection )) return;
+
+		//We always remove all elements as highlighting is always only for latest selection
+		selectedContent.removeAllElements();
+
+        if (!( selection instanceof IStructuredSelection )){
+            this.getDrawingPanel().repaint();
+        	return;
+        }
 
         //Check if selection includes atoms/bonds and highlight in that case
         Iterator it=((IStructuredSelection)selection).iterator();
@@ -485,7 +522,6 @@ public class JCPPage extends EditorPart
             if (selectedContent == null) {
                 selectedContent = new AtomContainer();
             } else {
-                selectedContent.removeAllElements();
             }
 
             while( it.hasNext()){
@@ -493,16 +529,21 @@ public class JCPPage extends EditorPart
                 if(obj instanceof CDKChemObject){
                     obj=((CDKChemObject)obj).getChemobj();
                     if (obj instanceof IAtom){
-                        selectedContent.addAtom((IAtom)obj);
-                    }
+						IAtom atom=(IAtom)obj;
+						if (cdk10Molecule.getAtomContainer().contains(atom)){
+							selectedContent.addAtom(atom);
+						}                    }
                     if (obj instanceof IBond){
-                        selectedContent.addBond((IBond)obj);
+						IBond bond=(IBond)obj;
+						if (cdk10Molecule.getAtomContainer().contains(bond)){
+							selectedContent.addBond(bond);
+						}
                     }
                 }
             }
-            jcpModel.getRendererModel().setExternalSelectedPart(selectedContent);
-            this.getDrawingPanel().repaint();
         }
+        jcpModel.getRendererModel().setExternalSelectedPart(selectedContent);
+        this.getDrawingPanel().repaint();
 
         
     }
@@ -694,6 +735,33 @@ public class JCPPage extends EditorPart
             }
             
         }
+    }
+
+    public void addSelectionChangedListener(ISelectionChangedListener listener) {
+        if(!selectionListeners.contains(listener))
+        {
+            selectionListeners.add(listener);
+        }
+    }
+
+    public ISelection getSelection() {
+    	
+    	//Set up a new selection with the cdkmolecule as object and any
+    	//selected atoms/bonds as selections in this
+    	List list=new ArrayList();
+    	list.add(cdk10Molecule);
+    	
+        return new StructuredSelection(list);
+        
+    }
+
+    public void removeSelectionChangedListener(
+            ISelectionChangedListener listener) {
+        if(selectionListeners.contains(listener))
+            selectionListeners.remove(listener);
+    }
+
+    public void setSelection(ISelection selection) {
     }
 
     

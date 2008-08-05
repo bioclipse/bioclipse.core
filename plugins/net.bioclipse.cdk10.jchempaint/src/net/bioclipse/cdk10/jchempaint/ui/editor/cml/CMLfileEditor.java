@@ -114,9 +114,6 @@ public class CMLfileEditor extends AbstractJCPEditor{
             
             IChemModel cm=cf.getChemSequence( 0 ).getChemModel( 0 );
             
-            IAtomContainer ac=(IAtomContainer) ChemModelManipulator.getAllAtomContainers(cm).get(0);
-            setCdkmolecule(new CDK10Molecule(ac));
-            
             return cm;
             
         } catch (Exception e) {

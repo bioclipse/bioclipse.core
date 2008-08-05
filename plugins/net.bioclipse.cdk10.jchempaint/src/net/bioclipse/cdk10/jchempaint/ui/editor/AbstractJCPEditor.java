@@ -8,30 +8,21 @@
  *******************************************************************************/
 package net.bioclipse.cdk10.jchempaint.ui.editor;
 
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.bioclipse.cdk10.business.CDK10Molecule;
 import net.bioclipse.cdk10.jchempaint.colorers.PropertyColorer;
 import net.bioclipse.cdk10.jchempaint.outline.JCPOutlinePage;
-import net.bioclipse.cdk10.jchempaint.ui.editor.mdl.MDLMolfileEditor;
 import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.commands.operations.IUndoContext;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
@@ -39,21 +30,16 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-import org.openscience.cdk.ChemModel;
 import org.openscience.cdk.MoleculeSet;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
-import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.interfaces.IMoleculeSet;
-import org.openscience.cdk.io.MDLV2000Reader;
-import org.openscience.cdk.io.MDLWriter;
 import org.openscience.cdk.layout.StructureDiagramGenerator;
 import org.openscience.cdk.renderer.color.IAtomColorer;
 
 public abstract class AbstractJCPEditor extends MultiPageEditorPart 
 										implements IJCPBasedEditor,
-												   IResourceChangeListener,
-												   ISelectionProvider{
+												   IResourceChangeListener{
 
         private static final Logger logger = Logger.getLogger(AbstractJCPEditor.class);
 
@@ -69,22 +55,18 @@ public abstract class AbstractJCPEditor extends MultiPageEditorPart
 
         private IChemModel chemModel;
 
-    	private CDK10Molecule cdkmolecule;
-
-        /** Registered listeners */
-        private List<ISelectionChangedListener> selectionListeners;
-
-        
-        
-        
-        public CDK10Molecule getCdkmolecule() {
-    		return cdkmolecule;
-    	}
-
-
-    	public void setCdkmolecule(CDK10Molecule cdkmolecule) {
-    		this.cdkmolecule = cdkmolecule;
-    	}
+//    	private CDK10Molecule cdk10Molecule;
+//
+//        
+//        
+//        public CDK10Molecule getCdkmolecule() {
+//    		return cdk10Molecule;
+//    	}
+//
+//
+//    	public void setCdkmolecule(CDK10Molecule cdkmolecule) {
+//    		this.cdk10Molecule = cdkmolecule;
+//    	}
 
 
     	public IChemModel getChemModel() {
@@ -107,7 +89,6 @@ public abstract class AbstractJCPEditor extends MultiPageEditorPart
             super.init(site, input);
             setPartName(input.getName());
             colorer=getColorer();
-            selectionListeners=new ArrayList<ISelectionChangedListener>();
         }
 
         //Default is PropertyColorer by CDK
@@ -154,16 +135,16 @@ public abstract class AbstractJCPEditor extends MultiPageEditorPart
                 }
                 return;
             }
-            
+
+            //Get the CDK Molecule
             org.openscience.cdk.interfaces.IMolecule mol=chemModel.getMoleculeSet().getMolecule( 0 );
-            
-            cdkmolecule=new CDK10Molecule(mol);
+
             
 //            if (GeometryTools.has2DCoordinates( mol )==false){
                 //FIXME: add to CDK
                 StructureDiagramGenerator sdg = new StructureDiagramGenerator();
                 try {
-                    sdg.setMolecule((org.openscience.cdk.interfaces.IMolecule)mol.clone());
+                    sdg.setMolecule(mol,true);
                     sdg.generateCoordinates();
                     mol = sdg.getMolecule();
                     IMoleculeSet ms= new MoleculeSet();
@@ -177,13 +158,19 @@ public abstract class AbstractJCPEditor extends MultiPageEditorPart
 
 //            }
             
-            
+//              //Create a CDK10Molecule from the CDK Molecule (=AC)
+              CDK10Molecule cdk10Molecule = new CDK10Molecule(mol);
+
 
             if (colorer!=null)
                 jcpPage=new JCPPage(chemModel, colorer);
             else
                 jcpPage=new JCPPage(chemModel);
-                
+
+//            //Send the CDK10Mol to JCPPage
+            jcpPage.setCdk10Molecule(cdk10Molecule);
+            
+
             textEditor=new TextEditor();
             
             try {
@@ -199,7 +186,7 @@ public abstract class AbstractJCPEditor extends MultiPageEditorPart
             
             
             //Post selections in to Eclipse
-            getSite().setSelectionProvider(this);
+//            getSite().setSelectionProvider(this);
 
             
         }
@@ -257,9 +244,9 @@ public abstract class AbstractJCPEditor extends MultiPageEditorPart
                 }
                 return fOutlinePage;
             }
-            if (adapter == IMolecule.class){
-                return cdkmolecule;
-            }
+//            if (adapter == IMolecule.class){
+//                return cdkmolecule;
+//            }
             return super.getAdapter(adapter);
         }
 
@@ -277,27 +264,5 @@ public abstract class AbstractJCPEditor extends MultiPageEditorPart
          * @throws BioclipseException 
          */
         public abstract IChemModel getModelFromEditorInput() throws BioclipseException;
-
-        
-        public void addSelectionChangedListener(ISelectionChangedListener listener) {
-            if(!selectionListeners.contains(listener))
-            {
-                selectionListeners.add(listener);
-            }
-        }
-
-        public ISelection getSelection() {
-            return new StructuredSelection(cdkmolecule);
-        }
-
-        public void removeSelectionChangedListener(
-                ISelectionChangedListener listener) {
-            if(selectionListeners.contains(listener))
-                selectionListeners.remove(listener);
-        }
-
-        public void setSelection(ISelection selection) {
-        }
-
 
     }
