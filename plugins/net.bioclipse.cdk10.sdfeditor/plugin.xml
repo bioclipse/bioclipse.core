@@ -16,6 +16,9 @@
             <contentTypeBinding
                   contentTypeId="net.bioclipse.contenttypes.cml.multipleMolecule2d">
             </contentTypeBinding>
+            <contentTypeBinding
+                  contentTypeId="net.bioclipse.contenttypes.cml.multipleMolecule3d">
+            </contentTypeBinding>
       </editor>
    </extension>
 

@@ -377,7 +377,7 @@
         
         <content-type
               base-type="net.bioclipse.contenttypes.cml"
-	          id="net.bioclipse.contenttypes.cml.singlemolecule3d"
+	          id="net.bioclipse.contenttypes.cml.singleMolecule3d"
               name="CMLSingleMoleculeContentType3D"
               priority="high">
 		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
