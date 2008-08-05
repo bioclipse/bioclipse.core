@@ -18,7 +18,7 @@ import java.util.Map;
  * @author ola
  *
  */
-public class ScriptSelection implements IChemicalSelection{
+public class ScriptSelection extends AbstractChemicalSelection{
 
     //Each command is stored in a map, with Script -> Namespace
     private Map<String, String> scripts;
@@ -38,6 +38,18 @@ public class ScriptSelection implements IChemicalSelection{
     public ScriptSelection(String script, String namespace) {
         this();
         addScript( script, namespace );
+    }
+
+    /**
+     * Create a new ScriptSelection and add a first script
+     * @param script the script to provide
+     * @param namespace a namespace for the intended target
+     * @param chemicalModel the model object = molecule
+     */
+    public ScriptSelection(String script, String namespace, Object chemicalModel) {
+        this();
+        addScript( script, namespace );
+        setChemicalModel(chemicalModel);
     }
 
     public Map<String, String> getSelection() {

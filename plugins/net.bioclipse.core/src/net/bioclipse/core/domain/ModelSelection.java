@@ -14,12 +14,12 @@ package net.bioclipse.core.domain;
 import java.util.ArrayList;
 
 /**
- * Used to select a frame in a view.
+ * Used to select a frame (=model by index) in a view.
  * For example in Jmol, to select a frame for the model
  * @author ola
  *
  */
-public class ModelSelection implements IChemicalSelection {
+public class ModelSelection extends AbstractChemicalSelection {
 
     ArrayList<Integer> frames;
 
@@ -28,6 +28,10 @@ public class ModelSelection implements IChemicalSelection {
     }
     public void setFrames( ArrayList<Integer> frames ) {
         this.frames = frames;
+    }
+
+    public ArrayList<Integer> getSelection() {
+        return frames;
     }
 
     /**
@@ -39,6 +43,16 @@ public class ModelSelection implements IChemicalSelection {
     }
 
     /**
+     * Constructor for a ModelSelection.
+     * @param frames ArrayList<Integer> with the models to display and a chemical model
+     * @param chemicalModel the model object = molecule
+     */
+    public ModelSelection(ArrayList<Integer> frames, Object chemicalModel) {
+        this.frames = frames;
+        setChemicalModel(chemicalModel);
+    }
+
+    /**
      * Create new ModelSelection with only one index
      * @param modelIndex
      */
@@ -46,8 +60,16 @@ public class ModelSelection implements IChemicalSelection {
         this.frames = new ArrayList<Integer>();
         frames.add( new Integer(modelIndex) );
     }
-    public ArrayList<Integer> getSelection() {
-        return frames;
+
+    /**
+     * Create new ModelSelection with only one index and a chemical model
+     * @param modelIndex
+     * @param chemicalModel the model object = molecule
+     */
+    public ModelSelection(int modelIndex, Object chemicalModel) {
+        this.frames = new ArrayList<Integer>();
+        frames.add( new Integer(modelIndex) );
+        setChemicalModel(chemicalModel);
     }
 
 

@@ -12,29 +12,40 @@
 package net.bioclipse.core.domain;
 
 /**
- * Used to select a series of atoms by index
+ * Used to select a series of atoms by index only. 
+ * Can hold an (optional) chemical model (IMolecule or similar) 
  * @author ola
  *
  */
-public class AtomIndexSelection implements IChemicalSelection{
+public class AtomIndexSelection extends AbstractChemicalSelection{
 
-    int[] selection;
+    private int[] selection;
+
+    
+    /**
+     * Constructor to select an array of atoms by indices, (chemicalModel=null)
+     * @param selection
+     */
+    public AtomIndexSelection(int[] selection) {
+        this(selection, null);
+    }
+
+    /**
+     * Constructor to select an array of atoms by indices in a model (=molecule)
+     * @param selection
+     * @param chemicalModel the model object = molecule
+     */
+    public AtomIndexSelection(int[] selection, Object chemicalModel) {
+        this.selection = selection;
+        setChemicalModel(chemicalModel);
+    }
+
     
     public int[] getSelection() {
-
         return selection;
     }
-
     
     public void setSelection( int[] selection ) {
-    
-        this.selection = selection;
-    }
-
-
-    public AtomIndexSelection(int[] selection) {
-
-        super();
         this.selection = selection;
     }
 
