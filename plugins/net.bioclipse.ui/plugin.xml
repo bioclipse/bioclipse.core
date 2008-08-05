@@ -71,7 +71,7 @@
          </property>
          <property
                name="aboutText"
-               value="Version: 2.0-alpha&#x0A;&#x0A;Copyright (c) 2005-2008 Bioclipse Project&#x0A; All rights reserved. This program and the accompanying materials&#x0A; are made available under the terms of the Eclipse Public License v1.0&#x0A; which accompanies this distribution, and is available at&#x0A; http://www.eclipse.org/legal/epl-v10.html&#x0A;&#x0A; Main contributors:&#x0A;   Ola Spjuth&#x0A;   Jonathan Alvarsson&#x0A;   Carl Mäsak&#x0A;   Arvid Berg&#x0A;   Eskil Anderssen&#x0A;   Egon Willighagen&#x0A;   Johannes Wagener&#x0A;   Stefan Kuhn&#x0A;   Martin Eklund&#x0A;   Christoph Steinbeck&#x0A;   Jarl E.S. Wikberg&#x0A;&#x0A;See http://www.bioclipse.net for more information">
+               value="Version: 2.0-alpha&#x0D;&#x0D;Copyright (c) 2005-2008 Bioclipse Project&#x0A; All rights reserved. This program and the accompanying materials&#x0A; are made available under the terms of the Eclipse Public License v1.0&#x0D; which accompanies this distribution, and is available at&#x0A; http://www.eclipse.org/legal/epl-v10.html&#x0A;&#x0A; Main contributors:&#x0A;   Ola Spjuth&#x0A;   Jonathan Alvarsson&#x0A;   Carl Mäsak&#x0A;   Arvid Berg&#x0A;   Eskil Anderssen&#x0A;   Egon Willighagen&#x0A;   Johannes Wagener&#x0A;   Stefan Kuhn&#x0A;   Martin Eklund&#x0A;   Christoph Steinbeck&#x0A;   Jarl E.S. Wikberg&#x0A;&#x0D;See http://www.bioclipse.net for more information">
          </property>
       </product>
    </extension>
