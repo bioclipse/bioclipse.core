@@ -23,7 +23,7 @@
             class="net.bioclipse.cdk10.jchempaint.ui.editor.cml.CMLfileEditor"
             id="net.bioclipse.cdk10.jchempaint.ui.editor.cml.CMLfileEditor">
             <contentTypeBinding
-                  contentTypeId="net.bioclipse.contenttypes.cml.molecule2d">
+                  contentTypeId="net.bioclipse.contenttypes.cml.singleMolecule2d">
             </contentTypeBinding>
       </editor>
    </extension>

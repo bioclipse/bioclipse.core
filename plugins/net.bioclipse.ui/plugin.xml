@@ -340,43 +340,73 @@
 
 <extension
            point="org.eclipse.core.runtime.contentTypes">
-        <content-type
+        
+		<content-type
               base-type="net.bioclipse.contenttypes.cml"
-	          id="net.bioclipse.contenttypes.cml.molecule2d"
-              name="CMLmoleculeContentType2D"
+	          id="net.bioclipse.contenttypes.cml.singleMolecule2d"
+              name="CMLSingleMoleculeContentType2D"
               priority="high">
-		 <describer class="net.bioclipse.ui.contenttypes.CmlFileCoordinatesDescriber">
-              <parameter
-                    name="type"
+		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
+            	<parameter
+                    name="dimension"
                     value="2D">
-              </parameter>
-       	</describer>
-		 <!--describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">
-              <parameter
-                    name="element"
-                    value="{http://www.xml-cml.org/schema}molecule">
-              </parameter>
-       	</describer-->
-           <!--describer
-                   class="org.eclipse.emf.ecore.xmi.impl.RootXMLContentHandlerImpl$Describer">
-              <parameter
-                    name="namespace"
-                    value="http://www.xml-cml.org/weee">
-              </parameter>
-           </describer-->
+              	</parameter>
+              	<parameter
+                    name="cardinality"
+                    value="single">
+              	</parameter>
+       		</describer>
         </content-type>
-
+        
         <content-type
               base-type="net.bioclipse.contenttypes.cml"
-	          id="net.bioclipse.contenttypes.cml.molecule3d"
-              name="CMLmoleculeContentType3D"
+	          id="net.bioclipse.contenttypes.cml.multipleMolecule2d"
+              name="CMLMultipleMoleculeContentType2D"
               priority="high">
-		 <describer class="net.bioclipse.ui.contenttypes.CmlFileCoordinatesDescriber">
-              <parameter
-                    name="type"
+		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
+            	<parameter
+                    name="dimension"
+                    value="2D">
+              	</parameter>
+              	<parameter
+                    name="cardinality"
+                    value="multiple">
+              	</parameter>
+       		</describer>
+        </content-type>
+        
+        <content-type
+              base-type="net.bioclipse.contenttypes.cml"
+	          id="net.bioclipse.contenttypes.cml.singlemolecule3d"
+              name="CMLSingleMoleculeContentType3D"
+              priority="high">
+		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
+            	<parameter
+                    name="dimension"
                     value="3D">
-              </parameter>
-       	</describer>
+              	</parameter>
+              	<parameter
+                    name="cardinality"
+                    value="single">
+              	</parameter>
+       		</describer>
+        </content-type>
+        
+        <content-type
+              base-type="net.bioclipse.contenttypes.cml"
+	          id="net.bioclipse.contenttypes.cml.multipleMolecule3d"
+              name="CMLMultipleMoleculeContentType3D"
+              priority="high">
+		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
+            	<parameter
+                    name="dimension"
+                    value="3D">
+              	</parameter>
+              	<parameter
+                    name="cardinality"
+                    value="multiple">
+              	</parameter>
+       		</describer>
         </content-type>
 
         <content-type
