@@ -140,14 +140,39 @@ implements ISelectionListener {
 				if (editor instanceof IJCPBasedEditor) {
 					IJCPBasedEditor jcpeditor = (IJCPBasedEditor) editor;
 					mol=jcpeditor.getJCPPage().getCdk10Molecule();
-				}else{
-					storedMolecule=null;
-					clearView();
-					return;
+				}
+			}
+			
+			//If mol still null, get from adapter
+			if (mol==null){
+				IEditorPart editor=getSite().getPage().getActiveEditor();
+				if (editor instanceof IAdaptable){
+					net.bioclipse.core.domain.IMolecule imol=
+						(net.bioclipse.core.domain.IMolecule) editor.
+												getAdapter(IMolecule.class);
+					if (imol!=null){
+						if (imol instanceof CDK10Molecule) {
+							mol= (CDK10Molecule) imol;
+						}else{
+							try {
+								mol=cdk.create(imol);
+							} catch (BioclipseException e) {
+								logger.debug("Java2DView: Could not create cdk10mol " +
+										"from " + imol);
+							}
+						}
+				}
 				}
 
 			}
-			
+
+			//If mol still null, give up
+			if (mol==null){
+				storedMolecule=null;
+				clearView();
+				return;
+			}
+
 			if (mol!=storedMolecule){
 				storedMolecule=mol;
 				setMolecule(mol);
@@ -217,7 +242,7 @@ implements ISelectionListener {
 
 		//Create molecule
 		IAtomContainer ac=mol.getAtomContainer();
-		/*
+
 		molecule=new Molecule(ac);
 
 		//Create 2D-coordinates if not available
@@ -236,9 +261,8 @@ implements ISelectionListener {
 			}
 			molecule = sdg.getMolecule();
 		}
-		*/
 
-		setAtomContainer(ac);
+		setAtomContainer(molecule);
 
 	}
 

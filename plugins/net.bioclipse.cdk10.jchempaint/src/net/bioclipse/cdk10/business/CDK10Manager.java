@@ -694,6 +694,7 @@ public class CDK10Manager{
      * create from SMILES.
      */
     public CDK10Molecule create( IMolecule m ) throws BioclipseException {
+    	if (m==null) throw new IllegalArgumentException("Input molecule cannot be empty");
         //First try to create from CML
         try {
             String cmlString=m.getCML();
