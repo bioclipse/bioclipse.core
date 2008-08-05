@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: CDK1.0-based JChemPaint Plug-in
 Bundle-SymbolicName: net.bioclipse.cdk10.jchempaint;singleton:=true
-Bundle-Version: 2.0.0.alpha01
+Bundle-Version: 2.0.0.alpha02
 Bundle-Activator: net.bioclipse.cdk10.jchempaint.Activator
 Bundle-Vendor: The Bioclispe Project
 Require-Bundle: org.eclipse.ui,
