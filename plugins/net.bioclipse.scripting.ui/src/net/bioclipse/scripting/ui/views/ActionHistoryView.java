@@ -70,7 +70,7 @@ public class ActionHistoryView extends ViewPart implements IHistoryListener {
 
     @Override
     public void createPartControl(Composite parent) {
-        actionList = new List(parent, SWT.MULTI);
+        actionList = new List(parent, SWT.MULTI|SWT.V_SCROLL);
         receiveHistoryEvent(null);
 
         addContextMenu();
