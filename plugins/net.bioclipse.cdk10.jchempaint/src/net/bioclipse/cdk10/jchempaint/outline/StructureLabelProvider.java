@@ -40,6 +40,9 @@ public class StructureLabelProvider extends LabelProvider {
     private final static Image oxygenImage 
     = Activator.imageDescriptorFromPlugin(
         Activator.PLUGIN_ID, "icons/atom_o.gif").createImage();
+    private final static Image bondImage 
+    = Activator.imageDescriptorFromPlugin(
+        Activator.PLUGIN_ID, "icons/bond.png").createImage();
 
     
     public String getText(Object obj) {
@@ -79,8 +82,7 @@ public class StructureLabelProvider extends LabelProvider {
                     }
                 }
                 if (chemobj instanceof IBond) {
-                    //TODO: add image for bonds
-                    return null;
+                    return bondImage;
                 }
 
             }
