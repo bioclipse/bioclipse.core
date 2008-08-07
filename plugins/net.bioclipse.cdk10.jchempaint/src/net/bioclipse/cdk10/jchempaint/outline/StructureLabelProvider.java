@@ -13,9 +13,11 @@ package net.bioclipse.cdk10.jchempaint.outline;
 
 import net.bioclipse.cdk10.jchempaint.Activator;
 
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.graphics.Image;
+import org.openscience.cdk.CDKConstants;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IBond;
 import org.openscience.cdk.interfaces.IChemObject;
@@ -30,19 +32,27 @@ public class StructureLabelProvider extends LabelProvider {
     // cached images
     private final static Image carbonImage 
         = Activator.imageDescriptorFromPlugin(
-            Activator.PLUGIN_ID, "icons/atom_c.gif").createImage();
+            Activator.PLUGIN_ID, "icons/atom_c.png").createImage();
     private final static Image hydrogenImage 
     = Activator.imageDescriptorFromPlugin(
-        Activator.PLUGIN_ID, "icons/atom_h.gif").createImage();
+        Activator.PLUGIN_ID, "icons/atom_h.png").createImage();
     private final static Image nitrogenImage 
     = Activator.imageDescriptorFromPlugin(
-        Activator.PLUGIN_ID, "icons/atom_n.gif").createImage();
+        Activator.PLUGIN_ID, "icons/atom_n.png").createImage();
     private final static Image oxygenImage 
     = Activator.imageDescriptorFromPlugin(
-        Activator.PLUGIN_ID, "icons/atom_o.gif").createImage();
-    private final static Image bondImage 
+        Activator.PLUGIN_ID, "icons/atom_o.png").createImage();
+    private final static Image singleBondImage 
     = Activator.imageDescriptorFromPlugin(
-        Activator.PLUGIN_ID, "icons/bond.png").createImage();
+        Activator.PLUGIN_ID, "icons/bond_1.png").createImage();
+    private final static Image doubleBondImage 
+    = Activator.imageDescriptorFromPlugin(
+        Activator.PLUGIN_ID, "icons/bond_2.png").createImage();
+    private final static Image trippleBondImage 
+    = Activator.imageDescriptorFromPlugin(
+        Activator.PLUGIN_ID, "icons/bond_3.png").createImage();
+    private final static Image aromaticBondImage 
+    = ImageDescriptor.getMissingImageDescriptor().createImage();
 
     
     public String getText(Object obj) {
@@ -82,7 +92,15 @@ public class StructureLabelProvider extends LabelProvider {
                     }
                 }
                 if (chemobj instanceof IBond) {
-                    return bondImage;
+                	IBond bond=(IBond)chemobj;
+                	if (bond.getOrder()==CDKConstants.BONDORDER_SINGLE)
+                		return singleBondImage;
+                	if (bond.getOrder()==CDKConstants.BONDORDER_DOUBLE)
+                		return doubleBondImage;
+                	if (bond.getOrder()==CDKConstants.BONDORDER_TRIPLE)
+                		return trippleBondImage;
+//                	if (bond.getOrder()==CDKConstants.BONDORDER_AROMATIC)
+//                		return aromaticBondImage;
                 }
 
             }
