@@ -13,6 +13,8 @@ package net.bioclipse.ui.prefs;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import net.bioclipse.ui.Activator;
+
 import org.apache.log4j.Logger;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -44,7 +46,7 @@ IWorkbenchPreferencePage {
 	//Init logger
 	private static final Logger logger = Logger.getLogger(UpdateSitesPreferencePage.class.toString());
 	
-	private IPreferenceStore store;
+	private static IPreferenceStore prefsStore;
 	@SuppressWarnings("unchecked")
 	private ArrayList appList;
 //	private CheckboxTableViewer checkboxTableViewer;
@@ -52,11 +54,16 @@ IWorkbenchPreferencePage {
 
 	public UpdateSitesPreferencePage() {
 		super();
+
+//		IEclipsePreferences instanceNode = new DefaultScope().getNode(Activator.PLUGIN_ID);
 		
 		// Set the preference store for the preference page.
-		store = PlatformUI.getPreferenceStore();
+		prefsStore=Activator.getDefault().getPreferenceStore();
+		
 	}
 
+	
+	
 	/**
 	 * The label provider for the table that displays 2 columns: name and URL
 	 * @author ola
@@ -234,6 +241,7 @@ IWorkbenchPreferencePage {
 	
 
 	public void init(IWorkbench workbench) {
+		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 	}
 
 	/**
@@ -243,7 +251,8 @@ IWorkbenchPreferencePage {
 
     	String value=convertToPreferenceString(appList);
 		logger.debug("prefs to store: " + value);
-    	store.setValue(IPreferenceConstants.UPDATE_SITES,value);
+    	prefsStore.setValue(IPreferenceConstants.UPDATE_SITES,value);
+    	Activator.getDefault().savePluginPreferences();
     	
 //    	BioResourceView.updateExternalApplicationsAction();
     	
@@ -256,7 +265,10 @@ IWorkbenchPreferencePage {
 	 */
 	@SuppressWarnings("unchecked")
 	public static ArrayList getPreferencesFromStore() {
-    	String entireString=PlatformUI.getPreferenceStore().getString(IPreferenceConstants.UPDATE_SITES);
+		
+		String entireString=prefsStore.getString(IPreferenceConstants.UPDATE_SITES);
+
+//    	String entireString=PlatformUI.getPreferenceStore().getString(IPreferenceConstants.UPDATE_SITES);
     	return convertPreferenceStringToArraylist(entireString);
 	}
 
@@ -266,7 +278,9 @@ IWorkbenchPreferencePage {
 	 */
 	@SuppressWarnings("unchecked")
 	public static ArrayList getDefaultPreferencesFromStore() {
-    	String entireString=PlatformUI.getPreferenceStore().getDefaultString(IPreferenceConstants.UPDATE_SITES);
+		String entireString=prefsStore.getDefaultString(IPreferenceConstants.UPDATE_SITES);
+
+		//    	String entireString=PlatformUI.getPreferenceStore().getDefaultString(IPreferenceConstants.UPDATE_SITES);
     	return convertPreferenceStringToArraylist(entireString);
 	}
 
@@ -343,6 +357,7 @@ IWorkbenchPreferencePage {
 		return singleRet;
 	}
 
+	
     protected void performDefaults() {
         super.performDefaults();
 

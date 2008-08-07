@@ -12,14 +12,12 @@
 
 package net.bioclipse.ui.prefs;
 
+import net.bioclipse.ui.Activator;
 import net.bioclipse.ui.BioclipseConstants;
-
-import org.apache.log4j.Logger;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.ui.PlatformUI;
 
 
 /**
@@ -28,16 +26,22 @@ import org.eclipse.ui.PlatformUI;
  * @author ola
  *
  */
-public class BioclipsePreferenceInitializer extends AbstractPreferenceInitializer {
+public class UIPreferenceInitializer extends AbstractPreferenceInitializer {
 
-    private static final Logger logger = Logger.getLogger(BioclipsePreferenceInitializer.class);
-
+     public UIPreferenceInitializer() {
+    	 super();
+	}
+    
     @Override
     public void initializeDefaultPreferences() {
-    	
+
+    	//This string is the default update site for Bioclipse
 		String defstr="Bioclipse Update Site" + IPreferenceConstants.PREFERENCES_DELIMITER+ BioclipseConstants.UPDATE_SITE;
-    	PlatformUI.getPreferenceStore().putValue(IPreferenceConstants.UPDATE_SITES, defstr);
-        
-        logger.info("Default preferences initialized");
+
+		IEclipsePreferences prefs = new DefaultScope().getNode(Activator.PLUGIN_ID);
+		prefs.put(
+				IPreferenceConstants.UPDATE_SITES, 
+				defstr);
+    	
     }
 }

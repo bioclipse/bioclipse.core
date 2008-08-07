@@ -23,8 +23,12 @@ public interface IPreferenceConstants {
 
 	public static final String UPDATE_SITES = "UpdateSites";
 
+	//Delimits between preferences
 	public static final String PREFERENCES_DELIMITER = "%";
+	
+	//Delimiter within a preference
 	public static final String PREFERENCES_OBJECT_DELIMITER = "£";
+	
 	public static final String PREFERENCES_EXTENSION_DELIMITER = ",";
 	
 	public static final String AUTOLOAD_NEW_RESOURCES = "autoLoadNewResources";
