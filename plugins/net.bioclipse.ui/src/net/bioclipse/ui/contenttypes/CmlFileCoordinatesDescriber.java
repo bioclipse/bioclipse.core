@@ -20,7 +20,7 @@ import org.eclipse.osgi.util.NLS;
 public class CmlFileCoordinatesDescriber extends TextContentDescriber 
 										 implements IExecutableExtension {
 	
-	private static final String ELEMENT_TO_FIND = "type"; //$NON-NLS-1$
+	private static final String ELEMENT_TO_FIND = "dimension"; //$NON-NLS-1$
 
 	private String elementToFind = null;
 
