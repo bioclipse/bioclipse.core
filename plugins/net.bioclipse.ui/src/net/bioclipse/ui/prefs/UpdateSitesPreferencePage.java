@@ -12,6 +12,7 @@ package net.bioclipse.ui.prefs;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import net.bioclipse.ui.Activator;
 
@@ -46,20 +47,13 @@ IWorkbenchPreferencePage {
 	//Init logger
 	private static final Logger logger = Logger.getLogger(UpdateSitesPreferencePage.class.toString());
 	
-	private static IPreferenceStore prefsStore;
-	@SuppressWarnings("unchecked")
-	private ArrayList appList;
+	private static IPreferenceStore prefsStore=Activator.getDefault().getPreferenceStore();
+	private List<String[]> appList;
 //	private CheckboxTableViewer checkboxTableViewer;
 	private TableViewer checkboxTableViewer;
 
 	public UpdateSitesPreferencePage() {
 		super();
-
-//		IEclipsePreferences instanceNode = new DefaultScope().getNode(Activator.PLUGIN_ID);
-		
-		// Set the preference store for the preference page.
-		prefsStore=Activator.getDefault().getPreferenceStore();
-		
 	}
 
 	
@@ -147,7 +141,6 @@ IWorkbenchPreferencePage {
 		addButton.setBounds(460, 25, 100, 35);
 		addButton.setText("Add");
 		addButton.addMouseListener(new MouseAdapter() {
-			@SuppressWarnings("unchecked")
 			public void mouseUp(MouseEvent e) {
 				
 				UpdateSitesEditDialog dlg=new UpdateSitesEditDialog(getShell());
@@ -260,27 +253,25 @@ IWorkbenchPreferencePage {
     }
 
 	/**
-	 * @return Arraylist of String[] containing the preferences
+	 * @return List<String[]> containing the preferences
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
-	public static ArrayList getPreferencesFromStore() {
+	public static List<String[]> getPreferencesFromStore() {
+
 		
 		String entireString=prefsStore.getString(IPreferenceConstants.UPDATE_SITES);
 
-//    	String entireString=PlatformUI.getPreferenceStore().getString(IPreferenceConstants.UPDATE_SITES);
     	return convertPreferenceStringToArraylist(entireString);
 	}
 
+	
 	/**
-	 * @return Arraylist of String[] containing the preferences
+	 * @return List<String[]> containing the default preferences
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
-	public static ArrayList getDefaultPreferencesFromStore() {
+	public static List<String[]> getDefaultPreferencesFromStore() {
 		String entireString=prefsStore.getDefaultString(IPreferenceConstants.UPDATE_SITES);
 
-		//    	String entireString=PlatformUI.getPreferenceStore().getDefaultString(IPreferenceConstants.UPDATE_SITES);
     	return convertPreferenceStringToArraylist(entireString);
 	}
 
@@ -289,9 +280,8 @@ IWorkbenchPreferencePage {
 	 * @param entireString
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
-	public static ArrayList convertPreferenceStringToArraylist(String entireString) {
-		ArrayList myList=new ArrayList();
+	public static List<String[]> convertPreferenceStringToArraylist(String entireString) {
+		List<String[]> myList=new ArrayList<String[]>();
 //		logger.debug("prefs read from store: " + entireString);
 		String[] ret=entireString.split(IPreferenceConstants.PREFERENCES_OBJECT_DELIMITER);
 		String[] partString=new String[0];
@@ -319,9 +309,8 @@ IWorkbenchPreferencePage {
 	 * @param appList2
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
-	private String convertToPreferenceString(ArrayList appList2) {
-		Iterator it=appList2.iterator();
+	private String convertToPreferenceString(List<String[]> appList2) {
+		Iterator<String[]> it=appList2.iterator();
 		String ret="";
 		
 		//TODO: update to handle short and empty strings

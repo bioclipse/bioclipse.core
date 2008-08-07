@@ -19,15 +19,26 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.bioclipse.ui.actions.UpdateAction;
+import net.bioclipse.ui.dialogs.IDialogConstants;
+import net.bioclipse.ui.dialogs.UpdatesAvailableDialog;
 import net.bioclipse.ui.prefs.IPreferenceConstants;
+import net.bioclipse.ui.prefs.UpdateSitesPreferencePage;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.DialogSettings;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
@@ -51,7 +62,20 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 
     private static final Logger logger = Logger.getLogger(ApplicationWorkbenchAdvisor.class);
 
-    public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
+    //Get settings for dialogs
+	IDialogSettings settings = Activator.getDefault().getDialogSettings();
+
+	private boolean abort;
+
+    public boolean isAbort() {
+		return abort;
+	}
+
+	public void setAbort(boolean abort) {
+		this.abort = abort;
+	}
+
+	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
         return new ApplicationWorkbenchWindowAdvisor(configurer);
     }
     
@@ -63,9 +87,20 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
     
     @Override
     public void postStartup() {
-        super.postStartup();
+    	super.postStartup();
+
+    	abort=false;
     	
-        if (Activator.getDefault().checkForUpdates) {
+    	//If we said do not update, skip check.
+		if (settings.getBoolean(IDialogConstants.SKIP_UPDATE_ON_STARTUP)){
+			logger.debug("Skipped updating due to setting.");
+			return;
+		}
+
+
+
+    	//Ok, check for updates
+    	if (Activator.getDefault().checkForUpdates) {
             Job updateJob=new Job("Online updates") {
 
                 @Override
@@ -111,9 +146,34 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         throws MalformedURLException, CoreException, InvocationTargetException {
 
         //    	IProgressMonitor monitor = new NullProgressMonitor();
-        ISite rs = SiteManager.getSite(new URL(BioclipseConstants.UPDATE_SITE),
-                                       monitor);
-        IFeatureReference[] frs = rs.getFeatureReferences();
+
+    	IPreferenceStore prefsStore=Activator.getDefault().getPreferenceStore();
+		String entireString=prefsStore.getString(IPreferenceConstants.UPDATE_SITES);
+		List<String[]> sites=UpdateSitesPreferencePage.convertPreferenceStringToArraylist(entireString);
+
+		List<IFeatureReference> refs=new ArrayList<IFeatureReference>();
+		for (String[] updateSite : sites){
+
+			if (updateSite!=null && updateSite.length==2){
+				logger.debug("Contacting update site: " + updateSite[1]);
+
+				//Contact each site
+				ISite rs = SiteManager.getSite(new URL(updateSite[1]),
+						monitor);
+
+				//Add it's features to list
+				for (IFeatureReference pref : rs.getFeatureReferences()){
+					logger.debug("Found available feature: " + pref.getName());
+					refs.add(pref);
+				}
+			}
+			else{
+				logger.debug("Skipped update site: " + updateSite);
+			}
+		}
+		
+        IFeatureReference[] frs = refs.toArray(new IFeatureReference[0]);
+
         ILocalSite ls = SiteManager.getLocalSite();
         IConfiguredSite ics
             = ls.getCurrentConfiguration().getConfiguredSites()[0];
@@ -178,6 +238,77 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         }
 
         if (installOps.size() > 0) {
+
+        	//Ask to install, if we have not prev said don't bother us
+        	if (settings.getBoolean(IDialogConstants.SKIP_UPDATE_DIALOG_ON_STARTUP)){
+        		logger.debug("Updates dialog skipped.");
+        	}else{
+        		logger.debug("Updates dialog should open.");
+
+        		Display.getDefault().syncExec(new Runnable(){
+
+					public void run() {
+		        		Dialog dlg=new UpdatesAvailableDialog(PlatformUI.getWorkbench().
+		            			getActiveWorkbenchWindow().getShell());
+
+		            	int ret=dlg.open();
+		            	if (ret==Window.CANCEL){
+		            		setAbort(true);
+		            	}
+					}
+        			
+        		});
+
+        		if (abort==true) return;
+        		
+        	}
+
+/*        	
+        	if (settings.getBoolean(IDialogConstants.REVIEW_UPDATES)){
+
+        		Display.getDefault().syncExec(new Runnable(){
+
+					public void run() {
+		        		IAction action=new UpdateAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+		          		action.run();
+					}
+        			
+        		});
+
+          		return;
+        	}
+        	else{
+*/
+        		//Automatically download in background
+        		for (Iterator iter = installOps.iterator(); iter.hasNext();) {
+        			IInstallFeatureOperation op
+        			= (IInstallFeatureOperation) iter.next();
+        			logger.debug("** Installing feature: "
+        					+ op.getFeature().getLabel());
+        			op.execute(monitor, null);
+        		}
+
+        		boolean restartRequired = ls.save();
+        		logger.debug("Restart required (seems always true): " + restartRequired);
+        		if (restartRequired){
+        			boolean answer=MessageDialog.openQuestion(
+        					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+        					"Restart required",
+        					"You are advised to restart Bioclipse in order for all " +
+        					"updates to be active.\n\n" +
+        			"Would you like to restart Bioclipse now?");
+        			if (answer){
+        				Activator.getDefault().getWorkbench().restart();
+        			}
+
+        		}else{
+        			showMessage("Updates for Bioclipse have been "
+        					+ "downloaded and installed.");
+        		}
+//        	}
+        	
+        	/*
+        	 //Automatically download in background
             for (Iterator iter = installOps.iterator(); iter.hasNext();) {
                 IInstallFeatureOperation op
                   = (IInstallFeatureOperation) iter.next();
@@ -189,6 +320,8 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
             logger.debug("Restart required (seems always true): " + restartRequired);
             showMessage("Updates for Bioclipse have been "
                         + "downloaded and installed.");
+                        
+        	 */
         }
         else {
             logger.debug("** No features found on update site");

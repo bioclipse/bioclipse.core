@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 
 import net.bioclipse.ui.Activator;
@@ -59,7 +60,6 @@ public class UpdateAction extends Action implements IAction {
 		});
 	}
 	
-	@SuppressWarnings("unchecked")
 	private UpdateSearchRequest getSearchRequest() {
 		UpdateSearchRequest result = new UpdateSearchRequest(
 				UpdateSearchRequest.createDefaultUpdatesSearchCategory(),
@@ -70,16 +70,16 @@ public class UpdateAction extends Action implements IAction {
 		scope.setFeatureProvidedSitesEnabled(false);
 
 		//Get prefs from update site store
-			ArrayList list=UpdateSitesPreferencePage.getPreferencesFromStore();
+			List<String[]> list=UpdateSitesPreferencePage.getPreferencesFromStore();
 			if (list==null){
 				return null;
 			}
 
 
 			//Add them one by one
-			Iterator iter=list.iterator();
+			Iterator<String[]> iter=list.iterator();
 			while (iter.hasNext()) {
-				String[] entry = (String[]) iter.next();
+				String[] entry = iter.next();
 				try {
 				scope.addSearchSite(entry[0], new URL(entry[1]), null);
 				System.out.println("Added entry site: " + entry[0] + " - " + entry[1]);
