@@ -42,6 +42,7 @@ import org.eclipse.ui.IWorkbenchWindow;
  *
  * @author ola
  */
+@SuppressWarnings("restriction")
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
     /* Actions - important to allocate these only in makeActions, and then use
@@ -330,7 +331,6 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     }
 
 
-    @SuppressWarnings("restriction")
 	private void removeUnwantedActions(){
 
     	ActionSetRegistry reg = WorkbenchPlugin.getDefault().getActionSetRegistry();
