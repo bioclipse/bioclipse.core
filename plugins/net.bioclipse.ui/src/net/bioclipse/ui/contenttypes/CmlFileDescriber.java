@@ -87,23 +87,18 @@ public class CmlFileDescriber extends TextContentDescriber
 					 * attribute to be found in an 'atom' tag. This means
 					 * that a mixed 2D/3D file will not be seen as such. 
 					 */
-					search:
-						if (searching && "atom".equalsIgnoreCase(parser.getName())) {
-							int attributeCount = parser.getAttributeCount();
-							for (int i = 0; i < attributeCount; i++) {
-								String attributeName = parser.getAttributeName(i);
-								if (attributeName.equalsIgnoreCase("x2")) {
-									has2D = true;
-									searching = false;
-									break search;
-								}
-								if (attributeName.equalsIgnoreCase("x3")) {
-									has3D = true;
-									searching = false;
-									break search;
-								}
-							}
+					if (searching && "atom".equalsIgnoreCase(parser.getName())) {
+						if (parser.getAttributeValue(null, "x2") != null) {
+							has2D = true;
+							searching = false;
+							break;
 						}
+						if (parser.getAttributeValue(null, "x3") != null) {
+							has3D = true;
+							searching = false;
+							break;
+						}
+					}
 				}
 			}
 		} catch (XmlPullParserException xppe) {
