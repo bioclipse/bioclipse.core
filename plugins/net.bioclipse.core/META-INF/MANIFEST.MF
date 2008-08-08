@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Domain Plug-in
+Bundle-Name: Bioclipse Core Domain
 Bundle-SymbolicName: net.bioclipse.core;singleton:=true
 DynamicImport-Package: *
-Bundle-Version: 2.0.0.alpha01
+Bundle-Version: 2.0.0.A20080808
 Export-Package: net.bioclipse.core,
  net.bioclipse.core.business,
  net.bioclipse.core.domain,
@@ -38,3 +38,4 @@ Bundle-ClassPath: libs/js.jar,
 Bundle-Activator: net.bioclipse.core.Activator
 Eclipse-LazyStart: true
 Import-Package: org.apache.log4j
+Bundle-Vendor: The Bioclipse Team

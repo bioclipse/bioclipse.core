@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="net.bioclipse.sampledata-feature"
+      id="net.bioclipse.sampledata_feature"
       label="Sample Data Feature"
-      version="2.0.0.alpha01"
+      version="2.0.0.A20080808"
       provider-name="The Bioclipse Team"
       plugin="net.bioclipse.data.sampledata">
 
@@ -31,6 +31,10 @@ http://www.eclipse.org/legal/epl-v10.html
    <url>
       <update label="Bioclipse2 update site" url="http://update2.bioclipse.net"/>
    </url>
+
+   <requires>
+      <import feature="net.bioclipse_feature" version="2.0.0.A20080808" match="greaterOrEqual"/>
+   </requires>
 
    <plugin
          id="net.bioclipse.data.sampledata"

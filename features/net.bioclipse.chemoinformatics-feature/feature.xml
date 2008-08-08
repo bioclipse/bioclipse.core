@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse.chemoinformatics_feature"
       label="Bioclipse Chemoinformatics"
-      version="2.0.0.alpha02"
+      version="2.0.0.A20080808"
       provider-name="The Bioclipse Team"
       plugin="net.bioclipse.cdk.ui">
 
@@ -33,23 +33,7 @@ http://www.eclipse.org/legal/epl-v10.html
    </url>
 
    <requires>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="net.bioclipse.core"/>
-      <import plugin="org.eclipse.core.runtime.compatibility.auth"/>
-      <import plugin="net.bioclipse.scripting"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.core.filesystem" version="1.2.0" match="greaterOrEqual"/>
-      <import plugin="org.springframework.osgi.log4j.osgi"/>
-      <import plugin="net.bioclipse.ui"/>
-      <import plugin="org.eclipse.ui.editors"/>
-      <import plugin="org.eclipse.jface.text"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.ui.navigator"/>
-      <import plugin="org.eclipse.ui.forms"/>
-      <import plugin="org.eclipse.ui.views.properties.tabbed"/>
-      <import plugin="org.eclipse.ui.navigator.resources"/>
+      <import feature="net.bioclipse_feature" version="2.0.0.A20080808" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -61,8 +45,8 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="org.openscience.cdk"
-         download-size="0"
-         install-size="0"
+         download-size="28700"
+         install-size="28700"
          version="0.0.0"
          unpack="false"/>
 
@@ -75,8 +59,8 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="net.bioclipse.cdk10"
-         download-size="0"
-         install-size="0"
+         download-size="17300"
+         install-size="17300"
          version="0.0.0"
          unpack="false"/>
 
