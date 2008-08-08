@@ -15,6 +15,7 @@ package net.bioclipse.ui;
 import net.bioclipse.ui.actions.AddExtensionsAction;
 import net.bioclipse.ui.actions.UpdateAction;
 
+import org.eclipse.core.runtime.IExtension;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
@@ -29,6 +30,9 @@ import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
+import org.eclipse.ui.internal.WorkbenchPlugin;
+import org.eclipse.ui.internal.registry.ActionSetRegistry;
+import org.eclipse.ui.internal.registry.IActionSetDescriptor;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 
@@ -98,6 +102,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
     public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
         super(configurer);
+        removeUnwantedActions();
     }
 
     /**
@@ -325,5 +330,45 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     }
 
 
+    @SuppressWarnings("restriction")
+	private void removeUnwantedActions(){
+
+    	ActionSetRegistry reg = WorkbenchPlugin.getDefault().getActionSetRegistry();
+    	IActionSetDescriptor[] actionSets = reg.getActionSets();
+    	// removing annoying gotoLastPosition Message.
+    	String actionSetId = "org.eclipse.ui.edit.text.actionSet.navigation";
+    	for (int i = 0; i <actionSets.length; i++)
+    	{
+    		if (!actionSets[i].getId().equals(actionSetId))
+    			continue;
+    		IExtension ext = actionSets[i].getConfigurationElement()
+    		.getDeclaringExtension();
+    		reg.removeExtension(ext, new Object[] { actionSets[i] });
+    	}
+
+    	// Removing convert line delimiters menu.
+    	actionSetId = "org.eclipse.ui.edit.text.actionSet.convertLineDelimitersTo";
+    	for (int i = 0; i <actionSets.length; i++)
+    	{
+    		if (!actionSets[i].getId().equals(actionSetId))
+    			continue;
+    		IExtension ext = actionSets[i].getConfigurationElement()
+    		.getDeclaringExtension();
+    		reg.removeExtension(ext, new Object[] { actionSets[i] });
+    	}
+
+    	// Removing convert line delimiters menu.
+    	actionSetId = "org.eclipse.ui.actionSet.openFiles";
+    	for (int i = 0; i <actionSets.length; i++)
+    	{
+    		if (!actionSets[i].getId().equals(actionSetId))
+    			continue;
+    		IExtension ext = actionSets[i].getConfigurationElement()
+    		.getDeclaringExtension();
+    		reg.removeExtension(ext, new Object[] { actionSets[i] });
+    	}
+    	
+    }
+    
 
 }
