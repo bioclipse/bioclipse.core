@@ -46,7 +46,7 @@ http://www.eclipse.org/legal/epl-v10.html
    <plugin
          id="org.openscience.cdk"
          download-size="28700"
-         install-size="28700"
+         install-size="0"
          version="0.0.0"
          unpack="false"/>
 
@@ -60,7 +60,7 @@ http://www.eclipse.org/legal/epl-v10.html
    <plugin
          id="net.bioclipse.cdk10"
          download-size="17300"
-         install-size="17300"
+         install-size="0"
          version="0.0.0"
          unpack="false"/>
 
