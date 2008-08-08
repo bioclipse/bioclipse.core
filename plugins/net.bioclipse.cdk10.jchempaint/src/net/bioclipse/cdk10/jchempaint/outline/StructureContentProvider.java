@@ -13,13 +13,17 @@ package net.bioclipse.cdk10.jchempaint.outline;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.openscience.cdk.CDKConstants;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
+import org.openscience.cdk.interfaces.IBond;
 import org.openscience.cdk.interfaces.IChemFile;
 import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.interfaces.IChemObject;
@@ -27,6 +31,9 @@ import org.openscience.cdk.interfaces.IChemSequence;
 import org.openscience.cdk.interfaces.IElectronContainer;
 import org.openscience.cdk.interfaces.IMoleculeSet;
 
+import sun.text.CompactShortArray.Iterator;
+
+@SuppressWarnings("serial")
 public class StructureContentProvider implements ITreeContentProvider {
 
     //Use logging
@@ -37,6 +44,26 @@ public class StructureContentProvider implements ITreeContentProvider {
 
     public StructureContentProvider() {}
 
+    private static final String[][] symbolsAndNames = {
+        { "H",  "Hydrogen"  },
+        { "C",  "Carbon"    },
+        { "N",  "Nitrogen"  },
+        { "O",  "Oxygen"    },
+        { "Na", "Sodium"    },
+        { "Mg", "Magnesium" },
+        { "P",  "Phosphorus"},
+        { "S",  "Sulphur"   },
+        { "Cl", "Chlorine"  },
+        { "Ca", "Calcium"   },
+        { "Fe", "Iron"      },
+        { "Br", "Bromine"   },
+    };
+    private static final Map<String,String> elementNames
+        = new HashMap<String,String>() {{
+            for (String[] symbolAndName : symbolsAndNames)
+                put(symbolAndName[0], symbolAndName[1]);
+        }};
+    
     public Object[] getChildren(Object parentElement) {
         if (parentElement instanceof Container) {
             Container container=(Container)parentElement;
@@ -57,13 +84,38 @@ public class StructureContentProvider implements ITreeContentProvider {
             
             Container atoms=new Container("Atoms");
             for (int i=0; i<ac.getAtomCount(); i++){
-                CDKChemObject co=new CDKChemObject(ac.getAtom(i).getSymbol() 
-                        + "_" + i , ac.getAtom(i));
+                IAtom atom = ac.getAtom(i);
+                String symbol = atom.getSymbol(),
+                       name = elementNames.containsKey( symbol )
+                                  ? elementNames.get( symbol )
+                                  : "unknown";
+                CDKChemObject co
+                  = new CDKChemObject( name + " (" + symbol + ")", atom );
                 atoms.addChild(co);
             }
             Container bonds=new Container("Bonds");
-            for (int i=0; i<ac.getAtomCount(); i++){
-                CDKChemObject co=new CDKChemObject("Bond_" + i , ac.getBond(i));
+            for (int i=0; i<ac.getBondCount(); i++){
+                IBond bond = ac.getBond(i);
+                StringBuilder sb = new StringBuilder();
+                char separator
+                  = bond.getOrder() == CDKConstants.BONDORDER_DOUBLE   ? '='
+                  : bond.getOrder() == CDKConstants.BONDORDER_TRIPLE   ? '#'
+                  : bond.getOrder() == CDKConstants.BONDORDER_AROMATIC ? '~'
+                                                                       : '-';
+                for (java.util.Iterator<IAtom> it=bond.atoms(); it.hasNext();) {
+                    sb.append(it.next().getSymbol());
+                    if (it.hasNext()) {
+                        sb.append(separator);
+                    }
+                }
+                sb.append(   bond.getOrder() == CDKConstants.BONDORDER_DOUBLE
+                               ? " (double)"
+                           : bond.getOrder() == CDKConstants.BONDORDER_TRIPLE
+                               ? " (triple)"
+                           : bond.getOrder() == CDKConstants.BONDORDER_AROMATIC
+                               ? " (aromatic)"
+                               : "" );
+                CDKChemObject co=new CDKChemObject(sb.toString(), bond);
                 bonds.addChild(co);
             }
             
