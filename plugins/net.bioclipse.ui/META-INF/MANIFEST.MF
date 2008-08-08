@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bioclipse
 Bundle-SymbolicName: net.bioclipse.ui;singleton:=true
-Bundle-Version: 2.0.0.alpha03
+Bundle-Version: 2.0.0.A20080808
 Bundle-Activator: net.bioclipse.ui.Activator
 Bundle-Vendor: The Bioclipse Project
 Require-Bundle: org.eclipse.core.runtime,
