@@ -56,6 +56,7 @@ public class StructureContentProvider implements ITreeContentProvider {
         { "Cl", "Chlorine"  },
         { "Ca", "Calcium"   },
         { "Fe", "Iron"      },
+        { "Si", "Silica"    },
         { "Br", "Bromine"   },
     };
     private static final Map<String,String> elementNames
