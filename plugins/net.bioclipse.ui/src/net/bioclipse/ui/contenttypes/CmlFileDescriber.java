@@ -19,11 +19,17 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+/**
+ * @author maclean
+ *
+ */
 @SuppressWarnings("restriction")
 public class CmlFileDescriber extends TextContentDescriber 
 							implements IExecutableExtension {
 	
 	private Hashtable elements = null;
+	
+	public final static String NS_CML = "http://www.xml-cml.org/schema";
 
 	/**
 	 * Store parameters
@@ -64,21 +70,33 @@ public class CmlFileDescriber extends TextContentDescriber
 		 */
 		boolean has2D = false;
 		boolean has3D = false;
-		boolean searching = true;
+		boolean searchingForDimension = true;
+		boolean checkedNamespace = false;
 		int moleculeCount = 0;
 
 		try {
 			XmlPullParserFactory factory = 
 				XmlPullParserFactory.newInstance(
 						System.getProperty(XmlPullParserFactory.PROPERTY_NAME), null);
-			factory.setNamespaceAware(false);
+			factory.setNamespaceAware(true);
 			factory.setValidating(false);
 
 			XmlPullParser parser = factory.newPullParser();
 			parser.setInput(input);
 			while (parser.next() != XmlPullParser.END_DOCUMENT) {
 				if (parser.getEventType() == XmlPullParser.START_TAG) {
-					if ("molecule".equalsIgnoreCase(parser.getName())) {
+				    String tagName = parser.getName();
+				    
+				    if (!checkedNamespace && tagName.equalsIgnoreCase("cml")) {
+				        if (parser.getNamespace().equals(CmlFileDescriber.NS_CML)) {
+				            checkedNamespace = true;
+				        } else {
+				            System.err.println("namespace = " + parser.getNamespace() + " INVALID");
+				            return INVALID;
+				        }
+				    }
+				    
+					if (tagName.equalsIgnoreCase("molecule")) {
 						moleculeCount++;
 					}
 
@@ -87,22 +105,24 @@ public class CmlFileDescriber extends TextContentDescriber
 					 * attribute to be found in an 'atom' tag. This means
 					 * that a mixed 2D/3D file will not be seen as such. 
 					 */
-					if (searching && "atom".equalsIgnoreCase(parser.getName())) {
+					if (searchingForDimension && tagName.equalsIgnoreCase("atom")) {
 						if (parser.getAttributeValue(null, "x2") != null) {
 							has2D = true;
-							searching = false;
+							searchingForDimension = false;
 							break;
 						}
 						if (parser.getAttributeValue(null, "x3") != null) {
 							has3D = true;
-							searching = false;
+							searchingForDimension = false;
 							break;
 						}
 					}
 				}
 			}
 		} catch (XmlPullParserException xppe) {
-			xppe.printStackTrace(System.err);
+			String message = "Error in CML file : line " + xppe.getLineNumber();
+			System.err.println(message);
+			throw new IOException(message);
 		}
 
 
