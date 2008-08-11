@@ -17,6 +17,7 @@ import java.util.Map;
 
 import net.bioclipse.cdk10.jchempaint.Activator;
 
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.openscience.cdk.CDKConstants;
@@ -54,9 +55,11 @@ public class StructureLabelProvider extends LabelProvider {
             }
 
             private Image createImage( String prefix, String type ) {
-                return Activator.imageDescriptorFromPlugin(
-                    Activator.PLUGIN_ID, prefix + type + ".png"
-                ).createImage();
+            	System.out.println("SLABELPROV: " + prefix + type + ".png");
+            	ImageDescriptor desc=Activator.imageDescriptorFromPlugin(
+                    Activator.PLUGIN_ID, prefix + type + ".png");
+            	if (desc==null) desc=ImageDescriptor.getMissingImageDescriptor();
+                return desc.createImage();
             }
     };
         
