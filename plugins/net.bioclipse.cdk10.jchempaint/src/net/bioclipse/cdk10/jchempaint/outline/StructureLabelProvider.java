@@ -55,7 +55,7 @@ public class StructureLabelProvider extends LabelProvider {
             }
 
             private Image createImage( String prefix, String type ) {
-            	System.out.println("SLABELPROV: " + prefix + type + ".png");
+//            	System.out.println("SLABELPROV: " + prefix + type + ".png");
             	ImageDescriptor desc=Activator.imageDescriptorFromPlugin(
                     Activator.PLUGIN_ID, prefix + type + ".png");
             	if (desc==null) desc=ImageDescriptor.getMissingImageDescriptor();
