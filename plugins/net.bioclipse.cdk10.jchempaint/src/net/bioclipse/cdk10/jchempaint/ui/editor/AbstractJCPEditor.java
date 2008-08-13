@@ -8,8 +8,8 @@
  *******************************************************************************/
 package net.bioclipse.cdk10.jchempaint.ui.editor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.StringBufferInputStream;
+import java.io.StringWriter;
 
 import net.bioclipse.cdk10.business.CDK10Molecule;
 import net.bioclipse.cdk10.jchempaint.colorers.PropertyColorer;
@@ -19,21 +19,32 @@ import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.commands.operations.IUndoContext;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.openscience.cdk.MoleculeSet;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
+import org.openscience.cdk.applications.jchempaint.io.JCPSaveFileFilter;
+import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.interfaces.IChemModel;
 import org.openscience.cdk.interfaces.IMoleculeSet;
+import org.openscience.cdk.io.CDKSourceCodeWriter;
+import org.openscience.cdk.io.CMLWriter;
+import org.openscience.cdk.io.MDLRXNWriter;
+import org.openscience.cdk.io.MDLWriter;
+import org.openscience.cdk.io.SMILESWriter;
 import org.openscience.cdk.layout.StructureDiagramGenerator;
 import org.openscience.cdk.renderer.color.IAtomColorer;
 
@@ -220,8 +231,61 @@ public abstract class AbstractJCPEditor extends MultiPageEditorPart
         }
         
         public void doSaveAs() {
-            doSave(null);
-        }
+        	SaveAsDialog saveasdialog=new SaveAsDialog(this.getSite().getShell());
+        	saveasdialog.open();
+        	IFile target = ResourcesPlugin.getWorkspace().getRoot().getFile(saveasdialog.getResult());
+        	String filetype = saveasdialog.getResult().getFileExtension();
+        	IProgressMonitor monitor = new NullProgressMonitor();
+         	try{
+     	        int ticks = 10000;
+     	        monitor.beginTask( "Writing file", ticks );
+    	    	String towrite;
+    	    	if(filetype.equals(JCPSaveFileFilter.mol)){
+    	            StringWriter writer = new StringWriter();
+    	            MDLWriter mdlWriter = new MDLWriter(writer);
+    	            mdlWriter.write(getChemModel());
+    	            towrite=writer.toString();
+    	    	} else if(filetype.equals(JCPSaveFileFilter.cml)){
+    	    		StringWriter writer = new StringWriter();
+    	            CMLWriter cmlWriter = new CMLWriter(writer);
+    	            cmlWriter.write(getChemModel());
+    	            towrite=writer.toString();
+    	    	} else if(filetype.equals(JCPSaveFileFilter.rxn)){
+    	    		StringWriter writer = new StringWriter();
+    	            MDLRXNWriter cmlWriter = new MDLRXNWriter(writer);
+    	            cmlWriter.write(getChemModel());
+    	            towrite=writer.toString();
+    	    	} else if(filetype.equals(JCPSaveFileFilter.smi)){
+    	    		StringWriter writer = new StringWriter();
+    	            SMILESWriter cmlWriter = new SMILESWriter(writer);
+    	            cmlWriter.write(getChemModel());
+    	            towrite=writer.toString();
+    	    	} else if(filetype.equals(JCPSaveFileFilter.cdk)){
+    	    		StringWriter writer = new StringWriter();
+    	            CDKSourceCodeWriter cmlWriter = new CDKSourceCodeWriter(writer);
+    	            cmlWriter.write(getChemModel());
+    	            towrite=writer.toString();
+    	    	} else {
+    	    		throw new BioclipseException("Filetype "+filetype+" not supported!");
+    	    	}
+    	    	if(target.exists()){
+    	        	 target.setContents(new StringBufferInputStream(towrite), false, true, monitor);
+    	    	} else {
+    		    	target.create(new StringBufferInputStream(towrite), false, monitor);
+    	    	}
+    	    	monitor.worked(ticks);
+				//Activator.getDefault().getCDKManager().save(getChemModel(), file, saveasdialog.getResult().getFileExtension());
+			} catch (BioclipseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CDKException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+       }
 
         public boolean isSaveAsAllowed() {
             return true;
