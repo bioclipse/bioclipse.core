@@ -63,6 +63,11 @@ public class CmlFileDescriber extends TextContentDescriber
 
 	/**
 	 * Scan the document, looking for certain key features.
+	 * 
+	 * @param input A Reader that will provide the file contents.
+	 * @param description The eclipse IContentDescription of the file.
+	 * @return VALID or INVAID
+	 * @throws IOException
 	 */
 	private int analyse(Reader input, IContentDescription description) throws IOException {
 		/*
@@ -72,6 +77,13 @@ public class CmlFileDescriber extends TextContentDescriber
 		boolean has3D = false;
 		boolean searchingForDimension = true;
 		boolean checkedNamespace = false;
+		
+		/*
+		 * This is a workaround for biopolymer PDB files,
+		 * which have nested <molecule> tags.
+		 */
+		int moleculeTagDepth = 0;
+		
 		int moleculeCount = 0;
 
 		try {
@@ -97,7 +109,12 @@ public class CmlFileDescriber extends TextContentDescriber
 				    }
 				    
 					if (tagName.equalsIgnoreCase("molecule")) {
-						moleculeCount++;
+					    moleculeTagDepth += 1;
+					    
+					    // only count the top level of molecules, not nested ones.
+					    if (moleculeTagDepth == 1) {
+					        moleculeCount++;
+					    }
 					}
 
 					/*
@@ -117,6 +134,10 @@ public class CmlFileDescriber extends TextContentDescriber
 							break;
 						}
 					}
+				} else if (parser.getEventType() == XmlPullParser.END_TAG) {
+				    if (moleculeTagDepth > 0 && parser.getName().equalsIgnoreCase("molecule")) {
+				        moleculeTagDepth -= 1;
+				    }
 				}
 			}
 		} catch (XmlPullParserException xppe) {
