@@ -21,7 +21,7 @@ import org.eclipse.core.runtime.IAdaptable;
  * @author jonalv, ola
  *
  */
-public interface IBioObject extends IAdaptable {
+public interface IBioObject extends IAdaptable, ICachedModel {
     
     /**
      * @return Eclipse resource

@@ -14,7 +14,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.UUID;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -46,6 +48,7 @@ public class MockIFile implements IFile {
 
     private InputStream inStream;
     private boolean exists=false;
+    private URI uri;
 
     public MockIFile(InputStream inStream) {
         this.inStream = inStream;
@@ -368,9 +371,16 @@ public class MockIFile implements IFile {
     }
 
     public URI getLocationURI() {
-
-        // TODO Auto-generated method stub
-        return null;
+        if ( uri == null ) {
+            try {
+                uri = new URI( "file://" 
+                               + UUID.randomUUID().toString() );
+            } 
+            catch ( URISyntaxException e ) {
+                throw new RuntimeException(e);
+            }
+        }
+        return uri;
     }
 
     public IMarker getMarker( long id ) {
