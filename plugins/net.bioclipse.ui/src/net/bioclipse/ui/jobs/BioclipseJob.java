@@ -38,38 +38,38 @@ public class BioclipseJob extends Job {
     protected IStatus run( IProgressMonitor monitor ) {
 
         Object[] args;
-        
-        if ( method != invocation.getMethod() ) {
-            /*
-             * First the monitor
-             */
-            args = new Object[
-                 invocation.getArguments().length + 1];
-            args[args.length-1] = monitor;
-            System.arraycopy( invocation.getArguments(), 
-                              0, 
-                              args, 
-                              0, 
-                              invocation.getArguments().length );
-            /*
-             * Then substitute the correct string for an IFile
-             */
-            for ( int i = 0; i < args.length; i++ ) {
-                Object arg = args[i];
-                if ( arg instanceof String &&
-                     method
-                     .getParameterTypes()[i] == IFile.class ) {
-                     
-                    args[i] = ResourcePathTransformer
-                              .getInstance()
-                              .transform( (String) arg );
+        try {
+            if ( method != invocation.getMethod() ) {
+                /*
+                 * First the monitor
+                 */
+                args = new Object[
+                     invocation.getArguments().length + 1];
+                args[args.length-1] = monitor;
+                System.arraycopy( invocation.getArguments(), 
+                                  0, 
+                                  args, 
+                                  0, 
+                                  invocation.getArguments().length );
+                /*
+                 * Then substitute the correct string for an IFile
+                 */
+                for ( int i = 0; i < args.length; i++ ) {
+                    Object arg = args[i];
+                    if ( arg instanceof String &&
+                         method
+                         .getParameterTypes()[i] == IFile.class ) {
+                         
+                        args[i] = ResourcePathTransformer
+                                  .getInstance()
+                                  .transform( (String) arg );
+                    }
                 }
             }
-        }
-        else {
-            args = invocation.getArguments();
-        }
-        try {
+            else {
+                args = invocation.getArguments();
+            }
+        
             returnValue = method.invoke( 
                 invocation.getThis(), args );
         } 
