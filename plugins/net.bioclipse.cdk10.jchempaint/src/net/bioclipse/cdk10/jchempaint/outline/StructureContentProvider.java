@@ -31,8 +31,6 @@ import org.openscience.cdk.interfaces.IChemSequence;
 import org.openscience.cdk.interfaces.IElectronContainer;
 import org.openscience.cdk.interfaces.IMoleculeSet;
 
-import sun.text.CompactShortArray.Iterator;
-
 @SuppressWarnings("serial")
 public class StructureContentProvider implements ITreeContentProvider {
 
