@@ -12,8 +12,6 @@
  ******************************************************************************/
 package net.bioclipse.core.domain;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 import net.bioclipse.core.domain.props.BioObjectPropertySource;
@@ -44,9 +42,6 @@ public abstract class BioObject implements IBioObject {
      * The PropertySource available as adapter
      */
     private IPropertySource propertySource;
-
-    private Set<IModelChangedListener> changeListeners 
-        = new HashSet<IModelChangedListener>();
     
     public BioObject() {
         
@@ -76,21 +71,5 @@ public abstract class BioObject implements IBioObject {
                 ? propertySource : new BioObjectPropertySource(this);
         }
         return null;
-    }
-    
-    public void addChangeListener( IModelChangedListener listener ) {
-    
-        changeListeners.add( listener );
-    }
-    
-    public void removeChangeListener( IModelChangedListener listener ) {
-    
-        changeListeners.remove( listener );
-    }
-    
-    public void fireChangeEvent() {
-        for ( IModelChangedListener l : changeListeners ) {
-            l.modelChanged( this );
-        }
     }
 }

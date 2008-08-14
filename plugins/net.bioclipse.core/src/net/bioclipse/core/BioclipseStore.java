@@ -19,11 +19,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
-import net.bioclipse.core.domain.ICachedModel;
-import net.bioclipse.core.domain.IModelChangedListener;
-import net.bioclipse.core.util.LogUtils;
-
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -32,15 +27,11 @@ import org.eclipse.core.resources.ResourcesPlugin;
 /**
  * @author jonalv
  */
-public class BioclipseStore implements IModelChangedListener {
+public class BioclipseStore {
 
-    private static Logger logger 
-        = Logger.getLogger( BioclipseStore.class );
-    
     static BioclipseStore instance = new BioclipseStore();
    
-    Map<String, ICachedModel> models 
-        = new WeakHashMap<String, ICachedModel>();
+    Map<String, Object> models = new WeakHashMap<String, Object>();
     
     Map<String, Set<String>> modelKeysForLocation 
         = new HashMap<String, Set<String>>();
@@ -53,7 +44,7 @@ public class BioclipseStore implements IModelChangedListener {
         return instance.models.get( generateModelsKey( file, clazz ) );
     }
 
-    public static void put( ICachedModel model, 
+    public static void put( Object model, 
                             IFile file,
                             Class<?> clazz ) {
         
@@ -68,45 +59,30 @@ public class BioclipseStore implements IModelChangedListener {
                 }
             }
         };
-        try {
-            ResourcesPlugin.getWorkspace()
-                           .addResourceChangeListener(listener);
-        }
-        catch (IllegalStateException e) {
-            // This is expected behavior when running tests
-            logger.error( "BioclipseStore : IllegalstateException " +
-            		      "while adding resource listener" );
-            LogUtils.debugTrace( logger, e );
-        }
+        ResourcesPlugin.getWorkspace()
+                       .addResourceChangeListener(listener);
 
         String modelskey = generateModelsKey( file, clazz );
         instance.models.put( modelskey, model );
         updateModelsKeyHash( file, modelskey );
     }
 
-    private static void updateModelsKeyHash( IFile file, 
-                                             String modelskey ) {
+    private static void updateModelsKeyHash( IFile file, String modelskey ) {
         
-        String locationsKey = generateLocationsKey( file );
-        Set<String> s = instance.modelKeysForLocation.get(locationsKey );
+        Set<String> s = instance.modelKeysForLocation.get( 
+            generateLocationsKey( file ) );
         if (s == null) {
             s = new HashSet<String>();
         }
         s.add( modelskey );
-        instance.modelKeysForLocation.put( locationsKey, s );
     }
 
-    static String generateModelsKey( IFile file, 
+    private static String generateModelsKey( IFile file, 
                                              Class<?> clazz ) {
         return file.getLocationURI() + clazz.getName();
     }
     
-    static String generateLocationsKey( IFile file ) {
+    private static String generateLocationsKey( IFile file ) {
         return file.getLocationURI().toString();
-    }
-
-    public void modelChanged( ICachedModel changedObject ) {
-
-        models.remove( changedObject );
     }
 }

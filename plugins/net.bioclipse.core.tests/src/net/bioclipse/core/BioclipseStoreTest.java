@@ -11,40 +11,12 @@
  ******************************************************************************/
 package net.bioclipse.core;
 import static org.junit.Assert.*;
-
-import java.io.FileNotFoundException;
-
-import net.bioclipse.core.domain.ICachedModel;
-import net.bioclipse.core.domain.IModelChangedListener;
-
-import org.eclipse.core.resources.IFile;
 import org.junit.*;
 
 public class BioclipseStoreTest {
 
     @Test
-    public void testPut() throws FileNotFoundException {
-        ICachedModel o = new ICachedModel() {
-            public void addChangeListener( IModelChangedListener listener ) {
-            }
-            public void fireChangeEvent() {
-            }
-            public void removeChangeListener( IModelChangedListener listener ) {
-            }
-        };
-        IFile f = new MockIFile();
-        BioclipseStore.put( o, f, o.getClass() );
-        
-        assertTrue( BioclipseStore.instance.models.containsValue( o ) );
-        assertTrue( 
-            BioclipseStore.instance
-                          .modelKeysForLocation
-                          .get( BioclipseStore
-                                .generateLocationsKey( f ) )
-                          .contains( BioclipseStore
-                                     .generateModelsKey( f, 
-                                                         o.getClass() ) 
-                                   ) );
-        
+    public void testPut() {
+        fail("Not implemented yet");
     }
 }
