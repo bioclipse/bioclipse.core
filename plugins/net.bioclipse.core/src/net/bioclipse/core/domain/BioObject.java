@@ -36,7 +36,7 @@ public abstract class BioObject implements IBioObject {
     /**
      * The underlying IResource, may be null
      */
-    private IResource resource;
+    protected IResource resource;
 
     /**
      * The PropertySource available as adapter
