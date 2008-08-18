@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import net.bioclipse.core.business.IBioclipseManager;
+import net.bioclipse.core.jobs.Job;
 import net.bioclipse.scripting.ScriptingThread;
 
 import org.aopalliance.intercept.MethodInvocation;
@@ -24,17 +25,22 @@ public class CreateJobAdvice implements ICreateJobAdvice {
     public Object invoke( final MethodInvocation invocation ) 
                   throws Throwable {
 
-        Method toBeInvocated = invocation.getMethod();
+        Method methodToInvoke = invocation.getMethod();
+        
+        if ( methodToInvoke.getAnnotation(Job.class) == null )
+            return invocation.proceed();
         
         for ( Method m : invocation.getMethod()
                                    .getDeclaringClass().getMethods() ) {
+            
             Collection<Class<?>> paramTypes 
                 = Arrays.asList( m.getParameterTypes() );
+            
             if ( m.getName().equals( invocation.getMethod().getName() )
                  && paramTypes.contains( IFile.class )
                  && paramTypes.contains( IProgressMonitor.class ) ) {
                 
-                toBeInvocated = m;
+                methodToInvoke = m;
             }
         }
         
@@ -43,17 +49,11 @@ public class CreateJobAdvice implements ICreateJobAdvice {
                          + invocation.getMethod().getName(); 
         
         BioclipseJob job = new BioclipseJob( jobName, 
-                                             toBeInvocated, 
+                                             methodToInvoke, 
                                              invocation,
                                              lock );  
             
-        if ( Thread.currentThread() instanceof ScriptingThread ) {
-            //from console
-        }
-        else {
-            //from gui
-            job.setUser( true );
-        }
+        job.setUser( Thread.currentThread() instanceof ScriptingThread );
 
         job.schedule();
         if ( !invocation.getMethod()
