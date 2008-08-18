@@ -279,7 +279,7 @@ public class WSFileDialog extends Dialog {
       }
   }
 
-  public void addBlacklistFilter(List<IResource> list){
+  public void setBlacklistFilter(List<IResource> list){
       this.blackList=list;
   }
     
