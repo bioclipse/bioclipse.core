@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tests Plug-in
+Bundle-SymbolicName: net.bioclipse.cdk10.tests
+Bundle-Version: 1.0.0
+Bundle-Activator: net.bioclipse.cdk10.tests.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ net.bioclipse.cdk10;bundle-version="1.0.0",
+ net.bioclipse.core;bundle-version="2.0.0",
+ net.bioclipse.core.tests;bundle-version="0.1.0",
+ net.bioclipse.logger;bundle-version="2.0.0",
+ org.junit4;bundle-version="4.3.1",
+ net.bioclipse.cdk10.jchempaint;bundle-version="2.0.0",
+ net.bioclipse.cdk10.sdfeditor;bundle-version="2.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
