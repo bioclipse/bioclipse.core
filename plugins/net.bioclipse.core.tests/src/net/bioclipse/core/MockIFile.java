@@ -170,8 +170,7 @@ public class MockIFile implements IFile {
 
     public String getName() {
 
-        // TODO Auto-generated method stub
-        return null;
+        return "MockIFile";
     }
 
     public boolean isReadOnly() {
