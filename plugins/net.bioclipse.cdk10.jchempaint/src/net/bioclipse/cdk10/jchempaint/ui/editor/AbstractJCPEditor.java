@@ -26,6 +26,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
@@ -231,53 +232,63 @@ public abstract class AbstractJCPEditor extends MultiPageEditorPart
         }
         
         public void doSaveAs() {
-        	SaveAsDialog saveasdialog=new SaveAsDialog(this.getSite().getShell());
-        	saveasdialog.open();
-        	IFile target = ResourcesPlugin.getWorkspace().getRoot().getFile(saveasdialog.getResult());
-        	String filetype = saveasdialog.getResult().getFileExtension();
         	IProgressMonitor monitor = new NullProgressMonitor();
          	try{
+    	    	String towrite=null;
+    	    	boolean correctfiletype=false;
+    	    	IFile target=null;
      	        int ticks = 10000;
-     	        monitor.beginTask( "Writing file", ticks );
-    	    	String towrite;
-    	    	if(filetype.equals(JCPSaveFileFilter.mol)){
-    	            StringWriter writer = new StringWriter();
-    	            MDLWriter mdlWriter = new MDLWriter(writer);
-    	            mdlWriter.write(getChemModel());
-    	            towrite=writer.toString();
-    	    	} else if(filetype.equals(JCPSaveFileFilter.cml)){
-    	    		StringWriter writer = new StringWriter();
-    	            CMLWriter cmlWriter = new CMLWriter(writer);
-    	            cmlWriter.write(getChemModel());
-    	            towrite=writer.toString();
-    	    	} else if(filetype.equals(JCPSaveFileFilter.rxn)){
-    	    		StringWriter writer = new StringWriter();
-    	            MDLRXNWriter cmlWriter = new MDLRXNWriter(writer);
-    	            cmlWriter.write(getChemModel());
-    	            towrite=writer.toString();
-    	    	} else if(filetype.equals(JCPSaveFileFilter.smi)){
-    	    		StringWriter writer = new StringWriter();
-    	            SMILESWriter cmlWriter = new SMILESWriter(writer);
-    	            cmlWriter.write(getChemModel());
-    	            towrite=writer.toString();
-    	    	} else if(filetype.equals(JCPSaveFileFilter.cdk)){
-    	    		StringWriter writer = new StringWriter();
-    	            CDKSourceCodeWriter cmlWriter = new CDKSourceCodeWriter(writer);
-    	            cmlWriter.write(getChemModel());
-    	            towrite=writer.toString();
-    	    	} else {
-    	    		throw new BioclipseException("Filetype "+filetype+" not supported!");
+    	    	while(!correctfiletype){
+    	        	SaveAsDialog saveasdialog=new SaveAsDialog(this.getSite().getShell());
+    	        	int result=saveasdialog.open();
+    	        	if(result==SaveAsDialog.CANCEL){
+    	        		correctfiletype=true;
+    	        		target=null;
+    	        	}else{
+	    	        	target = ResourcesPlugin.getWorkspace().getRoot().getFile(saveasdialog.getResult());
+	    	        	String filetype = saveasdialog.getResult().getFileExtension();
+	    	        	if(filetype==null)
+	    	        		filetype="";
+	    	    		correctfiletype=true;
+	         	        monitor.beginTask( "Writing file", ticks );
+		    	    	if(filetype.equals(JCPSaveFileFilter.mol)){
+		    	            StringWriter writer = new StringWriter();
+		    	            MDLWriter mdlWriter = new MDLWriter(writer);
+		    	            mdlWriter.write(getChemModel());
+		    	            towrite=writer.toString();
+		    	    	} else if(filetype.equals(JCPSaveFileFilter.cml)){
+		    	    		StringWriter writer = new StringWriter();
+		    	            CMLWriter cmlWriter = new CMLWriter(writer);
+		    	            cmlWriter.write(getChemModel());
+		    	            towrite=writer.toString();
+		    	    	} else if(filetype.equals(JCPSaveFileFilter.rxn)){
+		    	    		StringWriter writer = new StringWriter();
+		    	            MDLRXNWriter cmlWriter = new MDLRXNWriter(writer);
+		    	            cmlWriter.write(getChemModel());
+		    	            towrite=writer.toString();
+		    	    	} else if(filetype.equals(JCPSaveFileFilter.smi)){
+		    	    		StringWriter writer = new StringWriter();
+		    	            SMILESWriter cmlWriter = new SMILESWriter(writer);
+		    	            cmlWriter.write(getChemModel());
+		    	            towrite=writer.toString();
+		    	    	} else if(filetype.equals(JCPSaveFileFilter.cdk)){
+		    	    		StringWriter writer = new StringWriter();
+		    	            CDKSourceCodeWriter cmlWriter = new CDKSourceCodeWriter(writer);
+		    	            cmlWriter.write(getChemModel());
+		    	            towrite=writer.toString();
+		    	    	} else {
+		    	    		MessageDialog.openError(this.getSite().getShell(), "No valid file type!", "Valid file types are "+JCPSaveFileFilter.mol+", "+JCPSaveFileFilter.cml+", "+JCPSaveFileFilter.cdk+", "+JCPSaveFileFilter.rxn+" and "+JCPSaveFileFilter.smi+". The file extension must be one of these!");
+		    	    		correctfiletype=false;
+		    	    	}
+    	        	}
     	    	}
-    	    	if(target.exists()){
+    	    	if(target!=null && target.exists()){
     	        	 target.setContents(new StringBufferInputStream(towrite), false, true, monitor);
-    	    	} else {
+    	    	} else if(target!=null){
     		    	target.create(new StringBufferInputStream(towrite), false, monitor);
     	    	}
     	    	monitor.worked(ticks);
 				//Activator.getDefault().getCDKManager().save(getChemModel(), file, saveasdialog.getResult().getFileExtension());
-			} catch (BioclipseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (CDKException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
