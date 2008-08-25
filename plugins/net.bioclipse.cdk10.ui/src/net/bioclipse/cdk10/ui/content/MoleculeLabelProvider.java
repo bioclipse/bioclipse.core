@@ -46,7 +46,7 @@ public class MoleculeLabelProvider implements ILabelProvider, IDescriptionProvid
             }
             else if (GeometryTools.has2DCoordinates(mol.getAtomContainer())){
                 descriptor=Activator.imageDescriptorFromPlugin( 
-                              Activator.PLUGIN_ID, "icons/molecule2D.gif");
+                              Activator.PLUGIN_ID, "icons/molecule2D.png");
             }
             if (descriptor!=null){
                 return descriptor.createImage();
