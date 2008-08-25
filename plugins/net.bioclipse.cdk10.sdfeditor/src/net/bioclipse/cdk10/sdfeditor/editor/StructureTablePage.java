@@ -385,7 +385,7 @@ public class StructureTablePage extends FormPage implements ISelectionListener{
         editAction.setToolTipText("Edit the structure in structure editor");
         editAction.setImageDescriptor(Activator
                                   .imageDescriptorFromPlugin(
-                                  Activator.PLUGIN_ID,"icons/molecule2D.gif"));
+                                  Activator.PLUGIN_ID,"icons/molecule2D.png"));
 
     }    
     

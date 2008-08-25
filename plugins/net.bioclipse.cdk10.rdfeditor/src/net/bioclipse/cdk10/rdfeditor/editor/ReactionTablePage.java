@@ -374,7 +374,7 @@ public class ReactionTablePage extends FormPage implements ISelectionListener{
         editAction.setToolTipText("Edit the Reaction in Reaction editor");
         editAction.setImageDescriptor(Activator
                                   .imageDescriptorFromPlugin(
-                                  Activator.PLUGIN_ID,"icons/molecule2D.gif"));
+                                  Activator.PLUGIN_ID,"icons/molecule2D.png"));
 
     }    
     

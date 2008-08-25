@@ -35,7 +35,7 @@ public class SDFOutlinePage extends ContentOutlinePage implements ISelectionList
 
     //Image for entries
     Image image2d=Activator.imageDescriptorFromPlugin(
-           Activator.PLUGIN_ID, "icons/molecule2D.gif" ).createImage();
+           Activator.PLUGIN_ID, "icons/molecule2D.png" ).createImage();
 
     //Store where we come from to get viewer model
     IEditorInput editorInput;
