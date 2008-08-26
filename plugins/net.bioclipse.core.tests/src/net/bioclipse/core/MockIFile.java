@@ -170,7 +170,7 @@ public class MockIFile implements IFile {
 
     public String getName() {
 
-        return "MockIFile";
+        return "MockIFile.mock";
     }
 
     public boolean isReadOnly() {
