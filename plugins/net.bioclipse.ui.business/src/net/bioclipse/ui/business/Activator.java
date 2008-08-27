@@ -55,7 +55,7 @@ public class Activator extends AbstractUIPlugin {
 		return plugin;
 	}
 
-  public Object getUIManager() {
+  public IUIManager getUIManager() {
       IUIManager uiManager;
       
       try {
