@@ -17,6 +17,7 @@ import java.util.UUID;
 import net.bioclipse.core.domain.props.BioObjectPropertySource;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 /**
@@ -64,12 +65,16 @@ public abstract class BioObject implements IBioObject {
 
     /**
      * Basic properties. Should be overridden by subclasses.
-     */
+     */    
+    @SuppressWarnings("unchecked")
     public Object getAdapter(Class adapter) {
+        if(adapter.isAssignableFrom(this.getClass()))
+            return this;
         if (adapter == IPropertySource.class){
             return propertySource!=null 
                 ? propertySource : new BioObjectPropertySource(this);
         }
-        return null;
+        return Platform.getAdapterManager().getAdapter(this, adapter);
+
     }
 }
