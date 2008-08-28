@@ -11,6 +11,7 @@
  ******************************************************************************/
 package net.bioclipse.core;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -37,13 +38,17 @@ public class BioclipseStore {
     private BioclipseStore() {
         
     }
-    
     public static Object get( IFile file, Class<?> clazz ) {
-        return instance.models.get( generateModelsKey( file, clazz ) );
+        return get(file.getLocationURI(),clazz);
     }
-
+    public static Object get( URI uri, Class<?> clazz ) {
+        return instance.models.get( generateModelsKey( uri, clazz ) );
+    }
+    public static void put(Object model,IFile file,Class<?> clazz){
+        put(model,file.getLocationURI(),clazz);
+    }
     public static void put( Object model, 
-                            IFile file,
+                            URI file,
                             Class<?> clazz ) {
         
         IResourceChangeListener listener 
@@ -64,21 +69,21 @@ public class BioclipseStore {
         instance.models.put( modelskey, model );
         updateModelsKeyHash( file, modelskey );
     }
-
-    private static void updateModelsKeyHash( IFile file, String modelskey ) {
+    
+    private static void updateModelsKeyHash( URI  uri, String modelskey ) {
         
         Set<String> s = instance.modelKeysForLocation.get( 
-            generateLocationsKey( file ) );
+            uri.toString() );
         if (s == null) {
             s = new HashSet<String>();
         }
         s.add( modelskey );
     }
-
-    private static String generateModelsKey( IFile file, 
-                                             Class<?> clazz ) {
-        return file.getLocationURI() + clazz.getName();
+    
+    private static String generateModelsKey( URI uri,Class<?> clazz ) {
+        return uri + clazz.getName();
     }
+    
     
     private static String generateLocationsKey( IFile file ) {
         return file.getLocationURI().toString();
