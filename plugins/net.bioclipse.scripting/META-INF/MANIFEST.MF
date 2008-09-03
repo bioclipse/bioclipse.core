@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Scripting Plug-in
 Bundle-SymbolicName: net.bioclipse.scripting;singleton:=true
-Bundle-Version: 2.0.0.A20080808
+Bundle-Version: 2.0.0.A20080903
 Bundle-Activator: net.bioclipse.scripting.Activator
 Require-Bundle: org.eclipse.core.runtime,
  net.bioclipse.core

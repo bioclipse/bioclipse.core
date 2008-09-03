@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.4"?>
 
-<product name="Bioclipse" id="net.bioclipse.ui.product" application="net.bioclipse.ui.application" version="2.0.0.A20080808" useFeatures="true">
+<product name="Bioclipse" id="net.bioclipse.ui.product" application="net.bioclipse.ui.application" version="2.0.0.A20080903" useFeatures="true">
 
    <aboutInfo>
       <image path="/net.bioclipse.ui/icons/logo/abot_img.gif"/>
@@ -155,6 +155,8 @@ See http://www.bioclipse.net for more information
 
    <features>
       <feature id="net.bioclipse_feature" version="2.0.0.A20080808"/>
+      <feature id="net.bioclipse.chemoinformatics_feature" version="2.0.0.A20080903"/>
+      <feature id="net.bioclipse.metaprint2d_feature" version="0.1.0"/>
    </features>
 
 </product>
