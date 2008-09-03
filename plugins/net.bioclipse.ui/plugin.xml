@@ -3,6 +3,7 @@
 <plugin>
 
    <extension-point id="net.bioclipse.ui.r_provider" name="R Extension Point" schema="schema/net.bioclipse.ui.r-provider.exsd"/>
+   <extension-point id="externalapp" name="External Application" schema="schema/externalapp.exsd"/>
 
 	<extension
 		point="org.eclipse.ui.contexts">
