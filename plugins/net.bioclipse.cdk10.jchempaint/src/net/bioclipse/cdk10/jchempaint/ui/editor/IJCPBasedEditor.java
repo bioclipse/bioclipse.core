@@ -8,6 +8,9 @@
  *******************************************************************************/
 package net.bioclipse.cdk10.jchempaint.ui.editor;
 
+import java.awt.Color;
+import java.util.List;
+
 import net.bioclipse.core.business.BioclipseException;
 
 import org.eclipse.core.commands.operations.IUndoContext;
@@ -45,5 +48,9 @@ public interface IJCPBasedEditor {
     public IChemModel getModelFromEditorInput() throws BioclipseException;
 
     public IChemModel getChemModel();
+
+	public void setMoleculeColorProperties(List<Color> molColors);
+
+	public void setMoleculeTooltips(List<String> molTooltips);
     
 }

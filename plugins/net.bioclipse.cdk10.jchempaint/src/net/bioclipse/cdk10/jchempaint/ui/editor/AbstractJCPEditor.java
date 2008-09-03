@@ -8,10 +8,16 @@
  *******************************************************************************/
 package net.bioclipse.cdk10.jchempaint.ui.editor;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.io.PrintWriter;
 import java.io.StringBufferInputStream;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.List;
 
 import net.bioclipse.cdk10.business.CDK10Molecule;
+import net.bioclipse.cdk10.business.ICDK10Constants;
 import net.bioclipse.cdk10.jchempaint.colorers.PropertyColorer;
 import net.bioclipse.cdk10.jchempaint.outline.JCPOutlinePage;
 import net.bioclipse.core.business.BioclipseException;
@@ -39,7 +45,10 @@ import org.openscience.cdk.MoleculeSet;
 import org.openscience.cdk.applications.jchempaint.JChemPaintModel;
 import org.openscience.cdk.applications.jchempaint.io.JCPSaveFileFilter;
 import org.openscience.cdk.exception.CDKException;
+import org.openscience.cdk.interfaces.IAtom;
+import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IChemModel;
+import org.openscience.cdk.interfaces.IMolecule;
 import org.openscience.cdk.interfaces.IMoleculeSet;
 import org.openscience.cdk.io.CDKSourceCodeWriter;
 import org.openscience.cdk.io.CMLWriter;
@@ -47,6 +56,7 @@ import org.openscience.cdk.io.MDLRXNWriter;
 import org.openscience.cdk.io.MDLWriter;
 import org.openscience.cdk.io.SMILESWriter;
 import org.openscience.cdk.layout.StructureDiagramGenerator;
+import org.openscience.cdk.renderer.Renderer2DModel;
 import org.openscience.cdk.renderer.color.IAtomColorer;
 
 public abstract class AbstractJCPEditor extends MultiPageEditorPart 
@@ -340,4 +350,79 @@ public abstract class AbstractJCPEditor extends MultiPageEditorPart
          */
         public abstract IChemModel getModelFromEditorInput() throws BioclipseException;
 
-    }
+        
+    	public void setMoleculeColorProperties(List<Color> molColors) {
+
+            Renderer2DModel model=jcpPage.getDrawingPanel().getRenderer2D().getRenderer2DModel();            
+
+            IAtomContainer ac=chemModel.getMoleculeSet().getMolecule(0);
+
+            //Confirm dimensions
+    		if (molColors.size()!=ac.getAtomCount()){
+    			logger.error("Molecule not of same dimension as MoleculeList.");
+    			return;
+    		}
+
+            
+            //Color by metaprint
+            model.getColorHash().clear();
+            for (int i=0; i< ac.getAtomCount(); i++){
+                Color color=molColors.get(i);
+                if (color !=null){
+                    ac.getAtom( i ).setProperty( ICDK10Constants.COLOR_PROPERTY, color );
+                }
+                else{
+                    ac.getAtom( i ).setProperty( ICDK10Constants.COLOR_PROPERTY, Color.BLACK );
+                    
+                    //For Background
+                     model.getColorHash().put(ac.getAtom( i ), Color.WHITE);
+                }
+
+            }
+
+            //Configure JCP
+            model.setKekuleStructure( true );
+            model.setShowAtomTypeNames( false );
+            model.setShowImplicitHydrogens( false );
+            model.setShowExplicitHydrogens(  false );
+            Font font = new Font("courier", Font.BOLD, 14);
+            model.setFont(font);
+            
+            //Update drawing
+            model.fireChange();
+   		
+    	}
+
+    	public void setMoleculeTooltips(List<String> molTooltips) {
+
+            Renderer2DModel model=jcpPage.getDrawingPanel().getRenderer2D().getRenderer2DModel();            
+
+            IAtomContainer ac=chemModel.getMoleculeSet().getMolecule(0);
+            HashMap<IAtom, String> currentToolTip=new HashMap<IAtom, String>();
+
+            //Confirm dimensions
+    		if (molTooltips.size()!=ac.getAtomCount()){
+    			logger.error("Molecule not of same dimension as TooltipList.");
+    			return;
+    		}
+
+            
+            //Color by metaprint
+            for (int i=0; i< ac.getAtomCount(); i++){
+                //Add tooltip
+            	String tooltip=molTooltips.get(i);
+                currentToolTip.put( ac.getAtom( i ), tooltip );
+            	
+            }
+
+            model.setToolTipTextMap( currentToolTip );
+
+            //Update drawing
+            model.fireChange();
+
+    		
+    	}
+
+        
+        
+}
