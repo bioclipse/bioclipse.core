@@ -7,18 +7,17 @@
  * 
  * Contributors:
  *     Jonathan Alvarsson
+ *     Arvid Berg - redesign
  *     
  ******************************************************************************/
 package net.bioclipse.core;
 
-import java.net.URI;
+import java.lang.ref.SoftReference;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-import java.util.WeakHashMap;
 
-import org.eclipse.core.resources.IFile;
+import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -29,63 +28,69 @@ import org.eclipse.core.resources.ResourcesPlugin;
 public class BioclipseStore {
 
     static BioclipseStore instance = new BioclipseStore();
-   
-    Map<String, Object> models = new WeakHashMap<String, Object>();
     
-    Map<String, Set<String>> modelKeysForLocation 
-        = new HashMap<String, Set<String>>();
+    Logger logger = Logger.getLogger(BioclipseStore.class);
+   
+    Map<IResource,SoftReference<Map<Object,Object>>> resourceMap;
+    
+    IResourceChangeListener listener;
     
     private BioclipseStore() {
+       resourceMap = new HashMap<IResource,SoftReference<Map<Object,Object>>>();
+    }
+    
+    public static Object get( IResource resource, Object key) {
+       return instance.getModel(resource,key);
+    }
+    
+    public static void put( IResource resource,Object key, Object model){
+        instance.putModel(resource,key,model);
+    }
+    
+
+    private void putModel(IResource resource, Object key, Object model){
         
+        SoftReference<Map<Object,Object>> ref=resourceMap.get(resource);
+        Map<Object,Object> values = null;
+                
+        values = (ref == null?null: ref.get() );
+        if(values== null) {
+            values = new HashMap<Object,Object>();
+        }
+        values.put(key, model );
+        if(ref==null){           
+            ref = new SoftReference<Map<Object,Object>>(values);            
+            resourceMap.put(resource,ref);
+            addResourceListener(resource );
+        }
+
     }
-    public static Object get( IFile file, Class<?> clazz ) {
-        return get(file.getLocationURI(),clazz);
+    private Object getModel(IResource resource, Object key){
+        SoftReference<Map<Object,Object>> ref=resourceMap.get(resource);
+        if(ref == null) return null;
+        Map<Object,Object> values=ref.get();
+        if(values!=null){
+            logger.debug("Retriving Object from Cache" );
+            return values.get(key );
+        }else
+            resourceMap.remove(resource );
+        return null;
     }
-    public static Object get( URI uri, Class<?> clazz ) {
-        return instance.models.get( generateModelsKey( uri, clazz ) );
-    }
-    public static void put(Object model,IFile file,Class<?> clazz){
-        put(model,file.getLocationURI(),clazz);
-    }
-    public static void put( Object model, 
-                            URI file,
-                            Class<?> clazz ) {
-        
-        IResourceChangeListener listener 
-            = new IResourceChangeListener() {
-            
-            public void resourceChanged(IResourceChangeEvent event) {
-                if ( event.getResource() instanceof IFile ) {
-                    instance.modelKeysForLocation.remove( 
-                        generateLocationsKey( 
-                            (IFile) event.getResource() ) );
+    
+    private void addResourceListener(IResource resource){
+        if(listener == null){
+            listener = new IResourceChangeListener() {
+                
+                public void resourceChanged(IResourceChangeEvent event) {
+                    if ( event.getResource() instanceof IResource ) {
+                        resourceMap.remove(event.getResource());
+                    }
                 }
-            }
-        };
+            };
+        }
         ResourcesPlugin.getWorkspace()
                        .addResourceChangeListener(listener);
 
-        String modelskey = generateModelsKey( file, clazz );
-        instance.models.put( modelskey, model );
-        updateModelsKeyHash( file, modelskey );
     }
-    
-    private static void updateModelsKeyHash( URI  uri, String modelskey ) {
-        
-        Set<String> s = instance.modelKeysForLocation.get( 
-            uri.toString() );
-        if (s == null) {
-            s = new HashSet<String>();
-        }
-        s.add( modelskey );
-    }
-    
-    private static String generateModelsKey( URI uri,Class<?> clazz ) {
-        return uri + clazz.getName();
-    }
-    
-    
-    private static String generateLocationsKey( IFile file ) {
-        return file.getLocationURI().toString();
-    }
+
 }
