@@ -11,6 +11,7 @@
  ******************************************************************************/
 package net.bioclipse.cdk10.sdfeditor.editor;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -563,5 +564,13 @@ public class SDFEditor extends FormEditor
     public IUndoContext getUndoContext() {
         return null;
     }
+
+	public void setMoleculeColorProperties(List<Color> molColors) {
+		System.out.println("NOT IMPL in SDFEDITOR");
+	}
+
+	public void setMoleculeTooltips(List<String> molTooltips) {
+		System.out.println("NOT IMPL in SDFEDITOR");
+	}
     
 }
