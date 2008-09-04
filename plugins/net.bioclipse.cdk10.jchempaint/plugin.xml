@@ -7,7 +7,7 @@
          point="org.eclipse.ui.editors">
       <editor
             name="MDLMolfileEditor"
-            icon="icons/molecule2D.png"
+            icon="icons/doc_mol_2d.png"
             contributorClass="net.bioclipse.cdk10.jchempaint.ui.editor.JCPMultiPageEditorContributor"
             class="net.bioclipse.cdk10.jchempaint.ui.editor.mdl.MDLMolfileEditor"
             id="net.bioclipse.cdk10.jchempaint.ui.editor.mdl.MDLMolfileEditor">
@@ -18,7 +18,7 @@
 
       <editor
             name="CMLfileEditor"
-            icon="icons/molecule2D.png"
+            icon="icons/doc_mol_2d.png"
             contributorClass="net.bioclipse.cdk10.jchempaint.ui.editor.JCPMultiPageEditorContributor"
             class="net.bioclipse.cdk10.jchempaint.ui.editor.cml.CMLfileEditor"
             id="net.bioclipse.cdk10.jchempaint.ui.editor.cml.CMLfileEditor">
@@ -41,7 +41,7 @@
          point="org.eclipse.ui.views">
       <view
             name="2D-Structure"
-	        icon="icons/molecule2D.png"
+            icon="icons/doc_mol_2d.png"
             category="net.bioclipse.cdk.category"
             class="net.bioclipse.cdk10.jchempaint.views.Java2DRendererView"
             id="net.bioclipse.cdk10.jchempaint.views.Java2DRendererView">
