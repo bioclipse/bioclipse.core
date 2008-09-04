@@ -70,7 +70,7 @@ public class BioclipseStore {
         if(ref == null) return null;
         Map<Object,Object> values=ref.get();
         if(values!=null){
-            logger.debug("Retriving Object from Cache" );
+            //logger.debug("Retriving Object from Cache" );
             return values.get(key );
         }else
             resourceMap.remove(resource );
