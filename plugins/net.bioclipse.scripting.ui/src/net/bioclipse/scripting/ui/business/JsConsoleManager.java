@@ -12,9 +12,10 @@
  ******************************************************************************/
 package net.bioclipse.scripting.ui.business;
 
-import java.io.BufferedInputStream;
-
 import net.bioclipse.core.ResourcePathTransformer;
+import net.bioclipse.scripting.Activator;
+import net.bioclipse.scripting.Hook;
+import net.bioclipse.scripting.JsAction;
 import net.bioclipse.scripting.ui.views.JsConsoleView;
 
 import org.eclipse.core.resources.IFile;
@@ -25,12 +26,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.PlatformUI;
-
-import com.sun.java_cup.internal.runtime.Scanner;
-
-import net.bioclipse.scripting.Activator;
-import net.bioclipse.scripting.Hook;
-import net.bioclipse.scripting.JsAction;
 
 /**
  * Contains general methods for interacting with the Javascript console.
@@ -62,6 +57,10 @@ public class JsConsoleManager implements IJsConsoleManager {
         Display.getDefault().asyncExec( new Runnable() {
             public void run() { getJsConsoleView().printMessage( message ); }
         } );
+    }
+
+    public void say(final String message) {
+        print(message + "\n");
     }
 
     public String getNamespace() {

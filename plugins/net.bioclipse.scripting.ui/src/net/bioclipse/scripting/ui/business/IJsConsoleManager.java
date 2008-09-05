@@ -34,8 +34,14 @@ public interface IJsConsoleManager extends IBioclipseManager {
 
     @Recorded
     @PublishedMethod(params="String message",
-                     methodSummary="Prints to the console.")
+                     methodSummary="Prints a message to the console.")
     public void print(String message);
+
+    @Recorded
+    @PublishedMethod(params="String message",
+                     methodSummary="Prints a message to the console, adding a "
+                                   + "trailing newline.")
+    public void say(String message);
 
     @Recorded
     @PublishedMethod(params="String command",
