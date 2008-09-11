@@ -49,6 +49,7 @@ public class MockIFile implements IFile {
 
     public MockIFile(InputStream inStream) {
         this.inStream = inStream;
+        exists=true;
     }
     
     public MockIFile(String path) throws FileNotFoundException {
