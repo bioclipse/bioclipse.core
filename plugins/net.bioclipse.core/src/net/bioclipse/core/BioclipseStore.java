@@ -100,7 +100,8 @@ public class BioclipseStore {
                        .addResourceChangeListener(listener);
         }
         catch(Exception e) {
-            logger.error( "If running tests this is ok", e );
+            logger.error( "If running tests this is ok", 
+                          new RuntimeException(e) );
         }
     }
 }
