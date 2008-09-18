@@ -379,11 +379,20 @@ public class JsConsoleView extends ScriptingConsoleView
                     for ( Method method : methods ) {
                         if ( method.isAnnotationPresent( 
                              PublishedMethod.class ) ) {
-                            methodNames.add( 
-                                method.getName() + "( "  
-                                + method.getAnnotation( 
-                                  PublishedMethod.class ).params() 
-                                + " )" );
+                            
+                            if ( method
+                                 .getAnnotation( PublishedMethod.class )
+                                 .params().length() == 0 ) {
+                                methodNames.add( method.getName() 
+                                                 + "()" );
+                            }
+                            else {
+                                methodNames.add( 
+                                    method.getName() + "( "  
+                                    + method.getAnnotation( 
+                                      PublishedMethod.class ).params() 
+                                    + " )" );
+                            }
                         }
                     }
                     for ( String methodName : methodNames ) {
