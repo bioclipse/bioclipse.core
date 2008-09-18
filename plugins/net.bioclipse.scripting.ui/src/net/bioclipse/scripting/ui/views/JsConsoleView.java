@@ -115,6 +115,11 @@ public class JsConsoleView extends ScriptingConsoleView
     protected String commandLinePrompt() {
         return mode == Mode.JS ? "js> " : "R> ";
     }
+    
+    protected String q(String s) {
+        return mode == Mode.R ? s.replaceAll( "^/", "" )
+                              : s;
+    }
 
     private void installR() {
 

@@ -526,8 +526,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
                       
                       String content
                           = item instanceof IResource
-                            ? ((IResource)item).getFullPath().toOSString()
-                          : "[O_o]"; // unrecognized content
+                            ? q(((IResource)item).getFullPath().toOSString())
+                            : "[O_o]"; // unrecognized content
 
                       if ( !cursorIsOnCommandLine() )
                           putCursorOnCommandLine();
@@ -552,6 +552,15 @@ public abstract class ScriptingConsoleView extends ViewPart {
               }
             }
           });
+    }
+
+    /**
+     * Intercepts a string before it is dropped into the console.
+     * Meant to be overridden by deriving classes.
+     */
+    // TODO: Create a better name.
+    protected String q( String s ) {
+        return s;
     }
 
     /**
