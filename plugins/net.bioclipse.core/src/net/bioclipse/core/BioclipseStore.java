@@ -29,7 +29,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
  */
 public class BioclipseStore {
 
-    volatile static BioclipseStore instance = new BioclipseStore();
+    public static final BioclipseStore instance = new BioclipseStore();
     
     Logger logger = Logger.getLogger(BioclipseStore.class);
    
