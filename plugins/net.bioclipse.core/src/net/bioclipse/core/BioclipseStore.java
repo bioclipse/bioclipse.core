@@ -16,6 +16,8 @@ import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.bioclipse.core.util.LogUtils;
+
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -27,7 +29,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
  */
 public class BioclipseStore {
 
-    static BioclipseStore instance = new BioclipseStore();
+    volatile static BioclipseStore instance = new BioclipseStore();
     
     Logger logger = Logger.getLogger(BioclipseStore.class);
    
@@ -36,19 +38,24 @@ public class BioclipseStore {
     IResourceChangeListener listener;
     
     private BioclipseStore() {
-       resourceMap = new HashMap<IResource,SoftReference<Map<Object,Object>>>();
+       resourceMap = new HashMap< IResource,
+                                  SoftReference<Map<Object,Object>> >();
     }
     
-    public static Object get( IResource resource, Object key) {
+    public synchronized static Object get( IResource resource, Object key) {
        return instance.getModel(resource,key);
     }
     
-    public static void put( IResource resource,Object key, Object model){
+    public synchronized static void put( IResource resource, 
+                            Object key, 
+                            Object model ) {
         instance.putModel(resource,key,model);
     }
     
 
-    private void putModel(IResource resource, Object key, Object model){
+    private void putModel( IResource resource, 
+                           Object key, 
+                           Object model ) {
         
         SoftReference<Map<Object,Object>> ref=resourceMap.get(resource);
         Map<Object,Object> values = null;
@@ -63,8 +70,8 @@ public class BioclipseStore {
             resourceMap.put(resource,ref);
             addResourceListener(resource );
         }
-
     }
+
     private Object getModel(IResource resource, Object key){
         SoftReference<Map<Object,Object>> ref=resourceMap.get(resource);
         if(ref == null) return null;
@@ -88,9 +95,12 @@ public class BioclipseStore {
                 }
             };
         }
+        try {
         ResourcesPlugin.getWorkspace()
                        .addResourceChangeListener(listener);
-
+        }
+        catch(Exception e) {
+            logger.error( "If running tests this is ok", e );
+        }
     }
-
 }
