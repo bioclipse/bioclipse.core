@@ -8,9 +8,12 @@
  *******************************************************************************/
 package net.bioclipse.core;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.net.URI;
@@ -44,17 +47,54 @@ import org.eclipse.core.runtime.jobs.ISchedulingRule;
  */
 public class MockIFile implements IFile {
 
-    private InputStream inStream;
+    
     private boolean exists=false;
-
+    private byte[] data;
+    String extension = "";
+    
+    /*
+     * extracts the extension from ext or set extension to ext if no dot is found
+     */
+    public MockIFile extension(String ext) {
+        int lastDot = ext.lastIndexOf( '.' );
+        //if(lastDot == -1) return this;
+        String s = ext.substring( lastDot+1 );  
+        extension = s;
+        return this;
+    }
+    
+    private byte[] createBuffer(InputStream is)  {
+        int byteBufferSize=1024;
+        byte[] byteBuffer = new byte[byteBufferSize];
+        int bytesRead =0;
+        int totalBytesRead = 0;
+        int count = 0;
+        
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(byteBufferSize*2);
+        
+        try {
+            while ((bytesRead = is.read(byteBuffer)) != -1)
+            {
+                totalBytesRead += bytesRead;
+            
+                count++;
+                baos.write(byteBuffer,0,bytesRead);        
+            }
+        } catch ( IOException e ) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return baos.toByteArray();
+    }
+    
     public MockIFile(InputStream inStream) {
-        this.inStream = inStream;
+        this.data = createBuffer( inStream );
         exists=true;
     }
     
-    public MockIFile(String path) throws FileNotFoundException {
-        this.inStream = new FileInputStream( new File(path) );
-        exists=true;
+    public MockIFile(String path) throws FileNotFoundException{
+        this(new FileInputStream(new File(path)));   
+        extension( path );
     }
     
     public MockIFile() throws FileNotFoundException {
@@ -79,16 +119,16 @@ public class MockIFile implements IFile {
     public void create( InputStream source, boolean force,
                         IProgressMonitor monitor ) throws CoreException {
 
-        inStream=source;
+        data = createBuffer( source );
         exists=true;
+        
         
     }
 
     public void create( InputStream source, int updateFlags,
                         IProgressMonitor monitor ) throws CoreException {
 
-        inStream=source;
-        exists=true;
+        create( source, false, monitor );
         
     }
 
@@ -138,16 +178,16 @@ public class MockIFile implements IFile {
     }
 
     public InputStream getContents() throws CoreException {
-
-    	if(!exists)
-    		throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID, 1, "File does not (yet) exist", null));
-        return inStream;
+        
+        return getContents( false );
+    	
     }
 
     public InputStream getContents( boolean force ) throws CoreException {
-
-        // TODO Auto-generated method stub
-        return null;
+        if(!exists)
+            throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID, 1, "File does not (yet) exist", null));
+          
+            return new ByteArrayInputStream(data);
     }
 
     public int getEncoding() throws CoreException {
@@ -350,9 +390,8 @@ public class MockIFile implements IFile {
     }
 
     public String getFileExtension() {
-
-        // TODO Auto-generated method stub
-        return null;
+        
+        return extension; 
     }
 
     public long getLocalTimeStamp() {
