@@ -1,0 +1,45 @@
+## Welcome to edrin's Axis1 code generator script.
+## 
+## Please read this few lines to know how this works!
+##
+## This script can generate a Java client stub from a WSDL file.
+## The stub can then be used to write a client against the Web Service.
+## This script was written for the http://bioclipse.net project.
+##
+## Howto:
+## 1. adapt wsdllnk and package
+## 2. open a shell and run this file (./stubgenerator)
+##
+## Problems?
+##
+## About script's location:
+## The script thinks that it is located at eclipse-workbench/bc_webservices/jars/axis-1_4-stubgenerator
+## It want to use some .jar, check their presence:
+##    ../../../eclipse/plugins/org.apache.xerces_2.7.0.v200602052214/resolver.jar
+##    ../../../eclipse/plugins/org.apache.xerces_2.7.0.v200602052214/xercesImpl.jar
+##    ../../../eclipse/plugins/org.apache.xerces_2.7.0.v200602052214/xml-apis.jar
+
+## [!] edit this [!]
+wsdllnk=http://www.bioinfo.tsinghua.edu.cn/~tigerchen/SubLoc.wsdl;
+package=subloc;
+#wsdllnk=http://www.ebi.ac.uk/Tools/webservices/wsdl/WSDbfetch.wsdl;
+#######package=net.bioclipse.plugins.bc_webservices.clients;
+
+## The target directory
+targetdir=../src-axis1;
+
+## The required libraries
+gpath=:axis-1_4/axis-ant.jar\
+:axis-1_4/lib/axis.jar\
+:axis-1_4/lib/jaxrpc.jar\
+:axis-1_4/lib/saaj.jar\
+:axis-1_4/lib/commons-discovery-0.2.jar\
+:axis-1_4/lib/wsdl4j-1.5.1.jar\
+:../../com.tools.logging/jars/log4j-1.2.8.jar\
+:../../com.tools.logging/jars/commons-logging-1.0.4.jar\
+:axis-1_4/lib/log4j.properties;
+#:axis-1_4/lib/log4j-1.2.8.jar\
+#:axis-1_4/lib/commons-logging-1.0.4.jar\
+
+## The command
+java -cp $gpath org.apache.axis.wsdl.WSDL2Java -o $targetdir $wsdllnk -p $package

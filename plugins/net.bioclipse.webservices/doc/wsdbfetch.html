@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<title>Tutorial - Use WSDbfetch Web Service at EBI</title>
+  <link rel="stylesheet" href="../../PRODUCT_PLUGIN/narrow_book.css" type="text/css">
+</head>
+<body>
+<h2>How to retrieve and import a pdb entry from the web.</h2>
+Please ensure that you are online.
+
+<br/>
+<h3>1. Open the "New" wizard</h3>
+Click the "New" button in the toolbar of bioclipse or select "New" in the "File" menu.
+<br/>
+<IMG SRC="images/wsdbfetch1.png" BORDER=0>
+
+<br/>
+<h3>2. Select the WSDbfetch wizard</h3>
+Choose the "Use WSDbfetch Web Service at EBI". Click "Next" to continue.
+<br/>
+<IMG SRC="images/wsdbfetch2.png" BORDER=0>
+
+<br/>
+<h3>3. Configure the query</h3>
+Choose "pdb" as database, the format and style may stay default. In the query field enter "1JR8" 
+(<A HREF="http://www.ncbi.nlm.nih.gov/Structure/mmdb/mmdbsrv.cgi?form=6&db=t&Dopt=s&uid=18287">this is the name of the pdb file of a FAD-binding fold and intersubunit disulfide shuttle in the thiol oxidase Erv2p in Saccharomyces cerevisiae</A>).
+Click "Finish" to continue and wait for the Web Service query to finish, this may need a few seconds as pdb files are quite big.
+<br/>
+<IMG SRC="images/wsdbfetch3.png" BORDER=0>
+
+<br/>
+<h3>4. Open the the result</h3>
+Click "Finish" to open the pdb data. If you want to view the protein in 3D open the "Jmol View" in the "Window" menu.
+<br/>
+<IMG SRC="images/wsdbfetch4.png" BORDER=0>
+
+</body>
+</html>

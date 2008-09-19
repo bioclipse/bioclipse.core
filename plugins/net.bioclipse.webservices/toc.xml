@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="The Web Services Plug-in">
+	<topic label="The Web Services Plug-in" href="doc/wsplugin.html"> 
+		<topic label="About" href="doc/about.html"/>
+		<topic label="Supported Web Services" href="doc/supported.html"/>
+		<topic label="Tutorials" href="doc/tutorials.html">
+			<topic label="Use WSDbfetch Web Service at EBI" href="doc/wsdbfetch.html"/>
+		</topic>
+	</topic>
+</toc>

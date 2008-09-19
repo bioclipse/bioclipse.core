@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <!--extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="net.bioclipse.plugins.bc_webservices.wizards.newwizards"
+            name="Web Services"/>
+      <wizard
+            canFinishEarly="false"
+            category="net.bioclipse.plugins.bc_webservices.wizards.newwizards"
+            class="net.bioclipse.plugins.bc_webservices.wizards.newwizards.EBIWSDbfetchWizard"
+            hasPages="true"
+            helpHref="http://wiki.bioclipse.net/index.php?title=Bc_webservices"
+            icon="icons/png/ws_ebi.png"
+            id="net.bioclipse.plugins.bc_webservices.wizards.newwizards.WSDbfetchNewWizard"
+            name="Use WSDbfetch Web Service at EBI"
+            project="false">
+         <description>Get entries from various up-to-date biological databases using the WSDbfetch Web Service at the European Bioinformatics Institute (EBI).</description>
+      </wizard>
+   </extension-->
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml"
+            primary="true"/>
+   </extension>
+
+  <!--extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Web Services Action Set"
+            visible="true"
+            id="net.bioclipse.WSactionSet">
+         <menu
+               label="Web services"
+               id="webServices"
+			   path="additions">
+            <groupmarker name="group1"/>
+         </menu>
+      </actionSet>
+   </extension-->
+
+   <!--extension
+         point="net.bioclipse.rhino.scripting">
+      <ScriptContribution
+            class="net.bioclipse.plugins.bc_webservices.scripts.WebservicesTools"
+            id="net.bioclipse.plugins.bc_webservices.scripts.WebservicesTools"
+            namespace="ws">
+      </ScriptContribution>
+  </extension-->
+</plugin>
