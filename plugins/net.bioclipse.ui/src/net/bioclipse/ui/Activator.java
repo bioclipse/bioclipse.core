@@ -26,7 +26,10 @@ import net.bioclipse.recording.IHistory;
 import org.apache.log4j.Logger;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -67,9 +70,28 @@ public class Activator extends BioclipseActivator {
         "If you have multiple versions of Java installed, please edit the file " +
              "'bioclipse.ini' to point to java 1.5 or 1.6 by adding a line like below: \n" +
         " -vm /path/to/java1.5/bin/java";
+
+    public static final String MOLECULE_2D_ICON = "icon.molecule_2D";
     
     // The shared singleton instance.
     private static Activator plugin; 
+    
+    
+    
+    @Override
+    /** Check out these pages for more info
+     *  http://richclientplatform.blogspot.com/2007/05/plugin-your-images.html
+     *  http://eclipselowdown.blogspot.com/2006/05/image-management.html
+     */
+    protected void initializeImageRegistry( ImageRegistry registry ) {
+        super.initializeImageRegistry( registry );
+        Bundle bundle = Platform.getBundle( PLUGIN_ID );
+        ImageDescriptor myImage = ImageDescriptor.createFromURL( 
+                       FileLocator.find( bundle, 
+                                         new Path("icons/chemistry/mol_2d.png"), 
+                                         null ));
+        registry.put( MOLECULE_2D_ICON, myImage );        
+    }
     
      /** Returns an image descriptor for the image file at the given plug-in
      * relative path
