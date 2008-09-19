@@ -32,6 +32,7 @@ import net.bioclipse.ui.EchoListener;
 import net.bioclipse.ui.JsPluginable;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
@@ -166,6 +167,12 @@ public class JsConsoleView extends ScriptingConsoleView
                         + ex.getMessage());
             }
         }
+        
+        executeRCommand( "setwd(\"" + ResourcesPlugin.getWorkspace()
+                                                    .getRoot()
+                                                    .getRawLocation()
+                                                    .toOSString() 
+                         + "\")" );
     }
 
     private void executeJsCommand(String command) {
