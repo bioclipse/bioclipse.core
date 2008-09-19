@@ -75,7 +75,8 @@ public class ResourcePathTransformer {
     	        }
     	    }
     	    vFile = createAlternativeFile(vFile);
-    	    return null;
+    	    if( vFile == null)
+    	        return null;
     	}    	
     	try {
 			vFile.createLink(uri,IResource.NONE, null);	
