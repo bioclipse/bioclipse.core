@@ -62,7 +62,21 @@ public class ResourcePathTransformer {
 		}
     	IProject vProject=Activator.getVirtualProject();
     	IFile vFile=vProject.getFile(localFile.getName());
-    	if(vFile.exists()) return null;
+    	// if file already exist in Virtual project
+    	if(vFile.exists()) {
+    	    if(vFile.isLinked()) {
+    	        if( uri.equals( vFile.getLocationURI()) ) {
+    	            try {
+                        vFile.refreshLocal( IResource.DEPTH_ONE, null );
+                        return vFile;
+                    } catch ( CoreException e ) {
+                        return null;
+                    }
+    	        }
+    	    }
+    	    vFile = createAlternativeFile(vFile);
+    	    return null;
+    	}    	
     	try {
 			vFile.createLink(uri,IResource.NONE, null);	
 			vFile.refreshLocal(0, new NullProgressMonitor());
@@ -70,6 +84,21 @@ public class ResourcePathTransformer {
 			return null;
 		}
     	return vFile;       
+    }
+    
+    /*
+     * Recursive algorithm for creating unique file
+     */
+    private IFile createAlternativeFile( IFile file ) {
+        return createAlternativeFile( file, 0 );
+    }
+    private IFile createAlternativeFile( IFile file , int count) {
+        int MAX_RECURSION = 10;
+        if (count > MAX_RECURSION) return null;
+        file =file.getParent().getFile(new Path(file.getName()+"_"+Integer.toString( ++count )));
+        if(file.exists()) return createAlternativeFile( file, count );        
+        
+        return file;
     }
 
     private IFile parseRelative( String resourceString ) {
