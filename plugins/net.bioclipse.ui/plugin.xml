@@ -426,6 +426,13 @@
               name="SDFContentType"
               priority="high">
         </content-type>
+        <content-type
+              base-type="org.eclipse.core.runtime.text"
+              file-extensions="smi"
+              id="net.bioclipse.contenttypes.smi"
+              name="SMILES-ContentType"
+              priority="normal">
+        </content-type>
 
         <content-type
               base-type="org.eclipse.core.runtime.text"
