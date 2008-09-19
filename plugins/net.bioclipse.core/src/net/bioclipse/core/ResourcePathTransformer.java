@@ -56,7 +56,7 @@ public class ResourcePathTransformer {
     	java.io.File localFile=new java.io.File(resourceString);
     	if(!localFile.exists()) return null;
     	try{
-    		uri=new URI("file:/"+localFile.getAbsolutePath());
+    		uri=new URI("file:"+localFile.getAbsolutePath());
     	}catch (URISyntaxException e) {
 			return null;
 		}
@@ -96,12 +96,20 @@ public class ResourcePathTransformer {
     private IFile createAlternativeFile( IFile file , int count) {
         int MAX_RECURSION = 10;
         if (count > MAX_RECURSION) return null;
-        file =file.getParent().getFile(new Path(file.getName()+"_"+Integer.toString( ++count )));
+        file =file.getParent().getFile(
+                       new Path(generateUniqueFileName( file,++count)));
         if(file.exists()) return createAlternativeFile( file, count );        
         
         return file;
     }
-
+    private String generateUniqueFileName(IFile file,int count) {
+        // FIXME : this should replace last entered number with new
+        String name = file.getName();
+        name = name.replaceAll( "\\..*$", Integer.toString( count ));
+        name = name + "."+file.getFileExtension();
+        return name;
+    }
+    
     private IFile parseRelative( String resourceString ) {
 
        IPath path = new Path(resourceString);
