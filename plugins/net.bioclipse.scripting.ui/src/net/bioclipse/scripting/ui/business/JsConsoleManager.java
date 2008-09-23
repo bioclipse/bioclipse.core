@@ -24,7 +24,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -36,15 +36,18 @@ import org.eclipse.ui.PlatformUI;
 public class JsConsoleManager implements IJsConsoleManager {
 
     private JsConsoleView getJsConsoleView() {
-        IViewReference[] viewRefs = PlatformUI.getWorkbench()
-            .getActiveWorkbenchWindow()
-            .getActivePage()
-            .getViewReferences();
-        for ( IViewReference ref : viewRefs )
-            if ( ref.getView(true) instanceof JsConsoleView )
-                return (JsConsoleView) (ref.getView(true));
-        
-        throw new IllegalStateException("Console not reachable.");
+        try {
+            return (JsConsoleView)
+                PlatformUI.getWorkbench()
+                          .getActiveWorkbenchWindow()
+                          .getActivePage()
+                          .showView( "net.bioclipse.scripting.ui.views."
+                                     + "JsConsoleView" );
+        } catch ( PartInitException e ) {
+            throw new RuntimeException(
+                "The JavaScript view could not be opened"
+            );
+        }
     }
     
     public void clear() {
