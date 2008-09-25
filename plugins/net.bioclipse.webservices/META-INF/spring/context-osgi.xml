@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:osgi="http://www.springframework.org/schema/osgi"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                      http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+  <!-- Export the bean (defined in a separate
+       config file in this case) as an OSGi service -->
+
+  <osgi:service id="webservicesManagerOSGI" 
+                ref="webservicesManager"
+                interface="net.bioclipse.plugins.bc_webservices.scripts.IWebservicesManager" />
+
+  <osgi:reference id="recordingAdvice" 
+                  interface="net.bioclipse.recording.IRecordingAdvice" />
+
+  <osgi:reference id="createJobAdvice"
+                  interface="net.bioclipse.ui.jobs.ICreateJobAdvice" />
+
+  <bean id="recordingAdvisor"
+  		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice"  ref="recordingAdvice" />
+  		<property name="pattern" value=".*" /> <!-- See also class implementation -->
+  </bean>
+  
+  <bean id="webservicesManager"
+  		class="org.springframework.aop.framework.ProxyFactoryBean">
+  	<property name="target" 
+  	          ref="webservicesManagerTarget" />
+  	<property name="proxyInterfaces" 
+  	          value="net.bioclipse.plugins.bc_webservices.scripts.IWebservicesManager" />
+  	<property name="interceptorNames" >
+  	    <list>
+            <value>recordingAdvisor</value>
+            <value>createJobAdvice</value>
+        </list>
+    </property>    
+  </bean>
+  
+</beans>
