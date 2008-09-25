@@ -1,12 +1,20 @@
 package net.bioclipse.plugins.bc_webservices.scripts;
 
 import java.lang.reflect.Array;
+import java.rmi.RemoteException;
 
+import javax.xml.rpc.ServiceException;
+
+import net.bioclipse.core.business.BioclipseException;
 import uk.ac.ebi.www.ws.services.urn.Dbfetch.DbfetchServiceServiceLocator;
 
-public class WebservicesTools {
+public class WebservicesManager implements IWebservicesManager{
 
-	public String downloadPDB(String pdbid){
+    public String getNamespace() {
+        return "webservices";
+    }
+
+    public String downloadPDB(String pdbid) throws BioclipseException{
 
 		if (pdbid==null || pdbid.length()<=0){
 			net.bioclipse.ui.Activator.getDefault().CONSOLE.echo("Please provide a PDB ID.");
@@ -17,7 +25,6 @@ public class WebservicesTools {
 		try {
 			
 			String name="pdb:" + pdbid;
-			//BioclipseConsole.writeToConsole("Downloading pdb...");
 			String[] strarray = wsdbfetch.getUrnDbfetch().fetchData(name, "pdb", "raw");
 			net.bioclipse.ui.Activator.getDefault().CONSOLE.echo("Download finished.");
 
@@ -36,11 +43,11 @@ public class WebservicesTools {
 			return result;
 			
 			
-		} catch (Exception e) {
-			net.bioclipse.ui.Activator.getDefault().CONSOLE.echo("There was an error during retrieval: " + e.getMessage());
+		} catch (ServiceException e) {
+			throw new BioclipseException(e.getMessage());
+		} catch (RemoteException e) {
+			throw new BioclipseException(e.getMessage());
 		}
-
-		return null;
 	}
 
 }

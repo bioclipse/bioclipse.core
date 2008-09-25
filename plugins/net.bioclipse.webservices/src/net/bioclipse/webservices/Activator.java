@@ -8,15 +8,14 @@ package net.bioclipse.webservices;
  *
  */
 
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Properties;
+import net.bioclipse.core.util.LogUtils;
+import net.bioclipse.plugins.bc_webservices.scripts.IWebservicesManager;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.osgi.util.tracker.ServiceTracker;
 
 public class Activator extends AbstractUIPlugin {
 	
@@ -27,6 +26,9 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance.
 	private static Activator plugin;
+		
+    //For Spring
+    private ServiceTracker finderTracker;
 	
 	/**
 	 * The constructor.
@@ -41,7 +43,11 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-	}
+        finderTracker = new ServiceTracker( context, 
+                IWebservicesManager.class.getName(), 
+                null );
+        
+        finderTracker.open();	}
 	
 	/*
 	 * (non-Javadoc)
@@ -71,4 +77,17 @@ public class Activator extends AbstractUIPlugin {
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
+
+    public IWebservicesManager getWebservicesManager() {
+    	IWebservicesManager manager = null;
+        try {
+            manager = (IWebservicesManager) finderTracker.waitForService(1000*10);
+        } catch (InterruptedException e) {
+            LogUtils.debugTrace(logger, e);
+        }
+        if(manager == null) {
+            throw new IllegalStateException("Could not get the webservices manager");
+        }
+        return manager;
+    }
 }

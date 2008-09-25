@@ -27,7 +27,7 @@
             primary="true"/>
    </extension>
 
-  <!--extension
+  <extension
          point="org.eclipse.ui.actionSets">
       <actionSet
             label="Web Services Action Set"
@@ -40,14 +40,13 @@
             <groupmarker name="group1"/>
          </menu>
       </actionSet>
-   </extension-->
+   </extension>
 
-   <!--extension
-         point="net.bioclipse.rhino.scripting">
-      <ScriptContribution
-            class="net.bioclipse.plugins.bc_webservices.scripts.WebservicesTools"
-            id="net.bioclipse.plugins.bc_webservices.scripts.WebservicesTools"
-            namespace="ws">
-      </ScriptContribution>
-  </extension-->
+   <extension
+         point="net.bioclipse.scripting.contribution">
+      <scriptContribution
+            id="net.bioclipse.plugins.bc_webservices.scripts.WebservicesManager"
+            service="net.bioclipse.plugins.bc_webservices.scripts.WebservicesManagerFactory">
+      </scriptContribution>
+   </extension>
 </plugin>
