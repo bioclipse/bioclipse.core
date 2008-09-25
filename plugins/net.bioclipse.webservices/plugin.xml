@@ -2,7 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin>
 
-   <!--extension
+   <extension
          point="org.eclipse.ui.newWizards">
       <category
             id="net.bioclipse.plugins.bc_webservices.wizards.newwizards"
@@ -19,7 +19,7 @@
             project="false">
          <description>Get entries from various up-to-date biological databases using the WSDbfetch Web Service at the European Bioinformatics Institute (EBI).</description>
       </wizard>
-   </extension-->
+   </extension>
    <extension
          point="org.eclipse.help.toc">
       <toc

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="net/bioclipse/plugins/bc_webservices/|net/bioclipse/plugins/bc_webservices/WebservicesConstants.java|net/bioclipse/plugins/bc_webservices/scripts/|net/bioclipse/plugins/bc_webservices/scripts/WebservicesTools.java|net/bioclipse/plugins/bc_webservices/services/|net/bioclipse/plugins/bc_webservices/wizards/|net/bioclipse/plugins/bc_webservices/wizards/newwizards/|net/bioclipse/plugins/bc_webservices/wizards/wizardpages/|net/bioclipse/plugins/bc_webservices/wizards/wizardpages/EBIWSDbfetchWizardPage.java|net/bioclipse/plugins/bc_webservices/wizards/wizardpages/IDoPerformFinish.java|net/bioclipse/plugins/bc_webservices/wizards/wizardpages/IDoWebService.java|net/bioclipse/plugins/bc_webservices/wizards/wizardpages/OpenResourceWizardPage.java" kind="src" path="src"/>
-	<classpathentry kind="src" path="src-axis1"/>
-	<classpathentry exported="true" kind="lib" path="jars/axis-1_4/lib/axis.jar"/>
-	<classpathentry exported="true" kind="lib" path="jars/axis-1_4/lib/jaxrpc.jar"/>
-	<classpathentry exported="true" kind="lib" path="jars/axis-1_4/lib/saaj.jar"/>
-	<classpathentry exported="true" kind="lib" path="jars/axis-1_4/lib/commons-discovery-0.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="jars/axis-1_4/lib/wsdl4j-1.5.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="src-axis1"/>
+	<classpathentry exported="true" kind="lib" path="jars/axis-1_4/lib/axis.jar" sourcepath="net.bioclipse.webservicessrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="jars/axis-1_4/lib/jaxrpc.jar" sourcepath="net.bioclipse.webservicessrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="jars/axis-1_4/lib/saaj.jar" sourcepath="net.bioclipse.webservicessrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="jars/axis-1_4/lib/commons-discovery-0.2.jar" sourcepath="net.bioclipse.webservicessrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="jars/axis-1_4/lib/wsdl4j-1.5.1.jar" sourcepath="net.bioclipse.webservicessrc.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

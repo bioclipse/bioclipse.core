@@ -2,16 +2,14 @@ package net.bioclipse.plugins.bc_webservices.scripts;
 
 import java.lang.reflect.Array;
 
-import net.bioclipse.model.INamespaceProvider;
-import net.bioclipse.util.BioclipseConsole;
 import uk.ac.ebi.www.ws.services.urn.Dbfetch.DbfetchServiceServiceLocator;
 
-public class WebservicesTools implements INamespaceProvider {
+public class WebservicesTools {
 
 	public String downloadPDB(String pdbid){
 
 		if (pdbid==null || pdbid.length()<=0){
-			BioclipseConsole.writeToConsole("Please provide a PDB ID.");
+			net.bioclipse.ui.Activator.getDefault().CONSOLE.echo("Please provide a PDB ID.");
 			return null;
 		}
 		
@@ -19,12 +17,12 @@ public class WebservicesTools implements INamespaceProvider {
 		try {
 			
 			String name="pdb:" + pdbid;
-			BioclipseConsole.writeToConsole("Downloading pdb...");
+			//BioclipseConsole.writeToConsole("Downloading pdb...");
 			String[] strarray = wsdbfetch.getUrnDbfetch().fetchData(name, "pdb", "raw");
-			BioclipseConsole.writeToConsole("Download finished.");
+			net.bioclipse.ui.Activator.getDefault().CONSOLE.echo("Download finished.");
 
 			if (strarray==null || strarray.length<=0){
-				BioclipseConsole.writeToConsole("No PDB found with id: " + pdbid);
+				net.bioclipse.ui.Activator.getDefault().CONSOLE.echo("No PDB found with id: " + pdbid);
 				return null;
 			}
 
@@ -39,7 +37,7 @@ public class WebservicesTools implements INamespaceProvider {
 			
 			
 		} catch (Exception e) {
-			BioclipseConsole.writeToConsole("There was an error during retrieval: " + e.getMessage());
+			net.bioclipse.ui.Activator.getDefault().CONSOLE.echo("There was an error during retrieval: " + e.getMessage());
 		}
 
 		return null;

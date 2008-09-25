@@ -9,38 +9,38 @@ package net.bioclipse.plugins.bc_webservices.wizards.wizardpages;
  *
  */
 
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.jface.wizard.WizardPage;
+import java.lang.reflect.InvocationTargetException;
+
+import net.bioclipse.plugins.bc_webservices.services.WSDbfetch;
+import net.bioclipse.plugins.bc_webservices.wizards.JobFinishedWizard;
+import net.bioclipse.plugins.bc_webservices.wizards.WebServiceWizardData;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.ui.progress.IProgressConstants;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.CoreException;
-import java.lang.reflect.InvocationTargetException;
-import net.bioclipse.plugins.bc_webservices.wizards.WebServiceWizardData;
-import net.bioclipse.plugins.bc_webservices.wizards.JobFinishedWizard;
-import net.bioclipse.plugins.bc_webservices.services.WSDbfetch;
-import net.bioclipse.util.BioclipseConsole;
-import net.bioclipse.util.ImageUtils;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.progress.IProgressConstants;
 
 public class EBIWSDbfetchWizardPage extends WizardPage implements IDoPerformFinish {
 	private WebServiceWizardData data;
@@ -312,7 +312,7 @@ public class EBIWSDbfetchWizardPage extends WizardPage implements IDoPerformFini
             	try {
             		wbPage.showView("org.eclipse.ui.views.ProgressView");
             	} catch (PartInitException e) {
-            		BioclipseConsole.writeToConsole("PartInitException: " + e.getMessage());
+            		net.bioclipse.ui.Activator.getDefault().CONSOLE.echo("PartInitException: " + e.getMessage());
             	}
         }
         // define the job
@@ -321,7 +321,8 @@ public class EBIWSDbfetchWizardPage extends WizardPage implements IDoPerformFini
 			protected IStatus run(IProgressMonitor monitor) {
 				boolean bSuccess = true;				
 				// set a friendly icon and keep the job in list when it is finished
-				setProperty(IProgressConstants.ICON_PROPERTY, ImageUtils.getImageDescriptor("ws_ebi"));			
+				//TODO what's this in bc2?
+				//setProperty(IProgressConstants.ICON_PROPERTY, ImageUtils.getImageDescriptor("ws_ebi"));			
 				
 				monitor.beginTask(title, 3);
 				try {					
