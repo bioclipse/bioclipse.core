@@ -1,4 +1,4 @@
-package net.bioclipse.plugins.bc_webservices.scripts;
+package net.bioclipse.webservices.scripts;
 
 import java.lang.reflect.Array;
 import java.rmi.RemoteException;

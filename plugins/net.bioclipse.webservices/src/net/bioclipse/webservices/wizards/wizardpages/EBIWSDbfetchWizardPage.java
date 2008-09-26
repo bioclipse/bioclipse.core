@@ -1,4 +1,4 @@
-package net.bioclipse.plugins.bc_webservices.wizards.wizardpages;
+package net.bioclipse.webservices.wizards.wizardpages;
 
 /**
  * 
@@ -11,9 +11,9 @@ package net.bioclipse.plugins.bc_webservices.wizards.wizardpages;
 
 import java.lang.reflect.InvocationTargetException;
 
-import net.bioclipse.plugins.bc_webservices.services.WSDbfetch;
-import net.bioclipse.plugins.bc_webservices.wizards.JobFinishedWizard;
-import net.bioclipse.plugins.bc_webservices.wizards.WebServiceWizardData;
+import net.bioclipse.webservices.services.WSDbfetch;
+import net.bioclipse.webservices.wizards.JobFinishedWizard;
+import net.bioclipse.webservices.wizards.WebServiceWizardData;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;

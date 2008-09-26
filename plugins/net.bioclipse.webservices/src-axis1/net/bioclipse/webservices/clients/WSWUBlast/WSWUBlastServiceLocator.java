@@ -5,9 +5,9 @@
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package net.bioclipse.plugins.bc_webservices.clients.WSWUBlast;
+package net.bioclipse.webservices.clients.WSWUBlast;
 
-public class WSWUBlastServiceLocator extends org.apache.axis.client.Service implements net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.WSWUBlastService {
+public class WSWUBlastServiceLocator extends org.apache.axis.client.Service implements net.bioclipse.webservices.clients.WSWUBlast.WSWUBlastService {
 
     public WSWUBlastServiceLocator() {
     }
@@ -39,7 +39,7 @@ public class WSWUBlastServiceLocator extends org.apache.axis.client.Service impl
         WSWUBlastWSDDServiceName = name;
     }
 
-    public net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.WSWUBlast_PortType getWSWUBlast() throws javax.xml.rpc.ServiceException {
+    public net.bioclipse.webservices.clients.WSWUBlast.WSWUBlast_PortType getWSWUBlast() throws javax.xml.rpc.ServiceException {
        java.net.URL endpoint;
         try {
             endpoint = new java.net.URL(WSWUBlast_address);
@@ -50,9 +50,9 @@ public class WSWUBlastServiceLocator extends org.apache.axis.client.Service impl
         return getWSWUBlast(endpoint);
     }
 
-    public net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.WSWUBlast_PortType getWSWUBlast(java.net.URL portAddress) throws javax.xml.rpc.ServiceException {
+    public net.bioclipse.webservices.clients.WSWUBlast.WSWUBlast_PortType getWSWUBlast(java.net.URL portAddress) throws javax.xml.rpc.ServiceException {
         try {
-            net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.WSWUBlastSoapBindingStub _stub = new net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.WSWUBlastSoapBindingStub(portAddress, this);
+            net.bioclipse.webservices.clients.WSWUBlast.WSWUBlastSoapBindingStub _stub = new net.bioclipse.webservices.clients.WSWUBlast.WSWUBlastSoapBindingStub(portAddress, this);
             _stub.setPortName(getWSWUBlastWSDDServiceName());
             return _stub;
         }
@@ -72,8 +72,8 @@ public class WSWUBlastServiceLocator extends org.apache.axis.client.Service impl
      */
     public java.rmi.Remote getPort(Class serviceEndpointInterface) throws javax.xml.rpc.ServiceException {
         try {
-            if (net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.WSWUBlast_PortType.class.isAssignableFrom(serviceEndpointInterface)) {
-                net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.WSWUBlastSoapBindingStub _stub = new net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.WSWUBlastSoapBindingStub(new java.net.URL(WSWUBlast_address), this);
+            if (net.bioclipse.webservices.clients.WSWUBlast.WSWUBlast_PortType.class.isAssignableFrom(serviceEndpointInterface)) {
+                net.bioclipse.webservices.clients.WSWUBlast.WSWUBlastSoapBindingStub _stub = new net.bioclipse.webservices.clients.WSWUBlast.WSWUBlastSoapBindingStub(new java.net.URL(WSWUBlast_address), this);
                 _stub.setPortName(getWSWUBlastWSDDServiceName());
                 return _stub;
             }

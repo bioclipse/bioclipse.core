@@ -5,7 +5,7 @@
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package net.bioclipse.plugins.bc_webservices.clients.WSWUBlast;
+package net.bioclipse.webservices.clients.WSWUBlast;
 
 public class Data  implements java.io.Serializable {
     private java.lang.String type;

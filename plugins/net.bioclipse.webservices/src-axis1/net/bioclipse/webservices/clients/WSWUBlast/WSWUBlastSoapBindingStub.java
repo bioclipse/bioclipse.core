@@ -5,9 +5,9 @@
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package net.bioclipse.plugins.bc_webservices.clients.WSWUBlast;
+package net.bioclipse.webservices.clients.WSWUBlast;
 
-public class WSWUBlastSoapBindingStub extends org.apache.axis.client.Stub implements net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.WSWUBlast_PortType {
+public class WSWUBlastSoapBindingStub extends org.apache.axis.client.Stub implements net.bioclipse.webservices.clients.WSWUBlast.WSWUBlast_PortType {
     private java.util.Vector cachedSerClasses = new java.util.Vector();
     private java.util.Vector cachedSerQNames = new java.util.Vector();
     private java.util.Vector cachedSerFactories = new java.util.Vector();
@@ -26,9 +26,9 @@ public class WSWUBlastSoapBindingStub extends org.apache.axis.client.Stub implem
         org.apache.axis.description.ParameterDesc param;
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("runWUBlast");
-        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "params"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.ebi.ac.uk/WSWUBlast", "inputParams"), net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.InputParams.class, false, false);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "params"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.ebi.ac.uk/WSWUBlast", "inputParams"), net.bioclipse.webservices.clients.WSWUBlast.InputParams.class, false, false);
         oper.addParameter(param);
-        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "content"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.ebi.ac.uk/WSWUBlast", "WSArrayofData"), net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.Data[].class, false, false);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "content"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.ebi.ac.uk/WSWUBlast", "WSArrayofData"), net.bioclipse.webservices.clients.WSWUBlast.Data[].class, false, false);
         oper.addParameter(param);
         oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         oper.setReturnClass(java.lang.String.class);
@@ -77,7 +77,7 @@ public class WSWUBlastSoapBindingStub extends org.apache.axis.client.Stub implem
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "jobid"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         oper.addParameter(param);
         oper.setReturnType(new javax.xml.namespace.QName("http://www.ebi.ac.uk/WSWUBlast", "WSArrayofFile"));
-        oper.setReturnClass(net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.WSFile[].class);
+        oper.setReturnClass(net.bioclipse.webservices.clients.WSWUBlast.WSFile[].class);
         oper.setReturnQName(new javax.xml.namespace.QName("", "results"));
         oper.setStyle(org.apache.axis.constants.Style.RPC);
         oper.setUse(org.apache.axis.constants.Use.ENCODED);
@@ -155,7 +155,7 @@ public class WSWUBlastSoapBindingStub extends org.apache.axis.client.Stub implem
         org.apache.axis.description.ParameterDesc param;
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("doWUBlast");
-        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "params"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.ebi.ac.uk/WSWUBlast", "inputParams"), net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.InputParams.class, false, false);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "params"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.ebi.ac.uk/WSWUBlast", "inputParams"), net.bioclipse.webservices.clients.WSWUBlast.InputParams.class, false, false);
         oper.addParameter(param);
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "content"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "base64Binary"), byte[].class, false, false);
         oper.addParameter(param);
@@ -208,21 +208,21 @@ public class WSWUBlastSoapBindingStub extends org.apache.axis.client.Stub implem
 
             qName = new javax.xml.namespace.QName("http://www.ebi.ac.uk/WSWUBlast", "data");
             cachedSerQNames.add(qName);
-            cls = net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.Data.class;
+            cls = net.bioclipse.webservices.clients.WSWUBlast.Data.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
             qName = new javax.xml.namespace.QName("http://www.ebi.ac.uk/WSWUBlast", "inputParams");
             cachedSerQNames.add(qName);
-            cls = net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.InputParams.class;
+            cls = net.bioclipse.webservices.clients.WSWUBlast.InputParams.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
             qName = new javax.xml.namespace.QName("http://www.ebi.ac.uk/WSWUBlast", "WSArrayofData");
             cachedSerQNames.add(qName);
-            cls = net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.Data[].class;
+            cls = net.bioclipse.webservices.clients.WSWUBlast.Data[].class;
             cachedSerClasses.add(cls);
             qName = new javax.xml.namespace.QName("http://www.ebi.ac.uk/WSWUBlast", "data");
             qName2 = null;
@@ -231,7 +231,7 @@ public class WSWUBlastSoapBindingStub extends org.apache.axis.client.Stub implem
 
             qName = new javax.xml.namespace.QName("http://www.ebi.ac.uk/WSWUBlast", "WSArrayofFile");
             cachedSerQNames.add(qName);
-            cls = net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.WSFile[].class;
+            cls = net.bioclipse.webservices.clients.WSWUBlast.WSFile[].class;
             cachedSerClasses.add(cls);
             qName = new javax.xml.namespace.QName("http://www.ebi.ac.uk/WSWUBlast", "WSFile");
             qName2 = null;
@@ -240,7 +240,7 @@ public class WSWUBlastSoapBindingStub extends org.apache.axis.client.Stub implem
 
             qName = new javax.xml.namespace.QName("http://www.ebi.ac.uk/WSWUBlast", "WSFile");
             cachedSerQNames.add(qName);
-            cls = net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.WSFile.class;
+            cls = net.bioclipse.webservices.clients.WSWUBlast.WSFile.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
@@ -312,7 +312,7 @@ public class WSWUBlastSoapBindingStub extends org.apache.axis.client.Stub implem
         }
     }
 
-    public java.lang.String runWUBlast(net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.InputParams params, net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.Data[] content) throws java.rmi.RemoteException {
+    public java.lang.String runWUBlast(net.bioclipse.webservices.clients.WSWUBlast.InputParams params, net.bioclipse.webservices.clients.WSWUBlast.Data[] content) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -436,7 +436,7 @@ public class WSWUBlastSoapBindingStub extends org.apache.axis.client.Stub implem
 }
     }
 
-    public net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.WSFile[] getResults(java.lang.String jobid) throws java.rmi.RemoteException {
+    public net.bioclipse.webservices.clients.WSWUBlast.WSFile[] getResults(java.lang.String jobid) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -457,9 +457,9 @@ public class WSWUBlastSoapBindingStub extends org.apache.axis.client.Stub implem
         else {
             extractAttachments(_call);
             try {
-                return (net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.WSFile[]) _resp;
+                return (net.bioclipse.webservices.clients.WSWUBlast.WSFile[]) _resp;
             } catch (java.lang.Exception _exception) {
-                return (net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.WSFile[]) org.apache.axis.utils.JavaUtils.convert(_resp, net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.WSFile[].class);
+                return (net.bioclipse.webservices.clients.WSWUBlast.WSFile[]) org.apache.axis.utils.JavaUtils.convert(_resp, net.bioclipse.webservices.clients.WSWUBlast.WSFile[].class);
             }
         }
   } catch (org.apache.axis.AxisFault axisFaultException) {
@@ -622,7 +622,7 @@ public class WSWUBlastSoapBindingStub extends org.apache.axis.client.Stub implem
 }
     }
 
-    public byte[] doWUBlast(net.bioclipse.plugins.bc_webservices.clients.WSWUBlast.InputParams params, byte[] content) throws java.rmi.RemoteException {
+    public byte[] doWUBlast(net.bioclipse.webservices.clients.WSWUBlast.InputParams params, byte[] content) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }

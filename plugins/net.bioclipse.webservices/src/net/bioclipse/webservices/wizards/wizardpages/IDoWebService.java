@@ -1,4 +1,4 @@
-package net.bioclipse.plugins.bc_webservices.wizards.wizardpages;
+package net.bioclipse.webservices.wizards.wizardpages;
 
 /**
  * 

@@ -10,7 +10,7 @@
  *     Stefan Kuhn
  *
  ******************************************************************************/
-package net.bioclipse.plugins.bc_webservices.scripts;
+package net.bioclipse.webservices.scripts;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;

@@ -1,4 +1,4 @@
-package net.bioclipse.plugins.bc_webservices.services;
+package net.bioclipse.webservices.services;
 
 /**
  * 

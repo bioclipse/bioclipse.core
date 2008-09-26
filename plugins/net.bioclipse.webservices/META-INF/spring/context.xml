@@ -10,7 +10,7 @@
        for testing outside of an OSGi environment -->
 
   <bean id="webservicesManagerTarget" 
-        class="net.bioclipse.plugins.bc_webservices.scripts.WebservicesManager">
+        class="net.bioclipse.webservices.scripts.WebservicesManager">
   </bean>
   
 </beans>

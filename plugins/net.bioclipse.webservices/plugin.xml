@@ -5,16 +5,16 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <category
-            id="net.bioclipse.plugins.bc_webservices.wizards.newwizards"
+            id="net.bioclipse.webservices.wizards.newwizards"
             name="Web Services"/>
       <wizard
             canFinishEarly="false"
-            category="net.bioclipse.plugins.bc_webservices.wizards.newwizards"
-            class="net.bioclipse.plugins.bc_webservices.wizards.newwizards.EBIWSDbfetchWizard"
+            category="net.bioclipse.webservices.wizards.newwizards"
+            class="net.bioclipse.webservices.wizards.newwizards.EBIWSDbfetchWizard"
             hasPages="true"
             helpHref="http://wiki.bioclipse.net/index.php?title=Bc_webservices"
             icon="icons/png/ws_ebi.png"
-            id="net.bioclipse.plugins.bc_webservices.wizards.newwizards.WSDbfetchNewWizard"
+            id="net.bioclipse.webservices.wizards.newwizards.WSDbfetchNewWizard"
             name="Use WSDbfetch Web Service at EBI"
             project="false">
          <description>Get entries from various up-to-date biological databases using the WSDbfetch Web Service at the European Bioinformatics Institute (EBI).</description>
@@ -45,8 +45,8 @@
    <extension
          point="net.bioclipse.scripting.contribution">
       <scriptContribution
-            id="net.bioclipse.plugins.bc_webservices.scripts.WebservicesManager"
-            service="net.bioclipse.plugins.bc_webservices.scripts.WebservicesManagerFactory">
+            id="net.bioclipse.webservices.scripts.WebservicesManager"
+            service="net.bioclipse.webservices.scripts.WebservicesManagerFactory">
       </scriptContribution>
    </extension>
 </plugin>

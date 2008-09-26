@@ -1,4 +1,4 @@
-package net.bioclipse.plugins.bc_webservices.wizards.wizardpages;
+package net.bioclipse.webservices.wizards.wizardpages;
 
 /**
  * 
@@ -11,8 +11,8 @@ package net.bioclipse.plugins.bc_webservices.wizards.wizardpages;
 import java.io.StringBufferInputStream;
 import java.lang.reflect.InvocationTargetException;
 
-import net.bioclipse.plugins.bc_webservices.WebservicesConstants;
-import net.bioclipse.plugins.bc_webservices.wizards.WebServiceWizardData;
+import net.bioclipse.webservices.WebservicesConstants;
+import net.bioclipse.webservices.wizards.WebServiceWizardData;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;

@@ -10,7 +10,7 @@
  *     
  ******************************************************************************/
 
-package net.bioclipse.plugins.bc_webservices.scripts;
+package net.bioclipse.webservices.scripts;
 
 import net.bioclipse.webservices.Activator;
 
