@@ -112,3 +112,4 @@ Export-Package: com.ibm.wsdl,
  uk.ac.ebi.wsdbfetch.server,
  uk.ac.ebi.www.ws.services.urn.Dbfetch
 Import-Package: org.apache.log4j;version="1.2.15"
+Bundle-ActivationPolicy: lazy
