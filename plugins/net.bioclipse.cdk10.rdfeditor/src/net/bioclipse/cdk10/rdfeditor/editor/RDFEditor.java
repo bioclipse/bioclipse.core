@@ -174,7 +174,7 @@ public class RDFEditor extends FormEditor
                 Object obj = entries[ix].getReactionImpl();
                 if ( obj instanceof IReaction ) {
                     //What else could it be than an AC? :-)
-                	IReaction ac = (IReaction) obj;
+                    IReaction ac = (IReaction) obj;
 
                     IChemModel ml = getChemModelByIndex( ix );
                     if (ml == null) {
@@ -256,11 +256,11 @@ public class RDFEditor extends FormEditor
         rs.addReaction( react );
         try {
             SmilesGenerator sg = new SmilesGenerator();
-			System.out.println(sg.createSMILES(react));
-		} catch (CDKException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            System.out.println(sg.createSMILES(react));
+        } catch (CDKException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         ml.setReactionSet( rs );
         return ml;
     }
@@ -364,55 +364,56 @@ public class RDFEditor extends FormEditor
                         
                         CDK10Manager manager= new CDK10Manager();
                         List<CDK10Reaction> reactionList = manager.loadReactions(instream);
-	                    logger.debug("In editor: " + reactionList.size() + " reactions.");
+                        logger.debug("In editor: " + reactionList.size() + " reactions.");
 	
-	                    monitor.beginTask("Reading RDFile...", reactionList.size()+1);
+                        monitor.beginTask("Reading RDFile...", reactionList.size()+1);
 	
-	                    ArrayList<ReactionTableEntry> newlist 
-	                        = new ArrayList<ReactionTableEntry>();
-	                    int count = 0;
-	                    for (CDK10Reaction reaction : reactionList) {
+                        ArrayList<ReactionTableEntry> newlist 
+                            = new ArrayList<ReactionTableEntry>();
+                        int count = 0;
+                        for (CDK10Reaction reaction : reactionList) {
 	
-	                        Map<Object, Object> props = reaction.getReaction().getProperties();
+                            Map<Object, Object> props = reaction.getReaction().getProperties();
 	
-	                        for (Object obj : props.keySet()){
+                            for (Object obj : props.keySet()){
 	//                            System.out.println("Key: '" + obj.toString() + "'; val: '" + props.get(obj) + "'" );
-	                            if (obj instanceof String) {
-	                                String key = (String) obj;
-	                                if (!(propHeaders.contains(key))){
-	                                    propHeaders.add(key);
-	                                    logger.debug("Header added: " + key);
-	                                }
-	                            }
-	                        }
+                                if (obj instanceof String) {
+                                    String key = (String) obj;
+                                    if (!(propHeaders.contains(key))){
+                                        propHeaders.add(key);
+                                        logger.debug("Header added: " + key);
+                                    }
+                                }
+                            }
 	
-	                        //Read vals for this molecule
-	                        ArrayList<Object> vals=new ArrayList<Object>();
-	                        for (String key : propHeaders){
-	                            Object obj = reaction.getReaction().getProperty(key);
-	                            vals.add(obj);
-	                        }
+                            //Read vals for this molecule
+                            ArrayList<Object> vals=new ArrayList<Object>();
+                            for (String key : propHeaders){
+                                Object obj = reaction.getReaction().getProperty(key);
+                                vals.add(obj);
+                            }
 	
-	                        ReactionTableEntry entry = new ReactionTableEntry( count, 
-	                            		reaction.getReaction(),vals.toArray() );
-	                        newlist.add(entry);
-	                        monitor.worked(1);
-	                        count++;
-	                    }
-	                    setEntries(newlist.toArray(new ReactionTableEntry[0]));
+                            ReactionTableEntry entry
+                                = new ReactionTableEntry( count, 
+                                                          reaction.getReaction(),
+                                                          vals.toArray() );
+                            newlist.add(entry);
+                            monitor.worked(1);
+                            count++;
+                        }
+                        setEntries(newlist.toArray(new ReactionTableEntry[0]));
 	
-	                    monitor.done();
+                        monitor.done();
 	
-	                    } catch (CoreException e) {
-	                        throw new InvocationTargetException(e);
-	                    } catch (IOException e) {
-	                        throw new InvocationTargetException(e);
-	                    } catch (BioclipseException e) {
-	                        throw new InvocationTargetException(e);
-	                    }
-                	}
-                });
-
+                    } catch (CoreException e) {
+                        throw new InvocationTargetException(e);
+                    } catch (IOException e) {
+                        throw new InvocationTargetException(e);
+                    } catch (BioclipseException e) {
+                        throw new InvocationTargetException(e);
+                    }
+                }
+            });
         } catch (InvocationTargetException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
