@@ -77,7 +77,9 @@ public class CmlFileDescriber extends TextContentDescriber
 		boolean has3D = false;
 		boolean searchingForDimension = true;
 		boolean checkedNamespace = false;
-		
+		int spectrumCount = 0;
+		int spectrumTagDepth = 0;
+
 		/*
 		 * This is a workaround for biopolymer PDB files,
 		 * which have nested <molecule> tags.
@@ -116,6 +118,15 @@ public class CmlFileDescriber extends TextContentDescriber
 					        moleculeCount++;
 					    }
 					}
+					
+					if (tagName.equalsIgnoreCase("spectrum")) {
+					    spectrumTagDepth += 1;
+					    
+					    // only count the top level of molecules, not nested ones.
+					    if (spectrumTagDepth == 1) {
+					        spectrumCount++;
+					    }
+					}
 
 					/*
 					 * Search for the first example of an 'x2' or 'x3'
@@ -126,17 +137,20 @@ public class CmlFileDescriber extends TextContentDescriber
 						if (parser.getAttributeValue(null, "x2") != null) {
 							has2D = true;
 							searchingForDimension = false;
-							break;
+							//break;
 						}
 						if (parser.getAttributeValue(null, "x3") != null) {
 							has3D = true;
 							searchingForDimension = false;
-							break;
+							//break;
 						}
 					}
 				} else if (parser.getEventType() == XmlPullParser.END_TAG) {
 				    if (moleculeTagDepth > 0 && parser.getName().equalsIgnoreCase("molecule")) {
 				        moleculeTagDepth -= 1;
+				    }
+				    if (spectrumTagDepth > 0 && parser.getName().equalsIgnoreCase("spectrum")) {
+				        spectrumTagDepth -= 1;
 				    }
 				}
 			}
@@ -150,6 +164,9 @@ public class CmlFileDescriber extends TextContentDescriber
 		/*
 		 * Compare what was found with what the Describer expects. 
 		 */
+		//shk3: If there are spectra in the cml, we assume it is a specmol file and not a molecule one
+		if(spectrumCount>0)
+			return INVALID;
 
 		String requiredDimension = (String) elements.get("dimension");
 		boolean wants2D = requiredDimension.equalsIgnoreCase("2D");
