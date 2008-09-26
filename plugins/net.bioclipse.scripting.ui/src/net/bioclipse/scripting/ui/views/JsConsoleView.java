@@ -76,6 +76,7 @@ public class JsConsoleView extends ScriptingConsoleView
     static {
         jsThread.enqueue( "function clear() { js.clear() }" );
         jsThread.enqueue( "function print(message) { js.print(message) }" );
+        jsThread.enqueue( "function say(message) { js.say(message) }" );
     }
 
     private JsPluginable rConnection = null;
