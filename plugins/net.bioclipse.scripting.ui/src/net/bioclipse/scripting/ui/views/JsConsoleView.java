@@ -233,11 +233,10 @@ public class JsConsoleView extends ScriptingConsoleView
         if (command == null)
             return "";
 
-        if (command.matches("help( .*)?") || command.matches("man( .*)?")) {
-            return helpString(command);
-        }
-
         if (mode == Mode.JS) {
+            if (command.matches("help( .*)?") || command.matches("man( .*)?"))
+                return helpString(command);
+
             if ("R".equals(command.trim())) {
                 setMode(Mode.R);
                 return "";
