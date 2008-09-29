@@ -34,22 +34,23 @@ public class MdlMolFileCoordinatesDescriber extends TextContentDescriber
 															throws IOException {
 
 		InputStreamReader r=new InputStreamReader(contents);
-		BufferedReader br=new BufferedReader(r);
-		
-		return deduceCoordinates(br);
+		return describe(r, description);
 	}
 
 
 	/**
 	 * Read 100 chars, search for x2 or x2
 	 */
-	public int describe(Reader contents, IContentDescription description) throws IOException {
+	public int describe(Reader contents, IContentDescription description) {
 
 		BufferedReader br=new BufferedReader(contents);
 		
-		return deduceCoordinates(br);
-		
-		
+		try {
+			return deduceCoordinates(br);
+		} catch (Exception e) {
+			System.out.println("Problem trying to detect coordinates: "+e.getMessage());
+			return INVALID;
+		}
 	}
 
 	private int deduceCoordinates(BufferedReader br) throws IOException {
