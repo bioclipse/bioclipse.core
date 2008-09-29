@@ -35,6 +35,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.DialogSettings;
+import org.eclipse.jface.dialogs.ErrorSupportProvider;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -175,6 +176,50 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         IFeatureReference[] frs = refs.toArray(new IFeatureReference[0]);
 
         ILocalSite ls = SiteManager.getLocalSite();
+        if (ls.getCurrentConfiguration().getConfiguredSites()==null || 
+        		ls.getCurrentConfiguration().getConfiguredSites().length<=0){
+        	logger.error("Bioclispe seems not to have a local site. This should not happen.");
+        	throw new CoreException(new IStatus(){
+
+				public IStatus[] getChildren() {
+					return null;
+				}
+				
+				public int getCode() {
+					return 0;
+				}
+				
+				public Throwable getException() {
+					return null;
+				}
+				
+				public String getMessage() {
+					return "Bioclispe seems not to have a local site. This should not happen.";
+				}
+
+				public String getPlugin() {
+					return Activator.PLUGIN_ID;
+				}
+
+				public int getSeverity() {
+					return IStatus.ERROR;
+				}
+
+				public boolean isMultiStatus() {
+					return false;
+				}
+
+				public boolean isOK() {
+					return false;
+				}
+
+				public boolean matches(int severityMask) {
+					return false;
+				}
+        		
+        	});
+        }
+        	
         IConfiguredSite ics
             = ls.getCurrentConfiguration().getConfiguredSites()[0];
         IFeatureReference[] lfrs = ics.getConfiguredFeatures();
