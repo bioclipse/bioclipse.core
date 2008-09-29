@@ -65,9 +65,9 @@ public abstract class ScriptingConsoleView extends ViewPart {
     }};
     
     /**
-     * An index pointer into the command history. It is reset to point to the
-     * last (still not run) command, but changes when ARROW_UP and ARROW_DOWN
-     * keys are used.
+     * An index pointer into the command history. Between commands, it is reset
+     * to point to the last (still not run) command, but changes when ARROW_UP
+     * and ARROW_DOWN keys are used.
      */
     private int currentHistoryLine = 0;
     
@@ -204,6 +204,10 @@ public abstract class ScriptingConsoleView extends ViewPart {
         
         put( new Integer(SWT.ARROW_UP), new KeyAction() {
             public void receiveKey(KeyEvent e) {
+                if (currentHistoryLine == commandHistory.size() - 1)
+                    commandHistory.set( commandHistory.size()-1,
+                                        currentCommand().trim() );
+                
                 if (currentHistoryLine > 0)
                     setCurrentCommand(
                             commandHistory.get(--currentHistoryLine) );
@@ -526,7 +530,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
                       
                       String content
                           = item instanceof IResource
-                            ? q(((IResource)item).getFullPath().toOSString())
+                            ? interceptDroppedString(((IResource)item).getFullPath().toOSString())
                             : "[O_o]"; // unrecognized content
 
                       if ( !cursorIsOnCommandLine() )
@@ -558,8 +562,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
      * Intercepts a string before it is dropped into the console.
      * Meant to be overridden by deriving classes.
      */
-    // TODO: Create a better name.
-    protected String q( String s ) {
+    protected String interceptDroppedString( String s ) {
         return s;
     }
 

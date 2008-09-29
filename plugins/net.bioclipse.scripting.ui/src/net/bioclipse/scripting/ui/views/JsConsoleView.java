@@ -118,7 +118,7 @@ public class JsConsoleView extends ScriptingConsoleView
         return mode == Mode.JS ? "js> " : "R> ";
     }
     
-    protected String q(String s) {
+    protected String interceptDroppedString(String s) {
         return mode == Mode.R ? s.replaceAll( "^/", "" )
                               : s;
     }
