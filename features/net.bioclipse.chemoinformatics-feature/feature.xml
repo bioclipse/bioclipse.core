@@ -34,7 +34,6 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <requires>
       <import feature="net.bioclipse_feature" version="2.0.0.A20080808" match="greaterOrEqual"/>
-      <import feature="net.bioclipse_feature_patch" version="2.0.0.A20080903"/>
    </requires>
 
    <plugin
