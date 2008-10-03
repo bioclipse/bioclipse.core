@@ -695,6 +695,11 @@ public class CDK10Manager{
      */
     public CDK10Molecule create( IMolecule m ) throws BioclipseException {
     	if (m==null) throw new IllegalArgumentException("Input molecule cannot be empty");
+    	
+    	if (m instanceof CDK10Molecule) {
+			return (CDK10Molecule) m;
+		}
+    	
         //First try to create from CML
         try {
             String cmlString=m.getCML();
