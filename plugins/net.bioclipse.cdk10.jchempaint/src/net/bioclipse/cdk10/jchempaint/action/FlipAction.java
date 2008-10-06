@@ -103,7 +103,7 @@ public class FlipAction extends JCPAction {
                     atomCoordsMap.put(at, coords);
                 }
             }
-            UndoableEdit  edit = new FlipEdit(atomCoordsMap);
+            UndoableEdit  edit = new FlipEdit(atomCoordsMap, jcpmodel.getRendererModel());
 //            UndoableAction.pushToUndoRedoStack(edit,jcpModel,((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getUndoContext(), ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel());
             // fire a change so that the view gets updated
             jcpmodel.fireChange();

@@ -135,7 +135,7 @@ public class CleanupAction extends JCPAction
 				}
 				model.setMoleculeSet(newsom);
                 
-                UndoableEdit  edit = new CleanUpEdit(atomCoordsMap);
+                UndoableEdit  edit = new CleanUpEdit(atomCoordsMap, jcpmodel.getRendererModel());
                 
 //                UndoableAction.pushToUndoRedoStack(edit,jcpmodel,((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getUndoContext(), ((IJCPBasedEditor)this.getContributor().getActiveEditorPart()).getDrawingPanel());
 			}
