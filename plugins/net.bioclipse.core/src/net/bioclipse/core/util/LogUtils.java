@@ -12,9 +12,12 @@
 package net.bioclipse.core.util;
 
 import org.apache.log4j.Logger;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Shell;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * LogUtils:
@@ -54,5 +57,18 @@ public class LogUtils {
         if (logger.isDebugEnabled()) {
             logger.debug(traceStringOf(t));
         }
+    }
+    
+    
+    public static void handleException(Exception ex, Logger logger){
+ 		StringWriter strWr = new StringWriter();
+ 		PrintWriter prWr = new PrintWriter(strWr);
+ 		ex.printStackTrace(prWr);
+ 		if(logger!=null){
+ 			logger.error(strWr.toString());
+ 			debugTrace(logger, ex);
+ 		}
+ 		ex.printStackTrace();
+ 		MessageDialog.openError(new Shell(), "Unexpected error", "An unexpected error occorued. Bioclipse has no idea how to handle this. A stack trace has been written to the log file. Please report this to the Bioclipse team!");
     }
 }
