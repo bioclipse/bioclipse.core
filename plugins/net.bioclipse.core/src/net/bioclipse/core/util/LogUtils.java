@@ -60,6 +60,12 @@ public class LogUtils {
     }
     
     
+    /**
+     * This method handles an exception by showing a popup, logging and printing the stack trace.
+     * 
+     * @param ex The exception to handle.
+     * @param logger The logger to use.
+     */
     public static void handleException(Exception ex, Logger logger){
  		StringWriter strWr = new StringWriter();
  		PrintWriter prWr = new PrintWriter(strWr);
@@ -69,6 +75,6 @@ public class LogUtils {
  			debugTrace(logger, ex);
  		}
  		ex.printStackTrace();
- 		MessageDialog.openError(new Shell(), "Unexpected error", "An unexpected error occorued. Bioclipse has no idea how to handle this. A stack trace has been written to the log file. Please report this to the Bioclipse team!");
+ 		MessageDialog.openError(new Shell(), "Unexpected error", "An unexpected error occorued. Bioclipse has no idea how to handle this. The message is: "+ex.getMessage()+". If you do not know what to do, report this to the Bioclipse team. A stack trace has been written to the log file to be included in your report.");
     }
 }
