@@ -351,10 +351,29 @@ public abstract class ScriptingConsoleView extends ViewPart {
     }
 
     /** Enables the console prompt so that commands can be executed. */
-    protected void activatePrompt() {
+    public void activatePrompt() {
         promptIsVisible = true;
+        outputIsMidLine = false;
         
         text.append( commandLinePrompt() );
+    }
+
+    /** Disables the console prompt, preventing commands from being executed. */
+    public void deactivatePrompt() {
+        
+        String allText = text.getText();
+
+        int startOfPrompt
+            = allText.lastIndexOf("\n", text.getCharCount() - 1) + 1;
+        
+        String beforePrompt = allText.substring( 0, startOfPrompt ),
+               afterPrompt  = allText.substring( startOfPrompt + commandLinePrompt().length() );
+
+        String textWithoutPrompt = beforePrompt + afterPrompt;
+        text.setText( textWithoutPrompt );
+        text.setSelection( textWithoutPrompt.length() );
+        
+        promptIsVisible = false;
     }
 
     /**
@@ -371,7 +390,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
     }
     
     /**
-     * Finds out if the last line qualifies as a command line. Technically, a
+     * Finds out if the last line qualifies as a command line. By definition, a
      * command line is one which starts with a prompt, either the command line
      * prompt or the continuation prompt. This method is called to uphold the
      * precondition that the last line be a command line before any command is

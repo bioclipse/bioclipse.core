@@ -95,6 +95,8 @@ public class JsConsoleManager implements IJsConsoleManager {
     public void executeFile( IFile file, final IProgressMonitor monitor ) {
         String contents;
         
+        getJsConsoleView().deactivatePrompt();
+
         monitor.beginTask( "read file", 1 );
         try {
             java.util.Scanner sc = new java.util.Scanner(file.getContents());
@@ -116,6 +118,11 @@ public class JsConsoleManager implements IJsConsoleManager {
                     if ( !"undefined".equals( result ) ) {
                         message(result);
                     }
+                    Display.getDefault().asyncExec( new Runnable() {
+                        public void run() {
+                            getJsConsoleView().activatePrompt();
+                        }
+                    } );
                 }
 
                 private void message(final String text) {
