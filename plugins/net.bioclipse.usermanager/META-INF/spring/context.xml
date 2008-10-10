@@ -13,6 +13,9 @@
   <osgi:reference id="recordingAdvice" 
                   interface="net.bioclipse.recording.IRecordingAdvice" />
 
+  <osgi:reference id="createJobAdvice"
+                  interface="net.bioclipse.ui.jobs.ICreateJobAdvice" />
+
   <osgi:reference id="wrapInProxyAdvice"
                   interface="net.bioclipse.recording.IWrapInProxyAdvice" />
 

@@ -11,6 +11,9 @@
   <osgi:reference id="recordingAdvice" 
                   interface="net.bioclipse.recording.IRecordingAdvice" />
 
+  <osgi:reference id="createJobAdvice"
+                  interface="net.bioclipse.ui.jobs.ICreateJobAdvice" />
+
   <!--+ 
       | Point cut advisor that inserts the recording advice on all methods.
       | (The class does nothing on toString() 
