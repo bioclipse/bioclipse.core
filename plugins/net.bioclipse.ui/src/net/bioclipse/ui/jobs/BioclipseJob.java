@@ -2,6 +2,7 @@ package net.bioclipse.ui.jobs;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import net.bioclipse.core.ResourcePathTransformer;
 
@@ -41,7 +42,7 @@ public class BioclipseJob extends Job {
         try {
             if ( method != invocation.getMethod() ) {
                 /*
-                 * First the monitor
+                 * Setup args array
                  */
                 args = new Object[
                      invocation.getArguments().length + 1];
@@ -52,13 +53,12 @@ public class BioclipseJob extends Job {
                                   0, 
                                   invocation.getArguments().length );
                 /*
-                 * Then substitute the correct string for an IFile
+                 * Then substitute from String to IFile where suitable
                  */
                 for ( int i = 0; i < args.length; i++ ) {
                     Object arg = args[i];
                     if ( arg instanceof String &&
-                         method
-                         .getParameterTypes()[i] == IFile.class ) {
+                         method.getParameterTypes()[i] == IFile.class ) {
                          
                         args[i] = ResourcePathTransformer
                                   .getInstance()
