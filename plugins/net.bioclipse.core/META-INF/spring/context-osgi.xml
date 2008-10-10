@@ -20,6 +20,9 @@
   <osgi:service id="moleculeManagerOSGI" ref="moleculeManager"
                 interface="net.bioclipse.core.business.IMoleculeManager" />
 
+  <osgi:reference id="createJobAdvice"
+                  interface="net.bioclipse.ui.jobs.ICreateJobAdvice" />
+
   <bean id="recordingAdvisor"
         class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
         <property name="advice"  ref="recordingAdvice" />
@@ -34,8 +37,9 @@
               value="net.bioclipse.core.business.IMoleculeManager" />
     <property name="interceptorNames">
         <list>
-            <value>recordingAdvisor</value>
+            <value>recordingAdvice</value>
             <value>wrapInProxyAdvice</value>
+            <value>createJobAdvice</value>
         </list>
     </property>
   </bean>            

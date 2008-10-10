@@ -68,6 +68,7 @@ public class BioclipseJob extends Job {
             }
             else {
                 args = invocation.getArguments();
+                monitor.beginTask( "", IProgressMonitor.UNKNOWN );
             }
         
             returnValue = method.invoke( 
@@ -89,6 +90,7 @@ public class BioclipseJob extends Job {
                 lock.notifyAll();
             }
         }
+        monitor.done();
         return Status.OK_STATUS;
     }
 

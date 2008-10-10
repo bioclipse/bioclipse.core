@@ -40,8 +40,12 @@
   	          ref="jsConsoleManagerTarget" />
   	<property name="proxyInterfaces" 
   	          value="net.bioclipse.scripting.ui.business.IJsConsoleManager" />
-  	<property name="interceptorNames"
-  	          value="recordingAdvisor" />
+  	<property name="interceptorNames">
+        <list>
+           <value>recordingAdvisor</value>
+           <value>createJobAdvice</value>
+        </list>
+    </property>
   </bean>
 
   <!-- publishes the final manager (the proxy) -->
