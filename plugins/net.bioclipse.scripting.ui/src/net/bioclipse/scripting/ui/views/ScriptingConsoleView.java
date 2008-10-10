@@ -97,6 +97,11 @@ public abstract class ScriptingConsoleView extends ViewPart {
         public void receiveKey(KeyEvent e);
     }
     
+    /** Controls whether there's a visible prompt, which in turn is tied to
+     *  whether the latest command has finished.
+     */
+    protected boolean promptIsVisible = true;
+    
     /** Controls whether the results of commands should be output. */
     protected boolean verbose = true;
     
@@ -193,7 +198,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
                             text.append( "\n" );
                     }
                     
-                    text.append( commandLinePrompt() );
+                    promptIsVisible = false;
     
                     scrollDownToPrompt();
                     
@@ -343,6 +348,13 @@ public abstract class ScriptingConsoleView extends ViewPart {
     /** Makes a system notification sound. */
     protected void beep() {
         Display.getCurrent().beep();
+    }
+
+    /** Enables the console prompt so that commands can be executed. */
+    protected void activatePrompt() {
+        promptIsVisible = true;
+        
+        text.append( commandLinePrompt() );
     }
 
     /**
@@ -716,9 +728,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
      */
     public void clearConsole() {
         synchronized (text) {
-            text.setText( commandLinePrompt() );
+            text.setText( "" );
         }
-        putCursorOnCommandLine();
     }
     
     /**

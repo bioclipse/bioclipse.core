@@ -184,6 +184,7 @@ public class JsConsoleView extends ScriptingConsoleView
                     public void run() {
                         if ( !"undefined".equals(result) )
                             printMessage(result + "\n");
+                        JsConsoleView.this.activatePrompt();
                     }
                 } );
             }
