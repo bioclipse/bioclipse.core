@@ -1,11 +1,10 @@
-/*******************************************************************************
+/******************************************************************************
  *Copyright (c) 2008 The Bioclipse Team and others.
  *All rights reserved. This program and the accompanying materials
  *are made available under the terms of the Eclipse Public License v1.0
  *which accompanies this distribution, and is available at
  *http://www.eclipse.org/legal/epl-v10.html
- *
- *******************************************************************************/
+ *****************************************************************************/
 package net.bioclipse.scripting;
 
 import java.lang.reflect.Method;
@@ -76,9 +75,6 @@ public class JsEnvironment implements ScriptingEnvironment {
             return; // it likely means that the Eclipse workbench has not
                     // started, for example when running tests
 
-        /*
-         * service objects
-         */
         IExtensionPoint serviceObjectExtensionPoint = registry
             .getExtensionPoint("net.bioclipse.scripting.contribution");
 
