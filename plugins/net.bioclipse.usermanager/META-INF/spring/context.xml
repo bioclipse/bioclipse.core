@@ -34,7 +34,6 @@
     <property name="interceptorNames">
         <list>
             <value>recordingAdvisor</value>
-            <value>createJobAdvice</value>
         </list>
     </property>
   </bean>
