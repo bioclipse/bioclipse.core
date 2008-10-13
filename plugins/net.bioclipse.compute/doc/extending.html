@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>net.bioclipse.compute</title>
+		<link rel="stylesheet" href="book.css" type="text/css" />
+	</head>
+	<body>
+		<h1>Defining an extension</h1>
+		<p>Creating an extension for the Computation Wizard extension point is fairly easy. This help page explains the process step by step, but you can also take a look at the <a href="computationWizards.html">schema</a>.</p>
+		<ul>
+			<li>Open the <em>plugin.xml</em> file.</li>
+			<li>On the <em>Dependencies</em> tab: add <code>net.bioclipse.compute</code> to your plug-in.</li>
+			<li>On the <em>Extensions</em> tab: add <code>net.bioclipse.compute.computationWizards</code> to the tree.</li>
+			<li>Add wizards, primary wizards and categories as specified in the <a href="computationWizards.html">schema</a>.</li>
+		</ul>
+		<h2>Example</h2>
+		<p>Find below an example extension. For code samples see the source of <code>net.bioclipse.compute.demo</code>.</p>
+		<div>
+			<img class="example" width="790" height="442" src="images/extension_example.png" alt="Ghemical's Computation Wizard Extensions" />
+			<p class="example">Figure 1: Ghemical's Computation Wizard Extensions</p>
+		</div>
+	</body>
+</html>

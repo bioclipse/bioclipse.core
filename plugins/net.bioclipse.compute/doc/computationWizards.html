@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Computation Wizards</title>
+<style>@import url("../../PRODUCT_PLUGIN/book.css");</style>
+<style>@import url("../../PRODUCT_PLUGIN/schema.css");</style>
+</HEAD>
+<BODY>
+<H1><CENTER>Computation Wizards</CENTER></H1>
+<p></p>
+<h6 class=CaptionFigColumn id=header>Identifier: </h6>net.bioclipse.compute.computationWizards<p></p>
+<h6 class=CaptionFigColumn id=header>Since: </h6>0.1.0
+<p></p>
+
+<p>
+<h6 class=CaptionFigColumn id=header>Description: </h6>This extension point is used to register a computation wizard. Providers may provide an extension for this extension point, and an implementation of net.bioclipse.compute.wizards.IComputationWizard.</p>
+<p><h6 class=CaptionFigColumn id=header>Configuration Markup:</h6></p>
+<p class=code id=dtd>&lt;!ELEMENT <a name="e.extension">extension</a> (<a href="#e.category">category</a>* , <a href="#e.wizard">wizard</a>* , <a href="#e.primaryWizard">primaryWizard</a>*)&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST extension</p>
+<p class=code id=dtdAttlist>point&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>id&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>name&nbsp;&nbsp;CDATA #IMPLIED&gt;</p>
+<p></p>
+<ul class=ConfigMarkup id=attlistDesc>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.wizard">wizard</a> (<a href="#e.selection">selection</a>*)&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST wizard</p>
+<p class=code id=dtdAttlist>id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>class&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>icon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>category&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>helpHref&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>descriptionImage&nbsp;CDATA #IMPLIED<p class=code id=dtdAttlist>canFinishEarly&nbsp;&nbsp;&nbsp;(true | false) <p class=code id=dtdAttlist>hasPages&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(true | false) &gt;</p>
+<p></p>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>id</b> - a unique identifier of the wizard.</li>
+<li><b>name</b> - a translatable name of the wizard.</li>
+<li><b>class</b> - a fully qualified name of the class that implements <code>net.bioclipse.compute.wizards.IComputationWizard</code> interface.</li>
+<li><b>icon</b> - a relative path of an icon that will be used to visually represent the wizard.</li>
+<li><b>category</b> - the identefier of the category this wizard belongs to.</li>
+<li><b>helpHref</b> - the path relative to the root of the help of the document that describes this wizard.</li>
+<li><b>description</b> - a translatable description of the wizard.</li>
+<li><b>descriptionImage</b> - a relative path of an image that will be used to visually represent the wizard in the selection dialog.</li>
+<li><b>canFinishEarly</b> - true if this wizard can finish before all pages have been shown or false otherwise.</li>
+<li><b>hasPages</b> - true if this wizard needs to show pages or false otherwise.</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.category">category</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST category</p>
+<p class=code id=dtdAttlist>id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>parentCategory&nbsp;CDATA #IMPLIED&gt;</p>
+<p></p>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>id</b> - a unique identifier of the category.</li>
+<li><b>name</b> - a translatable name of the wizard.</li>
+<li><b>parentCategory</b> - the identefier of the parent category this wizard belongs to or empty if this category is a root category.</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.selection">selection</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST selection</p>
+<p class=code id=dtdAttlist>class&nbsp;CDATA #REQUIRED<p class=code id=dtdAttlist>name&nbsp;&nbsp;CDATA #IMPLIED&gt;</p>
+<p></p>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>class</b> - a fully qualified name of the class for which the parent wizard must be activated.</li>
+<li><b>name</b> - not used.</li>
+</ul>
+<br><p class=code id=dtd>&lt;!ELEMENT <a name="e.primaryWizard">primaryWizard</a> EMPTY&gt;</p>
+<p class=code id=dtd>&lt;!ATTLIST primaryWizard</p>
+<p class=code id=dtdAttlist>id&nbsp;CDATA #REQUIRED&gt;</p>
+<p></p>
+<ul class=ConfigMarkup id=attlistDesc>
+<li><b>id</b> - the id of the wizard that must be marked as active.</li>
+</ul>
+<br><h6 class=CaptionFigColumn id=header>Examples: </h6>Find below an example extension of this point. See the bc_compute_demo plugin for a more detailed examples.
+
+<pre>
+ <p class=code id=tag>&lt;extension point=<p class=code id=cstring>&quot;net.bioclipse.compute.computationWizards&quot;</p><p class=code id=tag>&gt;</p>
+  <p class=code id=tag>&lt;category
+   id=<p class=code id=cstring>&quot;net.bioclipse.bc_computations.demo_category&quot;</p><p class=code id=tag>
+   name=<p class=code id=cstring>&quot;%demoWizardCategory.name&quot;</p><p class=code id=tag>/&gt;</p>
+  <p class=code id=tag>&lt;wizard
+   category=<p class=code id=cstring>&quot;net.bioclipse.bc_computations.demo_category&quot;</p><p class=code id=tag>
+   class=<p class=code id=cstring>&quot;net.bioclipse.compute.demo.wizards.SimpleComputationWizard&quot;</p><p class=code id=tag>
+   description=<p class=code id=cstring>&quot;%simpleComputationWizard.description&quot;</p><p class=code id=tag>
+   icon=<p class=code id=cstring>&quot;icons/sample.gif&quot;</p><p class=code id=tag>
+   id=<p class=code id=cstring>&quot;bc_compute_demo.wizard1&quot;</p><p class=code id=tag>
+   name=<p class=code id=cstring>&quot;%simpleComputationWizard.name&quot;</p><p class=code id=tag>/&gt;</p>
+  <p class=code id=tag>&lt;primaryWizard id=<p class=code id=cstring>&quot;bc_compute_demo.wizard4&quot;</p><p class=code id=tag>/&gt;</p>
+ <p class=code id=tag>&lt;/extension&gt;</p>
+</pre>
+<p></p>
+
+<br>
+<p class=note id=copyright>
+Copyright (c) 2006 Bioclipse Project
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+<br><br>
+Contributors:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Rob Schellhorn
+<p></p>
+
+</p>
+</BODY>
+</HTML>

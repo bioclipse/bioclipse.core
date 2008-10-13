@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.contexts"?>
+
+<contexts>
+
+	<context id="computation_wizard">
+		<description>Some help about this wizard goes here...</description>
+		<topic href="doc/compute_use.html" label="Use" />
+	</context>
+
+	<context id="select_computation_page">
+		<description>Choose the computation you would like to use.</description>
+		<topic href="doc/wizards.html" label="Computation Wizards" />
+	</context>
+
+</contexts>

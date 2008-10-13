@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Bioclipse Computations - The Concept</title>
+		<link rel="stylesheet" href="book.css" type="text/css" />
+	</head>
+	
+	<body>
+		<h1>net.bioclipse.compute</h1>
+		<p>Building computations using bc_compute involves two concepts: <a href="#computations">Computations</a> and <a href="#wizards">Wizards</a>. The first encapsulate the computation in a Job, while the latter are used to configure a computation.
+		<h2><a anchor="computations">Computations</a></h2>
+		<p>Computations are ment to be operations on a selection of BioResources. Those computations may take a while to finish. During a computation it may disposed to the background in such a manner that the interaction with Bioclipse is not blocked. Users can track the progress of the computation using the <a href="../../net.bioclipse/doc/vi_progress.html">Progress View</a>.</p>
+		<pre>Example:
+
+<span class="java">import</span> org.eclipse.core.runtime.IProgressMonitor;
+<span class="java">import</span> org.eclipse.core.runtime.IStatus;
+<span class="java">import</span> org.eclipse.core.runtime.jobs.Job;
+
+<span class="java">public class</span> TypicalComputationJob <span class="java">extends</span> Job {
+
+    <span class="java">public</span> TypicalComputationJob() {
+        <span class="java">super</span>(<span class="string">"A Typical Computation"</span>);
+    }
+
+    <span class="java">public</span> IStatus run(IProgressMonitor monitor) {
+        <span class="comment">/****************************************************************
+         * This computation consists out of 4 parts:
+         * - The first, third and fourth take about 20% of the time each,
+         * - The second takes 40% of the time
+         * So we divide the work in 1+2+1+1=5 steps
+         ***************************************************************/</span>
+        monitor.beginTask("The displayed name of this computation", 5);
+        <span class="java">try</span> {
+            <span class="comment">// Compute the first step</span>
+            monitor.worked(1);
+            <span class="comment">// Compute the second</span>
+            monitor.worked(2);
+            <span class="comment">// Third</span>
+            monitor.worked(1);
+            <span class="comment">// Fourth</span>
+            monitor.worked(1);
+        } <span class="java">finally</span> {
+            monitor.done();
+        }
+
+        <span class="java">return new</span> IStatus( ... );
+    }
+}</pre>
+		<h2><a anchor="wizards">Wizards</a></h2>
+		<p>More about wizards</p>
+		<pre>Example:
+
+<span class="java">import</span> net.bioclipse.compute.wizards.IComputationWizard;
+<span class="java">import</span> org.eclipse.core.runtime.jobs.Job;
+<span class="java">import</span> org.eclipse.jface.viewers.IStructuredSelection;
+<span class="java">import</span> org.eclipse.jface.wizard.Wizard;
+<span class="java">import</span> org.eclipse.ui.IWorkbench;
+
+<span class="java">public class</span> TypicalComputationWizard <span class="java">extends</span> Wizard <span class="java">implements</span> IComputationWizard {
+
+    <span class="java">private final</span> TypicalComputationJob job = <span class="java">new</span> TypicalComputationJob();
+
+    <span class="java">public</span> TypicalComputationWizard() {
+        <span class="java">super</span>(<span class="string">"Typical Computation Job Configuration Wizard"</span>);
+    }
+
+    <span class="java">public</span> Job getComputationJob() {
+        <span class="java">return</span> computation;
+    }
+
+    <span class="java">public void</span> init(IWorkbench workbench, IStructuredSelection selection) {
+        <span class="comment">/****************************************************************
+         * Initialize the job with the workbench and/or the selection.
+         * This is also a good time to load the default parameter values
+         * for the job, if any.
+         ***************************************************************/</span>
+    }
+
+    <span class="java">public boolean</span> performFinish() {
+        <span class="java">return true</span>;
+    }
+}</pre>
+	</body>
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="computationWizards" name="Computation Wizards" schema="schema/computationWizards.exsd"/>
+   <extension
+         id="net.bioclipse.compute.actionSets"
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="net.bioclipse.compute.actionSet"
+            label="Compute Action Set"
+            visible="true">
+         <menu
+               id="computeMenu"
+               label="%computeMenu.label">
+            <groupMarker name="computeGroup"/>
+         </menu>
+         <action
+               class="net.bioclipse.compute.actions.SelectComputationAction"
+               icon="icons/icon_wand.gif"
+               id="net.bioclipse.compute.actions.SelectComputationActio"
+               label="%computeAction.label"
+               menubarPath="computeMenu/computeGroup"
+               style="pulldown"
+               toolbarPath="sampleGroup"
+               tooltip="%computeAction.tooltip"/>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts file="compute_helpContexts.xml"/>
+   </extension>
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="compute_toc.xml"
+            primary="true"/>
+      <toc
+            file="compute_tocDev.html"
+            primary="false"/>
+   </extension>
+
+</plugin>

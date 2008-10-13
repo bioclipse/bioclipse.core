@@ -1,0 +1,32 @@
+@import "../../PRODUCT_PLUGIN/narrow_book.css";
+
+PRE {
+	background	: #F6F6F6;
+	border		: 1px dashed black;
+	overflow	: auto;
+	padding		: 5px 0 5px 15px;
+	width		: 98%;
+}
+
+IMG.example {
+	display		: block;
+	margin		: 0 auto 0 auto;
+}
+
+P.example {
+	margin-top	: 0;
+	padding-top	: 0;
+	text-align	: center;
+}
+
+.comment {
+	color		: #3F7F5F;
+}
+
+.java {
+	color		: #7F0055;
+}
+
+.string {
+	color		: #0000C0;
+}

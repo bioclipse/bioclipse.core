@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Computations">
+ 	<topic label="How to use" href="doc/compute_use.html" />
+ 	<topic label="Wizards" href="doc/wizards.html">
+ 		<anchor id="wizards" />
+ 	</topic>
+ 	<topic label="Change Log" href="doc/changelog.html" />
+</toc>

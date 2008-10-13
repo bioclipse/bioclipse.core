@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="net.bioclipse.compute">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="net.bioclipse.compute" id="computationWizards" name="Computation Wizards"/>
+      </appInfo>
+      <documentation>
+         This extension point is used to register a computation wizard. Providers may provide an extension for this extension point, and an implementation of net.bioclipse.compute.wizards.IComputationWizard.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence>
+            <element ref="category" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="wizard" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="primaryWizard" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="wizard">
+      <annotation>
+         <appInfo>
+            <meta.element labelAttribute="name" icon="icon"/>
+         </appInfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="selection" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  a unique identifier of the wizard.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  a translatable name of the wizard.
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  a fully qualified name of the class that implements &lt;code&gt;net.bioclipse.compute.wizards.IComputationWizard&lt;/code&gt; interface.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="net.bioclipse.compute.model.IComputationWizard"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="icon" type="string">
+            <annotation>
+               <documentation>
+                  a relative path of an icon that will be used to visually represent the wizard.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="resource"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="category" type="string">
+            <annotation>
+               <documentation>
+                  the identefier of the category this wizard belongs to.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="helpHref" type="string">
+            <annotation>
+               <documentation>
+                  the path relative to the root of the help of the document that describes this wizard.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  a translatable description of the wizard.
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="descriptionImage" type="string">
+            <annotation>
+               <documentation>
+                  a relative path of an image that will be used to visually represent the wizard in the selection dialog.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="resource"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="canFinishEarly" type="boolean">
+            <annotation>
+               <documentation>
+                  true if this wizard can finish before all pages have been shown or false otherwise.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="hasPages" type="boolean">
+            <annotation>
+               <documentation>
+                  true if this wizard needs to show pages or false otherwise.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="category">
+      <complexType>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  a unique identifier of the category.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  a translatable name of the wizard.
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="parentCategory" type="string">
+            <annotation>
+               <documentation>
+                  the identefier of the parent category this wizard belongs to or empty if this category is a root category.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="selection">
+      <complexType>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  a fully qualified name of the class for which the parent wizard must be activated.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  not used.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="primaryWizard">
+      <complexType>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  the id of the wizard that must be marked as active.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         0.1.0
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         Find below an example extension of this point. See the bc_compute_demo plugin for a more detailed examples.
+
+&lt;pre&gt;
+ &lt;extension point=&quot;net.bioclipse.compute.computationWizards&quot;&gt;
+  &lt;category
+   id=&quot;net.bioclipse.bc_computations.demo_category&quot;
+   name=&quot;%demoWizardCategory.name&quot;/&gt;
+  &lt;wizard
+   category=&quot;net.bioclipse.bc_computations.demo_category&quot;
+   class=&quot;net.bioclipse.compute.demo.wizards.SimpleComputationWizard&quot;
+   description=&quot;%simpleComputationWizard.description&quot;
+   icon=&quot;icons/sample.gif&quot;
+   id=&quot;bc_compute_demo.wizard1&quot;
+   name=&quot;%simpleComputationWizard.name&quot;/&gt;
+  &lt;primaryWizard id=&quot;bc_compute_demo.wizard4&quot;/&gt;
+ &lt;/extension&gt;
+&lt;/pre&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         Copyright (c) 2006 Bioclipse Project
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+&lt;br&gt;&lt;br&gt;
+Contributors:&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Rob Schellhorn
+      </documentation>
+   </annotation>
+
+</schema>
