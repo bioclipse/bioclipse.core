@@ -235,8 +235,11 @@ public class JsConsoleView extends ScriptingConsoleView
             return "";
 
         if (mode == Mode.JS) {
-            if (command.matches("help( .*)?") || command.matches("man( .*)?"))
-                return helpString(command);
+            if (command.matches("help( .*)?") || command.matches("man( .*)?")) {
+                printMessage( helpString(command) );
+                activatePrompt();
+                return "";
+            }
 
             if ("R".equals(command.trim())) {
                 setMode(Mode.R);
@@ -250,6 +253,7 @@ public class JsConsoleView extends ScriptingConsoleView
                 setMode(Mode.JS);
                 return "";
             }
+            activatePrompt();
             return executeRCommand(command);
         }
     }
