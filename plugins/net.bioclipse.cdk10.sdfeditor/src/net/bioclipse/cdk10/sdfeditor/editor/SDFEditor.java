@@ -16,16 +16,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.log4j.Logger;
 
 import net.bioclipse.cdk10.business.CDK10Manager;
 import net.bioclipse.cdk10.business.CDK10Molecule;
 import net.bioclipse.cdk10.jchempaint.colorers.PropertyColorer;
-import net.bioclipse.cdk10.jchempaint.outline.JCPOutlinePage;
 import net.bioclipse.cdk10.jchempaint.ui.editor.DrawingPanel;
 import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPBasedEditor;
 import net.bioclipse.cdk10.jchempaint.ui.editor.IJCPbasedMPE;
@@ -33,9 +29,9 @@ import net.bioclipse.cdk10.jchempaint.ui.editor.JCPComposite;
 import net.bioclipse.cdk10.jchempaint.ui.editor.JCPPage;
 import net.bioclipse.cdk10.sdfeditor.outline.SDFOutlinePage;
 import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.core.domain.BioList;
 import net.bioclipse.core.util.LogUtils;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.commands.operations.IUndoContext;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResourceChangeEvent;

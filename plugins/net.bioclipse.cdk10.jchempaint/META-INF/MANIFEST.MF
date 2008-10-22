@@ -18,15 +18,24 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.views.properties.tabbed,
  javax.vecmath;bundle-version="1.2.1"
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: .
+Bundle-ClassPath: .,
+ jars/cdk-jchempaint.jar
 Import-Package: org.apache.log4j
 Export-Package: net.bioclipse.cdk10.business,
  net.bioclipse.cdk10.jchempaint,
  net.bioclipse.cdk10.jchempaint.action,
  net.bioclipse.cdk10.jchempaint.colorers,
+ net.bioclipse.cdk10.jchempaint.colorers.actions,
  net.bioclipse.cdk10.jchempaint.outline,
  net.bioclipse.cdk10.jchempaint.ui.editor,
  net.bioclipse.cdk10.jchempaint.ui.editor.action,
  net.bioclipse.cdk10.jchempaint.ui.editor.cml,
  net.bioclipse.cdk10.jchempaint.ui.editor.mdl,
- net.bioclipse.cdk10.jchempaint.ui.editor.resources
+ net.bioclipse.cdk10.jchempaint.ui.editor.resources,
+ net.bioclipse.cdk10.jchempaint.views,
+ org.openscience.cdk.applications.jchempaint,
+ org.openscience.cdk.applications.jchempaint.action,
+ org.openscience.cdk.applications.jchempaint.dialogs,
+ org.openscience.cdk.applications.jchempaint.dnd,
+ org.openscience.cdk.applications.jchempaint.io,
+ org.openscience.cdk.applications.swing.editor
