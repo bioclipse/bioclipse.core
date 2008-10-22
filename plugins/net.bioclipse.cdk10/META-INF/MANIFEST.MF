@@ -9,7 +9,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  net.bioclipse.core,
  javax.vecmath;bundle-version="1.2.1",
- net.bioclipse.xom;bundle-version="2.0.0"
+ net.bioclipse.xom;bundle-version="2.0.0",
+ org.3pq.jgrapht;bundle-version="0.6.0",
+ net.sf.jniinchi;bundle-version="0.4.0"
 Eclipse-LazyStart: true
 Export-Package: org.openscience.cdk,
  org.openscience.cdk.applications,
