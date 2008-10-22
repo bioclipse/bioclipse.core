@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: CDK 1.0 Plug-in
+Bundle-Name: CDK 1.0
 Bundle-SymbolicName: net.bioclipse.cdk10;singleton:=true
-Bundle-Version: 1.0.0.A20080808
+Bundle-Version: 1.0.0.A20081022
 Bundle-Activator: net.bioclipse.cdk.Activator
 Bundle-Vendor: The Bioclipse Project Team
 Require-Bundle: org.eclipse.ui,

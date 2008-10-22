@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: UI Business Plug-in
+Bundle-Name: UI Business
 Bundle-SymbolicName: net.bioclipse.ui.business;singleton:=true
 Bundle-Version: 2.0.0.A20081022
 Bundle-Activator: net.bioclipse.ui.business.Activator

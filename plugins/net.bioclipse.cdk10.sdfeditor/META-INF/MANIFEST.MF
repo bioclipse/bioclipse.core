@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Structure Data File(SDF) Editor
+Bundle-Name: Structure Data File (SDF) Editor
 Bundle-SymbolicName: net.bioclipse.cdk10.sdfeditor;singleton:=true
-Bundle-Version: 2.0.0.A20080903
+Bundle-Version: 2.0.0.A20081022
 Bundle-Activator: net.bioclipse.cdk10.sdfeditor.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,

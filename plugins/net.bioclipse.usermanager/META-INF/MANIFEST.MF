@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Bioclipse Keyring
+Bundle-Name: Bioclipse Usermanager
 Bundle-SymbolicName: net.bioclipse.usermanager;singleton:=true
-Bundle-Version: 0.1.1
+Bundle-Version: 2.0.0.A20081022
 Bundle-Activator: net.bioclipse.usermanager.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
