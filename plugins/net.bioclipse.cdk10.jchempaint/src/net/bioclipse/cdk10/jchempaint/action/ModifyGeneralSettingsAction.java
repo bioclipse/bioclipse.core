@@ -31,8 +31,6 @@ import java.awt.event.ActionEvent;
 
 import net.bioclipse.cdk10.jchempaint.ui.editor.action.JCPAction;
 
-import org.openscience.cdk.applications.jchempaint.dialogs.ModifyGeneralSettingsDialog;
-
 /**
  * Action to pop-up an JFrame to edit general application settings.
  *
