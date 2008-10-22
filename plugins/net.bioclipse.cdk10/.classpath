@@ -2,36 +2,7 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry excluding="org/openscience/cdk/database/XindiceReader.java|org/openscience/cdk/test/libio/joelib/JOELibIOTest.java|org/openscience/cdk/applications/DescriptorCalculator.java|org/openscience/cdk/applications/FileConvertor.java|org/openscience/cdk/applications/demo/EventCMLDemo.java|org/openscience/cdk/applications/jchempaint/application/JChemPaint.java|org/openscience/cdk/internet/DADMLReader.java|org/openscience/cdk/internet/DADMLResult.java|org/openscience/cdk/test/internet/DADMLTest.java|org/openscience/cdk/iupac/parser/AttachedGroup.java|org/openscience/cdk/iupac/parser/MoleculeBuilder.java|org/openscience/cdk/libio/biojava/Convertor.java|org/openscience/cdk/test/iupac/ParserTest.java|org/openscience/cdk/test/" kind="src" path="src"/>
-	<classpathentry exported="true" kind="lib" path="jar/antlr.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/batik-awt-util.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/batik-dom.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/batik-svggen.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/batik-util.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/batik-xml.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/baysmith-io.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/bcel-5.1.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/biojava-1.4.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/commons-cli.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/dadml.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/jai_codec.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/jai_core.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/jama.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/javacc.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/jfontchooser.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/jgrapht.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/jniinchi-0.4.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/JRI.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/jumbo52.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/log4j-1.2.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/mysql-2.0.4.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/postgresql7.0-1.2.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/sjava-0.68.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/vecmath1.2.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/weka.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/xindice.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/xml-apis.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/xmldb.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
-	<classpathentry exported="true" kind="lib" path="jar/xom.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="jar/cdk-1.0.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
