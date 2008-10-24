@@ -18,22 +18,22 @@ import net.bioclipse.core.business.BioclipseException;
  * @author jonalv, olas
  *
  */
-public class SmilesMolecule extends BioObject implements IMolecule {
+public class SMILESMolecule extends BioObject implements IMolecule {
 
     String smiles;
     
     /*
      * Needed by Spring for proxying
      */
-    SmilesMolecule() {
+    SMILESMolecule() {
 
     }
     
-    public SmilesMolecule(String smiles) {
+    public SMILESMolecule(String smiles) {
         this.smiles=smiles;
     }
 
-    public String getSmiles() throws BioclipseException {
+    public String getSMILES() throws BioclipseException {
         return smiles;
     }
 

@@ -51,7 +51,7 @@ public class CDK10Molecule extends BioObject implements IMolecule{
         return atomContainer;
     }
 
-    public String getSmiles() throws BioclipseException {
+    public String getSMILES() throws BioclipseException {
 
         //TODO: wrap in job?
 

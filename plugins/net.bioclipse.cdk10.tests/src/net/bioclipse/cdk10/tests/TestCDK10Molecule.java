@@ -93,7 +93,7 @@ public class TestCDK10Molecule {
 
         CDK10Molecule mol = cdk10.loadMolecule( ins);
         assertNotNull(mol);
-        String smiles = mol.getSmiles();
+        String smiles = mol.getSMILES();
         assertNotNull(smiles);
         System.out.println("Smiles: " + smiles);
     }
@@ -112,7 +112,7 @@ public class TestCDK10Molecule {
         
         CDK10Molecule mol = cdk10.fromString( cutcontent );
         assertNotNull(mol);
-        String smiles = mol.getSmiles();
+        String smiles = mol.getSMILES();
         assertNotNull(smiles);
         System.out.println("Smiles: " + smiles);
     }

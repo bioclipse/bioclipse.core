@@ -292,7 +292,7 @@ public class CDK10Manager{
     }
 
     public String calculateSmiles(IMolecule molecule) throws BioclipseException {
-        return molecule.getSmiles();
+        return molecule.getSMILES();
     }
 
     /**
@@ -711,7 +711,7 @@ public class CDK10Manager{
         }
         
         //Secondly, try to create from SMILES
-        return fromSmiles( m.getSmiles() );
+        return fromSmiles( m.getSMILES() );
     }
 
     
