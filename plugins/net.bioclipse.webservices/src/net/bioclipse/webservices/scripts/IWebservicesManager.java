@@ -12,6 +12,8 @@
  ******************************************************************************/
 package net.bioclipse.webservices.scripts;
 
+import org.eclipse.core.runtime.CoreException;
+
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
@@ -27,11 +29,12 @@ public interface IWebservicesManager extends IBioclipseManager {
      * @param path The id to load
      * @return loaded entry
      * @throws BioclipseException
+     * @throws CoreException 
      */
     @Recorded
     @PublishedMethod( params = "String pdbid", 
-                      methodSummary = "Fetches an entry from the EBI databases")
-    public String downloadPDB(String pdbid)
-        throws BioclipseException;
+                      methodSummary = "Fetches an entry from the EBI databases and saves it to filename")
+    public void downloadPDB(String pdbid, String filename)
+        throws BioclipseException, CoreException;
 
 }
