@@ -32,7 +32,7 @@ public interface IWebservicesManager extends IBioclipseManager {
      * @throws CoreException 
      */
     @Recorded
-    @PublishedMethod( params = "String pdbid", 
+    @PublishedMethod( params = "String pdbid, String filename", 
                       methodSummary = "Fetches an entry from the EBI databases and saves it to filename")
     public void downloadPDB(String pdbid, String filename)
         throws BioclipseException, CoreException;
