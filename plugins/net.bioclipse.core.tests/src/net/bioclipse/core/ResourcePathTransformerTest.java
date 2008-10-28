@@ -187,4 +187,27 @@ public class ResourcePathTransformerTest {
         }
     }
 
+    @Test
+    public void testRepeatedGetContents_IFile() throws Exception {
+        createVirtualProjectWithFile();
+        IFile file = ResourcePathTransformer.getInstance().transform("/myProject/folder/file.txt");
+        InputStream stream = file.getContents();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        List<String> lines = new ArrayList<String>();
+        String line = reader.readLine();
+        while (line != null) {
+            lines.add(line);
+            line = reader.readLine();
+        }
+        stream = file.getContents();
+        reader = new BufferedReader(new InputStreamReader(stream));
+        line = reader.readLine();
+        int index = 0;
+        while (line != null) {
+            assertEquals(lines.get(index), line);
+            index++;
+            line = reader.readLine();
+        }
+    }
+
 }
