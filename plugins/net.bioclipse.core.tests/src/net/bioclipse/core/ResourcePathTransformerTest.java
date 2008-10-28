@@ -12,12 +12,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -160,4 +164,27 @@ public class ResourcePathTransformerTest {
         };
         project.accept( visitor );
     }
+
+    @Test
+    public void testRepeatedGetContents() throws Exception {
+        createVirtualProjectWithFile();
+        InputStream stream = ResourcePathTransformer.getInstance().transform("/myProject/folder/file.txt").getContents();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        List<String> lines = new ArrayList<String>();
+        String line = reader.readLine();
+        while (line != null) {
+            lines.add(line);
+            line = reader.readLine();
+        }
+        stream = ResourcePathTransformer.getInstance().transform("/myProject/folder/file.txt").getContents();
+        reader = new BufferedReader(new InputStreamReader(stream));
+        line = reader.readLine();
+        int index = 0;
+        while (line != null) {
+            assertEquals(lines.get(index), line);
+            index++;
+            line = reader.readLine();
+        }
+    }
+
 }
