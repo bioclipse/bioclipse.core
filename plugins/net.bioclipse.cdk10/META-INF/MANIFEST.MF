@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: CDK 1.0
 Bundle-SymbolicName: net.bioclipse.cdk10;singleton:=true
-Bundle-Version: 1.0.0.A20081022
+Bundle-Version: 2.0.0.A20081028
 Bundle-Activator: net.bioclipse.cdk.Activator
 Bundle-Vendor: The Bioclipse Project Team
 Require-Bundle: org.eclipse.ui,
@@ -11,7 +11,8 @@ Require-Bundle: org.eclipse.ui,
  javax.vecmath;bundle-version="1.2.1",
  net.bioclipse.xom;bundle-version="2.0.0",
  org.3pq.jgrapht;bundle-version="0.6.0",
- net.sf.jniinchi;bundle-version="0.4.0"
+ net.sf.jniinchi;bundle-version="0.4.0",
+ net.bioclipse.cml;bundle-version="2.0.0"
 Eclipse-LazyStart: true
 Export-Package: org.openscience.cdk,
  org.openscience.cdk.applications,

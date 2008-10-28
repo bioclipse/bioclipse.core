@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry excluding="net/bioclipse/cdk10/jchempaint/outline/BioPolymerContentProvider.java|net/bioclipse/cdk10/jchempaint/outline/ChemTreeView.java" kind="src" path="src"/>
+	<classpathentry kind="src" path="src/"/>
 	<classpathentry exported="true" kind="lib" path="jars/cdk-jchempaint.jar" sourcepath="net.bioclipse.cdk10.jchempaintsrc.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

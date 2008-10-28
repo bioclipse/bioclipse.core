@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bioclipse Logger Plug-in
 Bundle-SymbolicName: net.bioclipse.logger
-Bundle-Version: 2.0.0.v20081022
+Bundle-Version: 2.0.0.A20081028
 Bundle-Activator: net.bioclipse.logger.Activator
 Require-Bundle: org.eclipse.core.runtime
 Eclipse-BuddyPolicy: registered
