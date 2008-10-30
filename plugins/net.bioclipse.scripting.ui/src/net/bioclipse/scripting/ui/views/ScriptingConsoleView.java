@@ -324,6 +324,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
         else if (isInsertedChar(e) && !cursorIsOnCommandLine()) {
             putCursorOnCommandLine();
         }
+        
+        e.doit = promptIsVisible;
     }
 
     /**
@@ -350,7 +352,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
         Display.getCurrent().beep();
     }
 
-    /** Enables the console prompt so that commands can be executed. */
+    /** Enables the console prompt so that commands can be entered and
+     *  executed. */
     public void activatePrompt() {
         promptIsVisible = true;
         outputIsMidLine = false;
@@ -358,7 +361,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
         text.append( commandLinePrompt() );
     }
 
-    /** Disables the console prompt, preventing commands from being executed. */
+    /** Disables the console prompt, preventing commands from being entered or
+     *  executed. */
     public void deactivatePrompt() {
         
         String allText = text.getText();
