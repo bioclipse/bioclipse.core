@@ -1,0 +1,51 @@
+#!perl -w
+use strict;
+
+my $current_indentation = 0;
+sub say_indent {
+    my ($text) = @_;
+    $text ||= '';
+
+    print ' ' x (4 * $current_indentation), $text, "\n";
+}
+
+sub indent_more { ++$current_indentation }
+sub indent_less { --$current_indentation }
+
+say_indent('---');
+
+my $interface;
+my $description;
+
+while (my $line = <>) {
+
+    chomp $line;
+
+    if ( $line =~ / \s interface \s+ (\w+) /x ) {
+
+        $interface = $1;
+    }
+
+    if ( $line =~ / \@PublishedClass /x ) {
+        $line .= <> while $line !~ /\)\s*$/;
+
+        $description = $line;
+        $description =~ s{ ^ \s* \@PublishedClass \s* \( \s* }{}x;
+        $description =~ s{ ^ value \s* = \s* }{}x;
+        $description =~ s{ " \s* \+ \s* " }{}xg;
+        $description =~ s{ \) \s* }{}x;
+        $description =~ s{ ^ " }{}x;
+        $description =~ s{ " $ }{}x;
+    }
+
+    if ( defined $interface && defined $description ) {
+        say_indent( $interface . ':' );
+        indent_more();
+        say_indent( 'Description: ' . $description );
+        indent_less();
+        say_indent();
+
+        undef $interface;
+        undef $description;
+    }
+}

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+. find-published-classes | xargs perl parse-file-for-annotations
