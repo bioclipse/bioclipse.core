@@ -102,3 +102,5 @@ while (my $line = <>) {
         undef %methods;
     }
 }
+
+say_indent('...');
