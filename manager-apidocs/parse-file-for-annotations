@@ -1,21 +1,28 @@
 #!perl -w
 use strict;
 
+use Data::Dumper;
+
 my $current_indentation = 0;
 sub say_indent {
-    my ($text) = @_;
-    $text ||= '';
+    my $text = join '', @_, '';
 
     print ' ' x (4 * $current_indentation), $text, "\n";
 }
 
-sub indent_more { ++$current_indentation }
-sub indent_less { --$current_indentation }
+sub do_indented {
+    my ($code) = @_;
+
+    ++$current_indentation;
+    $code->();
+    --$current_indentation;
+}
 
 say_indent('---');
 
 my $interface;
 my $description;
+my %methods;
 
 while (my $line = <>) {
 
@@ -38,14 +45,60 @@ while (my $line = <>) {
         $description =~ s{ " $ }{}x;
     }
 
+    if ( $line =~ / \@PublishedMethod /x ) {
+        $line .= <> while $line !~ /\)\s*$/;
+
+        my $method_desc = $line;
+        $method_desc =~ s{ ^ \s* \@PublishedMethod \s* \( \s* }{}x;
+        $method_desc =~ s{ " \s* \+ \s* " }{}xg;
+        $method_desc =~ s{ \) \s* }{}x;
+
+        my %method_desc = ();
+        if ( $method_desc =~ m{ params \s* = \s* " ([^"]*) " }x ) {
+            $method_desc{params} = $1;
+        }
+        if ( $method_desc =~ m{ methodSummary \s* = \s* " ([^"]*) " }x ) {
+            $method_desc{summary} = $1;
+        }
+
+        my $method_signature = <>;
+        $method_signature = <> while    $method_signature =~ m{^\s*$}
+                                     or $method_signature =~ m{^\s*\@\w+\s*$};
+
+        die 'Your format is silly: ', $method_signature
+          if $method_signature !~ m{\(};
+
+        if ( $method_signature =~ m{ \s (\w+) \s* \( }x ) {
+            $methods{$1} = \%method_desc;
+        }
+        else {
+            die 'Found no name to hang the method on: ', $method_signature;
+        }
+    }
+
     if ( defined $interface && defined $description ) {
-        say_indent( $interface . ':' );
-        indent_more();
-        say_indent( 'Description: ' . $description );
-        indent_less();
+        say_indent( $interface, ':' );
+        do_indented sub {
+            say_indent( 'Description: ', $description );
+            say_indent( 'Methods:' );
+
+            do_indented sub {
+                for my $name ( sort keys %methods ) {
+                    say_indent( '- ',  $name );
+
+                    do_indented sub {   
+                        for my $prop ( reverse sort keys %{$methods{$name}} ) {
+                            say_indent( '- ', $prop,
+                                        ': ', $methods{$name}{$prop} );
+                        }
+                    };
+                }
+            };
+        };
         say_indent();
 
         undef $interface;
         undef $description;
+        undef %methods;
     }
 }
