@@ -216,8 +216,6 @@ public abstract class ScriptingConsoleView extends ViewPart {
                 if (currentHistoryLine > 0)
                     setCurrentCommand(
                             commandHistory.get(--currentHistoryLine) );
-    
-                e.doit = false;
             }
         });
 
@@ -226,8 +224,6 @@ public abstract class ScriptingConsoleView extends ViewPart {
                 if (currentHistoryLine < commandHistory.size() - 1)
                     setCurrentCommand(
                             commandHistory.get(++currentHistoryLine) );
-
-                e.doit = false;
             }
         });
 
@@ -247,7 +243,6 @@ public abstract class ScriptingConsoleView extends ViewPart {
 
         put( new Integer(SWT.HOME), new KeyAction() {
             public void receiveKey(KeyEvent e) {
-                e.doit = false;
                 text.setSelection(startOfCommandLine());
             }
         });
@@ -265,6 +260,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
                 // somewhere...
                 
                 text.setSelection(oldSelection.x - 1);
+                e.doit = true;
                 if ( !cursorIsOnCommandLine() ) {
                     text.setSelection( oldSelection.y );
                     
@@ -291,7 +287,6 @@ public abstract class ScriptingConsoleView extends ViewPart {
         put(new Integer(SWT.TAB), new KeyAction() {
             public void receiveKey(KeyEvent e) {
                 tabComplete();
-                e.doit = false;
             }
         });
     }};
@@ -318,14 +313,16 @@ public abstract class ScriptingConsoleView extends ViewPart {
     /** Receives a KeyEvent e and takes appropriate action. */
     private void handleKey(KeyEvent e) {
 
+        e.doit = promptIsVisible;
+
         if (actionTable.containsKey( e.keyCode )) {
+            e.doit = false;
+            
             actionTable.get( e.keyCode ).receiveKey( e );
         }
         else if (isInsertedChar(e) && !cursorIsOnCommandLine()) {
             putCursorOnCommandLine();
         }
-        
-        e.doit = promptIsVisible;
     }
 
     /**
