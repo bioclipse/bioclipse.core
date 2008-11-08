@@ -76,7 +76,7 @@ while (my $line = <>) {
         }
     }
 
-    if ( defined $interface && defined $description ) {
+    if ( $line =~ /^}\s*$/ && defined $interface && defined $description ) {
         say_indent( $interface, ':' );
         do_indented sub {
             say_indent( 'Description: ', $description );
