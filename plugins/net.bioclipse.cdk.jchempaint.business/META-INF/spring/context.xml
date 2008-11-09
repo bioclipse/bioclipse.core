@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:osgi="http://www.springframework.org/schema/osgi"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                      http://www.springframework.org/schema/beans/spring-beans.xsd
+                      http://www.springframework.org/schema/osgi 
+                      http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+  <!-- Gets the recording advice -->
+  <osgi:reference id="recordingAdvice" 
+                  interface="net.bioclipse.recording.IRecordingAdvice" />
+
+  <osgi:reference id="createJobAdvice"
+                  interface="net.bioclipse.ui.jobs.ICreateJobAdvice" />
+
+  <!--+ 
+      | Point cut advisor that inserts the recording advice on all methods.
+      | (The class does nothing on toString() 
+      |  since a regexp for that behavior failed)
+      +-->
+  <bean id="recordingAdvisor"
+  		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice"  ref="recordingAdvice" />
+  		<property name="pattern" value=".*" />
+  </bean>
+
+  <!-- The target that later on will be proxied. Our manager class. -->
+  <bean id="exampleManagerTarget" 
+        class="net.bioclipse.springBasedPrototypePlugin.business.ExampleManager">
+  </bean>
+  
+  <!--+ 
+      | The proxy puts together the managerTarget, the pointcut advisor
+      | and defines which interfaces to be proxied 
+      +-->
+  <bean id="exampleManager"
+  		class="org.springframework.aop.framework.ProxyFactoryBean">
+  	<property name="target" 
+  	          ref="exampleManagerTarget" />
+  	<property name="proxyInterfaces" 
+  	          value="net.bioclipse.springBasedPrototypePlugin.business.IExampleManager" />
+  	<property name="interceptorNames">
+        <list>
+           <value>recordingAdvisor</value>
+           <value>createJobAdvice</value>
+        </list>
+    </property>
+  </bean>
+
+  <!-- publishes the final manager (the proxy) -->
+  <osgi:service id="exampleManagerOSGI" 
+                ref="exampleManager"
+                interface="net.bioclipse.springBasedPrototypePlugin.business.IExampleManager" />
+</beans>
