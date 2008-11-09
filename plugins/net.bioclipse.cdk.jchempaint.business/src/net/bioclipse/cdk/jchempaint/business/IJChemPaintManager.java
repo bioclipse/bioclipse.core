@@ -9,7 +9,7 @@
  *     Jonathan Alvarsson
  *     
  ******************************************************************************/
-package net.bioclipse.springBasedPrototypePlugin.business;
+package net.bioclipse.cdk.jchempaint.business;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
@@ -25,7 +25,7 @@ import net.bioclipse.core.business.IBioclipseManager;
 @PublishedClass ( "This is an example manager with one example class." +
 		          "Normally this text should contain some information of " +
 		          "what the manager can be ued for" )
-public interface IExampleManager extends IBioclipseManager {
+public interface IJChemPaintManager extends IBioclipseManager {
 
     /**
      * example method

@@ -26,20 +26,20 @@
   </bean>
 
   <!-- The target that later on will be proxied. Our manager class. -->
-  <bean id="exampleManagerTarget" 
-        class="net.bioclipse.springBasedPrototypePlugin.business.ExampleManager">
+  <bean id="jcpManagerTarget" 
+        class="net.bioclipse.cdk.jchempaint.business.JChemPaintManager">
   </bean>
   
   <!--+ 
       | The proxy puts together the managerTarget, the pointcut advisor
       | and defines which interfaces to be proxied 
       +-->
-  <bean id="exampleManager"
+  <bean id="jcpManager"
   		class="org.springframework.aop.framework.ProxyFactoryBean">
   	<property name="target" 
-  	          ref="exampleManagerTarget" />
+  	          ref="jcpManagerTarget" />
   	<property name="proxyInterfaces" 
-  	          value="net.bioclipse.springBasedPrototypePlugin.business.IExampleManager" />
+  	          value="net.bioclipse.cdk.jchempaint.business.IJChemPaintManager" />
   	<property name="interceptorNames">
         <list>
            <value>recordingAdvisor</value>
@@ -49,7 +49,7 @@
   </bean>
 
   <!-- publishes the final manager (the proxy) -->
-  <osgi:service id="exampleManagerOSGI" 
-                ref="exampleManager"
-                interface="net.bioclipse.springBasedPrototypePlugin.business.IExampleManager" />
+  <osgi:service id="jcpManagerOSGI" 
+                ref="jcpManager"
+                interface="net.bioclipse.cdk.jchempaint.business.IJChemPaintManager" />
 </beans>

@@ -1,6 +1,6 @@
-package net.bioclipse.springBasedPrototypePlugin;
+package net.bioclipse.cdk.jchempaint.business;
 
-import net.bioclipse.springBasedPrototypePlugin.business.IExampleManager;
+import net.bioclipse.cdk.jchempaint.business.IJChemPaintManager;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -37,7 +37,7 @@ public class Activator extends AbstractUIPlugin {
         plugin = this;
         
         finderTracker = new ServiceTracker( context, 
-                                            IExampleManager.class.getName(), 
+                                            IJChemPaintManager.class.getName(), 
                                             null );
         finderTracker.open();
     }
@@ -47,10 +47,10 @@ public class Activator extends AbstractUIPlugin {
      * 
      * @return the exampleManager
      */
-    public IExampleManager getExampleManager() {
-        IExampleManager exampleManager = null;
+    public IJChemPaintManager getExampleManager() {
+        IJChemPaintManager exampleManager = null;
         try {
-            exampleManager = (IExampleManager) finderTracker.waitForService(1000*30);
+            exampleManager = (IJChemPaintManager) finderTracker.waitForService(1000*30);
         } catch (InterruptedException e) {
             throw new IllegalStateException("Could not get example manager", e);
         }

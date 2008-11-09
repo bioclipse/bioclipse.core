@@ -9,13 +9,13 @@
  *     Jonathan Alvarsson
  *     
  ******************************************************************************/
-package net.bioclipse.springBasedPrototypePlugin.business;
+package net.bioclipse.cdk.jchempaint.business;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IExecutableExtensionFactory;
-import net.bioclipse.springBasedPrototypePlugin.Activator;
+import net.bioclipse.cdk.jchempaint.business.Activator;
 
 /**
  * Factory for the exampleManager 
@@ -23,7 +23,7 @@ import net.bioclipse.springBasedPrototypePlugin.Activator;
  * @author jonalv
  *
  */
-public class ExampleManagerFactory implements IExecutableExtension, 
+public class JChemPaintManagerFactory implements IExecutableExtension, 
                                               IExecutableExtensionFactory {
 
     private Object exampleManager;

@@ -9,7 +9,7 @@
  *     Jonathan Alvarsson
  *     
  ******************************************************************************/
-package net.bioclipse.springBasedPrototypePlugin.business;
+package net.bioclipse.cdk.jchempaint.business;
 
 import net.bioclipse.ui.Activator;
 
@@ -20,11 +20,11 @@ import net.bioclipse.ui.Activator;
  * @author jonalv
  *
  */
-public class ExampleManager implements IExampleManager {
+public class JChemPaintManager implements IJChemPaintManager {
 
     public void example(String ex) {
         Activator.getDefault().CONSOLE.echo(
-            "ExampleManager.example() called with:" + ex ); 
+            "JChemPaintManager.example() called with:" + ex ); 
     }
 
     public String getNamespace() {
