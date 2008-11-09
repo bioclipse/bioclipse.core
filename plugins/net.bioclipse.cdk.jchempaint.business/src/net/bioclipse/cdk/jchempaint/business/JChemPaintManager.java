@@ -15,6 +15,7 @@ package net.bioclipse.cdk.jchempaint.business;
 import javax.vecmath.Point2d;
 
 import net.bioclipse.cdk.jchempaint.editor.JChemPaintEditor;
+import net.bioclipse.scripting.ui.Activator;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
@@ -36,7 +37,8 @@ public class JChemPaintManager implements IJChemPaintManager {
             IChemModelRelay relay = editor.getControllerHub();
             return relay.getClosestAtom(new Point2d(x,y));
         } else {
-            throw new IllegalArgumentException("No opened JChemPaint editor");
+            Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
+            return null;
         }
     }
 
@@ -58,7 +60,6 @@ public class JChemPaintManager implements IJChemPaintManager {
                                 .getActiveWorkbenchWindow()
                                 .getActivePage()
                                 .getActiveEditor();
-
                 if (activeEditor instanceof JChemPaintEditor) {
                     setActiveEditor((JChemPaintEditor)activeEditor);
                 }

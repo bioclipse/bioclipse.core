@@ -12,5 +12,6 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.cdk.jchempaint,
  org.openscience.cdk.control;bundle-version="1.1.0",
  org.openscience.cdk.interfaces;bundle-version="1.1.0",
- javax.vecmath;bundle-version="1.2.1"
+ javax.vecmath;bundle-version="1.2.1",
+ net.bioclipse.scripting.ui;bundle-version="2.0.0"
 Eclipse-LazyStart: true
