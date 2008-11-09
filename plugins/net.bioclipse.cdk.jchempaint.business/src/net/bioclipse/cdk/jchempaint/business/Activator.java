@@ -14,7 +14,7 @@ import org.osgi.util.tracker.ServiceTracker;
 public class Activator extends AbstractUIPlugin {
 
     // The plug-in ID
-    public static final String PLUGIN_ID = "net.bioclipse.springBasedPrototypePlugin";
+    public static final String PLUGIN_ID = "net.bioclipse.cdk.jchempaint.business";
 
     // The shared instance
     private static Activator plugin;
