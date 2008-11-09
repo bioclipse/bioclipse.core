@@ -1,13 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2007 The Bioclipse Project and others.
+ * Copyright (c) 2008 The Bioclipse Project and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * www.eclipse.org—epl-v10.html <http://www.eclipse.org/legal/epl-v10.html>
  * 
  * Contributors:
- *     Jonathan Alvarsson
- *     
+ *     Egon Willighagen
  ******************************************************************************/
 package net.bioclipse.cdk.jchempaint.business;
 
@@ -16,24 +15,18 @@ import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.IBioclipseManager;
 
+import org.openscience.cdk.interfaces.IAtom;
+
 /**
- * Example manager interface defining all methods of the service object
+ * Manager for the JChemPaintEditor scripting language.
  * 
- * @author jonalv
- *
+ * @author egonw
  */
-@PublishedClass ( "This is an example manager with one example class." +
-		          "Normally this text should contain some information of " +
-		          "what the manager can be ued for" )
+@PublishedClass ("Manager for the JChemPaintEditor scripting language." )
 public interface IJChemPaintManager extends IBioclipseManager {
 
-    /**
-     * example method
-     */
     @Recorded
-    @PublishedMethod ( params = "String ex", 
-                       methodSummary = "This is an example method. " +
-                       		           "Normally this text should describe " +
-                       		           "what the method does " )
-    public void example(String ex);
+    @PublishedMethod ( params = "Point2d worldCoordinate", 
+                       methodSummary = "Returns the IAtom closest to the world coordinate." )
+    public IAtom getClosestAtom(double x, double y);
 }

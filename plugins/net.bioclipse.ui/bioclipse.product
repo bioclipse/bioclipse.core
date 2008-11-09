@@ -82,7 +82,7 @@ See http://www.bioclipse.net for more information
       <plugin id="org.eclipse.core.filesystem.linux.ppc"/>
       <plugin id="org.eclipse.core.filesystem.linux.x86"/>
       <plugin id="org.eclipse.core.filesystem.linux.x86_64"/>
-      <plugin id="org.eclipse.core.filesystem.macosx" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.macosx"/>
       <plugin id="org.eclipse.core.filesystem.solaris.sparc"/>
       <plugin id="org.eclipse.core.filesystem.win32.x86"/>
       <plugin id="org.eclipse.core.jobs"/>
@@ -99,7 +99,7 @@ See http://www.bioclipse.net for more information
       <plugin id="org.eclipse.equinox.preferences"/>
       <plugin id="org.eclipse.equinox.registry"/>
       <plugin id="org.eclipse.equinox.security"/>
-      <plugin id="org.eclipse.equinox.security.macosx" fragment="true"/>
+      <plugin id="org.eclipse.equinox.security.macosx"/>
       <plugin id="org.eclipse.equinox.security.win32.x86"/>
       <plugin id="org.eclipse.help"/>
       <plugin id="org.eclipse.jface"/>
@@ -107,7 +107,7 @@ See http://www.bioclipse.net for more information
       <plugin id="org.eclipse.jface.text"/>
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.swt"/>
-      <plugin id="org.eclipse.swt.carbon.macosx" fragment="true"/>
+      <plugin id="org.eclipse.swt.carbon.macosx"/>
       <plugin id="org.eclipse.swt.gtk.linux.ppc"/>
       <plugin id="org.eclipse.swt.gtk.linux.x86"/>
       <plugin id="org.eclipse.swt.gtk.linux.x86_64"/>
@@ -120,7 +120,7 @@ See http://www.bioclipse.net for more information
       <plugin id="org.eclipse.text"/>
       <plugin id="org.eclipse.ui"/>
       <plugin id="org.eclipse.ui.browser"/>
-      <plugin id="org.eclipse.ui.carbon" fragment="true"/>
+      <plugin id="org.eclipse.ui.carbon"/>
       <plugin id="org.eclipse.ui.cheatsheets"/>
       <plugin id="org.eclipse.ui.editors"/>
       <plugin id="org.eclipse.ui.forms"/>

@@ -7,27 +7,64 @@
  * 
  * Contributors:
  *     Jonathan Alvarsson
- *     
+ *     Egon Willighagen
+ *     Ola Spjuth
  ******************************************************************************/
 package net.bioclipse.cdk.jchempaint.business;
 
-import net.bioclipse.ui.Activator;
+import javax.vecmath.Point2d;
+
+import net.bioclipse.cdk.jchempaint.editor.JChemPaintEditor;
+
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PlatformUI;
+import org.openscience.cdk.controller.IChemModelRelay;
+import org.openscience.cdk.interfaces.IAtom;
 
 /**
- * ExampleManager. All methods declared here that should be reachable 
- * in the service object must be declared in the corresponding interface  
- * 
- * @author jonalv
- *
+ * @author egonw
  */
 public class JChemPaintManager implements IJChemPaintManager {
 
-    public void example(String ex) {
-        Activator.getDefault().CONSOLE.echo(
-            "JChemPaintManager.example() called with:" + ex ); 
+    /** Not to be used by manager method directly, but is just needed for the syncRun() call. */
+    private JChemPaintEditor jcpEditor;
+
+    public IAtom getClosestAtom(double x, double y) {
+        JChemPaintEditor editor = findActiveEditor();
+        if (editor != null) {
+            IChemModelRelay relay = editor.getControllerHub();
+            return relay.getClosestAtom(new Point2d(x,y));
+        } else {
+            throw new IllegalArgumentException("No opened JChemPaint editor");
+        }
     }
 
     public String getNamespace() {
         return "jcp";
     }
+
+    protected void setActiveEditor(JChemPaintEditor activeEditor) {
+        jcpEditor = activeEditor;
+    }
+
+    private JChemPaintEditor findActiveEditor() {
+        final Display display = PlatformUI.getWorkbench().getDisplay();
+        setActiveEditor(null);
+        display.syncExec( new Runnable() {
+            public void run() {
+                IEditorPart activeEditor 
+                    = PlatformUI.getWorkbench()
+                                .getActiveWorkbenchWindow()
+                                .getActivePage()
+                                .getActiveEditor();
+
+                if (activeEditor instanceof JChemPaintEditor) {
+                    setActiveEditor((JChemPaintEditor)activeEditor);
+                }
+            }
+        });
+        return jcpEditor;
+    }
+
 }
