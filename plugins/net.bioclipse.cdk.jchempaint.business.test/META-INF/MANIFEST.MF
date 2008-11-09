@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JChemPaint3 Test Plug-in
+Bundle-SymbolicName: net.bioclipse.cdk.jchempaint.business.test
+Bundle-Version: 1.3.1
+Bundle-Activator: net.bioclipse.cdk.jchempaint.business.test.Activator
+Bundle-Vendor: The Bioclipse Team
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.junit4,
+ net.bioclipse.core,
+ org.eclipse.core.resources,
+ net.bioclipse.core.tests;bundle-version="0.1.0",
+ net.bioclipse.cdk.jchempaint.business;bundle-version="0.1.0"
+Bundle-ActivationPolicy: lazy
+Export-Package: net.bioclipse.cdk.jchempaint.business.test
