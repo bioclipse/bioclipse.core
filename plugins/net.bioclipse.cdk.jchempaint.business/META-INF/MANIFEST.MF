@@ -15,3 +15,4 @@ Require-Bundle: org.eclipse.ui,
  javax.vecmath;bundle-version="1.2.1",
  net.bioclipse.scripting.ui;bundle-version="2.0.0"
 Eclipse-LazyStart: true
+Export-Package: net.bioclipse.cdk.jchempaint.business
