@@ -28,6 +28,6 @@ public class JChemPaintManager implements IJChemPaintManager {
     }
 
     public String getNamespace() {
-        return "example";
+        return "jcp";
     }
 }
