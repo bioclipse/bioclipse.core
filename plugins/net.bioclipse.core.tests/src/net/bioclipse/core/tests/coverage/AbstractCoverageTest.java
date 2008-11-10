@@ -11,6 +11,8 @@
 package net.bioclipse.core.tests.coverage;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.TestClasses;
@@ -39,42 +41,64 @@ public abstract class AbstractCoverageTest {
             "Class does not have TestClass annotation: " + getManager().getClass().getName(),
             testClassAnnotation
         );
-        String testClassName = testClassAnnotation.value();
-        Class testClass = this.getClass().getClassLoader().loadClass(testClassName);
-        Assert.assertNotNull("Could not load the test class: " + testClassName);
-        checkPublishedMethods(testClass);
+        String testClassNames = testClassAnnotation.value();
+        List<Class> testClasses = new ArrayList<Class>();
+        for (String testClassName : testClassNames.split(",")) {
+            Class testClass = this.getClass().getClassLoader().loadClass(testClassName);
+            Assert.assertNotNull("Could not load the test class: " + testClassName, testClassName);
+            testClasses.add(testClass);
+        }
+        checkPublishedMethods(testClasses);
     }
     
-    private void checkPublishedMethods(Class testClass) {
+    private void checkPublishedMethods(List<Class> testClasses) {
+        int missingTestMethodAnnotations = 0;
+        String methodsMissingAnnotation = "";
         int missingTestMethods = 0;
+        String testMethodsMissing = "";
         for (Class<?> iface : getManager().getClass().getInterfaces()) {
             for (Method method : iface.getMethods()) {
                 if (method.getAnnotation(PublishedMethod.class) != null) {
                     // every published method should have one or more tests
                     if (method.getAnnotation(TestMethods.class) == null) {
-                        System.out.println("Missing test annotation for: " + method.getName());
-                        missingTestMethods++;
+                        missingTestMethodAnnotations++;
+                        methodsMissingAnnotation += method.getName() + " ";
                     } else {
-                        // now test if the listed test methods really exist
-                        Method[] testClassMethods = testClass.getMethods();
                         TestMethods testMethodAnnotation = method.getAnnotation(TestMethods.class);
                         for (String testMethod : testMethodAnnotation.value().split(",")) {
-                            boolean foundTestMethod = false;
-                            for (Method testClassMethod : testClassMethods) {
-                                if (testClassMethod.getName().equals(testMethod)) foundTestMethod = true;
+                            boolean foundTestMethod = checkIfATestClassContainsTheMethod(testClasses, testMethod);
+                            if (!foundTestMethod) {
+                                missingTestMethods++;
+                                testMethodsMissing += testMethod + " ";
                             }
-                            Assert.assertTrue(
-                                "Test method does not exist in test class: " + testMethod,
-                                foundTestMethod
-                            );
                         }
                     }
                 }
             }
         }
-        Assert.assertEquals("Missing test method: " + missingTestMethods, 0, missingTestMethods);
+        String message = "";
+        if (missingTestMethodAnnotations > 0) {
+            message += "Missing method annotations (" + missingTestMethodAnnotations +
+                       "): " + methodsMissingAnnotation + "; ";
+        }
+        if (missingTestMethods > 0) {
+            message += "Missing test methods (" + testMethodsMissing +
+                       "): " + missingTestMethods + "; ";
+        }
+        Assert.assertFalse(message, message.length() > 0);
     }
     
+    private boolean checkIfATestClassContainsTheMethod(List<Class> testClasses, String testMethod) {
+        for (Class testClass : testClasses) {
+            // now test if the listed test methods really exist
+            Method[] testClassMethods = testClass.getMethods();
+            for (Method testClassMethod : testClassMethods) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private TestClasses getClassAnnotation() {
         for (Class<?> iface : getManager().getClass().getInterfaces()) {
             TestClasses testClass = iface.getAnnotation(TestClasses.class);
