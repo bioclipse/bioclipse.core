@@ -10,77 +10,22 @@
  ******************************************************************************/
 package net.bioclipse.cdk.jchempaint.business.test;
 
-import java.lang.reflect.Method;
-
 import net.bioclipse.cdk.jchempaint.business.JChemPaintManager;
-import net.bioclipse.core.PublishedMethod;
-import net.bioclipse.core.TestClass;
-import net.bioclipse.core.TestMethods;
-
-import org.junit.Assert;
-import org.junit.Test;
+import net.bioclipse.core.business.IBioclipseManager;
+import net.bioclipse.core.tests.coverage.AbstractCoverageTest;
 
 /**
  * JUnit tests for checking if the tested Manager is properly tested.
  * 
  * @author egonw
  */
-public class CoverageTest {
+public class CoverageTest extends AbstractCoverageTest {
     
     private JChemPaintManager manager = new JChemPaintManager();
     
-    /**
-     * Tests if {@link PublishedMethod}'s are tested and annotated
-     * with {@link TestMethod}.
-     */
-    @Test public void testCoverage() throws Exception {
-        TestClass testClassAnnotation = getClassAnnotation();
-        Assert.assertNotNull(
-            "Class does not have TestClass annotation: " + manager.getClass().getName(),
-            testClassAnnotation
-        );
-        String testClassName = testClassAnnotation.value();
-        Class testClass = this.getClass().getClassLoader().loadClass(testClassName);
-        Assert.assertNotNull("Could not load the test class: " + testClassName);
-        checkPublishedMethods(testClass);
-    }
-    
-    private void checkPublishedMethods(Class testClass) {
-        int missingTestMethods = 0;
-        for (Class<?> iface : manager.getClass().getInterfaces()) {
-            for (Method method : iface.getMethods()) {
-                if (method.getAnnotation(PublishedMethod.class) != null) {
-                    // every published method should have one or more tests
-                    if (method.getAnnotation(TestMethods.class) == null) {
-                        System.out.println("Missing test annotation for: " + method.getName());
-                        missingTestMethods++;
-                    } else {
-                        // now test if the listed test methods really exist
-                        Method[] testClassMethods = testClass.getMethods();
-                        TestMethods testMethodAnnotation = method.getAnnotation(TestMethods.class);
-                        for (String testMethod : testMethodAnnotation.value().split(",")) {
-                            boolean foundTestMethod = false;
-                            for (Method testClassMethod : testClassMethods) {
-                                if (testClassMethod.getName().equals(testMethod)) foundTestMethod = true;
-                            }
-                            Assert.assertTrue(
-                                "Test method does not exist in test class: " + testMethod,
-                                foundTestMethod
-                            );
-                        }
-                    }
-                }
-            }
-        }
-        Assert.assertEquals("Missing test method: " + missingTestMethods, 0, missingTestMethods);
-    }
-    
-    private TestClass getClassAnnotation() {
-        for (Class<?> iface : manager.getClass().getInterfaces()) {
-            TestClass testClass = iface.getAnnotation(TestClass.class);
-            if (testClass != null) return testClass; 
-        }
-        return null;
+    @Override
+    public IBioclipseManager getManager() {
+        return manager;
     }
 
 }

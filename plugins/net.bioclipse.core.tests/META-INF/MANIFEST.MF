@@ -16,4 +16,5 @@ Bundle-ClassPath: junit.jar,
 Export-Package: net.bioclipse,
  net.bioclipse.core,
  net.bioclipse.core.domain,
- net.bioclipse.recording
+ net.bioclipse.recording,
+ net.bioclipse.core.tests.coverage
