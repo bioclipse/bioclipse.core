@@ -15,9 +15,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation that allows indication of the JUnit4 test method that tests
- * the annotated manager method. It requires the manager class to be annotated
- * with {@link TestClass}. 
+ * Annotation that allows indication of a comma-separated list of
+ * JUnit4 test methods that tests the annotated manager method. It
+ * requires the manager class to be annotated
+ * with {@link TestClass}.
  * 
  * @author egonw
  */
@@ -25,5 +26,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface TestMethods {
+    /**
+     * Returns the comma-separated list of test methods.
+     */
     String value();
 }
