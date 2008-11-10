@@ -13,13 +13,16 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Annotation that allows indication of the JUnit4 test class that tests
- * the annotated manager.
+ * Annotation that allows indication of a comma-separated list of
+ * JUnit4 test classes that tests the annotated manager.
  * 
  * @author egonw
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface TestClass {
+public @interface TestClasses {
+    /**
+     * Returns the comma-separated list of test methods.
+     */
     String value();
 }

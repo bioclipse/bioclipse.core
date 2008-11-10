@@ -13,7 +13,7 @@ package net.bioclipse.core.tests.coverage;
 import java.lang.reflect.Method;
 
 import net.bioclipse.core.PublishedMethod;
-import net.bioclipse.core.TestClass;
+import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.TestMethods;
 import net.bioclipse.core.business.IBioclipseManager;
 
@@ -34,7 +34,7 @@ public abstract class AbstractCoverageTest {
      * with {@link TestMethod}.
      */
     @Test public void testCoverage() throws Exception {
-        TestClass testClassAnnotation = getClassAnnotation();
+        TestClasses testClassAnnotation = getClassAnnotation();
         Assert.assertNotNull(
             "Class does not have TestClass annotation: " + getManager().getClass().getName(),
             testClassAnnotation
@@ -75,9 +75,9 @@ public abstract class AbstractCoverageTest {
         Assert.assertEquals("Missing test method: " + missingTestMethods, 0, missingTestMethods);
     }
     
-    private TestClass getClassAnnotation() {
+    private TestClasses getClassAnnotation() {
         for (Class<?> iface : getManager().getClass().getInterfaces()) {
-            TestClass testClass = iface.getAnnotation(TestClass.class);
+            TestClasses testClass = iface.getAnnotation(TestClasses.class);
             if (testClass != null) return testClass; 
         }
         return null;

@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
  * Annotation that allows indication of a comma-separated list of
  * JUnit4 test methods that tests the annotated manager method. It
  * requires the manager class to be annotated
- * with {@link TestClass}.
+ * with {@link TestClasses}.
  * 
  * @author egonw
  */
