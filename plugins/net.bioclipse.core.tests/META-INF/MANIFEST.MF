@@ -17,4 +17,5 @@ Export-Package: net.bioclipse,
  net.bioclipse.core,
  net.bioclipse.core.domain,
  net.bioclipse.recording,
+ net.bioclipse.core.tests,
  net.bioclipse.core.tests.coverage
