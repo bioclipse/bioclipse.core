@@ -50,6 +50,9 @@ import org.eclipse.ui.texteditor.IWorkbenchActionDefinitionIds;
  */
 public abstract class ScriptingConsoleView extends ViewPart {
 
+    /** A string representing the system's newline. */
+    public static String NEWLINE = System.getProperty("line.separator");
+    
     /** The text contents of this console. */
     private Text text;
     
@@ -848,7 +851,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
             String varList = interestingVariables.toString();
             varList
                 = varList.substring(1, varList.length() - 1).replace(',', ' ');
-            printMessage( varList + "\n" );
+            printMessage( varList + NEWLINE );
         }
         else {
             addAtCursor( longestCommonPrefix.substring( prefix.length() ));
