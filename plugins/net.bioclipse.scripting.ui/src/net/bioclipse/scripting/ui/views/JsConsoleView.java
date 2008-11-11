@@ -159,12 +159,11 @@ public class JsConsoleView extends ScriptingConsoleView
             catch (Exception ex) {
                 throw new RuntimeException(
                         "Failed to instantiate factory: "
-                        + cfgElem.getAttribute("class")
-                        + "\n in type: "
-                        + extensionPoint.getUniqueIdentifier()
-                        + "\n in plugin: "
-                        + e.getExtensionPointUniqueIdentifier()
-                        + "\n"
+                        + cfgElem.getAttribute("class")         + NEWLINE
+                        + " in type: "
+                        + extensionPoint.getUniqueIdentifier()  + NEWLINE
+                        + " in plugin: "
+                        + e.getExtensionPointUniqueIdentifier() + NEWLINE
                         + ex.getMessage());
             }
         }
@@ -183,7 +182,7 @@ public class JsConsoleView extends ScriptingConsoleView
                 Display.getDefault().asyncExec( new Runnable() {
                     public void run() {
                         if ( !"undefined".equals(result) )
-                            printMessage(result + "\n");
+                            printMessage(result + NEWLINE);
                         JsConsoleView.this.activatePrompt();
                     }
                 } );
@@ -287,11 +286,11 @@ public class JsConsoleView extends ScriptingConsoleView
                                                  .keySet() );
             if ( !managerNames.isEmpty() ) {
                 Collections.sort( managerNames );
-                sb.append( "\nAvailable managers:\n" );
+                sb.append( NEWLINE + "Available managers:" + NEWLINE );
                 for ( String name : managerNames ) {
                     sb.append( "  " );
                     sb.append( name );
-                    sb.append( "\n" );
+                    sb.append( NEWLINE );
                 }
             }
             
@@ -314,7 +313,7 @@ public class JsConsoleView extends ScriptingConsoleView
                 = JsThread.js.getManagers().get(managerName);
             if (manager == null)
                 return "No such manager: " + managerName
-                       + "\n" + errorMessage;
+                       + NEWLINE + errorMessage;
 
             for ( Class<?> interfaze : manager.getClass()
                                               .getInterfaces() ) {
@@ -337,20 +336,21 @@ public class JsConsoleView extends ScriptingConsoleView
                                      MAX_OUTPUT_LINE_LENGTH);
 
                         result.append( line );
-                        result.append( '\n' );
+                        result.append( NEWLINE );
 
                         result.append( managerName );
                         result.append( '.' );
                         result.append( method.getName() );
                         result.append( '(' );
                         result.append( publishedMethod.params() );
-                        result.append( ")\n" );
+                        result.append( ")" );
+                        result.append( NEWLINE );
 
                         result.append( line );
-                        result.append( '\n' );
+                        result.append( NEWLINE );
 
                         result.append( publishedMethod.methodSummary() );
-                        result.append( '\n' );
+                        result.append( NEWLINE );
                     }
                 }
             }
@@ -363,7 +363,7 @@ public class JsConsoleView extends ScriptingConsoleView
 
             if (manager == null)
                 return "No such method: " + helpObject
-                       + "\n" + errorMessage;
+                       + NEWLINE + errorMessage;
 
             StringBuilder managerDescription = new StringBuilder();
             for ( Class<?> interfaze : manager.getClass()
@@ -378,8 +378,8 @@ public class JsConsoleView extends ScriptingConsoleView
                             ).value()
                     );
                     managerDescription.append( 
-                        "\n\n This manager has " +
-                        "the following methods: \n" );
+                        NEWLINE + NEWLINE + " This manager has " +
+                        "the following methods: " + NEWLINE );
                     
                     List<String> methodNames = new ArrayList<String>();
                     Method[] methods = interfaze.getMethods();
@@ -414,7 +414,7 @@ public class JsConsoleView extends ScriptingConsoleView
                     }
                     for ( String methodName : methodNames ) {
                         managerDescription.append( methodName );
-                        managerDescription.append( "\n" );
+                        managerDescription.append( NEWLINE );
                     }
                     
                     managerDescription.deleteCharAt( 
@@ -426,16 +426,16 @@ public class JsConsoleView extends ScriptingConsoleView
                                   MAX_OUTPUT_LINE_LENGTH );
 
             result.append(line);
-            result.append( '\n' );
+            result.append( NEWLINE );
 
             result.append(helpObject);
-            result.append( '\n' );
+            result.append( NEWLINE );
 
             result.append(line);
-            result.append( '\n' );
+            result.append( NEWLINE );
 
             result.append( managerDescription );
-            result.append( '\n' );
+            result.append( NEWLINE );
         }
 
         return result.toString();

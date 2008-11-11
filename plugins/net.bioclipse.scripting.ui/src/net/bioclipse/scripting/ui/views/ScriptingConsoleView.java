@@ -144,16 +144,16 @@ public abstract class ScriptingConsoleView extends ViewPart {
                         text.setText(
                                 text.getText().substring(
                                         0,
-                                        text.getText().lastIndexOf('\n')
+                                        text.getText().lastIndexOf(NEWLINE)
                                 ) + "; "
                                 + text.getText().substring(
-                                        text.getText().lastIndexOf('\n') + 1
+                                        text.getText().lastIndexOf(NEWLINE) + 1
                                 )
                         );
                     }
                     
                     String command = currentCommand().trim();
-                    text.append( "\n" );
+                    text.append( NEWLINE );
                     
                     if (command.matches( "^//\\s*quiet$" ))
                         verbose = false;
@@ -174,7 +174,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
                         return;
                     }
     
-                    command = command.replace('\n', ' ');
+                    command = command.replaceAll(NEWLINE, " ");
                     
                     if ( !"".equals(command) ) {
                         commandHistory.remove( commandHistory.size() - 1 );
@@ -198,7 +198,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
                                 result, MAX_OUTPUT_LINE_LENGTH) );
                         
                         if ( result != null && !result.equals("") )
-                            text.append( "\n" );
+                            text.append( NEWLINE );
                     }
                     
                     promptIsVisible = false;
@@ -269,7 +269,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
                     
                     if (cursorIsOnCommandLine()) {
                         int newStart
-                            = text.getText().lastIndexOf("\n", oldSelection.y)
+                            = text.getText().lastIndexOf(NEWLINE,
+                                                         oldSelection.y)
                                + 1 + commandLinePrompt().length();
                         
                         if (newStart == oldSelection.y) {
@@ -368,7 +369,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         String allText = text.getText();
 
         int startOfPrompt
-            = allText.lastIndexOf("\n", text.getCharCount() - 1) + 1;
+            = allText.lastIndexOf(NEWLINE, text.getCharCount() - 1) + 1;
         
         String beforePrompt = allText.substring( 0, startOfPrompt ),
                afterPrompt  = allText.substring( startOfPrompt + commandLinePrompt().length() );
@@ -408,7 +409,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
         String allText = text.getText();
         
         int endOfLastLine = text.getCharCount(),
-            startOfLastLine = allText.lastIndexOf("\n", endOfLastLine - 1) + 1;
+            startOfLastLine
+                = allText.lastIndexOf(NEWLINE, endOfLastLine - 1) + 1;
         
         String lastLine = allText.substring( startOfLastLine, endOfLastLine );
         
@@ -432,7 +434,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
 
         String allText = text.getText();
         
-        int startOfLine = allText.lastIndexOf("\n", endOfLine - 1) + 1;
+        int startOfLine = allText.lastIndexOf(NEWLINE, endOfLine - 1) + 1;
         
         String wholeLine = allText.substring( startOfLine, endOfLine ),
                  command = wholeLine.substring( commandLinePrompt().length() ),
@@ -441,7 +443,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         if (prompt.equals(commandLinePrompt()))
             return command;
         else
-            return currentCommand(startOfLine - 1) + "\n" + command;
+            return currentCommand(startOfLine - 1) + NEWLINE + command;
     }
     
     /**
@@ -454,7 +456,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         String allText = text.getText();
         
         int endOfLine = text.getCharCount(),
-        startOfLine = allText.lastIndexOf("\n", endOfLine - 1) + 1;
+        startOfLine = allText.lastIndexOf(NEWLINE, endOfLine - 1) + 1;
         
         return startOfLine + commandLinePrompt().length();
     }
@@ -496,8 +498,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
         String allText = text.getText();
         int pos = text.getCaretPosition();
         
-        return !allText.substring(pos).contains("\n")
-               && pos >= allText.lastIndexOf("\n", pos)
+        return !allText.substring(pos).contains(NEWLINE)
+               && pos >= allText.lastIndexOf(NEWLINE, pos)
                          + 1 + commandLinePrompt().length();
     }
     
@@ -636,8 +638,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
         
         // ...or to break where there is already a break...
         if ( text.substring(currentPos,
-                            currentPos + maxLineLength).contains("\n") )
-            return text.indexOf('\n', currentPos) + 1;
+                            currentPos + maxLineLength).contains(NEWLINE) )
+            return text.indexOf(NEWLINE, currentPos) + 1;
         
         // ...or at the last possible space...
         if ( text.substring(currentPos,
@@ -650,7 +652,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
 
     /**
      * Splits text into several lines, each not longer than the proposed line
-     * length. The text returned has <code>\n</code> characters inserted, in
+     * length. The text returned has newline characters inserted, in
      * such a way that the distance between two consecutive such characters is
      * never longer than proposed line length.
      * 
@@ -680,8 +682,9 @@ public abstract class ScriptingConsoleView extends ViewPart {
 
             // Line breaks only between lines, and only in the absence of
             // natural ones.
-            if (currentPos < text.length() && text.charAt(currentPos-1) != '\n')
-                result.append('\n');
+            if (currentPos < text.length()
+                && text.substring(currentPos-1, NEWLINE.length()) != NEWLINE)
+                result.append(NEWLINE);
             
             // And we can live without the spaces at which we chose to break.
             while (currentPos < text.length() && text.charAt(currentPos) == ' ')
@@ -717,14 +720,14 @@ public abstract class ScriptingConsoleView extends ViewPart {
             
             String allText = text.getText();
             int oldPos = text.getCaretPosition(),
-                posBeforePrompt = allText.lastIndexOf("\n") + 1;
+                posBeforePrompt = allText.lastIndexOf(NEWLINE) + 1;
     
             if ( !outputIsMidLine )
-                message = "\n" + message;
+                message = NEWLINE + message;
             
             if (posBeforePrompt < 1) {
                 posBeforePrompt = 1;
-                message += "\n";
+                message += NEWLINE;
             }
             
             String newText = allText.substring(0, posBeforePrompt - 1)
@@ -741,7 +744,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
             scrollDownToPrompt();
             text.redraw();
 
-            outputIsMidLine = !message.endsWith("\n") || message.equals("\n");
+            outputIsMidLine = !message.endsWith(NEWLINE)
+                              || message.equals(NEWLINE);
         }
     }
     
