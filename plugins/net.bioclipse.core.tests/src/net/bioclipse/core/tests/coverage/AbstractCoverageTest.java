@@ -18,6 +18,7 @@ import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.TestMethods;
 import net.bioclipse.core.business.IBioclipseManager;
+import net.bioclipse.core.tests.AbstractManagerTest;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -51,6 +52,30 @@ public abstract class AbstractCoverageTest {
         checkPublishedMethods(testClasses);
     }
     
+    /**
+     * Tests if the {@link IBioclipseManager} extends {@link AbstractManagerTest}
+     * as it should.
+     */
+    @Test public void testManagerExtendsAbstractManagerTest() throws Exception {
+        TestClasses testClassAnnotation = getClassAnnotation();
+        boolean extendsAbstractManagerTest = false;
+        // at least one test class should extend it
+        String testClassNames = testClassAnnotation.value();
+        List<Class> testClasses = new ArrayList<Class>();
+        for (String testClassName : testClassNames.split(",")) {
+            Class testClass = this.getClass().getClassLoader().loadClass(testClassName);
+            // should do this recursively, but for now let's just assume
+            // the first superclass is the AbstractManagerTest
+            Class superClass = testClass.getSuperclass();
+            if (superClass.getName().equals(AbstractManagerTest.class.getName()))
+                extendsAbstractManagerTest = true;
+        }
+        Assert.assertTrue(
+            "At least one ManagerTest must extend AbstractManagerTest",
+            extendsAbstractManagerTest
+        );
+    }
+
     private void checkPublishedMethods(List<Class> testClasses) {
         int missingTestMethodAnnotations = 0;
         String methodsMissingAnnotation = "";
