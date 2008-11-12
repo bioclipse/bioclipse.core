@@ -46,7 +46,7 @@ public abstract class AbstractManagerTest {
         for (Method method : methods) {
             Class[] parameters = method.getParameterTypes();
             if (parameters.length == 1 &&
-                (parameters[0].getClass().getName().equals(IFile.class.getName()))) {
+                (parameters[0].getName().equals(IFile.class.getName()))) {
                 // OK, found a foo(IFile)
                 if (isRecorded(method)) {
                     // OK, IF applies, now test the THEN
@@ -55,7 +55,7 @@ public abstract class AbstractManagerTest {
                         if (otherMethod.getName().equals(method.getName())) {
                             Class[] otherParameters = method.getParameterTypes();
                             if (otherParameters.length == 1 &&
-                                (otherParameters[0].getClass().getName().equals(String.class.getName()))) {
+                                (otherParameters[0].getName().equals(String.class.getName()))) {
                                 foundMatchingStringMethod =
                                     isRecorded(otherMethod) && isPublished(otherMethod);
                             }
