@@ -39,7 +39,7 @@ public abstract class AbstractCoverageTest {
     @Test public void testCoverage() throws Exception {
         TestClasses testClassAnnotation = getClassAnnotation();
         Assert.assertNotNull(
-            "Class does not have TestClass annotation: " + getManager().getClass().getName(),
+            "Class does not have TestClasses annotation: " + getManager().getClass().getName(),
             testClassAnnotation
         );
         String testClassNames = testClassAnnotation.value();
