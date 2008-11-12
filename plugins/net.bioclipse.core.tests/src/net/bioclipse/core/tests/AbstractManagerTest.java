@@ -46,15 +46,7 @@ public abstract class AbstractManagerTest {
             if (parameters.length == 1 &&
                 (parameters[0].getClass().getName().equals(IFile.class.getName()))) {
                 // OK, found a foo(IFile)
-                boolean isRecorded = false;
-                Annotation[] annots = method.getAnnotations();
-                for (Annotation annot : annots) {
-                    if (annot instanceof Recorded) {
-                        // OK, and the foo(IFile) is also @Recorded
-                        isRecorded = true;
-                    }
-                }
-                if (isRecorded) {
+                if (isRecorded(method)) {
                     // OK, IF applies, now test the THEN
                     boolean foundMatchingStringMethod = false;
                     for (Method otherMethod : methods) {
@@ -62,18 +54,8 @@ public abstract class AbstractManagerTest {
                             Class[] otherParameters = method.getParameterTypes();
                             if (otherParameters.length == 1 &&
                                 (otherParameters[0].getClass().getName().equals(String.class.getName()))) {
-                                boolean otherIsRecorded = false;
-                                boolean otherIsPublished = false;
-                                Annotation[] otherAnnots = method.getAnnotations();
-                                for (Annotation annot : otherAnnots) {
-                                    if (annot instanceof Recorded) {
-                                        otherIsRecorded = true;
-                                    }
-                                    if (annot instanceof PublishedMethod) {
-                                        otherIsPublished = true;
-                                    }
-                                }
-                                foundMatchingStringMethod = otherIsRecorded && otherIsPublished;
+                                foundMatchingStringMethod =
+                                    isRecorded(otherMethod) && isPublished(otherMethod);
                             }
                         }
                     }
@@ -87,6 +69,30 @@ public abstract class AbstractManagerTest {
         }
     }
     
+    /**
+     * Tests if the Method has {@link Recorded} annotation.
+     */
+    private boolean isRecorded(Method method) {
+        Annotation[] otherAnnots = method.getAnnotations();
+        for (Annotation annot : otherAnnots) {
+            if (annot instanceof Recorded) {
+                return true;
+            }
+        }
+        return false;
+    }
     
+    /**
+     * Tests if the Method has {@link Published} annotation.
+     */
+    private boolean isPublished(Method method) {
+        Annotation[] otherAnnots = method.getAnnotations();
+        for (Annotation annot : otherAnnots) {
+            if (annot instanceof PublishedMethod) {
+                return true;
+            }
+        }
+        return false;
+    }
     
 }
