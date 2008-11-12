@@ -113,6 +113,67 @@ public abstract class AbstractManagerTest {
         }
     }
 
+    /**
+     * If a {@link IBioclipseManager} method <code>foo(IFile)</code>
+     * annotated with {link Job} exists, then there must also be a method in the
+     * matching {@link BioclipseManager} which takes an IFile, an IProgressMonitor
+     * and an IRunnable parameter, <code>foo(IFile, IProgressMonitor, IRunnable)</code>.
+     */
+    @Test public void testForFooJobImplementations() {
+        IBioclipseManager manager = getManager();
+        Class managerInterface = getManagerInterface(manager);
+        Method[] methods = managerInterface.getMethods();
+        for (Method method : methods) {
+            Class[] parameters = method.getParameterTypes();
+            if (parameters.length == 1 && isJob(method) &&
+                (parameters[0].getName().equals(IFile.class.getName()))) {
+                // OK, found a foo(IFile)
+                boolean foundMatchingImplementation = false;
+                Method[] otherMethods = manager.getClass().getMethods();
+                for (Method otherMethod : methods) {
+                    Class[] otherParameters = otherMethod.getParameterTypes();
+                    if (otherParameters.length == 3 &&
+                        (otherParameters[0].getName().equals(IFile.class.getName())) &&
+                        (otherParameters[1].getName().equals(IProgressMonitor.class.getName())) &&
+                        (otherParameters[2].getName().equals(Runnable.class.getName()))) {
+                        foundMatchingImplementation = true;
+                    }
+                }
+                Assert.assertTrue(
+                    managerInterface.getName() + " method " + method.getName() +
+                    "(IFile) annotation with @Job does not have the required matching " +
+                    manager.getClass().getName() + " method " +
+                    method.getName() +"(IFile, IProgressMonitor, IRunnable).",
+                    foundMatchingImplementation
+                );
+            }
+        }
+    }
+
+    /**
+     * If a {@link IBioclipseManager} method <code>foo(IFile)</code>
+     * annotated with {link Job} exists, then there must also be a method in the
+     * matching {@link BioclipseManager} which takes an IFile, an IProgressMonitor
+     * and an IRunnable parameter, <code>foo(IFile, IProgressMonitor, IRunnable)</code>.
+     */
+    @Test public void testForFooIFileReturnsVoid() {
+        IBioclipseManager manager = getManager();
+        Class managerInterface = getManagerInterface(manager);
+        Method[] methods = managerInterface.getMethods();
+        for (Method method : methods) {
+            Class[] parameters = method.getParameterTypes();
+            if (parameters.length == 1 && isJob(method) &&
+                (parameters[0].getName().equals(IFile.class.getName()))) {
+                // OK, found a foo(IFile)
+                Assert.assertTrue(
+                    managerInterface.getName() + " method " + method.getName() +
+                    "(IFile) annotation with @Job must return void",
+                    method.getReturnType() == null
+                );
+            }
+        }
+    }
+
     private Class getManagerInterface(IBioclipseManager manager) {
         Class[] interfaces = manager.getClass().getInterfaces();
         String managerName = manager.getClass().getName();
