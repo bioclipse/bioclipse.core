@@ -14,8 +14,10 @@ package net.bioclipse.cdk.jchempaint.business.test;
 
 import net.bioclipse.cdk.jchempaint.business.IJChemPaintManager;
 import net.bioclipse.cdk.jchempaint.business.JChemPaintManager;
+import net.bioclipse.core.business.IBioclipseManager;
+import net.bioclipse.core.tests.AbstractManagerTest;
 
-public class JChemPaintManagerTest {
+public class JChemPaintManagerTest extends AbstractManagerTest {
 
     IJChemPaintManager cdk;
 
@@ -23,6 +25,10 @@ public class JChemPaintManagerTest {
     //since we are only testing the implementations of the manager methods
     public JChemPaintManagerTest() {
         cdk = new JChemPaintManager();
+    }
+
+    public IBioclipseManager getManager() {
+        return cdk;
     }
 
 }
