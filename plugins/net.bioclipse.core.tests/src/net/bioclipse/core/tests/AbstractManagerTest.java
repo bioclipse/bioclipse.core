@@ -120,7 +120,6 @@ public abstract class AbstractManagerTest {
         String managerClass = managerName.substring(managerPkg.length()+1);
         String expectedName = managerPkg + ".I" + managerClass;
         for (Class interfaz : interfaces) {
-            System.out.println("Expected name " + expectedName);
             if (interfaz.getName().equals(expectedName))
                 return interfaz;
         }
