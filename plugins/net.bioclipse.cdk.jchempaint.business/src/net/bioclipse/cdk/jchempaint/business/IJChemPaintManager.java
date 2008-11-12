@@ -13,7 +13,7 @@ package net.bioclipse.cdk.jchempaint.business;
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
-import net.bioclipse.core.TestClass;
+import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.business.IBioclipseManager;
 
 import org.openscience.cdk.interfaces.IAtom;
@@ -24,7 +24,7 @@ import org.openscience.cdk.interfaces.IAtom;
  * @author egonw
  */
 @PublishedClass ("Manager for the JChemPaintEditor scripting language." )
-@TestClass("net.bioclipse.cdk.jchempaint.business.test.JChemPaintManagerTest")
+@TestClasses("net.bioclipse.cdk.jchempaint.business.test.JChemPaintManagerTest")
 public interface IJChemPaintManager extends IBioclipseManager {
 
     @Recorded
