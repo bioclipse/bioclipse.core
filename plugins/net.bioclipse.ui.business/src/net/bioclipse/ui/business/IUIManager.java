@@ -14,6 +14,7 @@ package net.bioclipse.ui.business;
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
+import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.business.IBioclipseManager;
 
 import org.eclipse.core.resources.IFile;
@@ -26,6 +27,7 @@ import org.eclipse.core.resources.IFile;
  *
  */
 @PublishedClass(value = "Controls access to Bioclipse UI.")
+@TestClasses("net.bioclipse.ui.business.tests.UIManagerTest")
 public interface IUIManager extends IBioclipseManager {
 
     @Recorded

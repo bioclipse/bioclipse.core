@@ -28,7 +28,6 @@ import org.eclipse.ui.ide.IDE;
  * user interface (GUI).
  * 
  * @author masak
- *
  */
 public class UIManager implements IUIManager {
 
