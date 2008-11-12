@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Scripting UI Tests
+Bundle-SymbolicName: net.bioclipse.scripting.ui.tests
+Bundle-Version: 1.3.1
+Bundle-Activator: net.bioclipse.scripting.ui.tests.Activator
+Bundle-Vendor: The Bioclipse Team
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.junit4,
+ net.bioclipse.core,
+ org.eclipse.core.resources,
+ net.bioclipse.core.tests;bundle-version="0.1.0",
+ net.bioclipse.scripting.ui;bundle-version="2.0.0"
+Bundle-ActivationPolicy: lazy
+Export-Package: net.bioclipse.scripting.ui.tests
