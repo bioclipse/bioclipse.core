@@ -17,13 +17,13 @@ import net.bioclipse.core.tests.AbstractManagerTest;
 import net.bioclipse.ui.business.IUIManager;
 import net.bioclipse.ui.business.UIManager;
 
-public class JmolManagerTest extends AbstractManagerTest {
+public class UIManagerTest extends AbstractManagerTest {
 
     IUIManager ui;
 
     //Do not use SPRING OSGI for this manager
     //since we are only testing the implementations of the manager methods
-    public JmolManagerTest() {
+    public UIManagerTest() {
         ui = new UIManager();
     }
 
