@@ -10,6 +10,8 @@
  ******************************************************************************/
 package net.bioclipse.cdk.jchempaint.business;
 
+import javax.vecmath.Point2d;
+
 import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
@@ -18,7 +20,9 @@ import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.business.IBioclipseManager;
 
+import org.openscience.cdk.controller.IController2DModel;
 import org.openscience.cdk.interfaces.IAtom;
+import org.openscience.cdk.interfaces.IBond;
 
 /**
  * Manager for the JChemPaintEditor scripting language.
@@ -32,10 +36,18 @@ public interface IJChemPaintManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod ( params = "Point2d worldCoordinate", 
                        methodSummary = "Returns the IAtom closest to the world coordinate." )
-    public IAtom getClosestAtom(double x, double y);
+    public IAtom getClosestAtom(Point2d worldCoord);
 
     @Recorded
     @PublishedMethod ( methodSummary = "Returns the ICDKMolecule of the active JChemPaint editor." )
     public ICDKMolecule getModel() throws BioclipseException;
     
+    public void removeAtom(IAtom atom);
+
+    public IBond getClosestBond(Point2d worldCoord);
+
+    public void updateView();
+
+    public void addAtom(String atomType, Point2d worldcoord);
+
 }

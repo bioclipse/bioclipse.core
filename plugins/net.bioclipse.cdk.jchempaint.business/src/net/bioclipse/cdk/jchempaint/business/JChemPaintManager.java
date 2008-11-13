@@ -23,7 +23,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.openscience.cdk.controller.IChemModelRelay;
+import org.openscience.cdk.controller.IController2DModel;
 import org.openscience.cdk.interfaces.IAtom;
+import org.openscience.cdk.interfaces.IBond;
 
 /**
  * @author egonw
@@ -33,11 +35,11 @@ public class JChemPaintManager implements IJChemPaintManager {
     /** Not to be used by manager method directly, but is just needed for the syncRun() call. */
     private JChemPaintEditor jcpEditor;
 
-    public IAtom getClosestAtom(double x, double y) {
+    public IAtom getClosestAtom(Point2d worldCoord) {
         JChemPaintEditor editor = findActiveEditor();
         if (editor != null) {
             IChemModelRelay relay = editor.getControllerHub();
-            return relay.getClosestAtom(new Point2d(x,y));
+            return relay.getClosestAtom(worldCoord);
         } else {
             Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
             return null;
@@ -77,6 +79,23 @@ public class JChemPaintManager implements IJChemPaintManager {
             throw new BioclipseException("No active JChemPaint editor found.");
         }
         return editor.getCDKMolecule();
+    }
+
+    public void addAtom(String atomType, Point2d worldcoord) {
+        Activator.getDefault().getJsConsoleManager().say("No implemented yet");
+    }
+
+    public IBond getClosestBond(Point2d worldCoord) {
+        Activator.getDefault().getJsConsoleManager().say("No implemented yet");
+        return null;
+    }
+
+    public void removeAtom( IAtom atom ) {
+        Activator.getDefault().getJsConsoleManager().say("No implemented yet");
+    }
+
+    public void updateView() {
+        Activator.getDefault().getJsConsoleManager().say("No implemented yet");
     }
 
 }

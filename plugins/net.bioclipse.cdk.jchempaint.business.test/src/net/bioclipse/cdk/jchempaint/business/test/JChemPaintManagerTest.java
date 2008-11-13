@@ -13,6 +13,8 @@
 package net.bioclipse.cdk.jchempaint.business.test;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.bioclipse.cdk.jchempaint.business.IJChemPaintManager;
 import net.bioclipse.cdk.jchempaint.business.JChemPaintManager;
@@ -25,7 +27,15 @@ import org.junit.Test;
 public class JChemPaintManagerTest extends AbstractManagerTest {
 
     IJChemPaintManager cdk;
-
+    
+    private final static List<String> methodBlackList = new ArrayList<String>();
+    
+    static {
+        methodBlackList.add("getIJava2DRenderer");
+        methodBlackList.add("getIChemModel");
+        methodBlackList.add("getController2DModel");
+    }
+    
     //Do not use SPRING OSGI for this manager
     //since we are only testing the implementations of the manager methods
     public JChemPaintManagerTest() {
@@ -40,17 +50,19 @@ public class JChemPaintManagerTest extends AbstractManagerTest {
         Class hub = this.getClass().getClassLoader().loadClass("org.openscience.cdk.controller.IChemModelRelay");
         Assert.assertNotNull("Could not load the IChemModelRelay", hub);
         for (Method method : hub.getMethods()) {
-            Method matchingMethod = getMatchingMethod(cdk.getClass(), method);
-            Assert.assertNotNull(
-                "The JChemPaintManager does not implement the IChemModelRelay method " +
-                method.getName(), matchingMethod
-            );
-            Assert.assertEquals(
-                "The IChemModelRelay method " + method.getName() + " must have the return " +
-                "type " + method.getReturnType().getName(),
-                method.getReturnType().getName(),
-                matchingMethod.getReturnType().getName()
-            );
+            if (!methodBlackList.contains(method.getName())) {
+                Method matchingMethod = getMatchingMethod(cdk.getClass(), method);
+                Assert.assertNotNull(
+                     "The JChemPaintManager does not implement the IChemModelRelay method " +
+                     method.getName(), matchingMethod
+                );
+                Assert.assertEquals(
+                     "The IChemModelRelay method " + method.getName() + " must have the return " +
+                     "type " + method.getReturnType().getName(),
+                     method.getReturnType().getName(),
+                     matchingMethod.getReturnType().getName()
+                );
+            }
         }
     }
     
