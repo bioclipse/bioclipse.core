@@ -23,8 +23,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.openscience.cdk.controller.IChemModelRelay;
-import org.openscience.cdk.controller.IController2DModel;
 import org.openscience.cdk.interfaces.IAtom;
+import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IBond;
 
 /**
@@ -81,6 +81,17 @@ public class JChemPaintManager implements IJChemPaintManager {
         return editor.getCDKMolecule();
     }
 
+    public void setModel(ICDKMolecule molecule) throws BioclipseException {
+        if (molecule == null) {
+            throw new BioclipseException("Input is null.");
+        }
+        JChemPaintEditor editor = findActiveEditor();
+        if (editor == null) {
+            throw new BioclipseException("No active JChemPaint editor found.");
+        }
+        editor.setInput(molecule);
+    }
+
     public void addAtom(String atomType, Point2d worldcoord) {
         Activator.getDefault().getJsConsoleManager().say("No implemented yet");
     }
@@ -90,8 +101,15 @@ public class JChemPaintManager implements IJChemPaintManager {
         return null;
     }
 
-    public void removeAtom( IAtom atom ) {
-        Activator.getDefault().getJsConsoleManager().say("No implemented yet");
+    public void removeAtom(IAtom atomToRemove) throws BioclipseException {
+        ICDKMolecule molecule = getModel();
+        IAtomContainer container = molecule.getAtomContainer();
+        for (IAtom atom : container.atoms()) {
+            if (atom == atomToRemove) {
+                container.removeAtomAndConnectedElectronContainers(atom);
+                return;
+            }
+        }
     }
 
     public void updateView() {

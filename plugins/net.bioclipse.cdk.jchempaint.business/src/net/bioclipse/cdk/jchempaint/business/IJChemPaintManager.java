@@ -42,7 +42,11 @@ public interface IJChemPaintManager extends IBioclipseManager {
     @PublishedMethod ( methodSummary = "Returns the ICDKMolecule of the active JChemPaint editor." )
     public ICDKMolecule getModel() throws BioclipseException;
     
-    public void removeAtom(IAtom atom);
+    @Recorded
+    @PublishedMethod ( methodSummary = "Sets the ICDKMolecule of the active JChemPaint editor." )
+    public void setModel(ICDKMolecule molecule) throws BioclipseException;
+
+    public void removeAtom(IAtom atom) throws BioclipseException;
 
     public IBond getClosestBond(Point2d worldCoord);
 
