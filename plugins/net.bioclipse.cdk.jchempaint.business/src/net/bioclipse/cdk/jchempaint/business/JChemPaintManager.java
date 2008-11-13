@@ -14,7 +14,9 @@ package net.bioclipse.cdk.jchempaint.business;
 
 import javax.vecmath.Point2d;
 
+import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.cdk.jchempaint.editor.JChemPaintEditor;
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.scripting.ui.Activator;
 
 import org.eclipse.swt.widgets.Display;
@@ -60,12 +62,21 @@ public class JChemPaintManager implements IJChemPaintManager {
                                 .getActiveWorkbenchWindow()
                                 .getActivePage()
                                 .getActiveEditor();
+                System.out.println("Editor: " + activeEditor.getClass().getName());
                 if (activeEditor instanceof JChemPaintEditor) {
                     setActiveEditor((JChemPaintEditor)activeEditor);
                 }
             }
         });
         return jcpEditor;
+    }
+
+    public ICDKMolecule getModel() throws BioclipseException {
+        JChemPaintEditor editor = findActiveEditor();
+        if (editor == null) {
+            throw new BioclipseException("No active JChemPaint editor found.");
+        }
+        return editor.getCDKMolecule();
     }
 
 }

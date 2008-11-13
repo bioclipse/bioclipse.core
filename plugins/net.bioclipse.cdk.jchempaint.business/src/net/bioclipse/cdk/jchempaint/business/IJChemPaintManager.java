@@ -10,10 +10,12 @@
  ******************************************************************************/
 package net.bioclipse.cdk.jchempaint.business;
 
+import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.TestClasses;
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.business.IBioclipseManager;
 
 import org.openscience.cdk.interfaces.IAtom;
@@ -31,4 +33,9 @@ public interface IJChemPaintManager extends IBioclipseManager {
     @PublishedMethod ( params = "Point2d worldCoordinate", 
                        methodSummary = "Returns the IAtom closest to the world coordinate." )
     public IAtom getClosestAtom(double x, double y);
+
+    @Recorded
+    @PublishedMethod ( methodSummary = "Returns the ICDKMolecule of the active JChemPaint editor." )
+    public ICDKMolecule getModel() throws BioclipseException;
+    
 }
