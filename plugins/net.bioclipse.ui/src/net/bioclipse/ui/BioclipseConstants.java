@@ -21,5 +21,6 @@ package net.bioclipse.ui;
 public class BioclipseConstants {
 
 	public static final String UPDATE_SITE = "http://update2.bioclipse.net";
+	public static final String SPECLIPSE_UPDATE_SITE = "http://www.ebi.ac.uk/steinbeck-srv/speclipse/net.bioclipse.speclipse-updatesite/";
 
 }
