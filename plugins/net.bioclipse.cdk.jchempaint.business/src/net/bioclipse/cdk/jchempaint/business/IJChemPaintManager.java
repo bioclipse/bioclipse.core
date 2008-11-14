@@ -54,6 +54,10 @@ public interface IJChemPaintManager extends IBioclipseManager {
 
     public void addAtom(String atomType, Point2d worldcoord);
 
+    @PublishedMethod(
+         params = "double x coordinate, double y coordinate",
+         methodSummary = "Creates a new javax.vecmath.Point2d."
+    )
     public Point2d newPoint2d(double x, double y);
 
 }
