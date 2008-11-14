@@ -2,46 +2,8 @@
 <?eclipse version="3.0"?>
 <plugin>
 
-	<extension
-         point="net.bioclipse.scripting.contribution">
-    	 <scriptContribution
-        	id="net.bioclipse.cml.ValidateCMLManager"
-            service="net.bioclipse.cml.managers.ValidateCMLManagerFactory">
-      	</scriptContribution>
-   </extension>
-
-	<extension
-    	point="org.eclipse.help.toc">
-		<toc
-        	file="toc.xml"
-         	primary="true"/>
+	<extension point="org.eclipse.help.toc">
+		<toc file="toc.xml" primary="true"/>
 	</extension>
-	
-    <extension point="org.eclipse.ui.popupMenus">
-    <objectContribution
-      id="net.bioclipse.cml.validateCml"
-      objectClass="org.eclipse.core.resources.IFile">
-        <!--visibility>
-           <objectState
-             name="contentTypeId"
-             value="net.bioclipse.contenttypes.cml"/>
-        </visibility-->
-         <action
-           class="net.bioclipse.cml.handlers.CMLValidationHandler"
-           id="net.bioclipse.cml.actions.validateCml"
-           label="Validate CML"
-           menubarPath="additions"> 
-         </action>
-    </objectContribution>
-   </extension>
-	
 
-	<!--extension
-       	point="net.bioclipse.childResourceExtractor">
-    	<ChildResourceExtractor
-          class="net.bioclipse.extensions.CMLChildResourceCreator"
-          id="bioclipse.CMLChildResourceCreator"
-          name="CML Child Resource Creator"/>
- 	</extension-->
- 	
 </plugin>
