@@ -14,7 +14,7 @@ public class EncryptedPassword {
         return null;
     }
     
-    public static EncryptedPassword fromPlainTextPasswordString(String s) {
+    public static EncryptedPassword fromPlaintextPasswordString(String s) {
         return null;
     }
     

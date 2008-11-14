@@ -27,7 +27,7 @@ public class EncryptedPasswordTest {
 
         final String PSWD = "secretest password"; 
         EncryptedPassword encryptedPassword 
-            = EncryptedPassword.fromPlainTextPasswordString( PSWD );
+            = EncryptedPassword.fromPlaintextPasswordString( PSWD );
         String pswd = encryptedPassword.toString();
         
         encryptedPassword = EncryptedPassword
