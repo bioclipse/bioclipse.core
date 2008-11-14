@@ -27,14 +27,14 @@ public class EncryptedPasswordTest {
 
         final String PSWD = "secretest password"; 
         EncryptedPassword encryptedPassword 
-            = EncryptedPassword.fromPlaintextPasswordString( PSWD );
+            = EncryptedPassword.fromPlaintextPassword( PSWD );
         assertTrue( encryptedPassword.matches( PSWD ) );
         
         String pswd = encryptedPassword.toString();
         assertFalse( pswd.equals( PSWD ) );
         
-        encryptedPassword = EncryptedPassword
-                                .fromEncryptedPasswordString( pswd );
+        encryptedPassword
+            = EncryptedPassword.fromAlreadyEncryptedPassword( pswd );
         assertTrue( encryptedPassword.matches( PSWD ) );
     }
 }
