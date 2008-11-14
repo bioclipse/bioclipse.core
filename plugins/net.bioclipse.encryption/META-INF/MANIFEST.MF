@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Encryption Plug-in
+Bundle-SymbolicName: net.bioclipse.encryption
+Bundle-Version: 0.1.0
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
