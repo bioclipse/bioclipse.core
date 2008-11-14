@@ -11,17 +11,18 @@
  ******************************************************************************/
 package net.bioclipse.encryption;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
 
-/**
- * @author jonalv
- *
- */
-@RunWith(value=Suite.class)
-@SuiteClasses( value = { EncryptedPasswordTest.class,
-                         EncrypterTest.class } )
-public class AllEncryptionTests {
+public class Encrypter {
 
+    public Encrypter( String key ) {
+        
+    }
+    
+    public String encrypt(String toBeEncrypted) {
+        return "";
+    }
+    
+    public String decrypt( String encrypted) {
+        return "";
+    }
 }
