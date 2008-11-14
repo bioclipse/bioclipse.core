@@ -683,7 +683,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
             // Line breaks only between lines, and only in the absence of
             // natural ones.
             if (currentPos < text.length()
-                && text.substring(currentPos-1, NEWLINE.length()) != NEWLINE)
+                && !text.substring(currentPos-NEWLINE.length(),
+                                   currentPos).equals(NEWLINE))
                 result.append(NEWLINE);
             
             // And we can live without the spaces at which we chose to break.
