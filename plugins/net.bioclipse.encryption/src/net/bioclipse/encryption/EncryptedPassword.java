@@ -1,5 +1,11 @@
 package net.bioclipse.encryption;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import org.apache.commons.codec.binary.Base64;
+
 public class EncryptedPassword {
     private String encryptedPassword;
     
@@ -7,10 +13,24 @@ public class EncryptedPassword {
         this.encryptedPassword = encryptedPassword;
     }
     
-    private static String encrypt(String cleartext) {
-        return "s1kkr1t" + cleartext;
+    public static String encrypt(String plaintext)
+                         throws IllegalStateException {
+        
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA");
+            md.update(plaintext.getBytes("UTF-8"));
+        }
+        catch(NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
+        catch(UnsupportedEncodingException e) {
+            throw new IllegalStateException(e);
+        }
+
+        return new String( new Base64().encode(md.digest()) );
     }
-    
+
     public boolean matches(String cleartextPassword) {
         return encryptedPassword != null
                && encryptedPassword.equals( encrypt(cleartextPassword) );
