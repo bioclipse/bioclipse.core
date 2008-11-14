@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Chemical Markup Language XOM
 Bundle-SymbolicName: org.xmlcml.cmlxom;singleton:=true
 Bundle-Version: 2.0.0.A20081028
-Bundle-Localization: plugin
 Require-Bundle: net.bioclipse.xom;bundle-version="1.2.0",
  org.eclipse.core.runtime
 Bundle-ClassPath: .,
@@ -11,6 +10,7 @@ Bundle-ClassPath: .,
 Bundle-Activator: net.bioclipse.cml.managers.Activator
 Eclipse-AutoStart: true
 Bundle-Vendor: The Bioclipse Team
+Import-Package: org.apache.log4j
 Export-Package: org.xmlcml.cml.attribute,
  org.xmlcml.cml.attribute.main,
  org.xmlcml.cml.base,
