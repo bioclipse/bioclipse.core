@@ -54,4 +54,6 @@ public interface IJChemPaintManager extends IBioclipseManager {
 
     public void addAtom(String atomType, Point2d worldcoord);
 
+    public Point2d newPoint2d(double x, double y);
+
 }

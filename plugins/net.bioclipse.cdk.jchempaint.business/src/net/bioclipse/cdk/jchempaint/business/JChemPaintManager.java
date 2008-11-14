@@ -129,4 +129,8 @@ public class JChemPaintManager implements IJChemPaintManager {
             editor.setInput(molecule);
         }
     }
+
+    public Point2d newPoint2d( double x, double y ) {
+        return new Point2d(x, y);
+    }
 }
