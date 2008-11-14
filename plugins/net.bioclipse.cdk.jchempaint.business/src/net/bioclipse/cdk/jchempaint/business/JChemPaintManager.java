@@ -89,7 +89,7 @@ public class JChemPaintManager implements IJChemPaintManager {
         if (editor == null) {
             throw new BioclipseException("No active JChemPaint editor found.");
         }
-        editor.setInput(molecule);
+        Display.getDefault().asyncExec(new SetInputRunnable(editor, molecule));
     }
 
     public void addAtom(String atomType, Point2d worldcoord) {
@@ -116,4 +116,17 @@ public class JChemPaintManager implements IJChemPaintManager {
         Activator.getDefault().getJsConsoleManager().say("No implemented yet");
     }
 
+    class SetInputRunnable implements Runnable {
+        ICDKMolecule molecule;
+        JChemPaintEditor editor;
+
+        public SetInputRunnable(JChemPaintEditor editor, ICDKMolecule molecule) {
+            this.molecule = molecule;
+            this.editor = editor;
+        }
+
+        public void run() {
+            editor.setInput(molecule);
+        }
+    }
 }
