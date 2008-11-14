@@ -24,7 +24,6 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.openscience.cdk.controller.IChemModelRelay;
 import org.openscience.cdk.interfaces.IAtom;
-import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.interfaces.IBond;
 
 /**
@@ -93,27 +92,43 @@ public class JChemPaintManager implements IJChemPaintManager {
     }
 
     public void addAtom(String atomType, Point2d worldcoord) {
-        Activator.getDefault().getJsConsoleManager().say("No implemented yet");
+        JChemPaintEditor editor = findActiveEditor();
+        if (editor != null) {
+            IChemModelRelay relay = editor.getControllerHub();
+            relay.addAtom(atomType, worldcoord);
+        } else {
+            Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
+        }
     }
 
     public IBond getClosestBond(Point2d worldCoord) {
-        Activator.getDefault().getJsConsoleManager().say("No implemented yet");
-        return null;
+        JChemPaintEditor editor = findActiveEditor();
+        if (editor != null) {
+            IChemModelRelay relay = editor.getControllerHub();
+            return relay.getClosestBond(worldCoord);
+        } else {
+            Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
+            return null;
+        }
     }
 
-    public void removeAtom(IAtom atomToRemove) throws BioclipseException {
-        ICDKMolecule molecule = getModel();
-        IAtomContainer container = molecule.getAtomContainer();
-        for (IAtom atom : container.atoms()) {
-            if (atom == atomToRemove) {
-                container.removeAtomAndConnectedElectronContainers(atom);
-                return;
-            }
+    public void removeAtom(IAtom atom) {
+        JChemPaintEditor editor = findActiveEditor();
+        if (editor != null) {
+            IChemModelRelay relay = editor.getControllerHub();
+            relay.removeAtom(atom);
+        } else {
+            Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
         }
     }
 
     public void updateView() {
-        Activator.getDefault().getJsConsoleManager().say("No implemented yet");
+        PlatformUI.getWorkbench().getDisplay().syncExec( new Runnable() {
+            public void run() {
+                JChemPaintEditor editor = findActiveEditor();
+                if (editor != null) editor.update();
+            }
+        });
     }
 
     class SetInputRunnable implements Runnable {

@@ -20,7 +20,6 @@ import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.business.IBioclipseManager;
 
-import org.openscience.cdk.controller.IController2DModel;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IBond;
 
@@ -46,14 +45,30 @@ public interface IJChemPaintManager extends IBioclipseManager {
     @PublishedMethod ( methodSummary = "Sets the ICDKMolecule of the active JChemPaint editor." )
     public void setModel(ICDKMolecule molecule) throws BioclipseException;
 
+    @Recorded
+    @PublishedMethod ( params = "IAtom atom to remove",
+                       methodSummary = "Removes an IAtom from the data model." )
     public void removeAtom(IAtom atom) throws BioclipseException;
 
+    @Recorded
+    @PublishedMethod ( params = "Point2d worldCoordinate",
+                       methodSummary = "Returns the IBond closest to the world coordinate." )
     public IBond getClosestBond(Point2d worldCoord);
 
+    @Recorded
+    @PublishedMethod(
+         methodSummary = "Refreshes the JChemPaint view screen."
+    )
     public void updateView();
 
+    @Recorded
+    @PublishedMethod(
+         params = "String element symbol, Point2d world coordinate",
+         methodSummary = "Adds a new atom at the given coordinates."
+    )
     public void addAtom(String atomType, Point2d worldcoord);
 
+    @Recorded
     @PublishedMethod(
          params = "double x coordinate, double y coordinate",
          methodSummary = "Creates a new javax.vecmath.Point2d."
