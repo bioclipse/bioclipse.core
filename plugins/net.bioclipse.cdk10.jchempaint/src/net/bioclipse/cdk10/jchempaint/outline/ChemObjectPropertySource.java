@@ -62,7 +62,7 @@ public class ChemObjectPropertySource extends BasicPropertySource {
         
         //Bond specific
         protected static final String BOND_ORDER = "Bond order";
-
+        protected static final String BOND_AROM = "Bond aromaticity";
 
         private Object ChemObjectPropertiesTable[][] =
         {
@@ -106,6 +106,7 @@ public class ChemObjectPropertySource extends BasicPropertySource {
         private Object BondPropertiesTable[][] = 
         {
             { BOND_ORDER, new TextPropertyDescriptor(BOND_ORDER,"Order")},
+            { BOND_AROM, new TextPropertyDescriptor(BOND_AROM,"Aromaticity")},
         };  
 
 
@@ -217,6 +218,7 @@ public class ChemObjectPropertySource extends BasicPropertySource {
 
             //Build the hashmap of property->value pair
             addToValueMap(BOND_ORDER,String.valueOf(bond.getOrder()));
+            addToValueMap(BOND_AROM,String.valueOf(bond.getFlag(CDKConstants.ISAROMATIC) ? "yes" : "no"));
           }   
         
           //======
