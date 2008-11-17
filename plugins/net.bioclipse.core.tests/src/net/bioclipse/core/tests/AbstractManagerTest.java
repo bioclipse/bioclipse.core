@@ -174,6 +174,50 @@ public abstract class AbstractManagerTest {
         }
     }
 
+    /**
+     * If a published method has parameters, e.g. <code>foo(IFile)</code>, then
+     * the PublishedMethod annotation should have a filled out params field.
+     */
+    @Test public void testParameterHelp() {
+        IBioclipseManager manager = getManager();
+        Class managerInterface = getManagerInterface(manager);
+        Method[] methods = managerInterface.getMethods();
+        for (Method method : methods) {
+            if (isPublished(method)) {
+                String parameterHelp = method.getAnnotation(PublishedMethod.class).params();
+                Assert.assertNotNull(parameterHelp);
+                Assert.assertNotNull(
+                    managerInterface.getName() + " method " + method.getName() +
+                    " has parameters, but does not provide help with the" +
+                    " params field of PublishedMethod.",
+                    parameterHelp.length() != 0
+                );
+            }
+        }
+    }
+
+    /**
+     * If a published method has parameters, e.g. <code>foo(IFile)</code>, then
+     * the PublishedMethod annotation should have a filled out params field.
+     */
+    @Test public void testMethodDescription() {
+        IBioclipseManager manager = getManager();
+        Class managerInterface = getManagerInterface(manager);
+        Method[] methods = managerInterface.getMethods();
+        for (Method method : methods) {
+            if (isPublished(method)) {
+                String sum = method.getAnnotation(PublishedMethod.class).methodSummary();
+                Assert.assertNotNull(sum);
+                Assert.assertNotNull(
+                    managerInterface.getName() + " method " + method.getName() +
+                    " has no method summary defined by PublishedMethod's " +
+                    "methodSummary field",
+                    sum.length() != 0
+                );
+            }
+        }
+    }
+
     private Class getManagerInterface(IBioclipseManager manager) {
         Class[] interfaces = manager.getClass().getInterfaces();
         String managerName = manager.getClass().getName();
