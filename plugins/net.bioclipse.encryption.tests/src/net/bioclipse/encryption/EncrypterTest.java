@@ -35,11 +35,11 @@ public class EncrypterTest {
     @Test
     public void encryptAndDecrypt() {
         encrypterDoesSomething();
-        assertEquals( text, encrypter.decrypt( encrypted ) );
+        assertEquals( text, encrypter.decrypt(encrypted) );
     }
     
     private String encryptText( String text ) {
         encrypter = new Encrypter(PSWD);
-        return encrypter.encrypt( text );
+        return encrypter.encrypt(text);
     }
 }
