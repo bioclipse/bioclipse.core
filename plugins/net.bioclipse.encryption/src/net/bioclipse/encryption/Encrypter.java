@@ -27,6 +27,8 @@ import javax.crypto.spec.PBEParameterSpec;
 
 import org.apache.commons.codec.binary.Base64;
 
+// See http://java.sun.com/j2se/1.4.2/docs/guide/security/jce/JCERefGuide.html
+// for the origins of the below code.
 
 public class Encrypter {
 
