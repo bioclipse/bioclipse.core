@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="jar/cdk-1.0.jar" sourcepath="net.bioclipse.cdk10src.zip"/>
+	<classpathentry kind="lib" path="jar/jumbo52.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
