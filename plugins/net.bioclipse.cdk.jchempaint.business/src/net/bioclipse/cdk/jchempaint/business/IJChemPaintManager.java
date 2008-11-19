@@ -75,4 +75,67 @@ public interface IJChemPaintManager extends IBioclipseManager {
     )
     public Point2d newPoint2d(double x, double y);
 
+    @Recorded
+    @PublishedMethod(
+         methodSummary = "Updates the implicit hydrogen counts, given the " +
+                         "given the current connectivity."
+    )
+    public void updateImplicitHydrogenCounts();
+
+    @Recorded
+    @PublishedMethod(
+         params = "IAtom atom to move, Point2D point where to move to", 
+         methodSummary = "Moves an atom to the given location."
+    )
+    public void moveTo(IAtom atom, Point2d point);
+
+    @Recorded
+    @PublishedMethod(
+         params = "IAtom atom to change, Symbol new element symbol", 
+         methodSummary = "Changes the element of this atom."
+    )
+    public void setSymbol(IAtom atom, String symbol);
+
+    @Recorded
+    @PublishedMethod(
+         params = "IAtom atom to change, int new formal charge", 
+         methodSummary = "Changes the formal charge of this atom."
+    )
+    public void setCharge(IAtom atom, int charge);
+
+    @Recorded
+    @PublishedMethod(
+         params = "IAtom atom to change, int new mass number", 
+         methodSummary = "Changes the mass number of this element."
+    )
+    public void setMassNumber(IAtom atom, int massNumber);
+
+    @Recorded
+    @PublishedMethod(
+         params = "IAtom first atom in the bond, IAtom second atom in the bond", 
+         methodSummary = "Create a new bond between the two given atoms."
+    )
+    public void addBond(IAtom fromAtom, IAtom toAtom);
+
+    @Recorded
+    @PublishedMethod(
+         params = "IBond bond to move, Point2d point to move the atom to", 
+         methodSummary = "Moves the center of the bond to the new point."
+    )
+    public void moveTo(IBond bond, Point2d point);
+
+    @Recorded
+    @PublishedMethod(
+         params = "IBond bond to change, IBond.Order new bond order", 
+         methodSummary = "Changes the order of the bond."
+    )
+    public void setOrder(IBond bond, IBond.Order order);
+
+    @Recorded
+    @PublishedMethod(
+         params = "IBond bond to change, int new wedge type", 
+         methodSummary = "Changes the wedge type of the bond."
+    )
+    public void setWedgeType(IBond bond, int type);
+
 }

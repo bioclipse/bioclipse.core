@@ -25,6 +25,7 @@ import org.eclipse.ui.PlatformUI;
 import org.openscience.cdk.controller.IChemModelRelay;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IBond;
+import org.openscience.cdk.interfaces.IBond.Order;
 
 /**
  * @author egonw
@@ -147,5 +148,95 @@ public class JChemPaintManager implements IJChemPaintManager {
 
     public Point2d newPoint2d( double x, double y ) {
         return new Point2d(x, y);
+    }
+
+    public void updateImplicitHydrogenCounts() {
+        JChemPaintEditor editor = findActiveEditor();
+        if (editor != null) {
+            IChemModelRelay relay = editor.getControllerHub();
+            relay.updateImplicitHydrogenCounts();
+        } else {
+            Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
+        }
+    }
+
+    public void addBond(IAtom fromAtom, IAtom toAtom) {
+        JChemPaintEditor editor = findActiveEditor();
+        if (editor != null) {
+            IChemModelRelay relay = editor.getControllerHub();
+            relay.addBond(fromAtom, toAtom);
+        } else {
+            Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
+        }
+    }
+
+    public void moveTo(IAtom atom, Point2d point) {
+        JChemPaintEditor editor = findActiveEditor();
+        if (editor != null) {
+            IChemModelRelay relay = editor.getControllerHub();
+            relay.moveTo(atom, point);
+        } else {
+            Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
+        }
+    }
+
+    public void moveTo(IBond bond, Point2d point) {
+        JChemPaintEditor editor = findActiveEditor();
+        if (editor != null) {
+            IChemModelRelay relay = editor.getControllerHub();
+            relay.moveTo(bond, point);
+        } else {
+            Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
+        }
+    }
+
+    public void setCharge( IAtom atom, int charge ) {
+        JChemPaintEditor editor = findActiveEditor();
+        if (editor != null) {
+            IChemModelRelay relay = editor.getControllerHub();
+            relay.setCharge(atom, charge);
+        } else {
+            Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
+        }
+    }
+
+    public void setMassNumber( IAtom atom, int massNumber ) {
+        JChemPaintEditor editor = findActiveEditor();
+        if (editor != null) {
+            IChemModelRelay relay = editor.getControllerHub();
+            relay.setMassNumber(atom, massNumber);
+        } else {
+            Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
+        }
+    }
+
+    public void setOrder( IBond bond, Order order ) {
+        JChemPaintEditor editor = findActiveEditor();
+        if (editor != null) {
+            IChemModelRelay relay = editor.getControllerHub();
+            relay.setOrder(bond, order);
+        } else {
+            Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
+        }
+    }
+
+    public void setSymbol( IAtom atom, String symbol ) {
+        JChemPaintEditor editor = findActiveEditor();
+        if (editor != null) {
+            IChemModelRelay relay = editor.getControllerHub();
+            relay.setSymbol(atom, symbol);
+        } else {
+            Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
+        }
+    }
+
+    public void setWedgeType( IBond bond, int type ) {
+        JChemPaintEditor editor = findActiveEditor();
+        if (editor != null) {
+            IChemModelRelay relay = editor.getControllerHub();
+            relay.setWedgeType(bond, type);
+        } else {
+            Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
+        }
     }
 }
