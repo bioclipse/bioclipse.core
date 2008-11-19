@@ -66,7 +66,14 @@ public interface IJChemPaintManager extends IBioclipseManager {
          params = "String element symbol, Point2d world coordinate",
          methodSummary = "Adds a new atom at the given coordinates."
     )
-    public void addAtom(String atomType, Point2d worldcoord);
+    public void addAtom(String elementSymbol, Point2d worldcoord);
+
+    @Recorded
+    @PublishedMethod(
+         params = "String element symbol, IAtom atom to attach the new atom too",
+         methodSummary = "Adds a new atom bonded to the given atom."
+    )
+    public void addAtom(String elementSymbol, IAtom atom);
 
     @Recorded
     @PublishedMethod(
