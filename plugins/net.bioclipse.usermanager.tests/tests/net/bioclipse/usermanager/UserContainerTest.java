@@ -253,7 +253,7 @@ public class UserContainerTest {
         logout();
         try {
             login();
-            fail("Shuold not get to log in with old password");
+            fail("Should not get to log in with old password");
         }
         catch(IllegalArgumentException e) {
             //this is what we want
@@ -432,7 +432,9 @@ public class UserContainerTest {
     
     @Test
     public void testAccountIdsByAccountTypeName() {
+        createMasterKey();
         login();
+        createAccount();
         assertTrue( userContainer
                     .getAccountIdsByAccountTypeName( ACCOUNTTYPE.getName() )
                     .contains(ACCOUNTID) );

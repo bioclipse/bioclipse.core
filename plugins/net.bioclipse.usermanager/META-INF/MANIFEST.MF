@@ -14,33 +14,14 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime.compatibility.auth,
  org.springframework.bundle.spring.aop,
  net.sf.cglib,
- net.bioclipse.logger
+ net.bioclipse.logger,
+ net.bioclipse.encryption;bundle-version="0.1.0"
 Eclipse-LazyStart: true
 Bundle-ClassPath: lib/commons-codec-1.3.jar,
  lib/commons-lang-2.3.jar,
- lib/icu4j_3_6_1.jar,
- .,
- jars/jasypt-1.3.jar
+ .
 Export-Package: net.bioclipse.actions,
  net.bioclipse.dialogs,
  net.bioclipse.usermanager,
  net.bioclipse.usermanager.business,
- net.bioclipse.usermanager.preferences,
- org.jasypt.commons,
- org.jasypt.digest,
- org.jasypt.digest.config,
- org.jasypt.encryption,
- org.jasypt.encryption.pbe,
- org.jasypt.encryption.pbe.config,
- org.jasypt.exceptions,
- org.jasypt.hibernate,
- org.jasypt.hibernate.encryptor,
- org.jasypt.hibernate.type,
- org.jasypt.salt,
- org.jasypt.springsecurity,
- org.jasypt.util.binary,
- org.jasypt.util.digest,
- org.jasypt.util.numeric,
- org.jasypt.util.password,
- org.jasypt.util.text,
- org.jasypt.web.pbeconfig
+ net.bioclipse.usermanager.preferences
