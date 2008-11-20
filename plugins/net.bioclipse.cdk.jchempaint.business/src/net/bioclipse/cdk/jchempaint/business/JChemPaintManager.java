@@ -262,4 +262,13 @@ public class JChemPaintManager implements IJChemPaintManager {
         updateView();
     }
 
+    public IBond.Order getBondOrder(int order) {
+        switch (order) {
+            case 1:  return IBond.Order.SINGLE;
+            case 2:  return IBond.Order.DOUBLE;
+            case 3:  return IBond.Order.TRIPLE;
+            case 4:  return IBond.Order.QUADRUPLE;
+            default: return null;
+        }
+    }
 }

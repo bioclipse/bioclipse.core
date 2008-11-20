@@ -144,5 +144,12 @@ public interface IJChemPaintManager extends IBioclipseManager {
          methodSummary = "Changes the wedge type of the bond."
     )
     public void setWedgeType(IBond bond, int type);
-
+    
+    @Recorded
+    @PublishedMethod(
+         params = "int order", 
+         methodSummary = "Returns a IBond.Order matching the given order."
+    )
+    public IBond.Order getBondOrder(int order);
+    
 }
