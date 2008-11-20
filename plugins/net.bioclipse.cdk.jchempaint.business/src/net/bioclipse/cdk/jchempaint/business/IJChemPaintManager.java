@@ -157,11 +157,18 @@ public interface IJChemPaintManager extends IBioclipseManager {
          methodSummary = "Deletes all atoms and bonds."
     )
     public void zap();
-    
+
     @Recorded
     @PublishedMethod(
          methodSummary = "Recalculates 2D coordinates for the complete molecule."
     )
     public void cleanup();
-    
+
+    @Recorded
+    @PublishedMethod(
+         params = "IAtom atom to add the ring to, int ring size",
+         methodSummary = "Adds a carbon ring of the given size to the given atom."
+    )
+    public void addRing(IAtom atom, int size);
+
 }

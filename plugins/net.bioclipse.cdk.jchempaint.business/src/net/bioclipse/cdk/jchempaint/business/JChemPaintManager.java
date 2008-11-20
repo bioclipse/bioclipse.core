@@ -284,6 +284,17 @@ public class JChemPaintManager implements IJChemPaintManager {
         updateView();
     }
 
+    public void addRing(IAtom atom, int size) {
+        JChemPaintEditor editor = findActiveEditor();
+        if (editor != null) {
+            IChemModelRelay relay = editor.getControllerHub();
+            relay.addRing(atom, size);
+        } else {
+            Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
+        }
+        updateView();
+    }
+
     public IBond.Order getBondOrder(int order) {
         switch (order) {
             case 1:  return IBond.Order.SINGLE;
