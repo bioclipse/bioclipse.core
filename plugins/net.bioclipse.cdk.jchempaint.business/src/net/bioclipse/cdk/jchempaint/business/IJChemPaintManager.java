@@ -151,5 +151,11 @@ public interface IJChemPaintManager extends IBioclipseManager {
          methodSummary = "Returns a IBond.Order matching the given order."
     )
     public IBond.Order getBondOrder(int order);
+
+    @Recorded
+    @PublishedMethod(
+         methodSummary = "Deletes all atoms and bonds."
+    )
+    public void zap();
     
 }
