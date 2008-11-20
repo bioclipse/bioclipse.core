@@ -100,6 +100,7 @@ public class JChemPaintManager implements IJChemPaintManager {
         } else {
             Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
         }
+        updateView();
     }
 
     public IBond getClosestBond(Point2d worldCoord) {
@@ -121,6 +122,7 @@ public class JChemPaintManager implements IJChemPaintManager {
         } else {
             Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
         }
+        updateView();
     }
 
     public void updateView() {
@@ -158,6 +160,7 @@ public class JChemPaintManager implements IJChemPaintManager {
         } else {
             Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
         }
+        updateView();
     }
 
     public void addBond(IAtom fromAtom, IAtom toAtom) {
@@ -168,6 +171,7 @@ public class JChemPaintManager implements IJChemPaintManager {
         } else {
             Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
         }
+        updateView();
     }
 
     public void moveTo(IAtom atom, Point2d point) {
@@ -178,6 +182,7 @@ public class JChemPaintManager implements IJChemPaintManager {
         } else {
             Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
         }
+        updateView();
     }
 
     public void moveTo(IBond bond, Point2d point) {
@@ -188,6 +193,7 @@ public class JChemPaintManager implements IJChemPaintManager {
         } else {
             Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
         }
+        updateView();
     }
 
     public void setCharge( IAtom atom, int charge ) {
@@ -198,6 +204,7 @@ public class JChemPaintManager implements IJChemPaintManager {
         } else {
             Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
         }
+        updateView();
     }
 
     public void setMassNumber( IAtom atom, int massNumber ) {
@@ -208,6 +215,7 @@ public class JChemPaintManager implements IJChemPaintManager {
         } else {
             Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
         }
+        updateView();
     }
 
     public void setOrder( IBond bond, Order order ) {
@@ -218,6 +226,7 @@ public class JChemPaintManager implements IJChemPaintManager {
         } else {
             Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
         }
+        updateView();
     }
 
     public void setSymbol( IAtom atom, String symbol ) {
@@ -228,6 +237,7 @@ public class JChemPaintManager implements IJChemPaintManager {
         } else {
             Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
         }
+        updateView();
     }
 
     public void setWedgeType( IBond bond, int type ) {
@@ -238,6 +248,7 @@ public class JChemPaintManager implements IJChemPaintManager {
         } else {
             Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
         }
+        updateView();
     }
 
     public void addAtom(String elementSymbol, IAtom atom) {
@@ -248,6 +259,7 @@ public class JChemPaintManager implements IJChemPaintManager {
         } else {
             Activator.getDefault().getJsConsoleManager().say("No opened JChemPaint editor");
         }
+        updateView();
     }
 
 }
