@@ -158,4 +158,10 @@ public interface IJChemPaintManager extends IBioclipseManager {
     )
     public void zap();
     
+    @Recorded
+    @PublishedMethod(
+         methodSummary = "Recalculates 2D coordinates for the complete molecule."
+    )
+    public void cleanup();
+    
 }
