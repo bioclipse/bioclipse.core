@@ -313,40 +313,25 @@ IWorkbenchPreferencePage {
 		Iterator<String[]> it=appList2.iterator();
 		String ret="";
 		
-		//TODO: update to handle short and empty strings
+		// TODO: update to handle short and empty strings
 		
 		while (it.hasNext()){
 			String[] str=(String[]) it.next();
 			String singleRet="";
 			for (int i=0; i<str.length;i++){
-				singleRet=singleRet+str[i]+IPreferenceConstants.PREFERENCES_DELIMITER;
+				singleRet = singleRet + str[i];
+				if ((i+1)<str.length) { // there is another column
+				    singleRet += IPreferenceConstants.PREFERENCES_DELIMITER;
+				}
 			}
-			singleRet=removeLastDelimiter(singleRet);
-			ret=ret + singleRet + IPreferenceConstants.PREFERENCES_OBJECT_DELIMITER;
+			ret=ret + singleRet;
+			if (it.hasNext()) { // there is another row
+			    ret += IPreferenceConstants.PREFERENCES_OBJECT_DELIMITER;
+			}
 		}
-		ret=removeLastDelimiter(ret);
 		return ret;
 	}
 
-	/**
-	 * @param singleRet
-	 */
-	private String removeLastDelimiter(String singleRet) {
-//		logger.debug("before removal: " + singleRet);
-		
-		if (singleRet.length()==0) return "";
-		
-		if ((singleRet.substring(singleRet.length()-1,singleRet.length()).equals(IPreferenceConstants.PREFERENCES_DELIMITER))
-		|| (singleRet.substring(singleRet.length()-1,singleRet.length()).equals(IPreferenceConstants.PREFERENCES_OBJECT_DELIMITER)))
-		{
-			//Remove last sign in string
-			singleRet=singleRet.substring(0,singleRet.length()-1);
-		}
-//		logger.debug("after removal: " + singleRet);
-		return singleRet;
-	}
-
-	
     protected void performDefaults() {
         super.performDefaults();
 
