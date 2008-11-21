@@ -12,10 +12,13 @@
  ******************************************************************************/
 package net.bioclipse.ui.business;
 
+import java.io.InputStream;
+
 import net.bioclipse.core.ResourcePathTransformer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPage;
@@ -67,4 +70,36 @@ public class UIManager implements IUIManager {
     public void open( String filePath ) {
         open(ResourcePathTransformer.getInstance().transform( filePath ));
     }
+
+    public void save(String filePath, InputStream toWrite) {
+        save(
+            ResourcePathTransformer.getInstance().transform( filePath ),
+            toWrite, null, null
+        );
+    }
+
+    public void save(final IFile target, InputStream toWrite,
+                     IProgressMonitor monitor, Runnable callbackFunction) {
+        if (monitor == null) monitor = new NullProgressMonitor();
+        try {
+            int ticks = 10000;
+            monitor.beginTask("Writing file", ticks);
+            if (target.exists()) {
+                target.setContents(toWrite, false, true, monitor);
+            } else {
+                target.create(toWrite, false, monitor);
+            }
+            monitor.worked(ticks);
+        } catch (Exception exception) {
+            throw new RuntimeException(
+                "Error while saving to IFile", exception
+            );
+        } finally {
+            monitor.done();
+        }
+        if (callbackFunction != null) {
+            Display.getDefault().asyncExec(callbackFunction);
+        }
+    }
+
 }

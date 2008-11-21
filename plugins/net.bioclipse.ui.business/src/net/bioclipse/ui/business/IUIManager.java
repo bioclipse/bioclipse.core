@@ -11,6 +11,8 @@
  ******************************************************************************/
 package net.bioclipse.ui.business;
 
+import java.io.InputStream;
+
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
@@ -18,6 +20,7 @@ import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.business.IBioclipseManager;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
  * Controls programmatic access to the Bioclipse graphical user
@@ -45,4 +48,20 @@ public interface IUIManager extends IBioclipseManager {
 
     @Recorded
     public void remove(IFile file);
+
+    @Recorded
+    @PublishedMethod(
+        params="String path to save to, InputStream content to save",
+        methodSummary="Save the content of the InputStream to the given path."
+    )
+    public void save(String filePath, InputStream toWrite);
+
+    @Recorded
+    @PublishedMethod(
+        params="IFile file to save to, InputStream content to save",
+        methodSummary="Save the content of the InputStream to the file."
+    )
+    public void save(IFile file, InputStream toWrite,
+                     IProgressMonitor monitor, Runnable callBackFunction);
+
 }
