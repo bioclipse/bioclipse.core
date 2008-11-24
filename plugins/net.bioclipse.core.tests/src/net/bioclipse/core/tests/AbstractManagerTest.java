@@ -127,17 +127,11 @@ public abstract class AbstractManagerTest {
             Class[] parameters = method.getParameterTypes();
             if (isJob(method) && hasParameter(parameters, IFile.class)) {
                 // OK, found a foo(X, IFile, Y)
-                Class[] expectedParameters = new Class[parameters.length+2];
-                int offset = 0;
-                for (int i=0; i<parameters.length; i++) {
-                    expectedParameters[i+offset] = parameters[i];
-                    if (parameters[i].getName().equals(IFile.class.getName())) {
-                        // replace IFile, by IFile, IProgressMonitor, Runnable
-                        expectedParameters[i+offset+1] = IProgressMonitor.class;
-                        expectedParameters[i+offset+2] = Runnable.class;
-                        offset += 2;
+                Class[] expectedParameters = expandParameter(
+                    parameters, IFile.class, new Class[]{
+                        IFile.class, IProgressMonitor.class, Runnable.class
                     }
-                }
+                );
                 Method matchingMethod = findMethod(
                     manager.getClass(), method.getName(), expectedParameters
                 );
@@ -150,6 +144,23 @@ public abstract class AbstractManagerTest {
                 );
             }
         }
+    }
+
+    private Class[] expandParameter(Class[] currentParameters, Class toExpand,
+                                    Class[] expandInto) {
+        Class[] expectedParameters = new Class[currentParameters.length+2];
+        int offset = 0;
+        for (int i=0; i<currentParameters.length; i++) {
+            expectedParameters[i+offset] = currentParameters[i];
+            if (currentParameters[i].getName().equals(toExpand.getName())) {
+                // replace IFile, by IFile, IProgressMonitor, Runnable
+                for (int j=0; j<expandInto.length; j++) {
+                    expectedParameters[i+j+1] = expandInto[i];
+                }
+                offset += expandInto.length;
+            }
+        }
+        return expectedParameters;
     }
 
     /**
