@@ -130,7 +130,8 @@ public abstract class AbstractManagerTest {
                 Class[] expectedParameters = expandParameter(
                     parameters, IFile.class, new Class[]{
                         IFile.class, IProgressMonitor.class, Runnable.class
-                    }
+                    },
+                    -1
                 );
                 Method matchingMethod = findMethod(
                     manager.getClass(), method.getName(), expectedParameters
@@ -146,18 +147,26 @@ public abstract class AbstractManagerTest {
         }
     }
 
+    /**
+     * Replaces the parameters type <code>toExpand</code> into the parameter
+     * array given by expandInto, but only at the given index. If that index
+     * is -1, then all instances of <code>toExpand</code> will be replaced.
+     */
     private Class[] expandParameter(Class[] currentParameters, Class toExpand,
-                                    Class[] expandInto) {
-        Class[] expectedParameters = new Class[currentParameters.length+2];
+                                    Class[] expandInto, int index) {
+        Class[] expectedParameters =
+            new Class[currentParameters.length + expandInto.length];
         int offset = 0;
         for (int i=0; i<currentParameters.length; i++) {
             expectedParameters[i+offset] = currentParameters[i];
-            if (currentParameters[i].getName().equals(toExpand.getName())) {
-                // replace IFile, by IFile, IProgressMonitor, Runnable
-                for (int j=0; j<expandInto.length; j++) {
-                    expectedParameters[i+j+1] = expandInto[i];
+            if (index == -1 || index == i) {
+                if (currentParameters[i].getName().equals(toExpand.getName())) {
+                    // replace IFile, by IFile, IProgressMonitor, Runnable
+                    for (int j=0; j<expandInto.length; j++) {
+                        expectedParameters[i+j+1] = expandInto[i];
+                    }
+                    offset += expandInto.length;
                 }
-                offset += expandInto.length;
             }
         }
         return expectedParameters;
@@ -182,6 +191,47 @@ public abstract class AbstractManagerTest {
                     "(IFile) annotation with @Job must return void",
                     method.getReturnType() == null
                 );
+            }
+        }
+    }
+
+    /**
+     * If a {@link IBioclipseManager} method is annotated with {link Job}
+     * exists which takes a <code>String<code> as the last parameter, then
+     * there must exist a matching method in the {@link BioclipseManager} that
+     * takes the same parameters, but with the last parameter String
+     * parameter replaced by IFile, IProgressMonitor, Runnable.
+     *
+     * @see #testForFooJobImplementations
+     */
+    @Test public void testFooStringJobImplementation() {
+        IBioclipseManager manager = getManager();
+        Class managerInterface = getManagerInterface(manager);
+        Method[] methods = managerInterface.getMethods();
+        for (Method method : methods) {
+            if (isJob(method)) {
+                Class[] parameters = method.getParameterTypes();
+                int paramCount = parameters.length;
+                if (paramCount > 0 &&
+                    parameters[paramCount-1].getName().equals(String.class.getName())) {
+                    // then
+                    Class[] expectedParameters = expandParameter(
+                        parameters, String.class, new Class[]{
+                            IFile.class, IProgressMonitor.class, Runnable.class
+                        },
+                        paramCount-1
+                    );
+                    Method matchingMethod = findMethod(
+                        manager.getClass(), method.getName(), expectedParameters
+                    );
+                    Assert.assertNotNull(
+                        managerInterface.getName() + " method " + method.getName() +
+                        "(String) annotation with @Job does not have the required matching " +
+                        manager.getClass().getName() + " method " +
+                        method.getName() +"(IFile, IProgressMonitor, IRunnable).",
+                        matchingMethod
+                    );
+                }
             }
         }
     }
