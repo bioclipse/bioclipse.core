@@ -154,9 +154,8 @@ public abstract class AbstractManagerTest {
 
     /**
      * If a {@link IBioclipseManager} method <code>foo(IFile)</code>
-     * annotated with {link Job} exists, then there must also be a method in the
-     * matching {@link BioclipseManager} which takes an IFile, an IProgressMonitor
-     * and an IRunnable parameter, <code>foo(IFile, IProgressMonitor, IRunnable)</code>.
+     * annotated with {link Job} exists, then the matching method in the
+     * matching {@link BioclipseManager} must return void.
      */
     @Test public void testForFooIFileReturnsVoid() {
         IBioclipseManager manager = getManager();
