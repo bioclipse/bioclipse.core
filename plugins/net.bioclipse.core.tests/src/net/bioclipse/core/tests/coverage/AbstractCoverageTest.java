@@ -89,12 +89,24 @@ public abstract class AbstractCoverageTest {
                         missingTestMethodAnnotations++;
                         methodsMissingAnnotation += method.getName() + " ";
                     } else {
-                        TestMethods testMethodAnnotation = method.getAnnotation(TestMethods.class);
-                        for (String testMethod : testMethodAnnotation.value().split(",")) {
-                            boolean foundTestMethod = checkIfATestClassContainsTheMethod(testClasses, testMethod);
-                            if (!foundTestMethod) {
-                                missingTestMethods++;
-                                testMethodsMissing += testMethod + " ";
+                        TestMethods testMethodAnnotation = method.getAnnotation(
+                            TestMethods.class
+                        );
+                        String methodsString = testMethodAnnotation.value();
+                        if (methodsString == null ||
+                            methodsString.length() == 0) {
+                            missingTestMethodAnnotations++;
+                            methodsMissingAnnotation += method.getName() + " ";
+                        } else {
+                            for (String testMethod : methodsString.split(",")) {
+                                boolean foundTestMethod =
+                                    checkIfATestClassContainsTheMethod(
+                                        testClasses, testMethod
+                                    );
+                                if (!foundTestMethod) {
+                                    missingTestMethods++;
+                                    testMethodsMissing += testMethod + " ";
+                                }
                             }
                         }
                     }
