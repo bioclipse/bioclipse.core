@@ -184,14 +184,26 @@ public abstract class AbstractManagerTest {
         Class managerInterface = getManagerInterface(manager);
         Method[] methods = managerInterface.getMethods();
         for (Method method : methods) {
-            if (isPublished(method)) {
+            if (isPublished(method) && method.getParameterTypes().length > 0) {
                 String parameterHelp = method.getAnnotation(PublishedMethod.class).params();
                 Assert.assertNotNull(parameterHelp);
                 Assert.assertNotNull(
                     managerInterface.getName() + " method " + method.getName() +
                     " has parameters, but does not provide help with the" +
                     " params field of PublishedMethod.",
-                    parameterHelp.length() != 0
+                    parameterHelp
+                );
+                Assert.assertTrue(
+                    managerInterface.getName() + " method " + method.getName() +
+                    " has parameters, but does the provided help is empty.",
+                    parameterHelp.length() > 0
+                );
+                String[] parameters = parameterHelp.split(",");
+                Assert.assertEquals(
+                    "The parameter help does not match the number of " +
+                    "parameters of " + managerInterface.getName() + " method " +
+                    method.getName(),
+                    method.getParameterTypes().length, parameters.length
                 );
             }
         }
