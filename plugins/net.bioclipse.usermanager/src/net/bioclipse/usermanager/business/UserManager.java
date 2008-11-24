@@ -32,6 +32,10 @@ public class UserManager implements IUserManager {
     UserContainer userContainer;
     private List<IUserManagerListener> listeners;
     
+    UserManager() {
+        
+    }
+    
     public UserManager(String filename) {
         super();
         userContainer = new UserContainer(filename);

@@ -9,23 +9,16 @@
  *     Jonathan Alvarsson
  *     
  ******************************************************************************/
-package net.bioclipse.usermanager;
+package net.bioclipse.usermanager.business;
 
-import net.bioclipse.usermanager.business.CoverageTest;
-import net.bioclipse.usermanager.business.UserManagerTest;
+import net.bioclipse.core.business.IBioclipseManager;
+import net.bioclipse.core.tests.coverage.AbstractCoverageTest;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
 
-/**
- * @author jonalv
- *
- */
-@RunWith(value=Suite.class)
-@SuiteClasses( value = { UserContainerTest.class,
-                         UserManagerTest.class,
-                         CoverageTest.class } )
-public class AllUsermanagerTestsSuite {
+public class CoverageTest extends AbstractCoverageTest {
 
+    @Override
+    public IBioclipseManager getManager() {
+        return new UserManager();
+    }
 }

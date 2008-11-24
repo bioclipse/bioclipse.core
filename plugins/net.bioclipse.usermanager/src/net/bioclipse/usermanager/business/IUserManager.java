@@ -17,12 +17,17 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
+import net.bioclipse.core.TestClasses;
+import net.bioclipse.core.TestMethods;
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.usermanager.AccountType;
 import net.bioclipse.usermanager.IUserManagerListener;
 import net.bioclipse.usermanager.User;
 import net.bioclipse.usermanager.UserContainer;
 
+@TestClasses( "net.bioclipse.usermanager.business.CoverageTest," +
+		      "net.bioclipse.usermanager.business.UserManagerTest," + 
+		      "net.bioclipse.usermanager.UserContainerTest" )
 @PublishedClass("Handles users and accounts in Bioclipse. " +
                 "Can store things like database passwords and usernames " +
                 "in an encrypted file.")
@@ -35,6 +40,7 @@ public interface IUserManager extends IBioclipseManager {
      * @param password the users password
      * @throws IllegalArgumentException if signIn not succesfull
      */
+    @TestMethods("testCreateMasterKeyAndLogin")
     @PublishedMethod( params = "String username, String password",
                       methodSummary = "Logs in the user with the given "
                                     + "username given that the given password "
@@ -58,6 +64,7 @@ public interface IUserManager extends IBioclipseManager {
     /**
      * @return whether any user is logged in
      */
+    @TestMethods("testCreateMasterKeyAndLogin")
     @Recorded
     @PublishedMethod (methodSummary = "Returns whether a user is logged in")
     public boolean isLoggedIn();
@@ -65,6 +72,7 @@ public interface IUserManager extends IBioclipseManager {
     /**
      *  Signs out the current user
      */
+    @TestMethods("textChangeMasterKey")
     @Recorded
     @PublishedMethod (methodSummary = "Logs out the currently logged in user")
     public void logOut();
@@ -75,6 +83,7 @@ public interface IUserManager extends IBioclipseManager {
      * @param userName the username of the new superuser
      * @param key the password for the superuser
      */
+    @TestMethods("testCreateAccount")
     @Recorded
     @PublishedMethod (params="String username, String password",
                       methodSummary = "Creates a new user with the " +
@@ -84,6 +93,7 @@ public interface IUserManager extends IBioclipseManager {
     /**
      * @return the name of the user currently logged in
      */
+    @TestMethods("testGettingInfoWhenLoggedOut,testCreateMasterKeyAndLogin")
     @Recorded
     @PublishedMethod (methodSummary = "Gives the name of the currently " +
                                       "logged in user")
@@ -97,6 +107,7 @@ public interface IUserManager extends IBioclipseManager {
      *                   to be persisted
      * @param accountType the type of the account
      */
+    @TestMethods("testCreateAccount")
     @Recorded
     @PublishedMethod (params = "String accountID, " +
                                "HashMap<String, String> properties, " +
@@ -112,6 +123,7 @@ public interface IUserManager extends IBioclipseManager {
      * @param accountId
      * @return whether an account with the given accountId exists
      */
+    @TestMethods("testCreateAccount")
     @Recorded
     @PublishedMethod (methodSummary = "Wether an account with a given " +
                                       "account id exists", 
@@ -127,6 +139,7 @@ public interface IUserManager extends IBioclipseManager {
      *
      * @return the value of a property
      */
+    @TestMethods("testGetAccountProperties")
     @Recorded
     @PublishedMethod (params = "String accountId, String property",
                       methodSummary = "Gives the value of the given property " +
@@ -137,6 +150,7 @@ public interface IUserManager extends IBioclipseManager {
     /**
      * Writes all data to file
      */
+    @TestMethods("testPersistAndLoadInfo")
     @Recorded
     @PublishedMethod (methodSummary = "Write all data to file")
     public void persist();
@@ -144,6 +158,7 @@ public interface IUserManager extends IBioclipseManager {
     /**
      * Reloads all data in the UserContainer from file
      */
+    @TestMethods("testPersistAndLoadInfo")
     @Recorded
     @PublishedMethod (methodSummary = "Reloads all data from file " +
                                       "discarding changes")
@@ -152,6 +167,7 @@ public interface IUserManager extends IBioclipseManager {
     /**
      * @return the names of all users
      */
+    @TestMethods("testDeleteUser")
     @Recorded
     @PublishedMethod (methodSummary = "Gives a list of all user names")
     public List<String> getUserNames();
@@ -159,6 +175,7 @@ public interface IUserManager extends IBioclipseManager {
     /**
      * @return the <code>User</code> currently logged in
      */
+    @TestMethods("")
     @Recorded
     @PublishedMethod (methodSummary = "gives the logged in user")
     public User getLoggedInUser();
@@ -166,6 +183,7 @@ public interface IUserManager extends IBioclipseManager {
     /**
      * @param name of user to be deleted
      */
+    @TestMethods("testDeleteUser")
     @Recorded
     @PublishedMethod (params = "String username",
                       methodSummary = "deletes the user with " +
@@ -178,6 +196,7 @@ public interface IUserManager extends IBioclipseManager {
      * @param accountId
      * @return
      */
+    @TestMethods("")
     @Recorded
     @PublishedMethod (params = "String accountId",
                       methodSummary = "gives the names of the properties for" +
@@ -187,6 +206,7 @@ public interface IUserManager extends IBioclipseManager {
     /**
      * Removes all accounts for the currently logged in <code>User</code>
      */
+    @TestMethods("testClearAccounts")
     @Recorded
     @PublishedMethod (methodSummary = "Removes all accounts for the " +
                                       "currently logged in user")
@@ -198,6 +218,7 @@ public interface IUserManager extends IBioclipseManager {
      * @param masterkey old password
      * @param newkey new password
      */
+    @TestMethods("textChangeMasterKey")
     @Recorded
     @PublishedMethod (params = "String oldPassword, String newPassword",
                       methodSummary = "Changes the password for " +
@@ -208,6 +229,7 @@ public interface IUserManager extends IBioclipseManager {
     /**
      * @return the names of the currently logged in users accounts
      */
+    @TestMethods("testCloningAndPersisting")
     @Recorded
     @PublishedMethod (methodSummary = "Gives the account names of the " +
                                       "logged in user ")
@@ -216,6 +238,7 @@ public interface IUserManager extends IBioclipseManager {
     /**
      * @return the names of the available account types
      */
+    @TestMethods("")
     @Recorded
     @PublishedMethod (methodSummary = "Gives the names of all available " +
                                       "account types")
@@ -224,6 +247,7 @@ public interface IUserManager extends IBioclipseManager {
     /**
      * @return the available account types
      */
+    @TestMethods("")
     @Recorded
     @PublishedMethod (methodSummary = "Gives all available account types")
     public AccountType[] getAvailableAccountTypes();
@@ -235,6 +259,7 @@ public interface IUserManager extends IBioclipseManager {
      * @param accountId
      * @return the accounts account type
      */
+    @TestMethods("testPersistingAccountType")
     @Recorded
     @PublishedMethod (params = "String accountID",
                       methodSummary = "Gives the accounttype for account " +

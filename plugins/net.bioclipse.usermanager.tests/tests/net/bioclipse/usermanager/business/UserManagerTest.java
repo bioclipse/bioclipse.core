@@ -14,6 +14,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 
+import net.bioclipse.core.business.IBioclipseManager;
+import net.bioclipse.core.tests.AbstractManagerTest;
 import net.bioclipse.usermanager.AccountType;
 import net.bioclipse.usermanager.IUserManagerListener;
 import net.bioclipse.usermanager.UserContainer;
@@ -23,7 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class UserManagerTest {
+public class UserManagerTest extends AbstractManagerTest {
 
     private IUserManager userManager = new UserManager("filename");
     
@@ -119,5 +121,10 @@ public class UserManagerTest {
 
     private void createMasterKey() {
         userManager.createUser( USER, MASTERKEY );
+    }
+
+    @Override
+    public IBioclipseManager getManager() {
+        return new UserManager();
     }
 }
