@@ -125,26 +125,28 @@ public abstract class AbstractManagerTest {
         Method[] methods = managerInterface.getMethods();
         for (Method method : methods) {
             Class[] parameters = method.getParameterTypes();
-            if (parameters.length == 1 && isJob(method) &&
-                (parameters[0].getName().equals(IFile.class.getName()))) {
-                // OK, found a foo(IFile)
-                boolean foundMatchingImplementation = false;
-                Method[] otherMethods = manager.getClass().getMethods();
-                for (Method otherMethod : methods) {
-                    Class[] otherParameters = otherMethod.getParameterTypes();
-                    if (otherParameters.length == 3 &&
-                        (otherParameters[0].getName().equals(IFile.class.getName())) &&
-                        (otherParameters[1].getName().equals(IProgressMonitor.class.getName())) &&
-                        (otherParameters[2].getName().equals(Runnable.class.getName()))) {
-                        foundMatchingImplementation = true;
+            if (isJob(method) && hasParameter(parameters, IFile.class)) {
+                // OK, found a foo(X, IFile, Y)
+                Class[] expectedParameters = new Class[parameters.length+2];
+                int offset = 0;
+                for (int i=0; i<parameters.length; i++) {
+                    expectedParameters[i+offset] = parameters[i];
+                    if (parameters[i].getName().equals(IFile.class.getName())) {
+                        // replace IFile, by IFile, IProgressMonitor, Runnable
+                        expectedParameters[i+offset+1] = IProgressMonitor.class;
+                        expectedParameters[i+offset+2] = Runnable.class;
+                        offset += 2;
                     }
                 }
-                Assert.assertTrue(
+                Method matchingMethod = findMethod(
+                    manager.getClass(), method.getName(), expectedParameters
+                );
+                Assert.assertNotNull(
                     managerInterface.getName() + " method " + method.getName() +
                     "(IFile) annotation with @Job does not have the required matching " +
                     manager.getClass().getName() + " method " +
                     method.getName() +"(IFile, IProgressMonitor, IRunnable).",
-                    foundMatchingImplementation
+                    matchingMethod
                 );
             }
         }
@@ -270,4 +272,38 @@ public abstract class AbstractManagerTest {
         return false;
     }
     
+    private boolean hasParameter(Class[] parameters, Class class1) {
+        for (Class clazz : parameters) {
+            if (clazz.getName().equals(class1.getName())) return true;
+        }
+        return false;
+    }
+
+    private Method findMethod(Class clazz, String methodName,
+                              Class[] parameterTypes) {
+        Method[] otherMethods = clazz.getMethods();
+        for (Method otherMethod : otherMethods) {
+            Class[] otherParameters = otherMethod.getParameterTypes();
+            System.out.println("method: " + otherMethod.getName());
+            if (otherParameters.length == parameterTypes.length) {
+                // OK, at least of equal length
+                if (hasIdenticalTypes(otherParameters, parameterTypes)) {
+                    return otherMethod;
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean hasIdenticalTypes(Class[] otherParameters,
+                                      Class[] parameterTypes) {
+        for (int i=0; i<parameterTypes.length; i++) {
+            System.out.println("otherParam: " + otherParameters[i].getName());
+            System.out.println("param: " + parameterTypes[i].getName());
+            if (!otherParameters[i].getName().equals(
+                parameterTypes[i].getName())) return false;
+        }
+        return true;
+    }
+
 }
