@@ -208,11 +208,11 @@ public abstract class AbstractManagerTest {
             if (isPublished(method)) {
                 String sum = method.getAnnotation(PublishedMethod.class).methodSummary();
                 Assert.assertNotNull(sum);
-                Assert.assertNotNull(
+                Assert.assertFalse(
                     managerInterface.getName() + " method " + method.getName() +
                     " has no method summary defined by PublishedMethod's " +
                     "methodSummary field",
-                    sum.length() != 0
+                    sum.length() == 0
                 );
             }
         }
