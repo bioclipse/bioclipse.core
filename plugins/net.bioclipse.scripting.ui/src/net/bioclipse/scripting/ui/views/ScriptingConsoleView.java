@@ -330,7 +330,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
     }
 
     /**
-     * This is a callback that will allow us to create the viewer and
+     * This is a callback that will allow us to create the view and
      * initialize it.
      */
     public void createPartControl(Composite parent) {
