@@ -25,6 +25,16 @@
             Javascript Console View
          </description>
       </view>
+      <view
+         name="New Javascript Console"
+         icon="icons/source.gif"
+         category="net.bioclipse.ScriptingCategory"
+         class="net.bioclipse.scripting.ui.views.NewJsConsoleView"
+         id="net.bioclipse.scripting.ui.views.NewJsConsoleView">
+         <description>
+            Javascript Console View
+         </description>
+      </view>
       <!-- Ruby and Groovy consoles used to reside here. See r6394. -->
       <view
          allowMultiple="false"
