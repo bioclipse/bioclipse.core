@@ -61,9 +61,11 @@ while (my $line = <>) {
             $method_desc{summary} = $1;
         }
 
-        my $method_signature = <>;
-        $method_signature = <> while    $method_signature =~ m{^\s*$}
-                                     or $method_signature =~ m{^\s*\@\w+\s*$};
+        $_ = <>;
+        $_ = <> while m{^\s*$}
+                   or m{^\s*\@\w+\s*$}
+                   or m{^\s*\@\w+\(} .. m{\)\s*$};
+        my $method_signature = $_;
 
         die 'Your format is silly: ', $method_signature
           if $method_signature !~ m{\(};
@@ -84,7 +86,7 @@ while (my $line = <>) {
 
             do_indented sub {
                 for my $name ( sort keys %methods ) {
-                    say_indent( '- ',  $name );
+                    say_indent( '- ',  $name, ':' );
 
                     do_indented sub {   
                         for my $prop ( reverse sort keys %{$methods{$name}} ) {
@@ -103,4 +105,4 @@ while (my $line = <>) {
     }
 }
 
-say_indent('...');
+#say_indent('...');
