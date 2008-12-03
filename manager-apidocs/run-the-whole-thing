@@ -1,3 +1,5 @@
 #!/bin/bash
 
-. find-published-classes | xargs perl parse-file-for-annotations
+. find-published-classes |
+    xargs perl parse-file-for-annotations |
+    perl render-as-html
