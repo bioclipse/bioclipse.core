@@ -12,12 +12,12 @@ import org.eclipse.jface.viewers.ISelection;
 
 public class WebServiceWizardData {
 	private ISelection selection;
-	private String[] searchResult;
+	private String searchResult;
 	private boolean canfinish;
 	
 	public WebServiceWizardData() {
 		this.selection = null;
-		searchResult = new String[0];
+		searchResult = null;
 		canfinish = false;
 	}
 
@@ -39,11 +39,11 @@ public class WebServiceWizardData {
 		return selection;		
 	}
 	
-	public void SetSearchResult(String[] searchResult) {
+	public void SetSearchResult(String searchResult) {
 		this.searchResult = searchResult;
 	}
 	
-	public String[] GetSearchResult() {
+	public String GetSearchResult() {
 		return searchResult;
 	}	
 }

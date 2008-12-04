@@ -19,19 +19,19 @@ import org.eclipse.core.runtime.Status;
 import javax.xml.namespace.QName;
 
 public class WSDbfetch {
-	public static final String URL = "http://www.ebi.ac.uk/ws/services/urn:Dbfetch";
-	public java.lang.String[] fetchData(String query,
+	public static final String URL = "http://www.ebi.ac.uk/ws/services/WSDbfetch";
+	public java.lang.String fetchData(String query,
 										String format,
 										String style,
 										IProgressMonitor monitor)
 		throws CoreException {
-		String[] result = new String[0];
+		String result = null;
 		try {
 			Call call = new Call(URL);
 			call.setUseSOAPAction(true);
 			call.setSOAPActionURI("");
 			call.setSOAPVersion(SOAPConstants.SOAP11_CONSTANTS);
-			call.setOperationName(new QName("http://server.wsdbfetch.ebi.ac.uk", "fetchData"));
+			call.setOperationName(new QName("http://wsdbfetch.ws.jdbfetch.ebi.ac.uk", "fetchData"));
 	
 			AsyncCall ac = new AsyncCall(call);
 			IAsyncResult ar = ac.invoke(new Object[] {query, format, style});
@@ -46,7 +46,8 @@ public class WSDbfetch {
 			if (isCanceled == true) {
 				throwCoreException("Operation was canceled.");
 			} else if (status == org.apache.axis.client.async.Status.COMPLETED) {
-				result = (String[])ar.getResponse();
+				// trim the result to remove empty lines before and after the string...
+				result = ((String)ar.getResponse()).trim();
 			} else if (status == org.apache.axis.client.async.Status.EXCEPTION) {
 				throwCoreException("Axis Exception: " + ar.getException().getMessage());
 			}
@@ -66,7 +67,7 @@ public class WSDbfetch {
 			call.setUseSOAPAction(true);
 			call.setSOAPActionURI("");
 			call.setSOAPVersion(SOAPConstants.SOAP11_CONSTANTS);
-			call.setOperationName(new QName("http://server.wsdbfetch.ebi.ac.uk", "getSupportedDBs"));
+			call.setOperationName(new QName("http://wsdbfetch.ws.jdbfetch.ebi.ac.uk", "getSupportedDBs"));
 	
 			AsyncCall ac = new AsyncCall(call);
 			IAsyncResult ar = ac.invoke(new Object[0]);
@@ -101,7 +102,7 @@ public class WSDbfetch {
 			call.setUseSOAPAction(true);
 			call.setSOAPActionURI("");
 			call.setSOAPVersion(SOAPConstants.SOAP11_CONSTANTS);
-			call.setOperationName(new QName("http://server.wsdbfetch.ebi.ac.uk", "getSupportedFormats"));
+			call.setOperationName(new QName("http://wsdbfetch.ws.jdbfetch.ebi.ac.uk", "getSupportedFormats"));
 	
 			AsyncCall ac = new AsyncCall(call);
 			IAsyncResult ar = ac.invoke(new Object[0]);
@@ -136,7 +137,7 @@ public class WSDbfetch {
 			call.setUseSOAPAction(true);
 			call.setSOAPActionURI("");
 			call.setSOAPVersion(SOAPConstants.SOAP11_CONSTANTS);
-			call.setOperationName(new QName("http://server.wsdbfetch.ebi.ac.uk", "getSupportedStyles"));
+			call.setOperationName(new QName("http://wsdbfetch.ws.jdbfetch.ebi.ac.uk", "getSupportedStyles"));
 	
 			AsyncCall ac = new AsyncCall(call);
 			IAsyncResult ar = ac.invoke(new Object[0]);

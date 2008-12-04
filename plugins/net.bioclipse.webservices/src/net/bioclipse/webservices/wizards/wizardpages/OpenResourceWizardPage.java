@@ -8,7 +8,7 @@ package net.bioclipse.webservices.wizards.wizardpages;
  *
  */
 
-import java.io.StringBufferInputStream;
+import java.io.ByteArrayInputStream;
 import java.lang.reflect.InvocationTargetException;
 
 import net.bioclipse.webservices.WebservicesConstants;
@@ -18,10 +18,8 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -97,12 +95,12 @@ public class OpenResourceWizardPage extends WizardPage implements IDoPerformFini
 		gd = new GridData(GridData.FILL_BOTH);
 		text_data = new Text(composite3, SWT.MULTI | SWT.READ_ONLY | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		text_data.setLayoutData(gd);
-		String[] searchResult = data.GetSearchResult();		
-		for (int i = 0; i < searchResult.length; i++) {
-			if (i != 0) 
-				text_data.append("\n");
-			text_data.append(searchResult[i]);
- 		}
+		String searchResult = data.GetSearchResult();
+
+		if (searchResult != null)
+			text_data.append(searchResult);
+		else
+			text_data.append("Error: no valid data."); // valid
 		// composite 3 end
 
 		setControl(composite);
@@ -136,23 +134,12 @@ public class OpenResourceWizardPage extends WizardPage implements IDoPerformFini
 		monitor.worked(1);
 		monitor.subTask("load file data");
 
-		StringBuffer strbuf = new StringBuffer();
-
-		String[] searchResult = data.GetSearchResult();		
-		for (int i = 0; i < searchResult.length; i++) {
-			if (i != 0){
-				if (!(i==1 && searchResult[0].equals(""))){
-					strbuf.append("\n");
-				}
-			}
-			if (!(i==0 | searchResult[i].equals("")))
-				strbuf.append(searchResult[i]);
- 		}
-		//TODO: remove first line if "<PRE>\n" - however these are serverside bugs...
-		//TODO: remove last line if "<TER>\n"
-		String content=strbuf.toString();
+		String searchResult = data.GetSearchResult();
 		
-		wsVirtualFolder.getFile(text_filename.getText()).create(new StringBufferInputStream(content), false, monitor);
+		if (searchResult == null)
+			searchResult = "* error: no valid data. *";
+		
+		wsVirtualFolder.getFile(text_filename.getText()).create(new ByteArrayInputStream(searchResult.getBytes()), false, monitor);
 		monitor.worked(1);
 		monitor.subTask("parsing resource");
 		monitor.worked(1);
@@ -183,9 +170,9 @@ public class OpenResourceWizardPage extends WizardPage implements IDoPerformFini
 		return success;
 	}
 	
-	private void throwCoreException(String message) throws CoreException {
+	/*private void throwCoreException(String message) throws CoreException {
 		IStatus status =
 			new Status(IStatus.ERROR, "net.bioclipse.webservices", IStatus.OK, message, null);
 		throw new CoreException(status);
-	}
+	}*/
 }

@@ -279,9 +279,9 @@ public class EBIWSDbfetchWizardPage extends WizardPage implements IDoPerformFini
 		monitor.worked(1);
 	}
 
-	private String[] GetEntries(String query, String format, String style, IProgressMonitor monitor)
+	private String GetEntries(String query, String format, String style, IProgressMonitor monitor)
 	throws CoreException {
-		String searchResult[] = new String[0];
+		String searchResult = null;
 		monitor.subTask("fetchData(" + query + ", " + format + ", " + style + ");");
 		monitor.worked(1);
 		WSDbfetch wsdbfetch = new WSDbfetch();
