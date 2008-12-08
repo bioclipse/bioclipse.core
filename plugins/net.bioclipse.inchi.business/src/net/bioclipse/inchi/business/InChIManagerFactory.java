@@ -1,41 +1,33 @@
 /*******************************************************************************
- * Copyright (c) 2007 The Bioclipse Project and others.
+ * Copyright (c) 2007  Jonathan Alvarsson
+ *               2008  Egon Willighagen <egonw@users.sf.net>
+ * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * www.eclipse.org—epl-v10.html <http://www.eclipse.org/legal/epl-v10.html>
  * 
- * Contributors:
- *     Jonathan Alvarsson
- *     
+ * Contact: http://www.bioclipse.net/    
  ******************************************************************************/
-package net.bioclipse.springBasedPrototypePlugin.business;
+package net.bioclipse.inchi.business;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IExecutableExtensionFactory;
-import net.bioclipse.springBasedPrototypePlugin.Activator;
 
-/**
- * Factory for the exampleManager 
- * 
- * @author jonalv
- *
- */
-public class ExampleManagerFactory implements IExecutableExtension, 
+public class InChIManagerFactory implements IExecutableExtension, 
                                               IExecutableExtensionFactory {
 
-    private Object exampleManager;
+    private Object inchiManager;
     
-    public void setInitializationData( IConfigurationElement config,
-                                       String propertyName, 
-                                       Object data) throws CoreException {
-    
-        exampleManager = Activator.getDefault().getExampleManager();
+    public void setInitializationData(IConfigurationElement config,
+                                      String propertyName, 
+                                      Object data) throws CoreException {
+        inchiManager = Activator.getDefault().getInChIManager();
     }
     
     public Object create() throws CoreException {
-        return exampleManager;
+        return inchiManager;
     }
 }
