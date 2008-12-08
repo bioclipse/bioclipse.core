@@ -4,9 +4,8 @@
    <extension
          point="net.bioclipse.scripting.contribution">
       <scriptContribution
-            id="net.bioclipse.springBasedPrototypePlugin.business.ExampleManager"
-            service="net.bioclipse.springBasedPrototypePlugin.business.ExampleManagerFactory">
+            id="net.bioclipse.inchi.business.InChIManager"
+            service="net.bioclipse.inchi.business.InChIManagerFactory">
       </scriptContribution>
    </extension>
-
 </plugin>

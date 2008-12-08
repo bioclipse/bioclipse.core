@@ -1,12 +1,14 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: SpringBasedPrototypePlugin
-Bundle-SymbolicName: net.bioclipse.springBasedPrototypePlugin;singleton:=true
+Bundle-Name: InChIPlugin
+Bundle-SymbolicName: net.bioclipse.inchi.business;singleton:=true
 Bundle-Version: 0.1.0
-Bundle-Activator: net.bioclipse.springBasedPrototypePlugin.Activator
+Bundle-Activator: net.bioclipse.inchi.business.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  net.bioclipse.core,
  net.bioclipse.scripting,
- net.bioclipse.ui
-Eclipse-LazyStart: true
+ net.bioclipse.ui,
+ net.sf.jniinchi,
+ org.openscience.cdk.inchi
+Bundle-ActivationPolicy: lazy

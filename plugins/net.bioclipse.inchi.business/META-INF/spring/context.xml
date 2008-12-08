@@ -26,20 +26,20 @@
   </bean>
 
   <!-- The target that later on will be proxied. Our manager class. -->
-  <bean id="exampleManagerTarget" 
-        class="net.bioclipse.springBasedPrototypePlugin.business.ExampleManager">
+  <bean id="inchiManagerTarget" 
+        class="net.bioclipse.inchi.business.InChIManager">
   </bean>
   
   <!--+ 
       | The proxy puts together the managerTarget, the pointcut advisor
       | and defines which interfaces to be proxied 
       +-->
-  <bean id="exampleManager"
+  <bean id="inchiManager"
   		class="org.springframework.aop.framework.ProxyFactoryBean">
   	<property name="target" 
-  	          ref="exampleManagerTarget" />
+  	          ref="inchiManagerTarget" />
   	<property name="proxyInterfaces" 
-  	          value="net.bioclipse.springBasedPrototypePlugin.business.IExampleManager" />
+  	          value="net.bioclipse.inchi.business.IInChIManager" />
   	<property name="interceptorNames">
         <list>
            <value>recordingAdvisor</value>
@@ -49,7 +49,7 @@
   </bean>
 
   <!-- publishes the final manager (the proxy) -->
-  <osgi:service id="exampleManagerOSGI" 
-                ref="exampleManager"
-                interface="net.bioclipse.springBasedPrototypePlugin.business.IExampleManager" />
+  <osgi:service id="inchiManagerOSGI" 
+                ref="inchiManager"
+                interface="net.bioclipse.inchi.business.IInChIManager" />
 </beans>
