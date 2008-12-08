@@ -58,6 +58,10 @@ public abstract class AbstractCoverageTest {
      */
     @Test public void testManagerExtendsAbstractManagerTest() throws Exception {
         TestClasses testClassAnnotation = getClassAnnotation();
+        Assert.assertNotNull(
+            "Manager lacks the expected class annotation",
+            testClassAnnotation
+        );
         boolean extendsAbstractManagerTest = false;
         // at least one test class should extend it
         String testClassNames = testClassAnnotation.value();
