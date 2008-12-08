@@ -40,6 +40,7 @@ public interface IUIManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod(params="String filePath",
                      methodSummary="Opens a file in an editor.")
+    @TestMethods("testOpen_String")
     public void open(String filePath);
 
     @Recorded

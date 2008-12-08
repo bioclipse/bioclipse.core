@@ -24,6 +24,22 @@ public class UIManagerPluginTest {
 
     private UIManager manager = new UIManager();
     
+    @Test public void testOpen_String() {
+        String filePath = "/Virtual/testFile99883423426.txt";
+        IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(
+            new Path(filePath)
+        );
+        manager.save(
+            file, new ByteArrayInputStream("test file".getBytes()),
+            null, null
+        );
+        IFile savedFile = ResourcesPlugin.getWorkspace().getRoot().getFile(
+            new Path(filePath)
+        );
+        Assert.assertTrue(savedFile.exists());
+        manager.open(filePath);
+    }
+
     @Test public void testSaveAndRemove_IFile() {
         String filePath = "/Virtual/testFile683442689.txt";
         IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(
