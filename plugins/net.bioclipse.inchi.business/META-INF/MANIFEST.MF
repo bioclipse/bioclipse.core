@@ -15,3 +15,4 @@ Require-Bundle: org.eclipse.ui,
  org.openscience.cdk.inchi,
  org.openscience.cdk.interfaces
 Bundle-ActivationPolicy: lazy
+Export-Package: net.bioclipse.inchi.business
