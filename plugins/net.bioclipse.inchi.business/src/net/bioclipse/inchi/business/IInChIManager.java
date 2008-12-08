@@ -25,10 +25,10 @@ public interface IInChIManager extends IBioclipseManager {
         methodSummary = "Generates the InChI for the given molecule.")
     public String generate(IMolecule molecule) throws Exception;
 
-//    @Recorded
-//    @PublishedMethod(
-//        params = "IMolecule molecule",
-//        methodSummary = "Generates the InChIKey for the given molecule.")
-//    public String generateKey(IMolecule molecule) throws Exception;
+    @Recorded
+    @PublishedMethod(
+        params = "IMolecule molecule",
+        methodSummary = "Generates the InChIKey for the given molecule.")
+    public String generateKey(IMolecule molecule) throws Exception;
 
 }

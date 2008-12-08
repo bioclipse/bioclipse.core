@@ -15,7 +15,6 @@ import java.security.InvalidParameterException;
 
 import net.bioclipse.cdk.domain.CDKMolecule;
 import net.bioclipse.core.domain.IMolecule;
-import net.bioclipse.ui.Activator;
 import net.sf.jniinchi.INCHI_RET;
 
 import org.openscience.cdk.inchi.InChIGenerator;
@@ -57,23 +56,23 @@ public class InChIManager implements IInChIManager {
         }
     }
 
-//    public String generateKey(IMolecule molecule) throws Exception {
-//        if (molecule instanceof CDKMolecule) {
-//            IAtomContainer container = ((CDKMolecule)molecule).getAtomContainer();
-//            InChIGenerator gen = getFactory().getInChIGenerator(container);
-//            INCHI_RET status = gen.getReturnStatus();
-//            if (status == INCHI_RET.OKAY) {
-//                return gen.getInchiKey();
-//            } else {
-//                throw new InvalidParameterException(
-//                    "Error while generating InChI: " +
-//                    gen.getMessage()
-//                );
-//            }
-//        } else {
-//            throw new InvalidParameterException(
-//                "Given molecule must be a CDKMolecule"
-//            );
-//        }
-//    }
+    public String generateKey(IMolecule molecule) throws Exception {
+        if (molecule instanceof CDKMolecule) {
+            IAtomContainer container = ((CDKMolecule)molecule).getAtomContainer();
+            InChIGenerator gen = getFactory().getInChIGenerator(container);
+            INCHI_RET status = gen.getReturnStatus();
+            if (status == INCHI_RET.OKAY) {
+                return gen.getInchiKey();
+            } else {
+                throw new InvalidParameterException(
+                    "Error while generating InChI: " +
+                    gen.getMessage()
+                );
+            }
+        } else {
+            throw new InvalidParameterException(
+                "Given molecule must be a CDKMolecule"
+            );
+        }
+    }
 }
