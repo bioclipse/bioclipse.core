@@ -134,7 +134,9 @@ public abstract class AbstractCoverageTest {
             // now test if the listed test methods really exist
             Method[] testClassMethods = testClass.getMethods();
             for (Method testClassMethod : testClassMethods) {
-                return true;
+                if (testClassMethod.getName().equals(testClassMethod)) {
+                    return true;
+                }
             }
         }
         return false;
