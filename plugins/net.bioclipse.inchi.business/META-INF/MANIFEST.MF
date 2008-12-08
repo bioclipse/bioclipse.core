@@ -9,6 +9,9 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.core,
  net.bioclipse.scripting,
  net.bioclipse.ui,
+ net.bioclipse.cdk.business,
  net.sf.jniinchi,
- org.openscience.cdk.inchi
+ org.openscience.cdk.core,
+ org.openscience.cdk.inchi,
+ org.openscience.cdk.interfaces
 Bundle-ActivationPolicy: lazy

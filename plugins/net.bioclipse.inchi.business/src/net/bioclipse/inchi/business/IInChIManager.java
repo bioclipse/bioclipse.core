@@ -11,9 +11,24 @@
 package net.bioclipse.inchi.business;
 
 import net.bioclipse.core.PublishedClass;
+import net.bioclipse.core.PublishedMethod;
+import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.IBioclipseManager;
+import net.bioclipse.core.domain.IMolecule;
 
 @PublishedClass ("Manager for creating InChI and InChIKeys.")
 public interface IInChIManager extends IBioclipseManager {
+
+    @Recorded
+    @PublishedMethod(
+        params = "IMolecule molecule",
+        methodSummary = "Generates the InChI for the given molecule.")
+    public String generate(IMolecule molecule) throws Exception;
+
+//    @Recorded
+//    @PublishedMethod(
+//        params = "IMolecule molecule",
+//        methodSummary = "Generates the InChIKey for the given molecule.")
+//    public String generateKey(IMolecule molecule) throws Exception;
 
 }
