@@ -76,4 +76,30 @@ public class UIManagerPluginTest {
         Assert.assertFalse(removedFile.exists());
     }
 
+    @Test public void testExists_String() {
+        String filePath = "/Virtual/testFile887434232.txt";
+        manager.save(
+            filePath, new ByteArrayInputStream("test file".getBytes())
+        );
+        Assert.assertTrue(manager.exists(filePath));
+        manager.remove(filePath);
+        Assert.assertFalse(manager.exists(filePath));
+    }
+
+    @Test public void testExists_IFile() {
+        String filePath = "/Virtual/testFile734248911.txt";
+        manager.save(
+            filePath, new ByteArrayInputStream("test file".getBytes())
+        );
+        IFile savedFile = ResourcesPlugin.getWorkspace().getRoot().getFile(
+            new Path(filePath)
+        );
+        Assert.assertTrue(manager.exists(savedFile));
+        manager.remove(filePath);
+        IFile removedFile = ResourcesPlugin.getWorkspace().getRoot().getFile(
+            new Path(filePath)
+        );
+        Assert.assertFalse(manager.exists(removedFile));
+    }
+
 }

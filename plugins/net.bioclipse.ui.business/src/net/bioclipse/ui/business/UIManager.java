@@ -102,4 +102,17 @@ public class UIManager implements IUIManager {
         }
     }
 
+	public boolean exists(IFile file) {
+		return file.exists();
+	}
+
+	public boolean exists(String filePath) {
+		try {
+			return exists(ResourcePathTransformer.getInstance()
+					.transform( filePath ));
+		} catch (IllegalArgumentException exception) {
+			return false;
+		}
+	}
+
 }

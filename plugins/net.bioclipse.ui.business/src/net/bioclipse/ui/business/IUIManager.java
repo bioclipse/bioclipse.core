@@ -73,4 +73,19 @@ public interface IUIManager extends IBioclipseManager {
     public void save(IFile file, InputStream toWrite,
                      IProgressMonitor monitor, Runnable callBackFunction);
 
+    @Recorded
+    @PublishedMethod(
+        params="IFile file to exist the existence of",
+        methodSummary="Determines is the given file exists in the workspace"
+    )
+    @TestMethods("testExists_IFile")
+    public boolean exists(IFile file);
+
+    @Recorded
+    @PublishedMethod(
+        params="IFile file to exist the existence of",
+        methodSummary="Determines is the given file exists in the workspace"
+    )
+    @TestMethods("testExists_String")
+    public boolean exists(String filePath);
 }
