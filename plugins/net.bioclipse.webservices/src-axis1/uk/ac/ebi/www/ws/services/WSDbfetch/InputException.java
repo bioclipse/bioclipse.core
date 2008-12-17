@@ -4,13 +4,10 @@
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
-
 package uk.ac.ebi.www.ws.services.WSDbfetch;
-
 public class InputException  extends org.apache.axis.AxisFault  implements java.io.Serializable {
     public InputException() {
     }
-
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof InputException)) return false;
@@ -26,7 +23,6 @@ public class InputException  extends org.apache.axis.AxisFault  implements java.
         __equalsCalc = null;
         return _equals;
     }
-
     private boolean __hashCodeCalc = false;
     public synchronized int hashCode() {
         if (__hashCodeCalc) {
@@ -37,22 +33,18 @@ public class InputException  extends org.apache.axis.AxisFault  implements java.
         __hashCodeCalc = false;
         return _hashCode;
     }
-
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
         new org.apache.axis.description.TypeDesc(InputException.class, true);
-
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://www.ebi.ac.uk/ws/services/WSDbfetch", "InputException"));
     }
-
     /**
      * Return type metadata object
      */
     public static org.apache.axis.description.TypeDesc getTypeDesc() {
         return typeDesc;
     }
-
     /**
      * Get Custom Serializer
      */
@@ -64,7 +56,6 @@ public class InputException  extends org.apache.axis.AxisFault  implements java.
           new  org.apache.axis.encoding.ser.BeanSerializer(
             _javaType, _xmlType, typeDesc);
     }
-
     /**
      * Get Custom Deserializer
      */
@@ -76,8 +67,6 @@ public class InputException  extends org.apache.axis.AxisFault  implements java.
           new  org.apache.axis.encoding.ser.BeanDeserializer(
             _javaType, _xmlType, typeDesc);
     }
-
-
     /**
      * Writes the exception data to the faultDetails
      */

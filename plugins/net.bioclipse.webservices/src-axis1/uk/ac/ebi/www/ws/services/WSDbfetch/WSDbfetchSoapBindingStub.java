@@ -4,22 +4,17 @@
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
-
 package uk.ac.ebi.www.ws.services.WSDbfetch;
-
 public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implements uk.ac.ebi.www.ws.services.WSDbfetch.WSDBFetchServerLegacy {
     private java.util.Vector cachedSerClasses = new java.util.Vector();
     private java.util.Vector cachedSerQNames = new java.util.Vector();
     private java.util.Vector cachedSerFactories = new java.util.Vector();
     private java.util.Vector cachedDeserFactories = new java.util.Vector();
-
     static org.apache.axis.description.OperationDesc [] _operations;
-
     static {
         _operations = new org.apache.axis.description.OperationDesc[7];
         _initOperationDesc1();
     }
-
     private static void _initOperationDesc1(){
         org.apache.axis.description.OperationDesc oper;
         org.apache.axis.description.ParameterDesc param;
@@ -67,7 +62,6 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
                       true
                      ));
         _operations[0] = oper;
-
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("fetchBatch");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "db"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -114,7 +108,6 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
                       true
                      ));
         _operations[1] = oper;
-
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("getSupportedDBs");
         oper.setReturnType(new javax.xml.namespace.QName("http://www.ebi.ac.uk/ws/services/WSDbfetch", "ArrayOf_xsd_string"));
@@ -123,7 +116,6 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
         oper.setStyle(org.apache.axis.constants.Style.RPC);
         oper.setUse(org.apache.axis.constants.Use.ENCODED);
         _operations[2] = oper;
-
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("getSupportedFormats");
         oper.setReturnType(new javax.xml.namespace.QName("http://www.ebi.ac.uk/ws/services/WSDbfetch", "ArrayOf_xsd_string"));
@@ -132,7 +124,6 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
         oper.setStyle(org.apache.axis.constants.Style.RPC);
         oper.setUse(org.apache.axis.constants.Use.ENCODED);
         _operations[3] = oper;
-
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("getDbFormats");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "db"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -149,7 +140,6 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
                       true
                      ));
         _operations[4] = oper;
-
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("getFormatStyles");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "db"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -168,7 +158,6 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
                       true
                      ));
         _operations[5] = oper;
-
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("getSupportedStyles");
         oper.setReturnType(new javax.xml.namespace.QName("http://www.ebi.ac.uk/ws/services/WSDbfetch", "ArrayOf_xsd_string"));
@@ -177,18 +166,14 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
         oper.setStyle(org.apache.axis.constants.Style.RPC);
         oper.setUse(org.apache.axis.constants.Use.ENCODED);
         _operations[6] = oper;
-
     }
-
     public WSDbfetchSoapBindingStub() throws org.apache.axis.AxisFault {
          this(null);
     }
-
     public WSDbfetchSoapBindingStub(java.net.URL endpointURL, javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
          this(service);
          super.cachedEndpoint = endpointURL;
     }
-
     public WSDbfetchSoapBindingStub(javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
         if (service == null) {
             super.service = new org.apache.axis.client.Service();
@@ -215,28 +200,24 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
-
             qName = new javax.xml.namespace.QName("http://exceptions.jdbfetch.ebi.ac.uk", "DbfException");
             cachedSerQNames.add(qName);
             cls = uk.ac.ebi.jdbfetch.exceptions.DbfException.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
-
             qName = new javax.xml.namespace.QName("http://exceptions.jdbfetch.ebi.ac.uk", "DbfNoEntryFoundException");
             cachedSerQNames.add(qName);
             cls = uk.ac.ebi.jdbfetch.exceptions.DbfNoEntryFoundException.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
-
             qName = new javax.xml.namespace.QName("http://exceptions.jdbfetch.ebi.ac.uk", "DbfParamsException");
             cachedSerQNames.add(qName);
             cls = uk.ac.ebi.jdbfetch.exceptions.DbfParamsException.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
-
             qName = new javax.xml.namespace.QName("http://www.ebi.ac.uk/ws/services/WSDbfetch", "ArrayOf_xsd_string");
             cachedSerQNames.add(qName);
             cls = java.lang.String[].class;
@@ -245,16 +226,13 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
             qName2 = null;
             cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
             cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
-
             qName = new javax.xml.namespace.QName("http://www.ebi.ac.uk/ws/services/WSDbfetch", "InputException");
             cachedSerQNames.add(qName);
             cls = uk.ac.ebi.www.ws.services.WSDbfetch.InputException.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
-
     }
-
     protected org.apache.axis.client.Call createCall() throws java.rmi.RemoteException {
         try {
             org.apache.axis.client.Call _call = super._createCall();
@@ -319,8 +297,6 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
             throw new org.apache.axis.AxisFault("Failure trying to get the Call object", _t);
         }
     }
-
-
     /**
      * Get a database entry (see http://www.ebi.ac.uk/Tools/webservices/services/dbfetch#fetchdata_query_format_style)
      */
@@ -334,11 +310,9 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
         _call.setSOAPActionURI("");
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
         _call.setOperationName(new javax.xml.namespace.QName("http://wsdbfetch.ws.jdbfetch.ebi.ac.uk", "fetchData"));
-
         setRequestHeaders(_call);
         setAttachments(_call);
  try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {query, format, style});
-
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
         }
@@ -374,8 +348,6 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
   throw axisFaultException;
 }
     }
-
-
     /**
      * Get a set of database entries (see http://www.ebi.ac.uk/Tools/webservices/services/dbfetch#fetchbatch_db_ids_format_style)
      */
@@ -389,11 +361,9 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
         _call.setSOAPActionURI("");
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
         _call.setOperationName(new javax.xml.namespace.QName("http://wsdbfetch.ws.jdbfetch.ebi.ac.uk", "fetchBatch"));
-
         setRequestHeaders(_call);
         setAttachments(_call);
  try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {db, ids, format, style});
-
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
         }
@@ -429,8 +399,6 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
   throw axisFaultException;
 }
     }
-
-
     /**
      * Get a list of available databases (see http://www.ebi.ac.uk/Tools/webservices/services/dbfetch#getsupporteddbs)
      */
@@ -444,11 +412,9 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
         _call.setSOAPActionURI("");
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
         _call.setOperationName(new javax.xml.namespace.QName("http://wsdbfetch.ws.jdbfetch.ebi.ac.uk", "getSupportedDBs"));
-
         setRequestHeaders(_call);
         setAttachments(_call);
  try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {});
-
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
         }
@@ -464,8 +430,6 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
   throw axisFaultException;
 }
     }
-
-
     /**
      * Get a list of databases and formats (see http://www.ebi.ac.uk/Tools/webservices/services/dbfetch#getsupportedformats)
      */
@@ -479,11 +443,9 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
         _call.setSOAPActionURI("");
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
         _call.setOperationName(new javax.xml.namespace.QName("http://wsdbfetch.ws.jdbfetch.ebi.ac.uk", "getSupportedFormats"));
-
         setRequestHeaders(_call);
         setAttachments(_call);
  try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {});
-
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
         }
@@ -499,8 +461,6 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
   throw axisFaultException;
 }
     }
-
-
     /**
      * Get a list of formats for a given database (see http://www.ebi.ac.uk/Tools/webservices/services/dbfetch#getdbformats_db)
      */
@@ -514,11 +474,9 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
         _call.setSOAPActionURI("");
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
         _call.setOperationName(new javax.xml.namespace.QName("http://wsdbfetch.ws.jdbfetch.ebi.ac.uk", "getDbFormats"));
-
         setRequestHeaders(_call);
         setAttachments(_call);
  try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {db});
-
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
         }
@@ -542,8 +500,6 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
   throw axisFaultException;
 }
     }
-
-
     /**
      * Get a list of available styles for a given database and format
      * (see http://www.ebi.ac.uk/Tools/webservices/services/dbfetch#getformatstyles_db_format)
@@ -558,11 +514,9 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
         _call.setSOAPActionURI("");
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
         _call.setOperationName(new javax.xml.namespace.QName("http://wsdbfetch.ws.jdbfetch.ebi.ac.uk", "getFormatStyles"));
-
         setRequestHeaders(_call);
         setAttachments(_call);
  try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {db, format});
-
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
         }
@@ -586,8 +540,6 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
   throw axisFaultException;
 }
     }
-
-
     /**
      * Get a list of databases, formats and styles (see http://www.ebi.ac.uk/Tools/webservices/services/dbfetch#fetchdata_query_format_style)
      */
@@ -601,11 +553,9 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
         _call.setSOAPActionURI("");
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
         _call.setOperationName(new javax.xml.namespace.QName("http://wsdbfetch.ws.jdbfetch.ebi.ac.uk", "getSupportedStyles"));
-
         setRequestHeaders(_call);
         setAttachments(_call);
  try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {});
-
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
         }
@@ -621,5 +571,4 @@ public class WSDbfetchSoapBindingStub extends org.apache.axis.client.Stub implem
   throw axisFaultException;
 }
     }
-
 }

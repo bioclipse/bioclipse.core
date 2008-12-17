@@ -4,21 +4,14 @@
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
-
 package subloc;
-
 public class PredictStruct  implements java.io.Serializable {
     private java.lang.String seq;
-
     private java.lang.String prediction;
-
     private java.lang.String RI;
-
     private java.lang.String expectAcc;
-
     public PredictStruct() {
     }
-
     public PredictStruct(
            java.lang.String seq,
            java.lang.String prediction,
@@ -29,8 +22,6 @@ public class PredictStruct  implements java.io.Serializable {
            this.RI = RI;
            this.expectAcc = expectAcc;
     }
-
-
     /**
      * Gets the seq value for this PredictStruct.
      * 
@@ -39,8 +30,6 @@ public class PredictStruct  implements java.io.Serializable {
     public java.lang.String getSeq() {
         return seq;
     }
-
-
     /**
      * Sets the seq value for this PredictStruct.
      * 
@@ -49,8 +38,6 @@ public class PredictStruct  implements java.io.Serializable {
     public void setSeq(java.lang.String seq) {
         this.seq = seq;
     }
-
-
     /**
      * Gets the prediction value for this PredictStruct.
      * 
@@ -59,8 +46,6 @@ public class PredictStruct  implements java.io.Serializable {
     public java.lang.String getPrediction() {
         return prediction;
     }
-
-
     /**
      * Sets the prediction value for this PredictStruct.
      * 
@@ -69,8 +54,6 @@ public class PredictStruct  implements java.io.Serializable {
     public void setPrediction(java.lang.String prediction) {
         this.prediction = prediction;
     }
-
-
     /**
      * Gets the RI value for this PredictStruct.
      * 
@@ -79,8 +62,6 @@ public class PredictStruct  implements java.io.Serializable {
     public java.lang.String getRI() {
         return RI;
     }
-
-
     /**
      * Sets the RI value for this PredictStruct.
      * 
@@ -89,8 +70,6 @@ public class PredictStruct  implements java.io.Serializable {
     public void setRI(java.lang.String RI) {
         this.RI = RI;
     }
-
-
     /**
      * Gets the expectAcc value for this PredictStruct.
      * 
@@ -99,8 +78,6 @@ public class PredictStruct  implements java.io.Serializable {
     public java.lang.String getExpectAcc() {
         return expectAcc;
     }
-
-
     /**
      * Sets the expectAcc value for this PredictStruct.
      * 
@@ -109,7 +86,6 @@ public class PredictStruct  implements java.io.Serializable {
     public void setExpectAcc(java.lang.String expectAcc) {
         this.expectAcc = expectAcc;
     }
-
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof PredictStruct)) return false;
@@ -137,7 +113,6 @@ public class PredictStruct  implements java.io.Serializable {
         __equalsCalc = null;
         return _equals;
     }
-
     private boolean __hashCodeCalc = false;
     public synchronized int hashCode() {
         if (__hashCodeCalc) {
@@ -160,11 +135,9 @@ public class PredictStruct  implements java.io.Serializable {
         __hashCodeCalc = false;
         return _hashCode;
     }
-
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
         new org.apache.axis.description.TypeDesc(PredictStruct.class, true);
-
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("urn:MySOAP/SubLoc", "PredictStruct"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
@@ -192,14 +165,12 @@ public class PredictStruct  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
-
     /**
      * Return type metadata object
      */
     public static org.apache.axis.description.TypeDesc getTypeDesc() {
         return typeDesc;
     }
-
     /**
      * Get Custom Serializer
      */
@@ -211,7 +182,6 @@ public class PredictStruct  implements java.io.Serializable {
           new  org.apache.axis.encoding.ser.BeanSerializer(
             _javaType, _xmlType, typeDesc);
     }
-
     /**
      * Get Custom Deserializer
      */
@@ -223,5 +193,4 @@ public class PredictStruct  implements java.io.Serializable {
           new  org.apache.axis.encoding.ser.BeanDeserializer(
             _javaType, _xmlType, typeDesc);
     }
-
 }
