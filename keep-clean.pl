@@ -20,10 +20,10 @@ for my $file (@files) {
     my $empty_line_ws     = 0;
     my $ws_at_end         = 0;
     for my $line (<$FH>) {
-        if ($line =~ /^\t/) {
-            ++$tabs_at_beginning;
-            $line =~ s/^(\s*?)\t/$1        / while $line =~ /^(\s*?)\t/;
-        }
+#        if ($line =~ /^\t/) {
+#            ++$tabs_at_beginning;
+#            $line =~ s/^(\s*?)\t/$1        / while $line =~ /^(\s*?)\t/;
+#        }
         if ($line =~ /\t/) {
             ++$tabs_elsewhere;
             $line =~ s/\t/        /g;   # technically, this is wrong
@@ -32,10 +32,10 @@ for my $file (@files) {
             ++$empty_line_ws;
             $line = '';
         }
-        if ($line =~ /\s$/) {
-            ++$ws_at_end;
-            $line =~ s/\s+$//;
-        }
+#        if ($line =~ /\s$/) {
+#            ++$ws_at_end;
+#            $line =~ s/\s+$//;
+#        }
 
         push @output, $line;
     }
@@ -52,7 +52,7 @@ for my $file (@files) {
         || $ws_at_end) {
 
         open my $OFH, '>', $file;
-        print {$OFH} join "\n", @output;
+        print {$OFH} join "", @output;
     }
 }
 
