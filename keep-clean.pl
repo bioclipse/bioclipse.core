@@ -4,6 +4,9 @@ use Fatal qw(open close);
 
 my @files = split "\n", `find plugins -name \*.java`;
 
+my @files_with_tabs_elsewhere;
+my @files_with_ws_at_end;
+
 for my $file (@files) {
 
     next if $file !~ /net\.bioclipse\./;   # not our codebase
@@ -38,17 +41,20 @@ for my $file (@files) {
     }
     close $FH;
 
+    if ($tabs_elsewhere) {
+        push @files_with_tabs_elsewhere, $file;
+    }
+    elsif ($ws_at_end) {
+        push @files_with_ws_at_end, $file;
+    }
+
     if ($tabs_at_beginning || $tabs_elsewhere || $empty_line_ws
         || $ws_at_end) {
-
-        print $file, "\n===\n";
-        print "contains tabs at start-of-line\n" if $tabs_at_beginning;
-        print "contains tabs elsewhere\n" if $tabs_elsewhere;
-        print "has empty lines with whitespace\n" if $empty_line_ws;
-        print "has line-ending whitespace\n" if $ws_at_end;
-        print "\n";
 
         open my $OFH, '>', $file;
         print {$OFH} join "\n", @output;
     }
 }
+
+print `svn diff $_` for @files_with_tabs_elsewhere,
+                        @files_with_ws_at_end;
