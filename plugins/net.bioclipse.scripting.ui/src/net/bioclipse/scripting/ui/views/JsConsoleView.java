@@ -119,8 +119,11 @@ public class JsConsoleView extends ScriptingConsoleView
     }
     
     protected String interceptDroppedString(String s) {
-        return mode == Mode.R ? s.replaceAll( "^/", "" )
-                              : s;
+        if (mode == Mode.R) {
+        	s = s.replaceAll( "^/", "" );
+        }
+        s = s.replaceAll("\\\\", "/");
+        return s;
     }
 
     private void installR() {
