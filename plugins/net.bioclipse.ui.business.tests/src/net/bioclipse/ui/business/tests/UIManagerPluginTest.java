@@ -81,9 +81,9 @@ public class UIManagerPluginTest {
         manager.save(
             filePath, new ByteArrayInputStream("test file".getBytes())
         );
-        Assert.assertTrue(manager.exists(filePath));
+        Assert.assertTrue(manager.fileExists(filePath));
         manager.remove(filePath);
-        Assert.assertFalse(manager.exists(filePath));
+        Assert.assertFalse(manager.fileExists(filePath));
     }
 
     @Test public void testExists_IFile() {
@@ -94,12 +94,12 @@ public class UIManagerPluginTest {
         IFile savedFile = ResourcesPlugin.getWorkspace().getRoot().getFile(
             new Path(filePath)
         );
-        Assert.assertTrue(manager.exists(savedFile));
+        Assert.assertTrue(manager.fileExists(savedFile));
         manager.remove(filePath);
         IFile removedFile = ResourcesPlugin.getWorkspace().getRoot().getFile(
             new Path(filePath)
         );
-        Assert.assertFalse(manager.exists(removedFile));
+        Assert.assertFalse(manager.fileExists(removedFile));
     }
 
 }

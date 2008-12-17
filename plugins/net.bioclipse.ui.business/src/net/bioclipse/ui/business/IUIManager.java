@@ -79,7 +79,7 @@ public interface IUIManager extends IBioclipseManager {
         methodSummary="Determines is the given file exists in the workspace"
     )
     @TestMethods("testExists_IFile")
-    public boolean exists(IFile file);
+    public boolean fileExists(IFile file);
 
     @Recorded
     @PublishedMethod(
@@ -87,5 +87,5 @@ public interface IUIManager extends IBioclipseManager {
         methodSummary="Determines is the given file exists in the workspace"
     )
     @TestMethods("testExists_String")
-    public boolean exists(String filePath);
+    public boolean fileExists(String filePath);
 }
