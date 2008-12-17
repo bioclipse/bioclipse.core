@@ -9,11 +9,8 @@
  *     Ola Spjuth - core API and implementation
  *******************************************************************************/
 package net.bioclipse.ui;
-
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
-
-
 /**
  * The BioclipseActivator is a class that can be extended by all Bioclipse 
  * plugins in order to simplify logging configuration. 
@@ -22,23 +19,18 @@ import org.osgi.framework.BundleContext;
  *
  */
 public class BioclipseActivator extends AbstractUIPlugin {
-
     // The shared instance.
     private static BioclipseActivator plugin;
-
 //    private static final Logger logger = Logger.getLogger(BioclipseActivator.class);
-    
     /**
      * The constructor.
      */
     public BioclipseActivator() {
         plugin = this;
     }
-
     public void start(BundleContext context) throws Exception {
         super.start(context);
     }
-
     /**
      * This method is called when the plug-in is stopped
      */
@@ -46,7 +38,6 @@ public class BioclipseActivator extends AbstractUIPlugin {
         super.stop(context);
         plugin = null;
     }
-
     /**
      * Returns the shared instance.
      */

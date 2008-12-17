@@ -10,9 +10,7 @@
  *     
  ******************************************************************************/
 package net.bioclipse.core.domain;
-
 import net.bioclipse.core.business.BioclipseException;
-
 /**
  * An interface to represent a Reaction that can be represented with 
  * Smiles notation. Since we can get SMILES, we can also get 2D coordinates.
@@ -22,18 +20,15 @@ import net.bioclipse.core.business.BioclipseException;
  *
  */
 public interface IReaction extends IBioObject{
-
     /**
      * 
      * @return the SMILES string for this IReaction
      * @throws BioclipseException
      */
     public String getSmiles() throws BioclipseException;
-
     /**
      * @return the IReaction serialized to CML
      * @throws BioclipseException if serialization fails
      */
     public String getCML() throws BioclipseException;
-    
 }

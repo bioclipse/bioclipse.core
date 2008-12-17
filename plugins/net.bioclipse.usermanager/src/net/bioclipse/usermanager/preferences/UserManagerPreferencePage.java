@@ -8,15 +8,12 @@
  * Contributors:
  *
  *******************************************************************************/
-
 package net.bioclipse.usermanager.preferences;
-
 import net.bioclipse.dialogs.CreateUserDialog;
 import net.bioclipse.dialogs.EditUserDialog;
 import net.bioclipse.dialogs.PassWordPromptDialog;
 import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
-
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -38,7 +35,6 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
-
 /**
  * Preferencepage for the UserContainer
  *
@@ -47,22 +43,17 @@ import org.eclipse.ui.PlatformUI;
  */
 public class UserManagerPreferencePage extends PreferencePage
                                        implements IWorkbenchPreferencePage {
-
     private Button     deleteButton;
     private Button     editButton;
     private Label      usersLabel;
     private ListViewer listViewer;
     private Button     createButton;
     private List       list;
-
     private UserContainer sandBoxUserContainer;
-
     @Override
     protected Control createContents(Composite parent) {
-
         Composite container = new Composite(parent, SWT.BORDER);
         container.setLayout(new FormLayout());
-
         listViewer = new ListViewer(container, SWT.BORDER | SWT.SINGLE);
         listViewer.setLabelProvider(new ListLabelProvider());
         listViewer.setContentProvider(new ContentProvider());
@@ -76,7 +67,6 @@ public class UserManagerPreferencePage extends PreferencePage
         formData.left = new FormAttachment(0, 5);
         formData.right = new FormAttachment(100, -5);
         list.setLayoutData(formData);
-
         usersLabel = new Label(container, SWT.NONE);
         formData.top = new FormAttachment(usersLabel, 5, SWT.BOTTOM);
         final FormData formData_1 = new FormData();
@@ -84,7 +74,6 @@ public class UserManagerPreferencePage extends PreferencePage
         formData_1.left = new FormAttachment(list, 0, SWT.LEFT);
         usersLabel.setLayoutData(formData_1);
         usersLabel.setText("Users:");
-
         createButton = new Button(container, SWT.NONE);
         createButton.addSelectionListener(new SelectionAdapter() {
             /*
@@ -115,14 +104,12 @@ public class UserManagerPreferencePage extends PreferencePage
         formData_2.top = new FormAttachment(list, 5, SWT.BOTTOM);
         createButton.setLayoutData(formData_2);
         createButton.setText("Create...");
-
         editButton = new Button(container, SWT.NONE);
         editButton.addSelectionListener(new SelectionAdapter() {
             /*
              * EDIT USER
              */
             public void widgetSelected(SelectionEvent e) {
-
                 String userName = getSelectedUserName();
                 if(userName == null) {
                     MessageDialog
@@ -159,14 +146,12 @@ public class UserManagerPreferencePage extends PreferencePage
         formData_3.left = new FormAttachment(createButton, 5, SWT.DEFAULT);
         editButton.setLayoutData(formData_3);
         editButton.setText("Edit...");
-
         deleteButton = new Button(container, SWT.NONE);
         deleteButton.addSelectionListener(new SelectionAdapter() {
             /*
              * DELETE USER
              */
             public void widgetSelected(SelectionEvent e) {
-
                 String userName = getSelectedUserName();
                 if ( MessageDialog.openQuestion( PlatformUI
                                                  .getWorkbench()
@@ -193,39 +178,30 @@ public class UserManagerPreferencePage extends PreferencePage
                                              list,
                                              usersLabel });
         //
-
         return container;
     }
-
     @Override
     public boolean performOk() {
-
         Activator.getDefault()
                  .getUserManager().switchUserContainer(sandBoxUserContainer);
         Activator.getDefault().getUserManager().persist();
         return super.performOk();
     }
-
     public void init(IWorkbench workbench) {
-
         sandBoxUserContainer = Activator
                                .getDefault()
                                .getUserManager().getSandBoxUserContainer();
     }
-
     private String getSelectedUserName() {
-
         if( list.getSelection().length == 1) {
             return list.getSelection()[0];
         }
         return null;
     }
-
     private void updateListViewer() {
         listViewer.setInput( sandBoxUserContainer.getUserNames() );
         listViewer.refresh();
     }
-
     /**
      * LabelProvider for the Keyring users list
      *
@@ -240,7 +216,6 @@ public class UserManagerPreferencePage extends PreferencePage
             return null;
         }
     }
-
     /**
      * ContentProvider for the Keyring users list
      *

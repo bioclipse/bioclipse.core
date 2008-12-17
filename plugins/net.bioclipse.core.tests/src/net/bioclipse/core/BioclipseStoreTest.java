@@ -11,35 +11,25 @@
  ******************************************************************************/
 package net.bioclipse.core;
 import static org.junit.Assert.*;
-
 import java.io.FileNotFoundException;
-
 import org.eclipse.core.resources.IResource;
 import org.junit.*;
-
 public class BioclipseStoreTest {
-
-    
-    
     @Test
     public void testPutAndGet() throws FileNotFoundException {
         Object key     = new Object();
         Object model   = new Object();
         IResource file = new MockIFile();
-        
         BioclipseStore.put( file, key, model );
         assertSame( model, BioclipseStore.get( file, key ) ); 
     }
-    
     @Test
     public void testMultiplePutAndGet() throws FileNotFoundException {
-
         Object key1    = new Object();
         Object model1  = new Object();
         Object key2    = new Object();
         Object model2  = new Object();
         IResource file = new MockIFile();
-        
         BioclipseStore.put( file, key1, model1 );
         BioclipseStore.put( file, key2, model2 );
         assertSame( model1, BioclipseStore.get( file, key1 ) );

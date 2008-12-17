@@ -8,30 +8,25 @@
  * Contributors:
  *     Rob Schellhorn
  ******************************************************************************/
-
 package net.bioclipse.compute;
-
 import org.eclipse.core.runtime.Status;
-
 /**
  * @author Rob Schellhorn
  */
 public class WarningStatus extends Status {
-
-	/**
-	 * @param pluginId
-	 * @param message
-	 */
-	public WarningStatus(String pluginId, String message) {
-		this(pluginId, message, null);
-	}
-
-	/**
-	 * @param pluginId
-	 * @param message
-	 * @param cause
-	 */
-	public WarningStatus(String pluginId, String message, Throwable cause) {
-		super(WARNING, pluginId, OK, message, cause);
-	}
+        /**
+         * @param pluginId
+         * @param message
+         */
+        public WarningStatus(String pluginId, String message) {
+                this(pluginId, message, null);
+        }
+        /**
+         * @param pluginId
+         * @param message
+         * @param cause
+         */
+        public WarningStatus(String pluginId, String message, Throwable cause) {
+                super(WARNING, pluginId, OK, message, cause);
+        }
 }

@@ -8,12 +8,9 @@
  * Contributors:
  *     
  *******************************************************************************/
-
 package net.bioclipse.dialogs;
-
 import net.bioclipse.usermanager.AccountType;
 import net.bioclipse.usermanager.UserContainer;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -29,7 +26,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-
 /**
  * Dialog for inputing an account name
  * 
@@ -37,25 +33,20 @@ import org.eclipse.ui.PlatformUI;
  *
  */
 public class CreateAccountDialog extends Dialog {
-
     private Combo combo;
     private Text text;
     private String accountName;
     private AccountType accountType;
-    
     private UserContainer sandBoxUserManager;
-    
     /**
      * Create the dialog
      * @param parentShell
      */
     public CreateAccountDialog( Shell parentShell, 
                                 UserContainer sandBoxUserManager ) {
-        
         super(parentShell);
         this.sandBoxUserManager = sandBoxUserManager;
     }
-
     /**
      * Create contents of the dialog
      * @param parent
@@ -64,13 +55,11 @@ public class CreateAccountDialog extends Dialog {
     protected Control createDialogArea(Composite parent) {
         Composite container = (Composite) super.createDialogArea(parent);
         container.setLayout(new FormLayout());
-
         final Label accountNameLabel = new Label(container, SWT.NONE);
         final FormData formData = new FormData();
         formData.left = new FormAttachment(0, 15);
         accountNameLabel.setLayoutData(formData);
         accountNameLabel.setText("Account name:");
-
         text = new Text(container, SWT.BORDER);
         formData.bottom = new FormAttachment(text, 0, SWT.BOTTOM);
         final FormData formData_1 = new FormData();
@@ -78,7 +67,6 @@ public class CreateAccountDialog extends Dialog {
         formData_1.bottom = new FormAttachment(0, 45);
         formData_1.left = new FormAttachment(accountNameLabel, 5, SWT.RIGHT);
         text.setLayoutData(formData_1);
-
         final Label accountTypeLabel = new Label(container, SWT.NONE);
         final FormData formData_2 = new FormData();
         formData_2.bottom = new FormAttachment(0, 92);
@@ -86,7 +74,6 @@ public class CreateAccountDialog extends Dialog {
         formData_2.left = new FormAttachment(accountNameLabel, 0, SWT.LEFT);
         accountTypeLabel.setLayoutData(formData_2);
         accountTypeLabel.setText("Account type:");
-
         combo = new Combo(container, SWT.NONE|SWT.READ_ONLY);
         final FormData formData_3 = new FormData();
         formData_3.right = new FormAttachment(100, -28);
@@ -100,7 +87,6 @@ public class CreateAccountDialog extends Dialog {
         //
         return container;
     }
-
     /**
      * Create contents of the button bar
      * @param parent
@@ -112,7 +98,6 @@ public class CreateAccountDialog extends Dialog {
         createButton(parent, IDialogConstants.CANCEL_ID,
                 IDialogConstants.CANCEL_LABEL, false);
     }
-
     /**
      * Return the initial size of the dialog
      */
@@ -120,12 +105,10 @@ public class CreateAccountDialog extends Dialog {
     protected Point getInitialSize() {
         return new Point(505, 203);
     }
-
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
         newShell.setText("Input new account name");
     }
-    
     protected void buttonPressed(int buttonId) {
         if (buttonId == IDialogConstants.OK_ID) {
             if( "".equals(text.getText()) ) {
@@ -144,14 +127,12 @@ public class CreateAccountDialog extends Dialog {
         }
         super.buttonPressed(buttonId);
     }
-
     /**
      * @return the account name
      */
     public String getAccountName() {
         return accountName;
     }
-    
     /**
      * @return the chosen accountType
      */

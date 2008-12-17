@@ -11,13 +11,11 @@
  *     
  ******************************************************************************/
 package net.bioclipse.scripting.ui.business;
-
 import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.scripting.Activator;
 import net.bioclipse.scripting.Hook;
 import net.bioclipse.scripting.JsAction;
 import net.bioclipse.scripting.ui.views.JsConsoleView;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -26,7 +24,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-
 /**
  * Contains general methods for interacting with the Javascript console.
  * 
@@ -34,7 +31,6 @@ import org.eclipse.ui.PlatformUI;
  *
  */
 public class JsConsoleManager implements IJsConsoleManager {
-
     private JsConsoleView getJsConsoleView() {
         try {
             return (JsConsoleView)
@@ -49,27 +45,22 @@ public class JsConsoleManager implements IJsConsoleManager {
             );
         }
     }
-    
     public void clear() {
         Display.getDefault().asyncExec( new Runnable() {
             public void run() { getJsConsoleView().clearConsole(); }
         } );
     }
-
     public void print(final String message) {
         Display.getDefault().asyncExec( new Runnable() {
             public void run() { getJsConsoleView().printMessage( message ); }
         } );
     }
-
     public void say(final String message) {
         print(message + "\n");
     }
-
     public String getNamespace() {
         return "js";
     }
-
     public String eval( String command ) {
         final String[] evalResult = new String[1];
         Activator.getDefault().JS_THREAD.enqueue(
@@ -81,22 +72,17 @@ public class JsConsoleManager implements IJsConsoleManager {
         );
         return evalResult[0];
     }
-
     public void executeFile( IFile file ) {
         executeFile(file, new NullProgressMonitor());
     }
-
     public void executeFile( String filePath ) {
         executeFile(
           ResourcePathTransformer.getInstance().transform( filePath )
         );
     }
-
     public void executeFile( IFile file, final IProgressMonitor monitor ) {
         String contents;
-        
         getJsConsoleView().deactivatePrompt();
-
         monitor.beginTask( "read file", 1 );
         try {
             java.util.Scanner sc = new java.util.Scanner(file.getContents());
@@ -124,9 +110,7 @@ public class JsConsoleManager implements IJsConsoleManager {
                         }
                     } );
                 }
-
                 private void message(final String text) {
-
                     Display.getDefault().asyncExec( new Runnable() {
                         public void run() {
                             MessageDialog.openInformation( 

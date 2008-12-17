@@ -11,10 +11,8 @@
  *     
  ******************************************************************************/
 package net.bioclipse.core.domain;
-
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
-
 /**
  * Definitions of the basic functionality of all domain objects
  * 
@@ -22,12 +20,10 @@ import org.eclipse.core.runtime.IAdaptable;
  *
  */
 public interface IBioObject extends IAdaptable {
-    
     /**
      * @return Eclipse resource
      */
     public IResource getResource();
-    
     /**
      * @return an unique id for the object
      */

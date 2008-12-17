@@ -8,14 +8,11 @@
  * Contributors:
  *     
  *******************************************************************************/
-
 package net.bioclipse.usermanager;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
 /**
  * An account keeps properties (such as: username, password, url) in 
  * key-value pairs. 
@@ -24,15 +21,12 @@ import java.util.Map;
  *
  */
 class Account implements Serializable {
-
     private static final long serialVersionUID = 8771912824726033314L;
-    
     private String accountId;
     private String username;
     private String key;
     private HashMap<String, String> properties;
     private AccountType accountType;
-    
     /**
      * Constructor for creating a new Account
      * 
@@ -44,7 +38,6 @@ class Account implements Serializable {
     Account( String accountId, 
              HashMap<String, String> properties, 
              AccountType accountType) {
-        
         this.accountId   = accountId;
         this.username    = username;
         this.key         = key;
@@ -52,56 +45,45 @@ class Account implements Serializable {
         this.accountType = accountType;
         //TODO Add check that the properties correspond to those defined for the AccountType 
     }
-
     /**
      * Contructor for creating a copy of an Account
      * 
      * @param account the Account to be copied
      */
     Account(Account account) {
-
         this.properties  = new HashMap<String, String>( account.properties );
         this.accountId   = account.accountId;
         this.key         = account.key;
         this.username    = account.username;
         this.accountType = new AccountType(account.accountType);
     }
-
     String getPropertyValue(String property) {
         return properties.get(property);
     }
-    
     Collection<String> getProperties() {
         return properties.values();
     }
-    
     Map<String, String> getPropertiesHashMap() {
         return properties;
     }
-
     protected String getAccountId() {
         return accountId;
     }
-
     protected String getKey() {
         return key;
     }
-
     protected String getUsername() {
         return username;
     }
-    
     public String toString() {
         return this.accountId;
     }
-
     /**
      * @return the account type
      */
     public AccountType getAccountType() {
         return new AccountType(accountType);
     }
-
     @Override
     public int hashCode() {
         final int PRIME = 31;
@@ -118,7 +100,6 @@ class Account implements Serializable {
                  + ((username == null) ? 0 : username.hashCode());
         return result;
     }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

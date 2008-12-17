@@ -9,35 +9,28 @@
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
 package net.bioclipse.core.internal.filesystem.memory;
-
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.model.IWorkbenchAdapter;
-
 /**
  * 
  */
 public class WorkbenchMemoryNode implements IWorkbenchAdapter {
-
-	public Object[] getChildren(Object parent) {
-		try {
-			return ((MemoryFileStore) parent).childStores(EFS.NONE, null);
-		} catch (CoreException e) {
-			return new Object[0];
-		}
-	}
-
-	public ImageDescriptor getImageDescriptor(Object object) {
-		return null;
-	}
-
-	public String getLabel(Object o) {
-		return ((MemoryFileStore) o).getName();
-	}
-
-	public Object getParent(Object o) {
-		return ((MemoryFileStore) o).getParent();
-	}
-
+        public Object[] getChildren(Object parent) {
+                try {
+                        return ((MemoryFileStore) parent).childStores(EFS.NONE, null);
+                } catch (CoreException e) {
+                        return new Object[0];
+                }
+        }
+        public ImageDescriptor getImageDescriptor(Object object) {
+                return null;
+        }
+        public String getLabel(Object o) {
+                return ((MemoryFileStore) o).getName();
+        }
+        public Object getParent(Object o) {
+                return ((MemoryFileStore) o).getParent();
+        }
 }

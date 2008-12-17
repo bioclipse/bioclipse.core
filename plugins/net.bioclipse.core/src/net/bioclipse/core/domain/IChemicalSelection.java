@@ -7,10 +7,7 @@
  *
  *******************************************************************************/
 package net.bioclipse.core.domain;
-
 public interface IChemicalSelection {
-
-	public Object getChemicalModel();
+        public Object getChemicalModel();
     public Object getSelection();
-
 }

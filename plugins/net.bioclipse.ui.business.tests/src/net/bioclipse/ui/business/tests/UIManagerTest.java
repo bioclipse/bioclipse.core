@@ -11,24 +11,18 @@
  *
  ******************************************************************************/
 package net.bioclipse.ui.business.tests;
-
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.tests.AbstractManagerTest;
 import net.bioclipse.ui.business.IUIManager;
 import net.bioclipse.ui.business.UIManager;
-
 public class UIManagerTest extends AbstractManagerTest {
-
     IUIManager ui;
-
     //Do not use SPRING OSGI for this manager
     //since we are only testing the implementations of the manager methods
     public UIManagerTest() {
         ui = new UIManager();
     }
-
     public IBioclipseManager getManager() {
         return ui;
     }
-
 }

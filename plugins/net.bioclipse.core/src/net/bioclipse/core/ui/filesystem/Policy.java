@@ -9,35 +9,29 @@
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
 package net.bioclipse.core.ui.filesystem;
-
 import org.eclipse.core.runtime.*;
 import org.osgi.framework.Bundle;
-
 /**
  * 
  */
 public class Policy {
-	private static Bundle bundle;
-	public static final String PI_FILESYSTEM_EXAMPLE = "org.eclipse.ui.examples.filesystem"; //$NON-NLS-1$
-
-	private static Bundle getBundle() {
-		if (bundle == null)
-			bundle = Platform.getBundle(PI_FILESYSTEM_EXAMPLE);
-		return bundle;
-	}
-
-	public static void log(IStatus status) {
-		Platform.getLog(getBundle()).log(status);
-	}
-
-	public static void log(String message, IStatus status) {
-		final ILog log = Platform.getLog(getBundle());
-		log.log(new Status(status.getSeverity(), PI_FILESYSTEM_EXAMPLE, 1, message, null));
-		log.log(status);
-	}
-
-	public static void log(String message, Throwable t) {
-		final ILog log = Platform.getLog(getBundle());
-		log.log(new Status(IStatus.ERROR, PI_FILESYSTEM_EXAMPLE, 1, message, t));
-	}
+        private static Bundle bundle;
+        public static final String PI_FILESYSTEM_EXAMPLE = "org.eclipse.ui.examples.filesystem"; //$NON-NLS-1$
+        private static Bundle getBundle() {
+                if (bundle == null)
+                        bundle = Platform.getBundle(PI_FILESYSTEM_EXAMPLE);
+                return bundle;
+        }
+        public static void log(IStatus status) {
+                Platform.getLog(getBundle()).log(status);
+        }
+        public static void log(String message, IStatus status) {
+                final ILog log = Platform.getLog(getBundle());
+                log.log(new Status(status.getSeverity(), PI_FILESYSTEM_EXAMPLE, 1, message, null));
+                log.log(status);
+        }
+        public static void log(String message, Throwable t) {
+                final ILog log = Platform.getLog(getBundle());
+                log.log(new Status(IStatus.ERROR, PI_FILESYSTEM_EXAMPLE, 1, message, t));
+        }
 }

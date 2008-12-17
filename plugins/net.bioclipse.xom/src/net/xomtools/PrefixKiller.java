@@ -9,22 +9,17 @@
  *     Egon Willighagen - first implementation
  *******************************************************************************/
 package net.xomtools;
-
 import nu.xom.Element;
 import nu.xom.Elements;
-
 public class PrefixKiller {
-
-	public static void killPrefix(Element entryNode) {
-		// kill the prefix
-		entryNode.setNamespacePrefix(null);
-		
-		// now recurse
-		Elements children = entryNode.getChildElements();
-		for (int i=0; i<children.size(); i++) {
-			Element child = children.get(i);
-			killPrefix(child);
-		}
-	}
-
+        public static void killPrefix(Element entryNode) {
+                // kill the prefix
+                entryNode.setNamespacePrefix(null);
+                // now recurse
+                Elements children = entryNode.getChildElements();
+                for (int i=0; i<children.size(); i++) {
+                        Element child = children.get(i);
+                        killPrefix(child);
+                }
+        }
 }

@@ -10,13 +10,10 @@
  *     
  ******************************************************************************/
 package net.bioclipse.core.util;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
-
 /**
  * Cache images to save memory and time
  * 
@@ -25,12 +22,10 @@ import org.eclipse.swt.graphics.Image;
  */
 public class ImageCache {
     private final Map<ImageDescriptor, Image> imageMap;
-
     public ImageCache() {
         super();
         imageMap = new HashMap<ImageDescriptor, Image>();    
     }
-
     @SuppressWarnings("unchecked")
     public Image getImage(ImageDescriptor imageDescriptor) {
         if (imageDescriptor == null)
@@ -42,7 +37,6 @@ public class ImageCache {
         }
         return image;
     }
-
     public void dispose() {
         for (Image img : imageMap.values()){
             img.dispose();

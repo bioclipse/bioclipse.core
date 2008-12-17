@@ -10,19 +10,15 @@
  *     
  ******************************************************************************/
 package net.bioclipse.ui.business;
-
 import java.io.InputStream;
-
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.TestMethods;
 import net.bioclipse.core.business.IBioclipseManager;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
-
 /**
  * Controls programmatic access to the Bioclipse graphical user
  * interface (GUI).
@@ -36,26 +32,21 @@ import org.eclipse.core.runtime.IProgressMonitor;
     "net.bioclipse.ui.business.tests.UIManagerPluginTest"
 )
 public interface IUIManager extends IBioclipseManager {
-
     @Recorded
     @PublishedMethod(params="String filePath",
                      methodSummary="Opens a file in an editor.")
     @TestMethods("testOpen_String")
     public void open(String filePath);
-
     @Recorded
     public void open(IFile file);
-    
     @Recorded
     @PublishedMethod(params="String filePath",
                      methodSummary="Deletes a file.")
     @TestMethods("testSaveAndRemove_String")
     public void remove(String filePath);
-
     @Recorded
     @TestMethods("testSaveAndRemove_IFile")
     public void remove(IFile file);
-
     @Recorded
     @PublishedMethod(
         params="String path to save to, InputStream content to save",
@@ -63,7 +54,6 @@ public interface IUIManager extends IBioclipseManager {
     )
     @TestMethods("testSaveAndRemove_String")
     public void save(String filePath, InputStream toWrite);
-
     @Recorded
     @PublishedMethod(
         params="IFile file to save to, InputStream content to save",
@@ -72,7 +62,6 @@ public interface IUIManager extends IBioclipseManager {
     @TestMethods("testSaveAndRemove_IFile")
     public void save(IFile file, InputStream toWrite,
                      IProgressMonitor monitor, Runnable callBackFunction);
-
     @Recorded
     @PublishedMethod(
         params="IFile file to exist the existence of",
@@ -80,7 +69,6 @@ public interface IUIManager extends IBioclipseManager {
     )
     @TestMethods("testExists_IFile")
     public boolean fileExists(IFile file);
-
     @Recorded
     @PublishedMethod(
         params="IFile file to exist the existence of",

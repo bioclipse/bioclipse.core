@@ -7,7 +7,6 @@
  *
  *******************************************************************************/
 package net.bioclipse.ui;
-
 /**
  *
  * Tools for simplified Rhino scripting
@@ -15,25 +14,19 @@ package net.bioclipse.ui;
  * @author edrin, ola
  *
  */
-
 import net.bioclipse.scripting.INamespaceProvider;
-
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
-
 public class ScriptingTools implements INamespaceProvider{
-
     private IProgressMonitor monitor = null;
-
     /**
      * Constructor
      */
     public ScriptingTools() {
     }
-
     /**
      * Constructor for threaded scripts
      * @param monitor The monitor, used to cancel a script
@@ -41,7 +34,6 @@ public class ScriptingTools implements INamespaceProvider{
     public ScriptingTools(IProgressMonitor monitor) {
         this.monitor = monitor;
     }
-
     /**
      * Checks if the threaded script was canceled by the user. This function is only
      * useful for scripts that are run in separate threads. It uses the monitor that was
@@ -51,10 +43,8 @@ public class ScriptingTools implements INamespaceProvider{
     public boolean isCanceled() {
         if (monitor == null)    // always return false if not monitor is available
             return false;
-
         return monitor.isCanceled();
     }
-
     /**
      * Shows a message box. Please consider that this function requires special care when
      * used in a threaded script.
@@ -68,7 +58,6 @@ public class ScriptingTools implements INamespaceProvider{
                 title,
                 message);
     }
-
     /**
      * Shows a message box. Please consider that this function requires special care when
      * used in a threaded script.
@@ -81,7 +70,6 @@ public class ScriptingTools implements INamespaceProvider{
                 "Bioclipse Rhino Script",
                 message);
     }
-
     /**
      * Causes the script's thread to sleep for the specified amount of milliseconds.
      * (Wraps: Thread.sleep(ms);)
@@ -93,7 +81,6 @@ public class ScriptingTools implements INamespaceProvider{
         } catch (InterruptedException e) {
         }
     }
-
     /**
      * Returns Bioclipse's shell.
      * (Wraps: PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();)
@@ -102,7 +89,6 @@ public class ScriptingTools implements INamespaceProvider{
     public Shell getShell() {
         return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
     }
-
     /**
      * Executes the specified Runnable within Bioclipse's main thread. This function is only
      * useful for scripts that are run in separate threads.
@@ -113,7 +99,6 @@ public class ScriptingTools implements INamespaceProvider{
         // do not use async, we need the GUI!
         Display.getDefault().syncExec(runnable);
     }
-
     /**
      * Converts the specified string to integer.
      * (Wraps: Integer.parseInt(string);)
@@ -123,7 +108,6 @@ public class ScriptingTools implements INamespaceProvider{
     public int string2int(String string) {
         return Integer.parseInt(string);
     }
-
     /**
      * Converts the specified string to integer.
      * (Wraps: new Integer(i).toString();)

@@ -10,12 +10,9 @@
  *     
  ******************************************************************************/
 package net.bioclipse.scripting.ui.views;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import net.bioclipse.core.domain.IBioObject;
-
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
 import org.eclipse.jface.viewers.*;
@@ -26,8 +23,6 @@ import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
 import org.eclipse.core.runtime.IAdaptable;
-
-
 /**
  * View containing virtual resources.
  * 
@@ -40,12 +35,10 @@ public class VirtualView extends ViewPart {
     private Action action1;
     private Action action2;
     private Action doubleClickAction;
-
     class VirtualObject implements IAdaptable {
         private IBioObject bioObject;
         private VirtualParent parent;
         private String name;
-        
         public VirtualObject(String name) {
             this.name = name;
         }
@@ -71,7 +64,6 @@ public class VirtualView extends ViewPart {
             this.name = name;
         }
     }
-    
     class VirtualParent extends VirtualObject {
         private List<VirtualObject> children;
         public VirtualParent(String name) {
@@ -93,11 +85,9 @@ public class VirtualView extends ViewPart {
             return children.size()>0;
         }
     }
-
     class ViewContentProvider implements IStructuredContentProvider, 
                                            ITreeContentProvider {
         private VirtualParent invisibleRoot;
-
         public void inputChanged(Viewer v, Object oldInput, Object newInput) {
         }
         public void dispose() {
@@ -139,21 +129,17 @@ public class VirtualView extends ViewPart {
             p1.addChild(to1);
             p1.addChild(to2);
             p1.addChild(to3);
-            
             VirtualObject to4 = new VirtualObject("Leaf 4");
             VirtualParent p2 = new VirtualParent ("Parent 2");
             p2.addChild(to4);
-            
             VirtualParent root = new VirtualParent("Root");
             root.addChild(p1);
             root.addChild(p2);
-            
             invisibleRoot = new VirtualParent("");
             invisibleRoot.addChild(root);
         }
     }
     class ViewLabelProvider extends LabelProvider {
-
         public String getText(Object obj) {
             return obj.toString();
         }
@@ -166,13 +152,11 @@ public class VirtualView extends ViewPart {
     }
     class NameSorter extends ViewerSorter {
     }
-
     /**
      * The constructor.
      */
     public VirtualView() {
     }
-
     /**
      * This is a callback that will allow us
      * to create the viewer and initialize it.
@@ -189,7 +173,6 @@ public class VirtualView extends ViewPart {
         hookDoubleClickAction();
         contributeToActionBars();
     }
-
     private void hookContextMenu() {
         MenuManager menuMgr = new MenuManager("#PopupMenu");
         menuMgr.setRemoveAllWhenShown(true);
@@ -202,19 +185,16 @@ public class VirtualView extends ViewPart {
         viewer.getControl().setMenu(menu);
         getSite().registerContextMenu(menuMgr, viewer);
     }
-
     private void contributeToActionBars() {
         IActionBars bars = getViewSite().getActionBars();
         fillLocalPullDown(bars.getMenuManager());
         fillLocalToolBar(bars.getToolBarManager());
     }
-
     private void fillLocalPullDown(IMenuManager manager) {
         manager.add(action1);
         manager.add(new Separator());
         manager.add(action2);
     }
-
     private void fillContextMenu(IMenuManager manager) {
         manager.add(action1);
         manager.add(action2);
@@ -223,14 +203,12 @@ public class VirtualView extends ViewPart {
         // Other plug-ins can contribute there actions here
         manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
     }
-    
     private void fillLocalToolBar(IToolBarManager manager) {
         manager.add(action1);
         manager.add(action2);
         manager.add(new Separator());
         drillDownAdapter.addNavigationActions(manager);
     }
-
     private void makeActions() {
         action1 = new Action() {
             public void run() {
@@ -241,7 +219,6 @@ public class VirtualView extends ViewPart {
         action1.setToolTipText("Action 1 tooltip");
         action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
             getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-        
         action2 = new Action() {
             public void run() {
                 showMessage("Action 2 executed");
@@ -259,7 +236,6 @@ public class VirtualView extends ViewPart {
             }
         };
     }
-
     private void hookDoubleClickAction() {
         viewer.addDoubleClickListener(new IDoubleClickListener() {
             public void doubleClick(DoubleClickEvent event) {
@@ -273,7 +249,6 @@ public class VirtualView extends ViewPart {
             "Virtual Navigator",
             message);
     }
-
     /**
      * Passing the focus request to the viewer's control.
      */

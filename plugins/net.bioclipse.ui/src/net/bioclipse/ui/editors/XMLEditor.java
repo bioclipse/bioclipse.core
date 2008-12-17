@@ -7,13 +7,9 @@
  *
  *******************************************************************************/
 package net.bioclipse.ui.editors;
-
 import org.eclipse.ui.editors.text.TextEditor;
-
 public class XMLEditor extends TextEditor {
-
     private ColorManager colorManager;
-
     public XMLEditor() {
         super();
         colorManager = new ColorManager();
@@ -24,5 +20,4 @@ public class XMLEditor extends TextEditor {
         colorManager.dispose();
         super.dispose();
     }
-
 }

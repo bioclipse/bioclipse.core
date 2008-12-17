@@ -8,25 +8,18 @@
  * Contributors:
  *     Rob Schellhorn
  ******************************************************************************/
-
 package net.bioclipse.compute.internal;
-
 import org.eclipse.osgi.util.NLS;
-
 /**
  * @author Rob Schellhorn
  */
 public class Messages extends NLS {
-
-	private static final String BUNDLE_NAME = "net.bioclipse.compute.internal.messages"; //$NON-NLS-1$
-
-	public static String ComputationWizardRegistry_0;
-
-	static {
-		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
-	}
-
-	private Messages() {
-		// 
-	}
+        private static final String BUNDLE_NAME = "net.bioclipse.compute.internal.messages"; //$NON-NLS-1$
+        public static String ComputationWizardRegistry_0;
+        static {
+                NLS.initializeMessages(BUNDLE_NAME, Messages.class);
+        }
+        private Messages() {
+                // 
+        }
 }

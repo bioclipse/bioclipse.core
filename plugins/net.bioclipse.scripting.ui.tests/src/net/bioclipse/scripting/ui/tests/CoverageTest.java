@@ -9,22 +9,17 @@
  * Contact: Bioclipse Project <http://www.bioclipse.net>
  ******************************************************************************/
 package net.bioclipse.scripting.ui.tests;
-
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.tests.coverage.AbstractCoverageTest;
 import net.bioclipse.scripting.ui.business.JsConsoleManager;
-
 /**
  * JUnit tests for checking if the tested Manager is properly tested.
  * 
  * @author egonw
  */
 public class CoverageTest extends AbstractCoverageTest {
-    
     private static JsConsoleManager manager = new JsConsoleManager();
-
     public IBioclipseManager getManager() {
         return manager;
     }
-
 }

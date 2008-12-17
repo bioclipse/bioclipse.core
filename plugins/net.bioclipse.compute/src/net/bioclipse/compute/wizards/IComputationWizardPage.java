@@ -9,16 +9,12 @@
  *     Egon Willighagen
  ******************************************************************************/
 package net.bioclipse.compute.wizards;
-
 import org.eclipse.jface.wizard.IWizardPage;
-
 /**
  * @author Egon Willighagen
  */
 public interface IComputationWizardPage extends IWizardPage {
-	
-	public void loadDefaultPreferences();
-	public void loadPreferences();
-	public void storePreferences();
-	
+        public void loadDefaultPreferences();
+        public void loadPreferences();
+        public void storePreferences();
 }

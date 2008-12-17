@@ -11,20 +11,15 @@
  *                       Spring Bundle Extender startup
  *     
  ******************************************************************************/
-
 package net.bioclipse.ui;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.core.util.Predicate;
 import net.bioclipse.core.util.ListFuncs;
 import net.bioclipse.recording.IHistory;
-
 import org.apache.log4j.Logger;
-
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.core.runtime.CoreException;
@@ -35,7 +30,6 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.framework.BundleException;
-
 /**
  * Plug-in singleton and Bundle activator for the Bioclipse UI plug-in.
  *  
@@ -47,37 +41,24 @@ import org.osgi.framework.BundleException;
  * @author ola
  *
  */
-
 public class Activator extends BioclipseActivator {
-    
     // The plug-in ID
     public static final String PLUGIN_ID = "net.bioclipse.ui";
-
     public final ConsoleEchoer CONSOLE = new ConsoleEchoer();
-
     public boolean checkForUpdates;
-
     private static final Logger logger = Logger.getLogger(Activator.class);
-    
     private ServiceTracker finderTracker;
-    
     private static final String EXTENDER_BUNDLE_NAME = 
         "org.springframework.bundle.osgi.extender";
-
     private static final String JVM_VERSION_ERROR_MSG = 
         "** Bioclipse startup FAILED **\n" +
         "Bioclipse must be run with Java 1.5 (sometimes referred to as 5.0) or better.\n" +
         "If you have multiple versions of Java installed, please edit the file " +
              "'bioclipse.ini' to point to java 1.5 or 1.6 by adding a line like below: \n" +
         " -vm /path/to/java1.5/bin/java";
-
     public static final String MOLECULE_2D_ICON = "icon.molecule_2D";
-    
     // The shared singleton instance.
     private static Activator plugin; 
-    
-    
-    
     @Override
     /** Check out these pages for more info
      *  http://richclientplatform.blogspot.com/2007/05/plugin-your-images.html
@@ -92,7 +73,6 @@ public class Activator extends BioclipseActivator {
                                          null ));
         registry.put( MOLECULE_2D_ICON, myImage );        
     }
-    
      /** Returns an image descriptor for the image file at the given plug-in
      * relative path
      * 
@@ -100,41 +80,29 @@ public class Activator extends BioclipseActivator {
      *            the path
      * @return the image descriptor
      */
-    
     public static ImageDescriptor getImageDescriptor(String path) {
         return imageDescriptorFromPlugin(PLUGIN_ID, path);
     }
-
-    
     /**
      * The constructor.
      */
-    
     public Activator() {
         plugin = this;
     }
-
-    
     public static Activator getDefault() {
         return plugin;
     }
-
-    
     @Override
     public void start(BundleContext context) throws Exception {       
         super.start(context);
-
         checkJVMVersion();  
         handleStartupArgs();
         startBundleExtender();
         initBioclipseCache();
-        
         finderTracker = new ServiceTracker(context, IHistory.class.getName(),
                 null);
         finderTracker.open();
     }
-
-
     private void initBioclipseCache() {
         try {
             File folder=BioclipseCache.getCacheDir();
@@ -145,10 +113,7 @@ public class Activator extends BioclipseActivator {
         } catch (CoreException e) {
             logger.info("Error initializing Bioclipse cache dir: " + e.getMessage());
         }
-        
     }
-
-
     public IHistory getHistoryObject() {
         IHistory history = null;
         try {
@@ -165,28 +130,18 @@ public class Activator extends BioclipseActivator {
         logger.debug("getHistoryObject() returning history object.");
         return history;
     }
-  
-    
     private void handleStartupArgs() {
         String[] args  = Platform.getCommandLineArgs();
-
         for (int i = 0; i < args.length; i++) {
             logger.debug("Detected argument "+ i + ": " + args[i]);
-            
             if (args[i].equalsIgnoreCase("-noupdate"))
             	checkForUpdates=false;
             else
             	checkForUpdates=true;
-            	
             //Handle other arguments for Bioclipse here
         }   
-        
-        
     }
-    
-    
     private void checkJVMVersion() {
-
         if (!(System.getProperty("java.version").startsWith("1.5")) &&
             !(System.getProperty("java.version").startsWith("1.6"))) {
             System.err.println(JVM_VERSION_ERROR_MSG);
@@ -194,8 +149,6 @@ public class Activator extends BioclipseActivator {
             System.exit(0);
         }
     }
-    
-    
     /* Attempts to start all resolved Spring Bundle Extender bundles.
      * Will log an error if it can't find or start the extender, and warns if
      * there is more than one extender bundle in the resolved state in the
@@ -208,46 +161,36 @@ public class Activator extends BioclipseActivator {
      * (Moreover implicitly assumes that Spring appropriately labels its bundles
      * with the singleton directive, thus forcing the resolver to pick only 
      * one to resolve, if multiple extender bundles cannot coexist.) */
-    
     private void startBundleExtender() {
-
         // How we define the bundles we consider startable. Ignores INSTALLED
         // bundles on the assumption that resolution just completed and there
         // must be a reason INSTALLED bundles were not resolved then.
         // (UNINSTALLED bundles are required never to be started.)
-        
         Predicate<Bundle> isStartableAndHasBeenResolved = new Predicate<Bundle>() {
             public Boolean eval(Bundle b) {
                 final int mask = Bundle.INSTALLED | Bundle.UNINSTALLED;
                 return (b.getState() & mask) == 0;    // autoboxes to Boolean class
             }
         };
-        
         // start all Spring Extender bundles that meet the condition set out 
         // in the predicate above
-        
         List<Bundle> allExtenders = 
             Arrays.asList(Platform.getBundles(EXTENDER_BUNDLE_NAME, null));    
         List<Bundle> toStart = 
             ListFuncs.filter(allExtenders, isStartableAndHasBeenResolved);
-       
         for (Bundle b : toStart)
             startTransiently(b);
-
         // and now for some warnings
-
         final int nToStart = toStart.size();
         if (nToStart > 1) {
             logger.warn("More than one resolved Spring Bundle Extender found, "
                     + "is this expected?");
         }
         else if (nToStart == 0) {
-            
             // This is more problematic. The most likely reason for getting
             // here is that we no longer have the correct symbolic name of the
             // bundle extender, or the other bundles no longer express a 
             // dependency on the bundle extender.
-            
             logger.warn("No resolved Spring bundle extender found, valiantly "
                     + "attempting to soldier on anyway.");
         }
@@ -256,13 +199,10 @@ public class Activator extends BioclipseActivator {
                 "Oops forgot a case when counting startable bundle extenders.";
         }
     }
-    
-    
     /* What we do with the bundles we want to start. Notes:
        - could easily factor out bundle name in logging comments to reuse    
        - retain transient start or else started bundle will autostart 
          next time, potentially causing confusion and/or races */
-    
     private Boolean startTransiently(Bundle b) {
         logger.debug("Attempting to start Spring Bundle Extender...");
         try {
@@ -276,10 +216,7 @@ public class Activator extends BioclipseActivator {
             return false;
         }
     }
-    
     public static Logger getLogger() {
         return logger;
     }
-    
 }
-

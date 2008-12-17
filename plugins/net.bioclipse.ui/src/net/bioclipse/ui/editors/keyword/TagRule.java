@@ -8,13 +8,10 @@
  * Contributors:
  *     Ola Spjuth - core API and implementation
  *******************************************************************************/
-
 package net.bioclipse.ui.editors.keyword;
-
 import org.eclipse.jface.text.rules.ICharacterScanner;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.MultiLineRule;
-
 /**
  * The TagRule marks words between '<' and '>'.
  * 
@@ -22,7 +19,6 @@ import org.eclipse.jface.text.rules.MultiLineRule;
  *
  */
 public class TagRule extends MultiLineRule {
-
     public TagRule(IToken token) {
         super("<", ">", token);  //$NON-NLS-1$//$NON-NLS-2$
     }

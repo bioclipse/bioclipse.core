@@ -8,23 +8,19 @@
  * Contributors:
  *     Rob Schellhorn
  ******************************************************************************/
-
 package net.bioclipse.compute.wizards;
-
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.ui.IWorkbenchWizard;
-
 /**
  * @author Rob Schellhorn
  */
 public interface IComputationWizard extends IWorkbenchWizard {
-
-	/**
-	 * Returns the configured computation job encapsulated in a Job. If this
-	 * wizard finishes ok, this method <em>must</em> return a ready-to-use
-	 * instance.
-	 * 
-	 * @return The computation job.
-	 */
-	public Job getComputationJob();
+        /**
+         * Returns the configured computation job encapsulated in a Job. If this
+         * wizard finishes ok, this method <em>must</em> return a ready-to-use
+         * instance.
+         * 
+         * @return The computation job.
+         */
+        public Job getComputationJob();
 }

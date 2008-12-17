@@ -7,9 +7,7 @@
  *
  *******************************************************************************/
 package net.bioclipse.scripting.ui.views;
-
 import java.util.ArrayList;
-
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.recording.HistoryEvent;
 import net.bioclipse.recording.IHistory;
@@ -17,7 +15,6 @@ import net.bioclipse.recording.IHistoryListener;
 import net.bioclipse.recording.IRecord;
 import net.bioclipse.recording.JsScriptGenerator;
 import net.bioclipse.ui.Activator;
-
 import org.apache.log4j.Logger;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
@@ -45,16 +42,11 @@ import org.eclipse.ui.internal.editors.text.EditorsPlugin;
 import org.eclipse.ui.internal.editors.text.NonExistingFileEditorInput;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.texteditor.IDocumentProvider;
-
 public class ActionHistoryView extends ViewPart implements IHistoryListener {
-
     private IHistory history;
     private List actionList;
-
     private static final Logger logger =
         Logger.getLogger(ActionHistoryView.class);
-
-
     public ActionHistoryView() {
         history = Activator.getDefault().getHistoryObject();
         history.addHistoryListener(this);
@@ -67,15 +59,12 @@ public class ActionHistoryView extends ViewPart implements IHistoryListener {
         history.removeHistoryListener(this);
         super.dispose();
     }
-
     @Override
     public void createPartControl(Composite parent) {
         actionList = new List(parent, SWT.MULTI|SWT.V_SCROLL);
         receiveHistoryEvent(null);
-
         addContextMenu();
     }
-
     private void addContextMenu() {
         MenuManager mgr = new MenuManager();
         mgr.setRemoveAllWhenShown(true);
@@ -84,19 +73,15 @@ public class ActionHistoryView extends ViewPart implements IHistoryListener {
                 mgr.add(new Action("Generate Javascript") {
                     @Override
                     public void run() {
-
                         java.util.List<IRecord> records =
                             new ArrayList<IRecord>();
-
                         for( int i : actionList.getSelectionIndices() ) {
                             records.add(history.getRecords().get(i));
                         }
-
                         String[] script
                             = new JsScriptGenerator()
                                   .generateScript(
                                           records.toArray(new IRecord[0]) );
-
                         //Set up string content
                         String content="";
                         StringBuilder sb = new StringBuilder();
@@ -105,10 +90,7 @@ public class ActionHistoryView extends ViewPart implements IHistoryListener {
                             sb.append("\n");
                         }
                         content = sb.toString();
-
                         //Open editor with script as content
-
-
                         IFileStore fileStore= queryFileStore();
                         IEditorInput input= createEditorInput(fileStore);
                         String editorId= getEditorId(fileStore);
@@ -122,7 +104,6 @@ public class ActionHistoryView extends ViewPart implements IHistoryListener {
 //                                String currentContent=doc.get();
                                 doc.set(content);
                             }
-
                         } catch (PartInitException e) {
                             LogUtils.debugTrace(logger, e);
                         }
@@ -130,27 +111,22 @@ public class ActionHistoryView extends ViewPart implements IHistoryListener {
                 });
             }
         });
-
         Menu menu = mgr.createContextMenu(actionList);
         actionList.setMenu(menu);
     }
-
     @Override
     public void setFocus() {
     }
-
     @SuppressWarnings("restriction")
     private IEditorInput createEditorInput(IFileStore fileStore) {
         return new NonExistingFileEditorInput(fileStore, "New script");
     }
-
     @SuppressWarnings("restriction")
     private IFileStore queryFileStore() {
         IPath stateLocation= EditorsPlugin.getDefault().getStateLocation();
         IPath path= stateLocation.append("/_" + new Object().hashCode()); //$NON-NLS-1$
         return EFS.getLocalFileSystem().getStore(path);
     }
-
     private String getEditorId(IFileStore fileStore) {
         IWorkbench workbench= PlatformUI.getWorkbench();
         IEditorRegistry editorRegistry= workbench.getEditorRegistry();
@@ -159,15 +135,10 @@ public class ActionHistoryView extends ViewPart implements IHistoryListener {
             return descriptor.getId();
         return EditorsUI.DEFAULT_TEXT_EDITOR_ID;
     }
-
-
-
     public void receiveHistoryEvent(HistoryEvent e) {
-
         java.util.List<IRecord> newRecords
             = history.getRecords().subList( actionList.getItemCount(),
                                             history.getRecordCount() );
-
         for( IRecord r : newRecords ) {
             actionList.add( r.toString() );
         }

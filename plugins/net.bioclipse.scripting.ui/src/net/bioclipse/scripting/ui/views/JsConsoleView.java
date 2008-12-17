@@ -7,7 +7,6 @@
  *
  *******************************************************************************/
 package net.bioclipse.scripting.ui.views;
-
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.business.IBioclipseManager;
@@ -30,7 +28,6 @@ import net.bioclipse.ui.Activator;
 import net.bioclipse.ui.EchoEvent;
 import net.bioclipse.ui.EchoListener;
 import net.bioclipse.ui.JsPluginable;
-
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -39,7 +36,6 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.widgets.Display;
-
 /**
  * A console for a Javascript session. For more on Javascript, see
  * <a href="http://www.ecmascript.org/">the ECMAScript home page</a>.
@@ -49,11 +45,8 @@ import org.eclipse.swt.widgets.Display;
  */
 public class JsConsoleView extends ScriptingConsoleView
                            implements EchoListener {
-
     private static final Logger logger = Logger.getLogger(JsConsoleView.class);
-
     private static Matcher jsBacktickMatcher;
-
     static {
         String noBackTick
           = "("                                   // capture into group:
@@ -65,29 +58,22 @@ public class JsConsoleView extends ScriptingConsoleView
                 + "(?:\'(?:[^\'\\\\]|(?:\\\\.))*\')"   // a single quoted string
               + ")*+"                               // zero or more of the above
             + ")";
-
         jsBacktickMatcher
           = Pattern.compile( noBackTick + "`" + noBackTick + "`" ).matcher("");
     }
-
     private static JsThread jsThread
         = net.bioclipse.scripting.Activator.getDefault().JS_THREAD;
-
     static {
         jsThread.enqueue( "function clear() { js.clear() }" );
         jsThread.enqueue( "function print(message) { js.print(message) }" );
         jsThread.enqueue( "function say(message) { js.say(message) }" );
     }
-
     private JsPluginable rConnection = null;
-
     private static enum Mode {
         JS,
         R;
     }
-
     private Mode mode = Mode.JS;
-
     /**
      * The constructor. Called by Eclipse reflection when a new console
      * is created.
@@ -98,26 +84,21 @@ public class JsConsoleView extends ScriptingConsoleView
         super();
         Activator.getDefault().CONSOLE.addListener(this);
     }
-
     void setMode(Mode newMode) {
         if (newMode == Mode.R && rConnection == null)
             installR();
-
         if (newMode == Mode.R && rConnection == null) {
             printMessage("R is not installed -- get net.bioclipse.r");
             return;
         }
-
         mode = newMode;
     }
-
     /* (non-Javadoc)
      * @see net.bioclipse.core.views.ScriptingConsoleView#commandLinePrefix()
      */
     protected String commandLinePrompt() {
         return mode == Mode.JS ? "js> " : "R> ";
     }
-    
     protected String interceptDroppedString(String s) {
         if (mode == Mode.R) {
         	s = s.replaceAll( "^/", "" );
@@ -125,30 +106,21 @@ public class JsConsoleView extends ScriptingConsoleView
         s = s.replaceAll("\\\\", "/");
         return s;
     }
-
     private void installR() {
-
         IExtensionRegistry registry = Platform.getExtensionRegistry();
-
         if (registry == null) { // for example, when we are running the tests
             logger.debug("Registry does not exist. If tests are running, "
                     + "this is in order.");
             return;             // nothing we can do anyway
         }
-
         IExtensionPoint extensionPoint
             = registry.getExtensionPoint("net.bioclipse.ui.r_provider");
-
         IExtension[] extensions = extensionPoint.getExtensions();
-
         if (extensions.length == 0)
             return;
-
         IExtension e = extensions[0];
         IConfigurationElement[] cfgElems = e.getConfigurationElements();
-
         for (IConfigurationElement cfgElem : cfgElems) {
-
             try {
                 this.rConnection = (JsPluginable)cfgElem
                                    .createExecutableExtension("service");
@@ -170,14 +142,12 @@ public class JsConsoleView extends ScriptingConsoleView
                         + ex.getMessage());
             }
         }
-        
         executeRCommand( "setwd(\"" + ResourcesPlugin.getWorkspace()
                                                     .getRoot()
                                                     .getRawLocation()
                                                     .toOSString() 
                          + "\")" );
     }
-
     private void executeJsCommand(String command) {
         jsThread.enqueue(new JsAction(command,
                                       new Hook() {
@@ -192,9 +162,7 @@ public class JsConsoleView extends ScriptingConsoleView
             }
         }));
     }
-
     private String executeRCommand(String command) {
-
         ArrayList<Object> al;
         try {
             al = interpolateJsVariables(command);
@@ -202,47 +170,37 @@ public class JsConsoleView extends ScriptingConsoleView
         catch (RuntimeException rte) {
             return rte.toString();
         }
-
         try {
             rConnection.eval(al);
         } catch (IOException e) {
             LogUtils.debugTrace(logger, e);
         }
-
         return "";
     }
-
     private ArrayList<Object> interpolateJsVariables(String command) {
-
         ArrayList<Object> al = new ArrayList<Object>();
         jsBacktickMatcher.reset(command);
-
         int e = 0;
         while(jsBacktickMatcher.find()){
-
             al.add(jsBacktickMatcher.group(1));
             al.add(JsThread.js.evalToObject(jsBacktickMatcher.group(2)));
             e = jsBacktickMatcher.end();
         }
         al.add(command.substring(e));
-
         return al;
     }
-
     /* (non-Javadoc)
      * @see net.bioclipse.core.views.ScriptingConsoleView#executeCommand(java.lang.String)
      */
     protected String executeCommand(String command) {
         if (command == null)
             return "";
-
         if (mode == Mode.JS) {
             if (command.matches("help( .*)?") || command.matches("man( .*)?")) {
                 printMessage( helpString(command) );
                 activatePrompt();
                 return "";
             }
-
             if ("R".equals(command.trim())) {
                 setMode(Mode.R);
                 return "";
@@ -259,7 +217,6 @@ public class JsConsoleView extends ScriptingConsoleView
             return executeRCommand(command);
         }
     }
-
     /**
      * Returns a help string documenting a Manager or one of its methods.
      * These help strings are printed to the console in response to the
@@ -270,19 +227,14 @@ public class JsConsoleView extends ScriptingConsoleView
      * @return a string documenting a manager or one of its methods
      */
     private String helpString(String command) {
-
         if (command == null)
             return "";
-
         final String errorMessage = "Usage of help: `help <manager>` " +
                                     "or: `help <manager>.<method>`";
         StringBuilder result = new StringBuilder();
-
         if ( "help".equals(command.trim()) || 
              "man".equals(command.trim()) ) {
-            
             StringBuilder sb = new StringBuilder();
-            
             sb.append(errorMessage);
             List<String> managerNames
                 = new ArrayList<String>( JsThread.js.getManagers()
@@ -296,51 +248,38 @@ public class JsConsoleView extends ScriptingConsoleView
                     sb.append( NEWLINE );
                 }
             }
-            
             return sb.toString();
         }
-        
         String helpObject = command.substring(command.indexOf(' ') + 1);
         //Doing manager method 
         if ( helpObject.contains(".") ) {
-
             String[] parts = helpObject.split("\\.");
-
             if ( parts.length != 2 )
                 return errorMessage;
-
             String managerName = parts[0];
             String methodName  = parts[1];
-
             IBioclipseManager manager
                 = JsThread.js.getManagers().get(managerName);
             if (manager == null)
                 return "No such manager: " + managerName
                        + NEWLINE + errorMessage;
-
             for ( Class<?> interfaze : manager.getClass()
                                               .getInterfaces() ) {
-
                 for ( Method method : interfaze.getMethods() ) {
-
                     if ( method.getName().equals(methodName) &&
                          method.isAnnotationPresent(
                              PublishedMethod.class ) ) {
-
                         PublishedMethod publishedMethod
                             = method.getAnnotation(
                                 PublishedMethod.class );
-
                         String line
                             = dashes(managerName.length()
                                      + method.getName().length()
                                      + publishedMethod.params().length()
                                      + 3,
                                      MAX_OUTPUT_LINE_LENGTH);
-
                         result.append( line );
                         result.append( NEWLINE );
-
                         result.append( managerName );
                         result.append( '.' );
                         result.append( method.getName() );
@@ -348,33 +287,26 @@ public class JsConsoleView extends ScriptingConsoleView
                         result.append( publishedMethod.params() );
                         result.append( ")" );
                         result.append( NEWLINE );
-
                         result.append( line );
                         result.append( NEWLINE );
-
                         result.append( publishedMethod.methodSummary() );
                         result.append( NEWLINE );
                     }
                 }
             }
         }
-
         //Doing plain manager help
         else {
             IBioclipseManager manager
                 = JsThread.js.getManagers().get(helpObject);
-
             if (manager == null)
                 return "No such method: " + helpObject
                        + NEWLINE + errorMessage;
-
             StringBuilder managerDescription = new StringBuilder();
             for ( Class<?> interfaze : manager.getClass()
                                               .getInterfaces() ) {
-                
                 if ( interfaze
                      .isAnnotationPresent(PublishedClass.class) ) {
-
                     managerDescription.append(
                             interfaze.getAnnotation(
                                     PublishedClass.class
@@ -383,7 +315,6 @@ public class JsConsoleView extends ScriptingConsoleView
                     managerDescription.append( 
                         NEWLINE + NEWLINE + " This manager has " +
                         "the following methods: " + NEWLINE );
-                    
                     List<String> methodNames = new ArrayList<String>();
                     Method[] methods = interfaze.getMethods();
                     Arrays.sort( methods, new Comparator<Method>()  {
@@ -399,7 +330,6 @@ public class JsConsoleView extends ScriptingConsoleView
                     for ( Method method : methods ) {
                         if ( method.isAnnotationPresent( 
                              PublishedMethod.class ) ) {
-                            
                             if ( method
                                  .getAnnotation( PublishedMethod.class )
                                  .params().length() == 0 ) {
@@ -419,48 +349,34 @@ public class JsConsoleView extends ScriptingConsoleView
                         managerDescription.append( methodName );
                         managerDescription.append( NEWLINE );
                     }
-                    
                     managerDescription.deleteCharAt( 
                         managerDescription.length()-1 );
                 }
             }
-
             String line = dashes( helpObject.length(), 
                                   MAX_OUTPUT_LINE_LENGTH );
-
             result.append(line);
             result.append( NEWLINE );
-
             result.append(helpObject);
             result.append( NEWLINE );
-
             result.append(line);
             result.append( NEWLINE );
-
             result.append( managerDescription );
             result.append( NEWLINE );
         }
-
         return result.toString();
     }
-
     private String dashes(int length, int maxLength) {
-
         StringBuilder result = new StringBuilder();
-
         for ( int i = 0; i < Math.min(length, maxLength); ++i )
             result.append('-');
-
         return result.toString();
     }
-
     public void receiveLogEvent(EchoEvent e) {
         printMessage(e.getMessage());
     }
-
     @SuppressWarnings("unchecked")
     protected List<String> getAllVariablesIn(String object) {
-
         // Tab completion has to get in line, just as everything else. Instead
         // of blocking the console waiting for a command to finish, we take the
         // easy way out and disallow tab completion while a command is running.
@@ -468,26 +384,19 @@ public class JsConsoleView extends ScriptingConsoleView
             beep();
             return new ArrayList<String>();
         }        
-        
         if (object == null || "".equals(object))
             object = "this";
-
         IBioclipseManager manager = JsThread.js.getManagers().get(object);
         if ( null != manager ) {
             List<String> variables = new ArrayList<String>();
-
             for ( Class<?> interfaze : manager.getClass().getInterfaces() )
                 for ( Method method : interfaze.getDeclaredMethods() )
                     if ( method.isAnnotationPresent(PublishedMethod.class)
                          && !variables.contains( method.getName() ))
-
                         variables.add( method.getName() );
-
             return variables;
         }
-
         final List<String>[] variables = new List[1];
-        
         jsThread.enqueue(
             new JsAction( "zzz1 = new Array(); zzz2 = 0;"
                           + "for (var zzz3 in " + object
@@ -505,7 +414,6 @@ public class JsConsoleView extends ScriptingConsoleView
                           }
              )
         );
-        
         int attemptsLeft = 10;
         synchronized (variables) {
             while (variables[0] == null) {
@@ -513,14 +421,12 @@ public class JsConsoleView extends ScriptingConsoleView
                     Thread.sleep( 50 );
                     if (--attemptsLeft <= 0) // js is probably busy then
                         return Collections.EMPTY_LIST;
-                    
                     variables.wait();
                 } catch ( InterruptedException e ) {
                     return Collections.EMPTY_LIST;
                 }
             }
         }
-
         // The following happens sometimes when we tab complete on something
         // unexpected. We choose to beep instead of outputting "syntax error".
         if (variables[0].size() == 1 &&
@@ -529,14 +435,11 @@ public class JsConsoleView extends ScriptingConsoleView
             beep();
             return new ArrayList<String>();
         }
-
         variables[0].remove("zzz1");
         variables[0].remove("zzz2");
         variables[0].remove("zzz3");
-        
         return variables[0];
     }
-    
     /**
      * Outputs extra characters after the actual name of the completed thing.
      * For managers, this could be a period ("."), because that's what the
@@ -548,19 +451,16 @@ public class JsConsoleView extends ScriptingConsoleView
      * @return any extra characters to be output after the completed name
      */
     protected String tabCompletionHook( String parent, String completedName ) {
-        
         // if the user typed "help" or "man", we don't want to complete with
         // anything.
         if ( currentCommand().startsWith( "help " )
              || currentCommand().startsWith( "man " ) )
             return "";
-        
         // a manager gets a period ('.') appended to it, since that's what the
         // user wants to write anyway.
         if ( "".equals(parent)
              && JsThread.js.getManagers().containsKey( completedName ) )
             return ".";
-        
         // a manager method gets a '(', and possibly a ')' too if it takes
         // no parameters
         IBioclipseManager manager = JsThread.js.getManagers().get(parent);
@@ -569,10 +469,8 @@ public class JsConsoleView extends ScriptingConsoleView
                 for ( Method method : interfaze.getDeclaredMethods() )
                     if ( method.isAnnotationPresent(PublishedMethod.class)
                          && method.getName().equals( completedName ))
-
                         return "("
                           + (method.getParameterTypes().length == 0 ? ")" : "");
-        
         // in all other cases, we add nothing
         return "";
     }

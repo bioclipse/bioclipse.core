@@ -8,17 +8,12 @@
  * Contributors:
  *     
  *******************************************************************************/
-
 package net.bioclipse.dialogs;
-
 import java.lang.reflect.InvocationTargetException;
-
 import org.apache.log4j.Logger;
 import net.bioclipse.core.util.LogUtils; 
-
 import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -41,7 +36,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-
 /**
  * Dialog for logging in to the given UserContainer
  * 
@@ -49,9 +43,7 @@ import org.eclipse.ui.PlatformUI;
  *
  */
 public class UserManagerLoginDialog extends TitleAreaDialog {
-    
     private static final Logger logger = Logger.getLogger(UserManagerLoginDialog.class);
-
     private Button         createNewKeyringButton;
     private Label          usernameLabel;
     private Label          passwordLabel;
@@ -61,7 +53,6 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
     private String         username;
     private String         password;
     private boolean        userContainerEdited;
-    
     /**
      * Create the dialog
      * @param parentShell
@@ -69,10 +60,8 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
     public UserManagerLoginDialog( Shell parentShell, 
                                    UserContainer userContainer ) {
         super(parentShell);
-        
         this.userContainer = userContainer;
     }
-
     /**
      * Create contents of the dialog
      * @param parent
@@ -83,7 +72,6 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
         Composite container = new Composite(area, SWT.NONE);
         container.setLayout(new FormLayout());
         container.setLayoutData(new GridData(GridData.FILL_BOTH));
-
         usernameLabel = new Label(container, SWT.NONE);
         final FormData formData = new FormData();
         formData.top = new FormAttachment(0, 58);
@@ -92,21 +80,18 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
         formData.right = new FormAttachment(0, 105);
         usernameLabel.setLayoutData(formData);
         usernameLabel.setText("Username:");
-
         passwordLabel = new Label(container, SWT.NONE);
         final FormData formData_1 = new FormData();
         formData_1.right = new FormAttachment(usernameLabel, 63, SWT.LEFT);
         formData_1.left = new FormAttachment(usernameLabel, 0, SWT.LEFT);
         passwordLabel.setLayoutData(formData_1);
         passwordLabel.setText("Password:");
-
         passwordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
         formData_1.top = new FormAttachment(passwordText, -17, SWT.BOTTOM);
         formData_1.bottom = new FormAttachment(passwordText, 0, SWT.BOTTOM);
         final FormData formData_2 = new FormData();
         formData_2.top = new FormAttachment(0, 93);
         passwordText.setLayoutData(formData_2);
-
         usernameText = new Text(container, SWT.BORDER);
         formData_2.right = new FormAttachment(usernameText, 0, SWT.RIGHT);
         formData_2.left = new FormAttachment(usernameText, 0, SWT.LEFT);
@@ -115,14 +100,12 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
         formData_3.top = new FormAttachment(0, 53);
         formData_3.left = new FormAttachment(usernameLabel, 5, SWT.RIGHT);
         usernameText.setLayoutData(formData_3);
-
         createNewKeyringButton = new Button(container, SWT.NONE);
         createNewKeyringButton.addSelectionListener(new SelectionAdapter() {
             /*
              * CREATE NEW USER 
              */
             public void widgetSelected(SelectionEvent e) {
-
                 CreateUserDialog createDialog = 
                     new CreateUserDialog( PlatformUI
                                           .getWorkbench()
@@ -162,7 +145,6 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
         //
         return area;
     }
-
     /**
      * Create contents of the button bar
      * @param parent
@@ -178,7 +160,6 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
                       IDialogConstants.CANCEL_LABEL, 
                       false );
     }
-
     /**
      * Return the initial size of the dialog
      */
@@ -200,7 +181,6 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
                 .getWorkbench()
                 .getActiveWorkbenchWindow()
                 .run(true, false, new IRunnableWithProgress() {
-
                     public void run(IProgressMonitor monitor) 
                     throws InvocationTargetException, InterruptedException {
                         try{
@@ -216,7 +196,6 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
                         }
                         catch( final Exception e ) {
                             Display.getDefault().asyncExec(new Runnable() {
-
                                 public void run() {
                                     MessageDialog.openInformation( 
                                                PlatformUI
@@ -244,15 +223,12 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
         }
         super.buttonPressed(buttonId);
     }
-
     public String getUsername() {
         return username;
     }
-
     public String getPassword() {
         return password;
     }
-
     public boolean isUserContainerEdited() {
         return userContainerEdited;
     }

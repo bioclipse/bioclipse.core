@@ -10,20 +10,16 @@
  *     
  ******************************************************************************/
 package net.bioclipse.core.business;
-
 import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.core.domain.SMILESMolecule;
-
 /**
  * @author jonalv
  *
  */
 public class MoleculeManager implements IMoleculeManager {
-
     public IMolecule fromSmiles( String smiles ) {
         return new SMILESMolecule(smiles);
     }
-
     public String getNamespace() {
         return "molecule";
     }

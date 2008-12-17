@@ -10,30 +10,21 @@
  *     
  ******************************************************************************/
 package net.bioclipse.core.domain;
-
 import net.bioclipse.core.business.BioclipseException;
-
-
 /**
  * @author miguelrojasch
  *
  */
 public class Reaction extends BioObject implements IReaction {
-
     private String smiles;
-
     Reaction() {
-
     }
-    
     public Reaction(String smiles) {
         this.smiles = smiles;
     }
-    
     public String getSmiles() throws BioclipseException {
         return smiles;
     }
-
     /**
      * A reaction with only SMILES cannot produce CML other than via CDK, hence 
      * always throws BioclipseException.

@@ -13,22 +13,18 @@
  *     
  ******************************************************************************/
 package net.bioclipse.logger;
-
 import java.util.HashSet;
 import java.util.Set;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-
 /**
  * @author Richard Klancer rpk@pobox.com
  *
  */
 public class PlatformLogRepeater implements ILogListener {
-
     /**
      * Called when an IStatus object has been written to the eclipse platform 
      * log. Translates the status instance to a log4j Level and sends to the
@@ -56,7 +52,6 @@ public class PlatformLogRepeater implements ILogListener {
         // generated the status
         log(status);
     }
-
     /* Log an IStatus object to the log4j log. If status contains an
      * embedded exception, write its stack trace to the logger at the debug
      * level. 
@@ -65,45 +60,35 @@ public class PlatformLogRepeater implements ILogListener {
      * This function calls itself recursively to log all child statuses to
      * arbitrary depth.
      */
-    
     private static void log(IStatus status) {
         log(status, new HashSet<IStatus>());
     }
-
     /* log function augmented with the set of multistatus objects previously
      * seen in this call chain, to defend against infinite looping on any 
      * possible cycles in MultiStatus objects passed to us */
-    
     private static void log(IStatus status, Set<IStatus> seenBefore) {
-
         final Logger logger;
         final String pluginName;
-        
         // defend against cycles in MultiStatus object
         if (status == null || seenBefore.contains(status))
             return;
         seenBefore.add(status);
-
         // get logger (using plugin id as logger name, rather than fully qualified class name)
         pluginName = status.getPlugin();
         if (pluginName == null || pluginName.trim().equals(""))
             logger = Logger.getRootLogger();
         else
             logger = Logger.getLogger(pluginName);
-        
         // log the Status
         logger.log(log4jLevelOf(status), status.getMessage());
-        
         // log the stack trace
         Throwable t = status.getException();
         if (t != null) logger.debug(Activator.traceStringOf(t));
-
         // log children, if this object is a multistatus
         for (IStatus child : status.getChildren()) {
             log(child, seenBefore);
         }
     }
-    
     /* Roughly translates an Eclipse IStatus severity to a log4j Level.
      * 
      * Note that the semantics of status objects and log4j levels are different,
@@ -118,7 +103,6 @@ public class PlatformLogRepeater implements ILogListener {
      *
      * Therefore the values returned by getSeverity() are not limited to the
      * cases below. Such unknown severity codes are translated to Level.DEBUG. */
-    
     private static Level log4jLevelOf(IStatus status) {    
         switch (status.getSeverity()) {
             case Status.ERROR:

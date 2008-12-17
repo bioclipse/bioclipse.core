@@ -10,7 +10,6 @@
  *     
  ******************************************************************************/
 package net.bioclipse.core.domain;
-
 /**
  * Used to select a series of atoms by index only. 
  * Can hold an (optional) chemical model (IMolecule or similar) 
@@ -18,10 +17,7 @@ package net.bioclipse.core.domain;
  *
  */
 public class AtomIndexSelection extends AbstractChemicalSelection{
-
     private int[] selection;
-
-    
     /**
      * Constructor to select an array of atoms by indices, (chemicalModel=null)
      * @param selection
@@ -29,7 +25,6 @@ public class AtomIndexSelection extends AbstractChemicalSelection{
     public AtomIndexSelection(int[] selection) {
         this(selection, null);
     }
-
     /**
      * Constructor to select an array of atoms by indices in a model (=molecule)
      * @param selection
@@ -39,14 +34,10 @@ public class AtomIndexSelection extends AbstractChemicalSelection{
         this.selection = selection;
         setChemicalModel(chemicalModel);
     }
-
-    
     public int[] getSelection() {
         return selection;
     }
-    
     public void setSelection( int[] selection ) {
         this.selection = selection;
     }
-
 }

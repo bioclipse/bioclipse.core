@@ -1,6 +1,4 @@
 package net.bioclipse.scripting;
-
-
 /**
  * Working threads for scripting environments should extend this class
  * 
@@ -8,5 +6,4 @@ package net.bioclipse.scripting;
  *
  */
 public class ScriptingThread extends Thread {
-
 }

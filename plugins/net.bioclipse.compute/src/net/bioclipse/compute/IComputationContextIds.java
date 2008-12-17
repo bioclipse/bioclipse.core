@@ -8,27 +8,22 @@
  * Contributors:
  *     Rob Schellhorn
  ******************************************************************************/
-
 package net.bioclipse.compute;
-
 /**
  * This interface only contains constants and is not intended to be implemented.
  * 
  * @author Rob Schellhorn
  */
 public interface IComputationContextIds {
-
-	static final String PREFIX = Activator.ID + ".";
-
-	/**
-	 * 
-	 */
-	public static final String COMPUTATION_WIZARD = PREFIX
-			+ "computation_wizard";
-
-	/**
-	 * 
-	 */
-	public static final String SELECT_COMPUTATION_PAGE = PREFIX
-			+ "select_computation_page";
+        static final String PREFIX = Activator.ID + ".";
+        /**
+         * 
+         */
+        public static final String COMPUTATION_WIZARD = PREFIX
+                        + "computation_wizard";
+        /**
+         * 
+         */
+        public static final String SELECT_COMPUTATION_PAGE = PREFIX
+                        + "select_computation_page";
 }

@@ -10,7 +10,5 @@
  *     
  ******************************************************************************/
 package net.bioclipse.core.domain;
-
 public interface IAASequence extends ISequence {
-
 }

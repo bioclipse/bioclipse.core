@@ -10,19 +10,13 @@
  *
  ******************************************************************************/
 package net.bioclipse.ui;
-
 import java.io.File;
-
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-
 public class BioclipseCache {
-
     public static File getCacheDir() throws CoreException{
-
         String path=ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile().getAbsolutePath()+File.separator+"tmp";
         File folder=new File(path);
-
         if (folder.exists()==false){
             if (folder.mkdir()==false) return null;
             //This is how you batch resource updates
@@ -32,8 +26,6 @@ public class BioclipseCache {
 //                }
 //            }, null);
         }
-
         return folder;
     }
-
 }

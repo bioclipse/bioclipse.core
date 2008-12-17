@@ -9,10 +9,7 @@
  *     Ola Spjuth - core API and implementation
  *******************************************************************************/
 package net.bioclipse.ui.prefs;
-
 import net.bioclipse.ui.BioclipseConstants;
-
-
 /**
  * Interface to define all constants related to the preferences of this package.
  * 
@@ -20,21 +17,13 @@ import net.bioclipse.ui.BioclipseConstants;
  *
  */
 public interface IPreferenceConstants {
-
-	public static final String UPDATE_SITES = "UpdateSites";
-
-	//Delimits between preferences
-	public static final String PREFERENCES_DELIMITER = "%";
-	
-	//Delimiter within a preference
-	public static final String PREFERENCES_OBJECT_DELIMITER = "£";
-	
-	public static final String PREFERENCES_EXTENSION_DELIMITER = ",";
-	
-	public static final String AUTOLOAD_NEW_RESOURCES = "autoLoadNewResources";
-
-
-	public static final String PREFERENCES_DEFAULT_UPDATESITES =
-		"Bioclipse Update Site" + IPreferenceConstants.PREFERENCES_DELIMITER+ BioclipseConstants.UPDATE_SITE;
-
+        public static final String UPDATE_SITES = "UpdateSites";
+        //Delimits between preferences
+        public static final String PREFERENCES_DELIMITER = "%";
+        //Delimiter within a preference
+        public static final String PREFERENCES_OBJECT_DELIMITER = "£";
+        public static final String PREFERENCES_EXTENSION_DELIMITER = ",";
+        public static final String AUTOLOAD_NEW_RESOURCES = "autoLoadNewResources";
+        public static final String PREFERENCES_DEFAULT_UPDATESITES =
+                "Bioclipse Update Site" + IPreferenceConstants.PREFERENCES_DELIMITER+ BioclipseConstants.UPDATE_SITE;
 }

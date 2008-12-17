@@ -1,29 +1,22 @@
 package net.bioclipse.ui.jobs;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-
 import net.bioclipse.core.ResourcePathTransformer;
-
 import org.aopalliance.intercept.MethodInvocation;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-
-
 /**
  * @author jonalv
  *
  */
 public class BioclipseJob extends Job {
-
     private Method method;
     private MethodInvocation invocation;
     private Object lock;
-
     public BioclipseJob( String name, 
                          Method methodToBeInvocated, 
                          MethodInvocation originalInvocation,
@@ -33,11 +26,8 @@ public class BioclipseJob extends Job {
         this.invocation = originalInvocation;
         this.lock       = lock;
     }
-
     private Object returnValue;
-    
     protected IStatus run( IProgressMonitor monitor ) {
-
         Object[] args;
         try {
             if ( method != invocation.getMethod() ) {
@@ -59,7 +49,6 @@ public class BioclipseJob extends Job {
                     Object arg = args[i];
                     if ( arg instanceof String &&
                          method.getParameterTypes()[i] == IFile.class ) {
-                         
                         args[i] = ResourcePathTransformer
                                   .getInstance()
                                   .transform( (String) arg );
@@ -70,7 +59,6 @@ public class BioclipseJob extends Job {
                 args = invocation.getArguments();
                 monitor.beginTask( "", IProgressMonitor.UNKNOWN );
             }
-        
             returnValue = method.invoke( 
                 invocation.getThis(), args );
         } 
@@ -93,7 +81,6 @@ public class BioclipseJob extends Job {
         monitor.done();
         return Status.OK_STATUS;
     }
-
     public synchronized Object getReturnValue() {
         return returnValue;
     }

@@ -8,12 +8,9 @@
  * Contributors:
  *     
  *******************************************************************************/
-
 package net.bioclipse.dialogs;
-
 import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
-
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -29,7 +26,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-
 /**
  * Dialog that prompts a user for password and logs the user in if 
  * the correct password is given
@@ -38,11 +34,9 @@ import org.eclipse.ui.PlatformUI;
  *
  */
 public class PassWordPromptDialog extends Dialog {
-
     private Text text;
     private String username;
     private UserContainer sandboxUserContainer;
-    
     /**
      * Create the dialog
      * @param parentShell
@@ -54,7 +48,6 @@ public class PassWordPromptDialog extends Dialog {
         this.username = username;
         this.sandboxUserContainer = sandboxUserContainer;
     }
-
     /**
      * Create contents of the dialog
      * @param parent
@@ -63,22 +56,18 @@ public class PassWordPromptDialog extends Dialog {
     protected Control createDialogArea(Composite parent) {
         Composite container = (Composite) super.createDialogArea(parent);
         container.setLayout(new FormLayout());
-
         final Label passswordLabel = new Label(container, SWT.NONE);
         passswordLabel.setText("Password:");
         final FormData formData = new FormData();
         formData.top = new FormAttachment(0, 35);
         formData.left = new FormAttachment(0, 10);
         passswordLabel.setLayoutData(formData);
-        
-
         text = new Text(container, SWT.BORDER | SWT.PASSWORD);
         final FormData formData_1 = new FormData();
         formData_1.left = new FormAttachment(passswordLabel, 5, SWT.RIGHT);
         formData_1.right = new FormAttachment(100, -10);
         formData_1.top = new FormAttachment(passswordLabel, -27, SWT.BOTTOM);
         text.setLayoutData(formData_1);
-
         final Label label = new Label(container, SWT.NONE);
         final FormData formData_2 = new FormData();
         formData_2.top = new FormAttachment(0, 85);
@@ -89,7 +78,6 @@ public class PassWordPromptDialog extends Dialog {
         //
         return container;
     }
-
     /**
      * Create contents of the button bar
      * @param parent
@@ -101,7 +89,6 @@ public class PassWordPromptDialog extends Dialog {
         createButton(parent, IDialogConstants.CANCEL_ID,
                 IDialogConstants.CANCEL_LABEL, false);
     }
-
     /**
      * Return the initial size of the dialog
      */

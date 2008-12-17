@@ -8,9 +8,7 @@
  * Contributors:
  *     
  *******************************************************************************/
-
 package net.bioclipse.dialogs;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -23,7 +21,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-
 /**
  * A dialog used to change the password for an user
  * 
@@ -31,7 +28,6 @@ import org.eclipse.swt.widgets.Text;
  *
  */
 public class ChangePasswordDialog extends Dialog {
-
     private Text newPasswordText;
     private Text oldPasswordText;
     private String oldPassword;
@@ -43,7 +39,6 @@ public class ChangePasswordDialog extends Dialog {
     public ChangePasswordDialog(Shell parentShell) {
         super(parentShell);
     }
-
     /**
      * Create contents of the dialog
      * @param parent
@@ -52,27 +47,23 @@ public class ChangePasswordDialog extends Dialog {
     protected Control createDialogArea(Composite parent) {
         Composite container = (Composite) super.createDialogArea(parent);
         container.setLayout(new FormLayout());
-
         final Label oldPasswordLabel = new Label(container, SWT.NONE);
         final FormData formData = new FormData();
         formData.top = new FormAttachment(0, 50);
         formData.left = new FormAttachment(0, 35);
         oldPasswordLabel.setLayoutData(formData);
         oldPasswordLabel.setText("Old password:");
-
         final Label newPasswordLabel = new Label(container, SWT.NONE);
         final FormData formData_1 = new FormData();
         formData_1.top = new FormAttachment(0, 110);
         formData_1.left = new FormAttachment(oldPasswordLabel, 0, SWT.LEFT);
         newPasswordLabel.setLayoutData(formData_1);
         newPasswordLabel.setText("New password:");
-
         oldPasswordText = new Text(container, SWT.BORDER);
         final FormData formData_2 = new FormData();
         formData_2.right = new FormAttachment(100, -35);
         formData_2.bottom = new FormAttachment(oldPasswordLabel, 0, SWT.BOTTOM);
         oldPasswordText.setLayoutData(formData_2);
-
         newPasswordText = new Text(container, SWT.BORDER);
         formData_2.left = new FormAttachment(newPasswordText, 0, SWT.LEFT);
         final FormData formData_3 = new FormData();
@@ -83,7 +74,6 @@ public class ChangePasswordDialog extends Dialog {
         //
         return container;
     }
-
     /**
      * Create contents of the button bar
      * @param parent
@@ -95,7 +85,6 @@ public class ChangePasswordDialog extends Dialog {
         createButton(parent, IDialogConstants.CANCEL_ID,
                 IDialogConstants.CANCEL_LABEL, false);
     }
-
     /**
      * Return the initial size of the dialog
      */
@@ -109,20 +98,17 @@ public class ChangePasswordDialog extends Dialog {
     }
     protected void buttonPressed(int buttonId) {
         if (buttonId == IDialogConstants.OK_ID) {
-            
             this.oldPassword = oldPasswordText.getText();
             this.newPassword = newPasswordText.getText();
         }
         super.buttonPressed(buttonId);
     }
-
     /**
      * @return the new password
      */
     public String getNewPassword() {
         return newPassword;
     }
-
     /**
      * @return the old password
      */

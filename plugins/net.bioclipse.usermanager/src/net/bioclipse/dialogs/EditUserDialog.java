@@ -8,18 +8,14 @@
  * Contributors:
  *
  *******************************************************************************/
-
 package net.bioclipse.dialogs;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
-
 import net.bioclipse.usermanager.AccountType;
 import net.bioclipse.usermanager.UserContainer;
 import net.bioclipse.usermanager.AccountType.Property;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -56,7 +52,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-
 /**
  * Dialog for editing an user and the users accounts
  *
@@ -64,12 +59,10 @@ import org.eclipse.ui.PlatformUI;
  *
  */
 public class EditUserDialog extends Dialog {
-
     private static final String ALREADY_SUCH_AN_ACCOUNT
         = "There is already an account of that type.";
     private static final String FILL_IN_REQUIRED
         = "Please fill in the values for all required account properties.";
-
     private Text accountTypeText;
     private Label accountTypeLabel;
     private TableViewer propertiesTableViewer;
@@ -81,13 +74,11 @@ public class EditUserDialog extends Dialog {
     private Button changeKeyringUserButton;
     private Table propertiesTable;
     private List list;
-
     private UserContainer sandBoxUserContainer;
     private EditUserDialogModel model;
     private static final String[] COLUMN_NAMES = { "Property",
                                                   "Value",
                                                   "Required" };
-
     /**
      * Create the dialog
      * @param parentShell
@@ -98,7 +89,6 @@ public class EditUserDialog extends Dialog {
         this.sandBoxUserContainer = sandBoxUserManager;
         this.model = new EditUserDialogModel(sandBoxUserManager);
     }
-
     /**
      * Create contents of the dialog
      * @param parent
@@ -107,7 +97,6 @@ public class EditUserDialog extends Dialog {
     protected Control createDialogArea(Composite parent) {
         Composite container = (Composite) super.createDialogArea(parent);
         container.setLayout(new FormLayout());
-
         accountGroup = new Group(container, SWT.NONE);
         accountGroup.setText("Account");
         final FormData formData = new FormData();
@@ -117,7 +106,6 @@ public class EditUserDialog extends Dialog {
         formData.right = new FormAttachment(100, -5);
         accountGroup.setLayoutData(formData);
         accountGroup.setLayout(new FormLayout());
-
         accountsListViewer = new ListViewer(container, SWT.BORDER | SWT.SINGLE);
         accountsListViewer.addSelectionChangedListener(
             new ISelectionChangedListener() {
@@ -125,7 +113,6 @@ public class EditUserDialog extends Dialog {
              * SELECTION CHANGED ON THE ACCOUNTS LIST
              */
             public void selectionChanged(SelectionChangedEvent event) {
-
                 refreshOnSelectionChanged();
             }
         });
@@ -133,38 +120,31 @@ public class EditUserDialog extends Dialog {
         accountsListViewer.setLabelProvider(new ListLabelProvider());
         accountsListViewer.setContentProvider(new ListContentProvider());
         accountsListViewer.setInput( model.dummyAccounts.keySet() );
-
         list = accountsListViewer.getList();
-
         final FormData formData_2 = new FormData();
         formData_2.bottom = new FormAttachment(0, 77);
         formData_2.top = new FormAttachment(0, 60);
         formData_2.right = new FormAttachment(0, 127);
         formData_2.left = new FormAttachment(0, 50);
-
         final FormData formData_3 = new FormData();
         formData_3.left = new FormAttachment(0, 152);
         formData_3.right = new FormAttachment(100, -295);
         formData_3.top = new FormAttachment(0, 90);
-
         final FormData formData_1_1 = new FormData();
         formData_1_1.bottom = new FormAttachment(0, 117);
         formData_1_1.top = new FormAttachment(0, 100);
-
         propertiesLabel = new Label(accountGroup, SWT.NONE);
         final FormData formData_5 = new FormData();
         formData_5.right = new FormAttachment(0, 79);
         formData_5.left = new FormAttachment(0, 5);
         propertiesLabel.setLayoutData(formData_5);
         propertiesLabel.setText("Properties:");
-
         propertiesTableViewer = new TableViewer(accountGroup, SWT.BORDER);
         propertiesTableViewer.setLabelProvider(new TableLabelProvider());
         propertiesTableViewer.setContentProvider(new TableContentProvider());
         propertiesTable = propertiesTableViewer.getTable();
         formData_5.top = new FormAttachment(propertiesTable, -25, SWT.TOP);
         formData_5.bottom = new FormAttachment(propertiesTable, -5, SWT.TOP);
-
         /*
          * Table columns
          */
@@ -179,7 +159,6 @@ public class EditUserDialog extends Dialog {
         column3.setWidth(100);
         propertiesTable.setLinesVisible(true);
         propertiesTable.setHeaderVisible(true);
-
         /*
          * Cell editors
          */
@@ -187,7 +166,6 @@ public class EditUserDialog extends Dialog {
         editors[1] = new TextCellEditor(propertiesTable);
         propertiesTableViewer.setCellEditors(editors);
         propertiesTableViewer.setCellModifier( new PropertyCellModifier() );
-
         final FormData formData_4 = new FormData();
         formData_4.top = new FormAttachment(0, 85);
         formData_4.bottom = new FormAttachment(100, -33);
@@ -195,7 +173,6 @@ public class EditUserDialog extends Dialog {
         formData_4.right = new FormAttachment(100, -5);
         propertiesTable.setLayoutData(formData_4);
         propertiesTableViewer.setColumnProperties(COLUMN_NAMES);
-
         accountTypeLabel = new Label(accountGroup, SWT.NONE);
         final FormData formData_11 = new FormData();
         formData_11.top = new FormAttachment(0, 23);
@@ -203,7 +180,6 @@ public class EditUserDialog extends Dialog {
         formData_11.left = new FormAttachment(propertiesLabel, 0, SWT.LEFT);
         accountTypeLabel.setLayoutData(formData_11);
         accountTypeLabel.setText("Account Type:");
-
         accountTypeText = new Text(accountGroup, SWT.BORDER);
         accountTypeText.setEditable(false);
         final FormData formData_12 = new FormData();
@@ -218,14 +194,12 @@ public class EditUserDialog extends Dialog {
         formData_1.bottom = new FormAttachment(100, -39);
         formData_1.top = new FormAttachment(0, 65);
         list.setLayoutData(formData_1);
-
         addAccountButton = new Button(container, SWT.NONE);
         addAccountButton.addSelectionListener(new SelectionAdapter() {
             /*
              * ADD ACCOUNT
              */
             public void widgetSelected(SelectionEvent e) {
-
                 CreateAccountDialog dialog
                     = new CreateAccountDialog( PlatformUI
                                                .getWorkbench()
@@ -233,7 +207,6 @@ public class EditUserDialog extends Dialog {
                                                .getShell(),
                                                sandBoxUserContainer );
                 if(dialog.open() == Window.OK) {
-
                     for( DummyAccount ac : model.dummyAccounts.values() ) {
                         if( ac.accountType.equals( dialog.getAccountType() ) ) {
                             MessageDialog.openInformation(
@@ -246,7 +219,6 @@ public class EditUserDialog extends Dialog {
                             return;
                         }
                     }
-
                     DummyAccount d = new DummyAccount();
                     d.accountId   = dialog.getAccountName();
                     d.accountType = dialog.getAccountType();
@@ -268,14 +240,12 @@ public class EditUserDialog extends Dialog {
                     refreshOnSelectionChanged();
                 }
             }
-
         });
         final FormData formData_6 = new FormData();
         formData_6.bottom = new FormAttachment(accountGroup, 0, SWT.BOTTOM);
         formData_6.left = new FormAttachment(list, 0, SWT.LEFT);
         addAccountButton.setLayoutData(formData_6);
         addAccountButton.setText("Add account...");
-
         deleteAccountButton = new Button(container, SWT.NONE);
         deleteAccountButton.addSelectionListener(new SelectionAdapter() {
             /*
@@ -296,7 +266,6 @@ public class EditUserDialog extends Dialog {
         formData_7.right = new FormAttachment(accountGroup, -5, SWT.LEFT);
         deleteAccountButton.setLayoutData(formData_7);
         deleteAccountButton.setText("Delete account");
-
         changeKeyringUserButton = new Button(container, SWT.NONE);
         changeKeyringUserButton.addSelectionListener(new SelectionAdapter() {
             /*
@@ -324,10 +293,8 @@ public class EditUserDialog extends Dialog {
                                              deleteAccountButton,
                                              accountGroup,
                                              list } );
-
         return container;
     }
-
     /**
      * Create contents of the button bar
      * @param parent
@@ -339,7 +306,6 @@ public class EditUserDialog extends Dialog {
         createButton(parent, IDialogConstants.CANCEL_ID,
                 IDialogConstants.CANCEL_LABEL, false);
     }
-
     /**
      * Return the initial size of the dialog
      */
@@ -347,25 +313,19 @@ public class EditUserDialog extends Dialog {
     protected Point getInitialSize() {
         return new Point(985, 625);
     }
-
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
         newShell.setText("Keyring User Properties");
     }
-
     private void refreshList() {
-
         accountsListViewer.setInput( model.dummyAccounts.keySet() );
     }
-
     private void refreshTable() {
         if( list.getSelection().length > 0 ) {
             propertiesTableViewer.refresh();
         }
     }
-
     private void refreshOnSelectionChanged() {
-
         String selectedAccountId
             = accountsListViewer.getList().getSelection()[0];
         accountTypeText.setText(
@@ -374,15 +334,12 @@ public class EditUserDialog extends Dialog {
         propertiesTableViewer.setInput(
                 model.dummyAccounts.get(selectedAccountId) );
     }
-
     protected void buttonPressed(int buttonId) {
         if (buttonId == IDialogConstants.OK_ID) {
-
             // We need to move focus away from any open editors before we
             // check if the dialog is completed, so we do this. Doesn't matter
             // what we move focus to, really.
             addAccountButton.setFocus();
-
             if( !dialogInputIsComplete() ) {
                 MessageDialog.openInformation( PlatformUI
                                                .getWorkbench()
@@ -397,20 +354,15 @@ public class EditUserDialog extends Dialog {
 //        UserContainer.fireUpdate();
         super.buttonPressed(buttonId);
     }
-
     private void saveDummyAccountToSandBoxUserManager() {
-
         sandBoxUserContainer.clearAccounts();
-
         for( DummyAccount dm : model.dummyAccounts.values() ) {
             sandBoxUserContainer.createAccount( dm.accountId,
                                               dm.properties,
                                               dm.accountType );
         }
     }
-
     private boolean dialogInputIsComplete() {
-
         for(DummyAccount dm : model.dummyAccounts.values() ) {
             for( Property p : dm.accountType.getRequiredProperties() ) {
                 if( dm.properties.get( p.getName() ).equals("") ) {
@@ -420,7 +372,6 @@ public class EditUserDialog extends Dialog {
         }
         return true;
     }
-
     /**
      * Label provider for the accounts list
      *
@@ -435,7 +386,6 @@ public class EditUserDialog extends Dialog {
             return null;
         }
     }
-
     /**
      * Content provider for the accounts list
      *
@@ -453,7 +403,6 @@ public class EditUserDialog extends Dialog {
                                   Object newInput ) {
         }
     }
-
     /**
      * Sorter for the accounts list
      *
@@ -465,7 +414,6 @@ public class EditUserDialog extends Dialog {
             return e1.toString().compareTo(e2.toString());
         }
     }
-
     /**
      * Content provider for the properties table
      *
@@ -495,7 +443,6 @@ public class EditUserDialog extends Dialog {
                                   Object newInput ) {
         }
     }
-
     /**
      * Label provider for the properties table
      *
@@ -511,7 +458,6 @@ public class EditUserDialog extends Dialog {
             return null;
         }
     }
-
     /**
      * Cell modifier for the properties table
      *
@@ -519,36 +465,27 @@ public class EditUserDialog extends Dialog {
      *
      */
     class PropertyCellModifier implements ICellModifier {
-
         public boolean canModify(Object element, String property) {
-
             int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
             if( columnIndex == 1) {
                 return true;
             }
             return false;
         }
-
         public Object getValue(Object element, String property) {
-
             int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
             ArrayList<?> row = (ArrayList<?>)element;
-
             return row.get(columnIndex).toString();
         }
-
         public void modify(Object element, String property, Object value) {
-
             int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
             if(element instanceof Item) {
                 element = ((Item) element).getData();
             }
             ArrayList<?> row = (ArrayList<?>)element;
-
             switch (columnIndex) {
             case 0:
                 break;
-
             case 1:
                 model.dummyAccounts.get(
                         accountsListViewer.getList().getSelection()[0] ).
@@ -560,7 +497,6 @@ public class EditUserDialog extends Dialog {
             }
         }
     }
-
     /**
      * Data holder for the edit super user dialog that can be thrown away if
      * canceled, or stored if "Ok" is pressed.
@@ -569,19 +505,14 @@ public class EditUserDialog extends Dialog {
      *
      */
     class EditUserDialogModel {
-
         HashMap<String, DummyAccount> dummyAccounts
             = new HashMap<String, DummyAccount>();
-
         public EditUserDialogModel(UserContainer userContainer) {
-
             for ( String accountId : userContainer
                                      .getLoggedInUsersAccountNames() ) {
-
                 DummyAccount d = new DummyAccount();
                 d.accountId    = accountId;
                 d.accountType  = userContainer.getAccountType(accountId);
-
                 for( String property : userContainer
                                        .getPropertyKeys(accountId) ) {
                     /*
@@ -595,7 +526,6 @@ public class EditUserDialog extends Dialog {
             }
         }
     }
-
     /**
      * Simple data storing class representing an account.
      *
@@ -603,10 +533,8 @@ public class EditUserDialog extends Dialog {
      *
      */
     class DummyAccount {
-
         String accountId = "";
         AccountType accountType;
-
         HashMap<String, String> properties = new HashMap<String, String>();
     }
 }

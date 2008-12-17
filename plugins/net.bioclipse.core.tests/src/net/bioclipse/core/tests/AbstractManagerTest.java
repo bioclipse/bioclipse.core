@@ -9,20 +9,16 @@
  * Contact: Bioclipse Project <http://www.bioclipse.net>
  ******************************************************************************/
 package net.bioclipse.core.tests;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.jobs.Job;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.junit.Assert;
 import org.junit.Test;
-
 /**
  * Tests basic API patterns for stable {@link IBioclipseManager}. This class must
  * be extended by all manager test suites.
@@ -30,9 +26,7 @@ import org.junit.Test;
  * @author egonw
  */
 public abstract class AbstractManagerTest {
-
     public abstract IBioclipseManager getManager();
-
     /**
      * If a {@link IBioclipseManager} method <code>foo(IFile)</code> is annotated as 
      * <code>@Recorded</code>, then there must also be a method in that
@@ -70,7 +64,6 @@ public abstract class AbstractManagerTest {
             }
         }
     }
-
     /**
      * If a {@link IBioclipseManager} method <code>foo(IFile)</code> exists,
      * then there must also be a method in the matching
@@ -112,7 +105,6 @@ public abstract class AbstractManagerTest {
             }
         }
     }
-
     /**
      * If a {@link IBioclipseManager} method <code>foo(IFile)</code>
      * annotated with {link Job} exists, then there must also be a method in the
@@ -146,7 +138,6 @@ public abstract class AbstractManagerTest {
             }
         }
     }
-
     /**
      * Replaces the parameters type <code>toExpand</code> into the parameter
      * array given by expandInto, but only at the given index. If that index
@@ -171,7 +162,6 @@ public abstract class AbstractManagerTest {
         }
         return expectedParameters;
     }
-
     /**
      * If a {@link IBioclipseManager} method <code>foo(IFile)</code>
      * annotated with {link Job} exists, then the matching method in the
@@ -194,7 +184,6 @@ public abstract class AbstractManagerTest {
             }
         }
     }
-
     /**
      * If a {@link IBioclipseManager} method is annotated with {link Job}
      * exists which takes a <code>String<code> as the last parameter, then
@@ -235,7 +224,6 @@ public abstract class AbstractManagerTest {
             }
         }
     }
-
     /**
      * If a published method has parameters, e.g. <code>foo(IFile)</code>, then
      * the PublishedMethod annotation should have a filled out params field.
@@ -269,7 +257,6 @@ public abstract class AbstractManagerTest {
             }
         }
     }
-
     /**
      * If a published method has parameters, e.g. <code>foo(IFile)</code>, then
      * the PublishedMethod annotation should have a filled out params field.
@@ -291,7 +278,6 @@ public abstract class AbstractManagerTest {
             }
         }
     }
-
     private Class getManagerInterface(IBioclipseManager manager) {
         Class[] interfaces = manager.getClass().getInterfaces();
         String managerName = manager.getClass().getName();
@@ -304,7 +290,6 @@ public abstract class AbstractManagerTest {
         }
         return null;
     }
-
     /**
      * Tests if the Method has {@link Job} annotation.
      */
@@ -317,7 +302,6 @@ public abstract class AbstractManagerTest {
         }
         return false;
     }
-    
     /**
      * Tests if the Method has {@link Recorded} annotation.
      */
@@ -330,7 +314,6 @@ public abstract class AbstractManagerTest {
         }
         return false;
     }
-    
     /**
      * Tests if the Method has {@link Published} annotation.
      */
@@ -343,14 +326,12 @@ public abstract class AbstractManagerTest {
         }
         return false;
     }
-    
     private boolean hasParameter(Class[] parameters, Class class1) {
         for (Class clazz : parameters) {
             if (clazz.getName().equals(class1.getName())) return true;
         }
         return false;
     }
-
     private Method findMethod(Class clazz, String methodName,
                               Class[] parameterTypes) {
         Method[] otherMethods = clazz.getMethods();
@@ -366,7 +347,6 @@ public abstract class AbstractManagerTest {
         }
         return null;
     }
-
     private boolean hasIdenticalTypes(Class[] otherParameters,
                                       Class[] parameterTypes) {
         for (int i=0; i<parameterTypes.length; i++) {
@@ -377,5 +357,4 @@ public abstract class AbstractManagerTest {
         }
         return true;
     }
-
 }

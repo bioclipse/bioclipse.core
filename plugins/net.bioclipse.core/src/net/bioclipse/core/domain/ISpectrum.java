@@ -10,15 +10,11 @@
  *     
  ******************************************************************************/
 package net.bioclipse.core.domain;
-
 import net.bioclipse.core.business.BioclipseException;
-
 public interface ISpectrum extends IBioObject{
-
-	    /**
-	     * @return the IMolecule serialized to CML
-	     * @throws BioclipseException if CML cannot be returned
-	     */
-	    public String getCML() throws BioclipseException;
-	    
+            /**
+             * @return the IMolecule serialized to CML
+             * @throws BioclipseException if CML cannot be returned
+             */
+            public String getCML() throws BioclipseException;
 }

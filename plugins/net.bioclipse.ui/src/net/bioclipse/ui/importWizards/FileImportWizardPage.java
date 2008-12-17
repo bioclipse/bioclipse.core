@@ -9,7 +9,6 @@
  *     Ola Spjuth - core API and implementation
  *******************************************************************************/
 package net.bioclipse.ui.importWizards;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,18 +26,13 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
-
-
 public class FileImportWizardPage extends WizardNewFileCreationPage {
-
     protected FileFieldEditor editor;
-
     public FileImportWizardPage(String pageName, IStructuredSelection selection) {
         super(pageName, selection);
         setTitle(pageName); //NON-NLS-1
         setDescription("Import a file from the local file system into the workspace"); //NON-NLS-1
     }
-
     /* (non-Javadoc)
      * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#createAdvancedControls(org.eclipse.swt.widgets.Composite)
      */
@@ -47,14 +41,12 @@ public class FileImportWizardPage extends WizardNewFileCreationPage {
         GridData fileSelectionData = new GridData(GridData.GRAB_HORIZONTAL
                 | GridData.FILL_HORIZONTAL);
         fileSelectionArea.setLayoutData(fileSelectionData);
-
         GridLayout fileSelectionLayout = new GridLayout();
         fileSelectionLayout.numColumns = 3;
         fileSelectionLayout.makeColumnsEqualWidth = false;
         fileSelectionLayout.marginWidth = 0;
         fileSelectionLayout.marginHeight = 0;
         fileSelectionArea.setLayout(fileSelectionLayout);
-
         editor = new FileFieldEditor("fileSelect","Select File: ",fileSelectionArea); //NON-NLS-1 //NON-NLS-2
         editor.getTextControl(fileSelectionArea).addModifyListener(new ModifyListener(){
             public void modifyText(ModifyEvent e) {
@@ -65,15 +57,12 @@ public class FileImportWizardPage extends WizardNewFileCreationPage {
         String[] extensions = new String[] { "*.*" }; //NON-NLS-1
         editor.setFileExtensions(extensions);
         fileSelectionArea.moveAbove(null);
-
     }
-
      /* (non-Javadoc)
      * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#createLinkTarget()
      */
     protected void createLinkTarget() {
     }
-
     /* (non-Javadoc)
      * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#getInitialContents()
      */
@@ -84,14 +73,12 @@ public class FileImportWizardPage extends WizardNewFileCreationPage {
             return null;
         }
     }
-
     /* (non-Javadoc)
      * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#getNewFileLabel()
      */
     protected String getNewFileLabel() {
         return "New File Name:"; //NON-NLS-1
     }
-
     /* (non-Javadoc)
      * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#validateLinkedResource()
      */

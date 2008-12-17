@@ -7,15 +7,12 @@
  *
  *******************************************************************************/
 package net.bioclipse.core;
-
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import net.bioclipse.core.business.IMoleculeManager;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.recording.IHistory;
 import net.bioclipse.recording.IRecordingAdvice;
-
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -25,34 +22,23 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
-
 /**
  * The activator class controls the plug-in life cycle
  */
 public class Activator extends Plugin {
-
     // The plug-in ID
     public static final String PLUGIN_ID = "net.bioclipse.core";
-
     private static final long SERVICE_TIMEOUT_MILLIS = 10*1000;    
-    
     // Virtual project
     public static final String VIRTUAL_PROJECT_NAME = "Virtual";
-    
     // The shared instance
     private static Activator plugin;
-    
     private static final Logger logger = Logger.getLogger(Activator.class);
-    
     private ServiceTracker historyTracker;
     private ServiceTracker recordingAdviceTracker;
     private ServiceTracker moleculeManagerTracker;
-
-    
     public Activator() {
     }
-
-    
     public void start(BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
@@ -72,15 +58,11 @@ public class Activator extends Plugin {
                                   IMoleculeManager.class.getName(),
                                   null );
         moleculeManagerTracker.open();
-        
     }
-    
     public void stop(BundleContext context) throws Exception {
         plugin = null;
         super.stop(context);
     }
-
-    
     /**
      * Returns the shared instance
      *
@@ -89,8 +71,6 @@ public class Activator extends Plugin {
     public static Activator getDefault() {
         return plugin;
     }
-    
-    
     public IHistory getHistory() {
         IHistory history = null;
         try {
@@ -104,8 +84,6 @@ public class Activator extends Plugin {
         }
         return history;
     }
-    
-    
     public IRecordingAdvice getRecordingAdvice() {
         IRecordingAdvice recordingAdvice = null;
         try {
@@ -120,8 +98,6 @@ public class Activator extends Plugin {
         }
         return recordingAdvice;
     }
-
-
     public IMoleculeManager getMoleculeManager() {
         IMoleculeManager moleculeManager = null;
         try {
@@ -146,9 +122,7 @@ public class Activator extends Plugin {
         }
         return moleculeManager;
     }
-    
     protected static void createVirtualProject(IProject project){
-        
         IProjectDescription description = 
         		ResourcesPlugin.getWorkspace()
         		.newProjectDescription(VIRTUAL_PROJECT_NAME);
@@ -163,7 +137,6 @@ public class Activator extends Plugin {
         }
     }
     public static IProject getVirtualProject(){
-    	
     	IWorkspaceRoot root=ResourcesPlugin.getWorkspace().getRoot();
     	IProject project=root.getProject(VIRTUAL_PROJECT_NAME);
     	if(!project.exists()){

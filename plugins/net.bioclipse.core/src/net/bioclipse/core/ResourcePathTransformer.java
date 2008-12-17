@@ -9,10 +9,8 @@
  *     
  *******************************************************************************/
 package net.bioclipse.core;
-
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -21,27 +19,19 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-
-
 /**
  * @author jonalv
  *
  */
 public class ResourcePathTransformer {
-
     private static ResourcePathTransformer instance = 
         new ResourcePathTransformer();
-    
     private ResourcePathTransformer() {
-        
     }
-    
     public static ResourcePathTransformer getInstance() {
         return instance;
     }
-    
     public IFile transform(String resourceString) {
-  
         IFile result;
         result = parseRelative(resourceString);
         if (result == null) result = parseURI(resourceString);
@@ -50,7 +40,6 @@ public class ResourcePathTransformer {
                             "Could not handle " + resourceString );
         return result;
     }
-
     private IFile parsePath( String resourceString ) {
     	URI uri;
     	java.io.File localFile=new java.io.File(resourceString);
@@ -58,8 +47,8 @@ public class ResourcePathTransformer {
     	try{
     		uri=new URI("file:"+localFile.getAbsolutePath());
     	}catch (URISyntaxException e) {
-			return null;
-		}
+                        return null;
+                }
     	IProject vProject=Activator.getVirtualProject();
     	IFile vFile=vProject.getFile(localFile.getName());
     	// if file already exist in Virtual project
@@ -79,14 +68,13 @@ public class ResourcePathTransformer {
     	        return null;
     	}    	
     	try {
-			vFile.createLink(uri,IResource.NONE, null);	
-			vFile.refreshLocal(0, new NullProgressMonitor());
-		} catch (CoreException e) {
-			return null;
-		}
+                        vFile.createLink(uri,IResource.NONE, null);	
+                        vFile.refreshLocal(0, new NullProgressMonitor());
+                } catch (CoreException e) {
+                        return null;
+                }
     	return vFile;       
     }
-    
     /*
      * Recursive algorithm for creating unique file
      */
@@ -99,7 +87,6 @@ public class ResourcePathTransformer {
         file =file.getParent().getFile(
                        new Path(generateUniqueFileName( file,++count)));
         if(file.exists()) return createAlternativeFile( file, count );        
-        
         return file;
     }
     private String generateUniqueFileName(IFile file,int count) {
@@ -109,9 +96,7 @@ public class ResourcePathTransformer {
         name = name + "."+file.getFileExtension();
         return name;
     }
-    
     private IFile parseRelative( String resourceString ) {
-
        IPath path = new Path(resourceString);
        IFile file = ResourcesPlugin.getWorkspace()
                                    .getRoot().getFile( path );
@@ -119,7 +104,6 @@ public class ResourcePathTransformer {
            return file;
         return null;
     }
-
     private IFile parseURI( String resourceString ) {
         try {
             IFile[] files = ResourcesPlugin.getWorkspace()
@@ -128,7 +112,6 @@ public class ResourcePathTransformer {
                                                new URI(resourceString) );
             if ( files.length == 1 )
                 return files[0];
-            
             throw new IllegalStateException( 
                 "Multiple IFiles correspond to the uri:" 
                 + resourceString);               

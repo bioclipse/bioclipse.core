@@ -9,26 +9,21 @@
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
 package net.bioclipse.core.internal.filesystem.memory;
-
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.ui.model.IWorkbenchAdapter;
-
 /**
  * A factory that adapts MemoryTree nodes to WorkbenchAdapter for display
  * in the UI.
  */
 public class MemoryAdapterFactory implements IAdapterFactory {
-	private Class[] ADAPTER_LIST = new Class[] {IWorkbenchAdapter.class};
-	private WorkbenchMemoryNode memoryAdapter = new WorkbenchMemoryNode();
-
-	public Object getAdapter(Object adaptableObject, Class adapterType) {
-		if (adaptableObject instanceof MemoryFileStore && adapterType.equals(IWorkbenchAdapter.class))
-			return memoryAdapter;
-		return null;
-	}
-
-	public Class[] getAdapterList() {
-		return ADAPTER_LIST;
-	}
-
+        private Class[] ADAPTER_LIST = new Class[] {IWorkbenchAdapter.class};
+        private WorkbenchMemoryNode memoryAdapter = new WorkbenchMemoryNode();
+        public Object getAdapter(Object adaptableObject, Class adapterType) {
+                if (adaptableObject instanceof MemoryFileStore && adapterType.equals(IWorkbenchAdapter.class))
+                        return memoryAdapter;
+                return null;
+        }
+        public Class[] getAdapterList() {
+                return ADAPTER_LIST;
+        }
 }

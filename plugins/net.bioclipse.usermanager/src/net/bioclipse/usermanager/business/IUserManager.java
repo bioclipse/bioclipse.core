@@ -7,13 +7,10 @@
  *
  *******************************************************************************/
 package net.bioclipse.usermanager.business;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-
 import org.eclipse.core.runtime.SubProgressMonitor;
-
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
@@ -24,15 +21,13 @@ import net.bioclipse.usermanager.AccountType;
 import net.bioclipse.usermanager.IUserManagerListener;
 import net.bioclipse.usermanager.User;
 import net.bioclipse.usermanager.UserContainer;
-
 @TestClasses( "net.bioclipse.usermanager.business.CoverageTest," +
-		      "net.bioclipse.usermanager.business.UserManagerTest," + 
-		      "net.bioclipse.usermanager.UserContainerTest" )
+                      "net.bioclipse.usermanager.business.UserManagerTest," + 
+                      "net.bioclipse.usermanager.UserContainerTest" )
 @PublishedClass("Handles users and accounts in Bioclipse. " +
                 "Can store things like database passwords and usernames " +
                 "in an encrypted file.")
 public interface IUserManager extends IBioclipseManager {
-
     /**
      * Signs in a user.
      *
@@ -47,7 +42,6 @@ public interface IUserManager extends IBioclipseManager {
                                     + "matches the stored one." )
     @Recorded
     public void logIn( String username, String password );
-
     /**
      * Signs in a user while updating a monitor
      *
@@ -60,7 +54,6 @@ public interface IUserManager extends IBioclipseManager {
     public void signInWithProgressBar( String username,
                                        String password,
                                        SubProgressMonitor monitor );
-
     /**
      * @return whether any user is logged in
      */
@@ -68,7 +61,6 @@ public interface IUserManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod (methodSummary = "Returns whether a user is logged in")
     public boolean isLoggedIn();
-
     /**
      *  Signs out the current user
      */
@@ -76,7 +68,6 @@ public interface IUserManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod (methodSummary = "Logs out the currently logged in user")
     public void logOut();
-
     /**
      * Creates a new user which can have many accounts.
      *
@@ -89,7 +80,6 @@ public interface IUserManager extends IBioclipseManager {
                       methodSummary = "Creates a new user with the " +
                                       "given username and password")
     public void createUser( String userName, String key );
-
     /**
      * @return the name of the user currently logged in
      */
@@ -98,7 +88,6 @@ public interface IUserManager extends IBioclipseManager {
     @PublishedMethod (methodSummary = "Gives the name of the currently " +
                                       "logged in user")
     public String getLoggedInUserName();
-
     /**
      * Creates a new account.
      *
@@ -118,7 +107,6 @@ public interface IUserManager extends IBioclipseManager {
     public void createAccount( String accountId,
                                HashMap<String, String> properties,
                                AccountType accountType );
-
     /**
      * @param accountId
      * @return whether an account with the given accountId exists
@@ -129,7 +117,6 @@ public interface IUserManager extends IBioclipseManager {
                                       "account id exists", 
                       params = "String accountId")
     public boolean accountExists( String accountId );
-
     /**
      * Returns the value of a property identified by the given property key
      * for a given account.
@@ -146,7 +133,6 @@ public interface IUserManager extends IBioclipseManager {
                                       "for the account with the given " +
                                       "account id")
     public String getProperty( String accountId, String propertyKey );
-
     /**
      * Writes all data to file
      */
@@ -154,7 +140,6 @@ public interface IUserManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod (methodSummary = "Write all data to file")
     public void persist();
-
     /**
      * Reloads all data in the UserContainer from file
      */
@@ -163,7 +148,6 @@ public interface IUserManager extends IBioclipseManager {
     @PublishedMethod (methodSummary = "Reloads all data from file " +
                                       "discarding changes")
     public void reloadFromFile();
-
     /**
      * @return the names of all users
      */
@@ -171,7 +155,6 @@ public interface IUserManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod (methodSummary = "Gives a list of all user names")
     public List<String> getUserNames();
-
     /**
      * @return the <code>User</code> currently logged in
      */
@@ -179,7 +162,6 @@ public interface IUserManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod (methodSummary = "gives the logged in user")
     public User getLoggedInUser();
-
     /**
      * @param name of user to be deleted
      */
@@ -189,7 +171,6 @@ public interface IUserManager extends IBioclipseManager {
                       methodSummary = "deletes the user with " +
                                       "the given username")
     public void deleteUser( String user );
-
     /**
      * Returns all the keys for a given accounts properties
      *
@@ -202,7 +183,6 @@ public interface IUserManager extends IBioclipseManager {
                       methodSummary = "gives the names of the properties for" +
                                       " an account with a given account id ")
     public Collection<String> getPropertyKeys( String accountId );
-
     /**
      * Removes all accounts for the currently logged in <code>User</code>
      */
@@ -211,7 +191,6 @@ public interface IUserManager extends IBioclipseManager {
     @PublishedMethod (methodSummary = "Removes all accounts for the " +
                                       "currently logged in user")
     public void clearAccounts();
-
     /**
      * Changes the password for a user.
      *
@@ -225,7 +204,6 @@ public interface IUserManager extends IBioclipseManager {
                                       "the logged in user if the oldPassword " +
                                       "is given correctly")
     public void changePassword( String oldkey, String newkey );
-
     /**
      * @return the names of the currently logged in users accounts
      */
@@ -234,7 +212,6 @@ public interface IUserManager extends IBioclipseManager {
     @PublishedMethod (methodSummary = "Gives the account names of the " +
                                       "logged in user ")
     public Collection<String> getLoggedInUsersAccountNames();
-
     /**
      * @return the names of the available account types
      */
@@ -243,7 +220,6 @@ public interface IUserManager extends IBioclipseManager {
     @PublishedMethod (methodSummary = "Gives the names of all available " +
                                       "account types")
     public String[] getAvailableAccountTypeNames();
-
     /**
      * @return the available account types
      */
@@ -251,7 +227,6 @@ public interface IUserManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod (methodSummary = "Gives all available account types")
     public AccountType[] getAvailableAccountTypes();
-
     /**
      * Returns the account type for the account corresponding to a given
      * account id
@@ -265,17 +240,14 @@ public interface IUserManager extends IBioclipseManager {
                       methodSummary = "Gives the accounttype for account " +
                                       "with given account id")
     public AccountType getAccountType(String accountId);
-
     /**
      * @param listener to be added
      */
     public void removeListener(IUserManagerListener listener);
-
     /**
      * @param listener to be removed
      */
     public void addListener(IUserManagerListener listener);
-
     /**
      * Returns true if there is user logged in that have an account of a type
      * with the given account type name
@@ -285,7 +257,6 @@ public interface IUserManager extends IBioclipseManager {
      */
     @Recorded
     public boolean isLoggedInWithAccountType(String accountTypeName);
-
     /**
      * Returns the IDs for all accounts of a named account type for the
      * logged in user
@@ -295,14 +266,12 @@ public interface IUserManager extends IBioclipseManager {
      */
     @Recorded
     public List<String> getAccountIdsByAccountTypeName(String accountTypeName);
-
     /**
      * @return a copy of the user container which can be edited and thrown away
      * or returned.
      */
     @Recorded
     public UserContainer getSandBoxUserContainer();
-
     /**
      * Use the given usercontainer instead
      *

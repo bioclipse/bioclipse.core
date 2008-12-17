@@ -7,10 +7,8 @@
  *
  *****************************************************************************/
 package net.bioclipse.core;
-
 import java.util.Collection;
 import java.util.HashSet;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorReference;
@@ -19,11 +17,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-
 public class StartupVirtualEditorCloser implements IStartup {
-
     public void earlyStartup() {    
-        
         for(IWorkbenchWindow workbWindow:
                                PlatformUI.getWorkbench().getWorkbenchWindows()){
             for(IWorkbenchPage workbPage:workbWindow.getPages()){   
@@ -39,7 +34,6 @@ public class StartupVirtualEditorCloser implements IStartup {
                          // marks this EditorReference to be removed
                          toRemove.add(ef);   
                      }                                           
-                            
                     }catch(PartInitException x){
 //                        can't check if it is a Virtual file, 
 //                        continue with next one
@@ -52,11 +46,7 @@ public class StartupVirtualEditorCloser implements IStartup {
                        workbenchPage.closeEditors(remove,false); 
                     } 
                 });
-
-                
             }
         }
-        
     }
-
 }

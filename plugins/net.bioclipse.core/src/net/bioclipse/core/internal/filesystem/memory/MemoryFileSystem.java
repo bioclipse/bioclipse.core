@@ -9,45 +9,39 @@
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
 package net.bioclipse.core.internal.filesystem.memory;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.filesystem.provider.FileSystem;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-
 /**
  * A test file system that keeps everything in memory.
  */
 public class MemoryFileSystem extends FileSystem {
-	public static final String SCHEME_MEMORY = "memory";
-
-	/**
-	 * Converts a path to a URI in the memory file system.
-	 * @param path
-	 * @return
-	 */
-	public static URI toURI(IPath path) {
-		try {
-			return new URI(MemoryFileSystem.SCHEME_MEMORY, null, path.setDevice(null).toPortableString(), null);
-		} catch (URISyntaxException e) {
-			//should not happen
-		    // this throws an exception for every letter until 'memory:' is 
-		    // is written when memory resources are manually created.
-			throw new RuntimeException(e);
-		}
-	}
-
-	public MemoryFileSystem() {
-		super();
-	}
-
-	public IFileStore getStore(URI uri) {
-		return new MemoryFileStore(Path.fromPortableString(uri.getSchemeSpecificPart()));
-	}
-
-	public boolean isCaseSensitive() {
-		return true;
-	}
+        public static final String SCHEME_MEMORY = "memory";
+        /**
+         * Converts a path to a URI in the memory file system.
+         * @param path
+         * @return
+         */
+        public static URI toURI(IPath path) {
+                try {
+                        return new URI(MemoryFileSystem.SCHEME_MEMORY, null, path.setDevice(null).toPortableString(), null);
+                } catch (URISyntaxException e) {
+                        //should not happen
+                    // this throws an exception for every letter until 'memory:' is 
+                    // is written when memory resources are manually created.
+                        throw new RuntimeException(e);
+                }
+        }
+        public MemoryFileSystem() {
+                super();
+        }
+        public IFileStore getStore(URI uri) {
+                return new MemoryFileStore(Path.fromPortableString(uri.getSchemeSpecificPart()));
+        }
+        public boolean isCaseSensitive() {
+                return true;
+        }
 }

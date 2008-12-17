@@ -11,11 +11,8 @@
  *     
  ******************************************************************************/
 package net.bioclipse.ui.business;
-
 import java.io.InputStream;
-
 import net.bioclipse.core.ResourcePathTransformer;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -25,7 +22,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
-
 /**
  * Contains general methods for interacting with the Bioclipse graphical
  * user interface (GUI).
@@ -33,11 +29,9 @@ import org.eclipse.ui.ide.IDE;
  * @author masak
  */
 public class UIManager implements IUIManager {
-
     public String getNamespace() {
         return "ui";
     }
-
     public void remove( IFile file ) {
         //TODO: jonalv use real progressmonitor
         try {
@@ -48,9 +42,7 @@ public class UIManager implements IUIManager {
             throw new RuntimeException(e);
         }
     }
-
     public void open( final IFile file ) {
-
         Display.getDefault().asyncExec(new Runnable() {    // do not use async, we need the GUI!
             public void run() {
                 IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
@@ -62,22 +54,18 @@ public class UIManager implements IUIManager {
             }
         });
     }
-
     public void remove( String filePath ) {
         remove(ResourcePathTransformer.getInstance().transform( filePath ));
     }
-
     public void open( String filePath ) {
         open(ResourcePathTransformer.getInstance().transform( filePath ));
     }
-
     public void save(String filePath, InputStream toWrite) {
         save(
             ResourcePathTransformer.getInstance().transform( filePath ),
             toWrite, null, null
         );
     }
-
     public void save(final IFile target, InputStream toWrite,
                      IProgressMonitor monitor, Runnable callbackFunction) {
         if (monitor == null) monitor = new NullProgressMonitor();
@@ -101,18 +89,15 @@ public class UIManager implements IUIManager {
             Display.getDefault().asyncExec(callbackFunction);
         }
     }
-
-	public boolean fileExists(IFile file) {
-		return file.exists();
-	}
-
-	public boolean fileExists(String filePath) {
-		try {
-			return fileExists(ResourcePathTransformer.getInstance()
-					.transform( filePath ));
-		} catch (IllegalArgumentException exception) {
-			return false;
-		}
-	}
-
+        public boolean fileExists(IFile file) {
+                return file.exists();
+        }
+        public boolean fileExists(String filePath) {
+                try {
+                        return fileExists(ResourcePathTransformer.getInstance()
+                                        .transform( filePath ));
+                } catch (IllegalArgumentException exception) {
+                        return false;
+                }
+        }
 }

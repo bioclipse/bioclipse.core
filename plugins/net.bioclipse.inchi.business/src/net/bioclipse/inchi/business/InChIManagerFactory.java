@@ -10,23 +10,18 @@
  * Contact: http://www.bioclipse.net/    
  ******************************************************************************/
 package net.bioclipse.inchi.business;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IExecutableExtensionFactory;
-
 public class InChIManagerFactory implements IExecutableExtension, 
                                               IExecutableExtensionFactory {
-
     private Object inchiManager;
-    
     public void setInitializationData(IConfigurationElement config,
                                       String propertyName, 
                                       Object data) throws CoreException {
         inchiManager = Activator.getDefault().getInChIManager();
     }
-    
     public Object create() throws CoreException {
         return inchiManager;
     }

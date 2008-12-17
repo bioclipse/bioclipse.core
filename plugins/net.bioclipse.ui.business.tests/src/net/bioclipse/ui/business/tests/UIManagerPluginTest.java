@@ -9,21 +9,15 @@
  * Contact: http://www.bioclipse.net/
  ******************************************************************************/
 package net.bioclipse.ui.business.tests;
-
 import java.io.ByteArrayInputStream;
-
 import net.bioclipse.ui.business.UIManager;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.junit.Assert;
 import org.junit.Test;
-
 public class UIManagerPluginTest {
-
     private UIManager manager = new UIManager();
-    
     @Test public void testOpen_String() {
         String filePath = "/Virtual/testFile99883423426.txt";
         IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(
@@ -39,7 +33,6 @@ public class UIManagerPluginTest {
         Assert.assertTrue(savedFile.exists());
         manager.open(filePath);
     }
-
     @Test public void testSaveAndRemove_IFile() {
         String filePath = "/Virtual/testFile683442689.txt";
         IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(
@@ -59,7 +52,6 @@ public class UIManagerPluginTest {
         );
         Assert.assertFalse(removedFile.exists());
     }
-
     @Test public void testSaveAndRemove_String() {
         String filePath = "/Virtual/testFile124879043.txt";
         manager.save(
@@ -75,7 +67,6 @@ public class UIManagerPluginTest {
         );
         Assert.assertFalse(removedFile.exists());
     }
-
     @Test public void testExists_String() {
         String filePath = "/Virtual/testFile887434232.txt";
         manager.save(
@@ -85,7 +76,6 @@ public class UIManagerPluginTest {
         manager.remove(filePath);
         Assert.assertFalse(manager.fileExists(filePath));
     }
-
     @Test public void testExists_IFile() {
         String filePath = "/Virtual/testFile734248911.txt";
         manager.save(
@@ -101,5 +91,4 @@ public class UIManagerPluginTest {
         );
         Assert.assertFalse(manager.fileExists(removedFile));
     }
-
 }

@@ -10,34 +10,24 @@
  *     
  *******************************************************************************/
 package net.bioclipse.ui.intro;
-
 import java.io.*;
 import java.util.*;
-
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.forms.widgets.*;
 import org.eclipse.ui.intro.config.*;
 import org.w3c.dom.*;
-
-
 /**
  * A ContentProvider for the Bioclipse intro page.
  * @author ola
  *
  */
 public class DynamicContentProvider implements IIntroXHTMLContentProvider {
-
-
     public void init(IIntroContentProviderSite site) {
     }
-
-
     public void createContent(String id, PrintWriter out) {
     }
-
     public void createContent(String id, Composite parent, FormToolkit toolkit) {
     }
-
     private String getCurrentTimeString() {
         StringBuffer content = new StringBuffer(
                 "Dynamic content from Intro ContentProvider: ");
@@ -45,7 +35,6 @@ public class DynamicContentProvider implements IIntroXHTMLContentProvider {
         content.append(new Date(System.currentTimeMillis()));
         return content.toString();
     }
-
     /**
      * TODO: This needs some serious updating
      */
@@ -55,14 +44,7 @@ public class DynamicContentProvider implements IIntroXHTMLContentProvider {
         para.setAttribute("id", "someDynamicContentId");
         para.appendChild(dom.createTextNode(getCurrentTimeString()));
         parent.appendChild(para);
-
     }
-
-
     public void dispose() {
-
     }
-
-
-
 }

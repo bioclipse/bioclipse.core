@@ -8,11 +8,8 @@
  * Contributors:
  *     
  *******************************************************************************/
-
 package net.bioclipse.dialogs;
-
 import net.bioclipse.usermanager.UserContainer;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -29,7 +26,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-
 /**
  * Dialog for creating a user
  * 
@@ -37,7 +33,6 @@ import org.eclipse.ui.PlatformUI;
  *
  */
 public class CreateUserDialog extends TitleAreaDialog {
-
     private Label repeatPasswordLabel;
     private Label passwordLabel;
     private Label usernameLabel;
@@ -45,7 +40,6 @@ public class CreateUserDialog extends TitleAreaDialog {
     private Text  passwordText;
     private Text  userNameText;
     private UserContainer userContainer;
-    
     /**
      * Create the dialog
      * @param parentShell
@@ -55,7 +49,6 @@ public class CreateUserDialog extends TitleAreaDialog {
         super(parentShell);
         this.userContainer = userContainer;
     }
-
     /**
      * Create contents of the dialog
      * @param parent
@@ -66,25 +59,21 @@ public class CreateUserDialog extends TitleAreaDialog {
         Composite container = new Composite(area, SWT.NONE);
         container.setLayout(new FormLayout());
         container.setLayoutData(new GridData(GridData.FILL_BOTH));
-
         usernameLabel = new Label(container, SWT.NONE);
         final FormData formData = new FormData();
         formData.left = new FormAttachment(0, 40);
         usernameLabel.setLayoutData(formData);
         usernameLabel.setText("Username:");
-
         passwordLabel = new Label(container, SWT.NONE);
         final FormData formData_1 = new FormData();
         formData_1.left = new FormAttachment(usernameLabel, 0, SWT.LEFT);
         passwordLabel.setLayoutData(formData_1);
         passwordLabel.setText("Password:");
-
         repeatPasswordLabel = new Label(container, SWT.NONE);
         final FormData formData_2 = new FormData();
         formData_2.left = new FormAttachment(passwordLabel, 0, SWT.LEFT);
         repeatPasswordLabel.setLayoutData(formData_2);
         repeatPasswordLabel.setText("Repeat password:");
-
         userNameText = new Text(container, SWT.BORDER);
         formData.bottom = new FormAttachment(userNameText, 0, SWT.BOTTOM);
         final FormData formData_3 = new FormData();
@@ -92,7 +81,6 @@ public class CreateUserDialog extends TitleAreaDialog {
         formData_3.left = new FormAttachment(usernameLabel, 46, SWT.DEFAULT);
         formData_3.right = new FormAttachment(100, -35);
         userNameText.setLayoutData(formData_3);
-
         passwordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
         formData_1.bottom = new FormAttachment(passwordText, 0, SWT.BOTTOM);
         final FormData formData_4 = new FormData();
@@ -100,7 +88,6 @@ public class CreateUserDialog extends TitleAreaDialog {
         formData_4.right = new FormAttachment(userNameText, 0, SWT.RIGHT);
         formData_4.left = new FormAttachment(userNameText, 0, SWT.LEFT);
         passwordText.setLayoutData(formData_4);
-
         repeatPasswordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
         formData_2.bottom = new FormAttachment(repeatPasswordText, 0, SWT.BOTTOM);
         final FormData formData_5 = new FormData();
@@ -114,12 +101,9 @@ public class CreateUserDialog extends TitleAreaDialog {
                                              usernameLabel, 
                                              passwordLabel, 
                                              repeatPasswordLabel });
-        
         setTitle("Create User");
-        
         return area;
     }
-
     /**
      * Create contents of the button bar
      * @param parent
@@ -131,7 +115,6 @@ public class CreateUserDialog extends TitleAreaDialog {
         createButton(parent, IDialogConstants.CANCEL_ID,
                 IDialogConstants.CANCEL_LABEL, false);
     }
-
     /**
      * Return the initial size of the dialog
      */
@@ -139,13 +122,11 @@ public class CreateUserDialog extends TitleAreaDialog {
     protected Point getInitialSize() {
         return new Point(500, 318);
     }
-    
     protected void buttonPressed(int buttonId) {
         if (buttonId == IDialogConstants.OK_ID) {
             if( "".equals( userNameText.getText()       ) ||
                 "".equals( passwordText.getText()       ) ||
                 "".equals( repeatPasswordText.getText() ) ) {
-                
                 MessageDialog.openInformation( PlatformUI
                                                .getWorkbench()
                                                .getActiveWorkbenchWindow()

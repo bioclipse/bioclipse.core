@@ -7,9 +7,7 @@
  *
  *******************************************************************************/
 package net.bioclipse.usermanager;
-
 import net.bioclipse.usermanager.UserContainer;
-
 /**
  * This class does evil stuff with package protected variables for 
  * testing purposes
@@ -20,7 +18,6 @@ import net.bioclipse.usermanager.UserContainer;
  *
  */
 public abstract class UserContainerModifier {
-
     public static void addAccountType( UserContainer userContainer,
                                        AccountType accountType ) {
         userContainer.availableAccountTypes.add(accountType);
