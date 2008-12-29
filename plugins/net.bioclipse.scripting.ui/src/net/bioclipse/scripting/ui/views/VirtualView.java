@@ -35,7 +35,7 @@ public class VirtualView extends ViewPart {
     private Action action1;
     private Action action2;
     private Action doubleClickAction;
-    class VirtualObject implements IAdaptable {
+    static class VirtualObject implements IAdaptable {
         private IBioObject bioObject;
         private VirtualParent parent;
         private String name;
@@ -64,7 +64,7 @@ public class VirtualView extends ViewPart {
             this.name = name;
         }
     }
-    class VirtualParent extends VirtualObject {
+    static class VirtualParent extends VirtualObject {
         private List<VirtualObject> children;
         public VirtualParent(String name) {
             super(name);
@@ -86,7 +86,7 @@ public class VirtualView extends ViewPart {
         }
     }
     class ViewContentProvider implements IStructuredContentProvider, 
-                                           ITreeContentProvider {
+                                                ITreeContentProvider {
         private VirtualParent invisibleRoot;
         public void inputChanged(Viewer v, Object oldInput, Object newInput) {
         }
@@ -139,7 +139,7 @@ public class VirtualView extends ViewPart {
             invisibleRoot.addChild(root);
         }
     }
-    class ViewLabelProvider extends LabelProvider {
+    static class ViewLabelProvider extends LabelProvider {
         public String getText(Object obj) {
             return obj.toString();
         }
