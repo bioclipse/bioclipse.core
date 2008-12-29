@@ -168,7 +168,6 @@ public abstract class ScriptingConsoleView extends ViewPart {
                         if ( result != null && !result.equals("") )
                             text.append( NEWLINE );
                     }
-                    promptIsVisible = false;
                     scrollDownToPrompt();
                     outputIsMidLine = false;
                 }
@@ -261,6 +260,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
     /** Receives a KeyEvent e and takes appropriate action. */
     private void handleKey(KeyEvent e) {
         e.doit = promptIsVisible;
+        if (!promptIsVisible)
+        	return;
         if (actionTable.containsKey( e.keyCode )) {
             e.doit = false;
             actionTable.get( e.keyCode ).receiveKey( e );

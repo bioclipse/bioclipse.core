@@ -195,6 +195,8 @@ public class JsConsoleView extends ScriptingConsoleView
     protected String executeCommand(String command) {
         if (command == null)
             return "";
+        
+        promptIsVisible = false;
         if (mode == Mode.JS) {
             if (command.matches("help( .*)?") || command.matches("man( .*)?")) {
                 printMessage( helpString(command) );
