@@ -23,7 +23,7 @@ import net.bioclipse.core.business.IBioclipseManager;
  * @author masak
  *
  */
-@PublishedClass(value = "Controls access to the Javascript Console.")
+@PublishedClass("Controls access to the Javascript Console.")
 @TestClasses("net.bioclipse.scripting.ui.tests.JsConsoleManagerTest")
 public interface IJsConsoleManager extends IBioclipseManager {
     @Recorded
