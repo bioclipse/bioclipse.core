@@ -3,6 +3,8 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
@@ -24,8 +26,16 @@ public abstract class NewScriptingConsoleView extends ViewPart {
      * initialize it.
      */
     public void createPartControl(Composite parent) {
+        GridLayout layout = new GridLayout();
+        layout.numColumns = 1;
+//        data.grabExcessHorizontalSpace = true;
+        parent.setLayout(layout);
+        
         output = new Text(parent, SWT.READ_ONLY | SWT.MULTI | SWT.V_SCROLL);
         output.setFont(JFaceResources.getTextFont());
+        GridData outputData = new GridData(GridData.FILL_BOTH);
+        output.setLayoutData(outputData);
+        
         input = new Text(parent, SWT.SINGLE);
         input.setFont(JFaceResources.getTextFont());
         input.addKeyListener( new KeyListener() {
@@ -38,6 +48,9 @@ public abstract class NewScriptingConsoleView extends ViewPart {
             }
             public void keyReleased(KeyEvent e) { }
         });
+        GridData inputData = new GridData(GridData.FILL_HORIZONTAL);
+        inputData.heightHint = 20;
+        input.setLayoutData(inputData);
     }
     /**
      * Prints a piece of text to the console. The text ends up before the
