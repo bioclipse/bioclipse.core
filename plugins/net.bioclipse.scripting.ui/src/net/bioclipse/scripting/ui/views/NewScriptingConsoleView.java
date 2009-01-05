@@ -144,7 +144,7 @@ public abstract class NewScriptingConsoleView extends ViewPart {
     }
     @Override
     public void setFocus() {
-        // TODO: Focus on the lower text box
+        input.setFocus();
     }
     /**
      * Executes a command in the underlying scripting engine.
