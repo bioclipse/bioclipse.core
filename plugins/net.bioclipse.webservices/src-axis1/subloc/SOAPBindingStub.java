@@ -4,17 +4,22 @@
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
+
 package subloc;
+
 public class SOAPBindingStub extends org.apache.axis.client.Stub implements subloc.API_PortType {
     private java.util.Vector cachedSerClasses = new java.util.Vector();
     private java.util.Vector cachedSerQNames = new java.util.Vector();
     private java.util.Vector cachedSerFactories = new java.util.Vector();
     private java.util.Vector cachedDeserFactories = new java.util.Vector();
+
     static org.apache.axis.description.OperationDesc [] _operations;
+
     static {
         _operations = new org.apache.axis.description.OperationDesc[7];
         _initOperationDesc1();
     }
+
     private static void _initOperationDesc1(){
         org.apache.axis.description.OperationDesc oper;
         org.apache.axis.description.ParameterDesc param;
@@ -30,6 +35,7 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
         oper.setStyle(org.apache.axis.constants.Style.RPC);
         oper.setUse(org.apache.axis.constants.Use.ENCODED);
         _operations[0] = oper;
+
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("name_search");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "param1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -40,6 +46,7 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
         oper.setStyle(org.apache.axis.constants.Style.RPC);
         oper.setUse(org.apache.axis.constants.Use.ENCODED);
         _operations[1] = oper;
+
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("blast_search");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "param1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -56,6 +63,7 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
         oper.setStyle(org.apache.axis.constants.Style.RPC);
         oper.setUse(org.apache.axis.constants.Use.ENCODED);
         _operations[2] = oper;
+
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("pro_predict");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "param1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -66,6 +74,7 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
         oper.setStyle(org.apache.axis.constants.Style.RPC);
         oper.setUse(org.apache.axis.constants.Use.ENCODED);
         _operations[3] = oper;
+
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("eu_predict");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "param1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -76,6 +85,7 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
         oper.setStyle(org.apache.axis.constants.Style.RPC);
         oper.setUse(org.apache.axis.constants.Use.ENCODED);
         _operations[4] = oper;
+
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("psort_predict");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "param1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -86,6 +96,7 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
         oper.setStyle(org.apache.axis.constants.Style.RPC);
         oper.setUse(org.apache.axis.constants.Use.ENCODED);
         _operations[5] = oper;
+
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("feed_entry");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "param1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -106,14 +117,18 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
         oper.setStyle(org.apache.axis.constants.Style.RPC);
         oper.setUse(org.apache.axis.constants.Use.ENCODED);
         _operations[6] = oper;
+
     }
+
     public SOAPBindingStub() throws org.apache.axis.AxisFault {
          this(null);
     }
+
     public SOAPBindingStub(java.net.URL endpointURL, javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
          this(service);
          super.cachedEndpoint = endpointURL;
     }
+
     public SOAPBindingStub(javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
         if (service == null) {
             super.service = new org.apache.axis.client.Service();
@@ -140,24 +155,28 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
+
             qName = new javax.xml.namespace.QName("urn:MySOAP/SubLoc", "PredictStruct");
             cachedSerQNames.add(qName);
             cls = subloc.PredictStruct.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
+
             qName = new javax.xml.namespace.QName("urn:MySOAP/SubLoc", "PsortStruct");
             cachedSerQNames.add(qName);
             cls = subloc.PsortStruct.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
+
             qName = new javax.xml.namespace.QName("urn:MySOAP/SubLoc", "Struct");
             cachedSerQNames.add(qName);
             cls = subloc.Struct.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
+
             qName = new javax.xml.namespace.QName("urn:MySOAP/SubLoc", "StructArray");
             cachedSerQNames.add(qName);
             cls = subloc.Struct[].class;
@@ -166,7 +185,9 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
             qName2 = null;
             cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
             cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
+
     }
+
     protected org.apache.axis.client.Call createCall() throws java.rmi.RemoteException {
         try {
             org.apache.axis.client.Call _call = super._createCall();
@@ -231,6 +252,7 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
             throw new org.apache.axis.AxisFault("Failure trying to get the Call object", _t);
         }
     }
+
     public subloc.Struct[] id_search(java.lang.String param1, java.lang.String param2) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
@@ -241,9 +263,11 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
         _call.setSOAPActionURI("urn:MySOAP/SubLoc#id_search");
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
         _call.setOperationName(new javax.xml.namespace.QName("urn:MySOAP/SubLoc", "id_search"));
+
         setRequestHeaders(_call);
         setAttachments(_call);
  try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {param1, param2});
+
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
         }
@@ -259,6 +283,7 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
   throw axisFaultException;
 }
     }
+
     public subloc.Struct[] name_search(java.lang.String param1) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
@@ -269,9 +294,11 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
         _call.setSOAPActionURI("urn:MySOAP/SubLoc#name_search");
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
         _call.setOperationName(new javax.xml.namespace.QName("urn:MySOAP/SubLoc", "name_search"));
+
         setRequestHeaders(_call);
         setAttachments(_call);
  try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {param1});
+
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
         }
@@ -287,6 +314,7 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
   throw axisFaultException;
 }
     }
+
     public subloc.BlastResult blast_search(java.lang.String param1, java.lang.String param2, java.lang.String param3, java.lang.String param4) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
@@ -297,9 +325,11 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
         _call.setSOAPActionURI("urn:MySOAP/SubLoc#blast_search");
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
         _call.setOperationName(new javax.xml.namespace.QName("urn:MySOAP/SubLoc", "blast_search"));
+
         setRequestHeaders(_call);
         setAttachments(_call);
  try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {param1, param2, param3, param4});
+
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
         }
@@ -315,6 +345,7 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
   throw axisFaultException;
 }
     }
+
     public subloc.PredictStruct pro_predict(java.lang.String param1) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
@@ -325,9 +356,11 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
         _call.setSOAPActionURI("urn:MySOAP/SubLoc#pro_predict");
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
         _call.setOperationName(new javax.xml.namespace.QName("urn:MySOAP/SubLoc", "pro_predict"));
+
         setRequestHeaders(_call);
         setAttachments(_call);
  try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {param1});
+
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
         }
@@ -343,6 +376,7 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
   throw axisFaultException;
 }
     }
+
     public subloc.PredictStruct eu_predict(java.lang.String param1) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
@@ -353,9 +387,11 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
         _call.setSOAPActionURI("urn:MySOAP/SubLoc#eu_predict");
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
         _call.setOperationName(new javax.xml.namespace.QName("urn:MySOAP/SubLoc", "eu_predict"));
+
         setRequestHeaders(_call);
         setAttachments(_call);
  try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {param1});
+
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
         }
@@ -371,6 +407,7 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
   throw axisFaultException;
 }
     }
+
     public subloc.PsortStruct psort_predict(java.lang.String param1) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
@@ -381,9 +418,11 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
         _call.setSOAPActionURI("urn:MySOAP/SubLoc#psort_predict");
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
         _call.setOperationName(new javax.xml.namespace.QName("urn:MySOAP/SubLoc", "psort_predict"));
+
         setRequestHeaders(_call);
         setAttachments(_call);
  try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {param1});
+
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
         }
@@ -399,6 +438,7 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
   throw axisFaultException;
 }
     }
+
     public java.lang.String feed_entry(java.lang.String param1, java.lang.String param2, java.lang.String param3, java.lang.String param4, java.lang.String param5, java.lang.String param6) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
@@ -409,9 +449,11 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
         _call.setSOAPActionURI("urn:MySOAP/SubLoc#feed_entry");
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
         _call.setOperationName(new javax.xml.namespace.QName("urn:MySOAP/SubLoc", "feed_entry"));
+
         setRequestHeaders(_call);
         setAttachments(_call);
  try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {param1, param2, param3, param4, param5, param6});
+
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;
         }
@@ -427,4 +469,5 @@ public class SOAPBindingStub extends org.apache.axis.client.Stub implements subl
   throw axisFaultException;
 }
     }
+
 }

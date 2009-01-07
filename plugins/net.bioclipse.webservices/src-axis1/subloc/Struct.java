@@ -4,16 +4,25 @@
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
+
 package subloc;
+
 public class Struct  implements java.io.Serializable {
     private java.lang.String ID;
+
     private java.lang.String LC;
+
     private java.lang.String CX;
+
     private java.lang.String SQ;
+
     private java.lang.String OS;
+
     private java.lang.String DE;
+
     public Struct() {
     }
+
     public Struct(
            java.lang.String ID,
            java.lang.String LC,
@@ -28,6 +37,8 @@ public class Struct  implements java.io.Serializable {
            this.OS = OS;
            this.DE = DE;
     }
+
+
     /**
      * Gets the ID value for this Struct.
      * 
@@ -36,6 +47,8 @@ public class Struct  implements java.io.Serializable {
     public java.lang.String getID() {
         return ID;
     }
+
+
     /**
      * Sets the ID value for this Struct.
      * 
@@ -44,6 +57,8 @@ public class Struct  implements java.io.Serializable {
     public void setID(java.lang.String ID) {
         this.ID = ID;
     }
+
+
     /**
      * Gets the LC value for this Struct.
      * 
@@ -52,6 +67,8 @@ public class Struct  implements java.io.Serializable {
     public java.lang.String getLC() {
         return LC;
     }
+
+
     /**
      * Sets the LC value for this Struct.
      * 
@@ -60,6 +77,8 @@ public class Struct  implements java.io.Serializable {
     public void setLC(java.lang.String LC) {
         this.LC = LC;
     }
+
+
     /**
      * Gets the CX value for this Struct.
      * 
@@ -68,6 +87,8 @@ public class Struct  implements java.io.Serializable {
     public java.lang.String getCX() {
         return CX;
     }
+
+
     /**
      * Sets the CX value for this Struct.
      * 
@@ -76,6 +97,8 @@ public class Struct  implements java.io.Serializable {
     public void setCX(java.lang.String CX) {
         this.CX = CX;
     }
+
+
     /**
      * Gets the SQ value for this Struct.
      * 
@@ -84,6 +107,8 @@ public class Struct  implements java.io.Serializable {
     public java.lang.String getSQ() {
         return SQ;
     }
+
+
     /**
      * Sets the SQ value for this Struct.
      * 
@@ -92,6 +117,8 @@ public class Struct  implements java.io.Serializable {
     public void setSQ(java.lang.String SQ) {
         this.SQ = SQ;
     }
+
+
     /**
      * Gets the OS value for this Struct.
      * 
@@ -100,6 +127,8 @@ public class Struct  implements java.io.Serializable {
     public java.lang.String getOS() {
         return OS;
     }
+
+
     /**
      * Sets the OS value for this Struct.
      * 
@@ -108,6 +137,8 @@ public class Struct  implements java.io.Serializable {
     public void setOS(java.lang.String OS) {
         this.OS = OS;
     }
+
+
     /**
      * Gets the DE value for this Struct.
      * 
@@ -116,6 +147,8 @@ public class Struct  implements java.io.Serializable {
     public java.lang.String getDE() {
         return DE;
     }
+
+
     /**
      * Sets the DE value for this Struct.
      * 
@@ -124,6 +157,7 @@ public class Struct  implements java.io.Serializable {
     public void setDE(java.lang.String DE) {
         this.DE = DE;
     }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof Struct)) return false;
@@ -157,6 +191,7 @@ public class Struct  implements java.io.Serializable {
         __equalsCalc = null;
         return _equals;
     }
+
     private boolean __hashCodeCalc = false;
     public synchronized int hashCode() {
         if (__hashCodeCalc) {
@@ -185,9 +220,11 @@ public class Struct  implements java.io.Serializable {
         __hashCodeCalc = false;
         return _hashCode;
     }
+
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
         new org.apache.axis.description.TypeDesc(Struct.class, true);
+
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("urn:MySOAP/SubLoc", "Struct"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
@@ -227,12 +264,14 @@ public class Struct  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
+
     /**
      * Return type metadata object
      */
     public static org.apache.axis.description.TypeDesc getTypeDesc() {
         return typeDesc;
     }
+
     /**
      * Get Custom Serializer
      */
@@ -244,6 +283,7 @@ public class Struct  implements java.io.Serializable {
           new  org.apache.axis.encoding.ser.BeanSerializer(
             _javaType, _xmlType, typeDesc);
     }
+
     /**
      * Get Custom Deserializer
      */
@@ -255,4 +295,5 @@ public class Struct  implements java.io.Serializable {
           new  org.apache.axis.encoding.ser.BeanDeserializer(
             _javaType, _xmlType, typeDesc);
     }
+
 }

@@ -1,4 +1,5 @@
 package net.bioclipse.webservices.wizards.wizardpages;
+
 /**
  * 
  * This Interface is used to perform the Web Service "ToDo" of a wizard page.
@@ -9,11 +10,12 @@ package net.bioclipse.webservices.wizards.wizardpages;
  * @author edrin
  *
  */
+
 public interface IDoWebService {
-        /**
-         * There is no OnButtonNext. This function might be used from
-         * setVisible() or createControl() on the next page.
-         * Returns a String with errordetails or an empty string
-         * */
-        public String DoWebService();
+	/**
+	 * There is no OnButtonNext. This function might be used from
+	 * setVisible() or createControl() on the next page.
+	 * Returns a String with errordetails or an empty string
+	 * */
+	public String DoWebService();
 }

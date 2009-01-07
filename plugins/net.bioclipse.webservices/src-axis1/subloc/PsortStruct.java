@@ -4,18 +4,25 @@
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
+
 package subloc;
+
 public class PsortStruct  implements java.io.Serializable {
     private java.lang.String prediction;
+
     private java.lang.String detail;
+
     public PsortStruct() {
     }
+
     public PsortStruct(
            java.lang.String prediction,
            java.lang.String detail) {
            this.prediction = prediction;
            this.detail = detail;
     }
+
+
     /**
      * Gets the prediction value for this PsortStruct.
      * 
@@ -24,6 +31,8 @@ public class PsortStruct  implements java.io.Serializable {
     public java.lang.String getPrediction() {
         return prediction;
     }
+
+
     /**
      * Sets the prediction value for this PsortStruct.
      * 
@@ -32,6 +41,8 @@ public class PsortStruct  implements java.io.Serializable {
     public void setPrediction(java.lang.String prediction) {
         this.prediction = prediction;
     }
+
+
     /**
      * Gets the detail value for this PsortStruct.
      * 
@@ -40,6 +51,8 @@ public class PsortStruct  implements java.io.Serializable {
     public java.lang.String getDetail() {
         return detail;
     }
+
+
     /**
      * Sets the detail value for this PsortStruct.
      * 
@@ -48,6 +61,7 @@ public class PsortStruct  implements java.io.Serializable {
     public void setDetail(java.lang.String detail) {
         this.detail = detail;
     }
+
     private java.lang.Object __equalsCalc = null;
     public synchronized boolean equals(java.lang.Object obj) {
         if (!(obj instanceof PsortStruct)) return false;
@@ -69,6 +83,7 @@ public class PsortStruct  implements java.io.Serializable {
         __equalsCalc = null;
         return _equals;
     }
+
     private boolean __hashCodeCalc = false;
     public synchronized int hashCode() {
         if (__hashCodeCalc) {
@@ -85,9 +100,11 @@ public class PsortStruct  implements java.io.Serializable {
         __hashCodeCalc = false;
         return _hashCode;
     }
+
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =
         new org.apache.axis.description.TypeDesc(PsortStruct.class, true);
+
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("urn:MySOAP/SubLoc", "PsortStruct"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
@@ -103,12 +120,14 @@ public class PsortStruct  implements java.io.Serializable {
         elemField.setNillable(false);
         typeDesc.addFieldDesc(elemField);
     }
+
     /**
      * Return type metadata object
      */
     public static org.apache.axis.description.TypeDesc getTypeDesc() {
         return typeDesc;
     }
+
     /**
      * Get Custom Serializer
      */
@@ -120,6 +139,7 @@ public class PsortStruct  implements java.io.Serializable {
           new  org.apache.axis.encoding.ser.BeanSerializer(
             _javaType, _xmlType, typeDesc);
     }
+
     /**
      * Get Custom Deserializer
      */
@@ -131,4 +151,5 @@ public class PsortStruct  implements java.io.Serializable {
           new  org.apache.axis.encoding.ser.BeanDeserializer(
             _javaType, _xmlType, typeDesc);
     }
+
 }

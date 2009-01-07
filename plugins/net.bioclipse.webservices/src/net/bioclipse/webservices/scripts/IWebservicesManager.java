@@ -11,14 +11,18 @@
  *
  ******************************************************************************/
 package net.bioclipse.webservices.scripts;
+
 import org.eclipse.core.runtime.CoreException;
+
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.business.IBioclipseManager;
+
 @PublishedClass( "Contains webservices related methods")
 public interface IWebservicesManager extends IBioclipseManager {
+
     /**
      * Fetches an entry from the EBI databases.
      *
@@ -32,4 +36,5 @@ public interface IWebservicesManager extends IBioclipseManager {
                       methodSummary = "Fetches an entry from the EBI databases and saves it to filename")
     public void downloadPDB(String pdbid, String filename)
         throws BioclipseException, CoreException;
+
 }
