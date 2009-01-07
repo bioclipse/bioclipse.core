@@ -51,6 +51,15 @@ public abstract class BioObject implements IBioObject {
     public IResource getResource() {
         return resource;
     }
+
+    /**
+     * Set associated Eclipse Resource for this IBioObject
+     */
+    public void setResource(IResource resource) {
+    	//TODO: Maybe add/remove listeners here at some point
+    	this.resource=resource;
+    }
+    
     /**
      * Basic properties. Should be overridden by subclasses.
      */    

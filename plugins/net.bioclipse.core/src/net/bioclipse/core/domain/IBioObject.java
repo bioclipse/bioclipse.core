@@ -25,6 +25,10 @@ public interface IBioObject extends IAdaptable {
      */
     public IResource getResource();
     /**
+     * Set associated Eclipse Resource for this IBioObject
+     */
+    public void setResource(IResource resource);
+    /**
      * @return an unique id for the object
      */
     public String getUID();
