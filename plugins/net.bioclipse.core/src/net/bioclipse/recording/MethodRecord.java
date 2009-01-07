@@ -10,47 +10,64 @@
  *     Ola Spjuth
  *     
  ******************************************************************************/
+
 package net.bioclipse.recording;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import net.bioclipse.core.domain.BioList;
 import net.bioclipse.core.domain.IBioObject;
+
 /**
  * @author jonalv, masak, ola
  *
  */
 public abstract class MethodRecord implements IRecord {
+
     static abstract class Parameter {
+
         String  type;
+        
         Parameter(String type) {
             this.type = type;
         }
     }
+    
     static class NonBioObjectParameter extends Parameter {
+        
         String stringRepresentation;
+        
         NonBioObjectParameter(String type, String stringrepresentation) {
             super(type);
             this.stringRepresentation = stringrepresentation;
         }
     }
+    
     static class BioObjectParameter extends Parameter {
+        
         String id;
+        
         BioObjectParameter(String type, String id) {
             super(type);
             this.id = id;
         }
     }
+
     protected String methodName;
     protected String returnObjectId;
     protected String returnType;
     protected String[] returnedListContentsIds; 
+    
     protected List<Parameter> paramaters;
+    
     @SuppressWarnings("unchecked")
     public MethodRecord( String methodName, 
                          Object[] parameters, 
                          Object returnValue ) {
         super();
         this.methodName = methodName;
+
         /*
          * Parameters
          */
@@ -78,6 +95,7 @@ public abstract class MethodRecord implements IRecord {
             }
         }
         paramaters = params;
+        
         /*
          * Return object id
          */
@@ -87,16 +105,19 @@ public abstract class MethodRecord implements IRecord {
         else {
             returnObjectId = "";
         }
+        
         /*
          * Return type
          */
         returnType = ( null == returnValue
                        ? "Void"
                        : returnValue.getClass().getSimpleName() );
+         
         int index = returnType.indexOf("$$EnhancerByCGLIB$$");
         if( index != -1) {
             returnType = returnType.substring(0, index);
         }
+
         /*
          * List contents IDs
          */
@@ -104,38 +125,48 @@ public abstract class MethodRecord implements IRecord {
             BioList<IBioObject> returnedList
                 = (BioList<IBioObject>) returnValue;
             returnedListContentsIds = new String[ returnedList.size() ];
+            
             int i = 0;
             for ( IBioObject bioObject : returnedList )
                 returnedListContentsIds[i++] = bioObject.getUID();
         }
     }
+
     private static String toVariableCase(String name) {
         return Character.toLowerCase( name.charAt(0) ) 
            + name.substring(1);
     }
+
     private static String escapeNonPrintableCharacters(String string) {
         return string.replaceAll("\\t", "\\\\t")
                      .replaceAll("\\n", "\\\\n");
     }
+
     public String getMethodName() {
         return methodName;
     }
+
     public void setMethodName(String methodName) {
         this.methodName = methodName;
     }
+    
     public String getReturnObjectId() {
         return returnObjectId;
     }
+
     public String getReturnType() {
         return returnType;
     }
+
     public List<Parameter> getParameters() {
         return paramaters;
     }
+    
     public String[] getReturnedListContentsIds() {
         if ( !returnType.equals("BioList") )
             throw new IllegalStateException("Can only return element ids "
                     + "of a BioList");
+        
         return returnedListContentsIds;
     }
 }

@@ -7,7 +7,9 @@
  *
  *******************************************************************************/
 package net.bioclipse.ui;
+
 import java.net.*;
+
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.*;
@@ -17,6 +19,7 @@ import org.eclipse.ui.ide.*;
 import org.eclipse.ui.internal.ide.*;
 import org.eclipse.ui.internal.ide.model.*;
 import org.osgi.framework.*;
+
 /**
  * Methods copied from {@link org.eclipse.ui.internal.ide.IDEWorkbenchAdvisor}
  */
@@ -35,6 +38,7 @@ public abstract class WorkbenchAdvisorHack extends WorkbenchAdvisor
         final String ICONS_PATH = "$nl$/icons/full/";//$NON-NLS-1$
         final String PATH_ELOCALTOOL = ICONS_PATH + "elcl16/"; // Enabled
         // //$NON-NLS-1$
+
         // toolbar
         // icons.
         final String PATH_DLOCALTOOL = ICONS_PATH + "dlcl16/"; // Disabled
@@ -58,54 +62,69 @@ public abstract class WorkbenchAdvisorHack extends WorkbenchAdvisor
         // //$NON-NLS-1$
         // //$NON-NLS-1$
         // icons
+
         Bundle ideBundle = Platform.getBundle(IDEWorkbenchPlugin.IDE_WORKBENCH);
+
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_ETOOL_BUILD_EXEC,
                 PATH_ETOOL + "build_exec.gif", false); //$NON-NLS-1$
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_ETOOL_BUILD_EXEC_HOVER,
                 PATH_ETOOL + "build_exec.gif", false); //$NON-NLS-1$
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_ETOOL_BUILD_EXEC_DISABLED,
                 PATH_DTOOL + "build_exec.gif", false); //$NON-NLS-1$
+
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_ETOOL_SEARCH_SRC,
                 PATH_ETOOL + "search_src.gif", false); //$NON-NLS-1$
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_ETOOL_SEARCH_SRC_HOVER,
                 PATH_ETOOL + "search_src.gif", false); //$NON-NLS-1$
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_ETOOL_SEARCH_SRC_DISABLED,
                 PATH_DTOOL + "search_src.gif", false); //$NON-NLS-1$
+
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_ETOOL_NEXT_NAV, PATH_ETOOL
                 + "next_nav.gif", false); //$NON-NLS-1$
+
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_ETOOL_PREVIOUS_NAV,
                 PATH_ETOOL + "prev_nav.gif", false); //$NON-NLS-1$
+
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_WIZBAN_NEWPRJ_WIZ,
                 PATH_WIZBAN + "newprj_wiz.png", false); //$NON-NLS-1$
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_WIZBAN_NEWFOLDER_WIZ,
                 PATH_WIZBAN + "newfolder_wiz.png", false); //$NON-NLS-1$
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_WIZBAN_NEWFILE_WIZ,
                 PATH_WIZBAN + "newfile_wiz.png", false); //$NON-NLS-1$
+
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_WIZBAN_IMPORTDIR_WIZ,
                 PATH_WIZBAN + "importdir_wiz.png", false); //$NON-NLS-1$
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_WIZBAN_IMPORTZIP_WIZ,
                 PATH_WIZBAN + "importzip_wiz.png", false); //$NON-NLS-1$
+
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_WIZBAN_EXPORTDIR_WIZ,
                 PATH_WIZBAN + "exportdir_wiz.png", false); //$NON-NLS-1$
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_WIZBAN_EXPORTZIP_WIZ,
                 PATH_WIZBAN + "exportzip_wiz.png", false); //$NON-NLS-1$
+
         declareWorkbenchImage(ideBundle,
                 IDEInternalWorkbenchImages.IMG_WIZBAN_RESOURCEWORKINGSET_WIZ, PATH_WIZBAN
                         + "workset_wiz.png", false); //$NON-NLS-1$
+
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_DLGBAN_SAVEAS_DLG,
                 PATH_WIZBAN + "saveas_wiz.png", false); //$NON-NLS-1$
+
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_DLGBAN_QUICKFIX_DLG,
                 PATH_WIZBAN + "quick_fix.png", false); //$NON-NLS-1$
+
         declareWorkbenchImage(ideBundle, IDE.SharedImages.IMG_OBJ_PROJECT, PATH_OBJECT
                 + "prj_obj.gif", true); //$NON-NLS-1$
         declareWorkbenchImage(ideBundle, IDE.SharedImages.IMG_OBJ_PROJECT_CLOSED, PATH_OBJECT
                 + "cprj_obj.gif", true); //$NON-NLS-1$
         declareWorkbenchImage(ideBundle, IDE.SharedImages.IMG_OPEN_MARKER, PATH_ELOCALTOOL
                 + "gotoobj_tsk.gif", true); //$NON-NLS-1$
+
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_ELCL_QUICK_FIX_ENABLED,
                 PATH_ELOCALTOOL + "smartmode_co.gif", true); //$NON-NLS-1$
+
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_DLCL_QUICK_FIX_DISABLED,
                 PATH_DLOCALTOOL + "smartmode_co.gif", true); //$NON-NLS-1$
+
         // task objects
         // declareRegistryImage(IDEInternalWorkbenchImages.IMG_OBJS_HPRIO_TSK,
         // PATH_OBJECT+"hprio_tsk.gif");
@@ -113,10 +132,12 @@ public abstract class WorkbenchAdvisorHack extends WorkbenchAdvisor
         // PATH_OBJECT+"mprio_tsk.gif");
         // declareRegistryImage(IDEInternalWorkbenchImages.IMG_OBJS_LPRIO_TSK,
         // PATH_OBJECT+"lprio_tsk.gif");
+
         declareWorkbenchImage(ideBundle, IDE.SharedImages.IMG_OBJS_TASK_TSK, PATH_OBJECT
                 + "taskmrk_tsk.gif", true); //$NON-NLS-1$
         declareWorkbenchImage(ideBundle, IDE.SharedImages.IMG_OBJS_BKMRK_TSK, PATH_OBJECT
                 + "bkmrk_tsk.gif", true); //$NON-NLS-1$
+
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_OBJS_COMPLETE_TSK,
                 PATH_OBJECT + "complete_tsk.gif", true); //$NON-NLS-1$
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_OBJS_INCOMPLETE_TSK,
@@ -131,6 +152,7 @@ public abstract class WorkbenchAdvisorHack extends WorkbenchAdvisor
                 PATH_OBJECT + "warn_tsk.gif", true); //$NON-NLS-1$
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_OBJS_INFO_PATH, PATH_OBJECT
                 + "info_tsk.gif", true); //$NON-NLS-1$
+
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_LCL_FLAT_LAYOUT,
                 PATH_ELOCALTOOL + "flatLayout.gif", true); //$NON-NLS-1$
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_LCL_HIERARCHICAL_LAYOUT,
@@ -138,6 +160,7 @@ public abstract class WorkbenchAdvisorHack extends WorkbenchAdvisor
         declareWorkbenchImage(ideBundle, IDEInternalWorkbenchImages.IMG_ETOOL_PROBLEM_CATEGORY,
                 PATH_ETOOL + "problem_category.gif", true); //$NON-NLS-1$
     }
+
     /**
      * Declares an IDE-specific workbench image.
      * 
@@ -158,12 +181,14 @@ public abstract class WorkbenchAdvisorHack extends WorkbenchAdvisor
         ImageDescriptor desc = ImageDescriptor.createFromURL(url);
         getWorkbenchConfigurer().declareImage(symbolicName, desc, shared);
     }
+
     @Override
     public void initialize(IWorkbenchConfigurer configurer)
     {
         configurer.setSaveAndRestore(true);
         declareWorkbenchImages();
     }
+
     @Override
     public IAdaptable getDefaultPageInput()
     {
@@ -171,6 +196,7 @@ public abstract class WorkbenchAdvisorHack extends WorkbenchAdvisor
         return root;
 //        return new NavigatorRoot();
     }
+
     @Override
     public void preStartup()
     {

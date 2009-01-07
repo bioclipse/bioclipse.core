@@ -10,8 +10,11 @@
  *
  ******************************************************************************/
 package net.bioclipse.ui;
+
+
 import net.bioclipse.ui.actions.AddExtensionsAction;
 import net.bioclipse.ui.actions.UpdateAction;
+
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IAction;
@@ -32,6 +35,7 @@ import org.eclipse.ui.internal.registry.ActionSetRegistry;
 import org.eclipse.ui.internal.registry.IActionSetDescriptor;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchWindow;
+
 /**
  * The action bar advisor is responsible for creating, adding, and disposing of
  * the actions added to the Bioclipse workbench
@@ -40,40 +44,68 @@ import org.eclipse.ui.IWorkbenchWindow;
  */
 @SuppressWarnings("restriction")
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
+
     /* Actions - important to allocate these only in makeActions, and then use
      * them in the fill methods. This ensures that the actions aren't recreated
      * when fillActionBars is called with FILL_PROXY. */
+
     private IWorkbenchAction helpSearchAction;
     private IWorkbenchAction introAction;
+
     private IWorkbenchAction closeAction;
+
     private IWorkbenchAction closeAllAction;
+
     private IWorkbenchAction closeAllSavedAction;
+
     private IWorkbenchAction saveAction;
+
     private IWorkbenchAction importAction;
     private IWorkbenchAction exportAction;
+
     private IWorkbenchAction saveAllAction;
+
     private IWorkbenchAction saveAsAction;
+
     private IWorkbenchAction undoAction;
+
     private IWorkbenchAction redoAction;
+
     private IWorkbenchAction cutAction;
+
     private IWorkbenchAction copyAction;
+
     private IWorkbenchAction pasteAction;
+
     private IWorkbenchAction selectAllAction;
+
     private IWorkbenchAction findAction;
+
     private IWorkbenchAction revertAction;
+
     private IWorkbenchAction quitAction;
+
     private IWorkbenchAction preferencesAction;
+
     private IWorkbenchAction helpAction;
+
     private IWorkbenchAction aboutAction, printAction, newAction;
+
     private IWorkbenchAction resetPerspectiveAction;
+
     private IAction updateAction;
+
     private IAction addExtensionAction;
+
     //TODO: Why is this an IContributionItem?
     private IContributionItem showViewItem;
+
+
     public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
         super(configurer);
         removeUnwantedActions();
     }
+
     /**
      * Create and register actions
      */
@@ -84,73 +116,105 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         // file.
         // Registering also provides automatic disposal of the actions when
         // the window is closed.
+
         showViewItem = ContributionItemFactory.VIEWS_SHORTLIST.create(window);
         // register(showViewItem);
+
         newAction = ActionFactory.NEW.create(window);
         newAction.setText("New...");
         register(newAction);
+
         // newAction = ActionFactory.NEW_WIZARD_DROP_DOWN.create(window);
         // newAction.setText("New...");
         // register(newAction);
+
         saveAction = ActionFactory.SAVE.create(window);
         register(saveAction);
+
         importAction = ActionFactory.IMPORT.create(window);
         register(importAction);
+
         exportAction = ActionFactory.EXPORT.create(window);
         register(exportAction);
+
         printAction = ActionFactory.PRINT.create(window);
         register(printAction);
+
         saveAsAction = ActionFactory.SAVE_AS.create(window);
         register(saveAsAction);
+
         saveAllAction = ActionFactory.SAVE_ALL.create(window);
         register(saveAllAction);
+
         undoAction = ActionFactory.UNDO.create(window);
         register(undoAction);
+
         redoAction = ActionFactory.REDO.create(window);
         register(redoAction);
+
         cutAction = ActionFactory.CUT.create(window);
         register(cutAction);
+
         copyAction = ActionFactory.COPY.create(window);
         register(copyAction);
+
         pasteAction = ActionFactory.PASTE.create(window);
         register(pasteAction);
+
         selectAllAction = ActionFactory.SELECT_ALL.create(window);
         register(selectAllAction);
+
         findAction = ActionFactory.FIND.create(window);
         register(findAction);
+
         closeAction = ActionFactory.CLOSE.create(window);
         register(closeAction);
+
         closeAllAction = ActionFactory.CLOSE_ALL.create(window);
         register(closeAllAction);
+
         closeAllSavedAction = ActionFactory.CLOSE_ALL_SAVED.create(window);
         register(closeAllSavedAction);
+
         revertAction = ActionFactory.REVERT.create(window);
         register(revertAction);
+
         quitAction = ActionFactory.QUIT.create(window);
         register(quitAction);
+
         helpAction = ActionFactory.HELP_CONTENTS.create(window);
         register(helpAction);
+
         updateAction = new UpdateAction(window);
         register(helpAction);
+
         addExtensionAction = new AddExtensionsAction(window);
         register(addExtensionAction);
+
         aboutAction = ActionFactory.ABOUT.create(window);
         register(aboutAction);
+
         resetPerspectiveAction = ActionFactory.RESET_PERSPECTIVE.create(window);
         register(resetPerspectiveAction);
+
         preferencesAction = ActionFactory.PREFERENCES.create(window);
         register(preferencesAction);
+
 //        introAction = ActionFactory.INTRO.create(window);
 //        register(introAction);
         {
             helpSearchAction = ActionFactory.HELP_SEARCH.create(window);
             register(helpSearchAction);
         }
+
     }
+
+
     /**
      * Fill the standard menus
      */
     protected void fillMenuBar(IMenuManager menuBar) {
+
         /*
          * File menu
          */
@@ -169,6 +233,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         fileMenu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
         fileMenu.add(new Separator());
         fileMenu.add(quitAction);
+
+
         /*
          * Edit menu
          */
@@ -189,6 +255,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         editMenu.add(new GroupMarker(IWorkbenchActionConstants.ADD_EXT));
         editMenu.add(new GroupMarker(IWorkbenchActionConstants.EDIT_END));
         editMenu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+
+
         /*
          * Window menu
          */
@@ -201,34 +269,46 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         windowMenu.add(resetPerspectiveAction);
         windowMenu.add(new Separator());
         windowMenu.add(preferencesAction);
+
+
         /*
          * Help menu
          */
         MenuManager helpMenu = new MenuManager(
                 "&Help", IWorkbenchActionConstants.M_HELP);
+
         //Intro action
 //        helpMenu.add(introAction);
+
         helpMenu.add(helpAction);
         helpMenu.add(new Separator());
         helpMenu.add(updateAction);
         helpMenu.add(addExtensionAction);
 //        helpMenu.add(manageAction);
         helpMenu.add(new Separator());
+
         // Tips and tricks page would go here
         //TODO
+
         helpMenu.add(new GroupMarker(IWorkbenchActionConstants.HELP_START));
         helpMenu.add(new GroupMarker(IWorkbenchActionConstants.HELP_END));
         helpMenu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+
         // About should always be at the bottom
         helpMenu.add(new Separator());
         helpMenu.add(aboutAction);
+
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
         menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
         menuBar.add(windowMenu);
         menuBar.add(helpMenu);
+
+
     }
+
     protected void fillCoolBar(ICoolBarManager coolBar) {
+
         ToolBarManager manager = new ToolBarManager(SWT.FLAT | SWT.WRAP);
         manager.add(newAction);
         manager.add(saveAction);
@@ -239,12 +319,20 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         manager.add(pasteAction);
         manager.add(undoAction);
         manager.add(redoAction);
+
         coolBar.add(manager);
+
         manager.add(new Separator());
+
         manager.add(helpSearchAction);
+
         manager.add(helpAction);
+
     }
-        private void removeUnwantedActions(){
+
+
+	private void removeUnwantedActions(){
+
     	ActionSetRegistry reg = WorkbenchPlugin.getDefault().getActionSetRegistry();
     	IActionSetDescriptor[] actionSets = reg.getActionSets();
     	// removing annoying gotoLastPosition Message.
@@ -257,6 +345,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     		.getDeclaringExtension();
     		reg.removeExtension(ext, new Object[] { actionSets[i] });
     	}
+
     	// Removing convert line delimiters menu.
     	actionSetId = "org.eclipse.ui.edit.text.actionSet.convertLineDelimitersTo";
     	for (int i = 0; i <actionSets.length; i++)
@@ -267,6 +356,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     		.getDeclaringExtension();
     		reg.removeExtension(ext, new Object[] { actionSets[i] });
     	}
+
     	// Removing convert line delimiters menu.
     	actionSetId = "org.eclipse.ui.actionSet.openFiles";
     	for (int i = 0; i <actionSets.length; i++)
@@ -277,5 +367,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     		.getDeclaringExtension();
     		reg.removeExtension(ext, new Object[] { actionSets[i] });
     	}
+    	
     }
+    
+
 }

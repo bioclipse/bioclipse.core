@@ -10,11 +10,14 @@
  *     
  ******************************************************************************/
 package net.bioclipse.usermanager;
+
 import net.bioclipse.usermanager.business.CoverageTest;
 import net.bioclipse.usermanager.business.UserManagerTest;
+
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+
 /**
  * @author jonalv
  *
@@ -24,4 +27,5 @@ import org.junit.runners.Suite.SuiteClasses;
                          UserManagerTest.class,
                          CoverageTest.class } )
 public class AllUsermanagerTestsSuite {
+
 }

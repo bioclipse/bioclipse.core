@@ -10,6 +10,9 @@
  *     
  ******************************************************************************/
 package net.bioclipse.core.business;
+
 public interface ReactionStructureProvider {
+    
     public Object getReactionImpl();
+
 }

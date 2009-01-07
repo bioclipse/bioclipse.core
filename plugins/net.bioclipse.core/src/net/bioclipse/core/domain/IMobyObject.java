@@ -10,14 +10,17 @@
  *     
  ******************************************************************************/
 package net.bioclipse.core.domain;
+
 /**
  * A moby object has an ID and a NAMESPACE.
  * @author ola
  *
  */
 public interface IMobyObject {
+
     public String getId();
     public void setId(String id);
     public String getNamespace();
     public void setNamespace(String namespace);    
+    
 }

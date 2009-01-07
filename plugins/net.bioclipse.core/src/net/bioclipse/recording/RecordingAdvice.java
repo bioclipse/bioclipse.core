@@ -11,29 +11,42 @@
  *     
  ******************************************************************************/
 package net.bioclipse.recording;
+
 import java.lang.reflect.Method;
+
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IBioObject;
+
 import org.apache.log4j.Logger;
+
+
 /**
  * @author jonalv, olas
  *
  */
 public class RecordingAdvice implements IRecordingAdvice {
+
     private History history;
+    
     private static final Logger logger = Logger.getLogger(RecordingAdvice.class);
+    
+    
     public RecordingAdvice(History history) {
         this.history = history;
     }
+    
+    
     public void afterReturning( Object returnValue, 
                                 Method method,
                                 Object[] args, 
                                 Object target ) throws Throwable {
+
         if ( !method.isAnnotationPresent(Recorded.class) ) {
             return;
         }
+        
         if (target instanceof IBioObject) {
             history.addRecord( 
                     new BioObjectRecord( method.getName(),
@@ -53,6 +66,7 @@ public class RecordingAdvice implements IRecordingAdvice {
             String message = "@Recorded method is on object of unexpected "
                 + "type: " + target.getClass().getName() + "." 
                 + method.getName();
+            
             assert false: message;        // for development time
             logger.warn(message);         // for logged end-user distrib
         }

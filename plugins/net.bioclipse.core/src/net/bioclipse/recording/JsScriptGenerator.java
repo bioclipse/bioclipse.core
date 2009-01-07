@@ -10,25 +10,30 @@
  *
  ******************************************************************************/
 package net.bioclipse.recording;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+
 import net.bioclipse.core.domain.BioList;
 import net.bioclipse.recording.MethodRecord.BioObjectParameter;
 import net.bioclipse.recording.MethodRecord.NonBioObjectParameter;
 import net.bioclipse.recording.MethodRecord.Parameter;
+
 /**
  * @author jonalv, masak
  *
  */
 public class JsScriptGenerator implements IScriptGenerator {
+
     private Hashtable<String, Integer> refNumber
         = new Hashtable<String, Integer>();
     // (String id, String variableName) in variables hash table
     private Map<String, String> variables
         = new Hashtable<String, String>();
+
     private void increaseRefNumber(String type) {
         if( refNumber.containsKey(type) ) {
             refNumber.put(type, refNumber.get(type) + 1);
@@ -37,16 +42,20 @@ public class JsScriptGenerator implements IScriptGenerator {
             refNumber.put(type, 1);
         }
     }
+
     private String firstToLowerCase(String s) {
         return Character.toLowerCase(s.charAt(0)) + s.substring(1);
     }
+
     private String getNewVariableName(String type) {
         increaseRefNumber(type);
         return firstToLowerCase(type) + refNumber.get(type);
     }
+
     private boolean isPrimitive(String type) {
         if (type == null)
             return false;
+
         return type.equals("Boolean")
             || type.equals("Byte")
             || type.equals("Double")
@@ -56,15 +65,18 @@ public class JsScriptGenerator implements IScriptGenerator {
             || type.equals("Short")
             || type.equals("String");
     }
+
     private String getVariableName(String type, String id) {
         if( variables.containsKey(id) ) {
             return variables.get(id);
         }
+
         String newVariableName = getNewVariableName(type);
         if ( !isPrimitive(type) )
             variables.put(id, newVariableName);
         return newVariableName;
     }
+
     private String getVariableName(String bioObjectId) {
         if(variables.containsKey( bioObjectId) ) {
             return variables.get( bioObjectId );
@@ -78,9 +90,12 @@ public class JsScriptGenerator implements IScriptGenerator {
         }
         return "null";
     }
+
     public String[] generateScript( IRecord[] records ) {
         List<String> statements = new ArrayList<String>();
+
         List<IRecord> recordsList = Arrays.asList(records);
+
         int i = 0;
         for ( IRecord record : records )
             if( record instanceof MethodRecord) {
@@ -88,9 +103,13 @@ public class JsScriptGenerator implements IScriptGenerator {
                         record,
                         recordsList.subList(++i, recordsList.size())) );
             }
+
+
         return statements.toArray( new String[records.length] );
     }
+
     private boolean isReferenced(String objectId, List<IRecord> rest) {
+
         for ( IRecord record : rest ) {
             if(!(record instanceof MethodRecord)) {
                 continue;
@@ -98,11 +117,15 @@ public class JsScriptGenerator implements IScriptGenerator {
             MethodRecord r = (MethodRecord)record;
             if ( r instanceof BioObjectRecord
                 && ((BioObjectRecord)r).bioObjectId.equals(objectId) )
+
                 return true;
+
             for ( MethodRecord.Parameter p : r.paramaters )
                 if ( p instanceof BioObjectParameter
                      && ((BioObjectParameter)p).id.equals(objectId) )
+
                     return true;
+
             List<String> ids = new ArrayList<String>();
             if ( r instanceof BioObjectRecord ) {
                 ids.add( ( (BioObjectRecord)r ).bioObjectId );
@@ -118,12 +141,17 @@ public class JsScriptGenerator implements IScriptGenerator {
                 }
             }
         }
+
         return false;
     }
+
     public String recordToJsStatement( IRecord record,
                                        List<IRecord> rest ) {
+
         if( record instanceof MethodRecord ) {
+
             MethodRecord r = (MethodRecord)record;
+
             List<String> paramStrings = new ArrayList<String>();
             for ( Parameter p : r.getParameters() ) {
                 if (p instanceof BioObjectParameter) {
@@ -141,12 +169,15 @@ public class JsScriptGenerator implements IScriptGenerator {
                 }
             }
             StringBuilder statement = new StringBuilder();
+
             if ( !"".equals( r.returnObjectId )
                     && isReferenced(r.returnObjectId, rest)
                  || isPrimitive(r.returnType) ) {
+
                 statement.append( getVariableName(r.returnType, r.returnObjectId) );
                 statement.append( " = ");
             }
+
             if ( r instanceof ManagerObjectRecord ) {
                 ManagerObjectRecord mor = (ManagerObjectRecord)r;
                 statement.append( mor.getManagerObjectName() );
@@ -154,15 +185,21 @@ public class JsScriptGenerator implements IScriptGenerator {
             else if ( r instanceof BioObjectRecord ) {
                 BioObjectRecord bor = (BioObjectRecord)r;
                 String variableName = getVariableName(bor.bioObjectId);
+
+
                 statement.append(variableName);
             }
+
             statement.append( "." );
             statement.append( r.getMethodName() );
             statement.append( '(' );
+
             if ( !paramStrings.isEmpty() )
                 statement.append(' ');
+
             for (int j = 0; j < paramStrings.size(); j++) {
                 statement.append( paramStrings.get(j) );
+
                 if(j != paramStrings.size() - 1) {
                     statement.append(", ");
                 }
@@ -171,6 +208,7 @@ public class JsScriptGenerator implements IScriptGenerator {
                 }
             }
             statement.append(")");
+
             return statement.toString();
             }
         else if(record instanceof ScriptRecord) {

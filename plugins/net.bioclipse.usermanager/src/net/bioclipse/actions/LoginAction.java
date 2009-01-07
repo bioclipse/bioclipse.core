@@ -8,15 +8,19 @@
  * Contributors:
  *     
  *******************************************************************************/
+
 package net.bioclipse.actions;
+
 import net.bioclipse.dialogs.UserManagerLoginDialog;
 import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
+
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
+
 /**
  * This action logs a user in to the Usermanager
  * 
@@ -24,22 +28,28 @@ import org.eclipse.ui.PlatformUI;
  *
  */
 public class LoginAction implements IWorkbenchWindowActionDelegate {
+
     public void dispose() {
     }
     public void init(IWorkbenchWindow window) {
     }
+
     public void run(IAction action) {
+
 //        logger.debug("LoginAction.run()");
+
         UserContainer sandboxUserContainer = Activator
                                              .getDefault()
                                              .getUserManager()
                                              .getSandBoxUserContainer();
+        
         UserManagerLoginDialog loginDialog = 
             new UserManagerLoginDialog( PlatformUI
                                         .getWorkbench()
                                         .getActiveWorkbenchWindow()
                                         .getShell(),
                                         sandboxUserContainer );
+        
         loginDialog.open();
         if(loginDialog.getReturnCode() == loginDialog.OK) {
             if( loginDialog.isUserContainerEdited() ) {
@@ -48,6 +58,7 @@ public class LoginAction implements IWorkbenchWindowActionDelegate {
             }
         }
     }
+
     public void selectionChanged(IAction action, ISelection selection) {
     }
 }

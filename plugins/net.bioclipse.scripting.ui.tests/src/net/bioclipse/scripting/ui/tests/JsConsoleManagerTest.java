@@ -11,18 +11,24 @@
  *
  ******************************************************************************/
 package net.bioclipse.scripting.ui.tests;
+
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.tests.AbstractManagerTest;
 import net.bioclipse.scripting.ui.business.IJsConsoleManager;
 import net.bioclipse.scripting.ui.business.JsConsoleManager;
+
 public class JsConsoleManagerTest extends AbstractManagerTest {
+
     IJsConsoleManager console;
+
     //Do not use SPRING OSGI for this manager
     //since we are only testing the implementations of the manager methods
     public JsConsoleManagerTest() {
         console = new JsConsoleManager();
     }
+
     public IBioclipseManager getManager() {
         return console;
     }
+
 }

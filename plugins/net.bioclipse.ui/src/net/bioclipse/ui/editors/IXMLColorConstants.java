@@ -7,7 +7,9 @@
  *
  *******************************************************************************/
 package net.bioclipse.ui.editors;
+
 import org.eclipse.swt.graphics.RGB;
+
 public interface IXMLColorConstants {
     RGB XML_COMMENT = new RGB(128, 0, 0);
     RGB PROC_INSTR = new RGB(128, 128, 128);

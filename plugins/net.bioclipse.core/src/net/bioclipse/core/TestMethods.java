@@ -7,11 +7,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *****************************************************************************/
 package net.bioclipse.core;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
 /**
  * Annotation that allows indication of a comma-separated list of
  * JUnit4 test methods that tests the annotated manager method. It

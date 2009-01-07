@@ -8,9 +8,12 @@
  * Contributors:
  *     Ola Spjuth - core API and implementation
  *******************************************************************************/
+
 package net.bioclipse.ui.editors.keyword;
+
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.ITextViewer;
+
 /**
  * The WordPartDetector detects where in the document we are, and returns the offset 
  * and part of the current word where the cursor is.
@@ -21,6 +24,7 @@ import org.eclipse.jface.text.ITextViewer;
 public class WordPartDetector {
     String wordPart = "";
     int docOffset;
+    
     public WordPartDetector(ITextViewer viewer, int documentOffset) {
         docOffset = documentOffset - 1;        
         try {
@@ -39,7 +43,10 @@ public class WordPartDetector {
     public String getString() {
         return wordPart;
     }
+    
     public int getOffset() {
         return docOffset;
     }
+
 }
+

@@ -7,20 +7,28 @@
  *
  *******************************************************************************/
 package net.bioclipse.usermanager.business;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
 import java.util.HashMap;
+
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.tests.AbstractManagerTest;
 import net.bioclipse.usermanager.AccountType;
 import net.bioclipse.usermanager.IUserManagerListener;
 import net.bioclipse.usermanager.UserContainer;
 import net.bioclipse.usermanager.UserContainerModifier;
+
 import org.junit.Before;
 import org.junit.Test;
+
+
 public class UserManagerTest extends AbstractManagerTest {
+
     private IUserManager userManager = new UserManager("filename");
+    
     private final String      USER                    = "superuser";
     private final String      NOTREQUIREDPROPERTYKEY  = "not required property"; 
     private final String      MASTERKEY               = "masterKey";
@@ -29,17 +37,20 @@ public class UserManagerTest extends AbstractManagerTest {
     private final String      KEY                     = "key";
     private final String      REQUIREDPROPERTYKEY     = "url";
     private final String      PROPERTYVALUE           = "theweb";
+    
     private final AccountType ACCOUNTTYPE = new AccountType(
                                                 "testAccountType" );
     private final AccountType ACCOUNTTYPE2 = new AccountType(
                                                 "testAccountType2" );
     private final HashMap<String, String> properties 
         = new HashMap<String, String>();
+
     public UserManagerTest() {
         properties.put( REQUIREDPROPERTYKEY, PROPERTYVALUE );
         properties.put("username", USERNAME);
         properties.put("password", KEY);
     }
+    
     /*
      * SETUP
      */
@@ -53,6 +64,7 @@ public class UserManagerTest extends AbstractManagerTest {
         ACCOUNTTYPE2.addProperty( "password",             true  );
         ACCOUNTTYPE2.addProperty( REQUIREDPROPERTYKEY,    true  );
         ACCOUNTTYPE2.addProperty( NOTREQUIREDPROPERTYKEY, false );
+        
         UserContainerModifier.addAccountType( 
                 ((UserManager)userManager).userContainer, 
                 ACCOUNTTYPE  );
@@ -60,11 +72,14 @@ public class UserManagerTest extends AbstractManagerTest {
                 ((UserManager)userManager).userContainer, 
                 ACCOUNTTYPE2  );
     }
+    
     @Test
     public void testUsingSandBoxInstance() {
+        
         createMasterKey();
         login();
         createAccount();
+
         UserContainer userContainer = new UserContainer("filename");
         String prefix = "sandBox-";
         UserContainerModifier.addAccountType( 
@@ -81,26 +96,33 @@ public class UserManagerTest extends AbstractManagerTest {
         userManager.persist();
         userManager.reloadFromFile();
         assertTrue( userManager.accountExists(prefix + ACCOUNTID) );
+        
         assertEquals( 1, userContainer.getLoggedInUsersAccountNames().size() );
         assertEquals( userContainer.getAccountType(prefix + ACCOUNTID), 
                       userManager.getAccountType(prefix + ACCOUNTID) );
         logout();
     }
+
     /*
      * Helper methods
      */
     private void logout() {
+    
         userManager.logOut();
     }
+    
     private void createAccount() {
         userManager.createAccount( ACCOUNTID, properties, ACCOUNTTYPE );
     }
+
     private void login() {
         userManager.signInWithProgressBar( USER, MASTERKEY, null );
     }
+
     private void createMasterKey() {
         userManager.createUser( USER, MASTERKEY );
     }
+
     @Override
     public IBioclipseManager getManager() {
         return new UserManager();

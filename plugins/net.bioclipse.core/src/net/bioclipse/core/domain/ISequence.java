@@ -11,13 +11,17 @@
  *     
  ******************************************************************************/
 package net.bioclipse.core.domain;
+
 import java.io.IOException;
+
 /**
  * @author jonalv, ola
  *
  */
 public interface ISequence extends IBioObject {
+
     public String getName();
+    
     public String toFasta() throws IOException;
     public String getPlainSequence() throws IOException;
 }

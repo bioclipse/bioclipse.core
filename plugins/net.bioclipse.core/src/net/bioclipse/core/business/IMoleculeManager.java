@@ -10,15 +10,19 @@
  *     
  ******************************************************************************/
 package net.bioclipse.core.business;
+
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.domain.IMolecule;
+
+
 /**
  * @author jonalv
  *
  */
 @PublishedClass ("Manages light weight molecules")
 public interface IMoleculeManager extends IBioclipseManager {
+
     /**
      * @param smiles
      * @return

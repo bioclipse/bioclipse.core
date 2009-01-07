@@ -11,31 +11,41 @@
  *
  ******************************************************************************/
 package net.bioclipse.cdk.jchempaint.business.test;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.bioclipse.cdk.jchempaint.business.IJChemPaintManager;
 import net.bioclipse.cdk.jchempaint.business.JChemPaintManager;
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.tests.AbstractManagerTest;
+
 import org.junit.Assert;
 import org.junit.Test;
+
 public class JChemPaintManagerTest extends AbstractManagerTest {
+
     IJChemPaintManager cdk;
+    
     private final static List<String> methodBlackList = new ArrayList<String>();
+    
     static {
         methodBlackList.add("getIJava2DRenderer");
         methodBlackList.add("getIChemModel");
         methodBlackList.add("getController2DModel");
     }
+    
     //Do not use SPRING OSGI for this manager
     //since we are only testing the implementations of the manager methods
     public JChemPaintManagerTest() {
         cdk = new JChemPaintManager();
     }
+
     public IBioclipseManager getManager() {
         return cdk;
     }
+    
     @Test public void testImplementsAllControllerHubMethods() throws Exception {
         Class hub = this.getClass().getClassLoader().loadClass("org.openscience.cdk.controller.IChemModelRelay");
         Assert.assertNotNull("Could not load the IChemModelRelay", hub);
@@ -55,6 +65,7 @@ public class JChemPaintManagerTest extends AbstractManagerTest {
             }
         }
     }
+    
     private Method getMatchingMethod(Class clazz, Method searchedMethod) {
         for (Method method : clazz.getMethods()) {
             if (method.getName().equals(searchedMethod.getName())) {
@@ -72,4 +83,5 @@ public class JChemPaintManagerTest extends AbstractManagerTest {
         }
         return null;
     }
+
 }

@@ -9,23 +9,29 @@
  * Contact: Bioclipse Project <http://www.bioclipse.net>
  ******************************************************************************/
 package net.bioclipse.core.tests.coverage;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.TestMethods;
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.tests.AbstractManagerTest;
+
 import org.junit.Assert;
 import org.junit.Test;
+
 /**
  * JUnit tests for checking if the tested Manager is properly tested.
  * 
  * @author egonw
  */
 public abstract class AbstractCoverageTest {
+    
     abstract public IBioclipseManager getManager();
+    
     /**
      * Tests if {@link PublishedMethod}'s are tested and annotated
      * with {@link TestMethod}.
@@ -45,6 +51,7 @@ public abstract class AbstractCoverageTest {
         }
         checkPublishedMethods(testClasses);
     }
+    
     /**
      * Tests if the {@link IBioclipseManager} extends {@link AbstractManagerTest}
      * as it should.
@@ -72,6 +79,7 @@ public abstract class AbstractCoverageTest {
             extendsAbstractManagerTest
         );
     }
+
     private void checkPublishedMethods(List<Class> testClasses) {
         int missingTestMethodAnnotations = 0;
         String methodsMissingAnnotation = "";
@@ -120,6 +128,7 @@ public abstract class AbstractCoverageTest {
         }
         Assert.assertFalse(message, message.length() > 0);
     }
+    
     private boolean checkIfATestClassContainsTheMethod(List<Class> testClasses, String testMethod) {
         for (Class testClass : testClasses) {
             // now test if the listed test methods really exist
@@ -132,6 +141,7 @@ public abstract class AbstractCoverageTest {
         }
         return false;
     }
+
     private TestClasses getClassAnnotation() {
         for (Class<?> iface : getManager().getClass().getInterfaces()) {
             TestClasses testClass = iface.getAnnotation(TestClasses.class);
@@ -139,4 +149,5 @@ public abstract class AbstractCoverageTest {
         }
         return null;
     }
+
 }

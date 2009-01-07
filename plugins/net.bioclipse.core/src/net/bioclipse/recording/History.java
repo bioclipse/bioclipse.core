@@ -9,21 +9,28 @@
  *     Jonathan Alvarsson
  *     
  ******************************************************************************/
+
 package net.bioclipse.recording;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.eclipse.swt.widgets.Display;
+
 /**
  * @author jonalv
  *
  */
 public class History implements IHistory {
+
     private List<IRecord> records;
     private List<IHistoryListener> historyListeners;
+    
     public History() {
         records          = new ArrayList<IRecord>();
         historyListeners = new ArrayList<IHistoryListener>();
     }
+    
     /* (non-Javadoc)
      * @see net.bioclipse.recording.IHistory#addRecord(net.bioclipse.recording.MethodRecord)
      */
@@ -35,23 +42,28 @@ public class History implements IHistory {
             }
         } );
     }
+    
     private void fireHistoryEvent(HistoryEvent e) {
         for(IHistoryListener l : historyListeners) {
             l.receiveHistoryEvent(e);
         }
     }
+    
     /* (non-Javadoc)
      * @see net.bioclipse.recording.IHistory#getRecords()
      */
     public List<IRecord> getRecords() {
         return new ArrayList<IRecord>(records);
     }
+    
     public int getRecordCount() {
         return records.size();
     }
+
     public void addHistoryListener(IHistoryListener l) {
         historyListeners.add(l);
     }
+
     public void removeHistoryListener(IHistoryListener l) {
         historyListeners.remove(l);
     }

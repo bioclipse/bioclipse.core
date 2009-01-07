@@ -10,11 +10,13 @@
  *     
  ******************************************************************************/
 package net.bioclipse.scripting.ui.business;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IExecutableExtensionFactory;
 import net.bioclipse.scripting.ui.Activator;
+
 /**
  * Factory for <code>JsConsoleManager</code>.
  * 
@@ -23,12 +25,16 @@ import net.bioclipse.scripting.ui.Activator;
  */
 public class JsConsoleManagerFactory implements IExecutableExtension, 
                                                 IExecutableExtensionFactory {
+
     private Object jsConsoleManager;
+    
     public void setInitializationData( IConfigurationElement config,
                                        String propertyName, 
                                        Object data) throws CoreException {
+    
         jsConsoleManager = Activator.getDefault().getJsConsoleManager();
     }
+    
     public Object create() throws CoreException {
         return jsConsoleManager;
     }

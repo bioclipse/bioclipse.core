@@ -10,11 +10,13 @@
  *     
  ******************************************************************************/
 package net.bioclipse.recording;
+
 /**
  * @author jonalv
  *
  */
 public interface IScriptGenerator {
+
     /**
      * Generates a script from the given records
      * 
@@ -22,4 +24,5 @@ public interface IScriptGenerator {
      * @return the script commands
      */
     public String[] generateScript(IRecord[] records);
+
 }

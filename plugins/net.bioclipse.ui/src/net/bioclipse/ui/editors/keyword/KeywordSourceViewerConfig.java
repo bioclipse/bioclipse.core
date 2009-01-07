@@ -8,7 +8,9 @@
  * Contributors:
  *     Ola Spjuth - core API and implementation
  *******************************************************************************/
+
 package net.bioclipse.ui.editors.keyword;
+
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
@@ -18,6 +20,7 @@ import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
+ 
 /**
  * Configuration for the JmolEditor.
  * @author ola
@@ -26,8 +29,11 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
 public class KeywordSourceViewerConfig extends SourceViewerConfiguration {
     private RuleBasedScanner scanner;
 //    private static Color DEFAULT_KEYWORD_COLOR = new Color(Display.getCurrent(), new RGB(0, 0, 0));
+
     public KeywordSourceViewerConfig() {
+
     }
+
     /**
      * Define reconciler for MyEditor
      */
@@ -38,11 +44,14 @@ public class KeywordSourceViewerConfig extends SourceViewerConfiguration {
         reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
         return reconciler;
     }
+    
     public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
+
         ContentAssistant assistant = new ContentAssistant();
         assistant.setContentAssistProcessor(
             new KeywordCompletionProcessor(),
             IDocument.DEFAULT_CONTENT_TYPE);
+
         assistant.enableAutoActivation(true);
         assistant.enableAutoInsert(true);
         assistant.setAutoActivationDelay(500);
@@ -50,9 +59,11 @@ public class KeywordSourceViewerConfig extends SourceViewerConfiguration {
             IContentAssistant.PROPOSAL_OVERLAY);
         return assistant;
     }
+
     public RuleBasedScanner getScanner() {
         return scanner;
     }
+
     public void setScanner(RuleBasedScanner scanner) {
         this.scanner = scanner;
     }

@@ -7,8 +7,11 @@
  *
  *******************************************************************************/
 package net.bioclipse.ui.editors;
+
 import org.eclipse.jface.text.rules.*;
+
 public class TagRule extends MultiLineRule {
+
     public TagRule(IToken token) {
         super("<", ">", token);
     }

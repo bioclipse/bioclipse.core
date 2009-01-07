@@ -10,12 +10,15 @@
  * 
  */
 package net.bioclipse.core.util;
+
 import org.apache.log4j.Logger;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
 /**
  * LogUtils:
  *   Utility functions for working with loggers.
@@ -24,6 +27,7 @@ import java.io.StringWriter;
  *
  */
 public class LogUtils {
+
     /** Returns a printable stack trace from a Throwable
      * 
      * @param t
@@ -32,12 +36,15 @@ public class LogUtils {
      */
     public static String traceStringOf(Throwable t) {
         // Java ... world heavyweight champion of annoying verbosity
+        
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PrintWriter traceWriter = new PrintWriter(out);
         t.printStackTrace(traceWriter);
         traceWriter.flush();
         return out.toString();
     }
+    
+    
     /** Prints stack trace from a Throwable to provided Logger
      * 
      * @param logger
@@ -51,6 +58,8 @@ public class LogUtils {
             logger.debug(traceStringOf(t));
         }
     }
+    
+    
     /**
      * This method handles an exception by showing a popup, logging and printing the stack trace.
      * 

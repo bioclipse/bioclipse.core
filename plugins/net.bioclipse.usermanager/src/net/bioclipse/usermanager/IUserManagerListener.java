@@ -8,11 +8,14 @@
  * Contributors:
  *     
  *******************************************************************************/
+
 package net.bioclipse.usermanager;
+
 /**
  * @author jonalv
  *
  */
 public interface IUserManagerListener {
+
     public void receiveUserManagerEvent( UserManagerEvent event );
 }

@@ -10,13 +10,16 @@
  *     
  ******************************************************************************/
 package net.bioclipse.scripting.ui.business;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
+
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.business.IBioclipseManager;
+
 /**
  * Controls programmatic access to the Javascript Console.
  * 
@@ -26,26 +29,33 @@ import net.bioclipse.core.business.IBioclipseManager;
 @PublishedClass("Controls access to the Javascript Console.")
 @TestClasses("net.bioclipse.scripting.ui.tests.JsConsoleManagerTest")
 public interface IJsConsoleManager extends IBioclipseManager {
+
     @Recorded
     @PublishedMethod(methodSummary="Clears the console.")
     public void clear();
+
     @Recorded
     @PublishedMethod(params="String message",
                      methodSummary="Prints a message to the console.")
     public void print(String message);
+
     @Recorded
     @PublishedMethod(params="String message",
                      methodSummary="Prints a message to the console, adding a "
                                    + "trailing newline.")
     public void say(String message);
+
     @Recorded
     @PublishedMethod(params="String command",
                      methodSummary="Evaluates a script.")
     public String eval(String command);
+
     @Recorded
     public void executeFile(IFile file);
+
     @Recorded
     public void executeFile(IFile file, IProgressMonitor monitor);
+
     @Recorded
     @PublishedMethod(params="String filePath",
                      methodSummary="Runs a js script file.")

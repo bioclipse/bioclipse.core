@@ -10,9 +10,11 @@
  *     
  ******************************************************************************/
 package net.bioclipse.encryption;
+
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+
 /**
  * @author jonalv
  *
@@ -21,4 +23,5 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses( value = { EncryptedPasswordTest.class,
                          EncrypterTest.class } )
 public class AllEncryptionTests {
+
 }

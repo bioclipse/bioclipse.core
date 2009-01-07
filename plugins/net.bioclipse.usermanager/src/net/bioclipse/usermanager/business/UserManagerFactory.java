@@ -9,27 +9,35 @@
  *     Jonathan Alvarsson
  *     
  ******************************************************************************/
+
 package net.bioclipse.usermanager.business;
+
 import net.bioclipse.usermanager.Activator;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IExecutableExtensionFactory;
+
 /**
  * 
  * @author jonalv
  */
 public class UserManagerFactory implements IExecutableExtension, 
                                            IExecutableExtensionFactory {
+
     private Object userManager;
+    
     public void setInitializationData( IConfigurationElement config,
                                        String propertyName, 
                                        Object data ) throws CoreException {
+        
         userManager = Activator.getDefault().getUserManager();
         if (userManager == null) {
             userManager = new Object();
         }
     }
+
     public Object create() throws CoreException {
         return userManager;
     }

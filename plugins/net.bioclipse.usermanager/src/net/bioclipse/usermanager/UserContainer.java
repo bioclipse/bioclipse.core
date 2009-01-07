@@ -9,7 +9,9 @@
  *  Jonathan Alvarsson
  *  Ola Spjuth
  *******************************************************************************/
+
 package net.bioclipse.usermanager;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -20,17 +22,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+
 import org.apache.log4j.Logger;
 import net.bioclipse.core.util.LogUtils;
+
 import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.encryption.EncryptedPassword;
 import net.bioclipse.encryption.Encrypter;
+
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
+
 /**
  * The <code>UserContainer</code> is responsible for the different
  * accounts and their properties.
@@ -38,22 +44,31 @@ import org.eclipse.core.runtime.SubProgressMonitor;
  * @author jonalv
  */
 public class UserContainer extends BioObject {
+
     private EncryptedPassword encryptedPassword;
     private Encrypter textEncryptor;
+
     Logger logger = Logger.getLogger( this.getClass() );
+
     /*
      * Package protected for testing purposes
      */
     User loggedInUser = null;
+
     private HashMap<String, User> superUsers;
+
     /*
      * Package protected so we can fill it with MockObjects when testing
      */
     List<AccountType> availableAccountTypes;
     private String dataFileName;
+
     public UserContainer( String dataFileName ) {
+
         availableAccountTypes = new ArrayList<AccountType>();
+
         this.dataFileName = dataFileName;
+
         ObjectInputStream in = null;
         try {
              in = new ObjectInputStream( new FileInputStream(dataFileName) );
@@ -66,22 +81,27 @@ public class UserContainer extends BioObject {
             logger.error( "Exception reading user data from file", e );
             throw new RuntimeException("Can't open file", e);
         }
+
         if (in == null) {
             superUsers = new HashMap<String, User>();
         }
         else {
             reloadFromFile();
         }
+
         IExtensionRegistry registry = Platform.getExtensionRegistry();
         if (registry == null) {
            logger.info( "Could not find extensionpoint." +
                         "If Bioclipse is not running this is normal. ");
             return;
         }
+
         IExtensionPoint extensionPoint
             = registry.getExtensionPoint(
                     "net.bioclipse.usermanager.accountType" );
+
         IExtension[] extensions = extensionPoint.getExtensions();
+
         for (IExtension extension : extensions) {
             IConfigurationElement[] configelements
                 = extension.getConfigurationElements();
@@ -99,6 +119,7 @@ public class UserContainer extends BioObject {
             }
         }
     }
+
     /**
      * Signs in a user.
      *
@@ -109,9 +130,12 @@ public class UserContainer extends BioObject {
     public void signIn( String username,
                         String password,
                         SubProgressMonitor monitor ) {
+
         boolean usingMonitor = monitor != null;
+
         try {
             User superUser = superUsers.get(username);
+
             if ( superUser != null ) {
                 encryptedPassword 
                     = EncryptedPassword.fromAlreadyEncryptedPassword( 
@@ -122,6 +146,7 @@ public class UserContainer extends BioObject {
             }
             if ( encryptedPassword != null &&
                  encryptedPassword.matches( password ) ) {
+
                 loggedInUser = superUsers.get(username);
                 textEncryptor = new Encrypter(password);
             }
@@ -139,12 +164,14 @@ public class UserContainer extends BioObject {
                       + " to usercontainer with id: "
                       + getUID() );
     }
+
     /**
      * @return whether any superuser is logged in
      */
     public boolean isLoggedIn() {
         return loggedInUser != null;
     }
+
     /**
      *  Signs out the current superuser
      */
@@ -154,6 +181,7 @@ public class UserContainer extends BioObject {
         logger.debug( "Signed out user from usercontainer with id: "
                       + getUID() );
     }
+
     /**
      * Creates a new user which can have many accounts.
      *
@@ -161,19 +189,23 @@ public class UserContainer extends BioObject {
      * @param key the password for the superuser
      */
     public void createUser(String userName, String key) {
+
         encryptedPassword = EncryptedPassword.fromPlaintextPassword(key);
         User user = new User( userName, encryptedPassword.toString() );
         superUsers.put(userName, user);
     }
+
     /**
      * @return the user currently logged in
      */
     public String getLoggedInUserName() {
+
         if ( isLoggedIn() ) {
             return loggedInUser.getUserName();
         }
         throw new IllegalStateException("No user is logged in");
     }
+
     /**
      * Creates a new account.
      *
@@ -184,11 +216,13 @@ public class UserContainer extends BioObject {
     public void createAccount( String accountId,
                                HashMap<String, String> properties,
                                AccountType accountType ) {
+
         for ( String name : properties.keySet() ) {
             if ( !accountType.hasProperty( name ) )
                 throw new IllegalArgumentException( "Can not create " +
                         "an account with an unrecognized property: " + name );
         }
+
         for ( AccountType.Property property 
                 : accountType.getRequiredProperties() ) {
             if ( !properties.containsKey( property.getName() ) ||
@@ -197,12 +231,14 @@ public class UserContainer extends BioObject {
                         "account without required property: " +
                         property.getName() );
         }
+
         for ( Account account : loggedInUser.getAccounts().values() ) {
             if ( account.getAccountId().equals(accountId) )
                 throw new IllegalArgumentException(
                         "Already exists an account with the accountid: "
                         + accountId);
         }
+
         HashMap<String, String> encryptedProperties
             = new HashMap<String, String>();
         for ( String hashKey : properties.keySet() ) {
@@ -210,25 +246,31 @@ public class UserContainer extends BioObject {
                                      textEncryptor.encrypt(
                                              properties.get(hashKey) ) );
         }
+
         Account account = new Account( accountId,
                                        encryptedProperties,
                                        accountType );
         loggedInUser.addAccount( account );
     }
+
     /**
      * @param accountId
      * @return whether an account with the given accountId exists
      */
     public boolean accountExists(String accountId) {
+
         if ( !isLoggedIn() ) {
             throw new IllegalStateException("not logged in");
         }
+
         Account account = loggedInUser.getAccounts().get(accountId);
         if ( account != null
              && !accountTypeIsAvailable( account.getAccountType() ) )
             return false;
+
         return loggedInUser.getAccounts().get(accountId) != null;
     }
+
     /**
      * Returns the value of a property identified by the given propertykey
      * for a given account.
@@ -239,13 +281,16 @@ public class UserContainer extends BioObject {
      * @return the value of a property
      */
     public String getProperty(String accountId, String propertykey) {
+
         return textEncryptor.decrypt( getAccount(accountId)
                                           .getPropertyValue(propertykey) );
     }
+
     /**
      * Writes all data to file
      */
     public void persist() {
+
         ObjectOutputStream out = null;
         try {
             out = new ObjectOutputStream( new FileOutputStream(dataFileName) );
@@ -258,12 +303,15 @@ public class UserContainer extends BioObject {
                                         "properties to file", ex );
         }
     }
+
     /**
      * Reloads all data in the UserContainer from file
      */
     @SuppressWarnings("unchecked")
     public void reloadFromFile() {
+
         ObjectInputStream in = null;
+
         try {
             in = new ObjectInputStream( new FileInputStream(dataFileName) );
             superUsers = (HashMap<String, User>)in.readObject();
@@ -289,51 +337,64 @@ public class UserContainer extends BioObject {
             }
         }
     }
+
     /**
      * Returns a copy of the UserContainer instance.
      *
      * @return a copy of the UserContainer instance
      */
     public UserContainer clone() {
+
         UserContainer copy = new UserContainer(dataFileName);
+
         copy.encryptedPassword = encryptedPassword;
         copy.textEncryptor     = textEncryptor;
+
         copy.availableAccountTypes = new ArrayList<AccountType>();
         for ( AccountType accountType : availableAccountTypes ) {
             copy.availableAccountTypes.add( new AccountType(accountType) );
         }
+
         copy.superUsers = new HashMap<String, User>();
         for ( String userName : superUsers.keySet() ) {
             copy.superUsers.put( userName, 
                                  new User(superUsers.get(userName)) );
         }
+
         if ( loggedInUser != null ) {
             copy.loggedInUser = copy.superUsers.get( getLoggedInUserName() );
         }
         logger.debug("Usercontainer cloned");
         return copy;
     }
+
     /**
      * @return the names of all users
      */
     public List<String> getUserNames() {
+
         return new ArrayList<String>( superUsers.keySet() );
     }
+
     /**
      * @return the <code>User</code> currently logged in
      */
     public User getLoggedInUser() {
+
         if ( this.loggedInUser != null ) {
             return this.loggedInUser;
         }
         throw new IllegalStateException("not logged in");
     }
+
     /**
      * @param superuser to be deleted
      */
     public void deleteUser(String superuser) {
+
         this.superUsers.remove(superuser);
     }
+
     /**
      * Returns all the keys for a given accounts properties
      *
@@ -346,12 +407,15 @@ public class UserContainer extends BioObject {
                            .getPropertiesHashMap()
                            .keySet();
     }
+
     /**
      * Removes all accounts for the currently logged in <code>User</code>
      */
     public void clearAccounts() {
+
         this.loggedInUser.clearAccounts();
     }
+
     /**
      * Changes the password for a user.
      *
@@ -359,7 +423,9 @@ public class UserContainer extends BioObject {
      * @param newkey new password
      */
     public void changePassword(String masterkey, String newkey) {
+
         if ( encryptedPassword.matches( masterkey ) ) {
+
             encryptedPassword = EncryptedPassword
                                     .fromPlaintextPassword(newkey); 
             loggedInUser.setEncryptedPassWord( encryptedPassword.toString() );
@@ -367,11 +433,15 @@ public class UserContainer extends BioObject {
         else {
             throw new IllegalArgumentException("Unrecognized password");
         }
+
         Encrypter oldTextEncryptor = textEncryptor;
         textEncryptor = new Encrypter(newkey);
+
         HashMap<String, Account> accounts = loggedInUser.getAccounts();
         clearAccounts();
+
         for ( String accountId : accounts.keySet() ) {
+
             /*
              * create a hashmap with unencrypted properties
              */
@@ -380,27 +450,33 @@ public class UserContainer extends BioObject {
             for ( String propertyKey : accounts.get(accountId)
                                                .getPropertiesHashMap()
                                                .keySet() ) {
+
                 String unEncryptedValue =
                     oldTextEncryptor.decrypt(
                             accounts.get( accountId)
                                     .getPropertyValue(propertyKey) );
                 unEncryptedProperties.put( propertyKey, unEncryptedValue );
             }
+
             createAccount( accountId,
                            unEncryptedProperties,
                            accounts.get(accountId).getAccountType() );
         }
     }
+
     /**
      * @return the names of the currently logged in users accounts
      */
     public Collection<String> getLoggedInUsersAccountNames() {
+
         if ( loggedInUser == null ) {
             throw new IllegalStateException("Not logged in");
         }
         return loggedInUser.getAccounts().keySet();
     }
+
     private Account getAccount(String accountId) {
+
         if ( !isLoggedIn() ) {
             throw new IllegalStateException("not logged in");
         }
@@ -411,27 +487,32 @@ public class UserContainer extends BioObject {
         }
         return account;
     }
+
     /**
      * Returns the names of the available account types
      *
      * @return
      */
     public String[] getAvailableAccountTypeNames() {
+
         String[] array = new String[availableAccountTypes.size()];
         for (int i = 0; i < availableAccountTypes.size(); i++) {
             array[i] = availableAccountTypes.get(i).getName();
         }
         return array;
     }
+
     /**
      * @return the available account types
      */
     public AccountType[] getAvailableAccountTypes() {
         return availableAccountTypes.toArray(new AccountType[0]);
     }
+
     private boolean accountTypeIsAvailable( AccountType accountType ) {
         return availableAccountTypes.contains( accountType );
     }
+
     /**
      * Returns the account type for the an account corresponding to a given
      * account id
@@ -442,6 +523,7 @@ public class UserContainer extends BioObject {
     public AccountType getAccountType(String accountId) {
         return loggedInUser.getAccounts().get(accountId).getAccountType();
     }
+
     /**
      * Returns a property by name of an account of an account type
      * identified by name
@@ -452,6 +534,7 @@ public class UserContainer extends BioObject {
      */
     public String getPropertyByAccountType( String accountTypeName,
                                             String propertyName) {
+
         for ( Account a : loggedInUser.getAccounts().values() ) {
             if ( accountTypeName.equals( a.getAccountType().getName() ) ) {
                 return getProperty(a.getAccountId(), propertyName);
@@ -459,6 +542,7 @@ public class UserContainer extends BioObject {
         }
         throw new IllegalArgumentException("There is no such account type");
     }
+
     /**
      * Returns true if there is user logged in that have an account of a type
      * with the given account type name
@@ -467,6 +551,7 @@ public class UserContainer extends BioObject {
      * @return
      */
     public boolean isLoggedInWithAccountType(String accountTypeName) {
+
         if ( isLoggedIn() ) {
             for ( Account account : loggedInUser.getAccounts().values() ) {
                 if ( account.getAccountType().getName().equals(
@@ -477,6 +562,7 @@ public class UserContainer extends BioObject {
         }
         return false;
     }
+
     public List<String> getAccountIdsByAccountTypeName(String string) {
         if ( !isLoggedIn() ) {
             throw new IllegalStateException("Not logged in");
@@ -489,7 +575,9 @@ public class UserContainer extends BioObject {
         }
         return result;
     }
+
     public Object getAdapter(Class adapter) {
         return super.getAdapter( adapter );
     }
 }
+

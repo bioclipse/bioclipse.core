@@ -7,11 +7,15 @@
  *
  *******************************************************************************/
 package net.bioclipse.core.util;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import net.bioclipse.core.util.Function;
 import net.bioclipse.core.util.Predicate;
+
 //TODO tests!
+
 /**
  * ListFuncs:
  *   Utility functions for working with lists. Provides map, filter, etc.
@@ -20,6 +24,7 @@ import net.bioclipse.core.util.Predicate;
  *
  */
 public class ListFuncs {
+
     /** Returns a list produced by applying the supplied Function to each
      *  element of the input list in order.
      * 
@@ -37,6 +42,8 @@ public class ListFuncs {
             out.add(f.eval(x));
         return out;
     }
+    
+    
     /** Returns a list produced by copying from the input list, in order, only
      *  those elements for which the supplied Predicate is true.
      * 

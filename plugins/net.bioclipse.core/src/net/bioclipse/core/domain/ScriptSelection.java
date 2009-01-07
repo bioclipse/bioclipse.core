@@ -7,8 +7,10 @@
  *
  *******************************************************************************/
 package net.bioclipse.core.domain;
+
 import java.util.HashMap;
 import java.util.Map;
+
 /**
  * Provides means to send scripts, where target is identified by a namspace
  * Example of namespace is "jmol"
@@ -17,14 +19,17 @@ import java.util.Map;
  *
  */
 public class ScriptSelection extends AbstractChemicalSelection{
+
     //Each command is stored in a map, with Script -> Namespace
     private Map<String, String> scripts;
+
     /**
      * Create an empty ScriptSelection
      */
     public ScriptSelection() {
         scripts=new HashMap<String, String>();
     }
+
     /**
      * Create a new ScriptSelection and add a first script
      * @param script the script to provide
@@ -34,6 +39,7 @@ public class ScriptSelection extends AbstractChemicalSelection{
         this();
         addScript( script, namespace );
     }
+
     /**
      * Create a new ScriptSelection and add a first script
      * @param script the script to provide
@@ -45,10 +51,13 @@ public class ScriptSelection extends AbstractChemicalSelection{
         addScript( script, namespace );
         setChemicalModel(chemicalModel);
     }
+
     public Map<String, String> getSelection() {
         return scripts;
     }
+    
     public void addScript(String script, String namespace){
         scripts.put( script, namespace);
     }
+
 }

@@ -9,7 +9,9 @@
  *     Ola Spjuth - core API and implementation
  *******************************************************************************/
 package net.bioclipse.ui.editors.keyword;
+
 import org.eclipse.jface.text.rules.IWhitespaceDetector;
+
 /**
  * If whitespace, return true
  * 
@@ -17,6 +19,7 @@ import org.eclipse.jface.text.rules.IWhitespaceDetector;
  *
  */
 public class KeywordWhitespaceDetector implements IWhitespaceDetector {
+
     /**
      * @return true if whitespace
      */

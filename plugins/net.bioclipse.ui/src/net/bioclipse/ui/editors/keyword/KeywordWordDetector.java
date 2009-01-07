@@ -9,7 +9,9 @@
  *     Ola Spjuth - core API and implementation
  *******************************************************************************/
 package net.bioclipse.ui.editors.keyword;
+
 import org.eclipse.jface.text.rules.IWordDetector;
+
 /**
  * 
  * Marks as a word if character is identified as first in a new word.
@@ -17,10 +19,13 @@ import org.eclipse.jface.text.rules.IWordDetector;
  * @author ola
  */
 public class KeywordWordDetector implements IWordDetector {
+
+    
     public boolean isWordStart(char c) {
         return Character.isJavaIdentifierStart(c);
     }
     public boolean isWordPart(char c) {
         return Character.isJavaIdentifierPart(c);
     }
+
 }

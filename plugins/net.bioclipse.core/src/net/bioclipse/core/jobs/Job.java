@@ -7,7 +7,9 @@
  *
  ******************************************************************************/
 package net.bioclipse.core.jobs;
+
 import java.lang.annotation.*;
+
 /**
  * Indicates that a manager method is a job.
  * 

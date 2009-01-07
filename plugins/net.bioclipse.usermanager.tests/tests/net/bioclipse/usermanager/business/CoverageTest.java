@@ -10,9 +10,13 @@
  *     
  ******************************************************************************/
 package net.bioclipse.usermanager.business;
+
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.tests.coverage.AbstractCoverageTest;
+
+
 public class CoverageTest extends AbstractCoverageTest {
+
     @Override
     public IBioclipseManager getManager() {
         return new UserManager();

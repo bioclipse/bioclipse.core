@@ -7,16 +7,23 @@
  *
  *******************************************************************************/
 package net.bioclipse.core.jobs;
+
 import java.lang.reflect.InvocationTargetException;
+
 import net.bioclipse.core.Activator;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.ui.progress.UIJob;
+
+
 public class ActionUIJobWrapper extends UIJob {
+
     private IActionJob actionJob = null;
+
     /**
      * @param name
      */
@@ -24,6 +31,7 @@ public class ActionUIJobWrapper extends UIJob {
         super(job.getJobName());
         this.actionJob = job;
     }
+
     /* (non-Javadoc)
      * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.IProgressMonitor)
      */
@@ -53,4 +61,5 @@ public class ActionUIJobWrapper extends UIJob {
             returnValue = Status.CANCEL_STATUS;
         return returnValue;
     }
+
 }

@@ -8,42 +8,56 @@
  * Contributors:
  *     
  *******************************************************************************/
+
 package net.bioclipse.usermanager;
+
 import net.bioclipse.ui.BioclipseActivator;
 import net.bioclipse.usermanager.business.IUserManager;
+
 import org.apache.log4j.Logger;
 import net.bioclipse.core.util.LogUtils;
+
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
+
 /**
  * The activator class controls the plug-in life cycle
  * 
  * @author jonalv
  */
 public class Activator extends BioclipseActivator {
+
     private static final Logger logger = Logger.getLogger(Activator.class);
+    
     // The plug-in ID
     public static final String PLUGIN_ID = "net.bioclipse.usermanager";
+
     // The shared instance
     private static Activator plugin;
+
     private ServiceTracker finderTracker;
+    
     /**
      * The constructor
      */
     public Activator() {
     }
+        
     public void start(BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
+        
         finderTracker = new ServiceTracker( context, 
                                             IUserManager.class.getName(), 
                                             null );
         finderTracker.open();
     }
+
     public void stop(BundleContext context) throws Exception {
         plugin = null;
         super.stop(context);
     }
+
     /**
      * Returns the shared instance
      *
@@ -52,6 +66,8 @@ public class Activator extends BioclipseActivator {
     public static Activator getDefault() {
         return plugin;
     }
+
+    
     public IUserManager getUserManager() {
         IUserManager manager = null;
         try {
