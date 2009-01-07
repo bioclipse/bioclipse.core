@@ -30,7 +30,7 @@ for my $file (@files) {
 #        }
         if ($line =~ /^\s+$/) {
             ++$empty_line_ws;
-            $line = '';
+            $line = "\n";
         }
 #        if ($line =~ /\s$/) {
 #            ++$ws_at_end;
