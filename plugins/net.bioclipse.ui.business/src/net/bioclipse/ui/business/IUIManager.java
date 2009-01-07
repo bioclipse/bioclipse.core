@@ -4,10 +4,10 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * www.eclipse.org—epl-v10.html <http://www.eclipse.org/legal/epl-v10.html>
- * 
+ *
  * Contributors:
  *     Jonathan Alvarsson
- *     
+ *
  ******************************************************************************/
 package net.bioclipse.ui.business;
 
@@ -19,6 +19,7 @@ import net.bioclipse.core.Recorded;
 import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.TestMethods;
 import net.bioclipse.core.business.IBioclipseManager;
+import net.bioclipse.core.domain.IBioObject;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -26,7 +27,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 /**
  * Controls programmatic access to the Bioclipse graphical user
  * interface (GUI).
- * 
+ *
  * @author masak
  *
  */
@@ -45,7 +46,13 @@ public interface IUIManager extends IBioclipseManager {
 
     @Recorded
     public void open(IFile file);
-    
+
+    @Recorded
+    @PublishedMethod(params="IBioObject bioObject, String ID of the edtior to open",
+                     methodSummary="Opens editor of given type with bioObject"
+    )
+    public void open( final IBioObject bioObject, final String editorId);
+
     @Recorded
     @PublishedMethod(params="String filePath",
                      methodSummary="Deletes a file.")

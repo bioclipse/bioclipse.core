@@ -4,23 +4,27 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * <http://www.eclipse.org/legal/epl-v10.html>
- * 
+ *
  * Contributors:
  *     Jonathan Alvarsson
  *     Carl Masak
- *     
+ *
  ******************************************************************************/
 package net.bioclipse.ui.business;
 
 import java.io.InputStream;
 
 import net.bioclipse.core.ResourcePathTransformer;
+import net.bioclipse.core.domain.IBioObject;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IPersistableElement;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -29,7 +33,7 @@ import org.eclipse.ui.ide.IDE;
 /**
  * Contains general methods for interacting with the Bioclipse graphical
  * user interface (GUI).
- * 
+ *
  * @author masak
  */
 public class UIManager implements IUIManager {
@@ -69,6 +73,51 @@ public class UIManager implements IUIManager {
 
     public void open( String filePath ) {
         open(ResourcePathTransformer.getInstance().transform( filePath ));
+    }
+
+    public void open( final IBioObject bioObject, final String editorId) {
+        Display.getDefault().asyncExec(new Runnable() {    // do not use async, we need the GUI!
+            public void run() {
+                IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+                try {
+                   IEditorInput input = new IEditorInput() {
+
+                    public boolean exists() {
+
+                        return true;
+                    }
+
+                    public ImageDescriptor getImageDescriptor() {
+
+                       return ImageDescriptor.getMissingImageDescriptor();
+                    }
+
+                    public String getName() {
+
+                        return "BioObject";
+                    }
+
+                    public IPersistableElement getPersistable() {
+
+                        return null;
+                    }
+
+                    public String getToolTipText() {
+
+                        return bioObject.getUID().toString();
+                    }
+
+                    public Object getAdapter( Class adapter ) {
+                        return bioObject.getAdapter( adapter );
+                    }
+
+                   };
+                   page.openEditor( input, editorId );
+                } catch (PartInitException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
 
     public void save(String filePath, InputStream toWrite) {
