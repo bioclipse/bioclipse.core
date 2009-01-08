@@ -320,43 +320,34 @@ public class JsConsoleView extends ScriptingConsoleView
                 return "No such manager: " + managerName
                        + NEWLINE + errorMessage;
 
-            for ( Class<?> interfaze : manager.getClass()
-                                              .getInterfaces() ) {
+            for (Method method : findAllPublishedMethods(manager.getClass())) {
+                if ( method.getName().equals(methodName) ) {
+                    PublishedMethod publishedMethod
+                        = method.getAnnotation( PublishedMethod.class );
 
-                for ( Method method : interfaze.getMethods() ) {
-
-                    if ( method.getName().equals(methodName) &&
-                         method.isAnnotationPresent(
-                             PublishedMethod.class ) ) {
-
-                        PublishedMethod publishedMethod
-                            = method.getAnnotation(
-                                PublishedMethod.class );
-
-                        String line
-                            = dashes(managerName.length()
-                                     + method.getName().length()
-                                     + publishedMethod.params().length()
-                                     + 3,
-                                     MAX_OUTPUT_LINE_LENGTH);
-
-                        result.append( line );
-                        result.append( NEWLINE );
-
-                        result.append( managerName );
-                        result.append( '.' );
-                        result.append( method.getName() );
-                        result.append( '(' );
-                        result.append( publishedMethod.params() );
-                        result.append( ")" );
-                        result.append( NEWLINE );
-
-                        result.append( line );
-                        result.append( NEWLINE );
-
-                        result.append( publishedMethod.methodSummary() );
-                        result.append( NEWLINE );
-                    }
+                    String line
+                        = dashes(managerName.length()
+                                 + method.getName().length()
+                                 + publishedMethod.params().length()
+                                 + 3,
+                                 MAX_OUTPUT_LINE_LENGTH);
+    
+                    result.append( line );
+                    result.append( NEWLINE );
+    
+                    result.append( managerName );
+                    result.append( '.' );
+                    result.append( method.getName() );
+                    result.append( '(' );
+                    result.append( publishedMethod.params() );
+                    result.append( ")" );
+                    result.append( NEWLINE );
+    
+                    result.append( line );
+                    result.append( NEWLINE );
+    
+                    result.append( publishedMethod.methodSummary() );
+                    result.append( NEWLINE );
                 }
             }
         }
@@ -478,12 +469,9 @@ public class JsConsoleView extends ScriptingConsoleView
         if ( null != manager ) {
             List<String> variables = new ArrayList<String>();
 
-            for ( Class<?> interfaze : manager.getClass().getInterfaces() )
-                for ( Method method : interfaze.getDeclaredMethods() )
-                    if ( method.isAnnotationPresent(PublishedMethod.class)
-                         && !variables.contains( method.getName() ))
-
-                        variables.add( method.getName() );
+            for ( Method method : findAllPublishedMethods(manager.getClass()) )
+                if ( !variables.contains( method.getName() ))
+                    variables.add( method.getName() );
 
             return variables;
         }
@@ -537,6 +525,26 @@ public class JsConsoleView extends ScriptingConsoleView
         variables[0].remove("zzz3");
         
         return variables[0];
+    }
+
+    private Method[] findAllPublishedMethods(Class<?> interfaze) {
+        return findAllPublishedMethods(
+                interfaze,
+                new ArrayList<Method>()
+               ).toArray(new Method[0]);
+    }
+    
+    private List<Method> findAllPublishedMethods(Class<?> interfaze,
+                                                 List<Method> methods) {
+
+        for ( Method method : interfaze.getMethods() )
+            if ( method.isAnnotationPresent(PublishedMethod.class) )
+                methods.add( method );
+        
+        for (Class<?> parent : interfaze.getInterfaces())
+            findAllPublishedMethods(parent, methods);
+            
+        return methods;
     }
     
     /**
