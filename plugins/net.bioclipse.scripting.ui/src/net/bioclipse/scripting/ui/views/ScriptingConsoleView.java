@@ -689,7 +689,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
             return "";
         String commonPrefix = strings.get(0);
         for (String s : strings)
-            while ( !s.startsWith(commonPrefix) )
+            while ( !s.toLowerCase().startsWith(commonPrefix.toLowerCase()) )
                 commonPrefix
                     = commonPrefix.substring(0, commonPrefix.length() - 1);
         return commonPrefix;
@@ -707,6 +707,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         for (char additionalCharacter; pos >= 0 && Character.isLetterOrDigit(
                 additionalCharacter = command.charAt(pos)); --pos)
             prefix = additionalCharacter + prefix;
+        deleteBackwards(positionOnCommandLine() - (pos+1));
         String object = "";
         if ( pos > 0 && command.charAt(pos) == '.' ) {
             --pos;
@@ -720,10 +721,11 @@ public abstract class ScriptingConsoleView extends ViewPart {
         List<String> variables = getAllVariablesIn(object);
         List<String> interestingVariables = new ArrayList<String>();
         for (String variable : variables)
-            if (variable.startsWith( prefix ))
+            if (variable.toLowerCase().startsWith(prefix.toLowerCase()))
                 interestingVariables.add( variable );
         String longestCommonPrefix = commonPrefix(interestingVariables);
         if ( prefix.length() > longestCommonPrefix.length() ) {
+            addAtCursor(prefix);
             beep();
         }
         else if ( longestCommonPrefix.equals(lastPrefix)
@@ -733,15 +735,28 @@ public abstract class ScriptingConsoleView extends ViewPart {
             varList
                 = varList.substring(1, varList.length() - 1).replace(',', ' ');
             printMessage( varList + NEWLINE );
+            addAtCursor(prefix);
         }
         else {
-            addAtCursor( longestCommonPrefix.substring( prefix.length() ));
+            addAtCursor( longestCommonPrefix );
             if ( interestingVariables.size() == 1 )
                 addAtCursor( tabCompletionHook(object, interestingVariables.get(0)) );
             if (interestingVariables.size() != 1)
                 beep();
         }
         lastPrefix = longestCommonPrefix;
+    }
+
+    private void deleteBackwards(int length) {
+        int oldPosition = text.getCaretPosition(),
+            newPosition = oldPosition - length;
+        
+        String oldText = text.getText(),
+               before = oldText.substring(0, newPosition),
+               after = oldText.substring(oldPosition);
+                
+        text.setText(before + after);
+        text.setSelection( newPosition );
     }
 
     /**
