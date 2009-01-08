@@ -697,8 +697,9 @@ public abstract class ScriptingConsoleView extends ViewPart {
 
     /**
      * Automatically writes to the command line the rest of a variable or
-     * method name. Beeps if no unique such completion exists. Gives a list
-     * of possible completions if called a second time.
+     * method name. (Names are completed case-insensitively; the case of the
+     * already-written parts doesn't matter) Beeps if no unique such completion
+     * exists. Gives a list of possible completions if called a second time.
      */
     protected void tabComplete() {
         String command = currentCommand();
