@@ -103,6 +103,7 @@ public class JsConsoleManager implements IJsConsoleManager {
             StringBuffer sb = new StringBuffer();
             while ( sc.hasNextLine() ) {
                 sb.append( sc.nextLine() );
+                sb.append( "\r\n" );
             }
             contents = sb.toString();
         } 
