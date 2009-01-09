@@ -65,7 +65,7 @@ public interface IUIManager extends IBioclipseManager {
 
     @Recorded
     @PublishedMethod(
-        params="String path to save to, InputStream content to save",
+        params="String filePath, InputStream content",
         methodSummary="Save the content of the InputStream to the given path."
     )
     @TestMethods("testSaveAndRemove_String")
@@ -73,7 +73,7 @@ public interface IUIManager extends IBioclipseManager {
 
     @Recorded
     @PublishedMethod(
-        params="IFile file to save to, InputStream content to save",
+        params="IFile file, InputStream content",
         methodSummary="Save the content of the InputStream to the file."
     )
     @TestMethods("testSaveAndRemove_IFile")
@@ -82,16 +82,16 @@ public interface IUIManager extends IBioclipseManager {
 
     @Recorded
     @PublishedMethod(
-        params="IFile file to exist the existence of",
-        methodSummary="Determines is the given file exists in the workspace"
+        params="IFile file",
+        methodSummary="Determines if the given file exists in the workspace"
     )
     @TestMethods("testExists_IFile")
     public boolean fileExists(IFile file);
 
     @Recorded
     @PublishedMethod(
-        params="IFile file to exist the existence of",
-        methodSummary="Determines is the given file exists in the workspace"
+        params="String filePath",
+        methodSummary="Determines if the given file exists in the workspace"
     )
     @TestMethods("testExists_String")
     public boolean fileExists(String filePath);
