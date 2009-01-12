@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="CML-XOM Library">
+<toc label="CML-XOM Library plugin">
 	<topic label="About CML-XOM"  href="html/maintopic.html"> 
 	</topic>
 </toc>
