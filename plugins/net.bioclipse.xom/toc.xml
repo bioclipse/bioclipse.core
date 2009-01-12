@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="Chemical Markup Language (CML)">
-	<topic label="About CML"  href="html/maintopic.html"> 
+<toc label="XOM Library plugin">
+	<topic label="About XOM Library plugin"  href="html/maintopic.html"> 
 	</topic>
 </toc>
