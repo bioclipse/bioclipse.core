@@ -10,12 +10,12 @@ Eclipse-LazyStart: true
 Bundle-ClassPath: libs/antlr-2.7.5.jar,
  .,
  libs/asm-2.2.jar,
- libs/js.jar,
  libs/asm-2.2.3.jar,
  libs/asm-commons-2.2.3.jar,
  libs/backport-util-concurrent.jar,
  libs/bsf.jar,
- libs/jline-0.9.91.jar
+ libs/jline-0.9.91.jar,
+ libs/js.jar
 Export-Package: net.bioclipse.scripting
 Import-Package: org.apache.log4j
 Bundle-Vendor: The Bioclipse Team
