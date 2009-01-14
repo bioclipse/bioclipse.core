@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+  <extension point="org.eclipse.core.runtime.contentTypes">
+    <content-type
+      base-type="org.eclipse.core.runtime.text" 
+      id="net.bioclipse.contenttypes.cif"
+      name="Crystallographic Interchange Format"                   
+      priority="high">
+      <describer class="net.bioclipse.ioformats.CDKChemFileDescriber">
+        <parameter name="format" value="org.openscience.cdk.io.formats.CIFFormat"/>
+      </describer>
+    </content-type>
+  </extension>
+
+</plugin>
