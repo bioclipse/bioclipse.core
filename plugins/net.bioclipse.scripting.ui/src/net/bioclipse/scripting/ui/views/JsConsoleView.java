@@ -67,6 +67,16 @@ public class JsConsoleView extends ScriptingConsoleView {
 
         return result.toString();
     }
+    
+    private String dashes(int length, int maxLength) {
+
+        StringBuilder result = new StringBuilder();
+
+        for ( int i = 0; i < Math.min(length, maxLength); ++i )
+            result.append('-');
+
+        return result.toString();
+    }
 
     /**
      * Returns a help string documenting a Manager or one of its methods.
@@ -126,42 +136,34 @@ public class JsConsoleView extends ScriptingConsoleView {
                 return "No such manager: " + managerName
                        + NEWLINE + errorMessage;
 
-            for ( Class<?> interfaze : manager.getClass()
-                                              .getInterfaces() ) {
+            for (Method method : findAllPublishedMethods(manager.getClass())) {
+                if ( method.getName().equals(methodName) ) {
+                    PublishedMethod publishedMethod
+                        = method.getAnnotation( PublishedMethod.class );
 
-                for ( Method method : interfaze.getMethods() ) {
-
-                    if ( method.getName().equals(methodName) &&
-                         method.isAnnotationPresent(
-                             PublishedMethod.class ) ) {
-
-                        PublishedMethod publishedMethod
-                            = method.getAnnotation(
-                                PublishedMethod.class );
-
-                        String line
-                            = dashes(Math.min(managerName.length()
-                                     + method.getName().length()
-                                     + publishedMethod.params().length()
-                                     + 3, MAX_OUTPUT_LINE_LENGTH));
-
-                        result.append( line );
-                        result.append( NEWLINE );
-
-                        result.append( managerName );
-                        result.append( '.' );
-                        result.append( method.getName() );
-                        result.append( '(' );
-                        result.append( publishedMethod.params() );
-                        result.append( ")" );
-                        result.append( NEWLINE );
-
-                        result.append( line );
-                        result.append( NEWLINE );
-
-                        result.append( publishedMethod.methodSummary() );
-                        result.append( NEWLINE );
-                    }
+                    String line
+                        = dashes(managerName.length()
+                                 + method.getName().length()
+                                 + publishedMethod.params().length()
+                                 + 3,
+                                 MAX_OUTPUT_LINE_LENGTH);
+    
+                    result.append( line );
+                    result.append( NEWLINE );
+    
+                    result.append( managerName );
+                    result.append( '.' );
+                    result.append( method.getName() );
+                    result.append( '(' );
+                    result.append( publishedMethod.params() );
+                    result.append( ")" );
+                    result.append( NEWLINE );
+    
+                    result.append( line );
+                    result.append( NEWLINE );
+    
+                    result.append( publishedMethod.methodSummary() );
+                    result.append( NEWLINE );
                 }
             }
         }
