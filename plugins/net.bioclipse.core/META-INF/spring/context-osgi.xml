@@ -8,39 +8,10 @@
   <!-- Export the beans (defined in a separate
        config file in this case) as an OSGi service -->
 
-  <osgi:service id="historyOSGI" ref="history"
-                interface="net.bioclipse.recording.IHistory" />
-                
-  <osgi:service id="recordingAdviceOSGI" ref="recordingAdvice"
-                interface="net.bioclipse.recording.IRecordingAdvice" />
-
-  <osgi:service id="wrapInProxyAdviceOSGI" ref="wrapInProxyAdvice"
-                interface="net.bioclipse.recording.IWrapInProxyAdvice" /> 
-
-  <osgi:service id="moleculeManagerOSGI" ref="moleculeManager"
-                interface="net.bioclipse.core.business.IMoleculeManager" />
-
-  <osgi:reference id="createJobAdvice"
-                  interface="net.bioclipse.ui.jobs.ICreateJobAdvice" />
-
-  <bean id="recordingAdvisor"
-        class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
-        <property name="advice"  ref="recordingAdvice" />
-        <property name="pattern" value=".*" /> <!-- See also class implementation -->
-  </bean>
+  <osgi:service id="JSJobCreatorAdviceOSGI" ref="createJobAdvice"
+                interface="net.bioclipse.scripting.business.IJSJobCreatorAdvice" />
   
-  <bean id="moleculeManager"
-        class="org.springframework.aop.framework.ProxyFactoryBean">
-    <property name="target" 
-              ref="moleculeManagerTarget" />
-    <property name="proxyInterfaces" 
-              value="net.bioclipse.core.business.IMoleculeManager" />
-    <property name="interceptorNames">
-        <list>
-            <value>recordingAdvice</value>
-            <value>wrapInProxyAdvice</value>
-            <value>createJobAdvice</value>
-        </list>
-    </property>
-  </bean>            
+  <bean id="createJobAdvice" 
+        class="net.bioclipse.scripting.business.JSJobCreatorAdvice">
+  </bean>  
 </beans>
