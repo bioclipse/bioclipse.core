@@ -80,21 +80,30 @@ public class JSJobCreatorAdvice implements IJSJobCreatorAdvice {
 
     private Method findMethodWithMonitor( MethodInvocation invocation ) {
 
+        List<Class<?>> invocationParamTypes 
+            = Arrays.asList( invocation.getMethod().getParameterTypes() );
+        
+        invocationParamTypes.remove( BioclipseUIJob.class );
+        
         for ( Method m : invocation.getMethod()
                                    .getDeclaringClass().getMethods() ) {
 
-            Collection<Class<?>> paramTypes 
+            List<Class<?>> currentParamTypes 
                 = Arrays.asList( m.getParameterTypes() );
-
-            //TODO: Pick a method not only containing a progressmonitor but 
-            //      having the rest of the paramaters identical and containing
-            //      a progressmonitor lastly.
+            // Return a method that has the same name and the same paramaters 
+            // (except for perhaps a BioclipseUIJob on the "invocation method") 
+            // as the "invocation method" plus a progress monitor
+            if ( !m.getName().equals( invocation.getMethod().getName() ) ) 
+                continue;
             
-            if ( m.getName().equals( invocation.getMethod().getName() )
-                    && paramTypes.contains( IProgressMonitor.class ) ) {
+            if ( !currentParamTypes.contains( IProgressMonitor.class ) ) 
+                continue;
 
-                return m;
-            }
+            if ( !currentParamTypes.subList( 0, currentParamTypes.size() - 2 )
+                    .equals( invocationParamTypes ) )  
+                continue;
+                   
+            return m;
         }
         return null;
     }
