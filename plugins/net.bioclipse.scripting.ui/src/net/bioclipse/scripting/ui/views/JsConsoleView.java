@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -362,60 +364,59 @@ public class JsConsoleView extends ScriptingConsoleView
                        + NEWLINE + errorMessage;
 
             StringBuilder managerDescription = new StringBuilder();
-            for ( Class<?> interfaze : manager.getClass()
-                                              .getInterfaces() ) {
-                
-                if ( interfaze
-                     .isAnnotationPresent(PublishedClass.class) ) {
-
-                    managerDescription.append(
-                            interfaze.getAnnotation(
-                                    PublishedClass.class
-                            ).value()
-                    );
-                    managerDescription.append( 
-                        NEWLINE + NEWLINE + " This manager has " +
-                        "the following methods: " + NEWLINE );
-                    
-                    List<String> methodNames = new ArrayList<String>();
-                    Method[] methods = interfaze.getMethods();
-                    Arrays.sort( methods, new Comparator<Method>()  {
-                        public int compare( Method m1, Method m2 ) {
-                            int c = m1.getName()
-                                      .compareTo( m2.getName() );
-                            return c != 0 
-                                ? c
-                                :  m1.getParameterTypes().length
-                                 - m2.getParameterTypes().length;
-                        }
-                    });
-                    for ( Method method : methods ) {
-                        if ( method.isAnnotationPresent( 
-                             PublishedMethod.class ) ) {
-                            
-                            if ( method
-                                 .getAnnotation( PublishedMethod.class )
-                                 .params().length() == 0 ) {
-                                methodNames.add( method.getName() 
-                                                 + "()" );
-                            }
-                            else {
-                                methodNames.add( 
-                                    method.getName() + "( "  
-                                    + method.getAnnotation( 
-                                      PublishedMethod.class ).params() 
-                                    + " )" );
-                            }
-                        }
-                    }
-                    for ( String methodName : methodNames ) {
-                        managerDescription.append( methodName );
-                        managerDescription.append( NEWLINE );
-                    }
-                    
-                    managerDescription.deleteCharAt( 
-                        managerDescription.length()-1 );
+            Queue<Class> q = new LinkedList<Class>();
+            q.add( manager.getClass() );
+            while ( !q.isEmpty() ) {
+                Class<?> interfaze = q.remove();
+                q.addAll( Arrays.asList(interfaze.getInterfaces()) );
+                if (!interfaze.isAnnotationPresent( PublishedClass.class ) ) {
+                    continue;
                 }
+                managerDescription.append( interfaze.getAnnotation(
+                                                  PublishedClass.class
+                                           ).value() );
+                managerDescription.append( 
+                    NEWLINE + NEWLINE + " This manager has " +
+                    "the following methods: " + NEWLINE );
+                
+                List<String> methodNames = new ArrayList<String>();
+                Method[] methods = interfaze.getMethods();
+                Arrays.sort( methods, new Comparator<Method>()  {
+                    public int compare( Method m1, Method m2 ) {
+                        int c = m1.getName()
+                                  .compareTo( m2.getName() );
+                        return c != 0 
+                            ? c
+                            :  m1.getParameterTypes().length
+                             - m2.getParameterTypes().length;
+                    }
+                });
+                for ( Method method : methods ) {
+                    if ( method.isAnnotationPresent( 
+                         PublishedMethod.class ) ) {
+                        
+                        if ( method
+                             .getAnnotation( PublishedMethod.class )
+                             .params().length() == 0 ) {
+                            methodNames.add( method.getName() 
+                                             + "()" );
+                        }
+                        else {
+                            methodNames.add( 
+                                method.getName() + "( "  
+                                + method.getAnnotation( 
+                                  PublishedMethod.class ).params() 
+                                + " )" );
+                        }
+                    }
+                }
+                for ( String methodName : methodNames ) {
+                    managerDescription.append( methodName );
+                    managerDescription.append( NEWLINE );
+                }
+                
+                managerDescription.deleteCharAt( 
+                    managerDescription.length()-1 );
             }
 
             String line = dashes( helpObject.length(), 
