@@ -84,8 +84,7 @@ public class BioclipseJob extends Job {
                 monitor.beginTask( "", IProgressMonitor.UNKNOWN );
             }
         
-            returnValue = method.invoke( 
-                invocation.getThis(), args );
+            returnValue = method.invoke( invocation.getThis(), args );
         } 
         catch ( Exception e ) {
             returnValue = e;
