@@ -18,7 +18,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
 
-
+/**
+ * A general scripting console.
+ *
+ * @author masak
+ *
+ */
 public abstract class NewScriptingConsoleView extends ViewPart {
     
     /** A string representing the system's newline. */
