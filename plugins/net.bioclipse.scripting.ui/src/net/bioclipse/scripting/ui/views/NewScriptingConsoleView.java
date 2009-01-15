@@ -1,6 +1,7 @@
 package net.bioclipse.scripting.ui.views;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +12,13 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
 
@@ -53,6 +57,23 @@ public abstract class NewScriptingConsoleView extends ViewPart {
      */
     private int currentHistoryLine = 0;
 
+    /**
+     * Tab completion has a sort of short-term memory in the form of this
+     * instance variable, which remembers the expansion "result" of the last
+     * tab completion. Something like this is needed so that the tab completer
+     * can beep the first time upon encountering an ambiguous completion, and
+     * print the alternatives the second time.
+     *
+     * Note also that even this isn't perfect. There's an unlikely false
+     * positive when the value of this variable survives to the next set of tab
+     * completions -- let's say that the user tab completes on "foo" and gets
+     * first a beep and then a list of alternatives. She goes for a cup of
+     * coffee, and five minutes later when she presses tab on "foo" again as
+     * part of a different command, she will get the list and not a beep,
+     * because this variable still contains "foo".
+     */
+    private String lastPrefix = null;
+    
     /**
      * Essentially a switching table for handleKey. So, every time a keypress
      * is made that we intercept, a receiveKey method somewhere in actionTable
@@ -135,6 +156,14 @@ public abstract class NewScriptingConsoleView extends ViewPart {
             public void keyPressed(KeyEvent e) { handleKey(e); }
             public void keyReleased(KeyEvent e) { }
         });
+        input.addTraverseListener( new TraverseListener() {
+            public void keyTraversed(TraverseEvent e) {
+                if (e.detail == SWT.TRAVERSE_TAB_NEXT) {
+                    e.doit = false;
+                    tabComplete();
+                }
+            }
+        });
         GridData inputData = new GridData(GridData.FILL_HORIZONTAL);
         inputData.heightHint = 20;
         input.setLayoutData(inputData);
@@ -180,6 +209,11 @@ public abstract class NewScriptingConsoleView extends ViewPart {
             output.append(message);
             output.redraw();
         }
+    }
+
+    /** Makes a system notification sound. */
+    protected void beep() {
+        Display.getCurrent().beep();
     }
 
     /**
@@ -278,4 +312,121 @@ public abstract class NewScriptingConsoleView extends ViewPart {
      * @return the return value/error message (if any) from the command
      */
     protected abstract String executeCommand(String command);
+    
+    /**
+     * Returns all variable names contained in a certain container object.
+     * @param object The container object of interest
+     * @return A list of all the variable names in the container object
+     */
+    @SuppressWarnings("unchecked")
+    protected List<String> getAllVariablesIn(String object) {
+        return Collections.EMPTY_LIST;
+    }
+
+    /* Returns the longest common prefix of all strings in a list. */
+    private String commonPrefix(List<String> strings) {
+        if (strings.size() == 0)
+            return "";
+        String commonPrefix = strings.get(0);
+        for (String s : strings)
+            while ( !s.toLowerCase().startsWith(commonPrefix.toLowerCase()) )
+                commonPrefix
+                    = commonPrefix.substring(0, commonPrefix.length() - 1);
+        return commonPrefix;
+    }
+
+    /**
+     * Automatically writes to the command line the rest of a variable or
+     * method name. (Names are completed case-insensitively; the case of the
+     * already-written parts doesn't matter) Beeps if no unique such completion
+     * exists. Gives a list of possible completions if called a second time.
+     */
+    protected void tabComplete() {
+        String command = input.getText();
+        int pos = input.getCaretPosition() - 1;
+        String prefix = "";
+        for (char additionalCharacter; pos >= 0 && Character.isLetterOrDigit(
+                additionalCharacter = command.charAt(pos)); --pos)
+            prefix = additionalCharacter + prefix;
+        deleteBackwards(input.getCaretPosition() - (pos+1));
+        String object = "";
+        if ( pos > 0 && command.charAt(pos) == '.' ) {
+            --pos;
+            object = "";
+            for (char additionalCharacter; pos >= 0
+                 && (Character.isLetterOrDigit(
+                         additionalCharacter = command.charAt(pos) )
+                     || additionalCharacter == '.' ); --pos)
+                object = additionalCharacter + object;
+        }
+        List<String> variables = getAllVariablesIn(object);
+        List<String> interestingVariables = new ArrayList<String>();
+        for (String variable : variables)
+            if (variable.toLowerCase().startsWith(prefix.toLowerCase()))
+                interestingVariables.add( variable );
+        String longestCommonPrefix = commonPrefix(interestingVariables);
+        if ( prefix.length() > longestCommonPrefix.length() ) {
+            addAtCursor(prefix);
+            beep();
+        }
+        else if ( longestCommonPrefix.equals(lastPrefix)
+             && interestingVariables.size() > 1 ) {
+            Collections.sort( interestingVariables );
+            String varList = interestingVariables.toString();
+            varList
+                = varList.substring(1, varList.length() - 1).replace(',', ' ');
+            printMessage( varList + NEWLINE );
+            addAtCursor(prefix);
+        }
+        else {
+            addAtCursor( longestCommonPrefix );
+            if ( interestingVariables.size() == 1 )
+                addAtCursor( tabCompletionHook(object, interestingVariables.get(0)) );
+            if (interestingVariables.size() != 1)
+                beep();
+        }
+        lastPrefix = longestCommonPrefix;
+    }
+
+    private void deleteBackwards(int length) {
+        int oldPosition = input.getCaretPosition(),
+            newPosition = oldPosition - length;
+        
+        String oldText = input.getText(),
+               before = oldText.substring(0, newPosition),
+               after = oldText.substring(oldPosition);
+                
+        input.setText(before + after);
+        input.setSelection( newPosition );
+    }
+
+    /**
+     * Outputs extra characters after the actual name of the completed thing.
+     * For managers, this could be a period ("."), because that's what the
+     * user will write herself anyway. For methods, it could be "(", or "()"
+     * if the method has no parameters.
+     *
+     * @param object the thing written before the dot (if any) when completing
+     * @param completedVariable the variable that was just tab-completed
+     * @return any extra characters to be output after the completed name
+     */
+    protected String tabCompletionHook( String parent, String completedName ) {
+        return "";
+    }
+
+    /**
+     * Inserts text at the cursor.
+     *
+     * @param newText the text to insert
+     */
+    protected void addAtCursor(String newText) {
+        int oldPosition = input.getSelection().x;
+        String allText = input.getText();
+        String textWithNewTextAdded
+            = allText.substring( 0, input.getCaretPosition() )
+              + newText
+              + allText.substring( input.getCaretPosition() );
+        input.setText( textWithNewTextAdded );
+        input.setSelection( oldPosition + newText.length() );
+    }
 }
