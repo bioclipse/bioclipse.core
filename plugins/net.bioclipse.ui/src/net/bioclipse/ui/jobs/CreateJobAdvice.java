@@ -4,18 +4,11 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 
-import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.IBioclipseManager;
-import net.bioclipse.core.jobs.Job;
-import net.bioclipse.scripting.ScriptingThread;
 
 import org.aopalliance.intercept.MethodInvocation;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.ui.progress.WorkbenchJob;
 
 /**
  * Creates jobs for manager methods
@@ -39,61 +32,6 @@ public class CreateJobAdvice implements ICreateJobAdvice {
     public Object invoke( MethodInvocation invocation ) 
                   throws Throwable {
 
-        if ( Thread.currentThread() instanceof ScriptingThread ) {
-            return handleScriptingMode( invocation ); //TODO: remove
-        }
-        else {
-            return handleUIMode( invocation );
-        }
-    }
-
-    private Object handleScriptingMode( final MethodInvocation invocation ) 
-                   throws Throwable {
-
-        Method methodToInvoke = invocation.getMethod();
-        Method m = findMethodWithMonitor(invocation);
-        if ( m != null) {
-            methodToInvoke = m;
-        }
-
-        Object[] args;
-        if ( methodToInvoke != invocation.getMethod() ) {
-            /*
-             * Setup args array
-             */
-            args = new Object[
-                 invocation.getArguments().length + 1];
-            args[args.length-1] = monitor;
-            System.arraycopy( invocation.getArguments(), 
-                              0, 
-                              args, 
-                              0, 
-                              invocation.getArguments().length );
-            /*
-             * Then substitute from String to IFile where suitable
-             */
-            for ( int i = 0; i < args.length; i++ ) {
-                Object arg = args[i];
-                if ( arg instanceof String &&
-                     methodToInvoke
-                         .getParameterTypes()[i] == IFile.class ) {
-                     
-                    args[i] = ResourcePathTransformer
-                              .getInstance()
-                              .transform( (String) arg );
-                }
-            }
-        }
-        else {
-            args = invocation.getArguments();
-        }
-    
-        return methodToInvoke.invoke( invocation.getThis(), args );
-    }
-
-    private Object handleUIMode( final MethodInvocation invocation ) 
-                   throws Throwable {
-
         Method methodToInvoke = invocation.getMethod();
 
         Method m = findMethodWithMonitor(invocation);
@@ -109,16 +47,8 @@ public class CreateJobAdvice implements ICreateJobAdvice {
                                              methodToInvoke, 
                                              invocation );
         
-        int i = Arrays.asList( invocation.getMethod().getParameterTypes() )
-                                         .indexOf( BioclipseUIJob.class );
+        final BioclipseUIJob uiJob = findUIJob(invocation);
         
-        final BioclipseUIJob uiJob ;
-        
-        if ( i != -1 )
-            uiJob = ( (BioclipseUIJob)invocation.getArguments()[i] );
-        else {
-            uiJob = null;
-        }
         // If uiJob parameter is null business as usual...
         if ( uiJob != null ) {
             job.setUser( !uiJob.runInBackground() );
@@ -132,6 +62,15 @@ public class CreateJobAdvice implements ICreateJobAdvice {
         return null;
     }
 
+    private BioclipseUIJob findUIJob( MethodInvocation invocation ) {
+
+        int i = Arrays.asList( invocation.getMethod().getParameterTypes() )
+                      .indexOf( BioclipseUIJob.class );
+        if ( i != -1 )
+            return ( (BioclipseUIJob)invocation.getArguments()[i] );
+        return null;
+    }
+
     private String createJobName( MethodInvocation invocation ) {
         return ( (IBioclipseManager)invocation.getThis() ).getNamespace() + "." 
                + invocation.getMethod().getName();
@@ -139,6 +78,8 @@ public class CreateJobAdvice implements ICreateJobAdvice {
 
     private Method findMethodWithMonitor( MethodInvocation invocation ) {
 
+        Method toReturn = null;
+        
         for ( Method m : invocation.getMethod()
                 .getDeclaringClass().getMethods() ) {
 
@@ -148,9 +89,20 @@ public class CreateJobAdvice implements ICreateJobAdvice {
         if ( m.getName().equals( invocation.getMethod().getName() )
              && paramTypes.contains( IProgressMonitor.class ) ) {
         
-                return m;
+                toReturn = m;
+                break;
             }
         }
-        return null;
+        // If the method returns something and doesn't contain any UIJob then
+        // the conventions are not really followed. Best not create a Job.
+        // TODO: This should probably change the day the managers no longer 
+        //       implements the manager interfaces. Then the interface version 
+        //       should be void but not the manager version...
+        
+        if ( invocation.getMethod().getReturnType() != Void.TYPE && 
+             findUIJob( invocation ) == null ) {
+            toReturn = null;
+        }
+        return toReturn;
     }
 }
