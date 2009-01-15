@@ -251,4 +251,139 @@ public class NewJsConsoleView extends NewScriptingConsoleView {
         return result.toString();
     }
 
+    @SuppressWarnings("unchecked")
+    protected List<String> getAllVariablesIn(String object) {
+
+        // Tab completion has to get in line, just as everything else. Instead
+        // of blocking the console waiting for a command to finish, we take the
+        // easy way out and disallow tab completion while a command is running.
+        if ( JsThread.isBusy() ) {
+            beep();
+            return new ArrayList<String>();
+        }        
+        
+        if (object == null || "".equals(object))
+            object = "this";
+
+        IBioclipseManager manager = JsThread.js.getManagers().get(object);
+        if ( null != manager ) {
+            List<String> variables = new ArrayList<String>();
+
+            for ( Method method : findAllPublishedMethods(manager.getClass()) )
+                if ( !variables.contains( method.getName() ))
+                    variables.add( method.getName() );
+
+            return variables;
+        }
+
+        final List<String>[] variables = new List[1];
+        
+        jsThread.enqueue(
+            new JsAction( "zzz1 = new Array(); zzz2 = 0;"
+                          + "for (var zzz3 in " + object
+                          + ") { zzz1[zzz2++] = zzz3 } zzz1",
+                          new Hook() {
+                              public void run(String array) {
+                                  synchronized (variables) {
+                                      variables[0]
+                                          = new ArrayList<String>(
+                                                  Arrays.asList(
+                                                      array.split( "," )));
+                                      variables.notifyAll();
+                                  }
+                              }
+                          }
+             )
+        );
+        
+        int attemptsLeft = 10;
+        synchronized (variables) {
+            while (variables[0] == null) {
+                try {
+                    Thread.sleep( 50 );
+                    if (--attemptsLeft <= 0) // js is probably busy then
+                        return Collections.EMPTY_LIST;
+                    
+                    variables.wait();
+                } catch ( InterruptedException e ) {
+                    return Collections.EMPTY_LIST;
+                }
+            }
+        }
+
+        // The following happens sometimes when we tab complete on something
+        // unexpected. We choose to beep instead of outputting "syntax error".
+        if (variables[0].size() == 1 &&
+                ("syntax error".equals(variables[0].get(0)) ||
+                 variables[0].get(0).startsWith("ReferenceError"))) {
+            beep();
+            return new ArrayList<String>();
+        }
+
+        variables[0].remove("zzz1");
+        variables[0].remove("zzz2");
+        variables[0].remove("zzz3");
+        
+        return variables[0];
+    }
+
+    private Method[] findAllPublishedMethods(Class<?> interfaze) {
+        return findAllPublishedMethods(
+                interfaze,
+                new ArrayList<Method>()
+               ).toArray(new Method[0]);
+    }
+    
+    private List<Method> findAllPublishedMethods(Class<?> interfaze,
+                                                 List<Method> methods) {
+
+        for ( Method method : interfaze.getMethods() )
+            if ( method.isAnnotationPresent(PublishedMethod.class) )
+                methods.add( method );
+        
+        for (Class<?> parent : interfaze.getInterfaces())
+            findAllPublishedMethods(parent, methods);
+            
+        return methods;
+    }
+    
+    /**
+     * Outputs extra characters after the actual name of the completed thing.
+     * For managers, this could be a period ("."), because that's what the
+     * user will write herself anyway. For methods, it could be "(", or "()"
+     * if the method has no parameters.
+     * 
+     * @param object the thing written before the dot (if any) when completing
+     * @param completedVariable the variable that was just tab-completed
+     * @return any extra characters to be output after the completed name
+     */
+    protected String tabCompletionHook( String parent, String completedName ) {
+        
+        // if the user typed "help" or "man", we don't want to complete with
+        // anything.
+        if ( currentCommand().startsWith( "help " )
+             || currentCommand().startsWith( "man " ) )
+            return "";
+        
+        // a manager gets a period ('.') appended to it, since that's what the
+        // user wants to write anyway.
+        if ( "".equals(parent)
+             && JsThread.js.getManagers().containsKey( completedName ) )
+            return ".";
+        
+        // a manager method gets a '(', and possibly a ')' too if it takes
+        // no parameters
+        IBioclipseManager manager = JsThread.js.getManagers().get(parent);
+        if ( null != manager )
+            for ( Class<?> interfaze : manager.getClass().getInterfaces() )
+                for ( Method method : interfaze.getDeclaredMethods() )
+                    if ( method.isAnnotationPresent(PublishedMethod.class)
+                         && method.getName().equals( completedName ))
+
+                        return "("
+                          + (method.getParameterTypes().length == 0 ? ")" : "");
+        
+        // in all other cases, we add nothing
+        return "";
+    }
 }

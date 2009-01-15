@@ -175,6 +175,10 @@ public abstract class NewScriptingConsoleView extends ViewPart {
             actionTable.get( e.keyCode ).receiveKey( e );
         }
     }
+    
+    public String currentCommand() {
+        return input.getText();
+    }
 
     /**
      * Empties the console of contents.
