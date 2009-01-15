@@ -3,6 +3,7 @@ package net.bioclipse.scripting.business;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import net.bioclipse.core.Activator;
 import net.bioclipse.core.ResourcePathTransformer;
@@ -85,6 +86,10 @@ public class JSJobCreatorAdvice implements IJSJobCreatorAdvice {
             Collection<Class<?>> paramTypes 
                 = Arrays.asList( m.getParameterTypes() );
 
+            //TODO: Pick a method not only containing a progressmonitor but 
+            //      having the rest of the paramaters identical and containing
+            //      a progressmonitor lastly.
+            
             if ( m.getName().equals( invocation.getMethod().getName() )
                     && paramTypes.contains( IProgressMonitor.class ) ) {
 
