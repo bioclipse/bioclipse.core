@@ -39,7 +39,7 @@ import org.eclipse.ui.texteditor.IWorkbenchActionDefinitionIds;
  * @author masak
  *
  */
-public abstract class NewScriptingConsoleView extends ViewPart {
+public abstract class ScriptingConsoleView extends ViewPart {
     
     /** A string representing the system's newline. */
     public static String NEWLINE = System.getProperty("line.separator");
@@ -151,7 +151,7 @@ public abstract class NewScriptingConsoleView extends ViewPart {
      * The constructor. Called by Eclipse reflection when a new console
      * is created.
      */
-    public NewScriptingConsoleView() {
+    public ScriptingConsoleView() {
     }
 
     /**

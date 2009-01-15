@@ -16,7 +16,7 @@ import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.scripting.Activator;
 import net.bioclipse.scripting.Hook;
 import net.bioclipse.scripting.JsAction;
-import net.bioclipse.scripting.ui.views.NewJsConsoleView;
+import net.bioclipse.scripting.ui.views.JsConsoleView;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -35,14 +35,14 @@ import org.eclipse.ui.PlatformUI;
  */
 public class JsConsoleManager implements IJsConsoleManager {
 
-    private NewJsConsoleView getJsConsoleView() {
+    private JsConsoleView getJsConsoleView() {
         try {
-            return (NewJsConsoleView)
+            return (JsConsoleView)
                 PlatformUI.getWorkbench()
                           .getActiveWorkbenchWindow()
                           .getActivePage()
                           .showView( "net.bioclipse.scripting.ui.views."
-                                     + "NewJsConsoleView" );
+                                     + "JsConsoleView" );
         } catch ( PartInitException e ) {
             throw new RuntimeException(
                 "The JavaScript view could not be opened"

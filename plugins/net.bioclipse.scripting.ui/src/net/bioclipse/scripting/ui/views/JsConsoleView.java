@@ -17,7 +17,7 @@ import net.bioclipse.scripting.JsAction;
 import net.bioclipse.scripting.JsThread;
 
 
-public class NewJsConsoleView extends NewScriptingConsoleView {
+public class JsConsoleView extends ScriptingConsoleView {
 
     private static JsThread jsThread
     = net.bioclipse.scripting.Activator.getDefault().JS_THREAD;

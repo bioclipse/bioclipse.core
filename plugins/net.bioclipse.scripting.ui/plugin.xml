@@ -26,11 +26,11 @@
          </description>
       </view>
       <view
-         name="New Javascript Console"
+         name="Javascript Console"
          icon="icons/source.gif"
          category="net.bioclipse.ScriptingCategory"
-         class="net.bioclipse.scripting.ui.views.NewJsConsoleView"
-         id="net.bioclipse.scripting.ui.views.NewJsConsoleView">
+         class="net.bioclipse.scripting.ui.views.JsConsoleView"
+         id="net.bioclipse.scripting.ui.views.JsConsoleView">
          <description>
             Javascript Console View
          </description>
