@@ -34,7 +34,9 @@ public class BioclipseJob extends Job {
         this.lock       = lock;
     }
 
-    private Object returnValue;
+    public static final Object NULLVALUE = new Object();
+    
+    private Object returnValue = NULLVALUE;
     
     protected IStatus run( IProgressMonitor monitor ) {
 
@@ -44,21 +46,32 @@ public class BioclipseJob extends Job {
                 /*
                  * Setup args array
                  */
-                args = new Object[
-                     invocation.getArguments().length + 1];
+                boolean hasUIJob = false;
+                for ( Object o : invocation.getArguments() ) {
+                    if ( o instanceof BioclipseUIJob ) {
+                        hasUIJob = true;
+                        break;
+                    }
+                }
+                if (hasUIJob) {
+                    args = new Object[invocation.getArguments().length];
+                }
+                else { 
+                    args = new Object[invocation.getArguments().length + 1];
+                }
                 args[args.length-1] = monitor;
                 System.arraycopy( invocation.getArguments(), 
                                   0, 
                                   args, 
                                   0, 
-                                  invocation.getArguments().length );
+                                  args.length - 1 );
                 /*
                  * Then substitute from String to IFile where suitable
                  */
                 for ( int i = 0; i < args.length; i++ ) {
                     Object arg = args[i];
                     if ( arg instanceof String &&
-                         method.getParameterTypes()[i] == IFile.class ) {
+                        method.getParameterTypes()[i] == IFile.class ) {
                          
                         args[i] = ResourcePathTransformer
                                   .getInstance()

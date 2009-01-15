@@ -12,7 +12,10 @@ import net.bioclipse.scripting.ScriptingThread;
 import org.aopalliance.intercept.MethodInvocation;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.ui.progress.WorkbenchJob;
 
 /**
  * Creates jobs for manager methods
@@ -38,7 +41,7 @@ public class CreateJobAdvice implements ICreateJobAdvice {
                   throws Throwable {
 
         if ( Thread.currentThread() instanceof ScriptingThread ) {
-            return handleScriptingMode( invocation );
+            return handleScriptingMode( invocation ); //TODO: remove
         }
         else {
             return handleUIMode( invocation );
@@ -93,34 +96,67 @@ public class CreateJobAdvice implements ICreateJobAdvice {
                    throws Throwable {
 
         Method methodToInvoke = invocation.getMethod();
-        if ( methodToInvoke.getAnnotation(Job.class) == null )
-            return invocation.proceed();
 
         Method m = findMethodWithMonitor(invocation);
         if ( m != null) {
             methodToInvoke = m;
         }
+        else {
+            //If we don't find any method with progress monitor no job
+            return invocation.proceed(); 
+        }
         
         BioclipseJob job = new BioclipseJob( createJobName(invocation), 
                                              methodToInvoke, 
                                              invocation,
-                                             lock );  
-        job.setUser( true );
+                                             lock );
+        
+        int i = Arrays.asList( invocation.getMethod().getParameterTypes() )
+                                         .indexOf( BioclipseUIJob.class );
+        
+        final BioclipseUIJob uiJob ;
+        
+        if ( i != -1 )
+            uiJob = ( (BioclipseUIJob)invocation.getArguments()[i] );
+        else {
+            uiJob = null;
+        }
+        // If uiJob parameter is null business as usual...
+        if ( uiJob != null ) {
+            job.setUser( !uiJob.runInBackground() );
+        }
+        else {
+            job.setUser( true );
+        }
 
         job.schedule();
 
         /*
          * Wait for the job to finish and return any result
          */
-        if ( !invocation.getMethod()
-                        .getReturnType().equals( Void.TYPE ) ) {
-            synchronized ( lock ) {
-                while ( job.getReturnValue() == null )
-                    lock.wait();
-                return job.getReturnValue();
+        Object result = null;
+        synchronized ( lock ) {
+            while ( job.getReturnValue() == job.NULLVALUE )
+                lock.wait();
+            if ( uiJob != null ) {
+                uiJob.setReturnValue( job.getReturnValue() );
+                
             }
+            result = job.getReturnValue();
         }
-        return null;
+        if ( uiJob != null ) {
+            new WorkbenchJob("Refresh") {
+    
+                @Override
+                public IStatus runInUIThread( 
+                        IProgressMonitor monitor ) {
+                    uiJob.runInUI();
+                    return Status.OK_STATUS;
+                }
+                
+            }.schedule();
+        }
+        return result;
     }
 
     private String createJobName( MethodInvocation invocation ) {

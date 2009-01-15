@@ -1,4 +1,4 @@
-package net.bioclipse.scripting.business;
+package net.bioclipse.ui.jobs;
 
 
 /**
@@ -22,4 +22,15 @@ public abstract class BioclipseUIJob<T> {
     }
     
     public abstract void runInUI();
+    
+    /**
+     * Whether the manager job is run in background job. The default is not as
+     * as background job but as user job. Implementors should override this 
+     * method if not happy with default value.
+     * 
+     * @return whether the manager job is run as a background job
+     */
+    public boolean runInBackground() {
+        return false;
+    }
 }
