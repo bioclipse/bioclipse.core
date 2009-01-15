@@ -4,6 +4,7 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -42,6 +43,7 @@ public abstract class NewScriptingConsoleView extends ViewPart {
         output = new Text(parent, SWT.READ_ONLY | SWT.MULTI | SWT.V_SCROLL);
         output.setFont(JFaceResources.getTextFont());
         GridData outputData = new GridData(GridData.FILL_BOTH);
+        output.setBackground(new Color(parent.getDisplay(), 0xFF, 0xFF, 0xFF));
         output.setLayoutData(outputData);
         
         input = new Text(parent, SWT.SINGLE);
