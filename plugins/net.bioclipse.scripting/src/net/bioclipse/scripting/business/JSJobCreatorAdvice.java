@@ -75,7 +75,19 @@ public class JSJobCreatorAdvice implements IJSJobCreatorAdvice {
             args = invocation.getArguments();
         }
     
-        return methodToInvoke.invoke( invocation.getThis(), args );
+        Object returnValue 
+            = methodToInvoke.invoke( invocation.getThis(), args ); 
+        
+        if ( Arrays.asList( invocation.getMethod().getParameterTypes() )
+                   .contains( BioclipseUIJob.class ) ) {
+            int pos = Arrays.asList( 
+                          invocation.getMethod().getParameterTypes() 
+                      ).indexOf( BioclipseUIJob.class );
+            ((BioclipseUIJob)invocation.getArguments()[pos])
+                .setReturnValue( returnValue );
+        }
+        
+        return returnValue;
     }
 
     private Method findMethodWithMonitor( MethodInvocation invocation ) {
