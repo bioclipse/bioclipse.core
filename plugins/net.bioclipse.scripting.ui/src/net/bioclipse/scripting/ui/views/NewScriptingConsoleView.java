@@ -8,8 +8,16 @@ import java.util.Map;
 
 import net.bioclipse.scripting.ui.views.ScriptingConsoleView.KeyAction;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DropTarget;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.DropTargetListener;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.TraverseEvent;
@@ -167,6 +175,7 @@ public abstract class NewScriptingConsoleView extends ViewPart {
         GridData inputData = new GridData(GridData.FILL_HORIZONTAL);
         inputData.heightHint = 20;
         input.setLayoutData(inputData);
+        enableResourceDropSupport();
     }
     
     protected void handleKey(KeyEvent e) {
@@ -176,6 +185,71 @@ public abstract class NewScriptingConsoleView extends ViewPart {
         }
     }
     
+    private void enableResourceDropSupport() {
+        int ops = DND.DROP_MOVE;
+
+        DropTargetListener dropListener = new DropTargetListener() {
+            public void dragEnter(DropTargetEvent event) {};
+            public void dragOver(DropTargetEvent event) {};
+            public void dragLeave(DropTargetEvent event) {};
+            public void dragOperationChanged(DropTargetEvent event) {};
+            public void dropAccept(DropTargetEvent event) {}
+            public void drop(DropTargetEvent event) {
+                if (event.data == null) {
+                  event.detail = DND.DROP_NONE;
+                  return;
+                }
+                if (event.data instanceof TreeSelection) {
+                    TreeSelection selection = (TreeSelection) event.data;
+                    for (Object item : selection.toArray()) {
+                        String content
+                            = item instanceof IResource
+                              ? interceptDroppedString(((IResource)item)
+                                      .getFullPath()
+                                      .toOSString())
+                              : "[O_o]"; // unrecognized content
+
+                        int pos = input.getCaretPosition();
+                        String
+                          quote        = "\"",
+                          beforeCursor = pos > 0
+                                           ? input.getText()
+                                                  .substring(pos-1, pos)
+                                           : "",
+                          afterCursor  = pos < input.getText().length()
+                                           ? input.getText()
+                                                  .substring(pos, pos+1)
+                                           : "";
+                        if ( !beforeCursor.equals(quote) )
+                            content = quote + content;
+                        if ( !afterCursor.equals(quote))
+                            content += quote;
+                        addAtCursor(content);
+                        setFocus();
+                    }
+                }
+            }
+        };
+          
+        DropTarget inputTarget = new DropTarget(input, ops),
+                   outputTarget = new DropTarget(output, ops);
+        inputTarget.setTransfer(
+                new Transfer[] { LocalSelectionTransfer.getTransfer() } );
+        outputTarget.setTransfer(
+                new Transfer[] { LocalSelectionTransfer.getTransfer() } );
+
+        inputTarget.addDropListener( dropListener );
+        outputTarget.addDropListener( dropListener );
+    }
+
+    /**
+     * Intercepts a string before it is dropped into the console.
+     * Meant to be overridden by deriving classes.
+     */
+    protected String interceptDroppedString( String s ) {
+        return s;
+    }
+
     public String currentCommand() {
         return input.getText();
     }
