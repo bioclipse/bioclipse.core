@@ -53,8 +53,6 @@ public class Activator extends BioclipseActivator {
     // The plug-in ID
     public static final String PLUGIN_ID = "net.bioclipse.ui";
 
-    public final ConsoleEchoer CONSOLE = new ConsoleEchoer();
-
     public boolean checkForUpdates;
 
     private static final Logger logger = Logger.getLogger(Activator.class);

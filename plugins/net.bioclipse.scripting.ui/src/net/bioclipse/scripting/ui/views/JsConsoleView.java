@@ -27,8 +27,6 @@ import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.scripting.Hook;
 import net.bioclipse.scripting.JsAction;
 import net.bioclipse.scripting.JsThread;
-import net.bioclipse.scripting.OutputProvider;
-import net.bioclipse.ui.Activator;
 import net.bioclipse.ui.EchoEvent;
 import net.bioclipse.ui.EchoListener;
 import net.bioclipse.ui.JsPluginable;
@@ -98,7 +96,6 @@ public class JsConsoleView extends ScriptingConsoleView
      */
     public JsConsoleView() {
         super();
-        Activator.getDefault().CONSOLE.addListener(this);
     }
 
     void setMode(Mode newMode) {
@@ -154,12 +151,6 @@ public class JsConsoleView extends ScriptingConsoleView
             try {
                 this.rConnection = (JsPluginable)cfgElem
                                    .createExecutableExtension("service");
-                this.rConnection.setOutputProvider( new OutputProvider(){
-                        public void output(final String r) {
-                            Activator.getDefault().CONSOLE.echo(r);
-                        }
-                    }
-                );
             }
             catch (Exception ex) {
                 throw new RuntimeException(
