@@ -80,14 +80,14 @@ public class JSJobCreatorAdvice implements IJSJobCreatorAdvice {
     private Method findMethodWithMonitor( MethodInvocation invocation ) {
 
         for ( Method m : invocation.getMethod()
-                .getDeclaringClass().getMethods() ) {
+                                   .getDeclaringClass().getMethods() ) {
 
-        Collection<Class<?>> paramTypes 
-            = Arrays.asList( m.getParameterTypes() );
-        
-        if ( m.getName().equals( invocation.getMethod().getName() )
-             && paramTypes.contains( IProgressMonitor.class ) ) {
-        
+            Collection<Class<?>> paramTypes 
+                = Arrays.asList( m.getParameterTypes() );
+
+            if ( m.getName().equals( invocation.getMethod().getName() )
+                    && paramTypes.contains( IProgressMonitor.class ) ) {
+
                 return m;
             }
         }
