@@ -469,11 +469,6 @@ public class JsConsoleView extends ScriptingConsoleView
         if ( null != manager ) {
             List<String> variables = new ArrayList<String>();
 
-<<<<<<< HEAD:plugins/net.bioclipse.scripting.ui/src/net/bioclipse/scripting/ui/views/JsConsoleView.java
-            for ( Method method : findAllPublishedMethods(manager.getClass()) )
-                if ( !variables.contains( method.getName() ))
-                    variables.add( method.getName() );
-=======
             List<Class<?>> interfaces = new ArrayList<Class<?>>();
             buildInterfaceList(interfaces, manager.getClass());
             for ( Class<?> interfaze : interfaces )
@@ -482,7 +477,6 @@ public class JsConsoleView extends ScriptingConsoleView
                          && !variables.contains( method.getName() ))
 
                         variables.add( method.getName() );
->>>>>>> 74e00d4... adapted tab completion to work on the new manager objects:plugins/net.bioclipse.scripting.ui/src/net/bioclipse/scripting/ui/views/JsConsoleView.java
 
             return variables;
         }
