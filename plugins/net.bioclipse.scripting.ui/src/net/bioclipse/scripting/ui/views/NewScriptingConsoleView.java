@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.bioclipse.scripting.ui.views.ScriptingConsoleView.KeyAction;
-
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -87,6 +85,15 @@ public abstract class NewScriptingConsoleView extends ViewPart {
      */
     private String lastPrefix = null;
     
+    /**
+     * Represents something to do when a specific key is pressed. Java 5 doesn't
+     * have closures, so we use anonymous classes with a method in it instead,
+     * which amounts to the same thing.
+     */
+    protected static interface KeyAction {
+        public void receiveKey(KeyEvent e);
+    }
+
     /**
      * Essentially a switching table for handleKey. So, every time a keypress
      * is made that we intercept, a receiveKey method somewhere in actionTable
