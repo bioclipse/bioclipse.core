@@ -22,7 +22,7 @@ public class Activator extends Plugin {
     // The shared instance
     private static Activator plugin;
     
-    public final JsThread          JS_THREAD = new JsThread();
+    public final JsThread JS_THREAD = new JsThread();
     
     // Ruby and Groovy environments removed after r6413.
     

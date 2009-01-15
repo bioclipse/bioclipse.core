@@ -5,17 +5,21 @@ Bundle-SymbolicName: net.bioclipse.scripting;singleton:=true
 Bundle-Version: 2.0.0.A20081121
 Bundle-Activator: net.bioclipse.scripting.Activator
 Require-Bundle: org.eclipse.core.runtime,
- net.bioclipse.core
+ net.bioclipse.core,
+ org.springframework.osgi.aopalliance.osgi;bundle-version="1.0.0",
+ org.eclipse.core.resources;bundle-version="3.4.0",
+ org.springframework.bundle.spring.aop;bundle-version="2.5.1"
 Eclipse-LazyStart: true
 Bundle-ClassPath: libs/antlr-2.7.5.jar,
  .,
  libs/asm-2.2.jar,
+ libs/js.jar,
  libs/asm-2.2.3.jar,
  libs/asm-commons-2.2.3.jar,
  libs/backport-util-concurrent.jar,
  libs/bsf.jar,
- libs/jline-0.9.91.jar,
- libs/js.jar
-Export-Package: net.bioclipse.scripting
+ libs/jline-0.9.91.jar
+Export-Package: net.bioclipse.scripting,
+ net.bioclipse.scripting.business
 Import-Package: org.apache.log4j
 Bundle-Vendor: The Bioclipse Team

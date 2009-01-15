@@ -10,11 +10,17 @@ package net.bioclipse.scripting;
 
 import java.util.LinkedList;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+
 public class JsThread extends ScriptingThread {
 
     public static JsEnvironment js;
     private LinkedList<JsAction> actions;
     private static boolean busy;
+    private volatile IProgressMonitor monitor;
     
     public void run() {
         js = new JsEnvironment();
@@ -29,13 +35,62 @@ public class JsThread extends ScriptingThread {
                     break;
                 }
 
-                JsAction nextAction = actions.removeFirst();
-                
+                final JsAction nextAction = actions.removeFirst();
+                final String[] result = new String[1];
                 busy = true;
-                String result = js.eval( nextAction.getCommand() );
+                final Boolean[] wait = { new Boolean(true) };
+                final Boolean[] monitorIsSet = { new Boolean(false) };
+                Job job = new Job("JS-script") {
+                    @Override
+                    protected IStatus run( IProgressMonitor m ) {
+
+                        m.beginTask( "Running JavaScript", 
+                                     IProgressMonitor.UNKNOWN );
+                        monitor = m;
+                        synchronized ( monitorIsSet ) {
+                            monitorIsSet[0] = true;
+                            monitorIsSet.notifyAll();
+                        }
+                        synchronized ( wait ) {
+                            while(wait[0]) {
+                                try {
+                                    wait.wait();
+                                } 
+                                catch ( InterruptedException e ) {
+                                    break;
+                                }
+                            }
+                        }
+                        return Status.OK_STATUS;
+                    }
+                };
+                job.setUser( true );
+                job.schedule();
+                synchronized ( monitorIsSet ) {
+                    while ( !monitorIsSet[0] ) {
+                        try {
+                            monitorIsSet.wait();
+                        }
+                        catch ( InterruptedException e ) {
+                            break;
+                        }
+                    }
+                }
+                result[0] = js.eval( nextAction.getCommand() );
+                
+                synchronized ( wait ) {
+                    wait[0] = false;
+                    wait.notifyAll();
+                }
+                try {
+                    job.join();
+                } 
+                catch ( InterruptedException e ) {
+                    e.printStackTrace();
+                }
                 busy = false;
                 
-                nextAction.runPostCommandHook(result);
+                nextAction.runPostCommandHook(result[0]);
             }
         }
     }
@@ -61,5 +116,9 @@ public class JsThread extends ScriptingThread {
     public void enqueue(String command) {
         enqueue( new JsAction( command,
                                new Hook() { public void run(String s) {} } ) );
+    }
+
+    public synchronized IProgressMonitor getMonitor() {
+        return monitor;
     }
 }
