@@ -82,7 +82,7 @@ public class JSJobCreatorAdvice implements IJSJobCreatorAdvice {
 
         List<Class<?>> invocationParamTypes 
             = Arrays.asList( invocation.getMethod().getParameterTypes() );
-        
+        METHODS:
         for ( Method m : invocation.getMethod()
                                    .getDeclaringClass().getMethods() ) {
 
@@ -91,15 +91,28 @@ public class JSJobCreatorAdvice implements IJSJobCreatorAdvice {
             // Return a method that has the same name and the same paramaters 
             // (except for perhaps a BioclipseUIJob on the "invocation method") 
             // as the "invocation method" plus a progress monitor
+            // oh and deal with IFile / String transformation too...
             if ( !m.getName().equals( invocation.getMethod().getName() ) ) 
-                continue;
+                continue METHODS;
             
             if ( !currentParamTypes.contains( IProgressMonitor.class ) ) 
-                continue;
+                continue METHODS;
 
-            if ( !currentParamTypes.subList( 0, currentParamTypes.size() - 2 )
-                    .equals( invocationParamTypes ) )  
-                continue;
+            PARAMS:
+            for ( int i = 0; i < invocationParamTypes.size(); i++ ) {
+                 Object arg = currentParamTypes.get( i );
+                 
+                 if ( arg.equals( invocationParamTypes.get( i ) ) ) {
+                     continue PARAMS;
+                 }
+                 else {
+                     if ( (arg == IFile.class &&
+                           invocationParamTypes.get( i ) == String.class) ) {
+                         continue PARAMS;
+                     }
+                 }
+                 continue METHODS;
+            }
                    
             return m;
         }
