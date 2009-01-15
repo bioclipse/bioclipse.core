@@ -31,7 +31,6 @@ import org.eclipse.jface.viewers.Viewer;
 public class FolderContentProvider implements ITreeContentProvider {
 
   private static final Logger logger = Logger.getLogger(FolderContentProvider.class);
-    
 	public FolderContentProvider() {
 	}
 
@@ -69,7 +68,7 @@ public class FolderContentProvider implements ITreeContentProvider {
 			} catch (CoreException e) {
 			    LogUtils.handleException(e,logger);
 			}
-		} else if(parentElement instanceof IProject){
+		} else if(parentElement instanceof IProject && ((IProject)parentElement).isAccessible()){
 			IProject element = (IProject) parentElement;
 			try {
 				for(int i=0;i<element.members().length;i++){
@@ -115,5 +114,4 @@ public class FolderContentProvider implements ITreeContentProvider {
 		}
 		return false;
 	}
-
 }

@@ -3,7 +3,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * www.eclipse.orgÑepl-v10.html <http://www.eclipse.org/legal/epl-v10.html>
+ * www.eclipse.orgï¿½epl-v10.html <http://www.eclipse.org/legal/epl-v10.html>
  *
  * Contributors:
  *     Ola Spjuth - initial API and implementation
@@ -199,9 +199,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
         preferencesAction = ActionFactory.PREFERENCES.create(window);
         register(preferencesAction);
-
-//        introAction = ActionFactory.INTRO.create(window);
-//        register(introAction);
+        introAction = ActionFactory.INTRO.create(window);
+        register(introAction);
         {
             helpSearchAction = ActionFactory.HELP_SEARCH.create(window);
             register(helpSearchAction);
@@ -278,7 +277,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
                 "&Help", IWorkbenchActionConstants.M_HELP);
 
         //Intro action
-//        helpMenu.add(introAction);
+        helpMenu.add(introAction);
 
         helpMenu.add(helpAction);
         helpMenu.add(new Separator());

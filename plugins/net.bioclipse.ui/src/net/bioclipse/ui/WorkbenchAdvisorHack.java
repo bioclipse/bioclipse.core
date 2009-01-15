@@ -185,8 +185,10 @@ public abstract class WorkbenchAdvisorHack extends WorkbenchAdvisor
     @Override
     public void initialize(IWorkbenchConfigurer configurer)
     {
+        super.initialize(configurer);
         configurer.setSaveAndRestore(true);
         declareWorkbenchImages();
+        configurer.setSaveAndRestore(true);
     }
 
     @Override
