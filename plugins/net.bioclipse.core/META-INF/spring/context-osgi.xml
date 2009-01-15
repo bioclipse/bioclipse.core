@@ -40,9 +40,9 @@
 			</list>
 		</property>
 	</bean>
-	<osgi:service id="JSJobCreatorAdviceOSGI" ref="createJobAdvice"
+	<osgi:service id="JSJobCreatorAdviceOSGI" ref="createJSJobAdvice"
 		interface="net.bioclipse.scripting.business.IJSJobCreatorAdvice" />
 
-	<bean id="createJobAdvice" class="net.bioclipse.scripting.business.JSJobCreatorAdvice">
+	<bean id="createJSJobAdvice" class="net.bioclipse.scripting.business.JSJobCreatorAdvice">
 	</bean>
 </beans>
