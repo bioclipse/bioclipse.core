@@ -1,5 +1,12 @@
 package net.bioclipse.scripting.ui.views;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.bioclipse.scripting.ui.views.ScriptingConsoleView.KeyAction;
+
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -22,6 +29,77 @@ public abstract class NewScriptingConsoleView extends ViewPart {
 
     private Text output;
     private Text input;
+    
+    /** List of all commands written.
+     *
+     * Don't be alarmed by the double braces after the constructor call; they
+     * are amply explained at http://norvig.com/java-iaq.html under the section
+     * "I have a class with six...".
+     */
+    @SuppressWarnings("serial")
+    private List<String> commandHistory = new ArrayList<String>() {{
+        add("");
+    }};
+
+    /**
+     * An index pointer into the command history. Between commands, it is reset
+     * to point to the last (still not run) command, but changes when ARROW_UP
+     * and ARROW_DOWN keys are used.
+     */
+    private int currentHistoryLine = 0;
+
+    /**
+     * Essentially a switching table for handleKey. So, every time a keypress
+     * is made that we intercept, a receiveKey method somewhere in actionTable
+     * is called.
+     *
+     * Don't be alarmed by the double braces after the constructor call; they
+     * are amply explained at http://norvig.com/java-iaq.html under the section
+     * "I have a class with six...".
+     */
+    @SuppressWarnings("serial")
+    private Map<Integer, KeyAction> actionTable
+        = new HashMap<Integer, KeyAction>() {{
+        put( new Integer(SWT.CR), new KeyAction() {
+            public void receiveKey(KeyEvent e) {
+                String command = input.getText().trim();
+                if ( !"".equals(command) ) {
+                    commandHistory.remove( commandHistory.size() - 1 );
+                    commandHistory.add( command );
+                    commandHistory.add( "" );
+                    currentHistoryLine = commandHistory.size() - 1;
+                }
+                executeCommand(command);
+                input.setText("");
+            }
+        });
+        put( new Integer(SWT.ARROW_UP), new KeyAction() {
+            public void receiveKey(KeyEvent e) {
+                if (currentHistoryLine == commandHistory.size() - 1)
+                    commandHistory.set( commandHistory.size()-1,
+                                        input.getText().trim() );
+                if (currentHistoryLine > 0) {
+                    String previousCommand
+                        = commandHistory.get(--currentHistoryLine);
+                    input.setText( previousCommand );
+                    input.setSelection( previousCommand.length(),
+                                        previousCommand.length() );
+                }
+                
+            }
+        });
+        put( new Integer(SWT.ARROW_DOWN), new KeyAction() {
+            public void receiveKey(KeyEvent e) {
+                if (currentHistoryLine < commandHistory.size() - 1) {
+                    String nextCommand
+                        = commandHistory.get(++currentHistoryLine);
+                    input.setText( nextCommand );
+                    input.setSelection( nextCommand.length(),
+                                        nextCommand.length() );
+                }
+            }
+        });
+    }};
 
     /**
      * The constructor. Called by Eclipse reflection when a new console
@@ -49,13 +127,7 @@ public abstract class NewScriptingConsoleView extends ViewPart {
         input = new Text(parent, SWT.SINGLE);
         input.setFont(JFaceResources.getTextFont());
         input.addKeyListener( new KeyListener() {
-            public void keyPressed(KeyEvent e) {
-                if (e.keyCode == SWT.CR) {
-                    String command = input.getText().trim();
-                    executeCommand(command);
-                    input.setText("");
-                }
-            }
+            public void keyPressed(KeyEvent e) { handleKey(e); }
             public void keyReleased(KeyEvent e) { }
         });
         GridData inputData = new GridData(GridData.FILL_HORIZONTAL);
@@ -63,6 +135,13 @@ public abstract class NewScriptingConsoleView extends ViewPart {
         input.setLayoutData(inputData);
     }
     
+    protected void handleKey(KeyEvent e) {
+        if (actionTable.containsKey( e.keyCode )) {
+            e.doit = false;
+            actionTable.get( e.keyCode ).receiveKey( e );
+        }
+    }
+
     /**
      * Empties the console of contents.
      */
