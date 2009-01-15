@@ -62,6 +62,15 @@ public abstract class NewScriptingConsoleView extends ViewPart {
     }
     
     /**
+     * Empties the console of contents.
+     */
+    public void clearConsole() {
+        synchronized (output) {
+            output.setText( "" );
+        }
+    }
+    
+    /**
      * Prints a piece of text to the console. The text ends up before the
      * active command line.
      * 

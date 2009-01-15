@@ -16,7 +16,7 @@ import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.scripting.Activator;
 import net.bioclipse.scripting.Hook;
 import net.bioclipse.scripting.JsAction;
-import net.bioclipse.scripting.ui.views.JsConsoleView;
+import net.bioclipse.scripting.ui.views.NewJsConsoleView;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -35,14 +35,14 @@ import org.eclipse.ui.PlatformUI;
  */
 public class JsConsoleManager implements IJsConsoleManager {
 
-    private JsConsoleView getJsConsoleView() {
+    private NewJsConsoleView getJsConsoleView() {
         try {
-            return (JsConsoleView)
+            return (NewJsConsoleView)
                 PlatformUI.getWorkbench()
                           .getActiveWorkbenchWindow()
                           .getActivePage()
                           .showView( "net.bioclipse.scripting.ui.views."
-                                     + "JsConsoleView" );
+                                     + "NewJsConsoleView" );
         } catch ( PartInitException e ) {
             throw new RuntimeException(
                 "The JavaScript view could not be opened"
@@ -95,8 +95,6 @@ public class JsConsoleManager implements IJsConsoleManager {
     public void executeFile( IFile file, final IProgressMonitor monitor ) {
         String contents;
         
-        getJsConsoleView().deactivatePrompt();
-
         monitor.beginTask( "read file", 1 );
         try {
             java.util.Scanner sc = new java.util.Scanner(file.getContents());
@@ -119,11 +117,6 @@ public class JsConsoleManager implements IJsConsoleManager {
                     if ( !"undefined".equals( result ) ) {
                         message(result);
                     }
-                    Display.getDefault().asyncExec( new Runnable() {
-                        public void run() {
-                            getJsConsoleView().activatePrompt();
-                        }
-                    } );
                 }
 
                 private void message(final String text) {
