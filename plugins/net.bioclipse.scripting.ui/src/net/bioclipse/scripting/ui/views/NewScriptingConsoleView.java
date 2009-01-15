@@ -9,6 +9,10 @@ import java.util.Map;
 import net.bioclipse.scripting.ui.views.ScriptingConsoleView.KeyAction;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.TreeSelection;
@@ -29,6 +33,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.texteditor.IWorkbenchActionDefinitionIds;
 
 /**
  * A general scripting console.
@@ -175,6 +180,8 @@ public abstract class NewScriptingConsoleView extends ViewPart {
         GridData inputData = new GridData(GridData.FILL_HORIZONTAL);
         inputData.heightHint = 20;
         input.setLayoutData(inputData);
+        
+        hookContextMenu();
         enableResourceDropSupport();
     }
     
@@ -185,6 +192,59 @@ public abstract class NewScriptingConsoleView extends ViewPart {
         }
     }
     
+    /** Sets up and installs the context menu for the console view. */
+    private void hookContextMenu() {
+        final Action cutInputAction = new Action("Cut") {
+            public void run() {
+                input.cut();
+            }
+        },
+        copyInputAction = new Action("Copy") {
+            public void run() {
+                input.copy();
+            }
+        },
+        pasteInputAction = new Action("Paste") {
+            public void run() {
+                input.paste();
+            }
+        },
+        copyOutputAction = new Action("Copy") {
+            public void run() {
+                output.copy();
+            }
+        };
+
+        cutInputAction.setActionDefinitionId(
+                IWorkbenchActionDefinitionIds.CUT);
+        copyInputAction.setActionDefinitionId(
+                IWorkbenchActionDefinitionIds.COPY);
+        pasteInputAction.setActionDefinitionId(
+                IWorkbenchActionDefinitionIds.PASTE);
+        copyOutputAction.setActionDefinitionId(
+                IWorkbenchActionDefinitionIds.COPY);
+
+        final MenuManager inputMenuMgr = new MenuManager("#PopupMenu");
+        inputMenuMgr.setRemoveAllWhenShown(true);
+        inputMenuMgr.addMenuListener(new IMenuListener() {
+            public void menuAboutToShow(IMenuManager mgr) {
+                inputMenuMgr.add( cutInputAction );
+                inputMenuMgr.add( copyInputAction );
+                inputMenuMgr.add( pasteInputAction );
+            }
+        });
+        input.setMenu( inputMenuMgr.createContextMenu( input ) );
+
+        final MenuManager outputMenuMgr = new MenuManager("#PopupMenu");
+        outputMenuMgr.setRemoveAllWhenShown(true);
+        outputMenuMgr.addMenuListener(new IMenuListener() {
+            public void menuAboutToShow(IMenuManager mgr) {
+                outputMenuMgr.add( copyOutputAction );
+            }
+        });
+        output.setMenu( outputMenuMgr.createContextMenu( output ) );
+    }
+
     private void enableResourceDropSupport() {
         int ops = DND.DROP_MOVE;
 
