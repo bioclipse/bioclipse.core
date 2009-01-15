@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.ui.progress.WorkbenchJob;
 
 
 /**
@@ -22,16 +23,13 @@ public class BioclipseJob extends Job {
 
     private Method method;
     private MethodInvocation invocation;
-    private Object lock;
 
     public BioclipseJob( String name, 
                          Method methodToBeInvocated, 
-                         MethodInvocation originalInvocation,
-                         Object lock ) {
+                         MethodInvocation originalInvocation ) {
         super( name );
         this.method     = methodToBeInvocated;
         this.invocation = originalInvocation;
-        this.lock       = lock;
     }
 
     public static final Object NULLVALUE = new Object();
@@ -85,6 +83,31 @@ public class BioclipseJob extends Job {
             }
         
             returnValue = method.invoke( invocation.getThis(), args );
+            
+            int i = Arrays.asList( invocation.getMethod().getParameterTypes() )
+                          .indexOf( BioclipseUIJob.class );
+
+            final BioclipseUIJob uiJob ;
+            
+            if ( i != -1 )
+                uiJob = ( (BioclipseUIJob)invocation.getArguments()[i] );
+            else {
+                uiJob = null;
+            }
+            
+            if ( uiJob != null ) {
+                uiJob.setReturnValue( returnValue );
+                new WorkbenchJob("Refresh") {
+        
+                    @Override
+                    public IStatus runInUIThread( 
+                            IProgressMonitor monitor ) {
+                        uiJob.runInUI();
+                        return Status.OK_STATUS;
+                    }
+                    
+                }.schedule();
+            }
         } 
         catch ( Exception e ) {
             returnValue = e;
@@ -97,11 +120,7 @@ public class BioclipseJob extends Job {
                                         + e.getMessage(),
                                         e );
         }
-        finally {
-            synchronized ( lock ) {
-                lock.notifyAll();
-            }
-        }
+        
         monitor.done();
         return Status.OK_STATUS;
     }

@@ -25,7 +25,6 @@ import org.eclipse.ui.progress.WorkbenchJob;
  */
 public class CreateJobAdvice implements ICreateJobAdvice {
 
-    private Object lock = new Object();
     private IProgressMonitor nullProgressMonitor = new NullProgressMonitor();
     private IProgressMonitor monitor = nullProgressMonitor;
     
@@ -108,8 +107,7 @@ public class CreateJobAdvice implements ICreateJobAdvice {
         
         BioclipseJob job = new BioclipseJob( createJobName(invocation), 
                                              methodToInvoke, 
-                                             invocation,
-                                             lock );
+                                             invocation );
         
         int i = Arrays.asList( invocation.getMethod().getParameterTypes() )
                                          .indexOf( BioclipseUIJob.class );
@@ -131,32 +129,7 @@ public class CreateJobAdvice implements ICreateJobAdvice {
 
         job.schedule();
 
-        /*
-         * Wait for the job to finish and return any result
-         */
-        Object result = null;
-        synchronized ( lock ) {
-            while ( job.getReturnValue() == job.NULLVALUE )
-                lock.wait();
-            if ( uiJob != null ) {
-                uiJob.setReturnValue( job.getReturnValue() );
-                
-            }
-            result = job.getReturnValue();
-        }
-        if ( uiJob != null ) {
-            new WorkbenchJob("Refresh") {
-    
-                @Override
-                public IStatus runInUIThread( 
-                        IProgressMonitor monitor ) {
-                    uiJob.runInUI();
-                    return Status.OK_STATUS;
-                }
-                
-            }.schedule();
-        }
-        return result;
+        return null;
     }
 
     private String createJobName( MethodInvocation invocation ) {
