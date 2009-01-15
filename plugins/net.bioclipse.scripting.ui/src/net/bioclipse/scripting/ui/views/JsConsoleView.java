@@ -469,9 +469,20 @@ public class JsConsoleView extends ScriptingConsoleView
         if ( null != manager ) {
             List<String> variables = new ArrayList<String>();
 
+<<<<<<< HEAD:plugins/net.bioclipse.scripting.ui/src/net/bioclipse/scripting/ui/views/JsConsoleView.java
             for ( Method method : findAllPublishedMethods(manager.getClass()) )
                 if ( !variables.contains( method.getName() ))
                     variables.add( method.getName() );
+=======
+            List<Class<?>> interfaces = new ArrayList<Class<?>>();
+            buildInterfaceList(interfaces, manager.getClass());
+            for ( Class<?> interfaze : interfaces )
+                for ( Method method : interfaze.getDeclaredMethods() )
+                    if ( method.isAnnotationPresent(PublishedMethod.class)
+                         && !variables.contains( method.getName() ))
+
+                        variables.add( method.getName() );
+>>>>>>> 74e00d4... adapted tab completion to work on the new manager objects:plugins/net.bioclipse.scripting.ui/src/net/bioclipse/scripting/ui/views/JsConsoleView.java
 
             return variables;
         }
@@ -574,16 +585,30 @@ public class JsConsoleView extends ScriptingConsoleView
         // a manager method gets a '(', and possibly a ')' too if it takes
         // no parameters
         IBioclipseManager manager = JsThread.js.getManagers().get(parent);
-        if ( null != manager )
-            for ( Class<?> interfaze : manager.getClass().getInterfaces() )
+        if ( null != manager ) {
+            List<Class<?>> interfaces = new ArrayList<Class<?>>();
+            buildInterfaceList(interfaces, manager.getClass());
+            for ( Class<?> interfaze : interfaces )
                 for ( Method method : interfaze.getDeclaredMethods() )
                     if ( method.isAnnotationPresent(PublishedMethod.class)
                          && method.getName().equals( completedName ))
 
-                        return "("
-                          + (method.getParameterTypes().length == 0 ? ")" : "");
-        
+                        return "(" + (method.getParameterTypes()
+                                            .length == 0 ? ")" 
+                                                         : "");
+
+        }
         // in all other cases, we add nothing
         return "";
+    }
+
+    private void buildInterfaceList( List<Class<?>> result,
+                                     Class<?> clazz ) {
+        for ( Class<?> interfaze : clazz.getInterfaces() ) {
+            if ( !interfaze.equals( clazz) )
+                buildInterfaceList( result, interfaze );
+            if ( interfaze.isAnnotationPresent( PublishedClass.class ) ) 
+                result.add( interfaze );
+        }
     }
 }
