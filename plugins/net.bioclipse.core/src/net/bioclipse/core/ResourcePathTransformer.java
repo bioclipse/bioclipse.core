@@ -6,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors: Jonathan Alvarsson
- *     
+ *
  *******************************************************************************/
 package net.bioclipse.core;
 
@@ -29,19 +29,19 @@ import org.eclipse.core.runtime.Path;
  */
 public class ResourcePathTransformer {
 
-    private static ResourcePathTransformer instance = 
+    private static ResourcePathTransformer instance =
         new ResourcePathTransformer();
-    
+
     private ResourcePathTransformer() {
-        
+
     }
-    
+
     public static ResourcePathTransformer getInstance() {
         return instance;
     }
-    
+
     public IFile transform(String resourceString) {
-  
+
         IFile result;
         result = parseRelative(resourceString);
         if (result == null) result = parseURI(resourceString);
@@ -77,16 +77,16 @@ public class ResourcePathTransformer {
     	    vFile = createAlternativeFile(vFile);
     	    if( vFile == null)
     	        return null;
-    	}    	
+    	}
     	try {
-			vFile.createLink(uri,IResource.NONE, null);	
+			vFile.createLink(uri,IResource.NONE, null);
 			vFile.refreshLocal(0, new NullProgressMonitor());
 		} catch (CoreException e) {
 			return null;
 		}
-    	return vFile;       
+    	return vFile;
     }
-    
+
     /*
      * Recursive algorithm for creating unique file
      */
@@ -98,8 +98,8 @@ public class ResourcePathTransformer {
         if (count > MAX_RECURSION) return null;
         file =file.getParent().getFile(
                        new Path(generateUniqueFileName( file,++count)));
-        if(file.exists()) return createAlternativeFile( file, count );        
-        
+        if(file.exists()) return createAlternativeFile( file, count );
+
         return file;
     }
     private String generateUniqueFileName(IFile file,int count) {
@@ -109,13 +109,14 @@ public class ResourcePathTransformer {
         name = name + "."+file.getFileExtension();
         return name;
     }
-    
+
     private IFile parseRelative( String resourceString ) {
 
        IPath path = new Path(resourceString);
        IFile file = ResourcesPlugin.getWorkspace()
                                    .getRoot().getFile( path );
-       if ( file.exists() )
+
+       if ( file.getProject().exists() )
            return file;
         return null;
     }
@@ -128,11 +129,11 @@ public class ResourcePathTransformer {
                                                new URI(resourceString) );
             if ( files.length == 1 )
                 return files[0];
-            
-            throw new IllegalStateException( 
-                "Multiple IFiles correspond to the uri:" 
-                + resourceString);               
-        } 
+
+            throw new IllegalStateException(
+                "Multiple IFiles correspond to the uri:"
+                + resourceString);
+        }
         catch ( URISyntaxException e ) {
             return null; //It wasn't an uri...
         }catch (IllegalArgumentException e){
