@@ -336,6 +336,11 @@
                 name="Chemical Markup Language (CML)"
                 file-extensions="cml,xml"
                 priority="normal">
+            <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">
+              <parameter name="element"
+                         value="{http://www.xml-cml.org/schema}*">
+              </parameter>
+            </describer>
           </content-type>
     </extension>
 
