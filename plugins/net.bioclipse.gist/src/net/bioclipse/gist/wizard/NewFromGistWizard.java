@@ -26,6 +26,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -123,11 +127,30 @@ public class NewFromGistWizard extends BasicNewResourceWizard {
 	        	}
 	        	monitor.worked(1);
 	        	
-	        	monitor.subTask("Downloading Gist revision: " + rev);
-	        	URL rawURL = new URL("http://gist.github.com/raw/" + gist + "/" + rev);
-	        	URLConnection rawConn = rawURL.openConnection();
-				file.setContents(rawConn.getInputStream(), true, false, null);
-				monitor.worked(1);
+        		if (monitor.isCanceled()) {
+        			return;
+        		}
+
+        		if (rev != null) {
+        		    monitor.subTask("Downloading Gist revision: " + rev);
+        		    URL rawURL = new URL("http://gist.github.com/raw/" + gist + "/" + rev);
+        		    URLConnection rawConn = rawURL.openConnection();
+        		    file.setContents(rawConn.getInputStream(), true, false, null);
+        		    monitor.worked(1);
+        		} else {
+        		    Display.getDefault().syncExec(
+        		        new Runnable() {
+        		            public void run(){
+        		                MessageBox mb = new MessageBox(new Shell(), SWT.OK);
+        		                mb.setText("Gist Download Error");
+        		                mb.setMessage("Could not find Gist");
+        		                mb.open();
+        		            }
+        		        });
+        		    file.delete(true, monitor);
+        		    monitor.done();
+        		    return;
+        		}
 	        } catch (PatternSyntaxException e) {
 	            System.err.println ("Regex syntax error: " + e.getMessage());
 	            System.err.println ("Error description: " + e.getDescription());
