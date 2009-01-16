@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Gist Support
+Bundle-SymbolicName: net.bioclipse.gist;singleton:=true
+Bundle-Version: 2.0.0.A20081028
+Bundle-Activator: net.bioclipse.gist.Activator
+Bundle-Vendor: The Bioclipse Team
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.ide,
+ org.eclipse.core.resources,
+ net.bioclipse.cdk.business,
+ net.bioclipse.core
+Eclipse-LazyStart: true
+Import-Package: org.apache.log4j
+Export-Package: net.bioclipse.gist
