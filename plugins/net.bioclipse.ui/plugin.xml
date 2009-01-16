@@ -199,7 +199,7 @@
             icon="icons/logo/logo_16_trans.gif"
             id="net.bioclipse.ui.editors.XMLEditor"
             default="false"
-            name="XML Editor">
+            name="XML-Lite Editor">
       </editor>
    </extension>
    <extension
