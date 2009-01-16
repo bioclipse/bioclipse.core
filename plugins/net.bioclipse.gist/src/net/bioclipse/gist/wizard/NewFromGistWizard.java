@@ -110,7 +110,7 @@ public class NewFromGistWizard extends BasicNewResourceWizard {
 	        	URL gistURL = new URL("http://gist.github.com/" + gist);
 	        	URLConnection gistConn = gistURL.openConnection();
 	        	
-	        	String rawURLPattern = "\"/raw/" + gist + "/([1-9[a-f]]+)";
+	        	String rawURLPattern = "\"/raw/" + gist + "/([0-9[a-f]]+)";
 	        	Pattern p = Pattern.compile(rawURLPattern);
 	        	
 	        	BufferedReader reader = new BufferedReader(new InputStreamReader(gistConn.getInputStream()));
