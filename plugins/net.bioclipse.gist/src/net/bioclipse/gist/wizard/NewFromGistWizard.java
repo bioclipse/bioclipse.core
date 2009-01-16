@@ -21,6 +21,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.gist.business.GistManager;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -97,77 +100,17 @@ public class NewFromGistWizard extends BasicNewResourceWizard {
 		}
 		
 	    private void downloadGist(IProgressMonitor monitor, IFile file) throws InvocationTargetException {
-	    	monitor.beginTask("Downloading Gist...", 3);
-
-	    	if (file == null) {
-				throw new InvocationTargetException(new NullPointerException(), "File is null");
-			}
-	        
+	        GistManager gistManager = new GistManager();
 	        try {
-	        	int gist = getGist();
-	        		
-	        	monitor.subTask("Determining Gist revision");
-	        	URL gistURL = new URL("http://gist.github.com/" + gist);
-	        	URLConnection gistConn = gistURL.openConnection();
-	        	
-	        	String rawURLPattern = "\"/raw/" + gist + "/([0-9[a-f]]+)";
-	        	Pattern p = Pattern.compile(rawURLPattern);
-	        	
-	        	BufferedReader reader = new BufferedReader(new InputStreamReader(gistConn.getInputStream()));
-	        	String line = reader.readLine();
-	        	String rev = null;
-	        	while (line != null) {
-	        		Matcher m = p.matcher(line);
-	            	if (m.find()) {
-	            		rev = m.group(1);
-	            		reader.close();
-	                	break;
-	            	}
-	            	line = reader.readLine();
-	        	}
-	        	monitor.worked(1);
-	        	
-        		if (monitor.isCanceled()) {
-        			return;
-        		}
-
-        		if (rev != null) {
-        		    monitor.subTask("Downloading Gist revision: " + rev);
-        		    URL rawURL = new URL("http://gist.github.com/raw/" + gist + "/" + rev);
-        		    URLConnection rawConn = rawURL.openConnection();
-        		    file.setContents(rawConn.getInputStream(), true, false, null);
-        		    monitor.worked(1);
-        		} else {
-        		    Display.getDefault().syncExec(
-        		        new Runnable() {
-        		            public void run(){
-        		                MessageBox mb = new MessageBox(new Shell(), SWT.OK);
-        		                mb.setText("Gist Download Error");
-        		                mb.setMessage("Could not find Gist");
-        		                mb.open();
-        		            }
-        		        });
-        		    file.delete(true, monitor);
-        		    monitor.done();
-        		    return;
-        		}
-	        } catch (PatternSyntaxException e) {
-	            System.err.println ("Regex syntax error: " + e.getMessage());
-	            System.err.println ("Error description: " + e.getDescription());
-	            System.err.println ("Error index: " + e.getIndex());
-	            System.err.println ("Erroneous pattern: " + e.getPattern());
-	        } catch (MalformedURLException exception) {
-	        	exception.printStackTrace();
-	        	new InvocationTargetException(new NullPointerException(), "Invalid URL.");
-	        } catch (IOException exception) {
-	        	exception.printStackTrace();
-	        	new InvocationTargetException(new NullPointerException(), "Error while downloading Gist...");
-			} catch (CoreException e1) {
-				e1.printStackTrace();
-				new InvocationTargetException(new NullPointerException(), "Error while downloading Gist...");
-			}
-
-			monitor.subTask("Opening the Gist");
+                gistManager.load(getGist(), file, monitor);
+            } catch (IOException exception) {
+                throw new InvocationTargetException(exception, "Error while downloading gist...");
+            } catch (BioclipseException exception) {
+                throw new InvocationTargetException(exception, "Error while downloading gist...");
+            } catch (CoreException exception) {
+                throw new InvocationTargetException(exception, "Error while downloading gist...");
+            }
+	        
 	        selectAndReveal(file);
 
 	        IWorkbenchWindow bench = getWorkbench().getActiveWorkbenchWindow();
@@ -181,7 +124,6 @@ public class NewFromGistWizard extends BasicNewResourceWizard {
 	        } catch (PartInitException e) {
 	        	new InvocationTargetException(new NullPointerException(), "Error while opening editor...");
 	        }
-	        monitor.done();
 	    }
 
 	}

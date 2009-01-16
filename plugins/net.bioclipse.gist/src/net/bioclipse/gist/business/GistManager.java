@@ -13,7 +13,6 @@ package net.bioclipse.gist.business;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -101,20 +100,12 @@ public class GistManager implements IGistManager {
                 monitor.done();
                 return;
             }
-        } catch (PatternSyntaxException e) {
-            System.err.println ("Regex syntax error: " + e.getMessage());
-            System.err.println ("Error description: " + e.getDescription());
-            System.err.println ("Error index: " + e.getIndex());
-            System.err.println ("Erroneous pattern: " + e.getPattern());
+        } catch (PatternSyntaxException exception) {
+            exception.printStackTrace();
+            throw new BioclipseException("Invalid Pattern.", exception);
         } catch (MalformedURLException exception) {
             exception.printStackTrace();
-            new InvocationTargetException(new NullPointerException(), "Invalid URL.");
-        } catch (IOException exception) {
-            exception.printStackTrace();
-            new InvocationTargetException(new NullPointerException(), "Error while downloading Gist...");
-        } catch (CoreException e1) {
-            e1.printStackTrace();
-            new InvocationTargetException(new NullPointerException(), "Error while downloading Gist...");
+            throw new BioclipseException("Invalid URL.", exception);
         }
         monitor.done();
     }
