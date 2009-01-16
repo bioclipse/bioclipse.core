@@ -10,4 +10,12 @@
       </wizard>
    </extension>
 
+   <extension
+         point="net.bioclipse.scripting.contribution">
+      <scriptContribution
+            id="net.bioclipse.gist.GistManager"
+            service="net.bioclipse.gist.business.GistManagerFactory">
+      </scriptContribution>
+   </extension>
+
 </plugin>
