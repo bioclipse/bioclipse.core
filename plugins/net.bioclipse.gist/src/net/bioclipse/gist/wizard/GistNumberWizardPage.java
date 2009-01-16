@@ -56,7 +56,13 @@ public class GistNumberWizardPage extends WizardPage {
 		String gistNumber = field.getText();
 		if (gistNumber.length() != 0) {
 			try {
-				wizard.setGist(Integer.parseInt(gistNumber));
+				int gist = Integer.parseInt(gistNumber);
+				if (gist < 1) {
+					setMessage(null);
+					setErrorMessage("The Gist must be a non-zero, positive integer.");
+					return;
+				}
+				wizard.setGist(gist);
 			} catch (NumberFormatException exception) {
 				setMessage(null);
 				setErrorMessage("The given Gist must be an integer.");
