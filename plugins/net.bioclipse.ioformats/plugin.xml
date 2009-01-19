@@ -12,6 +12,46 @@
         <parameter name="format" value="org.openscience.cdk.io.formats.CIFFormat"/>
       </describer>
     </content-type>
+    <content-type base-type="org.eclipse.core.runtime.xml"
+                  id="net.bioclipse.contenttypes.pubchem.xml.compounds"
+                  name="PubChem Compounds XML"
+                  file-extensions="xml"
+                  priority="normal">
+      <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">
+        <parameter name="element"
+                   value="{http://www.ncbi.nlm.nih.gov}PC-Compounds"/>
+      </describer>
+    </content-type>
+    <content-type base-type="org.eclipse.core.runtime.xml"
+                  id="net.bioclipse.contenttypes.pubchem.xml.compound"
+                  name="PubChem Compound XML"
+                  file-extensions="xml"
+                  priority="normal">
+      <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">
+        <parameter name="element"
+                   value="{http://www.ncbi.nlm.nih.gov}PC-Compound"/>
+      </describer>
+    </content-type>
+    <content-type base-type="org.eclipse.core.runtime.xml"
+                  id="net.bioclipse.contenttypes.pubchem.xml.substances"
+                  name="PubChem Substances XML"
+                  file-extensions="xml"
+                  priority="normal">
+      <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">
+        <parameter name="element"
+                   value="{http://www.ncbi.nlm.nih.gov}PC-Substances"/>
+      </describer>
+    </content-type>
+    <content-type base-type="org.eclipse.core.runtime.xml"
+                  id="net.bioclipse.contenttypes.pubchem.xml.substance"
+                  name="PubChem Substance XML"
+                  file-extensions="xml"
+                  priority="normal">
+      <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">
+        <parameter name="element"
+                   value="{http://www.ncbi.nlm.nih.gov}PC-Substance"/>
+      </describer>
+    </content-type>
   </extension>
 
 </plugin>
