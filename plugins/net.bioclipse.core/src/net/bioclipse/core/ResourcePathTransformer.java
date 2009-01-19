@@ -40,6 +40,15 @@ public class ResourcePathTransformer {
         return instance;
     }
 
+    /**
+     * Converts resourceString to an IFile. First check if the path is a
+     * workspace relative path, if that fails it tries to lookup the file using
+     * an URI. Last it assumes the path is an absolute path to the file system
+     * not in the workspace and creates a link in /Virtual.
+     *
+     * @param resourceString
+     * @return IFile
+     */
     public IFile transform(String resourceString) {
 
         IFile result;
@@ -51,6 +60,15 @@ public class ResourcePathTransformer {
         return result;
     }
 
+    /**
+     * Check if the path represent a local file that exists. If it dose it
+     * creates a link to the file from the the 'Virtual' project, if the a link
+     * already exist it tries to refresh it otherwise it tries to resolve any
+     * name conflict.
+     *
+     * @param resourceString
+     * @return IFile or null if no file was found
+     */
     private IFile parsePath( String resourceString ) {
     	URI uri;
     	java.io.File localFile=new java.io.File(resourceString);
@@ -74,6 +92,7 @@ public class ResourcePathTransformer {
                     }
     	        }
     	    }
+
     	    vFile = createAlternativeFile(vFile);
     	    if( vFile == null)
     	        return null;
