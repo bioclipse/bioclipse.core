@@ -109,6 +109,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         put( new Integer(SWT.CR), new KeyAction() {
             public void receiveKey(KeyEvent e) {
                 String command = input.getText().trim();
+                printMessage(NEWLINE + "> " + command + NEWLINE);
                 if ( !"".equals(command) ) {
                     commandHistory.remove( commandHistory.size() - 1 );
                     commandHistory.add( command );
