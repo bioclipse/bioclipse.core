@@ -200,8 +200,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                 Method[] methods = interfaze.getMethods();
                 Arrays.sort( methods, new Comparator<Method>()  {
                     public int compare( Method m1, Method m2 ) {
-                        int c = m1.getName()
-                                  .compareTo( m2.getName() );
+                        int c = m1.getName().compareTo( m2.getName() );
                         return c != 0 
                             ? c
                             :  m1.getParameterTypes().length
