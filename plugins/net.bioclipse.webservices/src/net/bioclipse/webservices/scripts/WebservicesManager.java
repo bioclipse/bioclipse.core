@@ -23,7 +23,7 @@ public class WebservicesManager implements IWebservicesManager{
     public void downloadPDB(String pdbid, String filename) throws BioclipseException, CoreException{
 
 		if (pdbid==null || pdbid.length()<=0){
-			net.bioclipse.ui.Activator.getDefault().CONSOLE.echo("Please provide a PDB ID.");
+			throw new BioclipseException("Please provide a PDB ID.");
 		}
 		
 		try {
@@ -31,10 +31,10 @@ public class WebservicesManager implements IWebservicesManager{
 			
 			String name="pdb:" + pdbid;
 			String pdb_file = wsdbfetch.fetchData(name, "pdb", "raw");
-			net.bioclipse.ui.Activator.getDefault().CONSOLE.echo("Download finished.");
+			//PluginLogger.log("Download finished.");
 
 			if (pdb_file==null || pdb_file.length()<=0){
-				net.bioclipse.ui.Activator.getDefault().CONSOLE.echo("No PDB found with id: " + pdbid);
+				throw new BioclipseException("No PDB found with id: " + pdbid);
 			}
 
 			if(filename.indexOf(".pdb")==-1)
@@ -57,8 +57,6 @@ public class WebservicesManager implements IWebservicesManager{
 			} finally {
 				monitor.done();
 			}
-
-			
 			
 		} catch (Exception e) {
 			throw new BioclipseException(e.getMessage());

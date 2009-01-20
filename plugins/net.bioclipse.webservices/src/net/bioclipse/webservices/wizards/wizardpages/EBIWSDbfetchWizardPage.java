@@ -11,6 +11,7 @@ package net.bioclipse.webservices.wizards.wizardpages;
 
 import java.lang.reflect.InvocationTargetException;
 
+import net.bioclipse.webservices.PluginLogger;
 import net.bioclipse.webservices.services.WSDbfetch;
 import net.bioclipse.webservices.wizards.JobFinishedWizard;
 import net.bioclipse.webservices.wizards.WebServiceWizardData;
@@ -312,7 +313,7 @@ public class EBIWSDbfetchWizardPage extends WizardPage implements IDoPerformFini
             	try {
             		wbPage.showView("org.eclipse.ui.views.ProgressView");
             	} catch (PartInitException e) {
-            		net.bioclipse.ui.Activator.getDefault().CONSOLE.echo("PartInitException: " + e.getMessage());
+            		PluginLogger.log("PartInitException: " + e.getMessage());
             	}
         }
         // define the job
