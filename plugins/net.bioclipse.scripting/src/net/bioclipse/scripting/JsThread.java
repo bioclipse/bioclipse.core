@@ -10,6 +10,9 @@ package net.bioclipse.scripting;
 
 import java.util.LinkedList;
 
+import net.bioclipse.core.util.LogUtils;
+
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -21,6 +24,7 @@ public class JsThread extends ScriptingThread {
     private LinkedList<JsAction> actions;
     private static boolean busy;
     private volatile IProgressMonitor monitor;
+    private Logger logger = Logger.getLogger( JsThread.class );
     
     public void run() {
         js = new JsEnvironment();
@@ -76,8 +80,16 @@ public class JsThread extends ScriptingThread {
                         }
                     }
                 }
-                result[0] = js.eval( nextAction.getCommand() );
-                
+                try {
+                    result[0] = js.eval( nextAction.getCommand() );
+                }
+                catch (Throwable t) {
+                    monitor.done();
+                    LogUtils.debugTrace( logger, t );
+                    nextAction.runPostCommandHook( 
+                        t.getClass().getSimpleName() + ": " + t.getMessage() );
+                   
+                }
                 synchronized ( wait ) {
                     wait[0] = false;
                     wait.notifyAll();
