@@ -315,7 +315,11 @@ public abstract class ScriptingConsoleView extends ViewPart {
      * Meant to be overridden by deriving classes.
      */
     protected String interceptDroppedString( String s ) {
-        return s;
+        // Fix for Windows, because single backslashes are treated as meta-
+        // characters in js strings. Note that the quadruple backslashes are
+        // needed because '\' is a metacharacter in Java strings as well as
+        // in the regex language.
+        return s.replaceAll("\\\\", "/");
     }
 
     public String currentCommand() {
