@@ -84,10 +84,9 @@ public class JsThread extends ScriptingThread {
                     result[0] = js.eval( nextAction.getCommand() );
                 }
                 catch (Throwable t) {
-                    monitor.done();
                     LogUtils.debugTrace( logger, t );
-                    nextAction.runPostCommandHook( 
-                        t.getClass().getSimpleName() + ": " + t.getMessage() );
+                    result[0] = 
+                        t.getClass().getSimpleName() + ": " + t.getMessage();
                    
                 }
                 synchronized ( wait ) {
