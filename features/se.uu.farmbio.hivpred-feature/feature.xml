@@ -2,7 +2,7 @@
 <feature
       id="se.uu.farmbio.hivpred_feature"
       label="Hivpred_feature Feature"
-      version="1.0.0"
+      version="2.0.0.B20090123"
       provider-name="Ola Spjuth"
       plugin="se.uu.farmbio.hivpred.client">
 
