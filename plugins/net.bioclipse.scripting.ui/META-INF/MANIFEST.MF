@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bioclipse Scripting UI
 Bundle-SymbolicName: net.bioclipse.scripting.ui;singleton:=true
-Bundle-Version: 2.0.0.A20081121
+Bundle-Version: 2.0.0.A20090123
 Bundle-Activator: net.bioclipse.scripting.ui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
