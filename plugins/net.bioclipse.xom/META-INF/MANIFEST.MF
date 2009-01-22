@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: XOM Plugin
 Bundle-SymbolicName: net.bioclipse.xom;singleton:=true
-Bundle-Version: 2.0.0.A20090123
+Bundle-Version: 2.0.0.B20090123
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.filebuffers,
@@ -17,5 +17,5 @@ Export-Package: net.xomtools,
  nu.xom.xslt
 Bundle-ClassPath: .,
  jars/xom-1.1.jar
-Bundle-Vendor: Bioclipse Team
+Bundle-Vendor: The Bioclipse Team
 Bundle-Activator: net.bioclipse.xom.Activator
