@@ -1,0 +1,6 @@
+
+a#overview-whatisbioclipse img { background-image : url(graphics/sample.gif); }
+a#overview-whatisbioclipse:hover img { background-image : url(graphics/sample_hov.gif); }
+
+a#weblink img { background-image : url(graphics/sample.gif); }
+a#weblink:hover img { background-image : url(graphics/sample_hov.gif); }

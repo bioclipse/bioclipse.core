@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<introContent>
+  	<extensionContent id="net.bioclipse.intro.workbench" style="css/sample.css" name="Bioclipse Workbench" path="overview/@">
+		<group style-id="content-group" id="workbench-group">
+       		<link label="What is Bioclipse?" url="http://org.eclipse.ui.intro/showPage?id=whatisBioclipse" id="overview-whatisbioclipse" style-id="content-link">
+          		<text>Bioclipse is a complete workbench and platform for life science. Learn here what this means.</text>
+       		</link>
+       		<link label="Bioclipse concepts" url="http://org.eclipse.ui.intro/showPage?id=bioclipseConcepts" id="overview-whatisbioclipse" style-id="content-link">
+          		<text>Learn the basic Bioclipse concepts, such as View, Editor, Perspective etc.</text>
+       		</link>
+       		<link label="Licensing" url="http://org.eclipse.ui.intro/showPage?id=licenses" id="overview-whatisbioclipse" style-id="content-link">
+          		<text>A description of copyright and licenses in Bioclipse.</text>
+       		</link>
+       		<link label="Go to workbench but keep introduction open" url="http://org.eclipse.ui.intro/setStandbyMode?standby=true" id="overview-whatisbioclipse">
+            <text>Go to workbench but keep introduction window open on side for assistance</text>
+         </link>
+       		
+       	</group>
+  	</extensionContent>
+
+  	
+	<page id="whatisBioclipse" style="/intro/overview.css" style-id="page">
+      <title style-id="intro-header">What is Bioclipse</title>
+      <include path="overview/navigation-links"/>
+      <group id="page-content">
+            <group id="content-header" label="What is Bioclipse" filteredFrom="swt">
+            </group>
+            <text style-id="page-title" id="page-title" filteredFrom="html">What is Bioclipse</text>
+            <text style-id="page-description" id="page-description">Bioclispe is a complete workbench for life science.</text>
+            <text style-id="page-description" id="page-description">To be continued.</text>
+	    <!-- Add content here -->
+      </group>
+      </page>
+      
+	<page id="bioclipseConcepts" style="/intro/overview.css" style-id="page">
+      <title style-id="intro-header">Bioclipse concepts</title>
+      <include path="overview/navigation-links"/>
+      <group id="page-content">
+            <group id="content-header" label="Bioclipse concepts" filteredFrom="swt">
+            </group>
+            <text style-id="page-title" id="page-title" filteredFrom="html">Bioclipse concepts</text>
+	    <!-- Add content here -->
+        <text style-id="page-content" id="page-content">Views</text>
+            <text style-id="page-description" id="page-description">
+            In Bioclipse, a View is a window that provides some graphical interface to present 
+            something for a user, and might let him interact with it. Examples are the BioResource 
+            Navigator, the Jmol View and the properties view.</text>
+            <link label="More about Views (Bioclipse Help)" url="http://org.eclipse.ui.intro/showHelpTopic?id=/net.bioclipse.ui/html/workbench/wb_views.html" id="weblink" />
+            
+
+        <text style-id="page-content" id="page-content">Editors</text>
+            <text style-id="page-description" id="page-description">
+            An Editor is focused on letting the user edit an underlying model and 
+            follows the load-save cycle. An example is a simple editor for text-files, 
+            but could also be more advanced such as a graphical objects editor like 
+            the JchemPaint editor.</text>
+            <link label="More about Editors (Bioclipse Help)" url="http://org.eclipse.ui.intro/showHelpTopic?id=/net.bioclipse.ui/html/workbench/wb_editors.html" id="weblink" />
+            
+        <text style-id="page-content" id="page-content">Perspectives</text>
+            <text style-id="page-description" id="page-description">
+			Perspectives are collections of editors and views that are grouped 
+			into a page on screen, e.g. the Chemoinformatics perspective in Bioclipse 
+			displays views and editors for working with molecules.
+            </text>
+            <link label="More about Perspectives (Bioclipse Help)" url="http://org.eclipse.ui.intro/showHelpTopic?id=/net.bioclipse.ui/html/workbench/wb_perspectiveBar.html" id="weblink" />
+           
+        <text style-id="page-content" id="page-content">Plugins</text>
+            <text style-id="page-description" id="page-description">
+			Bioclipse is completely made up of plugins. The core of Bioclipse is itself 
+			a set of plugins with the most basic functionality, standard views, and 
+			editors. The rest of the functionality is contributed via plugins. For example 
+			does the Jmol plugin contribute a 3D-visualization based on Jmol, CDK provides 
+			molecular management and analysis using the CDK libraries etc. This 
+			means that a certain plugin must be installed in order for its 
+			functionality to be available for the user. This is powerful in many 
+			ways; A user may select to run only the desired plugins and not 
+			clutter the workbench with unused functionality, and developers have a perfect 
+			framework for plugging in their own extensions to Bioclipse and not interfere with other.
+			</text>
+      </group>
+      </page>
+
+	<page id="licenses" style="/intro/overview.css" style-id="page">
+      <title style-id="intro-header">Licensing</title>
+      <include path="overview/navigation-links"/>
+      <group id="page-content">
+            <group id="content-header" label="Bioclipse licenses" filteredFrom="swt">
+            </group>
+            <text style-id="page-title" id="page-title" filteredFrom="html">Bioclipse licenses</text>
+	    <!-- Add content here -->
+        <text style-id="page-content" id="page-content">The Bioclipse Platform</text>
+            <text style-id="page-description" id="page-description">
+			Bioclipse contains plugins, whose code uses a number of different licenses. The 
+			Bioclipse platform, consisting of the core plugins, is licensed as EPL. The EPL 
+			allows Bioclipse plugins to have other licenses, including commercial.
+            </text>
+       		<link label="Link to EPL license" url="http://org.eclipse.ui.intro/openURL?url=html/epl-v10.html&amp;?pluginId=net.bioclipse.ui" class="link" id="weblink" style-id="content-link" />
+
+        <text style-id="page-content" id="page-content">EPL-GPL Statement</text>
+            <text style-id="page-description" id="page-description">
+			The GNU Public License (GPL) is a bit special here, and is considered 
+			not to be compatible with the EPL. Indeed, a EPL licensed plugin may not 
+			use GPL code, which is why the bc_biojava plugin is licensed GPL. Making a 
+			GPL project based on EPL code is considered not possible too, while the 
+			EPL puts some restrictions on the licensing patents, which are incompatible 
+			with the GPL. However, the Bioclipse project considers plugins not to extend 
+			the Bioclipse platform, consisting of the bioclipse + com.tools.logging plugins, 
+			and are not considered a derivative product, and we hereby approve GPL 
+			licensed plugins for Bioclipse.             
+            </text>
+
+      </group>
+      </page>
+
+</introContent>

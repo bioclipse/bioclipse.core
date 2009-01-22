@@ -41,6 +41,7 @@
          point="org.eclipse.core.runtime.products">
       <product
             name="Bioclipse"
+            description="The Bioclipse workbench for life science"
             application="net.bioclipse.ui.application">
          <property
                name="windowImages"
@@ -74,8 +75,19 @@
                name="aboutText"
                value="Version: 2.0.0.A20080808&#x0A;&#x0A;Copyright (c) 2005-2008 Bioclipse Project&#x0A; All rights reserved. This program and the accompanying materials&#x0A; are made available under the terms of the Eclipse Public License v1.0&#x0A; which accompanies this distribution, and is available at&#x0A; http://www.eclipse.org/legal/epl-v10.html&#x0A;&#x0A; Main contributors:&#x0A;   Ola Spjuth&#x0A;   Jonathan Alvarsson&#x0A;   Carl Mäsak&#x0A;   Arvid Berg&#x0A;   Eskil Anderssen&#x0A;   Egon Willighagen&#x0A;   Johannes Wagener&#x0A;   Stefan Kuhn&#x0A;   Martin Eklund&#x0A;   Christoph Steinbeck&#x0A;   Jarl E.S. Wikberg&#x0A;&#x0A;See http://www.bioclipse.net for more information">
          </property>
+          <property
+            name="introTitle"
+            value="Welcome to Bioclipse 2.0 beta"/>
+      <property
+            name="introBrandingImage"
+            value="product:eclipse.png"/>
+      <property
+            name="introBrandingImageText"
+            value="The Bioclipse Team"/>
+         
       </product>
    </extension>
+   
    <extension
          point="org.eclipse.ui.intro">
       <intro
@@ -83,10 +95,11 @@
             id="net.bioclipse.ui.intro">
       </intro>
       <introProductBinding
-            introId="net.bioclipse.ui.intro"
+            introId="org.eclipse.ui.intro.universal"
             productId="net.bioclipse.ui.product">
       </introProductBinding>
    </extension>
+   
    <extension
          point="org.eclipse.ui.intro.config">
       <config
@@ -102,8 +115,45 @@
          </presentation>
       </config>
    </extension>
+   
+      <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="org.eclipse.ui.preferencePages.Workbench"
+            class="org.eclipse.ui.intro.universal.ExtensionFactory:welcomeCustomization"
+            id="net.bioclipse.intro.introCustomization"
+            name="Welcome">
+         <keywordReference id="org.eclipse.ui.ide.appearance"/>
+      </page>
+   </extension>
+   
+      <extension
+         point="org.eclipse.ui.intro.configExtension">
+      <configExtension
+            content="intro/overview.xml"
+            configId="org.eclipse.ui.intro.universalConfig">
+      </configExtension>
+      <configExtension
+            content="intro/firststeps.xml"
+            configId="org.eclipse.ui.intro.universalConfig">
+      </configExtension>
+      <configExtension
+            content="intro/tutorials.xml"
+            configId="org.eclipse.ui.intro.universalConfig">
+      </configExtension>
+      <configExtension
+            content="intro/samples.xml"
+            configId="org.eclipse.ui.intro.universalConfig">
+      </configExtension>
+      <configExtension
+            content="intro/webresources.xml"
+            configId="org.eclipse.ui.intro.universalConfig">
+      </configExtension>
+      
+   </extension>
+   
    <extension
-         point="org.eclipse.ui.views">
+          point="org.eclipse.ui.views">
          <category
                id="net.bioclipse.ui.category"
                name="Bioclipse">
@@ -119,12 +169,12 @@
    </extension>
    <extension
          point="org.eclipse.ui.navigator.viewer">
-      <viewer
+      <viewer 
             viewerId="net.bioclipse.navigator">
-         <popupMenu
+         <popupMenu 
                allowsPlatformContributions="true"
                id="net.bioclipse.navigator#PopupMenu">
-            <insertionPoint
+            <insertionPoint 
                   name="group.new">
             </insertionPoint>
             <insertionPoint

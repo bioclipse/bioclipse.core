@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<introContent>
+  	  	<extensionContent id="net.bioclipse.intro.workbench.tutorials" style="css/sample.css" name="Bioclipse Tuturials" path="tutorials/@">
+		<group style-id="content-group" id="tutorials-group">
+
+       		<link label="Getting started with Bioclipse" url="http://org.eclipse.ui.intro/showHelpTopic?id=/net.bioclipse.ui/html/about.html" id="biuoclipse-tutirials" style-id="content-link">
+          		<text>Learn the basics with Bioclipse.</text>
+       		</link>
+
+      		<link label="Help about" url="http://org.eclipse.ui.intro/showHelpTopic?id=/net.bioclipse.ui/html/about.html" id="about">
+            <text>Test help about</text>
+         </link>
+
+      		<link label="Hello world cheatsheet" url="http://org.eclipse.ui.intro/showStandby?partId=org.eclipse.platform.cheatsheet&amp;input=org.eclipse.pde.helloworld" id="about2" >
+            <text>Test hello cheat</text>
+	         </link>
+       	</group>
+  	</extensionContent>
+  	
+</introContent>
