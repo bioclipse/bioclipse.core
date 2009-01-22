@@ -9,7 +9,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.ide,
  org.eclipse.core.resources,
- net.bioclipse.cdk.business,
  net.bioclipse.core
 Eclipse-LazyStart: true
 Import-Package: org.apache.log4j
