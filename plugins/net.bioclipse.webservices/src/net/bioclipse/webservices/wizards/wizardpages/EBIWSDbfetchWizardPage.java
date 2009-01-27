@@ -301,7 +301,7 @@ public class EBIWSDbfetchWizardPage extends WizardPage implements IDoPerformFini
 		final String query = combo_dbs.getText() + ":" + text_query.getText();
 		final String format = combo_formats.getText();
 		final String style = combo_styles.getText();
-		final String filename = combo_dbs.getText() + "_" + text_query.getText() + "." + format;
+		final String filename = text_query.getText() + "." + format;
 		// in example EMBL:AY310909
 		
 		// show progress window		

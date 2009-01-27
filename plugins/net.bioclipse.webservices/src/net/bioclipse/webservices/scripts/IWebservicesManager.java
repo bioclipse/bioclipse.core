@@ -24,12 +24,11 @@ import net.bioclipse.core.business.IBioclipseManager;
 public interface IWebservicesManager extends IBioclipseManager {
 
     /**
-     * Fetches an entry from the EBI databases.
-     *
-     * @param path The id to load
+     * Fetches a pdb entry from the EBI databases.
+     * @param path The id of the pdb file to load
      * @return loaded entry
      * @throws BioclipseException
-     * @throws CoreException 
+     * @throws CoreException
      */
     @Recorded
     @PublishedMethod( params = "String pdbid, String filename", 

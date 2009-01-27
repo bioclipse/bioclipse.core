@@ -8,18 +8,12 @@ package net.bioclipse.webservices.wizards.wizardpages;
  *
  */
 
-import java.io.ByteArrayInputStream;
 import java.lang.reflect.InvocationTargetException;
 
-import net.bioclipse.webservices.WebservicesConstants;
+import net.bioclipse.webservices.ResourceCreator;
 import net.bioclipse.webservices.wizards.WebServiceWizardData;
 
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -121,39 +115,17 @@ public class OpenResourceWizardPage extends WizardPage implements IDoPerformFini
 		}
 	}
 	
-	private void CreateResource(IProgressMonitor monitor) throws CoreException {
-		monitor.worked(1);
-		monitor.subTask("new resource");
-		
-		//If null, create the virtual folder to hold results
-		IProject root = net.bioclipse.core.Activator.getVirtualProject();
-		if(!root.exists(new Path(WebservicesConstants.WEBSERVICES_VIRTUAL_FOLDER))) {
-			root.getFolder(WebservicesConstants.WEBSERVICES_VIRTUAL_FOLDER).create(true,true, new NullProgressMonitor());
-		}
-		IFolder wsVirtualFolder=root.getFolder(new Path(WebservicesConstants.WEBSERVICES_VIRTUAL_FOLDER));
-		monitor.worked(1);
-		monitor.subTask("load file data");
-
-		String searchResult = data.GetSearchResult();
-		
-		if (searchResult == null)
-			searchResult = "* error: no valid data. *";
-		
-		wsVirtualFolder.getFile(text_filename.getText()).create(new ByteArrayInputStream(searchResult.getBytes()), false, monitor);
-		monitor.worked(1);
-		monitor.subTask("parsing resource");
-		monitor.worked(1);
-	}
-
 	public boolean DoPerformFinish() {
 		boolean success = true;
 		IRunnableWithProgress runnable = new IRunnableWithProgress() {
 			public void run(IProgressMonitor monitor) throws InvocationTargetException {
 				monitor.beginTask("Creating BioResource", 5);
 				try {
-					CreateResource(monitor);
+					ResourceCreator.createResource(
+							text_filename.getText(), data.GetSearchResult(),
+							monitor);
 					monitor.done();
-				} catch (CoreException e) {
+				} catch (Exception e) {
 					throw new InvocationTargetException(e, e.getMessage());
 				}
 			}
@@ -169,10 +141,4 @@ public class OpenResourceWizardPage extends WizardPage implements IDoPerformFini
 		}
 		return success;
 	}
-	
-	/*private void throwCoreException(String message) throws CoreException {
-		IStatus status =
-			new Status(IStatus.ERROR, "net.bioclipse.webservices", IStatus.OK, message, null);
-		throw new CoreException(status);
-	}*/
 }
