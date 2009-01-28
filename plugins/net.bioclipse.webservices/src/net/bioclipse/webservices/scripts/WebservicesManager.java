@@ -2,11 +2,10 @@ package net.bioclipse.webservices.scripts;
 
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.webservices.ResourceCreator;
+import net.bioclipse.webservices.services.WSDbfetch;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-
-import uk.ac.ebi.www.ws.services.WSDbfetch.WSDbfetchSoapBindingStub;
 
 public class WebservicesManager implements IWebservicesManager{
 
@@ -30,9 +29,12 @@ public class WebservicesManager implements IWebservicesManager{
 					+ filename + " exists already.");
 		
 		try {
-			WSDbfetchSoapBindingStub wsdbfetch = new WSDbfetchSoapBindingStub();
+			WSDbfetch wsdbfetch = new WSDbfetch();
 			
-			String pdb_file = wsdbfetch.fetchData(pdbid, "pdb", "raw");
+			pdbid = "pdb:" + pdbid;
+			
+			String pdb_file = wsdbfetch.fetchData(pdbid,
+					"pdb", "raw", new NullProgressMonitor());
 
 			if (pdb_file==null || pdb_file.equals("")){
 				throw new BioclipseException("Error, no PDB found with id: " + pdbid);
