@@ -1,11 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2007-2008 Bioclipse Project
+ * Copyright (c) 2007-2009 Bioclipse Project
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors: Jonathan Alvarsson
+ *               Arvid Berg <goglepox@users.sf.net>
  *
  *******************************************************************************/
 package net.bioclipse.core;
@@ -24,6 +25,15 @@ import org.eclipse.core.runtime.Path;
 
 
 /**
+ * Class with utility methods for converting a String to a file reference of
+ * type IFile. If the string reference a file not in the Workspace a linked file
+ * is created in the Virtual project which points to the file.
+ * When the string that starts with a '/' it will check if the project exists if
+ * it dose not it will assume it is a absolute path on a UNIX/OSX type system
+ * where '/' indicates the root in the file system.
+ *
+ * This class is a singleton.
+ *
  * @author jonalv
  *
  */
@@ -36,6 +46,11 @@ public class ResourcePathTransformer {
 
     }
 
+    /**
+     * Used to get a instance of this class
+     *
+     * @return a singleton instance of this utility class
+     */
     public static ResourcePathTransformer getInstance() {
         return instance;
     }
@@ -112,6 +127,7 @@ public class ResourcePathTransformer {
     private IFile createAlternativeFile( IFile file ) {
         return createAlternativeFile( file, 0 );
     }
+
     private IFile createAlternativeFile( IFile file , int count) {
         int MAX_RECURSION = 10;
         if (count > MAX_RECURSION) return null;
