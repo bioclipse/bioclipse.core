@@ -2,12 +2,9 @@
 use strict;
 
 use YAML;
-use HTML::EscapeEvil;
 
 my $a = join "", <>;
 my $h = Load($a);
-
-my $escaper = HTML::EscapeEvil->new();
 
 print '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">' . "\n<html><head><title>Manager documentation</title><style type='text/css'>body { font-size: 80%; font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif; } h2 { border-bottom: solid 1px black; }\n\n.description { background: #fcc; border: solid 1px #800; padding: 1em; } .method { background: #ccc; border: solid 1px #444; padding: 0.5em 1em 0.5em 1em; margin: 1em; }</style></head>\n<body>\n";
 
@@ -30,8 +27,14 @@ for my $manager (@managers) {
         for my $kk (qw<summary params>) {
             my @a = @{$m->{$k}};
             for my $plx (@a) {
-                my $vv = $escaper->parse($plx->{$kk} || '')->filtered_html();
-                $escaper->clear();
+                my $vv = $plx->{$kk} || '';
+                # Used HTML::EscapeEvil, but the module truncated the text for
+                # some reason. Doing it manually instead.
+                $vv =~ s/&/\&amp;/;
+                $vv =~ s/</\&lt;/;
+                $vv =~ s/>/\&gt;/;
+                $vv =~ s/'/\&quot;/;
+                $vv =~ s/"/\&#34;/;
                 if ($vv) {
                     print "<dt>$kk</dt><dd>$vv</dd>\n"
                 }
