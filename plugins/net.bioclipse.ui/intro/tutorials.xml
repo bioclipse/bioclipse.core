@@ -4,16 +4,15 @@
 		<group style-id="content-group" id="tutorials-group">
 
        		<link label="Getting started with Bioclipse" url="http://org.eclipse.ui.intro/showHelpTopic?id=/net.bioclipse.ui/html/about.html" id="biuoclipse-tutirials" style-id="content-link">
-          		<text>Learn the basics with Bioclipse.</text>
+          		<text>Learn the basics with Bioclipse using this article in the Bioclipse Help system.</text>
        		</link>
 
-      		<link label="Help about" url="http://org.eclipse.ui.intro/showHelpTopic?id=/net.bioclipse.ui/html/about.html" id="about">
-            <text>Test help about</text>
-         </link>
-
-      		<link label="Hello world cheatsheet" url="http://org.eclipse.ui.intro/showStandby?partId=org.eclipse.platform.cheatsheet&amp;input=org.eclipse.pde.helloworld" id="about2" >
-            <text>Test hello cheat</text>
+      		<link label="Introductory Bioclipse CheatSheet" url="http://org.eclipse.ui.intro/showStandby?partId=net.bioclipse.cheatsheet&amp;input=net.bioclipse.cheatsheets.basics" id="about2" >
+            <text>A CheatSheet is an interactive tutorial from inside the workbench.
+            This chetsheet takes you through the first steps of Bioclipse.
+            </text>
 	         </link>
+	         
        	</group>
   	</extensionContent>
   	

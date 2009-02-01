@@ -6,9 +6,17 @@
 			<link label="What can I do with Bioclipse?" url="http://org.eclipse.ui.intro/showPage?id=whatcanIdo" id="overview-whatisbioclipse" style-id="content-link">
           		<text>Learn the basic tasks of Bioclipse</text>
        		</link>
-       		<link label="Installing more Features" url="http://org.eclipse.ui.intro/showHelpTopic?id=/net.bioclipse.ui/html/tutorials/updating.html" id="bioclipse-tutoirials-update" style-id="content-link">
-          		<text>How to extend the functionality of Bioclipse.</text>
+ 
+      		<link label="Introductory CheatSheet" url="http://org.eclipse.ui.intro/showStandby?partId=net.bioclipse.cheatsheet&amp;input=net.bioclipse.cheatsheets.basics" id="about2" >
+            <text>A CheatSheet is an interactive tutorial from inside the workbench.
+	            This chetsheet takes you through the first steps of Bioclipse.
+            </text>
+	         </link>
+       		
+			<link label="Installing more features" url="http://org.eclipse.ui.intro/showPage?id=installing" id="overview-whatisbioclipse" style-id="content-link">
+          		<text>Learn how to download and install more features into Bioclipse</text>
        		</link>
+       		
       		<link label="Bioclipse Help" url="http://org.eclipse.ui.intro/showHelp" id="about">
             <text>Go to the Bioclispe help system</text>
          </link>
@@ -22,6 +30,19 @@
             <group id="content-header" label="What can I do with Bioclipse?" filteredFrom="swt">
             </group>
             <text style-id="page-title" id="page-title" filteredFrom="html">What can I do with Bioclipse?</text>
+	    <!-- Add content here -->
+            <text style-id="page-description" id="page-content">Header 1</text>
+            <text style-id="page-description" id="page-description">You can do a lot</text>
+      </group>
+      </page>
+      
+      	<page id="installing" style="/intro/overview.css" style-id="page">
+      <title style-id="intro-header">Installing more features</title>
+      <include path="overview/navigation-links"/>
+      <group id="page-content">
+            <group id="content-header" label="Installing more features" filteredFrom="swt">
+            </group>
+            <text style-id="page-title" id="page-title" filteredFrom="html">Installing more features</text>
 	    <!-- Add content here -->
             <text style-id="page-description" id="page-content">Header 1</text>
             <text style-id="page-description" id="page-description">You can do a lot</text>

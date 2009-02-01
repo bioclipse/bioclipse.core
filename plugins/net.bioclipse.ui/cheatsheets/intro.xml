@@ -19,10 +19,9 @@
 			All files and folders need to be located in a Project. 
 			You can easily create new Projects, Folders, and Files by right-clicking 
 			in the Bioclipse Navigator.
-			
-			Now, create a new General Project from the File< menu. 
-			Name the project "My Test Project".
-		    <br />
+
+			Now, create a new General Project from the menu File > New... option 
+			and name the project "My Test Project".
 		</description>
 	</item>
 
