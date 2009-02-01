@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cheatsheet title="Introduction to the Bioclipse workbench">
+	<intro>
+		<description>
+			This tutorial describes the basics of the Bioclipse workbench.
+		</description>
+	</intro>
+
+	<item title="Step 1: Create a Project">
+		<description>
+			The Bioclipse Navigator (also known as the Bioclipse Explorer) 
+			is the central view in Bioclipse for working woth resources, such as files. 
+			By default it is located to the left in the workbench and points to a 
+			a special folder on the computer called the "Workspace", which is a 
+			special folder on your computer where all the data in Bioclipse is stored and accessed.
+
+			Everything listed in the Navigator is a Resource, and the top level 
+			Resources are called Projects which can contain folders and/or files. 
+			All files and folders need to be located in a Project. 
+			You can easily create new Projects, Folders, and Files by right-clicking 
+			in the Bioclipse Navigator.
+			
+			Now, create a new General Project from the File< menu. 
+			Name the project "My Test Project".
+		    <br />
+		</description>
+	</item>
+
+	<item title="Step 2: Create a new molecule">
+		<description>
+			Right-click on the created project in the Bioclipse Navigator, and select: 
+			New... Then select Molceule from Smiles.
+			
+			Double-click the molecule to open it in JChemPaint Editor. 
+		
+		</description>
+	</item>
+
+	<item title="Step 3: Edit the Molecule">
+		<description>
+			edit
+			use outline
+			watch properties
+			
+		</description>
+	</item>
+
+	<item title="Step 4: Save the Molecule">
+		<description>
+			TBC
+		</description>
+	</item>
+
+	<item title="Step 5: Use the Javascript Console">
+		<description>
+			do some cdk stuff
+		</description>
+	</item>
+
+	<item title="Step 6: Using Help">
+		<description>
+			In the Help menu, select "Help Contents". A browser window should open and reveal the Bioclipse online help. 
+			This is the	main source for documentaion in Bioclipse.<br /><br />
+			
+			Read the following tutorials (in "Bioclipse User Manual" -> 'Tutorials"):<br /><br />
+			
+			* Getting started with Bioclipse<br />
+			* External applications in Bioclipse<br />
+
+		</description>
+	</item>
+
+</cheatsheet>

@@ -521,5 +521,20 @@
      </extension>  
 
 
+   <extension
+         id="net.bioclipse.tutorials"
+         point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+      <category
+            id="net.bioclipse.cheatsheets.basics"
+            name="Bioclipse basics"/>
+      <cheatsheet
+            category="net.bioclipse.cheatsheets.basics"
+            composite="false"
+            contentFile="cheatsheets/intro.xml"
+            id="net.bioclipse.cheatsheets.basics"
+            name="Using the Bioclipse Workbench"/>
+   </extension>
+
+
 
 </plugin>
