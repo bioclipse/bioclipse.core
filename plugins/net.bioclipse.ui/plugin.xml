@@ -33,6 +33,7 @@
       <perspective
             name="Default"
             class="net.bioclipse.ui.DefaultPerspective"
+            icon="icons/logo/logo_16_trans.gif"
             id="net.bioclipse.ui.Perspective">
       </perspective>
    </extension>

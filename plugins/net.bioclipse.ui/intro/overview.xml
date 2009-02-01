@@ -1,34 +1,65 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <introContent>
-  	<extensionContent id="net.bioclipse.intro.workbench" style="css/sample.css" name="Bioclipse Workbench" path="overview/@">
+  	<extensionContent id="net.bioclipse.intro.workbench" style="css/intro.css" name="Bioclipse Workbench" path="overview/@">
 		<group style-id="content-group" id="workbench-group">
-       		<link label="What is Bioclipse?" url="http://org.eclipse.ui.intro/showPage?id=whatisBioclipse" id="overview-whatisbioclipse" style-id="content-link">
+       		<link label="What is Bioclipse?" url="http://org.eclipse.ui.intro/showPage?id=whatisBioclipse" id="mainitem" style-id="content-link">
           		<text>Bioclipse is a complete workbench and platform for life science. Learn here what this means.</text>
        		</link>
-       		<link label="Bioclipse concepts" url="http://org.eclipse.ui.intro/showPage?id=bioclipseConcepts" id="overview-whatisbioclipse" style-id="content-link">
+       		<link label="Bioclipse concepts" url="http://org.eclipse.ui.intro/showPage?id=bioclipseConcepts" id="mainitem" style-id="content-link">
           		<text>Learn the basic Bioclipse concepts, such as View, Editor, Perspective etc.</text>
        		</link>
-       		<link label="Licensing" url="http://org.eclipse.ui.intro/showPage?id=licenses" id="overview-whatisbioclipse" style-id="content-link">
+       		<link label="Licensing" url="http://org.eclipse.ui.intro/showPage?id=licenses" id="mainitem" style-id="content-link">
           		<text>A description of copyright and licenses in Bioclipse.</text>
        		</link>
-       		<link label="Go to workbench but keep introduction open" url="http://org.eclipse.ui.intro/setStandbyMode?standby=true" id="overview-whatisbioclipse">
-            <text>Go to workbench but keep introduction window open on side for assistance</text>
-         </link>
-       		
+       		<link label="Go to workbench but keep introduction open" url="http://org.eclipse.ui.intro/setStandbyMode?standby=true" id="mainitem">
+   		         <text>Go to workbench but keep introduction window open on side for assistance</text>
+            </link>
+       		<link label="Documentation" url="http://org.eclipse.ui.intro/showPage?id=documentation" id="mainitem" style-id="content-link">
+            	<text>The various ways for finding out about the different sources of documentation that exists for Bioclipse</text>
+         	</link>
        	</group>
   	</extensionContent>
 
   	
 	<page id="whatisBioclipse" style="/intro/overview.css" style-id="page">
+
       <title style-id="intro-header">What is Bioclipse</title>
       <include path="overview/navigation-links"/>
       <group id="page-content">
             <group id="content-header" label="What is Bioclipse" filteredFrom="swt">
             </group>
+            <img src="images/jcpFull400.png" style-id="image-right" id="image-right"/>
+            
             <text style-id="page-title" id="page-title" filteredFrom="html">What is Bioclipse</text>
-            <text style-id="page-description" id="page-description">Bioclispe is a complete workbench for life science.</text>
-            <text style-id="page-description" id="page-description">To be continued.</text>
-	    <!-- Add content here -->
+            <text style-id="page-description" id="page-description">
+            Bioclipse is a complete workbench for life science, including chemo- and bioinformatics 
+            (e.g. small molecules, sequences, proteins, spectra) and provides 
+            editing of chemical structures in 2D, interactive visualization of 
+            chemical structures in 3D, conversion between common file formats in 
+            life science, various analysis tools and much more - all 
+            fully integrated into a user-friendly desktop application.
+            </text>
+
+            <text style-id="page-description" id="page-description">
+            Bioclipse is a Java-based open source project based on the 
+            Eclipse Rich Client Platform with its state-of-the-art plugin 
+            architecture. This gives Bioclipse a huge advantage over other 
+            systems, as it can easily be extended for adding 
+            functionality in any direction.
+            </text>
+
+	        <text style-id="page-content" id="page-content">
+            Bioclipse original publication
+            </text>
+            <text style-id="page-description" id="page-description">
+			Ola Spjuth, Tobias Helmus, Egon L Willighagen, Stefan Kuhn, Martin Eklund, Johannes Wagener, Peter Murray-Rust, Christoph Steinbeck, Jarl E.S. Wikberg. 
+            Bioclipse: An open source workbench for chemo- and bioinformatics. 
+			BMC Bioinformatics 2007, 8:59 (22 February 2007)
+            </text>
+			
+			<link label="Link to Bioclipse original article (Open Acces)" url="http://www.biomedcentral.com/1471-2105/8/59/abstract" id="weblink" style-id="weblink" />
+            
+
       </group>
       </page>
       
@@ -107,6 +138,39 @@
 			the Bioclipse platform, consisting of the bioclipse + com.tools.logging plugins, 
 			and are not considered a derivative product, and we hereby approve GPL 
 			licensed plugins for Bioclipse.             
+            </text>
+
+      </group>
+      </page>
+      
+      	<page id="documentation" style="/intro/overview.css" style-id="page">
+      <title style-id="intro-header">Documentation</title>
+      <include path="overview/navigation-links"/>
+      <group id="page-content">
+            <group id="content-header" label="Sources for documentation" filteredFrom="swt">
+            </group>
+            <text style-id="page-title" id="page-title" filteredFrom="html">Sources of documentation</text>
+
+        <text style-id="page-content" id="page-content">Bioclipse help system</text>
+            <text style-id="page-description" id="page-description">
+            The Bioclipse help system is the main resource for documentation of Bioclipse. 
+            Here you find a searchable collection of documents, tutorials, and 
+            reference documentation for the various installed features. 
+            After you download and install a new feature, it might be good to 
+            re-visit the Help system as new documentation might be available.
+            The Bioclipse help system is accesible from inside the Bioclipse Workbench 
+            via the menu Help > Help Contents.
+            </text>
+            <link label="Link to Bioclipse Help" url="http://org.eclipse.ui.intro/showHelp" id="about" />
+            
+
+        <text style-id="page-content" id="page-content">Bioclipse Frequently Asked Questions (FAQ)</text>
+       		<link label="Link to FAQ on Bioclipse wiki" url="http://wiki.bioclipse.net/index.php?title=FAQ" id="weblink" style-id="content-link" />
+
+        <text style-id="page-content" id="page-content">Bioclipse Welcome page</text>
+            <text style-id="page-description" id="page-description">
+            This is the page you are currently reading! In the top menu you have many 
+            alternatives to discover the many features of Bioclipse.
             </text>
 
       </group>

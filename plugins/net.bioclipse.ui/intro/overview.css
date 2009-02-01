@@ -11,6 +11,7 @@
 
 body {
 	background-image : url(../graphics/contentpage/overview_wtr.jpg);
+
 }
 
 /* show the "selected" image for this page */
@@ -20,3 +21,7 @@ body {
 #navigation-links a#overview:active img {
 	background-image : url(../graphics/icons/ctool/overview48sel.gif); 
 }
+
+a#weblink { text-align: left; color: #FF0000;}
+.weblink { text-align: left; color: #FF0000;}
+image-right {horizontal-align: right;}
