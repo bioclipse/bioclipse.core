@@ -108,6 +108,33 @@
 			clutter the workbench with unused functionality, and developers have a perfect 
 			framework for plugging in their own extensions to Bioclipse and not interfere with other.
 			</text>
+			
+			        <text style-id="page-content" id="page-content">Workspace</text>
+            <text style-id="page-description" id="page-description">
+            The Bioclipse Navigator (aka Bioclipse Explorer) points to a special folder on 
+            the computer called the "Workspace". In the workspace, Bioclipse has control over the 
+            content and can listen and act on changes to files and folders in real time.
+            
+            The workspace contains a collection of resources. From the user's perspective, 
+            there are three different types of resources: 
+            projects, folders, and files. 
+            
+            A project is a collection of any number of files and folders. 
+            It is a container for organizing other resources that relate to a specific area. 
+            Files and folders are just like files and directories in the file system. 
+            A folder contains other folders or files. 
+            A file contains an arbitrary sequence of bytes. 
+            There is only one Workspace open at any time.
+            
+            Projects contain files and folders, but not other projects. 
+            Projects and folders are like directories in a file system.  
+            When you delete a project, you will be asked whether you want to 
+            delete all of the files and folders that it contains.  
+            Deleting a folder from a project will delete the folder and all 
+            of its children. 
+            Deleting a file is analogous to deleting a file in the file system. 
+            
+			</text>
       </group>
       </page>
 
