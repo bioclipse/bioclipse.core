@@ -48,7 +48,7 @@ public class ResourceCreator {
 		return getVirtualFolder().getFile(filename).exists();
 	}
 	
-	public static void createResource(String filename,
+	public static IFile createResource(String filename,
 			String file_data,
 			IProgressMonitor monitor)
 		throws CoreException, BioclipseException {
@@ -68,5 +68,7 @@ public class ResourceCreator {
 		monitor.worked(1);
 		monitor.subTask("parsing resource");
 		monitor.worked(1);
+		
+		return file;
 	}
 }
