@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<molecule xmlns="http://www.xml-cml.org/schema/cml2/core" id="Propan-2-ol">
+ <atomArray>
+  <atom id="a1" elementType="H" x3="-1.924200" y3="0.041800" z3="-0.951700"/>
+  <atom id="a2" elementType="C" x3="-2.484900" y3="-0.022300" z3="-1.889300"/>
+  <atom id="a3" elementType="H" x3="-2.213800" y3="0.861600" z3="-2.475600"/>
+  <atom id="a4" elementType="H" x3="-2.155400" y3="-0.914500" z3="-2.430200"/>
+  <atom id="a5" elementType="C" x3="-3.980600" y3="-0.059800" z3="-1.613900"/>
+  <atom id="a6" elementType="H" x3="-4.215000" y3="-0.926200" z3="-0.987100"/>
+  <atom id="a7" elementType="O" x3="-4.332200" y3="1.116100" z3="-0.888600"/>
+  <atom id="a8" elementType="H" x3="-5.165800" y3="0.935800" z3="-0.420700"/>
+  <atom id="a9" elementType="C" x3="-4.787500" y3="-0.117200" z3="-2.904600"/>
+  <atom id="a10" elementType="H" x3="-4.608800" y3="0.770100" z3="-3.520400"/>
+  <atom id="a11" elementType="H" x3="-4.539100" y3="-1.006300" z3="-3.492000"/>
+  <atom id="a12" elementType="H" x3="-5.859700" y3="-0.134900" z3="-2.687300"/>
+ </atomArray>
+ <bondArray>
+  <bond atomRefs2="a1 a2" order="1"/>
+  <bond atomRefs2="a2 a3" order="1"/>
+  <bond atomRefs2="a2 a4" order="1"/>
+  <bond atomRefs2="a2 a5" order="1"/>
+  <bond atomRefs2="a5 a6" order="1"/>
+  <bond atomRefs2="a5 a7" order="1"/>
+  <bond atomRefs2="a5 a9" order="1"/>
+  <bond atomRefs2="a7 a8" order="1"/>
+  <bond atomRefs2="a9 a10" order="1"/>
+  <bond atomRefs2="a9 a11" order="1"/>
+  <bond atomRefs2="a9 a12" order="1"/>
+ </bondArray>
+</molecule>

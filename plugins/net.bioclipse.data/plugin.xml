@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="net.bioclipse.data.install" name="installdata" schema="schema/net.bioclipse.data.install.exsd"/>
+
+   <extension
+      point = "org.eclipse.ui.newWizards">
+	<category
+	   id = "net.bioclipse.data"
+	   name="Data">
+	</category>
+ 	<wizard
+	   id = "net.bioclipse.data.wizards.NewSampleDataProjectWizard"
+	   name = "New Sample Data Project"
+	   project="true"
+	   class="net.bioclipse.data.wizards.NewDataProjectWizard"
+	   category="net.bioclipse.data"
+	   icon="icons/dbs_16.gif">
+   	   <description>Install a new Project with Sample Data</description>
+	   <selection class="org.eclipse.core.resources.IResource"/>
+	</wizard>
+</extension>
+
+<extension
+      point="net.bioclipse.data.install">
+      <folder 
+      	name="2D structures"
+      	description="Sample structures with 2D coordinates"
+      	location="data/2DStructures"
+      />
+      <folder 
+      	name="3D Structures"
+      	description="Sample structures with 3D coordinates"
+      	location="data/3DStructures"
+      />
+      <folder 
+      	name="Javascripts"
+      	description="Sample scripts in Javascript"
+      	location="data/Javascripts"
+      />
+      <folder 
+      	name="SDF"
+      	description="Sample SDFiles"
+      	location="data/SDF"
+      />
+      <folder 
+      	name="PDB"
+      	description="Sample files in PDB format"
+      	location="data/PDB"
+      />
+</extension>
+
+</plugin>

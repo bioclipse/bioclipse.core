@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<molecule xmlns="http://www.xml-cml.org/schema/cml2/core" id="Pentanal">
+ <atomArray>
+  <atom id="a1" elementType="C" x3="-1.004600" y3="-0.690400" z3="0.934700"/>
+  <atom id="a2" elementType="C" x3="-2.155600" y3="-1.521500" z3="0.441500"/>
+  <atom id="a3" elementType="O" x3="-2.189200" y3="-2.719600" z3="0.669600"/>
+  <atom id="a4" elementType="C" x3="-0.209300" y3="-0.141000" z3="-0.269200"/>
+  <atom id="a5" elementType="H" x3="-1.393200" y3="0.147400" z3="1.533000"/>
+  <atom id="a6" elementType="H" x3="-2.929800" y3="-1.070000" z3="-0.177600"/>
+  <atom id="a7" elementType="H" x3="0.163200" y3="-0.985100" z3="-0.869600"/>
+  <atom id="a8" elementType="H" x3="-0.873900" y3="0.477900" z3="-0.891200"/>
+  <atom id="a9" elementType="C" x3="0.983000" y3="0.712400" z3="0.217500"/>
+  <atom id="a10" elementType="H" x3="-0.345500" y3="-1.306600" z3="1.565000"/>
+  <atom id="a11" elementType="H" x3="0.611100" y3="1.556200" z3="0.818600"/>
+  <atom id="a12" elementType="H" x3="1.649800" y3="0.094500" z3="0.838200"/>
+  <atom id="a13" elementType="C" x3="1.778400" y3="1.261300" z3="-0.986200"/>
+  <atom id="a14" elementType="H" x3="2.165800" y3="0.427800" z3="-1.591000"/>
+  <atom id="a15" elementType="H" x3="2.622900" y3="1.865900" z3="-0.622900"/>
+  <atom id="a16" elementType="H" x3="1.126800" y3="1.890900" z3="-1.610500"/>
+ </atomArray>
+ <bondArray>
+  <bond atomRefs2="a1 a2" order="1"/>
+  <bond atomRefs2="a1 a4" order="1"/>
+  <bond atomRefs2="a1 a5" order="1"/>
+  <bond atomRefs2="a1 a10" order="1"/>
+  <bond atomRefs2="a2 a3" order="2"/>
+  <bond atomRefs2="a2 a6" order="1"/>
+  <bond atomRefs2="a4 a7" order="1"/>
+  <bond atomRefs2="a4 a8" order="1"/>
+  <bond atomRefs2="a4 a9" order="1"/>
+  <bond atomRefs2="a9 a11" order="1"/>
+  <bond atomRefs2="a9 a12" order="1"/>
+  <bond atomRefs2="a9 a13" order="1"/>
+  <bond atomRefs2="a13 a14" order="1"/>
+  <bond atomRefs2="a13 a15" order="1"/>
+  <bond atomRefs2="a13 a16" order="1"/>
+ </bondArray>
+</molecule>
