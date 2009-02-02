@@ -35,6 +35,8 @@ for my $manager (@managers) {
                 $vv =~ s/>/\&gt;/;
                 $vv =~ s/'/\&quot;/;
                 $vv =~ s/"/\&#34;/;
+                # Java newlines replaced by HTML newlines
+                $vv =~ s/\\n/<br>/;
                 if ($vv) {
                     print "<dt>$kk</dt><dd>$vv</dd>\n"
                 }
