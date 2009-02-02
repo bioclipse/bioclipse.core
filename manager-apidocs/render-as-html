@@ -17,7 +17,8 @@ for my $manager (@managers) {
 print "</ul>\n";
 
 for my $manager (@managers) {
-    print "<h2 id='$manager'>$manager</h2>\n";
+    my $classes = join ', ', @{$h->{$manager}{Classes}};
+    print "<h2 id='$manager'>$manager ($classes)</h2>\n";
     print "<p class='description'>", $h->{$manager}{Description}, "</p>\n";
 
     for my $m (@{$h->{$manager}{Methods}}) {
