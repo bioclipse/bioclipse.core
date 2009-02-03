@@ -26,11 +26,11 @@ import org.eclipse.core.runtime.Path;
 
 /**
  * Class with utility methods for converting a String to a file reference of
- * type IFile. If the string reference a file not in the Workspace a linked file
- * is created in the Virtual project which points to the file.
- * When the string that starts with a '/' it will check if the project exists if
- * it dose not it will assume it is a absolute path on a UNIX/OSX type system
- * where '/' indicates the root in the file system.
+ * type IFile. If the string reference a file not in the Workspace a linked 
+ * file is created in the Virtual project which points to the file.
+ * When the string that starts with a '/' it will check if the project exists 
+ * if it dose not it will assume it is a absolute path on a UNIX/OSX type 
+ * system where '/' indicates the root in the file system.
  *
  * This class is a singleton.
  *
@@ -39,7 +39,7 @@ import org.eclipse.core.runtime.Path;
  */
 public class ResourcePathTransformer {
 
-    private static ResourcePathTransformer instance =
+    private static volatile ResourcePathTransformer instance =
         new ResourcePathTransformer();
 
     private ResourcePathTransformer() {
@@ -85,40 +85,41 @@ public class ResourcePathTransformer {
      * @return IFile or null if no file was found
      */
     private IFile parsePath( String resourceString ) {
-    	URI uri;
-    	java.io.File localFile=new java.io.File(resourceString);
-    	if(!localFile.exists()) return null;
-    	try{
-    		uri=new URI("file:"+localFile.getAbsolutePath());
-    	}catch (URISyntaxException e) {
-			return null;
-		}
-    	IProject vProject=Activator.getVirtualProject();
-    	IFile vFile=vProject.getFile(localFile.getName());
-    	// if file already exist in Virtual project
-    	if(vFile.exists()) {
-    	    if(vFile.isLinked()) {
-    	        if( uri.equals( vFile.getLocationURI()) ) {
-    	            try {
+        URI uri;
+        java.io.File localFile = new java.io.File(resourceString);
+        if (!localFile.exists()) return null;
+        try{
+            uri = new URI("file:"+localFile.getAbsolutePath());
+        }
+        catch (URISyntaxException e) {
+            return null;
+        }
+        IProject vProject=Activator.getVirtualProject();
+        IFile vFile=vProject.getFile(localFile.getName());
+        // if file already exist in Virtual project
+        if (vFile.exists()) {
+            if (vFile.isLinked()) {
+                if ( uri.equals( vFile.getLocationURI()) ) {
+                    try {
                         vFile.refreshLocal( IResource.DEPTH_ONE, null );
                         return vFile;
                     } catch ( CoreException e ) {
                         return null;
                     }
-    	        }
-    	    }
+                }
+            }
 
-    	    vFile = createAlternativeFile(vFile);
-    	    if( vFile == null)
-    	        return null;
-    	}
-    	try {
-			vFile.createLink(uri,IResource.NONE, null);
-			vFile.refreshLocal(0, new NullProgressMonitor());
-		} catch (CoreException e) {
-			return null;
-		}
-    	return vFile;
+            vFile = createAlternativeFile(vFile);
+            if ( vFile == null)
+                return null;
+        }
+        try {
+            vFile.createLink(uri,IResource.NONE, null);
+            vFile.refreshLocal(0, new NullProgressMonitor());
+        } catch (CoreException e) {
+            return null;
+        }
+        return vFile;
     }
 
     /*
@@ -137,6 +138,7 @@ public class ResourcePathTransformer {
 
         return file;
     }
+    
     private String generateUniqueFileName(IFile file,int count) {
         // FIXME : this should replace last entered number with new
         String name = file.getName();
@@ -171,7 +173,8 @@ public class ResourcePathTransformer {
         }
         catch ( URISyntaxException e ) {
             return null; //It wasn't an uri...
-        }catch (IllegalArgumentException e){
+        }
+        catch (IllegalArgumentException e){
         	return null;
         }
     }
