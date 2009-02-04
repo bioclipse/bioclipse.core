@@ -17,7 +17,7 @@ public abstract class BioclipseUIJob<T> {
         this.returnValue = returnValue;
     }
     
-    T getReturnValue() {
+    protected T getReturnValue() {
         return returnValue;
     }
     
