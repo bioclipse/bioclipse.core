@@ -8,7 +8,6 @@ Export-Package: net.bioclipse.core,
  net.bioclipse.core.business,
  net.bioclipse.core.domain,
  net.bioclipse.core.domain.props,
- net.bioclipse.core.jobs,
  net.bioclipse.core.util,
  net.bioclipse.recording
 Require-Bundle: org.eclipse.core.runtime,
@@ -36,6 +35,7 @@ Bundle-ClassPath: libs/js.jar,
  libs/asm-2.2.jar,
  libs/antlr-2.7.5.jar
 Bundle-Activator: net.bioclipse.core.Activator
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.log4j
 Bundle-Vendor: The Bioclipse Team
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
