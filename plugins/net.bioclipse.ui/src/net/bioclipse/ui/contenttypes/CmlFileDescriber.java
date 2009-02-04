@@ -105,7 +105,6 @@ public class CmlFileDescriber extends TextContentDescriber
 				        if (parser.getNamespace().equals(CmlFileDescriber.NS_CML)) {
 				            checkedNamespace = true;
 				        } else {
-				            System.err.println("namespace = " + parser.getNamespace() + " INVALID");
 				            return INVALID;
 				        }
 				    }
