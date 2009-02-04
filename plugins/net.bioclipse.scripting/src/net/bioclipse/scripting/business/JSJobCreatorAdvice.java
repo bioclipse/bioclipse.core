@@ -98,6 +98,9 @@ public class JSJobCreatorAdvice implements IJSJobCreatorAdvice {
             if ( !currentParamTypes.contains( IProgressMonitor.class ) ) 
                 continue METHODS;
 
+            if ( currentParamTypes.size() != invocationParamTypes.size() ) {
+            	continue METHODS;
+            }
             PARAMS:
             for ( int i = 0; i < invocationParamTypes.size(); i++ ) {
                  Object arg = currentParamTypes.get( i );
