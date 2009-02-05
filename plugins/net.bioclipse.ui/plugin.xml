@@ -147,10 +147,6 @@
             configId="org.eclipse.ui.intro.universalConfig">
       </configExtension>
       <configExtension
-            content="intro/samples.xml"
-            configId="org.eclipse.ui.intro.universalConfig">
-      </configExtension>
-      <configExtension
             content="intro/webresources.xml"
             configId="org.eclipse.ui.intro.universalConfig">
       </configExtension>
