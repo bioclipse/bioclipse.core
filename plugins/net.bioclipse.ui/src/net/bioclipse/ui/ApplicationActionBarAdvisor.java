@@ -25,16 +25,17 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.swt.SWT;
+import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
+import org.eclipse.ui.ide.IDEActionFactory;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.registry.ActionSetRegistry;
 import org.eclipse.ui.internal.registry.IActionSetDescriptor;
-import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.IWorkbenchWindow;
 
 /**
  * The action bar advisor is responsible for creating, adding, and disposing of
@@ -59,6 +60,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     private IWorkbenchAction closeAllSavedAction;
 
     private IWorkbenchAction saveAction;
+    
+    private IWorkbenchAction switchWorkspaceAction;
 
     private IWorkbenchAction importAction;
     private IWorkbenchAction exportAction;
@@ -130,6 +133,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
         saveAction = ActionFactory.SAVE.create(window);
         register(saveAction);
+
+        switchWorkspaceAction = IDEActionFactory.OPEN_WORKSPACE.create(window);
+        register(switchWorkspaceAction);
 
         importAction = ActionFactory.IMPORT.create(window);
         register(importAction);
@@ -225,6 +231,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         fileMenu.add(saveAsAction);
         fileMenu.add(saveAllAction);
         fileMenu.add(revertAction);
+        fileMenu.add(new Separator("SWITCHWORKSPACE"));
+        fileMenu.add(switchWorkspaceAction);
         fileMenu.add(new Separator("IMPORTandEXPORT"));
         fileMenu.add(importAction);
         fileMenu.add(exportAction);
