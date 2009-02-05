@@ -27,7 +27,6 @@ import org.eclipse.core.runtime.Platform;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.EvaluatorException;
-import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrappedException;
@@ -119,24 +118,10 @@ public class JsEnvironment implements ScriptingEnvironment {
      * @param expression the expression to be evaluated
      * @return a stringified version of the result
      */
-    public String eval(String expression) {
+    public Object eval(String expression) {
         try {
-            Object result = context.evaluateString(scope, expression,
-                                                   null, 0, null);
-            
-            if (result instanceof NativeJavaObject) {
-                
-                Object unwrappedObject = ((NativeJavaObject)result).unwrap();
-                
-                if (unwrappedObject instanceof List) {
-                    List<?> list = (List<?>)unwrappedObject;
-                    StringBuilder sb = listToString( list, "[", ", ", "]" );
-                    
-                    return sb.toString();
-                }
-            }
-            
-            return Context.toString(result);
+            return context.evaluateString(scope, expression,
+                                          null, 0, null);
         }
         catch (WrappedException e) {
             LogUtils.debugTrace(logger, e);
@@ -237,25 +222,6 @@ public class JsEnvironment implements ScriptingEnvironment {
             ++occurrances;
 
         return occurrances;
-    }
-
-    private StringBuilder listToString( List<?> list, String opener,
-                                        String separator, String closer ) {
-
-        StringBuilder sb = new StringBuilder();
-        
-        sb.append( opener );
-        
-        int index = 0;
-        for ( Object item : list ) {
-            if ( index++ > 0 )
-                sb.append( separator );
-
-            sb.append( item );
-        }
-        
-        sb.append( closer );
-        return sb;
     }
 
     /**

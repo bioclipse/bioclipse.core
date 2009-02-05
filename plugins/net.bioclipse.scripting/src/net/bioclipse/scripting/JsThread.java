@@ -9,6 +9,7 @@
 package net.bioclipse.scripting;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import net.bioclipse.core.util.LogUtils;
 
@@ -17,6 +18,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.mozilla.javascript.NativeJavaObject;
 
 public class JsThread extends ScriptingThread {
 
@@ -81,13 +83,28 @@ public class JsThread extends ScriptingThread {
                     }
                 }
                 try {
-                    result[0] = js.eval( nextAction.getCommand() );
+                    Object returnedObject = js.eval( nextAction.getCommand() );
+                    if (returnedObject instanceof NativeJavaObject) {
+                        
+                        Object unwrappedObject
+                            = ((NativeJavaObject)returnedObject).unwrap();
+                        
+                        if (unwrappedObject instanceof List) {
+                            List<?> list = (List<?>)unwrappedObject;
+                            StringBuilder sb
+                                = listToString( list, "[", ", ", "]" );
+                            
+                            result[0] = sb.toString();
+                        }
+                    }
+                    else {
+                        result[0] = returnedObject.toString();
+                    }
                 }
                 catch (Throwable t) {
                     LogUtils.debugTrace( logger, t );
                     result[0] = 
                         t.getClass().getSimpleName() + ": " + t.getMessage();
-                   
                 }
                 synchronized ( wait ) {
                     wait[0] = false;
@@ -106,6 +123,25 @@ public class JsThread extends ScriptingThread {
         }
     }
     
+    private StringBuilder listToString( List<?> list, String opener,
+                                        String separator, String closer ) {
+
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append( opener );
+        
+        int index = 0;
+        for ( Object item : list ) {
+            if ( index++ > 0 )
+                sb.append( separator );
+
+            sb.append( item );
+        }
+        
+        sb.append( closer );
+        return sb;
+    }
+
     public synchronized void enqueue(JsAction action) {
         while (actions == null) { // BIG UGLY HACK!
             try {

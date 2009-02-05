@@ -30,6 +30,6 @@ public interface ScriptingEnvironment {
      * @param expression The expression to be evaluated.
      * @return The result of the evaluation. Never <code>null</code>.
      */
-    public String eval(String expression);
+    public Object eval(String expression);
     
 }
