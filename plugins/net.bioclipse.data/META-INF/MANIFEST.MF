@@ -11,7 +11,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.eclipse.ui.forms,
  net.bioclipse.core,
- net.bioclipse.ui
+ net.bioclipse.ui,
+ org.eclipse.update.configurator;bundle-version="3.2.201",
+ org.eclipse.ui.intro;bundle-version="3.2.201",
+ org.eclipse.ui.intro.universal;bundle-version="3.2.200",
+ org.eclipse.update.core;bundle-version="3.2.201"
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
