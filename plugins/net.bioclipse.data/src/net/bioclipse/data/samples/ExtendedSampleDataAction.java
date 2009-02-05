@@ -25,9 +25,8 @@ public class ExtendedSampleDataAction extends Action implements IIntroAction {
 
 	private static final String SAMPLE_FEATURE_ID = "net.bioclipse.sampledata_feature";
 	private static final String SAMPLE_FEATURE_VERSION = "2.0.0.B20090124";
-//	private static final String UPDATE_SITE = "http://update2.bioclipse.net/";
-	private static final String UPDATE_SITE = "file:///Users/ola/Workspaces/bioclipse2_1/bioclipse-updatesite/";
-	private String sampleId;
+	private static final String UPDATE_SITE = "http://update2.bioclipse.net/";
+//	private static final String UPDATE_SITE = "file:///Users/ola/Workspaces/bioclipse2_1/bioclipse-updatesite/";
 
 	/**
 	 *  Default constructor
@@ -41,19 +40,24 @@ public class ExtendedSampleDataAction extends Action implements IIntroAction {
 	 */
 	public void run(IIntroSite site, Properties params) {
 		
-//		sampleId = params.getProperty("id"); //$NON-NLS-1$
-//		if (sampleId == null)
-//			return;
-//
 		Runnable r = new Runnable() {
 			public void run() {
-				if (!ensureSampleFeaturePresent()){
-					logger.debug("Sample feature is installed");
-				}else{
-					logger.debug("Sample feature is NOT installed");
+				try {
+					if (!ensureSampleFeaturePresent()){
+						logger.debug("Sample feature is or was already installed");
+						showMessage("Installation of sample data was successful");
+
+					}else{
+						logger.error("Sample data installation failed");
+						showMessage("Installation of sample data failed.");
+					}
+				} catch (InvocationTargetException e) {
+					logger.error("Sample data installation failed: " + e.getMessage());
+					showError("Installation of sample data failed: " + e.getMessage());
+				} catch (InterruptedException e) {
+					logger.error("Sample data installation was interrupted.");
+					showMessage("Sample data installation was interrupted.");
 				}
-				
-				//TODO: do something about this
 
 			}
 		};
@@ -65,8 +69,10 @@ public class ExtendedSampleDataAction extends Action implements IIntroAction {
 	/**
 	 * If sample not present, try to download it
 	 * @return true if sample is present after possible downloading
+	 * @throws InterruptedException 
+	 * @throws InvocationTargetException 
 	 */
-	private boolean ensureSampleFeaturePresent() {
+	private boolean ensureSampleFeaturePresent() throws InvocationTargetException, InterruptedException {
 		if (checkFeature())
 			return true;
 		// the feature is not present - ask to download
@@ -99,8 +105,10 @@ public class ExtendedSampleDataAction extends Action implements IIntroAction {
 	/**
 	 * Download feature from update site
 	 * @return false if error, true if success or interrupted
+	 * @throws InterruptedException 
+	 * @throws InvocationTargetException 
 	 */
-	private boolean downloadFeature() {
+	private boolean downloadFeature() throws InvocationTargetException, InterruptedException {
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 			public void run(IProgressMonitor monitor) throws InvocationTargetException {
 				try {
@@ -112,14 +120,31 @@ public class ExtendedSampleDataAction extends Action implements IIntroAction {
 				}
 			}
 		};
-		try {
+//		try {
 			PlatformUI.getWorkbench().getProgressService().busyCursorWhile(op);
-		} catch (InvocationTargetException e) {
-			logger.debug(e);
-			return false;
-		} catch (InterruptedException e) {
-			logger.debug(e);
-		}
+//		} catch (InvocationTargetException e) {
+//			logger.debug(e);
+//			return false;
+//		} catch (InterruptedException e) {
+//			logger.debug(e);
+//		}
 		return true;
 	}
+	
+    private void showMessage(String message) {
+        MessageDialog.openInformation(
+        		PlatformUI.getWorkbench().getActiveWorkbenchWindow().
+        		 getShell(),
+                "Sample Data Installation",
+                	message);
+    }
+
+    private void showError(String message) {
+        MessageDialog.openError(
+        		PlatformUI.getWorkbench().getActiveWorkbenchWindow().
+        		 getShell(),
+                "Sample Data Installation",
+                	message);
+    }
+
 }

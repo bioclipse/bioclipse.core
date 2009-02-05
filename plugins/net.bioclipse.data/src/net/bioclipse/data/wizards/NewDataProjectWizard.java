@@ -54,8 +54,7 @@ import org.osgi.framework.Bundle;
 @SuppressWarnings("restriction")
 public class NewDataProjectWizard extends Wizard implements INewWizard, IExecutableExtension {
 
-
-    private WizardNewProjectCreationPage fFirstPage;
+	private WizardNewProjectCreationPage fFirstPage;
     private SelectDataFoldersPage folPage;
 
     private IWorkbench workbench;
@@ -105,6 +104,12 @@ public class NewDataProjectWizard extends Wizard implements INewWizard, IExecuta
 
     }
 
+    
+    @Override
+    public boolean performCancel() {
+    	logger.debug("Installation data wizard cancelled");
+    	return true;
+    }
 
     /**
      * Create project and install data
@@ -298,6 +303,11 @@ public class NewDataProjectWizard extends Wizard implements INewWizard, IExecuta
     public String getWizardID() {
 		return wizardID;
 	}
+    public void setWizardID(String wizardID) {
+		this.wizardID = wizardID;
+	}
+
+
     
     @Override
     public boolean needsProgressMonitor() {

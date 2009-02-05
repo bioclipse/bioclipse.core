@@ -241,7 +241,8 @@ public class SelectDataFoldersPage extends WizardPage {
             if (folder.isChecked()==true){
                 setErrorMessage(null);
                 setPageComplete(true);
-                getWizard().getContainer().updateButtons();
+                if (getWizard().getContainer().getCurrentPage()!=null)
+                	getWizard().getContainer().updateButtons();
                 return;
             }
         }
@@ -288,6 +289,9 @@ public class SelectDataFoldersPage extends WizardPage {
                 //Use default wizard if no wizard id in extension
                 if (wizid==null){
                 	wizid=IDataConstants.DEFAULT_INSTALL_WIZARD;
+                }
+                if (wizard.getWizardID()==null){
+                	wizard.setWizardID(IDataConstants.DEFAULT_INSTALL_WIZARD);
                 }
 
                 //If the current wizard is specified in extension, add the folder
