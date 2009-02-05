@@ -249,4 +249,8 @@ public class JsEnvironment implements ScriptingEnvironment {
             throw new RuntimeException(e);
         }
     }
+
+    public String toJsString( Object o ) {
+        return Context.toString(o);
+    }
 }

@@ -16,6 +16,7 @@ import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.scripting.Activator;
 import net.bioclipse.scripting.Hook;
 import net.bioclipse.scripting.JsAction;
+import net.bioclipse.scripting.JsThread;
 import net.bioclipse.scripting.ui.views.JsConsoleView;
 
 import org.eclipse.core.resources.IFile;
@@ -72,10 +73,11 @@ public class JsConsoleManager implements IJsConsoleManager {
 
     public String eval( String command ) {
         final String[] evalResult = new String[1];
-        Activator.getDefault().JS_THREAD.enqueue(
+        final JsThread jsThread = Activator.getDefault().JS_THREAD;
+        jsThread.enqueue(
             new JsAction(command, new Hook() {
-                public void run( String result ) {
-                    evalResult[0] = result;
+                public void run( Object result ) {
+                    evalResult[0] = jsThread.toJsString( result );
                 }
             })
         );
@@ -110,12 +112,13 @@ public class JsConsoleManager implements IJsConsoleManager {
                                        + file.getName(), ce);
         }
         monitor.worked( 1 );
-        Activator.getDefault().JS_THREAD.enqueue(
+        final JsThread jsThread = Activator.getDefault().JS_THREAD;
+        jsThread.enqueue(
             new JsAction(contents, new Hook() {
-                public void run( String result ) {
+                public void run( Object result ) {
                     monitor.done();
                     if ( !"undefined".equals( result ) ) {
-                        message(result);
+                        message(jsThread.toJsString(result));
                     }
                 }
 

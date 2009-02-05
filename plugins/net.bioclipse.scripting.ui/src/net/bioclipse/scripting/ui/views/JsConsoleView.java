@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Queue;
 
 import org.eclipse.swt.widgets.Display;
+import org.mozilla.javascript.NativeJavaObject;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
@@ -44,17 +45,57 @@ public class JsConsoleView extends ScriptingConsoleView {
     private void executeJsCommand(String command) {
         jsThread.enqueue(new JsAction(command,
                                       new Hook() {
-            public void run(final String result) {
+            public void run(final Object result) {
+                final String[] message = new String[1];
                 Display.getDefault().asyncExec( new Runnable() {
                     public void run() {
-                        if ( !"undefined".equals(result) )
-                            printMessage(result + "\n");
+                        if ( null != result && !"undefined".equals(result) ) {
+                            if (result instanceof NativeJavaObject) {
+                          
+                                Object unwrappedObject
+                                  = ((NativeJavaObject)result).unwrap();
+                          
+                                if (unwrappedObject instanceof List) {
+                                    List<?> list = (List<?>)unwrappedObject;
+                                    StringBuilder sb
+                                      = listToString( list, "[", ", ", "]" );
+                              
+                                    message[0] = sb.toString();
+                                }
+                                else {
+                                    message[0] = unwrappedObject.toString();
+                                }
+                            }
+                            else {
+                                message[0] = result.toString();
+                            }
+                            printMessage(message[0] + "\n");
+                        }
                     }
                 } );
             }
         }));
     }
     
+    private StringBuilder listToString( List<?> list, String opener,
+                                        String separator, String closer ) {
+
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append( opener );
+        
+        int index = 0;
+        for ( Object item : list ) {
+            if ( index++ > 0 )
+                sb.append( separator );
+
+            sb.append( item );
+        }
+        
+        sb.append( closer );
+        return sb;
+    }
+
     /** Returns the specified amount of dashes.
      * 
      * @param length
@@ -287,7 +328,8 @@ public class JsConsoleView extends ScriptingConsoleView {
                           + "for (var zzz3 in " + object
                           + ") { zzz1[zzz2++] = zzz3 } zzz1",
                           new Hook() {
-                              public void run(String array) {
+                              public void run(Object o) {
+                                  String array = jsThread.toJsString(o);
                                   synchronized (variables) {
                                       variables[0]
                                           = new ArrayList<String>(

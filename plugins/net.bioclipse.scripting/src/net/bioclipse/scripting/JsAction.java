@@ -22,7 +22,7 @@ public class JsAction {
         return command;
     }
     
-    public void runPostCommandHook(String result) {
+    public void runPostCommandHook(Object result) {
         postCommandHook.run(result);
     }
 }

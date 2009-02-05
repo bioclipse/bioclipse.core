@@ -9,7 +9,6 @@
 package net.bioclipse.scripting;
 
 import java.util.LinkedList;
-import java.util.List;
 
 import net.bioclipse.core.util.LogUtils;
 
@@ -18,7 +17,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.mozilla.javascript.NativeJavaObject;
 
 public class JsThread extends ScriptingThread {
 
@@ -42,7 +40,7 @@ public class JsThread extends ScriptingThread {
                 }
 
                 final JsAction nextAction = actions.removeFirst();
-                final String[] result = new String[1];
+                final Object[] result = new Object[1];
                 busy = true;
                 final Boolean[] wait = { new Boolean(true) };
                 final Boolean[] monitorIsSet = { new Boolean(false) };
@@ -83,23 +81,7 @@ public class JsThread extends ScriptingThread {
                     }
                 }
                 try {
-                    Object returnedObject = js.eval( nextAction.getCommand() );
-                    if (returnedObject instanceof NativeJavaObject) {
-                        
-                        Object unwrappedObject
-                            = ((NativeJavaObject)returnedObject).unwrap();
-                        
-                        if (unwrappedObject instanceof List) {
-                            List<?> list = (List<?>)unwrappedObject;
-                            StringBuilder sb
-                                = listToString( list, "[", ", ", "]" );
-                            
-                            result[0] = sb.toString();
-                        }
-                    }
-                    else {
-                        result[0] = returnedObject.toString();
-                    }
+                    result[0] = js.eval( nextAction.getCommand() );
                 }
                 catch (Throwable t) {
                     LogUtils.debugTrace( logger, t );
@@ -123,25 +105,6 @@ public class JsThread extends ScriptingThread {
         }
     }
     
-    private StringBuilder listToString( List<?> list, String opener,
-                                        String separator, String closer ) {
-
-        StringBuilder sb = new StringBuilder();
-        
-        sb.append( opener );
-        
-        int index = 0;
-        for ( Object item : list ) {
-            if ( index++ > 0 )
-                sb.append( separator );
-
-            sb.append( item );
-        }
-        
-        sb.append( closer );
-        return sb;
-    }
-
     public synchronized void enqueue(JsAction action) {
         while (actions == null) { // BIG UGLY HACK!
             try {
@@ -162,10 +125,14 @@ public class JsThread extends ScriptingThread {
     
     public void enqueue(String command) {
         enqueue( new JsAction( command,
-                               new Hook() { public void run(String s) {} } ) );
+                               new Hook() { public void run(Object s) {} } ) );
     }
 
     public synchronized IProgressMonitor getMonitor() {
         return monitor;
+    }
+
+    public String toJsString( Object o ) {
+        return js.toJsString(o);
     }
 }

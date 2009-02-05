@@ -10,5 +10,5 @@ package net.bioclipse.scripting;
 
 
 public interface Hook {
-    void run(String result);
+    void run(Object result);
 }
