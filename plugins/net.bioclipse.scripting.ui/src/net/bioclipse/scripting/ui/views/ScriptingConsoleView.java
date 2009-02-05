@@ -352,11 +352,15 @@ public abstract class ScriptingConsoleView extends ViewPart {
         // printables here.
         message = message.replaceAll("\u0008", "");
         
-        if (message.length() > MAX_OUTPUT_LINE_LENGTH)
-            message = splitIntoSeveralLines(message, MAX_OUTPUT_LINE_LENGTH);
-        
         synchronized (output) {
-            output.append(message);
+            if (message.length() > MAX_OUTPUT_LINE_LENGTH) {
+                for (String line :
+                         splitIntoSeveralLines(message, MAX_OUTPUT_LINE_LENGTH))
+                    output.append(line);
+            }
+            else {
+                output.append(message);
+            }
             output.redraw();
         }
     }
@@ -376,23 +380,23 @@ public abstract class ScriptingConsoleView extends ViewPart {
      * @param maxLineLength the proposed line length
      * @return the same text but with line breaks
      */
-    private String splitIntoSeveralLines( String text,
-                                          int maxLineLength ) {
+    protected String[] splitIntoSeveralLines( String text,
+                                              int maxLineLength ) {
         
         if (text == null || text.length() == 0)
-            return "";
+            return new String[] {""};
         
         if (maxLineLength <= 0)
-            return text;
+            return new String[] { text };
 
-        StringBuffer result = new StringBuffer();
+        List<String> result = new ArrayList<String>();
         int currentPos = 0;
         while ( currentPos < text.length() ) {
             
             int toPos
                     = convenientLineBreakPoint(text, currentPos, maxLineLength); 
 
-            result.append( text.substring(currentPos, toPos) );
+            String line = text.substring(currentPos, toPos);
 
             currentPos = toPos;
 
@@ -401,14 +405,16 @@ public abstract class ScriptingConsoleView extends ViewPart {
             if (currentPos < text.length()
                 && !text.substring(currentPos-NEWLINE.length(),
                                    currentPos).equals(NEWLINE))
-                result.append(NEWLINE);
-            
+                line += NEWLINE;
+
+            result.add( line );
+
             // And we can live without the spaces at which we chose to break.
-            while (currentPos < text.length() && text.charAt(currentPos) == ' ')
-                ++currentPos;
+//            while (currentPos < text.length() && text.charAt(currentPos) == ' ')
+//                ++currentPos;
         }
         
-        return result.toString();
+        return result.toArray(new String[0]);
     }
 
     /**
