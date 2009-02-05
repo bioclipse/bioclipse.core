@@ -157,13 +157,16 @@ public class NewDataProjectWizard extends Wizard implements INewWizard, IExecuta
      */
     protected void createProject(IProgressMonitor monitor)
     {
-        monitor.beginTask("Creating project",50);
+    	
+        ArrayList<InstallableFolder> folders=folPage.getFolders();
+        monitor.beginTask("Copying data",folders.size()+2);
+        
         try
         {
 
             //Get WS root
             IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-            monitor.subTask("Creating directories");
+            monitor.worked(1);
 
             //Create the project
             IProject project = root.getProject(fFirstPage.getProjectName());
@@ -175,21 +178,20 @@ public class NewDataProjectWizard extends Wizard implements INewWizard, IExecuta
                 description.setLocation(fFirstPage.getLocationPath());
             project.create(description,monitor);
 
-            monitor.worked(10);
-
             //Open project
             project.open(monitor);
 
-            monitor.worked(10);
+            monitor.worked(1);
 
             //Copy folders into workspace
-            ArrayList<InstallableFolder> folders=folPage.getFolders();
             for (InstallableFolder folder : folders){
 
                 if (folder.isChecked()){
 
                     try {
+                        monitor.subTask("Copying folder: " + folder.getName());
                         installFolder(folder, project);
+                        monitor.worked(1);
                     } catch (BioclipseException e) {
                         logger.error("Could not copy folder: " +
                                 folder.getName());
@@ -296,5 +298,10 @@ public class NewDataProjectWizard extends Wizard implements INewWizard, IExecuta
     public String getWizardID() {
 		return wizardID;
 	}
+    
+    @Override
+    public boolean needsProgressMonitor() {
+    	return true;
+    }
 
 }
