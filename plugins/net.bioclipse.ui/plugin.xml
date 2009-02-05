@@ -491,7 +491,7 @@
               file-extensions="smi"
               id="net.bioclipse.contenttypes.smi"
               name="SMILES-ContentType"
-              priority="normal">
+              priority="high">
         </content-type>
 
         <content-type
