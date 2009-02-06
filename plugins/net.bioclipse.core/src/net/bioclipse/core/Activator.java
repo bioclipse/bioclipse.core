@@ -170,6 +170,13 @@ public class Activator extends Plugin {
     	    logger.debug("Could not insert Virtual project in MemoryFilesystem");
     		createVirtualProject(project);
     	}
+    	if(!project.isOpen()) {
+    	    try {
+                project.open( null );
+            } catch ( CoreException e ) {
+                logger.debug( "Faild to open Virtual" );
+            }
+    	}
     	return project;
     }
     protected static void  deleteVirtualProject(){
