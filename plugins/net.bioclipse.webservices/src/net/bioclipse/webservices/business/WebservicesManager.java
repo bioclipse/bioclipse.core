@@ -27,8 +27,7 @@ public class WebservicesManager implements IWebservicesManager{
     	String ent = downloadDbEntry("pdb", pdbid,
     			"pdb");
     	
-    	//FIXME: replace with syntax to create mol from string, bug #421
-    	ICDKMolecule mol= Activator.getDefault().getCDKManager().loadMolecule(ent);
+    	ICDKMolecule mol= Activator.getDefault().getCDKManager().fromString(ent);
     	
     	return mol;
     }
