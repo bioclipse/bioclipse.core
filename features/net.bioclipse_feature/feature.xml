@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse_feature"
       label="Bioclipse Workbench"
-      version="2.0.0.B20090123"
+      version="2.0.0.B20090204"
       provider-name="The Bioclipse Team"
       plugin="net.bioclipse.ui">
 
@@ -955,5 +955,12 @@ http://www.eclipse.org/legal/epl-v10.html
          download-size="0"
          install-size="0"
          version="0.0.0"/>
+
+   <plugin
+         id="net.bioclipse.data"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>
