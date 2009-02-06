@@ -13,11 +13,11 @@ import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.webservices.business.IWebservicesManager;
 import net.bioclipse.webservices.business.WebservicesManager;
 
-public class TestWebservicesManager {
+public class WebservicesManagerPluginTest {
 
 	IWebservicesManager ws;
 	
-	public TestWebservicesManager() {
+	public WebservicesManagerPluginTest() {
 		ws=new WebservicesManager();
 	}
 
@@ -26,7 +26,9 @@ public class TestWebservicesManager {
 
 		ICDKMolecule mol= ws.downloadPDB("1d66");
 		assertNotNull(mol);
-		assertEquals(34, mol.getAtomContainer().getAtomCount());
+		
+		//FIXME: correct no atoms
+		assertEquals(12345678, mol.getAtomContainer().getAtomCount());
 		
 	}
 
@@ -35,9 +37,13 @@ public class TestWebservicesManager {
 
 		String tempPath="/Virtual/";
 		String path= ws.downloadPDBFile("1d66", tempPath);
+		assertNotNull(path);
+		System.out.println("Path: " + path);
 		ICDKMolecule mol = Activator.getDefault().getCDKManager().loadMolecule(path);
 		assertNotNull(mol);
-		assertEquals(34, mol.getAtomContainer().getAtomCount());
+
+		//FIXME: correct no atoms
+		assertEquals(12345678, mol.getAtomContainer().getAtomCount());
 		
 	}
 
