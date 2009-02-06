@@ -37,7 +37,6 @@
                label="Web services"
                id="webServices"
 			   path="additions">
-            <groupmarker name="group1"/>
          </menu>
       </actionSet>
    </extension>
@@ -45,8 +44,8 @@
    <extension
          point="net.bioclipse.scripting.contribution">
       <scriptContribution
-            id="net.bioclipse.webservices.scripts.WebservicesManager"
-            service="net.bioclipse.webservices.scripts.WebservicesManagerFactory">
+            id="net.bioclipse.webservices.business.WebservicesManager"
+            service="net.bioclipse.webservices.business.WebservicesManagerFactory">
       </scriptContribution>
    </extension>
 </plugin>

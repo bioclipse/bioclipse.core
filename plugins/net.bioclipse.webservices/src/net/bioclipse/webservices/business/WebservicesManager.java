@@ -1,5 +1,9 @@
-package net.bioclipse.webservices.scripts;
+package net.bioclipse.webservices.business;
 
+import java.io.IOException;
+
+import net.bioclipse.cdk.business.Activator;
+import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.webservices.ResourceCreator;
 import net.bioclipse.webservices.services.WSDbfetch;
@@ -13,23 +17,58 @@ public class WebservicesManager implements IWebservicesManager{
     public String getNamespace() {
         return "webservices";
 	}
-    
-    public IFile downloadPDB(String pdbid, String filename)
+
+    public ICDKMolecule downloadPDB(String pdbid)
+    	throws BioclipseException, CoreException, IOException {
+
+    	if (pdbid == null || pdbid.equals(""))
+    		throw new BioclipseException("Error, please provide a PDB ID.");
+
+    	String ent = downloadDbEntry("pdb", pdbid,
+    			"pdb");
+    	
+    	ICDKMolecule mol= Activator.getDefault().getCDKManager().loadMolecule(ent);
+    	
+    	return mol;
+    }
+
+    public String downloadPDBFile(String pdbid, String filename)
     	throws BioclipseException, CoreException {
 
 		if (pdbid == null || pdbid.equals(""))
 			throw new BioclipseException("Error, please provide a PDB ID.");
 		
-		return downloadDbEntry("pdb", pdbid,
+		IFile savedfile = downloadDbFile("pdb", pdbid,
 	    		"pdb", filename);
+		
+		return "Downloaded PDB is available at: " + savedfile.getLocation();
+		
 	}
 
-    public IFile downloadPDB(String pdbid)
-		throws BioclipseException, CoreException {
-    	return downloadPDB(pdbid, "");
-    }
 
-    public IFile downloadDbEntry(String db, String query,
+    public IFile downloadDbFile(String db, String query,
+    		String format, String filename)
+		throws BioclipseException, CoreException {
+
+		if (filename == null || filename.equals(""))
+			filename = query + "." + format;
+    	
+    	String ent=downloadDbEntry(db, query, format, filename);
+
+		if (ResourceCreator.resourceExists(filename))
+			throw new BioclipseException("Error, the file "
+					+ filename + " exists already.");
+
+    	try {
+			
+			return ResourceCreator.createResource(filename, ent,
+					new NullProgressMonitor());
+		} catch (Exception e) {
+			throw new BioclipseException(e.getMessage());
+		}
+    }
+    
+    public String downloadDbEntry(String db, String query,
     		String format, String filename)
 		throws BioclipseException, CoreException {
     	if (db == null || db.equals(""))
@@ -41,15 +80,9 @@ public class WebservicesManager implements IWebservicesManager{
     	if (format == null || format.equals(""))
 			throw new BioclipseException("Error, please provide a format ID.");
 		
-		if (filename == null || filename.equals(""))
-			filename = query + "." + format;
 		
 /*		if (filename.endsWith("." + format) == false)
 			filename = filename + "." + format;*/
-		
-		if (ResourceCreator.resourceExists(filename))
-			throw new BioclipseException("Error, the file "
-					+ filename + " exists already.");
 		
 		try {
 			WSDbfetch wsdbfetch = new WSDbfetch();
@@ -63,16 +96,16 @@ public class WebservicesManager implements IWebservicesManager{
 				throw new BioclipseException("Error, no entry found with id: " + ent);
 			}
 			
-			return ResourceCreator.createResource(filename, ent,
-					new NullProgressMonitor());
+			return ent;
 		} catch (Exception e) {
 			throw new BioclipseException(e.getMessage());
 		}
     }
     
-    public IFile downloadDbEntry(String db, String query,
+    public String downloadDbEntry(String db, String query,
     		String format)
 		throws BioclipseException, CoreException {
     	return downloadDbEntry(db, query, format, "");
     }
+
 }

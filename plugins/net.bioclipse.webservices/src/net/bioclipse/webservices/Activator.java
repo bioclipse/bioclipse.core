@@ -9,7 +9,7 @@ package net.bioclipse.webservices;
  */
 
 import net.bioclipse.core.util.LogUtils;
-import net.bioclipse.webservices.scripts.IWebservicesManager;
+import net.bioclipse.webservices.business.IWebservicesManager;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jface.resource.ImageDescriptor;

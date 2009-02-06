@@ -10,7 +10,7 @@
 
   <osgi:service id="webservicesManagerOSGI" 
                 ref="webservicesManager"
-                interface="net.bioclipse.webservices.scripts.IWebservicesManager" />
+                interface="net.bioclipse.webservices.business.IWebservicesManager" />
 
   <osgi:reference id="recordingAdvice" 
                   interface="net.bioclipse.recording.IRecordingAdvice" />
@@ -29,7 +29,7 @@
   	<property name="target" 
   	          ref="webservicesManagerTarget" />
   	<property name="proxyInterfaces" 
-  	          value="net.bioclipse.webservices.scripts.IWebservicesManager" />
+  	          value="net.bioclipse.webservices.business.IWebservicesManager" />
   	<property name="interceptorNames" >
   	    <list>
             <value>recordingAdvisor</value>

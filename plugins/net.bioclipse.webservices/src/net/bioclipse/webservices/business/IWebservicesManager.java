@@ -10,11 +10,14 @@
  *     Stefan Kuhn
  *
  ******************************************************************************/
-package net.bioclipse.webservices.scripts;
+package net.bioclipse.webservices.business;
+
+import java.io.IOException;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 
+import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
@@ -26,32 +29,35 @@ public interface IWebservicesManager extends IBioclipseManager {
 
 	/**
      * Retrieves a PDB entry with the WSDbfetch EBI Web Service.
-     * The result is dumped in the virtual folder. 
+     * The result is saved to specified folder
      * @param pdbid The entry identifier
-     * @param filename The name of the file to create.
-     * @return The resource that contains the result
+     * @param path Path to file to save
+     * @return A path to the saved file
      * @throws BioclipseException
      * @throws CoreException
      */
     @Recorded
-    @PublishedMethod( params = "String pdbid, String filename", 
-                      methodSummary = "Fetches a PDB entry from the EBI databases and saves it under the specified filename in the virtual folder")
-    public IFile downloadPDB(String pdbid, String filename)
+    @PublishedMethod( params = "String pdbid, String path", 
+                      methodSummary = "Fetches a PDB entry with ID='pdbid' from " +
+                      		"the EBI databases " +
+                      		"and saves it to the specified 'path'")
+    public String downloadPDBFile(String pdbid, String path)
         throws BioclipseException, CoreException;
     
     /**
      * Retrieves a PDB entry with the WSDbfetch EBI Web Service.
-     * The result is dumped in the virtual folder. 
      * @param pdbid The entry identifier
-     * @return The resource that contains the result
+     * @return The PDB parsed into an ICDKMolecule
      * @throws BioclipseException
      * @throws CoreException
+     * @throws IOException 
      */
     @Recorded
     @PublishedMethod( params = "String pdbid", 
-                      methodSummary = "Fetches a PDB entry from the EBI databases and saves it in the virtual folder")
-    public IFile downloadPDB(String pdbid)
-    	throws BioclipseException, CoreException;
+                      methodSummary = "Fetches a PDB entry from the EBI databases " +
+                      		"and returns an ICDKMolecule")
+    public ICDKMolecule downloadPDB(String pdbid)
+    	throws BioclipseException, CoreException, IOException;
 
     /**
      * Retrieves an entry from a database with the WSDbfetch EBI Web Service.
@@ -67,7 +73,7 @@ public interface IWebservicesManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod( params = "String db, String query, String format, String filename", 
                       methodSummary = "Fetches an entry from the EBI databases and saves it under the specified filename in the virtual folder")
-    public IFile downloadDbEntry(String db, String query,
+    public String downloadDbEntry(String db, String query,
     		String format, String filename)
 		throws BioclipseException, CoreException;
     
@@ -84,6 +90,6 @@ public interface IWebservicesManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod( params = "String db, String query, String format", 
                       methodSummary = "Fetches an entry from the EBI databases and saves it in the virtual folder")
-    public IFile downloadDbEntry(String db, String query, String format)
+    public String downloadDbEntry(String db, String query, String format)
 		throws BioclipseException, CoreException;
 }
