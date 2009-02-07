@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Rhino Plug-in
 DynamicImport-Package: *
-Bundle-SymbolicName: net.bioclipse.rhino;singleton:=true
+Bundle-SymbolicName: net.bioclipse.jseditor;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: net.bioclipse.rhino.Activator
 Bundle-Vendor: Johannes Wagener
