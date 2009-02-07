@@ -120,7 +120,7 @@ public class RunRhinoScriptAsJobAction extends Action {
 
 				Display.getDefault().syncExec(new Runnable() {	// do not use async, we need the GUI!
 					public void run() {
-						RhinoConsole.writeToConsoleBlue(scriptResult);
+						RhinoConsole.writeToConsole(scriptResult);
 						RhinoConsole.writeToConsoleBlue("Javascript done.");
 					}
 				});
