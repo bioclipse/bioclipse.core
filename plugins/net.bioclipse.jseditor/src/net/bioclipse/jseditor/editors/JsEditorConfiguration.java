@@ -33,6 +33,7 @@ public class JsEditorConfiguration extends SourceViewerConfiguration {
 	private JsCommentScanner tagScanner;
 	private JsDefaultScanner scanner;
 	private JsColorManager colorManager;
+	private JsQuotationmarkScanner quotationmarkScanner;
 
 	public JsEditorConfiguration(JsColorManager colorManager) {
 		this.colorManager = colorManager;
@@ -67,6 +68,17 @@ public class JsEditorConfiguration extends SourceViewerConfiguration {
 		}
 		return tagScanner;
 	}
+	
+	protected JsQuotationmarkScanner getQuotationmarkScanner() {
+		if (quotationmarkScanner == null) {
+			quotationmarkScanner = new JsQuotationmarkScanner(colorManager);
+			quotationmarkScanner.setDefaultReturnToken(
+				new Token(
+					new TextAttribute(
+						colorManager.getColor(JsEditorConstants.COLOR_QUOTATIONMARK))));
+		}
+		return quotationmarkScanner;
+	}
 
 	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
 		PresentationReconciler reconciler = new PresentationReconciler();
@@ -81,11 +93,17 @@ public class JsEditorConfiguration extends SourceViewerConfiguration {
 		DefaultDamagerRepairer dr_comment =
 			new DefaultDamagerRepairer(getCommentScanner());
 		reconciler.setDamager(dr_comment, JsEditorConstants.COMMENT_SECTION);
-		reconciler.setRepairer(dr_comment, JsEditorConstants.COMMENT_SECTION);		
+		reconciler.setRepairer(dr_comment, JsEditorConstants.COMMENT_SECTION);
 		
 		/* Comment line */
 		reconciler.setDamager(dr_comment, JsEditorConstants.COMMENT_LINE);
 		reconciler.setRepairer(dr_comment, JsEditorConstants.COMMENT_LINE);
+		
+		/* Quotation mark section */
+		DefaultDamagerRepairer dr_quotationmark =
+			new DefaultDamagerRepairer(getQuotationmarkScanner());
+		reconciler.setDamager(dr_quotationmark, JsEditorConstants.QUOTATIONMARK_LINE);
+		reconciler.setRepairer(dr_quotationmark, JsEditorConstants.QUOTATIONMARK_LINE);
 
 		return reconciler;
 	}

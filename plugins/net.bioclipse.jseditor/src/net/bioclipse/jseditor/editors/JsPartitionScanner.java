@@ -5,6 +5,7 @@ import org.eclipse.jface.text.rules.IPredicateRule;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.MultiLineRule;
 import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
+import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.Token;
 /*
  * 
@@ -30,13 +31,16 @@ public class JsPartitionScanner extends RuleBasedPartitionScanner {
 
 	public JsPartitionScanner() {
 
+		IToken xmlQuotationmarkLine = new Token(JsEditorConstants.QUOTATIONMARK_LINE);
 		IToken xmlCommentLine = new Token(JsEditorConstants.COMMENT_LINE);
 		IToken xmlCommentSection = new Token(JsEditorConstants.COMMENT_SECTION);
 
-		IPredicateRule[] rules = new IPredicateRule[2];
+		IPredicateRule[] rules = new IPredicateRule[3];
 
-		rules[0] = new EndOfLineRule("//", xmlCommentLine);
-		rules[1] = new MultiLineRule("/*", "*/", xmlCommentSection);
+		
+		rules[0] = new SingleLineRule("\"", "\"", xmlQuotationmarkLine, '\\');
+		rules[1] = new EndOfLineRule("//", xmlCommentLine);
+		rules[2] = new MultiLineRule("/*", "*/", xmlCommentSection);
 
 		setPredicateRules(rules);
 	}

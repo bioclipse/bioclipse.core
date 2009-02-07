@@ -7,7 +7,7 @@ import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
-import org.eclipse.jface.text.rules.SingleLineRule;
+//import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
@@ -38,10 +38,10 @@ public class JsDefaultScanner extends RuleBasedScanner {
 	
 	public JsDefaultScanner(JsColorManager colorManager) {
 		
-		IToken quotationmark_token = new Token(
+		/*IToken quotationmark_token = new Token(
 				new TextAttribute(
 						colorManager.getColor(
-								JsEditorConstants.COLOR_QUOTATIONMARK)));
+								JsEditorConstants.COLOR_QUOTATIONMARK)));*/
 		IToken var_token = new Token(
 				new TextAttribute(
 						colorManager.getColor(
@@ -60,8 +60,8 @@ public class JsDefaultScanner extends RuleBasedScanner {
 								null,
 								SWT.BOLD));
 		
-		// Quotation mark rules with escape character '\'
-		rules.add(new SingleLineRule("\"", "\"", quotationmark_token, '\\'));
+		/*// Quotation mark rules with escape character '\'
+		rules.add(new SingleLineRule("\"", "\"", quotationmark_token, '\\'));*/
 
 		CommonWordDetector worddetector = new CommonWordDetector();
 		WordRule wordRule = new WordRule(worddetector, Token.WHITESPACE);

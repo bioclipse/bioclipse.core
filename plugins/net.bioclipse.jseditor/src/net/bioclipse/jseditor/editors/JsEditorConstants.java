@@ -32,11 +32,13 @@ public class JsEditorConstants {
 	public final static RGB DEFAULT = new RGB(0, 0, 0);
 	
 	/* partition scanner */
+	public final static String QUOTATIONMARK_LINE = "quotationmark_line";
 	public final static String COMMENT_LINE = "comment_line";
 	public final static String COMMENT_SECTION = "comment_section";
 	
 	public static String[] getPartitionScannerTypes() {
 		return new String[] {
+				QUOTATIONMARK_LINE,
 				COMMENT_LINE,
 				COMMENT_SECTION };
 	}
