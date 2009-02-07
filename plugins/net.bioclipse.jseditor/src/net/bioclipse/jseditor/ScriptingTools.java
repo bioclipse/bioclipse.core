@@ -1,4 +1,4 @@
-package net.bioclipse.rhino;
+package net.bioclipse.jseditor;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;

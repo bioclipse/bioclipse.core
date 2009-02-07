@@ -1,4 +1,4 @@
-package net.bioclipse.rhino;
+package net.bioclipse.jseditor;
 
 import java.util.ArrayList;
 import java.util.List;

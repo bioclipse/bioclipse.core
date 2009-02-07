@@ -1,10 +1,11 @@
-package net.bioclipse.rhino.actions;
+package net.bioclipse.jseditor.actions;
 
-import net.bioclipse.rhino.Activator;
-import net.bioclipse.rhino.PluginLogger;
-import net.bioclipse.rhino.editors.JsEditor;
-import net.bioclipse.rhino.exceptions.ScriptException;
-import net.bioclipse.rhino.RhinoConsole;
+import net.bioclipse.jseditor.Activator;
+import net.bioclipse.jseditor.PluginLogger;
+import net.bioclipse.jseditor.RhinoConsole;
+import net.bioclipse.jseditor.editors.JsEditor;
+import net.bioclipse.jseditor.exceptions.ScriptException;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;

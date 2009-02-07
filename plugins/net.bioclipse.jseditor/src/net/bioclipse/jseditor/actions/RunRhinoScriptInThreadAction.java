@@ -1,9 +1,10 @@
-package net.bioclipse.rhino.actions;
+package net.bioclipse.jseditor.actions;
 
-import net.bioclipse.rhino.editors.JsEditor;
-import net.bioclipse.rhino.exceptions.ScriptException;
-import net.bioclipse.rhino.RhinoConsole;
-import net.bioclipse.rhino.PluginLogger;
+import net.bioclipse.jseditor.PluginLogger;
+import net.bioclipse.jseditor.RhinoConsole;
+import net.bioclipse.jseditor.editors.JsEditor;
+import net.bioclipse.jseditor.exceptions.ScriptException;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;

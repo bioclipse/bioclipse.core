@@ -1,12 +1,12 @@
-package net.bioclipse.rhino.actions;
+package net.bioclipse.jseditor.actions;
 
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
 
-import net.bioclipse.rhino.Activator;
-import net.bioclipse.rhino.ScriptingTools;
-import net.bioclipse.rhino.exceptions.ScriptException;
+import net.bioclipse.jseditor.Activator;
+import net.bioclipse.jseditor.ScriptingTools;
+import net.bioclipse.jseditor.exceptions.ScriptException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.mozilla.javascript.Context;

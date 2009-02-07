@@ -1,4 +1,4 @@
-package net.bioclipse.rhino.editors;
+package net.bioclipse.jseditor.editors;
 
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -7,9 +7,9 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.TextEditor;
 
-import net.bioclipse.rhino.actions.RunRhinoScriptActionPulldown;
-import net.bioclipse.rhino.exceptions.ScriptException;
-import net.bioclipse.rhino.Activator;
+import net.bioclipse.jseditor.Activator;
+import net.bioclipse.jseditor.actions.RunRhinoScriptActionPulldown;
+import net.bioclipse.jseditor.exceptions.ScriptException;
 /**
  * 
  * This file is part of the Bioclipse Rhino Plug-in.

@@ -1,4 +1,4 @@
-package net.bioclipse.rhino.actions;
+package net.bioclipse.jseditor.actions;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;

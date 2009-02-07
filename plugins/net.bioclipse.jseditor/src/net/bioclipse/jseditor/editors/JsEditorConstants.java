@@ -1,12 +1,6 @@
-package net.bioclipse.rhino.editors;
+package net.bioclipse.jseditor.editors;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Display;
 /**
  * 
  * This file is part of the Bioclipse Rhino Plug-in.
@@ -27,21 +21,23 @@ import org.eclipse.swt.widgets.Display;
  * 
  * @author Johannes Wagener
  */
-public class JsColorManager {
-
-	protected Map<RGB,Color> fColorTable = new HashMap<RGB,Color>(10);
-
-	public void dispose() {
-		Iterator<Color> e = fColorTable.values().iterator();
-		while (e.hasNext())
-			 e.next().dispose();
-	}
-	public Color getColor(RGB rgb) {
-		Color color = fColorTable.get(rgb);
-		if (color == null) {
-			color = new Color(Display.getCurrent(), rgb);
-			fColorTable.put(rgb, color);
-		}
-		return color;
+public class JsEditorConstants {
+	
+	public final static RGB COLOR_COMMENT = new RGB(34, 139, 34);
+	public final static RGB COLOR_QUOTATIONMARK = new RGB(0, 127, 255);
+	public final static RGB COLOR_EMAIL = new RGB(0, 255, 0);
+	public final static RGB COLOR_STATEMENTS = new RGB(146, 0, 10);
+	//public final static RGB COLOR_GLOBAL = new RGB(197, 179, 88);
+	public final static RGB COLOR_VAR = new RGB(204, 0, 204);
+	public final static RGB DEFAULT = new RGB(0, 0, 0);
+	
+	/* partition scanner */
+	public final static String COMMENT_LINE = "comment_line";
+	public final static String COMMENT_SECTION = "comment_section";
+	
+	public static String[] getPartitionScannerTypes() {
+		return new String[] {
+				COMMENT_LINE,
+				COMMENT_SECTION };
 	}
 }

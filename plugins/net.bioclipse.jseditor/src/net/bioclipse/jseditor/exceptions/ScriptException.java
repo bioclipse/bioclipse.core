@@ -1,4 +1,4 @@
-package net.bioclipse.rhino.exceptions;
+package net.bioclipse.jseditor.exceptions;
 
 public class ScriptException extends Exception {
 	

@@ -1,4 +1,4 @@
-package net.bioclipse.rhino.editors;
+package net.bioclipse.jseditor.editors;
 
 import org.eclipse.jface.text.rules.IWhitespaceDetector;
 /**
