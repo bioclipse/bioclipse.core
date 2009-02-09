@@ -43,14 +43,14 @@
          class="net.bioclipse.scripting.ui.views.ActionHistoryView"
          id="net.bioclipse.scripting.ui.views.ActionHistoryView">
       </view>
-      <view
+      <!--view
          allowMultiple="false"
          category="net.bioclipse.ui.category"
          class="net.bioclipse.scripting.ui.views.VirtualView"
          id="net.bioclipse.scripting.ui.views.VirtualView"
          icon="icons/logo/logo_16_trans.gif"
          name="Virtual Navigator">
-      </view>
+      </view-->
    </extension>
    
     <extension
