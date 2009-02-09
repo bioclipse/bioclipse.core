@@ -36,14 +36,14 @@ import org.eclipse.update.ui.UpdateManagerUI;
  * @author ola
  *
  */
-public class AddExtensionsAction extends Action implements IAction {
+public class SoftwareUpdatesAction extends Action implements IAction {
 	private IWorkbenchWindow window;
 
-	public AddExtensionsAction(IWorkbenchWindow window) {
+	public SoftwareUpdatesAction(IWorkbenchWindow window) {
 		this.window = window;
-		setId("net.bioclipse.newExtensions");
-		setText("&Search for new features...");
-		setToolTipText("Search for and install new features");
+		setId("net.bioclipse.softwareUpdates");
+		setText("&Software Updates...");
+		setToolTipText("Download and install updates and new features");
 		setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
 				Activator.PLUGIN_ID, "icons/usearch_obj.gif"));
 		window.getWorkbench().getHelpSystem().setHelp(this,
@@ -53,7 +53,7 @@ public class AddExtensionsAction extends Action implements IAction {
 	public void run() {
 		BusyIndicator.showWhile(window.getShell().getDisplay(), new Runnable() {
 			public void run() {
-				UpdateJob job = new UpdateJob("Search for new extensions",
+				UpdateJob job = new UpdateJob("Software Updates",
 						getSearchRequest());
 				UpdateManagerUI.openInstaller(window.getShell(), job);
 			}
