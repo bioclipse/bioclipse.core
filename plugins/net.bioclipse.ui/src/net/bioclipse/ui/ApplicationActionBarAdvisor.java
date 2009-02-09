@@ -276,7 +276,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         windowMenu.add(showViewMenuMgr);
 
         MenuManager showPerspectivesMenuMgr = new MenuManager("Open Perspective", "openPerspective");
-        showViewMenuMgr.add(showPerspectivesItem);
+        showPerspectivesMenuMgr.add(showPerspectivesItem);
         windowMenu.add(showPerspectivesMenuMgr);
         
         windowMenu.add(new Separator());
