@@ -8,4 +8,42 @@
             service="net.bioclipse.inchi.business.InChIManagerFactory">
       </scriptContribution>
    </extension>
+   
+       <extension
+        point="org.eclipse.ui.commands">
+     <command
+           id="net.bioclipse.inchi.generateInChI"
+           defaultHandler="net.bioclipse.inchi.handlers.GenerateInChI"
+           name="generateInChI"/>
+  	</extension>
+   
+	<extension 
+  		point="org.eclipse.ui.menus">
+				<menuContribution
+			locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+		    <command
+		    	commandId="net.bioclipse.inchi.generateInChI"
+		    	label="Generate INChI"
+		        icon="icons/lamp16.png">
+		      	<visibleWhen>
+			   		<iterate operator="and" ifEmpty="false">
+			   			<or>
+		      			<adapt type="org.eclipse.core.resources.IResource">
+			      			<or>
+				                <test property="org.eclipse.core.resources.contentTypeId" 
+				           	    	value="net.bioclipse.contenttypes.cml"/>
+					   		    <test property="org.eclipse.core.resources.contentTypeId" 
+				       	        	value="net.bioclipse.contenttypes.mdlMolFile"/>
+				            </or>
+			      		</adapt>
+			      			<adapt type="net.bioclipse.cdk.domain.ICDKMolecule">
+				      		</adapt>
+			      		</or>
+			   		</iterate>
+		        </visibleWhen>
+	       </command>
+		</menuContribution>   
+   </extension>
+   
+   
 </plugin>
