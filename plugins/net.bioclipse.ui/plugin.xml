@@ -567,6 +567,10 @@
 	  activityId="forbiddenViewActivityId"
 	  pattern="org.eclipse.ui.ide/org.eclipse.ui.views.ResourceNavigator">
 	</activityPatternBinding>
+	<activityPatternBinding
+	  activityId="forbiddenViewActivityId"
+	  pattern="org.eclipse.ui.navigator.resources/org.eclipse.ui.navigator.ProjectExplorer">
+	</activityPatternBinding>
 	
 </extension>
 
