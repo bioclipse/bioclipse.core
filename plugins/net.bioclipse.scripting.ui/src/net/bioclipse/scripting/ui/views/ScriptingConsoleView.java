@@ -508,14 +508,20 @@ public abstract class ScriptingConsoleView extends ViewPart {
         String object = "";
         if ( pos > 0 && command.charAt(pos) == '.' ) {
             --pos;
-            object = "";
-            for (char additionalCharacter; pos >= 0
-                 && (Character.isLetterOrDigit(
-                         additionalCharacter = command.charAt(pos) )
-                     || additionalCharacter == '.' ); --pos)
-                object = additionalCharacter + object;
+            if ( Character.isLetterOrDigit( command.charAt(pos) ) ) {
+                for (char additionalCharacter; pos >= 0
+                     && (Character.isLetterOrDigit(
+                             additionalCharacter = command.charAt(pos) )
+                         || additionalCharacter == '.' ); --pos)
+                    object = additionalCharacter + object;
+            }
+            else {
+                object = null;
+            }
         }
-        List<String> variables = getAllVariablesIn(object);
+        List<String> variables = object == null
+                                   ? new ArrayList<String>()
+                                   : getAllVariablesIn(object);
         List<String> interestingVariables = new ArrayList<String>();
         for (String variable : variables)
             if (variable.toLowerCase().startsWith(prefix.toLowerCase()))
