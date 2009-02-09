@@ -12,7 +12,7 @@
 package net.bioclipse.ui;
 
 
-import net.bioclipse.ui.actions.AddExtensionsAction;
+import net.bioclipse.ui.actions.SoftwareUpdatesAction;
 import net.bioclipse.ui.actions.UpdateAction;
 
 import org.eclipse.core.runtime.IExtension;
@@ -96,9 +96,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
     private IWorkbenchAction resetPerspectiveAction;
 
-    private IAction updateAction;
-
-    private IAction addExtensionAction;
+    private IAction softwareUpdatesAction;
 
     //TODO: Why is this an IContributionItem?
     private IContributionItem showViewItem;
@@ -191,11 +189,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         helpAction = ActionFactory.HELP_CONTENTS.create(window);
         register(helpAction);
 
-        updateAction = new UpdateAction(window);
-        register(helpAction);
-
-        addExtensionAction = new AddExtensionsAction(window);
-        register(addExtensionAction);
+        softwareUpdatesAction = new SoftwareUpdatesAction(window);
+        register(softwareUpdatesAction);
 
         aboutAction = ActionFactory.ABOUT.create(window);
         register(aboutAction);
@@ -285,21 +280,14 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
                 "&Help", IWorkbenchActionConstants.M_HELP);
 
         //Intro action
-        helpMenu.add(introAction);
-
-        helpMenu.add(helpAction);
-        helpMenu.add(new Separator());
-        helpMenu.add(updateAction);
-        helpMenu.add(addExtensionAction);
-//        helpMenu.add(manageAction);
-        helpMenu.add(new Separator());
-
-        // Tips and tricks page would go here
-        //TODO
-
         helpMenu.add(new GroupMarker(IWorkbenchActionConstants.HELP_START));
+        helpMenu.add(introAction);
+        helpMenu.add(helpAction);
         helpMenu.add(new GroupMarker(IWorkbenchActionConstants.HELP_END));
+        helpMenu.add(new Separator());
         helpMenu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+        helpMenu.add(new Separator());
+        helpMenu.add(softwareUpdatesAction);
 
         // About should always be at the bottom
         helpMenu.add(new Separator());
