@@ -36,6 +36,7 @@ import org.eclipse.ui.ide.IDEActionFactory;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.registry.ActionSetRegistry;
 import org.eclipse.ui.internal.registry.IActionSetDescriptor;
+import org.eclipse.ui.views.IViewDescriptor;
 
 /**
  * The action bar advisor is responsible for creating, adding, and disposing of
@@ -101,6 +102,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
     //TODO: Why is this an IContributionItem?
     private IContributionItem showViewItem;
+    private IContributionItem showPerspectivesItem;
 
 
     public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
@@ -120,6 +122,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         // the window is closed.
 
         showViewItem = ContributionItemFactory.VIEWS_SHORTLIST.create(window);
+        showPerspectivesItem = ContributionItemFactory.PERSPECTIVES_SHORTLIST.create(window);
         // register(showViewItem);
 
         newAction = ActionFactory.NEW.create(window);
@@ -271,6 +274,11 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         MenuManager showViewMenuMgr = new MenuManager("Show View", "showView");
         showViewMenuMgr.add(showViewItem);
         windowMenu.add(showViewMenuMgr);
+
+        MenuManager showPerspectivesMenuMgr = new MenuManager("Open Perspective", "openPerspective");
+        showViewMenuMgr.add(showPerspectivesItem);
+        windowMenu.add(showPerspectivesMenuMgr);
+        
         windowMenu.add(new Separator());
         windowMenu.add(resetPerspectiveAction);
         windowMenu.add(new Separator());
@@ -332,7 +340,25 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 
 	private void removeUnwantedActions(){
+		
+    	String actionSetId = "org.eclipse.ui.edit.text.actionSet.navigation";
+		removeActionByID(actionSetId);
+    	actionSetId = "org.eclipse.ui.edit.text.actionSet.convertLineDelimitersTo";
+		removeActionByID(actionSetId);
+    	actionSetId = "org.eclipse.ui.actionSet.openFiles";
+		removeActionByID(actionSetId);
 
+		//Remove unwanted views
+//		IViewDescriptor[] views = WorkbenchPlugin.getDefault().getViewRegistry().getViews();
+//		for (IViewDescriptor view : views){
+//			if (view.getId().equals("org.eclipse.ui.views.BookmarkView")){
+//				view.
+//			}
+//		}
+		
+//		
+		
+/*
     	ActionSetRegistry reg = WorkbenchPlugin.getDefault().getActionSetRegistry();
     	IActionSetDescriptor[] actionSets = reg.getActionSets();
     	// removing annoying gotoLastPosition Message.
@@ -367,8 +393,24 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     		.getDeclaringExtension();
     		reg.removeExtension(ext, new Object[] { actionSets[i] });
     	}
-    	
+    	*/
     }
+	
+	private void removeActionByID(String actionSetID){
+
+    	ActionSetRegistry reg = WorkbenchPlugin.getDefault().getActionSetRegistry();
+    	IActionSetDescriptor[] actionSets = reg.getActionSets();
+
+    	for (int i = 0; i <actionSets.length; i++)
+    	{
+    		if (!actionSets[i].getId().equals(actionSetID))
+    			continue;
+    		IExtension ext = actionSets[i].getConfigurationElement()
+    		.getDeclaringExtension();
+    		reg.removeExtension(ext, new Object[] { actionSets[i] });
+    	}
+
+	}
     
 
 }

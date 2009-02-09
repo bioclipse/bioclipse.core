@@ -543,5 +543,31 @@
    </extension>
 
 
+<extension point="org.eclipse.ui.activities">
+	<activity
+	  id="forbiddenViewActivityId"
+	  name="Forbidden View Activity"/>
+	<activityPatternBinding
+	  activityId="forbiddenViewActivityId"
+	  pattern="org.eclipse.ui.ide/org.eclipse.ui.views.BookmarkView">
+	</activityPatternBinding>
+	<activityPatternBinding
+	  activityId="forbiddenViewActivityId"
+	  pattern="org.eclipse.ui.ide/org.eclipse.ui.views.TaskList">
+	</activityPatternBinding>
+	<activityPatternBinding
+	  activityId="forbiddenViewActivityId"
+	  pattern="org.eclipse.ui.ide/org.eclipse.ui.views.ProblemView">
+	</activityPatternBinding>
+	<activityPatternBinding
+	  activityId="forbiddenViewActivityId"
+	  pattern="org.eclipse.ui.ide/org.eclipse.ui.views.AllMarkersView">
+	</activityPatternBinding>
+	<activityPatternBinding
+	  activityId="forbiddenViewActivityId"
+	  pattern="org.eclipse.ui.ide/org.eclipse.ui.views.ResourceNavigator">
+	</activityPatternBinding>
+	
+</extension>
 
 </plugin>
