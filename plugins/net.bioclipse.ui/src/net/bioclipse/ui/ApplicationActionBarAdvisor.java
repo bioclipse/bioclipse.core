@@ -95,6 +95,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     private IWorkbenchAction aboutAction, printAction, newAction;
 
     private IWorkbenchAction resetPerspectiveAction;
+	private IWorkbenchAction dynamicHelpAction;
 
     private IAction softwareUpdatesAction;
 
@@ -188,6 +189,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
         helpAction = ActionFactory.HELP_CONTENTS.create(window);
         register(helpAction);
+
+        dynamicHelpAction = ActionFactory.DYNAMIC_HELP.create(window);
+        register(dynamicHelpAction);
 
         softwareUpdatesAction = new SoftwareUpdatesAction(window);
         register(softwareUpdatesAction);
@@ -283,6 +287,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         helpMenu.add(new GroupMarker(IWorkbenchActionConstants.HELP_START));
         helpMenu.add(introAction);
         helpMenu.add(helpAction);
+        helpMenu.add(dynamicHelpAction);
         helpMenu.add(new GroupMarker(IWorkbenchActionConstants.HELP_END));
         helpMenu.add(new Separator());
         helpMenu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
