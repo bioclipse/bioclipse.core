@@ -492,6 +492,13 @@
 
         <content-type
               base-type="org.eclipse.core.runtime.text"
+              id="net.bioclipse.contenttypes.mdlMolFile"
+              name="MDL MolFile"
+              priority="high">
+        </content-type>
+
+        <content-type
+              base-type="net.bioclipse.contenttypes.mdlMolFile"
               file-extensions="mdl,mol"
               id="net.bioclipse.contenttypes.mdlMolFile2D"
               name="MdlMolfileContentType2D"
@@ -505,7 +512,7 @@
         </content-type>
 
         <content-type
-              base-type="org.eclipse.core.runtime.text"
+              base-type="net.bioclipse.contenttypes.mdlMolFile"
               file-extensions="mdl,mol"
               id="net.bioclipse.contenttypes.mdlMolFile3D"
               name="MdlMolfileContentType3D"
