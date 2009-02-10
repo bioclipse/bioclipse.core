@@ -292,10 +292,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
                 "&Help", IWorkbenchActionConstants.M_HELP);
 
         //Intro action
-        helpMenu.add(new GroupMarker(IWorkbenchActionConstants.HELP_START));
         helpMenu.add(introAction);
         helpMenu.add(helpAction);
         helpMenu.add(dynamicHelpAction);
+        helpMenu.add(new GroupMarker(IWorkbenchActionConstants.HELP_START));
         helpMenu.add(new GroupMarker(IWorkbenchActionConstants.HELP_END));
         helpMenu.add(new Separator());
         helpMenu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
