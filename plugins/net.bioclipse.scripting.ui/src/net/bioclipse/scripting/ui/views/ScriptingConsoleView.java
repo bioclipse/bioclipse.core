@@ -165,13 +165,13 @@ public abstract class ScriptingConsoleView extends ViewPart {
 //        data.grabExcessHorizontalSpace = true;
         parent.setLayout(layout);
         
-        output = new Text(parent, SWT.READ_ONLY | SWT.MULTI | SWT.V_SCROLL);
+        output = new Text(parent, SWT.READ_ONLY | SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
         output.setFont(JFaceResources.getTextFont());
         GridData outputData = new GridData(GridData.FILL_BOTH);
         output.setBackground(new Color(parent.getDisplay(), 0xFF, 0xFF, 0xFF));
         output.setLayoutData(outputData);
         
-        input = new Text(parent, SWT.SINGLE);
+        input = new Text(parent, SWT.SINGLE | SWT.BORDER);
         input.setFont(JFaceResources.getTextFont());
         input.addKeyListener( new KeyListener() {
             public void keyPressed(KeyEvent e) { handleKey(e); }
