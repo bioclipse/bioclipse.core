@@ -35,8 +35,8 @@ public class WebservicesManagerPluginTest {
 	@Test
 	public void testDownloadPDBFile() throws BioclipseException, CoreException, IOException{
 
-		String tempPath="/Virtual/";
-		String path= ws.downloadPDBFile("1d66", tempPath);
+		//String tempPath="/Virtual/";
+		String path= ws.downloadPDBAsFile("1d66");
 		assertNotNull(path);
 		System.out.println("Path: " + path);
 		ICDKMolecule mol = Activator.getDefault().getCDKManager().loadMolecule(path);
