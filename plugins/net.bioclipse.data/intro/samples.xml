@@ -3,11 +3,11 @@
   	
   	  	<extensionContent id="net.bioclipse.intro.workbench.samples" style="css/intro.css" name="Bioclipse Samples" path="samples/@">
 		<group style-id="content-group" id="samples-group">
-       		<link label="Install sample data" url="http://org.eclipse.ui.intro/runAction?pluginId=net.bioclipse.data&amp;class=net.bioclipse.data.samples.SampleDataAction" id="samples-install" style-id="content-link">
-          		<text>Install sample data.</text>
+       		<link label="Install sample data" url="http://org.eclipse.ui.intro/runAction?pluginId=net.bioclipse.data&amp;class=net.bioclipse.data.samples.SampleDataAction" id="dbitem" style-id="content-link">
+          		<text>Create a project and add some sample molecules, proteins, scripts etc in various formats.</text>
        		</link>
-       		<link label="Install extended sample data" url="http://org.eclipse.ui.intro/runAction?pluginId=net.bioclipse.data&amp;class=net.bioclipse.data.samples.ExtendedSampleDataAction" id="samples-install" style-id="content-link">
-          		<text>Install extended sample data.</text>
+       		<link label="Install extended sample data" url="http://org.eclipse.ui.intro/runAction?pluginId=net.bioclipse.data&amp;class=net.bioclipse.data.samples.ExtendedSampleDataAction" id="dbworlditem" style-id="content-link">
+          		<text>Download and create a new Project with a more extensive set of samples.</text>
        		</link>
        	</group>
   	</extensionContent>

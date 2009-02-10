@@ -2,8 +2,11 @@
 a#overview-whatisbioclipse img { background-image : url(graphics/sample.gif); }
 a#overview-whatisbioclipse:hover img { background-image : url(graphics/sample_hov.gif); }
 
-a#mainitem img { background-image : url(graphics/sample.gif); }
-a#mainitem:hover img { background-image : url(graphics/sample_hov.gif); }
+a#dbitem img { background-image : url(graphics/db48.png); }
+a#dbitem:hover img { background-image : url(graphics/db48.png); }
+
+a#dbworlditem img { background-image : url(graphics/dbworld48.png); }
+a#dbworlditem:hover img { background-image : url(graphics/dbworld48.png); }
 
 a#weblink { text-align: left; }
 
