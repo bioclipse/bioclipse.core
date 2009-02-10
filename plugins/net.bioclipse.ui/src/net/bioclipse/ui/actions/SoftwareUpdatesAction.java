@@ -90,5 +90,4 @@ public class SoftwareUpdatesAction extends Action implements IAction {
 		return result;
 	}
 	
-	
 }

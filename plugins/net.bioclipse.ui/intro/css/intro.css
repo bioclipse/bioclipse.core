@@ -5,6 +5,9 @@ a#overview-whatisbioclipse:hover img { background-image : url(graphics/sample_ho
 a#mainitem img { background-image : url(graphics/sample.gif); }
 a#mainitem:hover img { background-image : url(graphics/sample_hov.gif); }
 
+a#updateitem img { background-image : url(graphics/wn_updates48.gif); }
+a#updateitem:hover img { background-image : url(graphics/wn_updates48_hov.gif); }
+
 a#weblink { text-align: left; }
 
 #weblink { text-align: left; color: #FF0000;}

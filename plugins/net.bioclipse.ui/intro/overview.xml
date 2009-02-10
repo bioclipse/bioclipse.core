@@ -9,7 +9,10 @@
           		<text>Learn the basic Bioclipse concepts, such as View, Editor, Perspective etc.</text>
        		</link>
        		<link label="Licensing" url="http://org.eclipse.ui.intro/showPage?id=licenses" id="mainitem" style-id="content-link">
-          		<text>A description of copyright and licenses in Bioclipse.</text>
+          		<text>A description and statements of copyright and licenses in Bioclipse.</text>
+       		</link>
+       		<link label="Download additional features" url="http://org.eclipse.ui.intro/runAction?pluginId=net.bioclipse.ui&amp;class=net.bioclipse.ui.actions.LaunchUpdateIntroAction" id="updateitem" style-id="content-link">
+          		<text>Search, download, and install additional features from one or more Bioclipse update sites.</text>
        		</link>
        		<link label="Go to workbench but keep introduction open" url="http://org.eclipse.ui.intro/setStandbyMode?standby=true" id="mainitem">
    		         <text>Go to workbench but keep introduction window open on side for assistance</text>
@@ -20,6 +23,11 @@
        	</group>
   	</extensionContent>
 
+	<page id="whatisBioclipse2" style="/intro/overview.css" style-id="page">
+      <title style-id="intro-header">What is Bioclipse2</title>
+      <include path="product:content/whatcanIdo.xhtml"/>
+      <content />
+	</page>
   	
 	<page id="whatisBioclipse" style="/intro/overview.css" style-id="page">
 

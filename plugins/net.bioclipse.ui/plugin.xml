@@ -81,7 +81,7 @@
             value="Welcome to Bioclipse 2.0 beta"/>
       <property
             name="introBrandingImage"
-            value="product:eclipse.png"/>
+            value="product:bioclipse.png"/>
       <property
             name="introBrandingImageText"
             value="The Bioclipse Team"/>
@@ -101,7 +101,7 @@
       </introProductBinding>
    </extension>
    
-   <extension
+   <!--extension
          point="org.eclipse.ui.intro.config">
       <config
             introId="net.bioclipse.ui.intro"
@@ -115,7 +115,7 @@
             </implementation>
          </presentation>
       </config>
-   </extension>
+   </extension-->
    
       <extension
          point="org.eclipse.ui.preferencePages">
