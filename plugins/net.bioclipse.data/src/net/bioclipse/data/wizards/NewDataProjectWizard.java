@@ -71,19 +71,33 @@ public class NewDataProjectWizard extends Wizard implements INewWizard, IExecuta
         setWindowTitle("New Sample Data project");
 
         fFirstPage = new WizardNewProjectCreationPage("New Sample Data project");
-        boolean projectNamedSampleDataExists = false;
-        String sampleData = "Sample Data";
-        for ( IProject p : ResourcesPlugin.getWorkspace()
-                                          .getRoot()
-                                          .getProjects(
-                                              Project.INCLUDE_HIDDEN) ) {
-            if ( sampleData.equals( p.getName() ) ) {
-                projectNamedSampleDataExists = true;
-            }
+        boolean shouldEnd = false;
+        String projectNameStart = "Sample Data";
+        int cnt=1;
+
+        String projectName=projectNameStart;
+        while (!shouldEnd){
+
+        	boolean foundMatch=false;
+        	for ( IProject p : ResourcesPlugin.getWorkspace().getRoot()
+        						.getProjects(Project.INCLUDE_HIDDEN) ) {
+        		if ( projectName.equals( p.getName() ) ) {
+        			foundMatch = true;
+        		}
+        	}
+
+        	//Construct new project name
+        	if (foundMatch){
+        		projectName=projectNameStart+" " + cnt++;
+        	}else{
+        		shouldEnd=true;
+        	}
+
         }
-        if ( !projectNamedSampleDataExists ) {
-            fFirstPage.setInitialProjectName( sampleData );
-        }
+        
+        logger.debug("New data project name: " + projectName);
+        
+        fFirstPage.setInitialProjectName( projectName );
         folPage=new SelectDataFoldersPage();
 
     }
