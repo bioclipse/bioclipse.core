@@ -16,7 +16,6 @@ import java.lang.reflect.Method;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.IBioclipseManager;
-import net.bioclipse.core.jobs.Job;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -113,39 +112,39 @@ public abstract class AbstractManagerTest {
         }
     }
 
-    /**
-     * If a {@link IBioclipseManager} method <code>foo(IFile)</code>
-     * annotated with {link Job} exists, then there must also be a method in the
-     * matching {@link BioclipseManager} which takes an IFile, an IProgressMonitor
-     * and an IRunnable parameter, <code>foo(IFile, IProgressMonitor, IRunnable)</code>.
-     */
-    @Test public void testForFooJobImplementations() {
-        IBioclipseManager manager = getManager();
-        Class managerInterface = getManagerInterface(manager);
-        Method[] methods = managerInterface.getMethods();
-        for (Method method : methods) {
-            Class[] parameters = method.getParameterTypes();
-            if (isJob(method) && hasParameter(parameters, IFile.class)) {
-                // OK, found a foo(X, IFile, Y)
-                Class[] expectedParameters = expandParameter(
-                    parameters, IFile.class, new Class[]{
-                        IFile.class, IProgressMonitor.class, Runnable.class
-                    },
-                    -1
-                );
-                Method matchingMethod = findMethod(
-                    manager.getClass(), method.getName(), expectedParameters
-                );
-                Assert.assertNotNull(
-                    managerInterface.getName() + " method " + method.getName() +
-                    "(IFile) annotation with @Job does not have the required matching " +
-                    manager.getClass().getName() + " method " +
-                    method.getName() +"(IFile, IProgressMonitor, IRunnable).",
-                    matchingMethod
-                );
-            }
-        }
-    }
+//    /**
+//     * If a {@link IBioclipseManager} method <code>foo(IFile)</code>
+//     * annotated with {link Job} exists, then there must also be a method in the
+//     * matching {@link BioclipseManager} which takes an IFile, an IProgressMonitor
+//     * and an IRunnable parameter, <code>foo(IFile, IProgressMonitor, IRunnable)</code>.
+//     */
+//    @Test public void testForFooJobImplementations() {
+//        IBioclipseManager manager = getManager();
+//        Class managerInterface = getManagerInterface(manager);
+//        Method[] methods = managerInterface.getMethods();
+//        for (Method method : methods) {
+//            Class[] parameters = method.getParameterTypes();
+//            if (isJob(method) && hasParameter(parameters, IFile.class)) {
+//                // OK, found a foo(X, IFile, Y)
+//                Class[] expectedParameters = expandParameter(
+//                    parameters, IFile.class, new Class[]{
+//                        IFile.class, IProgressMonitor.class, Runnable.class
+//                    },
+//                    -1
+//                );
+//                Method matchingMethod = findMethod(
+//                    manager.getClass(), method.getName(), expectedParameters
+//                );
+//                Assert.assertNotNull(
+//                    managerInterface.getName() + " method " + method.getName() +
+//                    "(IFile) annotation with @Job does not have the required matching " +
+//                    manager.getClass().getName() + " method " +
+//                    method.getName() +"(IFile, IProgressMonitor, IRunnable).",
+//                    matchingMethod
+//                );
+//            }
+//        }
+//    }
 
     /**
      * Replaces the parameters type <code>toExpand</code> into the parameter
@@ -172,69 +171,69 @@ public abstract class AbstractManagerTest {
         return expectedParameters;
     }
 
-    /**
-     * If a {@link IBioclipseManager} method <code>foo(IFile)</code>
-     * annotated with {link Job} exists, then the matching method in the
-     * matching {@link BioclipseManager} must return void.
-     */
-    @Test public void testForFooIFileReturnsVoid() {
-        IBioclipseManager manager = getManager();
-        Class managerInterface = getManagerInterface(manager);
-        Method[] methods = managerInterface.getMethods();
-        for (Method method : methods) {
-            Class[] parameters = method.getParameterTypes();
-            if (parameters.length == 1 && isJob(method) &&
-                (parameters[0].getName().equals(IFile.class.getName()))) {
-                // OK, found a foo(IFile)
-                Assert.assertTrue(
-                    managerInterface.getName() + " method " + method.getName() +
-                    "(IFile) annotation with @Job must return void",
-                    method.getReturnType() == null
-                );
-            }
-        }
-    }
+//    /**
+//     * If a {@link IBioclipseManager} method <code>foo(IFile)</code>
+//     * annotated with {link Job} exists, then the matching method in the
+//     * matching {@link BioclipseManager} must return void.
+//     */
+//    @Test public void testForFooIFileReturnsVoid() {
+//        IBioclipseManager manager = getManager();
+//        Class managerInterface = getManagerInterface(manager);
+//        Method[] methods = managerInterface.getMethods();
+//        for (Method method : methods) {
+//            Class[] parameters = method.getParameterTypes();
+//            if (parameters.length == 1 && isJob(method) &&
+//                (parameters[0].getName().equals(IFile.class.getName()))) {
+//                // OK, found a foo(IFile)
+//                Assert.assertTrue(
+//                    managerInterface.getName() + " method " + method.getName() +
+//                    "(IFile) annotation with @Job must return void",
+//                    method.getReturnType() == null
+//                );
+//            }
+//        }
+//    }
 
-    /**
-     * If a {@link IBioclipseManager} method is annotated with {link Job}
-     * exists which takes a <code>String<code> as the last parameter, then
-     * there must exist a matching method in the {@link BioclipseManager} that
-     * takes the same parameters, but with the last parameter String
-     * parameter replaced by IFile, IProgressMonitor, Runnable.
-     *
-     * @see #testForFooJobImplementations
-     */
-    @Test public void testFooStringJobImplementation() {
-        IBioclipseManager manager = getManager();
-        Class managerInterface = getManagerInterface(manager);
-        Method[] methods = managerInterface.getMethods();
-        for (Method method : methods) {
-            if (isJob(method)) {
-                Class[] parameters = method.getParameterTypes();
-                int paramCount = parameters.length;
-                if (paramCount > 0 &&
-                    parameters[paramCount-1].getName().equals(String.class.getName())) {
-                    // then
-                    Class[] expectedParameters = expandParameter(
-                        parameters, String.class, new Class[]{
-                            IFile.class, IProgressMonitor.class, Runnable.class
-                        },
-                        paramCount-1
-                    );
-                    Method matchingMethod = findMethod(
-                        manager.getClass(), method.getName(), expectedParameters
-                    );
-                    Assert.assertNotNull(
-                        managerInterface.getName() + " method " + method.getName() +
-                        "(String) annotation with @Job does not have the required matching " +
-                        manager.getClass().getName() + " method " +
-                        method.getName() +"(IFile, IProgressMonitor, IRunnable).",
-                        matchingMethod
-                    );
-                }
-            }
-        }
-    }
+//    /**
+//     * If a {@link IBioclipseManager} method is annotated with {link Job}
+//     * exists which takes a <code>String<code> as the last parameter, then
+//     * there must exist a matching method in the {@link BioclipseManager} that
+//     * takes the same parameters, but with the last parameter String
+//     * parameter replaced by IFile, IProgressMonitor, Runnable.
+//     *
+//     * @see #testForFooJobImplementations
+//     */
+//    @Test public void testFooStringJobImplementation() {
+//        IBioclipseManager manager = getManager();
+//        Class managerInterface = getManagerInterface(manager);
+//        Method[] methods = managerInterface.getMethods();
+//        for (Method method : methods) {
+//            if (isJob(method)) {
+//                Class[] parameters = method.getParameterTypes();
+//                int paramCount = parameters.length;
+//                if (paramCount > 0 &&
+//                    parameters[paramCount-1].getName().equals(String.class.getName())) {
+//                    // then
+//                    Class[] expectedParameters = expandParameter(
+//                        parameters, String.class, new Class[]{
+//                            IFile.class, IProgressMonitor.class, Runnable.class
+//                        },
+//                        paramCount-1
+//                    );
+//                    Method matchingMethod = findMethod(
+//                        manager.getClass(), method.getName(), expectedParameters
+//                    );
+//                    Assert.assertNotNull(
+//                        managerInterface.getName() + " method " + method.getName() +
+//                        "(String) annotation with @Job does not have the required matching " +
+//                        manager.getClass().getName() + " method " +
+//                        method.getName() +"(IFile, IProgressMonitor, IRunnable).",
+//                        matchingMethod
+//                    );
+//                }
+//            }
+//        }
+//    }
 
     /**
      * If a published method has parameters, e.g. <code>foo(IFile)</code>, then
@@ -303,19 +302,6 @@ public abstract class AbstractManagerTest {
                 return interfaz;
         }
         return null;
-    }
-
-    /**
-     * Tests if the Method has {@link Job} annotation.
-     */
-    private boolean isJob(Method method) {
-        Annotation[] otherAnnots = method.getAnnotations();
-        for (Annotation annot : otherAnnots) {
-            if (annot instanceof Job) {
-                return true;
-            }
-        }
-        return false;
     }
     
     /**
