@@ -2,22 +2,22 @@
 <introContent>
   	<extensionContent id="net.bioclipse.intro.workbench" style="css/intro.css" name="Bioclipse Workbench" path="overview/@">
 		<group style-id="content-group" id="workbench-group">
-       		<link label="What is Bioclipse?" url="http://org.eclipse.ui.intro/showPage?id=whatisBioclipse" id="mainitem" style-id="content-link">
+       		<link label="What is Bioclipse?" url="http://org.eclipse.ui.intro/showPage?id=whatisBioclipse" id="wbitem" style-id="content-link">
           		<text>Bioclipse is a complete workbench and platform for life science. Learn here what this means.</text>
        		</link>
-       		<link label="Bioclipse concepts" url="http://org.eclipse.ui.intro/showPage?id=bioclipseConcepts" id="mainitem" style-id="content-link">
+       		<link label="Bioclipse concepts" url="http://org.eclipse.ui.intro/showPage?id=bioclipseConcepts" id="concitem" style-id="content-link">
           		<text>Learn the basic Bioclipse concepts, such as View, Editor, Perspective etc.</text>
        		</link>
-       		<link label="Licensing" url="http://org.eclipse.ui.intro/showPage?id=licenses" id="mainitem" style-id="content-link">
+       		<link label="Licensing" url="http://org.eclipse.ui.intro/showPage?id=licenses" id="paraitem" style-id="content-link">
           		<text>A description and statements of copyright and licenses in Bioclipse.</text>
        		</link>
        		<link label="Download additional features" url="http://org.eclipse.ui.intro/runAction?pluginId=net.bioclipse.ui&amp;class=net.bioclipse.ui.actions.LaunchUpdateIntroAction" id="updateitem" style-id="content-link">
           		<text>Search, download, and install additional features from one or more Bioclipse update sites.</text>
        		</link>
-       		<link label="Go to workbench but keep introduction open" url="http://org.eclipse.ui.intro/setStandbyMode?standby=true" id="mainitem">
+       		<link label="Go to workbench but keep introduction open" url="http://org.eclipse.ui.intro/setStandbyMode?standby=true" id="wbitem">
    		         <text>Go to workbench but keep introduction window open on side for assistance</text>
             </link>
-       		<link label="Documentation" url="http://org.eclipse.ui.intro/showPage?id=documentation" id="mainitem" style-id="content-link">
+       		<link label="Documentation" url="http://org.eclipse.ui.intro/showPage?id=documentation" id="docitem" style-id="content-link">
             	<text>The various ways for finding out about the different sources of documentation that exists for Bioclipse</text>
          	</link>
        	</group>

@@ -8,6 +8,37 @@ a#mainitem:hover img { background-image : url(graphics/sample_hov.gif); }
 a#updateitem img { background-image : url(graphics/wn_updates48.gif); }
 a#updateitem:hover img { background-image : url(graphics/wn_updates48_hov.gif); }
 
+a#wbitem img { background-image : url(graphics/bc-wb.png); }
+a#wbitem:hover img { background-image : url(graphics/bc-wb.png); }
+
+a#concitem img { background-image : url(graphics/earth48.gif); }
+a#concitem:hover img { background-image : url(graphics/earth48.gif); }
+
+a#paraitem img { background-image : url(graphics/paragraph48.gif); }
+a#paraitem:hover img { background-image : url(graphics/paragraph48.gif); }
+
+a#docitem img { background-image : url(graphics/docu48.gif); }
+a#docitem:hover img { background-image : url(graphics/docu48.gif); }
+
+a#blogitem img { background-image : url(graphics/blog48.jpg); }
+a#blogitem:hover img { background-image : url(graphics/blog48.jpg); }
+
+a#webitem img { background-image : url(graphics/world48.png); }
+a#webitem:hover img { background-image : url(graphics/world48.png); }
+
+a#runitem img { background-image : url(graphics/runman48.png); }
+a#runitem:hover img { background-image : url(graphics/runman48.png); }
+
+a#helpitem img { background-image : url(graphics/help48.png); }
+a#helpitem:hover img { background-image : url(graphics/help48.png); }
+
+a#downloaditem img { background-image : url(graphics/download48.gif); }
+a#downloaditem:hover img { background-image : url(graphics/download48.gif); }
+
+a#sheetitem img { background-image : url(graphics/sheetok.gif); }
+a#sheetitem:hover img { background-image : url(graphics/sheetok.gif); }
+
+
 a#weblink { text-align: left; }
 
 #weblink { text-align: left; color: #FF0000;}

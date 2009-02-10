@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <introContent>
 
-  	  	<extensionContent id="net.bioclipse.intro.workbench.firststeps" style="css/sample.css" name="Bioclipse First Steps" path="firststeps/@">
+  	  	<extensionContent id="net.bioclipse.intro.workbench.firststeps" style="css/intro.css" name="Bioclipse First Steps" path="firststeps/@">
 		<group style-id="content-group" id="firststep-group">
-			<link label="What can I do with Bioclipse?" url="http://org.eclipse.ui.intro/showPage?id=whatcanIdo" id="overview-whatisbioclipse" style-id="content-link">
+			<link label="What can I do with Bioclipse?" url="http://org.eclipse.ui.intro/showPage?id=whatcanIdo" id="runitem" style-id="content-link">
           		<text>Learn the basic tasks of Bioclipse</text>
        		</link>
  
-      		<link label="Introductory CheatSheet" url="http://org.eclipse.ui.intro/showStandby?partId=net.bioclipse.cheatsheet&amp;input=net.bioclipse.cheatsheets.basics" id="about2" >
+      		<link label="Introductory CheatSheet" url="http://org.eclipse.ui.intro/showStandby?partId=net.bioclipse.cheatsheet&amp;input=net.bioclipse.cheatsheets.basics" id="sheetitem" >
             <text>A CheatSheet is an interactive tutorial from inside the workbench.
 	            This chetsheet takes you through the first steps of Bioclipse.
             </text>
 	         </link>
        		
-			<link label="Installing more features" url="http://org.eclipse.ui.intro/showPage?id=installing" id="overview-whatisbioclipse" style-id="content-link">
+			<link label="Installing more features" url="http://org.eclipse.ui.intro/showPage?id=installing" id="downloaditem" style-id="content-link">
           		<text>Learn how to download and install more features into Bioclipse</text>
        		</link>
        		
-      		<link label="Bioclipse Help" url="http://org.eclipse.ui.intro/showHelp" id="about">
+      		<link label="Bioclipse Help" url="http://org.eclipse.ui.intro/showHelp" id="helpitem">
             <text>Go to the Bioclispe help system</text>
          </link>
        	</group>

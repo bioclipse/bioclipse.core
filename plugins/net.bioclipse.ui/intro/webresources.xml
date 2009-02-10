@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <introContent>
-  	  	<extensionContent id="net.bioclipse.intro.webresources" style="css/sample.css" name="Bioclipse Web Resources" path="webresources/@">
+  	  	<extensionContent id="net.bioclipse.intro.webresources" style="css/intro.css" name="Bioclipse Web Resources" path="webresources/@">
 		<group style-id="content-group" id="webresources-group">
-       		<link label="Bioclipse website" url="http://www.bioclipse.net" id="weblink" style-id="content-link">
+       		<link label="Bioclipse website" url="http://www.bioclipse.net" id="webitem" style-id="content-link">
           		<text>Go to the Bioclipse website</text>
        		</link>
-       		<link label="Bioclipse development wiki" url="http://www.wiki.bioclipse.net" id="weblink" style-id="content-link">
+       		<link label="Bioclipse development wiki" url="http://www.wiki.bioclipse.net" id="webitem" style-id="content-link">
           		<text>Go to the Bioclipse development wiki</text>
        		</link>
-       		<link label="Bioclipse blog" url="http://bioclipse.blogspot.com" id="weblink" style-id="content-link">
+       		<link label="Bioclipse blog" url="http://bioclipse.blogspot.com" id="blogitem" style-id="content-link">
           		<text>Go to the Bioclipse blog</text>
        		</link>
        	</group>

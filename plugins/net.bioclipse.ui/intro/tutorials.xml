@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <introContent>
-  	  	<extensionContent id="net.bioclipse.intro.workbench.tutorials" style="css/sample.css" name="Bioclipse Tuturials" path="tutorials/@">
+  	  	<extensionContent id="net.bioclipse.intro.workbench.tutorials" style="css/intro.css" name="Bioclipse Tuturials" path="tutorials/@">
 		<group style-id="content-group" id="tutorials-group">
 
-       		<link label="Getting started with Bioclipse" url="http://org.eclipse.ui.intro/showHelpTopic?id=/net.bioclipse.ui/html/about.html" id="biuoclipse-tutirials" style-id="content-link">
+       		<link label="Getting started with Bioclipse" url="http://org.eclipse.ui.intro/showHelpTopic?id=/net.bioclipse.ui/html/about.html" id="runitem" style-id="runitem">
           		<text>Learn the basics with Bioclipse using this article in the Bioclipse Help system.</text>
        		</link>
 
-      		<link label="Introductory Bioclipse CheatSheet" url="http://org.eclipse.ui.intro/showStandby?partId=net.bioclipse.cheatsheet&amp;input=net.bioclipse.cheatsheets.basics" id="about2" >
+      		<link label="Introductory Bioclipse CheatSheet" url="http://org.eclipse.ui.intro/showStandby?partId=net.bioclipse.cheatsheet&amp;input=net.bioclipse.cheatsheets.basics" id="sheetitem" >
             <text>A CheatSheet is an interactive tutorial from inside the workbench.
             This chetsheet takes you through the first steps of Bioclipse.
             </text>
