@@ -20,8 +20,14 @@ import org.eclipse.swt.dnd.DropTarget;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.DropTargetListener;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Color;
@@ -170,6 +176,30 @@ public abstract class ScriptingConsoleView extends ViewPart {
         GridData outputData = new GridData(GridData.FILL_BOTH);
         output.setBackground(new Color(parent.getDisplay(), 0xFF, 0xFF, 0xFF));
         output.setLayoutData(outputData);
+        
+        //TODO: masak: verify behaviour and code
+        output.addMouseListener(new MouseListener(){
+			public void mouseDoubleClick(MouseEvent e) {
+        		input.setFocus();
+			}
+
+			public void mouseDown(MouseEvent e) {
+			}
+
+			public void mouseUp(MouseEvent e) {
+        		input.setFocus();
+			}
+
+        });
+        
+//        output.addFocusListener(new FocusListener(){
+//			public void focusGained(FocusEvent e) {
+//				output.
+//				input.setFocus();
+//			}
+//			public void focusLost(FocusEvent e) {
+//			}
+//        });
         
         input = new Text(parent, SWT.SINGLE | SWT.BORDER);
         input.setFont(JFaceResources.getTextFont());
