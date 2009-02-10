@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Shell;
@@ -40,23 +41,30 @@ public class ExtendedSampleDataAction extends Action implements IIntroAction {
 	 */
 	public void run(IIntroSite site, Properties params) {
 		
+		final IIntroSite psite=site;
+		final Properties pparams=params;
+		
 		Runnable r = new Runnable() {
 			public void run() {
 				try {
-					if (!ensureSampleFeaturePresent()){
+					if (ensureSampleFeaturePresent()){
 						logger.debug("Sample feature is or was already installed");
-						showMessage("Installation of sample data was successful");
+//						showMessage("Installation of sample data was successful");
+						
+						IIntroAction sampleDataAction=new SampleDataAction();
+						sampleDataAction.run(psite, pparams);
 
 					}else{
-						logger.error("Sample data installation failed");
-						showMessage("Installation of sample data failed.");
+						//TODO: should not report this on cancel"
+						logger.error("There was an error downloading sample data from update site.");
+						showMessage("There was an error downloading sample data from update site.");
 					}
 				} catch (InvocationTargetException e) {
 					logger.error("Sample data installation failed: " + e.getMessage());
 					showError("Installation of sample data failed: " + e.getMessage());
 				} catch (InterruptedException e) {
 					logger.error("Sample data installation was interrupted.");
-					showMessage("Sample data installation was interrupted.");
+//					showMessage("Sample data installation was interrupted.");
 				}
 
 			}
@@ -76,10 +84,14 @@ public class ExtendedSampleDataAction extends Action implements IIntroAction {
 		if (checkFeature())
 			return true;
 		// the feature is not present - ask to download
-		if (MessageDialog.openQuestion(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Download Sample Data?", "Extended Sample Data is not available. Would you like to download samples from bioclipse.net?")) {
+		if (MessageDialog.openQuestion(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+				"Download Sample Data?", 
+				"Extended Sample Data is not available. " +
+				"Would you like to download samples from bioclipse.net?")) {
 			return downloadFeature();
 		}
-		return false;
+		logger.debug("Download extended samples cancelled.");
+		throw new InterruptedException("Download extended samples cancelled.");
 	}
 
 	/**

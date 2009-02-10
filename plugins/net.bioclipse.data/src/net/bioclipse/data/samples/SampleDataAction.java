@@ -5,7 +5,9 @@ import net.bioclipse.data.wizards.NewDataProjectWizard;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.intro.IIntroSite;
@@ -45,15 +47,18 @@ public class SampleDataAction extends Action implements IIntroAction {
 			        		 getShell(),wizard);
 
 			      // Open the wizard dialog
-			      dialog.open();
-			      logger.debug("Installation of sampledata finished");
-			      
-			        MessageDialog.openInformation(
-			        		PlatformUI.getWorkbench().getActiveWorkbenchWindow().
-			        		 getShell(),
-			                "Sample Data Installation",
-			                "Installation of sample data was successful");
+			      int ret=dialog.open();
+			      if (ret==Window.CANCEL){
+				      logger.debug("Installation of sampledata canceled.");
+			      }else{
+				      logger.debug("Installation of sampledata finished OK.");
 
+				      MessageDialog.openInformation(
+				        		PlatformUI.getWorkbench().getActiveWorkbenchWindow().
+				        		 getShell(),
+				                "Sample Data Installation",
+				                "Installation of sample data was successful");
+			      }
 
 			}
 		};
