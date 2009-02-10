@@ -21,7 +21,7 @@ import org.osgi.util.tracker.ServiceTracker;
  */
 public class Activator extends AbstractUIPlugin {
 
-    public static final String PLUGIN_ID = "net.bioclipse.inchi.business";
+    public static final String PLUGIN_ID = "net.bioclipse.inchi";
 
     private static Activator myself;
     
