@@ -3,10 +3,12 @@ package net.bioclipse.ui.jobs;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import net.bioclipse.core.business.IBioclipseManager;
 
 import org.aopalliance.intercept.MethodInvocation;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
@@ -78,31 +80,63 @@ public class CreateJobAdvice implements ICreateJobAdvice {
 
     private Method findMethodWithMonitor( MethodInvocation invocation ) {
 
-        Method toReturn = null;
-        
-        for ( Method m : invocation.getMethod()
-                .getDeclaringClass().getMethods() ) {
-
-        Collection<Class<?>> paramTypes 
-            = Arrays.asList( m.getParameterTypes() );
-        
-        if ( m.getName().equals( invocation.getMethod().getName() )
-             && paramTypes.contains( IProgressMonitor.class ) ) {
-        
-                toReturn = m;
-                break;
-            }
-        }
         // If the method returns something and doesn't contain any UIJob then
         // the conventions are not really followed. Best not create a Job.
         // TODO: This should probably change the day the managers no longer 
         //       implements the manager interfaces. Then the interface version 
         //       should be void but not the manager version...
-        
         if ( invocation.getMethod().getReturnType() != Void.TYPE && 
              findUIJob( invocation ) == null ) {
-            toReturn = null;
+            return null;
         }
-        return toReturn;
+        
+        List<Class<?>> invocationParamTypes 
+            = Arrays.asList( invocation.getMethod().getParameterTypes() );
+        METHODS:
+        for ( Method m : invocation.getMethod()
+                                   .getDeclaringClass().getMethods() ) {
+
+            List<Class<?>> currentParamTypes 
+                = Arrays.asList( m.getParameterTypes() );
+            // Return a method that has the same name and the same paramaters 
+            // (except for perhaps a BioclipseUIJob on the "invocation method") 
+            // as the "invocation method" plus a progress monitor
+            // oh and deal with IFile / String transformation too...
+            if ( !m.getName().equals( invocation.getMethod().getName() ) ) 
+                continue METHODS;
+            
+            if ( !currentParamTypes.contains( IProgressMonitor.class ) ) 
+                continue METHODS;
+
+            if ( currentParamTypes.size() + 1 != invocationParamTypes.size() &&
+                 !( invocationParamTypes.contains( BioclipseUIJob.class ) &&
+                   currentParamTypes.size() == invocationParamTypes.size() ) ){
+                continue METHODS;
+            }
+            
+            PARAMS:
+            for ( int i = 0; i < currentParamTypes.size(); i++ ) {
+                 Object arg = currentParamTypes.get( i );
+                 
+                 if ( arg.equals( invocationParamTypes.get( i ) ) ) {
+                     continue PARAMS;
+                 }
+                 else {
+                     if ( (arg == IFile.class &&
+                           invocationParamTypes.get( i ) == String.class) ) {
+                         continue PARAMS;
+                     }
+                     if ( arg == IProgressMonitor.class &&
+                          invocationParamTypes.get( i )
+                              == BioclipseUIJob.class ) {
+                         continue PARAMS;
+                     }
+                  }
+                 continue METHODS;
+            }
+                   
+            return m;
+        }
+        return null;
     }
 }
