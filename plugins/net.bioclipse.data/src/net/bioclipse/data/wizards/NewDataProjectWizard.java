@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.data.Activator;
 import net.bioclipse.data.CopyTools;
 import net.bioclipse.data.DummyProgressMonitor;
 
@@ -67,7 +68,8 @@ public class NewDataProjectWizard extends Wizard implements INewWizard, IExecuta
 
     public NewDataProjectWizard() {
         super();
-//        setDefaultPageImageDescriptor();
+        
+        setDefaultPageImageDescriptor(Activator.getImageDescriptor("icons/wiz/wiz1.png"));
         setWindowTitle("New Sample Data project");
 
         fFirstPage = new WizardNewProjectCreationPage("New Sample Data project");
