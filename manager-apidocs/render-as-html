@@ -3,8 +3,8 @@ use strict;
 
 use YAML;
 
-my $a = join "", <>;
-my $h = Load($a);
+my $all_input = join "", <>;
+my $h = Load($all_input);
 
 print '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
@@ -33,17 +33,24 @@ print '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
   </head>
 <body>';
 
-my @managers = sort keys %{$h};
+# Sort alphabetically on the first namespace
+sub by_namespace {
+    $h->{$a}{Namespaces}[0] cmp $h->{$b}{Namespaces}[0];
+}
+my @managers = sort by_namespace keys %{$h};
 
 print "<ul>\n";
 for my $manager (@managers) {
-    print "<li><a href='#$manager'>$manager</a></li>\n";
+    my $namespaces = join ', ', @{$h->{$manager}{Namespaces}};
+    my $first_ns = $h->{$manager}{Namespaces}[0];
+    print "<li><a href='#$first_ns'>$namespaces</a></li>\n";
 }
 print "</ul>\n";
 
 for my $manager (@managers) {
-    my $classes = join ', ', @{$h->{$manager}{Classes}};
-    print "<h2 id='$manager'>$manager ($classes)</h2>\n";
+    my $namespaces = join ', ', @{$h->{$manager}{Namespaces}};
+    my $first_ns = $h->{$manager}{Namespaces}[0];
+    print "<h2 id='$first_ns'>$namespaces</h2>\n";
     print "<p class='description'>", $h->{$manager}{Description}, "</p>\n";
 
     for my $m (@{$h->{$manager}{Methods}}) {
