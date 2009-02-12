@@ -20,16 +20,16 @@ print "Features subdir found: $prefixFeatures\n";
 print "Plugins subdir found: $prefixPlugins\n";
 
 # make a clean output
-`rm -Rf output`;
-`mkdir -p output`;
+system('rm -Rf output');
+system('mkdir -p output');
 
 # First make sure we copy the stylesheets
-`mkdir -p output/PRODUCT_PLUGIN`;
-`cp $prefixPlugins/net.bioclipse/*.css output/PRODUCT_PLUGIN/.`;
+system('mkdir -p output/PRODUCT_PLUGIN');
+system("cp $prefixPlugins/net.bioclipse/*.css output/PRODUCT_PLUGIN/.");
 
 # OK, now start copying in things and create the main index.html
 print "Finding features...";
-my @features = `find $prefixFeatures -name "feature.xml"`;
+my @features = `find $prefixFeatures -name 'feature.xml'`;
 print " found: " . scalar(@features) . "\n";
 
 my %tocs;
@@ -170,7 +170,7 @@ foreach my $tocDir (sort keys %tocs) {
   next if ($tocDir =~ /#/); # skip EPs for which the $tocDir is already given
 
   my $tocOutputDir = "output/$tocDir";
-  `mkdir -p $tocOutputDir`;
+  system("mkdir -p $tocOutputDir");
   my $filename = "$tocOutputDir/index.html";
   print MAINTOC "    <li><a href=\"$tocDir/index.html\">" . 
                 $tocs{$tocDir}{"name"} . "</a> (" . $tocDir . ")</li>\n";
@@ -234,12 +234,13 @@ foreach my $tocDir (sort keys %tocs) {
           if ($topicHREF =~ m/(.*)\//) {
             my $topicSrcDir = $tocDir."/".$1;
             my $topicTargetDir = "output/".$topicSrcDir;
-            `mkdir -p $topicTargetDir`;
+            system("mkdir -p $topicTargetDir");
             # ok, the next might copy things too many time, but at least the
             # images get copied too. Now it just complaints about .svn permission
             # stuff :(
-            `cp -R $prefixPlugins/$topicSrcDir/* $topicTargetDir/. > /dev/null`;
-            `find $topicTargetDir/. -name ".svn" | xargs rm -Rf`;
+            system("cp -R $prefixPlugins/$topicSrcDir/* $topicTargetDir "
+                   . '2> /dev/null');
+            system("find $topicTargetDir -name '.svn' | xargs rm -Rf");
           }
         }
       }
