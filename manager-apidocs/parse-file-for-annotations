@@ -22,6 +22,7 @@ say_indent('---');
 
 my $interface;
 my @classes;
+my @namespaces;
 my $description;
 my %methods;
 
@@ -32,9 +33,18 @@ while (my $line = <>) {
     if ( $line =~ / \s interface \s+ (\w+) /x ) {
 
         $interface = $1;
-        @classes = map { m[/(\w+)\.java$] && $1 }
-                   grep { m[/(\w+)\.java$] }
-                   `grep -Rl "implements $interface" ../plugins/`;
+        my @class_files = `grep -Rl "implements $interface" ../plugins/`;
+
+        @classes = grep { $_ }
+                   map { m[/(\w+)\.java$] && $1 }
+                   @class_files;
+
+        for my $class_file (@class_files) {
+            push @namespaces,
+                 grep { $_ }
+                 map { m[return "([^"]*)"] && $1 }
+                 `grep -A2 'public String getNamespace' $class_file`
+        }
     }
 
     if ( $line =~ / \@PublishedClass /x ) {
@@ -93,6 +103,10 @@ while (my $line = <>) {
             do_indented sub {
                 say_indent( '- ', $_ ) for @classes;
             };
+            say_indent( 'Namespaces: ' );
+            do_indented sub {
+                say_indent( '- ', $_ ) for @namespaces;
+            };
             say_indent( 'Description: ', $description );
             say_indent( 'Methods:' );
 
@@ -114,6 +128,8 @@ while (my $line = <>) {
         undef $interface;
         undef $description;
         undef %methods;
+        undef @classes;
+        undef @namespaces;
     }
 }
 
