@@ -40,21 +40,25 @@ while (my $line = <>) {
         $line .= <> while $line !~ /\)\s*$/;
 
         $description = $line;
-        $description =~ s{ ^ \s* \@PublishedClass \s* \( \s* }{}x;
-        $description =~ s{ ^ value \s* = \s* }{}x;
-        $description =~ s{ " \s* \+ \s* " }{}xg;
-        $description =~ s{ \) \s* }{}x;
-        $description =~ s{ ^ " }{}x;
-        $description =~ s{ " $ }{}x;
+        for ($description) {
+            s{ ^ \s* \@PublishedClass \s* \( \s* }{}x;
+            s{ ^ value \s* = \s* }{}x;
+            s{ " \s* \+ \s* " }{}xg;
+            s{ \) \s* }{}x;
+            s{ ^ " }{}x;
+            s{ " $ }{}x;
+        }
     }
 
     if ( $line =~ / \@PublishedMethod /x ) {
         $line .= <> while $line !~ /\)\s*$/;
 
         my $method_desc = $line;
-        $method_desc =~ s{ ^ \s* \@PublishedMethod \s* \( \s* }{}x;
-        $method_desc =~ s{ " \s* \+ \s* " }{}xg;
-        $method_desc =~ s{ \) \s* }{}x;
+        for ($method_desc) {
+            s{ ^ \s* \@PublishedMethod \s* \( \s* }{}x;
+            s{ " \s* \+ \s* " }{}xg;
+            s{ \) \s* }{}x;
+        }
 
         my %method_desc = ();
         if ( $method_desc =~ m{ params \s* = \s* " ([^"]*) " }x ) {
