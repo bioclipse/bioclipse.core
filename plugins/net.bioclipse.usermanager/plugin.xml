@@ -11,7 +11,7 @@
       </page>
    </extension>
    
-	<extension
+	<!--extension
 		point="org.eclipse.ui.actionSets">
 		<actionSet
 			label="Log in"
@@ -19,7 +19,7 @@
 			id="net.bioclipse.usermanager.login">
 			<action
 				label="Log in"
-				class="net.bioclipse.actions.LoginAction"
+				class="net.bioclipse.usermanager.actions.LoginAction"
 				menubarPath="File/additions"
 				id="net.bioclipse.actions.LoginAction">
 			</action>
@@ -34,12 +34,15 @@
 			id="net.bioclipse.usermanager.logout">
 			<action
 				label="Log out"
-				class="net.bioclipse.actions.LogoutAction"
+				class="net.bioclipse.usermanager.actions.LogoutAction"
 				menubarPath="File/additions"
 				id="net.bioclipse.actions.LogoutAction">
+				<enablement>
+					<objectClass name="java.lang.Object" />
+				</enablement>
 			</action>
 		</actionSet>
-	</extension>
+	</extension-->
 	
 	<extension
          point="net.bioclipse.scripting.contribution">
@@ -48,4 +51,81 @@
             service="net.bioclipse.usermanager.business.UserManagerFactory">
       </scriptContribution>
    </extension>
+   
+  <extension point="org.eclipse.core.expressions.propertyTesters">
+    <propertyTester
+      id="net.bioclipse.usermanager.loggedInTester"
+      type="java.lang.Object"
+      namespace="net.bioclipse.usermanager"
+      properties="isLoggedIn"
+      class="net.bioclipse.usermanager.LoggedInTester">
+    </propertyTester>
+  </extension>
+
+<extension
+        point="org.eclipse.ui.commands">
+        <category
+              id="net.bioclipse.usermanager.category"
+              name="Usermanager">
+        </category>
+		<command
+		        categoryId="net.bioclipse.usermanager.category"
+		        id="net.bioclipse.usermanager.commands.login"
+		        name="Log In">
+		</command>
+		<command
+		        categoryId="net.bioclipse.usermanager.category"
+		        id="net.bioclipse.usermanager.commands.logout"
+		        name="Log Out">
+		</command>
+
+</extension>
+
+<extension
+        point="org.eclipse.ui.handlers">
+	<handler
+       commandId="net.bioclipse.usermanager.commands.login"
+       class="net.bioclipse.usermanager.handlers.LoginHandler">
+       <enabledWhen>
+	       <test
+        	     property="net.bioclipse.usermanager.isLoggedIn"
+        	     value="false">
+    	   </test>
+       </enabledWhen>
+	</handler>        
+	<handler
+       commandId="net.bioclipse.usermanager.commands.logout"
+       class="net.bioclipse.usermanager.handlers.LogoutHandler">
+       <enabledWhen>
+	       <test
+        	     property="net.bioclipse.usermanager.isLoggedIn"
+        	     value="true">
+    	   </test>
+       </enabledWhen>
+	</handler>        
+</extension>
+
+
+  
+  	<extension 
+  		point="org.eclipse.ui.menus">
+		<menuContribution
+			locationURI="menu:file?after=additions">
+		    <command
+		    	commandId="net.bioclipse.usermanager.commands.login"
+		    	label="Log In"
+		        icon="icons/login_16.png">
+	       </command>
+		</menuContribution>
+		<menuContribution
+			locationURI="menu:file?after=additions">
+		    <command
+		    	commandId="net.bioclipse.usermanager.commands.logout"
+		    	label="Log Out"
+		        icon="icons/login_16.png">
+	       </command>
+		</menuContribution>
+</extension>
+   
+   
 </plugin>

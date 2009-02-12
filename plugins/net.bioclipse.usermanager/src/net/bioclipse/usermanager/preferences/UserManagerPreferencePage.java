@@ -11,11 +11,11 @@
 
 package net.bioclipse.usermanager.preferences;
 
-import net.bioclipse.dialogs.CreateUserDialog;
-import net.bioclipse.dialogs.EditUserDialog;
-import net.bioclipse.dialogs.PassWordPromptDialog;
 import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
+import net.bioclipse.usermanager.dialogs.CreateUserDialog;
+import net.bioclipse.usermanager.dialogs.EditUserDialog;
+import net.bioclipse.usermanager.dialogs.PassWordPromptDialog;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferencePage;

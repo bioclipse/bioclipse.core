@@ -9,7 +9,7 @@
  *     
  *******************************************************************************/
 
-package net.bioclipse.dialogs;
+package net.bioclipse.usermanager.dialogs;
 
 import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;

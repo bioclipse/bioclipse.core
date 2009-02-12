@@ -9,7 +9,7 @@
  *     
  *******************************************************************************/
 
-package net.bioclipse.dialogs;
+package net.bioclipse.usermanager.dialogs;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;

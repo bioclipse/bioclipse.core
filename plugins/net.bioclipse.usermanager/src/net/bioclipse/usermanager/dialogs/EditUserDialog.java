@@ -9,7 +9,7 @@
  *
  *******************************************************************************/
 
-package net.bioclipse.dialogs;
+package net.bioclipse.usermanager.dialogs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
