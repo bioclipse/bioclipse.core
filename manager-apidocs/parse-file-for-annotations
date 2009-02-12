@@ -32,8 +32,9 @@ while (my $line = <>) {
     if ( $line =~ / \s interface \s+ (\w+) /x ) {
 
         $interface = $1;
-        ($classes) = `grep -Rl "implements $interface" ../plugins/`
-                     =~ m[/(\w+)\.java$];
+        ($classes) = map { m[/(\w+)\.java$] && $1 }
+                     grep { m[/(\w+)\.java$] }
+                     `grep -Rl "implements $interface" ../plugins/`;
     }
 
     if ( $line =~ / \@PublishedClass /x ) {
