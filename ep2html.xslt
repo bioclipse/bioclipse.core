@@ -32,7 +32,10 @@
     <h2>
       <xsl:element name="a">
         <xsl:attribute name="name"><xsl:value-of select="./@id"/></xsl:attribute>
-        <xsl:value-of select="./@name"/>
+        <xsl:choose>
+          <xsl:when test="./@name"><xsl:value-of select="./@name"/></xsl:when>
+          <xsl:otherwise><xsl:value-of select="./@id"/></xsl:otherwise>
+        </xsl:choose>
       </xsl:element>
     </h2>
     <xsl:apply-templates select=".">
@@ -117,6 +120,17 @@
 <xsl:attribute name="href">http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/<xsl:value-of select="$plugin"/></xsl:attribute>
 <xsl:value-of select="$plugin"/></xsl:element></td></tr>
 <tr><td><b>location</b></td><td><xsl:value-of select="./@location"/></td></tr>
+</table>
+</xsl:template>
+
+<xsl:template match="scriptContribution">
+  <xsl:param name="plugin"/>
+<table>
+<tr><td><b>plugin</b></td><td><xsl:element name="a">
+<xsl:attribute name="href">http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/<xsl:value-of select="$plugin"/></xsl:attribute>
+<xsl:value-of select="$plugin"/></xsl:element></td></tr>
+<tr><td><b>id</b></td><td><xsl:value-of select="./@id"/></td></tr>
+<tr><td><b>service</b></td><td><xsl:value-of select="./@service"/></td></tr>
 </table>
 </xsl:template>
 
