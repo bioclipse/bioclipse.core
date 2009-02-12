@@ -55,7 +55,7 @@ print $INDEX "<h2>Bioclipse Extension Points</h2>\n";
 print $INDEX "<ul>\n";
 while ( my ($ep, $id) = each(%bioclipseExtensionPoints) ) {
   print $INDEX "<li>\n";
-  print $INDEX "<a href=\"ep.$ep.html\">$ep</a>\n";
+  print $INDEX "<a href=\"ep.$ep.html\">$id</a>\n";
   system('echo "<list>" > ep.'.$ep.'.xml');
   foreach my $plugin (@plugins) {
     $plugin =~ s/[\n|\r]//g;
