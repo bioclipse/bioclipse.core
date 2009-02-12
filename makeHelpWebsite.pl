@@ -45,9 +45,10 @@ foreach my $feature (@features) {
   print "  feature: $id\n";
 
   # extract the plugins from the features
-  open(FEATUREXML, "<$prefixFeatures/$id/feature.xml") || die "Could not open $prefixFeatures/$id/feature.xml!\n";
+  open(my $FEATUREXML, '<', "$prefixFeatures/$id/feature.xml")
+    or die $!;
   my $pluginlines = 0;
-  while (my $line = <FEATUREXML>) {
+  while (my $line = <$FEATUREXML>) {
     if ($pluginlines == 1) {
       if ($line =~ m/id="([^"]*)"/) {
         my $plugin = $1;
@@ -58,13 +59,14 @@ foreach my $feature (@features) {
         if (!-e "$prefixPlugins/$dir/plugin.xml") {
           # skip it
         } else {
-          open(PLUGINXML, "<$prefixPlugins/$dir/plugin.xml") || die "Could not open $prefixPlugins/$dir/plugin.xml!";
+          open(my $PLUGINXML, '<', "$prefixPlugins/$dir/plugin.xml")
+            or die $!;
           my $extensionElement = 0;
           my $extensionPoint = "";
           my $tocElement = 0;
           my %tocInfo;
           my $suffix = "";
-          while (my $line = <PLUGINXML>) {
+          while (my $line = <$PLUGINXML>) {
             $tocs{$dir.$suffix}{"dir"} = $dir;
   
             if ($line =~ "<extension") {
@@ -98,14 +100,17 @@ foreach my $feature (@features) {
           }
   
           # step II: process the META-INF/MANIFEST.MF
-          open(MANIFEST, "<$prefixPlugins/$dir/META-INF/MANIFEST.MF") || die "Could not open the MANIFEST for $prefixPlugins/$dir!";
-          while (my $line = <MANIFEST>) {
+          open(my $MANIFEST, '<', "$prefixPlugins/$dir/META-INF/MANIFEST.MF")
+            or die $!;
+          while (my $line = <$MANIFEST>) {
             if ($line =~ m/^Bundle-Name:\s*(.*)/) {
               my $name = $1;
               if ($name eq "\%pluginName") {
                 # need to to something clever
-                if (open(PLUGINPROPS, "<$prefixPlugins/$dir/plugin.properties")) {
-                  while (my $line = <PLUGINPROPS>) {
+                if (open(my $PLUGINPROPS,
+                         '<',
+                         "$prefixPlugins/$dir/plugin.properties")) {
+                  while (my $line = <$PLUGINPROPS>) {
                     if ($line =~ /\s*pluginName\s*=\s*(.*)/) {
                       $name = $1;
                       $name =~ s/^\s*//g;
@@ -121,8 +126,10 @@ foreach my $feature (@features) {
               my $name = $1;
               if ($name eq "\%providerName") {
                 # need to to something clever
-                if (open(PLUGINPROPS, "<$prefixPlugins/$dir/plugin.properties")) {
-                  while (my $line = <PLUGINPROPS>) {
+                if (open(my $PLUGINPROPS,
+                         '<',
+                         "$prefixPlugins/$dir/plugin.properties")) {
+                  while (my $line = <$PLUGINPROPS>) {
                     if ($line =~ /\s*providerName\s*=\s*(.*)/) {
                       $name = $1;
                       $name =~ s/^\s*//g;
@@ -156,54 +163,57 @@ foreach my $plugin (@plugins) {
 
 print "Creating main toc...\n";
 
-open(MAINTOC, ">output/index.html");
+open(my $MAINTOC, '>', 'output/index.html')
+  or die $!;
 
-print MAINTOC "<html>\n";
-print MAINTOC "<head>\n";
-print MAINTOC "  <title>Bioclipse Documentation</title>\n";
-print MAINTOC "  <link rel=\"stylesheet\" href=\"PRODUCT_PLUGIN/narrow_book.css\" type=\"text/css\">\n";
-print MAINTOC "</head>\n";
-print MAINTOC "<body>\n";
-print MAINTOC "  <h1>Plugins</h1>\n";
-print MAINTOC "  <ul>\n";
+print {$MAINTOC} "<html>\n";
+print {$MAINTOC} "<head>\n";
+print {$MAINTOC} "  <title>Bioclipse Documentation</title>\n";
+print {$MAINTOC} "  <link rel=\"stylesheet\" href=\"PRODUCT_PLUGIN/narrow_book.css\" type=\"text/css\">\n";
+print {$MAINTOC} "</head>\n";
+print {$MAINTOC} "<body>\n";
+print {$MAINTOC} "  <h1>Plugins</h1>\n";
+print {$MAINTOC} "  <ul>\n";
 foreach my $tocDir (sort keys %tocs) {
   next if ($tocDir =~ /#/); # skip EPs for which the $tocDir is already given
 
   my $tocOutputDir = "output/$tocDir";
   system("mkdir -p $tocOutputDir");
   my $filename = "$tocOutputDir/index.html";
-  print MAINTOC "    <li><a href=\"$tocDir/index.html\">" . 
+  print {$MAINTOC} "    <li><a href=\"$tocDir/index.html\">" . 
                 $tocs{$tocDir}{"name"} . "</a> (" . $tocDir . ")</li>\n";
-  open(PLUGINTOC, ">$filename") || die "Could not open $filename!";
-  print PLUGINTOC "<html>\n";
-  print PLUGINTOC "<head>\n";
-  print PLUGINTOC "  <title>" . $tocs{$tocDir}{"name"} . "</title>\n";
-  print PLUGINTOC "  <link rel=\"stylesheet\" href=\"../PRODUCT_PLUGIN/narrow_book.css\" type=\"text/css\">\n";
-  print PLUGINTOC "</head>\n";
-  print PLUGINTOC "<body>\n";
-  print PLUGINTOC "  <h1>".$tocs{$tocDir}{"name"}."</h1>\n";
-  print PLUGINTOC "  <table>\n";
-  print PLUGINTOC "  <tr><td><b>Version</b></td><td>".$tocs{$tocDir}{"version"}."</td></tr>\n" if ($tocs{$tocDir}{"version"});
-  print PLUGINTOC "  <tr><td><b>Vendor</b></td><td>".$tocs{$tocDir}{"vendor"}."</td></tr>\n" if ($tocs{$tocDir}{"vendor"});
-  print PLUGINTOC "  <tr><td><b>Symbolic Name</b></td><td>".$tocs{$tocDir}{"symbolicname"}."</td></tr>\n" if ($tocs{$tocDir}{"symbolicname"});
-  print PLUGINTOC "  </table>\n";
+  open(my $PLUGINTOC, '>', $filename)
+    or die $!;
+  print {$PLUGINTOC} "<html>\n";
+  print {$PLUGINTOC} "<head>\n";
+  print {$PLUGINTOC} "  <title>" . $tocs{$tocDir}{"name"} . "</title>\n";
+  print {$PLUGINTOC} "  <link rel=\"stylesheet\" href=\"../PRODUCT_PLUGIN/narrow_book.css\" type=\"text/css\">\n";
+  print {$PLUGINTOC} "</head>\n";
+  print {$PLUGINTOC} "<body>\n";
+  print {$PLUGINTOC} "  <h1>".$tocs{$tocDir}{"name"}."</h1>\n";
+  print {$PLUGINTOC} "  <table>\n";
+  print {$PLUGINTOC} "  <tr><td><b>Version</b></td><td>".$tocs{$tocDir}{"version"}."</td></tr>\n" if ($tocs{$tocDir}{"version"});
+  print {$PLUGINTOC} "  <tr><td><b>Vendor</b></td><td>".$tocs{$tocDir}{"vendor"}."</td></tr>\n" if ($tocs{$tocDir}{"vendor"});
+  print {$PLUGINTOC} "  <tr><td><b>Symbolic Name</b></td><td>".$tocs{$tocDir}{"symbolicname"}."</td></tr>\n" if ($tocs{$tocDir}{"symbolicname"});
+  print {$PLUGINTOC} "  </table>\n";
 
   # process the 'toc.xml'
   my $suffix = "";
   while ($tocs{"$tocDir$suffix"}{"tocfile"}) { # OK, a toc.xml is defined
     my $tocFileName = "$tocDir/" . $tocs{"$tocDir$suffix"}{"tocfile"};
-    open(TOCXML, "<$prefixPlugins/$tocFileName") || die "Could not open $tocFileName!\n";
+    open(my $TOCXML, '<',"$prefixPlugins/$tocFileName")
+      or die $!;
     my $tocElement = 0;
     my $tocStartTag = 0;
     my $topicElement = 0;
     my $topicLabel = "";
     my $topicHREF = "";
-    while (my $line = <TOCXML>) {
+    while (my $line = <$TOCXML>) {
       if ($line =~ "<toc") {
         $tocElement++;
         $tocStartTag = 1;
       } elsif ($line =~ "</toc") {
-        print PLUGINTOC "</ul>\n";
+        print {$PLUGINTOC} "</ul>\n";
         $tocElement--;
       } elsif ($line =~ "<topic") {
         $topicElement = 1;
@@ -213,8 +223,8 @@ foreach my $tocDir (sort keys %tocs) {
       if ($tocStartTag == 1) {
         if ($line =~ m/label=[\"|\'](.*?)[\"|\']/) {
           my $label = $1;
-          print PLUGINTOC "<h2>$label</h2>\n";
-          print PLUGINTOC "<ul>\n";
+          print {$PLUGINTOC} "<h2>$label</h2>\n";
+          print {$PLUGINTOC} "<ul>\n";
         }
         if ($line =~ m/>/) {
           $tocStartTag = 0;
@@ -229,7 +239,7 @@ foreach my $tocDir (sort keys %tocs) {
         }
         if ($line =~ m/\/>/) {
           $topicElement = 0;
-          print PLUGINTOC "  <li><a href=\"$topicHREF\">$topicLabel</a></li>\n";
+          print {$PLUGINTOC} "  <li><a href=\"$topicHREF\">$topicLabel</a></li>\n";
           # make sure to copy things too
           if ($topicHREF =~ m/(.*)\//) {
             my $topicSrcDir = $tocDir."/".$1;
@@ -248,11 +258,11 @@ foreach my $tocDir (sort keys %tocs) {
     $suffix = $suffix . "#";
   }
 
-  print PLUGINTOC "</body>\n";
-  print PLUGINTOC "</html>\n";
+  print {$PLUGINTOC} "</body>\n";
+  print {$PLUGINTOC} "</html>\n";
 }
-print MAINTOC "  </ul>\n";
-print MAINTOC "</body>\n";
-print MAINTOC "</html>\n";
+print {$MAINTOC} "  </ul>\n";
+print {$MAINTOC} "</body>\n";
+print {$MAINTOC} "</html>\n";
 
 close(MAINTOC);
