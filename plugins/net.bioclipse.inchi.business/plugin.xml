@@ -36,8 +36,9 @@
 				       	        	value="net.bioclipse.contenttypes.mdlMolFile"/>
 				            </or>
 			      		</adapt>
-			      			<adapt type="net.bioclipse.cdk.domain.ICDKMolecule">
-				      		</adapt>
+            <instanceof
+                  value="net.bioclipse.cdk.domain.ICDKMolecule">
+            </instanceof>
 			      		</or>
 			   		</iterate>
 		        </visibleWhen>
