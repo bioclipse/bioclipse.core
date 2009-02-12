@@ -66,10 +66,6 @@ public interface IWebservicesManager extends IBioclipseManager {
      * @throws BioclipseException
      * @throws CoreException
      * @throws IOException 
-    @Recorded
-    @PublishedMethod( params = "String pdbid", 
-                      methodSummary = "Fetches a PDB entry from the EBI databases " +
-                      		"and returns an ICDKMolecule")
      */
     public ICDKMolecule downloadPDB(String pdbid)
     	throws BioclipseException, CoreException, IOException;
