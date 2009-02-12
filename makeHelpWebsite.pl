@@ -20,7 +20,7 @@ print "Features subdir found: $prefixFeatures\n";
 print "Plugins subdir found: $prefixPlugins\n";
 
 # make a clean output
-`rm -Rf`;
+`rm -Rf output`;
 `mkdir output` if (!-d "output");
 
 # First make sure we copy the stylesheets
