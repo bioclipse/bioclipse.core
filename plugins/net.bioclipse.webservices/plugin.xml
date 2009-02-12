@@ -6,7 +6,7 @@
          point="org.eclipse.ui.newWizards">
       <category
             id="net.bioclipse.webservices.wizards.newwizards"
-            name="Web Services"/>
+            name="Web services"/>
       <wizard
             canFinishEarly="false"
             category="net.bioclipse.webservices.wizards.newwizards"
@@ -15,7 +15,7 @@
             helpHref="http://wiki.bioclipse.net/index.php?title=Bc_webservices"
             icon="icons/png/ws_ebi.png"
             id="net.bioclipse.webservices.wizards.newwizards.WSDbfetchNewWizard"
-            name="Use WSDbfetch Web Service at EBI"
+            name="Use WSDbfetch Web service at EBI"
             project="false">
          <description>Get entries from various up-to-date biological databases using the WSDbfetch Web Service at the European Bioinformatics Institute (EBI).</description>
       </wizard>

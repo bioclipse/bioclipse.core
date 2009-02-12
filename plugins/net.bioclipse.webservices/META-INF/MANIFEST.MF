@@ -111,5 +111,6 @@ Export-Package: com.ibm.wsdl,
  org.apache.commons.discovery.resource.names,
  org.apache.commons.discovery.tools
 Import-Package: org.apache.commons.logging;version="1.0.4",
- org.apache.log4j;version="1.2.15"
+ org.apache.log4j;version="1.2.15",
+ org.eclipse.ui.part
 Bundle-ActivationPolicy: lazy

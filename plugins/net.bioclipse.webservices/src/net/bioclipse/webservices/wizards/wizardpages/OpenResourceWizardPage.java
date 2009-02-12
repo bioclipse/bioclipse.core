@@ -11,8 +11,10 @@ package net.bioclipse.webservices.wizards.wizardpages;
 import java.lang.reflect.InvocationTargetException;
 
 import net.bioclipse.webservices.ResourceCreator;
+import net.bioclipse.webservices.WebservicesConstants;
 import net.bioclipse.webservices.wizards.WebServiceWizardData;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.WizardPage;
@@ -24,6 +26,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.FileEditorInput;
 
 public class OpenResourceWizardPage extends WizardPage implements IDoPerformFinish {
 	private WebServiceWizardData data;
@@ -33,8 +39,11 @@ public class OpenResourceWizardPage extends WizardPage implements IDoPerformFini
 	public OpenResourceWizardPage(WebServiceWizardData data, String filename) {
 		super("OpenResourceWizardPage");
 		this.data = data;
-		setTitle("Bioclipse can open the result as a BioResource.");
-		setDescription("Press 'Finish' to open the file.");
+		setTitle("Bioclipse will save the result in folder '" +
+				WebservicesConstants.WEBSERVICES_RESULTS +
+				"' of project '" +
+				WebservicesConstants.WEBSERVICES_PROJECT + "'.");
+		setDescription("Press 'Finish' to save and open the file.");
 		this.filename = filename;
 	}
 
@@ -119,12 +128,22 @@ public class OpenResourceWizardPage extends WizardPage implements IDoPerformFini
 		boolean success = true;
 		IRunnableWithProgress runnable = new IRunnableWithProgress() {
 			public void run(IProgressMonitor monitor) throws InvocationTargetException {
-				monitor.beginTask("Creating BioResource", 5);
+				monitor.beginTask("Saving downloaded file.", 5);
 				try {
-					ResourceCreator.createResource(
+					IFile file = ResourceCreator.createResource(
 							text_filename.getText(), data.GetSearchResult(),
 							monitor);
 					monitor.done();
+					
+					IWorkbenchPage page =
+						PlatformUI.getWorkbench().
+						getActiveWorkbenchWindow().getActivePage();
+
+					if (page != null) {
+						IEditorDescriptor desc = PlatformUI.getWorkbench().
+				        getEditorRegistry().getDefaultEditor(file.getName());
+						page.openEditor(new FileEditorInput(file),
+								desc.getId());					}
 				} catch (Exception e) {
 					throw new InvocationTargetException(e, e.getMessage());
 				}

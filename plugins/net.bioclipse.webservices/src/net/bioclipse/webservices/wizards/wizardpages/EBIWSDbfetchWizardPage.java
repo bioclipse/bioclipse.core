@@ -2,7 +2,7 @@ package net.bioclipse.webservices.wizards.wizardpages;
 
 /**
  * 
- * WizardPage to use the EBI's WSDbfetch Web Service.
+ * WizardPage to use the EBI's WSDbfetch Web service.
  * 
  * @author edrin
  * @author ola
@@ -48,7 +48,7 @@ public class EBIWSDbfetchWizardPage extends WizardPage implements IDoPerformFini
 	private Text text_query;
 	private Combo combo_dbs, combo_formats, combo_styles;
 	private String[] dbs, formats, styles;
-	private static String title = "Bioclipse Web Service - WSDbfetch at EBI";
+	private static String title = "Bioclipse Web service - WSDbfetch at EBI";
 	private static String defPageTitle =
 			"WSDbfetch offers access various up-to-date biological databases.";
 	private static String defPageDescription =
@@ -355,16 +355,16 @@ public class EBIWSDbfetchWizardPage extends WizardPage implements IDoPerformFini
 				return Status.OK_STATUS;
 			}
 			protected Action JobErrorAction() {
-				return new Action("Web Service done") {
+				return new Action("Web service done") {
 					public void run() {
 						MessageDialog.openError(getShell(),
 												title,
-												"The Web Service returned an error:\n" + errordetails);
+												"The Web service returned an error:\n" + errordetails);
 					}
 				};
 			}
 			protected Action JobSuccessAction() {
-				return new Action("Web Service done") {
+				return new Action("Web service done") {
 					public void run() {
 						FinishJob();
 					}

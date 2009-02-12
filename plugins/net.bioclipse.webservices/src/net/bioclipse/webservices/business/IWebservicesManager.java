@@ -27,7 +27,7 @@ import net.bioclipse.core.business.IBioclipseManager;
 public interface IWebservicesManager extends IBioclipseManager {
 
 	/**
-     * Retrieves a PDB entry with the WSDbfetch EBI Web Service.
+     * Retrieves a PDB entry with the WSDbfetch EBI Web service.
      * The result is dumped in the Webservice's result folder.
      * @param pdbid The entry identifier
      * @return A path to the saved file
@@ -43,7 +43,7 @@ public interface IWebservicesManager extends IBioclipseManager {
         throws BioclipseException, CoreException;
 	
 	/**
-     * Retrieves a PDB entry with the WSDbfetch EBI Web Service.
+     * Retrieves a PDB entry with the WSDbfetch EBI Web service.
      * The result is dumped in the Webservice's result folder.
      * @param pdbid The entry identifier
      * @param filename The name of the file to create
@@ -60,7 +60,7 @@ public interface IWebservicesManager extends IBioclipseManager {
         throws BioclipseException, CoreException;
     
     /**
-     * Retrieves a PDB entry with the WSDbfetch EBI Web Service.
+     * Retrieves a PDB entry with the WSDbfetch EBI Web service.
      * @param pdbid The entry identifier
      * @return The PDB parsed into an ICDKMolecule
      * @throws BioclipseException
@@ -75,7 +75,7 @@ public interface IWebservicesManager extends IBioclipseManager {
     	throws BioclipseException, CoreException, IOException;
 
     /**
-     * Retrieves an entry from a database with the WSDbfetch EBI Web Service.
+     * Retrieves an entry from a database with the WSDbfetch EBI Web service.
      * The result is dumped in the Webservice's result folder.
      * @param db The database identifier
      * @param query The entry identifier
@@ -93,7 +93,7 @@ public interface IWebservicesManager extends IBioclipseManager {
 		throws BioclipseException, CoreException;
     
     /**
-     * Retrieves an entry from a database with the WSDbfetch EBI Web Service.
+     * Retrieves an entry from a database with the WSDbfetch EBI Web service.
      * The result is dumped in the Webservice's result folder.
      * @param db The database identifier
      * @param query The entry identifier
@@ -110,7 +110,7 @@ public interface IWebservicesManager extends IBioclipseManager {
 		throws BioclipseException, CoreException;
     
     /**
-     * Retrieves an entry from a database with the WSDbfetch EBI Web Service. 
+     * Retrieves an entry from a database with the WSDbfetch EBI Web service. 
      * The result is dumped in the virtual folder.
      * @param db The database identifier
      * @param query The entry identifier

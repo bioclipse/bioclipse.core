@@ -15,7 +15,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 
 /* 
- * This file is part of Bioclipse 2 Web Services Plug-In.
+ * This file is part of Bioclipse 2 Web services Plug-In.
  * 
  * Copyright (C) 2008 Johannes Wagener
  * 

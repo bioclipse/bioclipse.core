@@ -23,7 +23,7 @@ public class EBIWSDbfetchWizard extends Wizard implements INewWizard {
 
 	public EBIWSDbfetchWizard() {
 		super();
-		setWindowTitle("WSDbfetch Web Service at the EBI");
+		setWindowTitle("WSDbfetch Web service at the EBI");
 		setNeedsProgressMonitor(true);
 		data = new WebServiceWizardData();
 		page = new EBIWSDbfetchWizardPage(data);	
@@ -50,7 +50,7 @@ public class EBIWSDbfetchWizard extends Wizard implements INewWizard {
 								String description,								
 								boolean blockcombo) {
 		super();
-		setWindowTitle("WSDbfetch Web Service at the EBI");
+		setWindowTitle("WSDbfetch Web service at the EBI");
 		setNeedsProgressMonitor(true);
 		data = new WebServiceWizardData();
 		page = new EBIWSDbfetchWizardPage(data, database, format, style, query, description, blockcombo);

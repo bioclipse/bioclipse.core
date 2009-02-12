@@ -2,7 +2,7 @@ package net.bioclipse.webservices.wizards.wizardpages;
 
 /**
  * 
- * This Interface is used to perform the Web Service "ToDo" of a wizard page.
+ * This Interface is used to perform the Web service "ToDo" of a wizard page.
  * This is required as the wizard implementation of eclipse is missing a
  * OnButtonNext() thing. This Interface is accessed on the following page's
  * SetVisible()
