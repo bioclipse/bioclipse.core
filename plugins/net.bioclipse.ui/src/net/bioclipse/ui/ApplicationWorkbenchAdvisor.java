@@ -61,14 +61,14 @@ import org.eclipse.update.operations.OperationsManager;
  */
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 
-    private static final Logger logger = Logger.getLogger(ApplicationWorkbenchAdvisor.class);
+	private static final Logger logger = Logger.getLogger(ApplicationWorkbenchAdvisor.class);
 
-    //Get settings for dialogs
+	//Get settings for dialogs
 	IDialogSettings settings = Activator.getDefault().getDialogSettings();
 
 	private boolean abort;
 
-    public boolean isAbort() {
+	public boolean isAbort() {
 		return abort;
 	}
 
@@ -77,78 +77,76 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 	}
 
 	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
-        return new ApplicationWorkbenchWindowAdvisor(configurer);
-    }
-    
-    public void initialize(IWorkbenchConfigurer configurer) {
-        super.initialize(configurer);
-        configurer.setSaveAndRestore(true);
+		return new ApplicationWorkbenchWindowAdvisor(configurer);
+	}
 
-    }
-    
-    @Override
-    public void postStartup() {
-    	super.postStartup();
+	public void initialize(IWorkbenchConfigurer configurer) {
+		super.initialize(configurer);
+		configurer.setSaveAndRestore(true);
 
-    	abort=false;
-    	
-    	//If we said do not update, skip check.
+	}
+
+	@Override
+	public void postStartup() {
+		super.postStartup();
+
+		abort=false;
+
+		//If we said do not update in the earlier dialog, skip check.
 		if (settings.getBoolean(IDialogConstants.SKIP_UPDATE_ON_STARTUP)){
-			logger.debug("Skipped updating due to setting.");
+			logger.debug("Skipped updating due to preference setting.");
 			return;
 		}
 
+		if (!Activator.getDefault().checkForUpdates){
+			logger.debug("Skipped updating due to -noupdate argument.");
+			return;
+		}
 
+		//Ok, check for updates if not turned off by arg -noupdate
+		Job updateJob=new Job("Online updates") {
 
-    	//Ok, check for updates
-    	if (Activator.getDefault().checkForUpdates) {
-            Job updateJob=new Job("Online updates") {
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
 
-                @Override
-                protected IStatus run(IProgressMonitor monitor) {
+				/*
+				 * Launch automatic updates
+				 */
+				try {
 
-                    /*
-		        	       * Launch automatic updates
-		        	       */
-                    try {
-		        		
-                        logger.debug("## Checking for updates... ");
-                        lauchAutomaticUpdates(monitor);
-                        logger.debug("## Finished checking for updates.");
-                    } catch (MalformedURLException e) {
-                        logger.debug("Automatic updates error: "
-                                     + e.getMessage());
-                    } catch (CoreException e) {
-                        logger.debug("Automatic updates error: "
-                                     + e.getMessage());
-                    } catch (InvocationTargetException e) {
-                        logger.debug("Automatic updates error: "
-                                     + e.getMessage());
-                    }
+					logger.debug("## Checking for updates... ");
+					lauchAutomaticUpdates(monitor);
+					logger.debug("## Finished checking for updates.");
+				} catch (MalformedURLException e) {
+					logger.debug("Automatic updates error: "
+							+ e.getMessage());
+				} catch (CoreException e) {
+					logger.debug("Automatic updates error: "
+							+ e.getMessage());
+				} catch (InvocationTargetException e) {
+					logger.debug("Automatic updates error: "
+							+ e.getMessage());
+				}
 
-                    return Status.OK_STATUS;
-                }
-            };
-    		
-            updateJob.setUser(false);
-            updateJob.schedule();
-        }
-        else {
-            logger.debug("## -noUpdate detected, do not check for updates. ");
-        }
-    }
+				return Status.OK_STATUS;
+			}
+		};
 
-    public String getInitialWindowPerspectiveId() {
-        return DefaultPerspective.ID_PERSPECTIVE;
-    }
-	
-    @SuppressWarnings({ "deprecation", "unchecked" })
+		updateJob.setUser(false);
+		updateJob.schedule();
+	}
+
+	public String getInitialWindowPerspectiveId() {
+		return DefaultPerspective.ID_PERSPECTIVE;
+	}
+
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	private void lauchAutomaticUpdates(IProgressMonitor monitor)
-        throws MalformedURLException, CoreException, InvocationTargetException {
+	throws MalformedURLException, CoreException, InvocationTargetException {
 
-        //    	IProgressMonitor monitor = new NullProgressMonitor();
+		//    	IProgressMonitor monitor = new NullProgressMonitor();
 
-    	IPreferenceStore prefsStore=Activator.getDefault().getPreferenceStore();
+		IPreferenceStore prefsStore=Activator.getDefault().getPreferenceStore();
 		String entireString=prefsStore.getString(IPreferenceConstants.UPDATE_SITES);
 		List<String[]> sites=UpdateSitesPreferencePage.convertPreferenceStringToArraylist(entireString);
 
@@ -172,27 +170,27 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 				logger.debug("Skipped update site: " + updateSite);
 			}
 		}
-		
-        IFeatureReference[] frs = refs.toArray(new IFeatureReference[0]);
 
-        ILocalSite ls = SiteManager.getLocalSite();
-        if (ls.getCurrentConfiguration().getConfiguredSites()==null || 
-        		ls.getCurrentConfiguration().getConfiguredSites().length<=0){
-        	logger.error("Bioclispe seems not to have a local site. This should not happen.");
-        	throw new CoreException(new IStatus(){
+		IFeatureReference[] frs = refs.toArray(new IFeatureReference[0]);
+
+		ILocalSite ls = SiteManager.getLocalSite();
+		if (ls.getCurrentConfiguration().getConfiguredSites()==null || 
+				ls.getCurrentConfiguration().getConfiguredSites().length<=0){
+			logger.error("Bioclispe seems not to have a local site. This should not happen.");
+			throw new CoreException(new IStatus(){
 
 				public IStatus[] getChildren() {
 					return null;
 				}
-				
+
 				public int getCode() {
 					return 0;
 				}
-				
+
 				public Throwable getException() {
 					return null;
 				}
-				
+
 				public String getMessage() {
 					return "Bioclispe seems not to have a local site. This should not happen.";
 				}
@@ -216,99 +214,99 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 				public boolean matches(int severityMask) {
 					return false;
 				}
-        		
-        	});
-        }
-        	
-        IConfiguredSite ics
-            = ls.getCurrentConfiguration().getConfiguredSites()[0];
-        IFeatureReference[] lfrs = ics.getConfiguredFeatures();
-        List<IInstallFeatureOperation> installOps
-            = new ArrayList<IInstallFeatureOperation>();
 
-        for (int i = 0; i < frs.length; i++) {
+			});
+		}
 
-            //Default is not installed
-            boolean installedFeature=false;
+		IConfiguredSite ics
+		= ls.getCurrentConfiguration().getConfiguredSites()[0];
+		IFeatureReference[] lfrs = ics.getConfiguredFeatures();
+		List<IInstallFeatureOperation> installOps
+		= new ArrayList<IInstallFeatureOperation>();
 
-            //Add if feature and version > what is installed
-            for (int j = 0; j < lfrs.length; j++) {
+		for (int i = 0; i < frs.length; i++) {
 
-                VersionedIdentifier frsVi = frs[i].getVersionedIdentifier();
-                VersionedIdentifier lfrsVi = lfrs[j].getVersionedIdentifier();
+			//Default is not installed
+			boolean installedFeature=false;
 
-                if (frsVi.getIdentifier().equals(lfrsVi.getIdentifier())) {
-                    //We have this feature installed
-                    installedFeature=true;
+			//Add if feature and version > what is installed
+			for (int j = 0; j < lfrs.length; j++) {
 
-                    //Only install feature if version is greater than installed
-                    if (frsVi.getVersion().isGreaterThan(lfrsVi.getVersion())) {
+				VersionedIdentifier frsVi = frs[i].getVersionedIdentifier();
+				VersionedIdentifier lfrsVi = lfrs[j].getVersionedIdentifier();
 
-                        installOps.add(
-                            OperationsManager
-                              .getOperationFactory()
-                              .createInstallOperation(
-                                ics,
-                                frs[i].getFeature(monitor),
-                                null,
-                                null,
-                                null)
-                        );
-                        logger.debug("** Added feature: "
-                                     + frs[i].getName()
-                                     + " to update list");
-                    }
-                }
-            }
-            //Found a not installed feature
-            if (installedFeature==false){
+				if (frsVi.getIdentifier().equals(lfrsVi.getIdentifier())) {
+					//We have this feature installed
+					installedFeature=true;
 
-                //Add if feature patch
-                if (frs[i].isPatch()){
-                    logger.debug("** Found and added remote feature patch: "
-                                 + frs[i].getName());
-                    installOps.add(
-                        OperationsManager
-                          .getOperationFactory()
-                          .createInstallOperation(
-                            ics,
-                            frs[i].getFeature(monitor),
-                            null,
-                            null,
-                            null)
-                    );
-                }
+					//Only install feature if version is greater than installed
+					if (frsVi.getVersion().isGreaterThan(lfrsVi.getVersion())) {
 
-            }
-        }
+						installOps.add(
+								OperationsManager
+								.getOperationFactory()
+								.createInstallOperation(
+										ics,
+										frs[i].getFeature(monitor),
+										null,
+										null,
+										null)
+						);
+						logger.debug("** Added feature: "
+								+ frs[i].getName()
+								+ " to update list");
+					}
+				}
+			}
+			//Found a not installed feature
+			if (installedFeature==false){
 
-        if (installOps.size() > 0) {
+				//Add if feature patch
+				if (frs[i].isPatch()){
+					logger.debug("** Found and added remote feature patch: "
+							+ frs[i].getName());
+					installOps.add(
+							OperationsManager
+							.getOperationFactory()
+							.createInstallOperation(
+									ics,
+									frs[i].getFeature(monitor),
+									null,
+									null,
+									null)
+					);
+				}
 
-        	//Ask to install, if we have not prev said don't bother us
-        	if (settings.getBoolean(IDialogConstants.SKIP_UPDATE_DIALOG_ON_STARTUP)){
-        		logger.debug("Updates dialog skipped.");
-        	}else{
-        		logger.debug("Updates dialog should open.");
+			}
+		}
 
-        		Display.getDefault().syncExec(new Runnable(){
+		if (installOps.size() > 0) {
+
+			//Ask to install, if we have not prev said don't bother us
+			if (settings.getBoolean(IDialogConstants.SKIP_UPDATE_DIALOG_ON_STARTUP)){
+				logger.debug("Updates dialog skipped.");
+			}else{
+				logger.debug("Updates dialog should open.");
+
+				Display.getDefault().syncExec(new Runnable(){
 
 					public void run() {
-		        		Dialog dlg=new UpdatesAvailableDialog(PlatformUI.getWorkbench().
-		            			getActiveWorkbenchWindow().getShell());
+						Dialog dlg=new UpdatesAvailableDialog(PlatformUI.getWorkbench().
+								getActiveWorkbenchWindow().getShell());
 
-		            	int ret=dlg.open();
-		            	if (ret==Window.CANCEL){
-		            		setAbort(true);
-		            	}
+						int ret=dlg.open();
+						if (ret==Window.CANCEL){
+							setAbort(true);
+						}
 					}
-        			
-        		});
 
-        		if (abort==true) return;
-        		
-        	}
+				});
 
-/*        	
+				if (abort==true) return;
+
+			}
+
+			/*        	
         	if (settings.getBoolean(IDialogConstants.REVIEW_UPDATES)){
 
         		Display.getDefault().syncExec(new Runnable(){
@@ -317,42 +315,42 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 		        		IAction action=new UpdateAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow());
 		          		action.run();
 					}
-        			
+
         		});
 
           		return;
         	}
         	else{
-*/
-        		//Automatically download in background
-        		for (Iterator iter = installOps.iterator(); iter.hasNext();) {
-        			IInstallFeatureOperation op
-        			= (IInstallFeatureOperation) iter.next();
-        			logger.debug("** Installing feature: "
-        					+ op.getFeature().getLabel());
-        			op.execute(monitor, null);
-        		}
+			 */
+			//Automatically download in background
+			for (Iterator iter = installOps.iterator(); iter.hasNext();) {
+				IInstallFeatureOperation op
+				= (IInstallFeatureOperation) iter.next();
+				logger.debug("** Installing feature: "
+						+ op.getFeature().getLabel());
+				op.execute(monitor, null);
+			}
 
-        		boolean restartRequired = ls.save();
-        		logger.debug("Restart required (seems always true): " + restartRequired);
-        		if (restartRequired){
-        			boolean answer=MessageDialog.openQuestion(
-        					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-        					"Restart required",
-        					"You are advised to restart Bioclipse in order for all " +
-        					"updates to be active.\n\n" +
-        			"Would you like to restart Bioclipse now?");
-        			if (answer){
-        				Activator.getDefault().getWorkbench().restart();
-        			}
+			boolean restartRequired = ls.save();
+			logger.debug("Restart required (seems always true): " + restartRequired);
+			if (restartRequired){
+				boolean answer=MessageDialog.openQuestion(
+						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+						"Restart required",
+						"You are advised to restart Bioclipse in order for all " +
+						"updates to be active.\n\n" +
+				"Would you like to restart Bioclipse now?");
+				if (answer){
+					Activator.getDefault().getWorkbench().restart();
+				}
 
-        		}else{
-        			showMessage("Updates for Bioclipse have been "
-        					+ "downloaded and installed.");
-        		}
-//        	}
-        	
-        	/*
+			}else{
+				showMessage("Updates for Bioclipse have been "
+						+ "downloaded and installed.");
+			}
+			//        	}
+
+			/*
         	 //Automatically download in background
             for (Iterator iter = installOps.iterator(); iter.hasNext();) {
                 IInstallFeatureOperation op
@@ -365,31 +363,31 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
             logger.debug("Restart required (seems always true): " + restartRequired);
             showMessage("Updates for Bioclipse have been "
                         + "downloaded and installed.");
-                        
-        	 */
-        }
-        else {
-            logger.debug("** No features found on update site");
-        }
 
-        monitor.done();
-    }
+			 */
+		}
+		else {
+			logger.debug("** No features found on update site");
+		}
+
+		monitor.done();
+	}
 
 
-    private void showMessage(final String message) {
-        // do not use async, we need the GUI!
-        Display.getDefault().syncExec(new Runnable() {
-            public void run() {
-                MessageDialog.openInformation(
-                    PlatformUI.getWorkbench()
-                              .getActiveWorkbenchWindow()
-                              .getShell(),
-                    "Automatic updates",
-                    message);
-            }
-        });
+	private void showMessage(final String message) {
+		// do not use async, we need the GUI!
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+				MessageDialog.openInformation(
+						PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow()
+						.getShell(),
+						"Automatic updates",
+						message);
+			}
+		});
 
-    }
+	}
 
-	
+
 }

@@ -11,48 +11,87 @@
 <h1>Bioclipse concepts</h1>
 
 <p>
-<h3><a name="perspectives">Perspectives</a></h3>
-Perspectives are collections of editors and views that are grouped into a page on screen, e.g. the Chemoinformatics perspective in Bioclipse displays views and editors for working with molecules. You 
-can choose the perspective you currently work with via the symbols on the right end of the toolbar. If you have changed the arrangements of views in 
-your perspective and want the original layout back, choose "Window -> Reset Perspective".
-
-<p>
 <h3>Views</h3>
-In SWT, a View is a window that provides some graphical interface to present something for a user, and might let him interact with it. Examples are the BioResource Navigator, the Jmol View and the properties view. See <a href="workbench/wb_views.html">here for details</a>.
+In Bioclipse, a View is a window that provides some graphical interface to present 
+something for a user, and might let him interact with it. Examples are the BioResource 
+Navigator, the Jmol View and the properties view.
+See a more detailed introduction to <a href="workbench/wb_views.html">Workbench Views</a> here.
 
 <p>
 <h3><a name="editors">Editors</a></h3>
-An Editor is focused on letting the user edit an underlying model and follows the load-save cycle. 
-An example is a simple editor for text-files, but could also be more advanced such as a graphical objects editor like the JchemPaint editor.  See <a href="workbench/wb_editors.html">here for details</a>.
+An Editor is focused on letting the user edit an underlying model and 
+ follows the load-save cycle. An example is a simple editor for text-files, 
+ but could also be more advanced such as a graphical objects editor like 
+ the JchemPaint editor. 
+ See a more detailed introduction to <a href="workbench/wb_editors.html">Editors</a> here.
+
+<p>
+<h3><a name="perspectives">Perspectives</a></h3>
+Perspectives are collections of editors and views that are grouped 
+into a page on screen, e.g. the Chemoinformatics perspective in Bioclipse 
+displays views and editors for working with molecules. You can choose the perspective you currently work with via the 
+symbols on the right end of the toolbar. If you have changed 
+the arrangements of views in your perspective and want the original layout back, choose "Window -> Reset Perspective".
+
 
 <p>
 <h3><a name="plugins">Plugins</a></h3>
-Bioclipse is completely made up of plugins. The core of Bioclipse is itself a set of plugins with the most basic 
-functionality, standard views, and editors. The rest of the functionality is contributed via plugins. For example does the bc_jmol plugin 
-contribute a 3D-visualization based on Jmol, bc_cdk provides molecular management and analysis using the CDK libraries etc. This means that 
-a certain plugin must be installed in order for its functionality to be available for the user. This is powerful in many ways; A user may 
-select to run only the desired plugins and not clutter the workbench with unused functionality, and developers have a perfect framework for 
-plugging in their own extensions to Bioclipse and not interfere with other.
+Bioclipse is completely made up of components called plugins. 
+The core of Bioclipse is itself a set of plugins with the most basic 
+functionality, standard views, and editors. The rest of the functionality 
+is contributed via plugins. For example does the Jmol plugin 
+contribute a 3D-visualization based on Jmol, the CDK plugin contributes 
+molecular management and analysis using the CDK libraries etc.
+This separation is powerful in many ways; A user may 
+select to run only the desired plugins and not 
+clutter the workbench with unused functionality (like hundreds of menu options), and 
+developers also get an ideal framework for plugging in 
+their own extensions to Bioclipse and extend the workbench.
 
 <p>
 <h3><a name="features">Features</a></h3>
-A feature is a collection of <a href="#plugins">plugins</a>. Features mainly serve as units for extending and updating Bioclipse.
+A Feature is a collection of plugins. 
+Features mainly serve as units for extending and updating Bioclipse, so when you 
+are using <a href="">Software Updates</a> you are downloading features. Some features 
+comprise many plugins (like the Cheminformatics plugin), while some only 
+contains a single one (like the Drugbank plugin).
 
 <p>
 <h3><a name="workspace">Workspace</a></h3>
-The concept of a workspace is explained in the Help for the <a href="tutorials/navigator.html">navigator</a>. Note you use several directories 
-as workspaces in parallel, to switch between them use File -> Switch Workspace.
-
+The Bioclipse Navigator (aka Bioclipse Explorer) points to a special folder on 
+the computer called the "Workspace". In the workspace, Bioclipse has control over the 
+content and can listen and act on changes to files and folders in real time.
+            
+The workspace contains a collection of resources. From the user's perspective, 
+there are three different types of resources: 
+<a href="#projects">projects</a>, folders, and files. There can only be one Workspace open at any time.
+            
 <p>
 <h3><a name="projects">Projects</a></h3>
-The concept of Bioclipse projects is explained in the Help for the <a href="tutorials/navigator.html">navigator</a>. You can create a new project 
-by choosing "File -> New ...". In the <a href="#wizards">wizard</a>, choose "General -> Project", then click Next, then choose a name for the new 
+A project is a collection of any number of files and folders and is 
+a container for organizing other resources that relate to a specific area. 
+Files and folders are just like files and directories in the file system; 
+a folder contains other folders or files and a file contains 
+an arbitrary sequence of bytes. 
+            
+Projects contain files and folders, but not other projects. 
+Projects and folders are like directories in a file system.  
+When you delete a project, you will be asked whether you want to 
+delete all of the files and folders that it contains.  
+Deleting a folder from a project will delete the folder and all 
+of its children. Deleting a file is analogous to deleting a file in the file system. 
+
+Bioclipse projects are explained further on the <a href="tutorials/navigator.html">Bioclipse Navigator</a> page. 
+You can create a new project by choosing the menu <b>File > New... </b>".
+In the opened <a href="#wizards">wizard</a>, 
+choose "General -> Project", then click Next, then choose a name for the new 
 project and press Finish.
 
 <p>
 <h3><a name="wizards">Wizards</a></h3>
-A wizard is a dialog involving several steps. Wizards are used to guide the user through complex actions, like creating a new <a href="#projects">project</a> or 
-doing an NMR prediction.
+A wizard is a dialog involving several steps and is used to guide the user 
+through actions comprising several steps, for example creating a new 
+<a href="#projects">project</a>.
 
 </body>
 </html>

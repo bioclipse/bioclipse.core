@@ -168,16 +168,23 @@ public class Activator extends BioclipseActivator {
     private void handleStartupArgs() {
         String[] args  = Platform.getCommandLineArgs();
 
-        for (int i = 0; i < args.length; i++) {
+        //Default is to check
+    	checkForUpdates=true;
+
+    	for (int i = 0; i < args.length; i++) {
             logger.debug("Detected argument "+ i + ": " + args[i]);
             
-            if (args[i].equalsIgnoreCase("-noupdate"))
+            if (args[i].equalsIgnoreCase("-noupdate")){
+            	logger.debug("Argument -noupdate implies no auto check on startup");
             	checkForUpdates=false;
-            else
-            	checkForUpdates=true;
+            }
             	
             //Handle other arguments for Bioclipse here
         }   
+    	
+    	if (checkForUpdates){
+            	logger.debug("Args says: Check for updates is enabled");
+    	}
         
         
     }

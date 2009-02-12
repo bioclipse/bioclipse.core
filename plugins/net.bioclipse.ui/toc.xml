@@ -3,16 +3,19 @@
 
 <toc label="Bioclipse users manual" topic="html/toc.html">
 
+   <topic label="About" href="html/about.html"/>
+   <topic label="Bioclipse concepts"  href="html/concepts.html" />
+   <topic label="Bioclipse at a glance" href="html/glance.html" />
+
    <topic label="Getting Started">
-		<topic label="Using the Navigator" href="html/tutorials/navigator.html" />
+		<topic label="Using the Navigator" href="html/workbench/views/vi_navigator.html" />
 		<topic label="Importing data" href="html/tutorials/importing.html" /> 
 		<topic label="Installing new functionality" href="html/tutorials/updating.html" /> 
-		<topic label="Using the help system" href="html/tutorials/using_help.html" />
-		<topic label="Customizing Bioclipse" href="html/tutorials/customizing.html" /> 
+		<topic label="Using Bioclipse Help" href="html/help.html" />
    </topic>
 
-   <topic label="Bioclipse concepts"  href="html/concepts.html" /> 
    <topic label="The Bioclipse Workbench">
+		<topic label="Overview of parts" href="html/workbench/wb_overview.html"/> 
 		<topic label="The Menu" href="html/workbench/wb_menus.html"/> 
 		<topic label="The Toolbar" href="html/workbench/wb_toolbar.html"/> 
 		<topic label="The Perspectives bar" href="html/workbench/wb_perspectiveBar.html"/> 
@@ -22,16 +25,19 @@
 			<topic label="XML editor" href="html/workbench/editors/ed_xmlEditor.html"/> 
 		</topic>
 		<topic label="Views" href="html/workbench/wb_views.html"> 
-			<topic label="The Outline view" href="html/workbench/views/vi_outline.html"/> 
-			<topic label="The Properties view" href="html/workbench/views/vi_properties.html"/> 
-			<topic label="The Progress view" href="html/workbench/views/vi_progress.html"/> 
+			<topic label="The Bioclipse Navigator" href="html/workbench/views/vi_navigator.html"/> 
+			<topic label="The Outline View" href="html/workbench/views/vi_outline.html"/> 
+			<topic label="The Properties View" href="html/workbench/views/vi_properties.html"/> 
+			<topic label="The Progress View" href="html/workbench/views/vi_progress.html"/> 
+			<topic label="The Javascript Console" href="html/workbench/views/vi_jsconsole.html"/> 
+			<topic label="The Cheatsheet View" href="html/workbench/views/vi_cheatsheets.html"/> 
 		</topic>
 		<topic label="Preferences" href="html/workbench/wb_preferences.html"/> 
 		<topic label="The Help system" href="html/workbench/wb_help.html"/>
+		<topic label="Customizing the Workbench" href="html/workbench/wb_customize.html" /> 
 
    </topic>
 	<topic label="Network settings" href="html/networks.html"/>
-	<topic label="About" href="html/about.html"/>
 	<topic label="License" href="html/license.html"/>
 
 </toc>

@@ -160,7 +160,7 @@
                name="Bioclipse">
          </category>
       <view
-            name="Bioclipse Explorer"
+            name="Bioclipse Navigator"
             category="net.bioclipse.ui.category"
             allowMultiple="false"
             icon="icons/logo/logo_16_trans.gif"

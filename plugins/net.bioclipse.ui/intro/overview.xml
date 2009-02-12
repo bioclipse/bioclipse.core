@@ -5,7 +5,7 @@
        		<link label="What is Bioclipse?" url="http://org.eclipse.ui.intro/showPage?id=whatisBioclipse" id="wbitem" style-id="content-link">
           		<text>Bioclipse is a complete workbench and platform for life science. Learn here what this means.</text>
        		</link>
-       		<link label="Bioclipse concepts" url="http://org.eclipse.ui.intro/showPage?id=bioclipseConcepts" id="concitem" style-id="content-link">
+       		<link label="Bioclipse concepts" url="http://org.eclipse.ui.intro/showHelpTopic?id=/net.bioclipse.ui/html/concepts.html" id="concitem" style-id="content-link">
           		<text>Learn the basic Bioclipse concepts, such as View, Editor, Perspective etc.</text>
        		</link>
        		<link label="Licensing" url="http://org.eclipse.ui.intro/showPage?id=licenses" id="paraitem" style-id="content-link">
@@ -71,81 +71,6 @@
       </group>
       </page>
       
-	<page id="bioclipseConcepts" style="/intro/overview.css" style-id="page">
-      <title style-id="intro-header">Bioclipse concepts</title>
-      <include path="overview/navigation-links"/>
-      <group id="page-content">
-            <group id="content-header" label="Bioclipse concepts" filteredFrom="swt">
-            </group>
-            <text style-id="page-title" id="page-title" filteredFrom="html">Bioclipse concepts</text>
-	    <!-- Add content here -->
-        <text style-id="page-content" id="page-content">Views</text>
-            <text style-id="page-description" id="page-description">
-            In Bioclipse, a View is a window that provides some graphical interface to present 
-            something for a user, and might let him interact with it. Examples are the BioResource 
-            Navigator, the Jmol View and the properties view.</text>
-            <link label="More about Views (Bioclipse Help)" url="http://org.eclipse.ui.intro/showHelpTopic?id=/net.bioclipse.ui/html/workbench/wb_views.html" id="weblink" />
-            
-
-        <text style-id="page-content" id="page-content">Editors</text>
-            <text style-id="page-description" id="page-description">
-            An Editor is focused on letting the user edit an underlying model and 
-            follows the load-save cycle. An example is a simple editor for text-files, 
-            but could also be more advanced such as a graphical objects editor like 
-            the JchemPaint editor.</text>
-            <link label="More about Editors (Bioclipse Help)" url="http://org.eclipse.ui.intro/showHelpTopic?id=/net.bioclipse.ui/html/workbench/wb_editors.html" id="weblink" />
-            
-        <text style-id="page-content" id="page-content">Perspectives</text>
-            <text style-id="page-description" id="page-description">
-			Perspectives are collections of editors and views that are grouped 
-			into a page on screen, e.g. the Chemoinformatics perspective in Bioclipse 
-			displays views and editors for working with molecules.
-            </text>
-            <link label="More about Perspectives (Bioclipse Help)" url="http://org.eclipse.ui.intro/showHelpTopic?id=/net.bioclipse.ui/html/workbench/wb_perspectiveBar.html" id="weblink" />
-           
-        <text style-id="page-content" id="page-content">Plugins</text>
-            <text style-id="page-description" id="page-description">
-			Bioclipse is completely made up of plugins. The core of Bioclipse is itself 
-			a set of plugins with the most basic functionality, standard views, and 
-			editors. The rest of the functionality is contributed via plugins. For example 
-			does the Jmol plugin contribute a 3D-visualization based on Jmol, CDK provides 
-			molecular management and analysis using the CDK libraries etc. This 
-			means that a certain plugin must be installed in order for its 
-			functionality to be available for the user. This is powerful in many 
-			ways; A user may select to run only the desired plugins and not 
-			clutter the workbench with unused functionality, and developers have a perfect 
-			framework for plugging in their own extensions to Bioclipse and not interfere with other.
-			</text>
-			
-			        <text style-id="page-content" id="page-content">Workspace</text>
-            <text style-id="page-description" id="page-description">
-            The Bioclipse Navigator (aka Bioclipse Explorer) points to a special folder on 
-            the computer called the "Workspace". In the workspace, Bioclipse has control over the 
-            content and can listen and act on changes to files and folders in real time.
-            
-            The workspace contains a collection of resources. From the user's perspective, 
-            there are three different types of resources: 
-            projects, folders, and files. 
-            
-            A project is a collection of any number of files and folders. 
-            It is a container for organizing other resources that relate to a specific area. 
-            Files and folders are just like files and directories in the file system. 
-            A folder contains other folders or files. 
-            A file contains an arbitrary sequence of bytes. 
-            There is only one Workspace open at any time.
-            
-            Projects contain files and folders, but not other projects. 
-            Projects and folders are like directories in a file system.  
-            When you delete a project, you will be asked whether you want to 
-            delete all of the files and folders that it contains.  
-            Deleting a folder from a project will delete the folder and all 
-            of its children. 
-            Deleting a file is analogous to deleting a file in the file system. 
-            
-			</text>
-      </group>
-      </page>
-
 	<page id="licenses" style="/intro/overview.css" style-id="page">
       <title style-id="intro-header">Licensing</title>
       <include path="overview/navigation-links"/>
@@ -197,7 +122,13 @@
             via the menu Help > Help Contents.
             </text>
             <link label="Link to Bioclipse Help" url="http://org.eclipse.ui.intro/showHelp" id="about" />
-            
+
+        <text style-id="page-content" id="page-content">Help inside the workbench (Dynamic Help)</text>
+            <text style-id="page-description" id="page-description">
+	            Bioclipse is equipped with a Dynamic Help View which is available 
+	            from the Help menu. Once opened, it allows users to click on any part 
+	            of the workbench to get instant help.
+            </text>
 
         <text style-id="page-content" id="page-content">Bioclipse Frequently Asked Questions (FAQ)</text>
        		<link label="Link to FAQ on Bioclipse wiki" url="http://wiki.bioclipse.net/index.php?title=FAQ" id="weblink" style-id="content-link" />

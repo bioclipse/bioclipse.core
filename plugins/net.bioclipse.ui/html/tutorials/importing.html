@@ -4,18 +4,60 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<title>Bioclipse tutorials - Importing data</title>
-	<link rel="stylesheet" href="../../PRODUCT_PLUGIN/narrow_book.css" type="text/css">
+	<link rel="stylesheet" href="../../../PRODUCT_PLUGIN/narrow_book.css" type="text/css">
 </head>
 
 <body>
-<h1>Importing data</h1>
-<p>As mentioned in <a href="navigator.html">navigator help</a>, only files inside a <a href="../concepts.html#projects">project</a> in the <a href="../concepts.html#workspace">workspace</a> are visible in 
-the navigator. Often, you would like to use existing data in Bioclipse. In this case, you need to import them. First <a href="../concepts.html#projects">create an empty project</a> in case you do not yet have a project of which your files should 
-become part of. Then choose "File -> Import..." or right click on the <a href="navigator.html">navigator</a> (not on a file or folder) and choose "Import ...". In 
-the wizard, choose "General -> File System" and click Next. You can then select files to import and the project to import to. Press Finish and the files will be in the project.</p>
-<p>By choosing "General -> Existing Project into Workspace" in the wizard you can also important an existing Bioclipse project in your workspace. The project can either be already in your 
-workspace as a directory, but not yet visible, or exist somewhere outside your workspace. This is usefull if you maintain multiple Bioclipse workspaces in parallel (which is possible) or 
-you want to exchange complete projects with others, e. g. co-workers.</p>
+<h1>Importing data into Bioclipse</h1>
+
+<p>
+The <a href="../workbench/views/vi_navigator.html">Bioclipse Navigator</a> 
+works with Resources (Projects, Files, and Folders) which reside in a 
+<a href="../concepts.html#workspace">Workspace</a>. 
+
+You always need a Project in the navigator. Just right-click in the Navigator and select 
+<b>New > Project...</b> and then <b>General Project</b> for an empty project to start with.
+<p>
+
+You now have several ways to make your files and folders available in the Project:
+<p>
+
+<ol>
+<li>Copy and paste files/folders from another window (e.g. Explorer)</li>
+<li>Drop files/folders in the navigator</li>
+<li>In the Bioclipse manu, select "Import..." and then any of the available options</li>
+<li>Create a new Project that installs data (e.g. Sample Data Project or Drugbank Project)</li>
+<li>Use a plugin to download files from the Internet (e.g. the Web services plugin)</li>
+</ol>
+
+<h2><a name="sampledata">Installing sample data</a></h2>
+In the menu, select <b>File > New > Project...</b> or right click on the 
+<a href="../workbench/views/vi_navigator.html">Bioclipse Navigator</a> and choose <b>New > Project...</b>. 
+Select <b>New Sample Data Project</b>, click Next, Next and then select what resources to import into the Project.
+
+<p><br>
+<img src="images/newproject.png" width=300>
+<img src="images/selectdata.png" width=300>
+
+<p>
+<br>
+
+<h2>Import a Bioclipse Project</h2>
+In the menu, select <b>File > Import...</b> or right click on the 
+<a href="../workbench/views/vi_navigator.html">Bioclipse Navigator</a> and choose <b>Import ...</b>. 
+In the wizard, choose <b>General > Existing Project into Workspace</b>. 
+This imports an existing Bioclipse project in your workspace. 
+The project can either be already in your 
+workspace as a directory, but not yet visible, 
+or exist somewhere outside your workspace. 
+This is useful if you maintain multiple Bioclipse 
+workspaces in parallel (which is possible) or 
+you want to exchange complete projects with others, e. g. co-workers.
 </p>
+<center>
+<img src="images/import.png" width="300">
+</center>
+
+<p>
 </body>
 </html>

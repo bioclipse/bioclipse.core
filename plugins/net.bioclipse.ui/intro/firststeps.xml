@@ -3,18 +3,18 @@
 
   	  	<extensionContent id="net.bioclipse.intro.workbench.firststeps" style="css/intro.css" name="Bioclipse First Steps" path="firststeps/@">
 		<group style-id="content-group" id="firststep-group">
-			<link label="What can I do with Bioclipse?" url="http://org.eclipse.ui.intro/showPage?id=whatcanIdo" id="runitem" style-id="content-link">
-          		<text>Learn the basic tasks of Bioclipse</text>
+			<link label="Bioclipse at a glance" url="http://org.eclipse.ui.intro/showHelpTopic?id=/net.bioclipse.ui/html/tutorials/glance.html" id="runitem" style-id="content-link">
+          		<text>A one-minute introduction to Bioclipse</text>
        		</link>
  
       		<link label="Introductory CheatSheet" url="http://org.eclipse.ui.intro/showStandby?partId=net.bioclipse.cheatsheet&amp;input=net.bioclipse.cheatsheets.basics" id="sheetitem" >
             <text>A CheatSheet is an interactive tutorial from inside the workbench.
-	            This chetsheet takes you through the first steps of Bioclipse.
+	            This cheatsheet takes you through the first steps of working with Bioclipse.
             </text>
 	         </link>
        		
-			<link label="Installing more features" url="http://org.eclipse.ui.intro/showPage?id=installing" id="downloaditem" style-id="content-link">
-          		<text>Learn how to download and install more features into Bioclipse</text>
+			<link label="Installing more features" url="http://org.eclipse.ui.intro/showStandby?partId=net.bioclipse.cheatsheet&amp;input=net.bioclipse.cheatsheets.basics" id="downloaditem" style-id="content-link">
+          		<text>This cheatsheet goes through the steps to download and install more features into Bioclipse.</text>
        		</link>
        		
       		<link label="Bioclipse Help" url="http://org.eclipse.ui.intro/showHelp" id="helpitem">
@@ -22,31 +22,5 @@
          </link>
        	</group>
   	</extensionContent>
-
-	<page id="whatcanIdo" style="/intro/overview.css" style-id="page">
-      <title style-id="intro-header">What can I do with Bioclipse?</title>
-      <include path="overview/navigation-links"/>
-      <group id="page-content">
-            <group id="content-header" label="What can I do with Bioclipse?" filteredFrom="swt">
-            </group>
-            <text style-id="page-title" id="page-title" filteredFrom="html">What can I do with Bioclipse?</text>
-	    <!-- Add content here -->
-            <text style-id="page-description" id="page-content">Header 1</text>
-            <text style-id="page-description" id="page-description">You can do a lot</text>
-      </group>
-      </page>
-      
-      	<page id="installing" style="/intro/overview.css" style-id="page">
-      <title style-id="intro-header">Installing more features</title>
-      <include path="overview/navigation-links"/>
-      <group id="page-content">
-            <group id="content-header" label="Installing more features" filteredFrom="swt">
-            </group>
-            <text style-id="page-title" id="page-title" filteredFrom="html">Installing more features</text>
-	    <!-- Add content here -->
-            <text style-id="page-description" id="page-content">Header 1</text>
-            <text style-id="page-description" id="page-description">You can do a lot</text>
-      </group>
-      </page>
       
 </introContent>
