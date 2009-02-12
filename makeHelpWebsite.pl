@@ -34,8 +34,8 @@ print " found: " . scalar(@features) . "\n";
 
 my %tocs;
 
-my @plugins = {};
-my @featureIDs = {};
+my @plugins;
+my @featureIDs;
 foreach my $feature (@features) {
   my $id = "";
   if ($feature =~ m/\/([^\/]*)\/feature.xml/) {
