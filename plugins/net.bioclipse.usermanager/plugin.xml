@@ -20,7 +20,7 @@
 			<action
 				label="Log in"
 				class="net.bioclipse.actions.LoginAction"
-				menubarPath="File/log in"
+				menubarPath="File/additions"
 				id="net.bioclipse.actions.LoginAction">
 			</action>
 		</actionSet>
@@ -35,7 +35,7 @@
 			<action
 				label="Log out"
 				class="net.bioclipse.actions.LogoutAction"
-				menubarPath="File/log out"
+				menubarPath="File/additions"
 				id="net.bioclipse.actions.LogoutAction">
 			</action>
 		</actionSet>
