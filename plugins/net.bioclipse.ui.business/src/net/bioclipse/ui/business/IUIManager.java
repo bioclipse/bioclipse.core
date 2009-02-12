@@ -48,8 +48,8 @@ public interface IUIManager extends IBioclipseManager {
     public void open(IFile file);
 
     @Recorded
-    @PublishedMethod(params="IBioObject bioObject, String ID of the edtior to open",
-                     methodSummary="Opens editor of given type with bioObject"
+    @PublishedMethod(params="IBioObject bioObject, String editorID",
+                     methodSummary="Opens editor of given ID with bioObject"
     )
     public void open( final IBioObject bioObject, final String editorId);
 
@@ -72,19 +72,11 @@ public interface IUIManager extends IBioclipseManager {
     public void save(String filePath, InputStream toWrite);
 
     @Recorded
-    @PublishedMethod(
-        params="IFile file, InputStream content",
-        methodSummary="Save the content of the InputStream to the file."
-    )
     @TestMethods("testSaveAndRemove_IFile")
     public void save(IFile file, InputStream toWrite,
                      IProgressMonitor monitor, Runnable callBackFunction);
 
     @Recorded
-    @PublishedMethod(
-        params="IFile file",
-        methodSummary="Determines if the given file exists in the workspace"
-    )
     @TestMethods("testExists_IFile")
     public boolean fileExists(IFile file);
 
