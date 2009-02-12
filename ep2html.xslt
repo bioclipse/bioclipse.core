@@ -23,7 +23,9 @@
 </xsl:template>
 
 <xsl:template match="content-type">
-<h5><xsl:value-of select="./@name"/></h5>
+<h5><xsl:element name="a">
+<xsl:attribute name="name"><xsl:value-of select="./@id"/></xsl:attribute>
+<xsl:value-of select="./@name"/></xsl:element></h5>
 <table>
 <tr><td><b>parent</b></td><td><xsl:value-of select="./@base-type"/></td></tr>
 <tr><td><b>id</b></td><td><xsl:value-of select="./@id"/></td></tr>
