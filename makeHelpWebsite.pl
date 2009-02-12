@@ -21,11 +21,10 @@ print "Plugins subdir found: $prefixPlugins\n";
 
 # make a clean output
 `rm -Rf output`;
-`mkdir output` if (!-d "output");
+`mkdir -p output`;
 
 # First make sure we copy the stylesheets
-`mkdir output` if (!-d "output");
-`mkdir output/PRODUCT_PLUGIN` if (!-d "output/PRODUCT_PLUGIN");
+`mkdir -p output/PRODUCT_PLUGIN`;
 `cp $prefixPlugins/net.bioclipse/*.css output/PRODUCT_PLUGIN/.`;
 
 # OK, now start copying in things and create the main index.html
@@ -171,7 +170,7 @@ foreach my $tocDir (sort keys %tocs) {
   next if ($tocDir =~ /#/); # skip EPs for which the $tocDir is already given
 
   my $tocOutputDir = "output/$tocDir";
-  `mkdir $tocOutputDir` if (!-d $tocOutputDir);
+  `mkdir -p $tocOutputDir`;
   my $filename = "$tocOutputDir/index.html";
   print MAINTOC "    <li><a href=\"$tocDir/index.html\">" . 
                 $tocs{$tocDir}{"name"} . "</a> (" . $tocDir . ")</li>\n";
@@ -235,7 +234,7 @@ foreach my $tocDir (sort keys %tocs) {
           if ($topicHREF =~ m/(.*)\//) {
             my $topicSrcDir = $tocDir."/".$1;
             my $topicTargetDir = "output/".$topicSrcDir;
-            `mkdir $topicTargetDir` if (!-d $topicTargetDir);
+            `mkdir -p $topicTargetDir`;
             # ok, the next might copy things too many time, but at least the
             # images get copied too. Now it just complaints about .svn permission
             # stuff :(
