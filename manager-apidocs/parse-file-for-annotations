@@ -21,7 +21,7 @@ sub do_indented {
 say_indent('---');
 
 my $interface;
-my $classes;
+my @classes;
 my $description;
 my %methods;
 
@@ -32,9 +32,9 @@ while (my $line = <>) {
     if ( $line =~ / \s interface \s+ (\w+) /x ) {
 
         $interface = $1;
-        ($classes) = map { m[/(\w+)\.java$] && $1 }
-                     grep { m[/(\w+)\.java$] }
-                     `grep -Rl "implements $interface" ../plugins/`;
+        @classes = map { m[/(\w+)\.java$] && $1 }
+                   grep { m[/(\w+)\.java$] }
+                   `grep -Rl "implements $interface" ../plugins/`;
     }
 
     if ( $line =~ / \@PublishedClass /x ) {
@@ -91,7 +91,7 @@ while (my $line = <>) {
         do_indented sub {
             say_indent( 'Classes: ' );
             do_indented sub {
-                say_indent( '- ', $classes );
+                say_indent( '- ', $_ ) for @classes;
             };
             say_indent( 'Description: ', $description );
             say_indent( 'Methods:' );
