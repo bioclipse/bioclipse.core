@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.4"?>
 
-<product name="Bioclipse" id="net.bioclipse.ui.product" application="net.bioclipse.ui.application" version="2.0.0.A20090123" useFeatures="true">
+<product name="Bioclipse" id="net.bioclipse.ui.product" application="net.bioclipse.ui.application" version="2.0.0.A20090213" useFeatures="true">
 
    <aboutInfo>
       <image path="/net.bioclipse.ui/icons/logo/abot_img.gif"/>
@@ -154,10 +154,8 @@ See http://www.bioclipse.net for more information
    </plugins>
 
    <features>
-      <feature id="net.bioclipse_feature" version="2.0.0.B20090204"/>
-      <feature id="net.bioclipse.chemoinformatics_feature" version="2.0.0.B20090123"/>
-      <feature id="net.bioclipse.blueobelisk_feature" version="2.1.0"/>
-      <feature id="net.bioclipse.drugbank_feature" version="2.0.0.B20090123"/>
+      <feature id="net.bioclipse.chemoinformatics_feature" version="2.0.0.B20090213"/>
+      <feature id="net.bioclipse_feature" version="2.0.0.B20090213"/>
    </features>
 
 </product>
