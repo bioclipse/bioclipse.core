@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.4"?>
 
-<product name="Bioclipse" id="net.bioclipse.ui.product" application="net.bioclipse.ui.application" version="2.0.0.A20090213" useFeatures="true">
+<product name="Bioclipse" id="net.bioclipse.ui.product" application="net.bioclipse.ui.application" version="2.0.0.B20090213" useFeatures="true">
 
    <aboutInfo>
       <image path="/net.bioclipse.ui/icons/logo/abot_img.gif"/>
