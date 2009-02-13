@@ -882,13 +882,6 @@ http://www.eclipse.org/legal/epl-v10.html
          unpack="false"/>
 
    <plugin
-         id="net.sourceforge.jseditor"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="nu.psnet.quickimage"
          download-size="0"
          install-size="0"
@@ -958,6 +951,13 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="net.bioclipse.data"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.jseditor"
          download-size="0"
          install-size="0"
          version="0.0.0"
