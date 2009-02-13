@@ -65,7 +65,7 @@ public class Activator extends AbstractUIPlugin {
             LogUtils.debugTrace(logger, e);
         }
         if(manager == null) {
-            throw new IllegalStateException("Could not get the CDK manager");
+            throw new IllegalStateException("Could not get the Gist manager");
         }
         return manager;
     }
