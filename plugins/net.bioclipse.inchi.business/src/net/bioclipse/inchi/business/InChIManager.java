@@ -43,6 +43,8 @@ public class InChIManager implements IInChIManager {
             INCHI_RET status = gen.getReturnStatus();
             if (status == INCHI_RET.OKAY) {
                 return gen.getInchi();
+            } else if (status == INCHI_RET.WARNING) {
+                return gen.getInchi();
             } else {
                 throw new InvalidParameterException(
                     "Error while generating InChI: " +
@@ -63,6 +65,8 @@ public class InChIManager implements IInChIManager {
             INCHI_RET status = gen.getReturnStatus();
             if (status == INCHI_RET.OKAY) {
                 return gen.getInchiKey();
+            } else if (status == INCHI_RET.WARNING) {
+                return gen.getInchi();
             } else {
                 throw new InvalidParameterException(
                     "Error while generating InChI: " +
