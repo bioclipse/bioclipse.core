@@ -39,8 +39,12 @@ public class ScriptExecution {
 		String scriptResult = "Invalid result.";
 		// DO THE ACTUAL EXECUTION OF THE SCRIPT
 
-		if (!ContextFactory.hasExplicitGlobal())
+		if (!ContextFactory.hasExplicitGlobal()) {
 			ContextFactory.initGlobal(new ContextFactory());
+			// THIS IS VERY IMPORTANT!!!
+			ContextFactory.getGlobal().initApplicationClassLoader(
+					Activator.class.getClassLoader());
+		}
 		Context cx = ContextFactory.getGlobal().enterContext();
 		
 		if (cx == null) {
