@@ -106,13 +106,25 @@ public class ScriptingTools {
 	
 	/**
 	 * Executes the specified Runnable within Bioclipse's main thread. This function is only
-	 * useful for scripts that are run in separate threads.
-	 * (Please refere to the Java documentation or the sample scripts to learn more about Runnables)
+	 * useful for scripts that are run in separate threads. Please refer to the eclipse documentation
+	 * to learn more about asyncExec() and asyncExec().
+	 * (Warps: Display.getDefault().syncExec(runnable);)
 	 * @param runnable The runnable
 	 */
 	public void syncExec(Runnable runnable) {
 		// do not use async, we need the GUI!
 		Display.getDefault().syncExec(runnable);
+	}
+	
+	/**
+	 * Executes the specified Runnable within Bioclipse's main thread. This function is only
+	 * useful for scripts that are run in separate threads. Please refer to the eclipse documentation
+	 * to learn more about asyncExec() and asyncExec().
+	 * (Warps: Display.getDefault().asyncExec(runnable);)
+	 * @param runnable The runnable
+	 */
+	public void asyncExec(Runnable runnable) {
+		Display.getDefault().asyncExec(runnable);
 	}
 	
 	/**

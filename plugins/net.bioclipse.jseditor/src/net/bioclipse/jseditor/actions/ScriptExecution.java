@@ -64,7 +64,7 @@ public class ScriptExecution {
 				tools = new ScriptingTools(monitor);
 			
 			Object wrappedOut = Context.javaToJS(tools, scope);
-			ScriptableObject.putProperty(scope, "rhino", wrappedOut);
+			ScriptableObject.putProperty(scope, "jst", wrappedOut);
 
 			// also add all managers
 			List<Object> managers = Activator.getManagers();
