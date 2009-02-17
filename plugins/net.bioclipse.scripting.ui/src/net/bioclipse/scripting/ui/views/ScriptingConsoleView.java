@@ -410,8 +410,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
             result.add( line );
 
             // And we can live without the spaces at which we chose to break.
-//            while (currentPos < text.length() && text.charAt(currentPos) == ' ')
-//                ++currentPos;
+            while (currentPos < text.length() && text.charAt(currentPos) == ' ')
+                ++currentPos;
         }
         
         return result.toArray(new String[0]);
