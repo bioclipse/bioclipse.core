@@ -31,6 +31,7 @@ Bundle-ActivationPolicy: lazy
 Export-Package: net.bioclipse.ui,
  net.bioclipse.ui.actions,
  net.bioclipse.ui.contentlabelproviders,
+ net.bioclipse.ui.contenttypes,
  net.bioclipse.ui.dialogs,
  net.bioclipse.ui.editors,
  net.bioclipse.ui.editors.keyword,
