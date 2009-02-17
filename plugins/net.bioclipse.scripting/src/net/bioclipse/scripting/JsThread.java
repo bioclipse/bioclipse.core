@@ -48,7 +48,7 @@ public class JsThread extends ScriptingThread {
                     @Override
                     protected IStatus run( IProgressMonitor m ) {
 
-                        m.beginTask( "Running JavaScript", 
+                        m.beginTask( "Running Javascript", 
                                      IProgressMonitor.UNKNOWN );
                         monitor = m;
                         synchronized ( monitorIsSet ) {
@@ -56,7 +56,7 @@ public class JsThread extends ScriptingThread {
                             monitorIsSet.notifyAll();
                         }
                         synchronized ( wait ) {
-                            while(wait[0]) {
+                            while (wait[0]) {
                                 try {
                                     wait.wait();
                                 } 

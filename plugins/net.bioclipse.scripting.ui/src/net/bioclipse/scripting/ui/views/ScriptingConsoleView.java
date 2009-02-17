@@ -331,7 +331,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
      */
     public void clearConsole() {
         synchronized (output) {
-            output.setText( "" );
+            output.setText( NEWLINE );
         }
     }
     

@@ -22,6 +22,7 @@ import net.bioclipse.scripting.JsThread;
 
 public class JsConsoleView extends ScriptingConsoleView {
 
+    private static final String JS_UNDEFINED_RE = "org.mozilla.javascript.Undefined@.*";
     private static JsThread jsThread
     = net.bioclipse.scripting.Activator.getDefault().JS_THREAD;
 
@@ -49,7 +50,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                 final String[] message = new String[1];
                 Display.getDefault().asyncExec( new Runnable() {
                     public void run() {
-                        if ( null != result && !"undefined".equals(result) ) {
+                        if ( null != result ) {
                             if (result instanceof NativeJavaObject) {
                           
                                 Object unwrappedObject
@@ -67,7 +68,10 @@ public class JsConsoleView extends ScriptingConsoleView {
                                 }
                             }
                             else {
-                                message[0] = result.toString();
+                                String s = result.toString();
+                                message[0] = s.matches( JS_UNDEFINED_RE )
+                                             ? "" : result.toString();
+                                
                             }
                             printMessage(message[0] + "\n");
                         }
