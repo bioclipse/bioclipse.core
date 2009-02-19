@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-
-import org.eclipse.swt.widgets.Display;
-import org.mozilla.javascript.NativeJavaObject;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
@@ -18,6 +16,9 @@ import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.scripting.Hook;
 import net.bioclipse.scripting.JsAction;
 import net.bioclipse.scripting.JsThread;
+
+import org.eclipse.swt.widgets.Display;
+import org.mozilla.javascript.NativeJavaObject;
 
 
 public class JsConsoleView extends ScriptingConsoleView {
@@ -158,7 +159,7 @@ public class JsConsoleView extends ScriptingConsoleView {
         if (command == null)
             return "";
 
-        final String errorMessage = "Usage of help: `help <manager>` " +
+        final String usageMessage = "Usage of help: `help <manager>` " +
                                     "or: `help <manager>.<method>`";
         StringBuilder result = new StringBuilder();
 
@@ -167,7 +168,7 @@ public class JsConsoleView extends ScriptingConsoleView {
             
             StringBuilder sb = new StringBuilder();
             
-            sb.append(errorMessage);
+            sb.append(usageMessage);
             List<String> managerNames
                 = new ArrayList<String>( JsThread.js.getManagers()
                                                  .keySet() );
@@ -191,7 +192,7 @@ public class JsConsoleView extends ScriptingConsoleView {
             String[] parts = helpObject.split("\\.");
 
             if ( parts.length != 2 )
-                return errorMessage;
+                return usageMessage;
 
             String managerName = parts[0];
             String methodName  = parts[1];
@@ -200,7 +201,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                 = JsThread.js.getManagers().get(managerName);
             if (manager == null)
                 return "No such manager: " + managerName
-                       + NEWLINE + errorMessage;
+                       + NEWLINE + usageMessage;
 
             for (Method method : findAllPublishedMethods(manager.getClass())) {
                 if ( method.getName().equals(methodName) ) {
@@ -241,7 +242,7 @@ public class JsConsoleView extends ScriptingConsoleView {
 
             if (manager == null)
                 return "No such method: " + helpObject
-                       + NEWLINE + errorMessage;
+                       + NEWLINE + usageMessage;
 
             StringBuilder managerDescription = new StringBuilder();
             Queue<Class> q = new LinkedList<Class>();
@@ -398,19 +399,30 @@ public class JsConsoleView extends ScriptingConsoleView {
     private Method[] findAllPublishedMethods(Class<?> interfaze) {
         return findAllPublishedMethods(
                 interfaze,
-                new ArrayList<Method>()
+                new ArrayList<Method>(),
+                new HashSet<String>()
                ).toArray(new Method[0]);
     }
     
     private List<Method> findAllPublishedMethods(Class<?> interfaze,
-                                                 List<Method> methods) {
+                                                 List<Method> methods,
+                                                 HashSet<String> visited) {
 
-        for ( Method method : interfaze.getMethods() )
-            if ( method.isAnnotationPresent(PublishedMethod.class) )
+        for ( Method method : interfaze.getMethods() ) {
+            if ( method.isAnnotationPresent(PublishedMethod.class) ) {
+                PublishedMethod publishedMethod
+                = method.getAnnotation( PublishedMethod.class );
+
+                String signature = method.getName() + publishedMethod.params();
+                if (visited.contains( signature ))
+                    return methods;
+                visited.add( signature ); 
                 methods.add( method );
+            }
+        }
         
         for (Class<?> parent : interfaze.getInterfaces())
-            findAllPublishedMethods(parent, methods);
+            findAllPublishedMethods(parent, methods, visited);
             
         return methods;
     }
