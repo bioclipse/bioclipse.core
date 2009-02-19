@@ -64,7 +64,7 @@ public class JsConsoleManager implements IJsConsoleManager {
     }
 
     public void say(final String message) {
-        print(message + "\n");
+        print(message + JsConsoleView.NEWLINE);
     }
 
     public String getNamespace() {
@@ -103,7 +103,8 @@ public class JsConsoleManager implements IJsConsoleManager {
             StringBuffer sb = new StringBuffer();
             while ( sc.hasNextLine() ) {
                 sb.append( sc.nextLine() );
-                sb.append( "\r\n" );
+                sb.append( "\r\n" ); // needed here because that seems to be
+                                     // what the js env is expecting
             }
             contents = sb.toString();
         } 
