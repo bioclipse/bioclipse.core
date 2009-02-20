@@ -8,8 +8,7 @@ Require-Bundle: org.eclipse.core.runtime,
  net.bioclipse.core,
  org.springframework.osgi.aopalliance.osgi;bundle-version="1.0.0",
  org.eclipse.core.resources;bundle-version="3.4.0",
- org.springframework.bundle.spring.aop;bundle-version="2.5.1",
- com.springsource.org.mozilla.javascript;bundle-version="1.7.0"
+ org.springframework.bundle.spring.aop;bundle-version="2.5.1"
 Eclipse-LazyStart: true
 Bundle-ClassPath: libs/antlr-2.7.5.jar,
  .,
@@ -21,6 +20,7 @@ Bundle-ClassPath: libs/antlr-2.7.5.jar,
  libs/bsf.jar,
  libs/jline-0.9.91.jar
 Export-Package: net.bioclipse.scripting,
- net.bioclipse.scripting.business
+ net.bioclipse.scripting.business,
+ org.mozilla.javascript
 Import-Package: org.apache.log4j
 Bundle-Vendor: The Bioclipse Team

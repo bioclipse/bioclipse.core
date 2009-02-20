@@ -8,8 +8,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  net.bioclipse.core,
  net.bioclipse.ui,
- net.bioclipse.scripting;bundle-version="1.0.0",
- com.springsource.org.mozilla.javascript;bundle-version="1.7.0"
+ net.bioclipse.scripting;bundle-version="1.0.0"
 Eclipse-LazyStart: true
 Import-Package: net.bioclipse.scripting,
  org.apache.log4j,
