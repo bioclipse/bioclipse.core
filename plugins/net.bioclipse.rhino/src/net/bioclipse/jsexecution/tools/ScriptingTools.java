@@ -1,6 +1,6 @@
-package net.bioclipse.rhino.tools;
+package net.bioclipse.jsexecution.tools;
 
-import net.bioclipse.rhino.execution.helper.ThreadSafeConsoleWrap;
+import net.bioclipse.jsexecution.execution.helper.ThreadSafeConsoleWrap;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 /*
- * This file is part of the Bioclipse Rhino Plug-in.
+ * This file is part of the Bioclipse JsExecution Plug-in.
  * 
  * Copyright (c) 2008 Johannes Wagener.
  * All rights reserved. This program and the accompanying materials

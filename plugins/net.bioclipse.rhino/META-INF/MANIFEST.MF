@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Rhino Plug-in
-Bundle-SymbolicName: net.bioclipse.rhino
+Bundle-SymbolicName: net.bioclipse.jsexecution
 Bundle-Version: 1.0.0
-Bundle-Activator: net.bioclipse.rhino.Activator
+Bundle-Activator: net.bioclipse.jsexecution.Activator
 Bundle-Vendor: The Bioclipse Team
 DynamicImport-Package: *
 Require-Bundle: org.eclipse.ui,
@@ -14,4 +14,4 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Import-Package: org.apache.log4j;version="1.2.15"
-Export-Package: net.bioclipse.rhino.execution
+Export-Package: net.bioclipse.jsexecution.execution

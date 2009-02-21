@@ -1,9 +1,10 @@
-package net.bioclipse.rhino;
+package net.bioclipse.jsexecution;
+
 
 import org.apache.log4j.Logger;
 
 /*
- * This file is part of the Bioclipse Rhino Plug-in.
+ * This file is part of the Bioclipse JsExecution Plug-in.
  * 
  * Copyright (c) 2008 Johannes Wagener.
  * All rights reserved. This program and the accompanying materials

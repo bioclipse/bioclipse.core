@@ -1,13 +1,13 @@
-package net.bioclipse.rhino.execution;
+package net.bioclipse.jsexecution.execution;
 
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
 
-import net.bioclipse.rhino.execution.helper.ThreadSafeConsoleWrap;
-import net.bioclipse.rhino.Activator;
-import net.bioclipse.rhino.tools.ScriptingTools;
-import net.bioclipse.rhino.exceptions.ScriptException;
+import net.bioclipse.jsexecution.Activator;
+import net.bioclipse.jsexecution.exceptions.ScriptException;
+import net.bioclipse.jsexecution.execution.helper.ThreadSafeConsoleWrap;
+import net.bioclipse.jsexecution.tools.ScriptingTools;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -30,7 +30,7 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 /*
- * This file is part of the Bioclipse Rhino Plug-in.
+ * This file is part of the Bioclipse JsExecution Plug-in.
  * 
  * Copyright (c) 2008 Johannes Wagener.
  * All rights reserved. This program and the accompanying materials

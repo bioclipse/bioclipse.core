@@ -1,4 +1,4 @@
-package net.bioclipse.rhino.execution.helper;
+package net.bioclipse.jsexecution.execution.helper;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,7 +10,7 @@ import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 
 /*
- * This file is part of the Bioclipse Rhino Plug-in.
+ * This file is part of the Bioclipse JsExecution Plug-in.
  * 
  * Copyright (c) 2008 Johannes Wagener.
  * All rights reserved. This program and the accompanying materials

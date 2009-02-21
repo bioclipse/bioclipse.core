@@ -1,7 +1,7 @@
-package net.bioclipse.rhino.exceptions;
+package net.bioclipse.jsexecution.exceptions;
 
 /*
- * This file is part of the Bioclipse Rhino Plug-in.
+ * This file is part of the Bioclipse JsExecution Plug-in.
  * 
  * Copyright (c) 2008 Johannes Wagener.
  * All rights reserved. This program and the accompanying materials

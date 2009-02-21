@@ -1,9 +1,8 @@
-package net.bioclipse.rhino;
+package net.bioclipse.jsexecution;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.bioclipse.rhino.PluginLogger;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -15,7 +14,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /*
- * This file is part of the Bioclipse Rhino Plug-in.
+ * This file is part of the Bioclipse JsExecution Plug-in.
  * 
  * Copyright (c) 2008 Johannes Wagener.
  * All rights reserved. This program and the accompanying materials

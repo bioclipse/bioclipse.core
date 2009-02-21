@@ -1,4 +1,4 @@
-package net.bioclipse.rhino.tools;
+package net.bioclipse.jsexecution.tools;
 
 import java.io.File;
 import java.net.URL;
@@ -7,10 +7,10 @@ import java.net.URLClassLoader;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 
-import net.bioclipse.rhino.execution.helper.ThreadSafeConsoleWrap;
+import net.bioclipse.jsexecution.execution.helper.ThreadSafeConsoleWrap;
 
 /*
- * This file is part of the Bioclipse Rhino Plug-in.
+ * This file is part of the Bioclipse JsExecution Plug-in.
  * 
  * Copyright (c) 2008 Johannes Wagener.
  * All rights reserved. This program and the accompanying materials
