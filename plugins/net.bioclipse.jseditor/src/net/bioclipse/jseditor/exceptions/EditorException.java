@@ -12,19 +12,19 @@ package net.bioclipse.jseditor.exceptions;
  * Contributors:
  *    Johannes Wagener - initial API and implementation
  */
-public class ScriptException extends Exception {
+public class EditorException extends Exception {
 	
-	private static final long serialVersionUID = -1536851006065532451L;
+	private static final long serialVersionUID = -1536851006069642451L;
 	
-	public ScriptException() {
+	public EditorException() {
 		super();
 	}
 
-	public ScriptException(String message) {
+	public EditorException(String message) {
 		super(message);
 	}
 
-	public ScriptException(Throwable t) {
+	public EditorException(Throwable t) {
 		super(t);
 	}
 }

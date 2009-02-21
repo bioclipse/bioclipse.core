@@ -9,7 +9,7 @@ import org.eclipse.ui.editors.text.TextEditor;
 
 import net.bioclipse.jseditor.Activator;
 import net.bioclipse.jseditor.actions.RunRhinoScriptActionPulldown;
-import net.bioclipse.jseditor.exceptions.ScriptException;
+import net.bioclipse.jseditor.exceptions.EditorException;
 /*
  * This file is part of the Bioclipse Javascript Editor Plug-in.
  * 
@@ -72,7 +72,7 @@ public class JsEditor extends TextEditor {
 		}
 	}
 	
-	public String getScriptString() throws ScriptException {
+	public String getScriptString() throws EditorException {
 		// Get the command from the editor
 		
 		if (isDirty()) {
@@ -89,11 +89,11 @@ public class JsEditor extends TextEditor {
 		
 		if (scriptString == null) {
 			showMessage("The script is null; invalide file?");
-			throw new ScriptException("The script is null; invalide file?");
+			throw new EditorException("The script is null; invalide file?");
 		}
 		if (scriptString.compareTo("") == 0 ) {
 			showMessage("The script is empty.");
-			throw new ScriptException("The script is empty.");
+			throw new EditorException("The script is empty.");
 		}
 		
 		return scriptString;

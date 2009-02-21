@@ -23,8 +23,7 @@ public class RunRhinoScriptActionPulldown extends Action
 											implements IMenuCreator {
 	private static final String ACTION_ID = "RunRhinoScriptActionPulldown";
 	private MenuManager pulldownMenuManager = null;
-	private IAction runAsJobAction = null,
-							runInMainThreadAction = null;
+	private IAction runAsJobAction = null;
 
 	public RunRhinoScriptActionPulldown() {
 		super("Run Javascript...", AS_DROP_DOWN_MENU);
@@ -33,7 +32,6 @@ public class RunRhinoScriptActionPulldown extends Action
 		
 		// keep a link to the actions
 		runAsJobAction = new RunRhinoScriptAsJobAction();
-		runInMainThreadAction = new RunRhinoScriptInThreadAction();
 	}
 
 	public void dispose() {
@@ -48,7 +46,7 @@ public class RunRhinoScriptActionPulldown extends Action
 			// we have to create a new menu first!
 			pulldownMenuManager = new MenuManager();
 			pulldownMenuManager.createContextMenu(parent);
-			pulldownMenuManager.add(runInMainThreadAction);
+			//pulldownMenuManager.add(runInMainThreadAction);
 			pulldownMenuManager.add(runAsJobAction);
 		}
 		return pulldownMenuManager.getMenu();
@@ -64,6 +62,6 @@ public class RunRhinoScriptActionPulldown extends Action
 
 	public void run() {
 		// run default way
-		runInMainThreadAction.run();
+		runAsJobAction.run();
 	}
 }

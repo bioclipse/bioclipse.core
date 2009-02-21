@@ -52,7 +52,7 @@ public class RhinoConsole implements IConsoleFactory {
         	}
         }
         }
-        private static MessageConsole getRhinoConsole() {
+        public static MessageConsole getRhinoConsole() {
                 if (messageConsole == null) {
                         messageConsole = findConsole(consoleName);
                 }

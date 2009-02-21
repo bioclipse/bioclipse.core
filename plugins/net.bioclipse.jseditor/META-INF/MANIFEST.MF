@@ -1,7 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Javascript Editor
-DynamicImport-Package: *
 Bundle-SymbolicName: net.bioclipse.jseditor;singleton:=true
 Bundle-Version: 2.0.0.B20090213
 Bundle-Activator: net.bioclipse.jseditor.Activator
@@ -10,10 +9,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.console;bundle-version="3.3.0",
  org.eclipse.ui.editors;bundle-version="3.4.0",
- org.eclipse.jface.text;bundle-version="3.4.0",
- net.bioclipse.scripting;bundle-version="2.0.0",
- com.springsource.org.mozilla.javascript;bundle-version="1.7.0"
+ org.eclipse.jface.text;bundle-version="3.4.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
-Import-Package: org.apache.log4j;version="1.2.15"
+Import-Package: net.bioclipse.rhino.execution,
+ org.apache.log4j;version="1.2.15"
 Bundle-ClassPath: .
