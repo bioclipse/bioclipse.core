@@ -34,7 +34,7 @@ public class ScriptingTools {
 	}
 	
 	/**
-	 * Prints to the Rhino Javascript Console.
+	 * Prints to the JsEditor Javascript Console.
 	 * @return true if the threaded script was canceled by the user, false otherwise 
 	 */
 	public void print(String text) {

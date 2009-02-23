@@ -20,6 +20,6 @@ public class PluginLogger {
 	private static final Logger logger = Logger.getLogger(Activator.class);
 	
 	public static void log(String text) {
-		logger.warn("Bioclipse Rhino Plug-in: " + text);
+		logger.warn("Bioclipse JsExecution Plug-in: " + text);
 	}
 }

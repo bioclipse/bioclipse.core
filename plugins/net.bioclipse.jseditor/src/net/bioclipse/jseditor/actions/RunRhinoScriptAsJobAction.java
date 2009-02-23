@@ -37,7 +37,7 @@ public class RunRhinoScriptAsJobAction extends Action {
 		// Get the command from the editor
 		IEditorPart ep = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		if (!(ep instanceof JsEditor)) {
-			PluginLogger.log("No Rhino Editor active");
+			PluginLogger.log("No Javascript Editor active");
 			return;
 		}
 

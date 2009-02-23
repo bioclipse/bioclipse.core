@@ -28,7 +28,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "net.bioclipse.rhino";
+	public static final String PLUGIN_ID = "net.bioclipse.jsexecution";
 
 	// The shared instance
 	private static Activator plugin;

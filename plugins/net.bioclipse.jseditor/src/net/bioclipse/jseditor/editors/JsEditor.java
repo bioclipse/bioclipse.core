@@ -77,7 +77,7 @@ public class JsEditor extends TextEditor {
 		
 		if (isDirty()) {
 			boolean result = MessageDialog.openQuestion(getSite().getShell(),
-					"Rhino Javascript Editor", "The script was modifed. " +
+					"Javascript Editor", "The script was modifed. " +
 							"Save changes before running the script?");
 			if (result) {
 				doSave(null);
@@ -102,7 +102,7 @@ public class JsEditor extends TextEditor {
 	private void showMessage(String message) {
 		MessageDialog.openInformation(
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-				"Rhino Javascript Plug-In",
+				"Javascript Editor Plug-In",
 				message);
 	}
 }

@@ -9,8 +9,8 @@
             default="false"
             extensions="js"
             icon="icons/png/jsfile.png"
-            id="net.bioclipse.rhino.rhinoeditor"
-            name="Rhino Javascript Editor">
+            id="net.bioclipse.jseditor.editor"
+            name="Javascript Editor">
       </editor>
    </extension>
 

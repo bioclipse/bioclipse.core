@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Rhino Plug-in
+Bundle-Name: JsExecution Plug-in
 Bundle-SymbolicName: net.bioclipse.jsexecution
 Bundle-Version: 1.0.0
 Bundle-Activator: net.bioclipse.jsexecution.Activator

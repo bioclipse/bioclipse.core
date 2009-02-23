@@ -152,13 +152,13 @@ public class ScriptExecution {
 	 * Beside this it creates another object in the context
 	 * that provides some helper functions located in
 	 * 
-	 * net.bioclipse.rhino.tools.ScriptingTools.java
+	 * net.bioclipse.jsexecution.tools.ScriptingTools.java
 	 * 
 	 * used to pop up a message box, or to make a script sleep for some ms,
 	 * or to run a runnable in the GUI context.
 	 * 
 	 * There is also one helper function that can be used to load an external .jar into the IDE.
-	 * ( it uses net.bioclipse.rhino.tools.JarClasspathLoader.java )
+	 * ( it uses net.bioclipse.jsexecution.tools.JarClasspathLoader.java )
 	 * 
 	 */
 	
