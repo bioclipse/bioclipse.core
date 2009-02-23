@@ -46,7 +46,7 @@ public class JSJobCreatorAdvice implements IJSJobCreatorAdvice {
             IProgressMonitor monitor 
                 = new SubProgressMonitor( MonitorContainer.getInstance()
                                                           .getMonitor(), 
-                                          1000000 ); 
+                                          0 ); 
             if ( monitor.isCanceled() ) {
                 throw new OperationCanceledException();
             }
