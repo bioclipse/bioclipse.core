@@ -50,6 +50,9 @@ public class JSJobCreatorAdvice implements IJSJobCreatorAdvice {
             if ( monitor.isCanceled() ) {
                 throw new OperationCanceledException();
             }
+            
+            monitor.subTask( "Running: " + invocation.getMethod().getName() );
+            
             args[args.length-1] = monitor;
             System.arraycopy( invocation.getArguments(), 
                               0, 
