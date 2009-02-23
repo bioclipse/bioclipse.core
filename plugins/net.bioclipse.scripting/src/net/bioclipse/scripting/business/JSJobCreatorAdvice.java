@@ -8,6 +8,7 @@ import java.util.List;
 import net.bioclipse.core.Activator;
 import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.jsexecution.tools.MonitorContainer;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.eclipse.core.resources.IFile;
@@ -43,9 +44,8 @@ public class JSJobCreatorAdvice implements IJSJobCreatorAdvice {
                  invocation.getArguments().length + 1];
             
             IProgressMonitor monitor 
-                = new SubProgressMonitor( net.bioclipse.scripting.Activator
-                                             .getDefault().JS_THREAD
-                                             .getMonitor(), 
+                = new SubProgressMonitor( MonitorContainer.getInstance()
+                                                          .getMonitor(), 
                                           1000000 ); 
             if ( monitor.isCanceled() ) {
                 throw new OperationCanceledException();

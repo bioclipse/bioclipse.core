@@ -7,6 +7,7 @@ import java.util.List;
 import net.bioclipse.jsexecution.Activator;
 import net.bioclipse.jsexecution.exceptions.ScriptException;
 import net.bioclipse.jsexecution.execution.helper.ThreadSafeConsoleWrap;
+import net.bioclipse.jsexecution.tools.MonitorContainer;
 import net.bioclipse.jsexecution.tools.ScriptingTools;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -97,6 +98,8 @@ public class ScriptExecution {
 				// set a friendly icon and keep the job in list when it is finished
 				/*setProperty(IProgressConstants.ICON_PROPERTY,
 						Activator.getImageDescriptor("icons/png/jsfilerun.png"));*/
+				
+				MonitorContainer.getInstance().addMonitor( monitor );
 				
 				monitor.beginTask("Running Javascript...", 2);
 				try {
