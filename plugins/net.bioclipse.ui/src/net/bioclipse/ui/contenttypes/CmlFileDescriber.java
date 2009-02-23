@@ -101,7 +101,6 @@ public class CmlFileDescriber extends TextContentDescriber
 			while (parser.next() != XmlPullParser.END_DOCUMENT) {
 				if (parser.getEventType() == XmlPullParser.START_TAG) {
 				    String tagName = parser.getName();
-                    System.out.println(tagName);
 				    
 				    if (!checkedNamespace && tagName.equalsIgnoreCase("cml")) {
 				        if (parser.getNamespace().equals(CmlFileDescriber.NS_CML)) {
@@ -178,9 +177,6 @@ public class CmlFileDescriber extends TextContentDescriber
 		boolean wantsSingle = requiredCardinality.equalsIgnoreCase("single");
 		boolean wantsMultiple = requiredCardinality.equalsIgnoreCase("multiple");
 
-		if (wants2D && wantsSingle) {
-		    System.out.println("OK, I want the real deal now...");
-		}
 		if ((has2D && wants2D) && (moleculeCount == 1 && wantsSingle)) {
 			return VALID;
 		}
