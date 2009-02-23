@@ -77,6 +77,7 @@ public class CmlFileDescriber extends TextContentDescriber
 		boolean has3D = false;
 		boolean searchingForDimension = true;
 		boolean checkedNamespace = false;
+		boolean hasAtoms = false;
 		int spectrumCount = 0;
 		int spectrumTagDepth = 0;
 
@@ -100,6 +101,7 @@ public class CmlFileDescriber extends TextContentDescriber
 			while (parser.next() != XmlPullParser.END_DOCUMENT) {
 				if (parser.getEventType() == XmlPullParser.START_TAG) {
 				    String tagName = parser.getName();
+                    System.out.println(tagName);
 				    
 				    if (!checkedNamespace && tagName.equalsIgnoreCase("cml")) {
 				        if (parser.getNamespace().equals(CmlFileDescriber.NS_CML)) {
@@ -133,6 +135,7 @@ public class CmlFileDescriber extends TextContentDescriber
 					 * that a mixed 2D/3D file will not be seen as such. 
 					 */
 					if (searchingForDimension && tagName.equalsIgnoreCase("atom")) {
+					    hasAtoms = true;
 						if (parser.getAttributeValue(null, "x2") != null) {
 							has2D = true;
 							searchingForDimension = false;
@@ -175,6 +178,9 @@ public class CmlFileDescriber extends TextContentDescriber
 		boolean wantsSingle = requiredCardinality.equalsIgnoreCase("single");
 		boolean wantsMultiple = requiredCardinality.equalsIgnoreCase("multiple");
 
+		if (wants2D && wantsSingle) {
+		    System.out.println("OK, I want the real deal now...");
+		}
 		if ((has2D && wants2D) && (moleculeCount == 1 && wantsSingle)) {
 			return VALID;
 		}
@@ -183,7 +189,12 @@ public class CmlFileDescriber extends TextContentDescriber
 			return VALID;
 		}
 
-		if ((has3D && wants3D) && (moleculeCount == 1 && wantsSingle)) {
+		// a CML file without any atoms, is considered input for 2D editing
+        if ((!hasAtoms && wants2D) && (moleculeCount == 1 && wantsSingle)) {
+            return VALID;
+        }
+
+        if ((has3D && wants3D) && (moleculeCount == 1 && wantsSingle)) {
 			return VALID;
 		}
 
