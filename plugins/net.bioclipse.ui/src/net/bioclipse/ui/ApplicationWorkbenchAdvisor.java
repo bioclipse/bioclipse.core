@@ -61,252 +61,252 @@ import org.eclipse.update.operations.OperationsManager;
  */
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 
-	private static final Logger logger = Logger.getLogger(ApplicationWorkbenchAdvisor.class);
+    private static final Logger logger = Logger.getLogger(ApplicationWorkbenchAdvisor.class);
 
-	//Get settings for dialogs
-	IDialogSettings settings = Activator.getDefault().getDialogSettings();
+    //Get settings for dialogs
+    IDialogSettings settings = Activator.getDefault().getDialogSettings();
 
-	private boolean abort;
+    private boolean abort;
 
-	public boolean isAbort() {
-		return abort;
-	}
+    public boolean isAbort() {
+        return abort;
+    }
 
-	public void setAbort(boolean abort) {
-		this.abort = abort;
-	}
+    public void setAbort(boolean abort) {
+        this.abort = abort;
+    }
 
-	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
-		return new ApplicationWorkbenchWindowAdvisor(configurer);
-	}
+    public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
+        return new ApplicationWorkbenchWindowAdvisor(configurer);
+    }
 
-	public void initialize(IWorkbenchConfigurer configurer) {
-		super.initialize(configurer);
-		configurer.setSaveAndRestore(true);
+    public void initialize(IWorkbenchConfigurer configurer) {
+        super.initialize(configurer);
+        configurer.setSaveAndRestore(true);
 
-	}
+    }
 
-	@Override
-	public void postStartup() {
-		super.postStartup();
+    @Override
+    public void postStartup() {
+        super.postStartup();
 
-		abort=false;
+        abort=false;
 
-		//If we said do not update in the earlier dialog, skip check.
-		if (settings.getBoolean(IDialogConstants.SKIP_UPDATE_ON_STARTUP)){
-			logger.debug("Skipped updating due to preference setting.");
-			return;
-		}
+        //If we said do not update in the earlier dialog, skip check.
+        if (settings.getBoolean(IDialogConstants.SKIP_UPDATE_ON_STARTUP)){
+            logger.debug("Skipped updating due to preference setting.");
+            return;
+        }
 
-		if (!Activator.getDefault().checkForUpdates){
-			logger.debug("Skipped updating due to -noupdate argument.");
-			return;
-		}
+        if (!Activator.getDefault().checkForUpdates){
+            logger.debug("Skipped updating due to -noupdate argument.");
+            return;
+        }
 
-		//Ok, check for updates if not turned off by arg -noupdate
-		Job updateJob=new Job("Online updates") {
+        //Ok, check for updates if not turned off by arg -noupdate
+        Job updateJob=new Job("Online updates") {
 
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
+            @Override
+            protected IStatus run(IProgressMonitor monitor) {
 
-				/*
-				 * Launch automatic updates
-				 */
-				try {
+                /*
+                 * Launch automatic updates
+                 */
+                try {
 
-					logger.debug("## Checking for updates... ");
-					lauchAutomaticUpdates(monitor);
-					logger.debug("## Finished checking for updates.");
-				} catch (MalformedURLException e) {
-					logger.debug("Automatic updates error: "
-							+ e.getMessage());
-				} catch (CoreException e) {
-					logger.debug("Automatic updates error: "
-							+ e.getMessage());
-				} catch (InvocationTargetException e) {
-					logger.debug("Automatic updates error: "
-							+ e.getMessage());
-				}
+                    logger.debug("## Checking for updates... ");
+                    lauchAutomaticUpdates(monitor);
+                    logger.debug("## Finished checking for updates.");
+                } catch (MalformedURLException e) {
+                    logger.debug("Automatic updates error: "
+                                 + e.getMessage());
+                } catch (CoreException e) {
+                    logger.debug("Automatic updates error: "
+                                 + e.getMessage());
+                } catch (InvocationTargetException e) {
+                    logger.debug("Automatic updates error: "
+                                 + e.getMessage());
+                }
 
-				return Status.OK_STATUS;
-			}
-		};
+                return Status.OK_STATUS;
+            }
+        };
 
-		updateJob.setUser(false);
-		updateJob.schedule();
-	}
+        updateJob.setUser(false);
+        updateJob.schedule();
+    }
 
-	public String getInitialWindowPerspectiveId() {
-		return DefaultPerspective.ID_PERSPECTIVE;
-	}
+    public String getInitialWindowPerspectiveId() {
+        return DefaultPerspective.ID_PERSPECTIVE;
+    }
 
-	@SuppressWarnings({ "deprecation", "unchecked" })
-	private void lauchAutomaticUpdates(IProgressMonitor monitor)
-	throws MalformedURLException, CoreException, InvocationTargetException {
+    @SuppressWarnings({ "deprecation", "unchecked" })
+    private void lauchAutomaticUpdates(IProgressMonitor monitor)
+    throws MalformedURLException, CoreException, InvocationTargetException {
 
-		//    	IProgressMonitor monitor = new NullProgressMonitor();
+        //    	IProgressMonitor monitor = new NullProgressMonitor();
 
-		IPreferenceStore prefsStore=Activator.getDefault().getPreferenceStore();
-		String entireString=prefsStore.getString(IPreferenceConstants.UPDATE_SITES);
-		List<String[]> sites=UpdateSitesPreferencePage.convertPreferenceStringToArraylist(entireString);
+        IPreferenceStore prefsStore=Activator.getDefault().getPreferenceStore();
+        String entireString=prefsStore.getString(IPreferenceConstants.UPDATE_SITES);
+        List<String[]> sites=UpdateSitesPreferencePage.convertPreferenceStringToArraylist(entireString);
 
-		List<IFeatureReference> refs=new ArrayList<IFeatureReference>();
-		for (String[] updateSite : sites){
+        List<IFeatureReference> refs=new ArrayList<IFeatureReference>();
+        for (String[] updateSite : sites){
 
-			if (updateSite!=null && updateSite.length==2){
-				logger.debug("Contacting update site: " + updateSite[1]);
+            if (updateSite!=null && updateSite.length==2){
+                logger.debug("Contacting update site: " + updateSite[1]);
 
-				//Contact each site
-				ISite rs = SiteManager.getSite(new URL(updateSite[1]),
-						monitor);
+                //Contact each site
+                ISite rs = SiteManager.getSite(new URL(updateSite[1]),
+                                               monitor);
 
-				//Add it's features to list
-				for (IFeatureReference pref : rs.getFeatureReferences()){
-					logger.debug("Found available feature: " + pref.getName());
-					refs.add(pref);
-				}
-			}
-			else{
-				logger.debug("Skipped update site: " + updateSite);
-			}
-		}
+                //Add it's features to list
+                for (IFeatureReference pref : rs.getFeatureReferences()){
+                    logger.debug("Found available feature: " + pref.getName());
+                    refs.add(pref);
+                }
+            }
+            else{
+                logger.debug("Skipped update site: " + updateSite);
+            }
+        }
 
-		IFeatureReference[] frs = refs.toArray(new IFeatureReference[0]);
+        IFeatureReference[] frs = refs.toArray(new IFeatureReference[0]);
 
-		ILocalSite ls = SiteManager.getLocalSite();
-		if (ls.getCurrentConfiguration().getConfiguredSites()==null || 
-				ls.getCurrentConfiguration().getConfiguredSites().length<=0){
-			logger.error("Bioclispe seems not to have a local site. This should not happen.");
-			throw new CoreException(new IStatus(){
+        ILocalSite ls = SiteManager.getLocalSite();
+        if (ls.getCurrentConfiguration().getConfiguredSites()==null || 
+                ls.getCurrentConfiguration().getConfiguredSites().length<=0){
+            logger.error("Bioclispe seems not to have a local site. This should not happen.");
+            throw new CoreException(new IStatus(){
 
-				public IStatus[] getChildren() {
-					return null;
-				}
+                public IStatus[] getChildren() {
+                    return null;
+                }
 
-				public int getCode() {
-					return 0;
-				}
+                public int getCode() {
+                    return 0;
+                }
 
-				public Throwable getException() {
-					return null;
-				}
+                public Throwable getException() {
+                    return null;
+                }
 
-				public String getMessage() {
-					return "Bioclispe seems not to have a local site. This should not happen.";
-				}
+                public String getMessage() {
+                    return "Bioclispe seems not to have a local site. This should not happen.";
+                }
 
-				public String getPlugin() {
-					return Activator.PLUGIN_ID;
-				}
+                public String getPlugin() {
+                    return Activator.PLUGIN_ID;
+                }
 
-				public int getSeverity() {
-					return IStatus.ERROR;
-				}
+                public int getSeverity() {
+                    return IStatus.ERROR;
+                }
 
-				public boolean isMultiStatus() {
-					return false;
-				}
+                public boolean isMultiStatus() {
+                    return false;
+                }
 
-				public boolean isOK() {
-					return false;
-				}
+                public boolean isOK() {
+                    return false;
+                }
 
-				public boolean matches(int severityMask) {
-					return false;
-				}
+                public boolean matches(int severityMask) {
+                    return false;
+                }
 
-			});
-		}
+            });
+        }
 
-		IConfiguredSite ics
-		= ls.getCurrentConfiguration().getConfiguredSites()[0];
-		IFeatureReference[] lfrs = ics.getConfiguredFeatures();
-		List<IInstallFeatureOperation> installOps
-		= new ArrayList<IInstallFeatureOperation>();
+        IConfiguredSite ics
+        = ls.getCurrentConfiguration().getConfiguredSites()[0];
+        IFeatureReference[] lfrs = ics.getConfiguredFeatures();
+        List<IInstallFeatureOperation> installOps
+        = new ArrayList<IInstallFeatureOperation>();
 
-		for (int i = 0; i < frs.length; i++) {
+        for (int i = 0; i < frs.length; i++) {
 
-			//Default is not installed
-			boolean installedFeature=false;
+            //Default is not installed
+            boolean installedFeature=false;
 
-			//Add if feature and version > what is installed
-			for (int j = 0; j < lfrs.length; j++) {
+            //Add if feature and version > what is installed
+            for (int j = 0; j < lfrs.length; j++) {
 
-				VersionedIdentifier frsVi = frs[i].getVersionedIdentifier();
-				VersionedIdentifier lfrsVi = lfrs[j].getVersionedIdentifier();
+                VersionedIdentifier frsVi = frs[i].getVersionedIdentifier();
+                VersionedIdentifier lfrsVi = lfrs[j].getVersionedIdentifier();
 
-				if (frsVi.getIdentifier().equals(lfrsVi.getIdentifier())) {
-					//We have this feature installed
-					installedFeature=true;
+                if (frsVi.getIdentifier().equals(lfrsVi.getIdentifier())) {
+                    //We have this feature installed
+                    installedFeature=true;
 
-					//Only install feature if version is greater than installed
-					if (frsVi.getVersion().isGreaterThan(lfrsVi.getVersion())) {
+                    //Only install feature if version is greater than installed
+                    if (frsVi.getVersion().isGreaterThan(lfrsVi.getVersion())) {
 
-						installOps.add(
-								OperationsManager
-								.getOperationFactory()
-								.createInstallOperation(
-										ics,
-										frs[i].getFeature(monitor),
-										null,
-										null,
-										null)
-						);
-						logger.debug("** Added feature: "
-								+ frs[i].getName()
-								+ " to update list");
-					}
-				}
-			}
-			//Found a not installed feature
-			if (installedFeature==false){
+                        installOps.add(
+                                       OperationsManager
+                                       .getOperationFactory()
+                                       .createInstallOperation(
+                                                               ics,
+                                                               frs[i].getFeature(monitor),
+                                                               null,
+                                                               null,
+                                                               null)
+                        );
+                        logger.debug("** Added feature: "
+                                     + frs[i].getName()
+                                     + " to update list");
+                    }
+                }
+            }
+            //Found a not installed feature
+            if (installedFeature==false){
 
-				//Add if feature patch
-				if (frs[i].isPatch()){
-					logger.debug("** Found and added remote feature patch: "
-							+ frs[i].getName());
-					installOps.add(
-							OperationsManager
-							.getOperationFactory()
-							.createInstallOperation(
-									ics,
-									frs[i].getFeature(monitor),
-									null,
-									null,
-									null)
-					);
-				}
+                //Add if feature patch
+                if (frs[i].isPatch()){
+                    logger.debug("** Found and added remote feature patch: "
+                                 + frs[i].getName());
+                    installOps.add(
+                                   OperationsManager
+                                   .getOperationFactory()
+                                   .createInstallOperation(
+                                                           ics,
+                                                           frs[i].getFeature(monitor),
+                                                           null,
+                                                           null,
+                                                           null)
+                    );
+                }
 
-			}
-		}
+            }
+        }
 
-		if (installOps.size() > 0) {
+        if (installOps.size() > 0) {
 
-			//Ask to install, if we have not prev said don't bother us
-			if (settings.getBoolean(IDialogConstants.SKIP_UPDATE_DIALOG_ON_STARTUP)){
-				logger.debug("Updates dialog skipped.");
-			}else{
-				logger.debug("Updates dialog should open.");
+            //Ask to install, if we have not prev said don't bother us
+            if (settings.getBoolean(IDialogConstants.SKIP_UPDATE_DIALOG_ON_STARTUP)){
+                logger.debug("Updates dialog skipped.");
+            }else{
+                logger.debug("Updates dialog should open.");
 
-				Display.getDefault().syncExec(new Runnable(){
+                Display.getDefault().syncExec(new Runnable(){
 
-					public void run() {
-						Dialog dlg=new UpdatesAvailableDialog(PlatformUI.getWorkbench().
-								getActiveWorkbenchWindow().getShell());
+                    public void run() {
+                        Dialog dlg=new UpdatesAvailableDialog(PlatformUI.getWorkbench().
+                                                              getActiveWorkbenchWindow().getShell());
 
-						int ret=dlg.open();
-						if (ret==Window.CANCEL){
-							setAbort(true);
-						}
-					}
+                        int ret=dlg.open();
+                        if (ret==Window.CANCEL){
+                            setAbort(true);
+                        }
+                    }
 
-				});
+                });
 
-				if (abort==true) return;
+                if (abort==true) return;
 
-			}
+            }
 
-			/*        	
+            /*        	
         	if (settings.getBoolean(IDialogConstants.REVIEW_UPDATES)){
 
         		Display.getDefault().syncExec(new Runnable(){
@@ -321,36 +321,59 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
           		return;
         	}
         	else{
-			 */
-			//Automatically download in background
-			for (Iterator iter = installOps.iterator(); iter.hasNext();) {
-				IInstallFeatureOperation op
-				= (IInstallFeatureOperation) iter.next();
-				logger.debug("** Installing feature: "
-						+ op.getFeature().getLabel());
-				op.execute(monitor, null);
-			}
+             */
+            //Automatically download in background
+            for (Iterator iter = installOps.iterator(); iter.hasNext();) {
+                IInstallFeatureOperation op
+                = (IInstallFeatureOperation) iter.next();
+                logger.debug("** Installing feature: "
+                             + op.getFeature().getLabel());
+                op.execute(monitor, null);
+            }
 
-			boolean restartRequired = ls.save();
-			logger.debug("Restart required (seems always true): " + restartRequired);
-			if (restartRequired){
-				boolean answer=MessageDialog.openQuestion(
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-						"Restart required",
-						"You are advised to restart Bioclipse in order for all " +
-						"updates to be active.\n\n" +
-				"Would you like to restart Bioclipse now?");
-				if (answer){
-					Activator.getDefault().getWorkbench().restart();
-				}
+            boolean restartRequired = ls.save();
+            logger.debug("Restart required (seems always true): " + restartRequired);
+            if (restartRequired){
 
-			}else{
-				showMessage("Updates for Bioclipse have been "
-						+ "downloaded and installed.");
-			}
-			//        	}
+                //Create new runnable for UI thread sync and confirm dialog
+                Display.getDefault().syncExec(new Runnable() {
+                    public void run() {
 
-			/*
+                        if (PlatformUI.getWorkbench()!=null){
+                            if (PlatformUI.getWorkbench().getActiveWorkbenchWindow()!=null){
+                                if (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()!=null){
+
+
+                                    boolean answer=MessageDialog.openQuestion(
+                                                                              PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                                                                              "Restart required",
+                                                                              "You are advised to restart Bioclipse in order for all " +
+                                                                              "updates to be active.\n\n" +
+                                    "Would you like to restart Bioclipse now?");
+                                    if (answer){
+                                        Activator.getDefault().getWorkbench().restart();
+                                    }
+
+                                }else{
+                                    Activator.getDefault().getWorkbench().restart();
+                                }
+
+                            }else{
+                                Activator.getDefault().getWorkbench().restart();
+                            }
+
+                        }else{
+                            Activator.getDefault().getWorkbench().restart();
+                        }
+                    }
+                });
+            }else{
+                showMessage("Updates for Bioclipse have been "
+                            + "downloaded and installed.");
+            }
+            //        	}
+
+            /*
         	 //Automatically download in background
             for (Iterator iter = installOps.iterator(); iter.hasNext();) {
                 IInstallFeatureOperation op
@@ -364,30 +387,30 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
             showMessage("Updates for Bioclipse have been "
                         + "downloaded and installed.");
 
-			 */
-		}
-		else {
-			logger.debug("** No features found on update site");
-		}
+             */
+        }
+        else {
+            logger.debug("** No features found on update site");
+        }
 
-		monitor.done();
-	}
+        monitor.done();
+    }
 
 
-	private void showMessage(final String message) {
-		// do not use async, we need the GUI!
-		Display.getDefault().syncExec(new Runnable() {
-			public void run() {
-				MessageDialog.openInformation(
-						PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow()
-						.getShell(),
-						"Automatic updates",
-						message);
-			}
-		});
+    private void showMessage(final String message) {
+        // do not use async, we need the GUI!
+        Display.getDefault().syncExec(new Runnable() {
+            public void run() {
+                MessageDialog.openInformation(
+                                              PlatformUI.getWorkbench()
+                                              .getActiveWorkbenchWindow()
+                                              .getShell(),
+                                              "Automatic updates",
+                                              message);
+            }
+        });
 
-	}
+    }
 
 
 }
