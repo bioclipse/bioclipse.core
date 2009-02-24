@@ -234,7 +234,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         fileMenu.add(saveAllAction);
         fileMenu.add(revertAction);
         fileMenu.add(new Separator("SWITCHWORKSPACE"));
-        fileMenu.add(switchWorkspaceAction);
+        //see bug #476
+        //fileMenu.add(switchWorkspaceAction);
         fileMenu.add(new Separator("IMPORTandEXPORT"));
         fileMenu.add(importAction);
         fileMenu.add(exportAction);
