@@ -15,7 +15,9 @@ package net.bioclipse.jsexecution.tools;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 
 /**
  * A singleton keeping track of all monitors used by all threads executing 
@@ -27,6 +29,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 public class MonitorContainer {
 
     private static MonitorContainer _instance = new MonitorContainer();
+    private static Logger logger = Logger.getLogger( MonitorContainer.class );
     
     private Map<Thread, IProgressMonitor> monitors;
     
@@ -51,6 +54,13 @@ public class MonitorContainer {
      * @return monitor associated with the current thread
      */
     public synchronized IProgressMonitor getMonitor() {
-        return monitors.get( Thread.currentThread() );
+        IProgressMonitor m =  monitors.get( Thread.currentThread() );
+        if ( m == null ) {
+            logger.warn( "The MonitorContainer could not find a monitor " +
+            		         "connected to current thread so returning a " +
+            		         "NullProgressMonitor" );
+            m = new NullProgressMonitor();
+        }
+        return m;
     }
 }
