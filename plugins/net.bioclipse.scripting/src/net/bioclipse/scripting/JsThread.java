@@ -11,10 +11,12 @@ package net.bioclipse.scripting;
 import java.util.LinkedList;
 
 import net.bioclipse.core.util.LogUtils;
+import net.bioclipse.jsexecution.tools.MonitorContainer;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
@@ -23,7 +25,6 @@ public class JsThread extends ScriptingThread {
     public static JsEnvironment js;
     private LinkedList<JsAction> actions;
     private static boolean busy;
-    private volatile IProgressMonitor monitor;
     private Logger logger = Logger.getLogger( JsThread.class );
     
     public void run() {
@@ -44,13 +45,18 @@ public class JsThread extends ScriptingThread {
                 busy = true;
                 final Boolean[] wait = { new Boolean(true) };
                 final Boolean[] monitorIsSet = { new Boolean(false) };
+                final IProgressMonitor[] monitor 
+                    = { new NullProgressMonitor() };
+                
                 Job job = new Job("JS-script") {
                     @Override
                     protected IStatus run( IProgressMonitor m ) {
 
                         m.beginTask( "Running Javascript", 
                                      IProgressMonitor.UNKNOWN );
-                        monitor = m;
+                        
+                        monitor[0] = m;
+                        
                         synchronized ( monitorIsSet ) {
                             monitorIsSet[0] = true;
                             monitorIsSet.notifyAll();
@@ -81,6 +87,7 @@ public class JsThread extends ScriptingThread {
                     }
                 }
                 try {
+                    MonitorContainer.getInstance().addMonitor(monitor[0]);
                     result[0] = js.eval( nextAction.getCommand() );
                 }
                 catch (Throwable t) {
@@ -126,10 +133,6 @@ public class JsThread extends ScriptingThread {
     public void enqueue(String command) {
         enqueue( new JsAction( command,
                                new Hook() { public void run(Object s) {} } ) );
-    }
-
-    public synchronized IProgressMonitor getMonitor() {
-        return monitor;
     }
 
     public String toJsString( Object o ) {
