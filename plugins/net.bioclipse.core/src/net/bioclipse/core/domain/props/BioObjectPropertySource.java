@@ -13,6 +13,8 @@ package net.bioclipse.core.domain.props;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import net.bioclipse.core.domain.IBioObject;
 
@@ -36,8 +38,8 @@ public class BioObjectPropertySource implements IPropertySource2{
     };
 
     private IBioObject item;
-    private ArrayList<IPropertyDescriptor> properties;
-    private HashMap<String, Object> valueMap;
+    private List<IPropertyDescriptor> properties;
+    private Map<String, Object> valueMap;
 
 
     /**
@@ -103,7 +105,7 @@ public class BioObjectPropertySource implements IPropertySource2{
     public void setPropertyValue(Object id, Object value) {
     }
 
-    public ArrayList<IPropertyDescriptor> getProperties() {
+    public List<IPropertyDescriptor> getProperties() {
         return properties;
     }
 
@@ -111,7 +113,7 @@ public class BioObjectPropertySource implements IPropertySource2{
         this.properties = properties;
     }
 
-    public HashMap<String, Object> getValueMap() {
+    public Map<String, Object> getValueMap() {
         return valueMap;
     }
 
