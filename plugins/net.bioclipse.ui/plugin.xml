@@ -402,7 +402,7 @@
 		<content-type
               base-type="net.bioclipse.contenttypes.cml"
 	          id="net.bioclipse.contenttypes.cml.singleMolecule2d"
-              name="CMLSingleMoleculeContentType2D"
+              name="CML (Single 2D Molecule)"
               priority="high">
 		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
             	<parameter
@@ -419,7 +419,7 @@
         <content-type
               base-type="net.bioclipse.contenttypes.cml"
 	          id="net.bioclipse.contenttypes.cml.multipleMolecule2d"
-              name="CMLMultipleMoleculeContentType2D"
+              name="CML (Multiple 2D Molecules)"
               priority="high">
 		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
             	<parameter
@@ -436,7 +436,7 @@
         <content-type
               base-type="net.bioclipse.contenttypes.cml"
 	          id="net.bioclipse.contenttypes.cml.singleMolecule3d"
-              name="CMLSingleMoleculeContentType3D"
+              name="CML (Single 3D Molecule)"
               priority="high">
 		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
             	<parameter
@@ -453,7 +453,7 @@
         <content-type
               base-type="net.bioclipse.contenttypes.cml"
 	          id="net.bioclipse.contenttypes.cml.multipleMolecule3d"
-              name="CMLMultipleMoleculeContentType3D"
+              name="CML (Multiple 3D Molecules)"
               priority="high">
 		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
             	<parameter
@@ -471,7 +471,7 @@
               base-type="org.eclipse.core.runtime.text"
               file-extensions="pdb"
               id="net.bioclipse.contenttypes.pdb"
-              name="PDBContentType"
+              name="Protein Brookhaven Database File"
               priority="high">
         </content-type>
 
@@ -479,14 +479,14 @@
               base-type="org.eclipse.core.runtime.text"
               file-extensions="sdf"
               id="net.bioclipse.contenttypes.sdf"
-              name="SDFContentType"
+              name="MDL SD file"
               priority="high">
         </content-type>
         <content-type
               base-type="org.eclipse.core.runtime.text"
               file-extensions="smi"
               id="net.bioclipse.contenttypes.smi"
-              name="SMILES-ContentType"
+              name="SMILES (Multiple Molecules)"
               priority="high">
         </content-type>
 
@@ -501,7 +501,7 @@
               base-type="net.bioclipse.contenttypes.mdlMolFile"
               file-extensions="mdl,mol"
               id="net.bioclipse.contenttypes.mdlMolFile2D"
-              name="MdlMolfileContentType2D"
+              name="MDL Molfile (2D)"
               priority="high">
 		 <describer class="net.bioclipse.ui.contenttypes.MdlMolFileCoordinatesDescriber">
               <parameter
@@ -515,7 +515,7 @@
               base-type="net.bioclipse.contenttypes.mdlMolFile"
               file-extensions="mdl,mol"
               id="net.bioclipse.contenttypes.mdlMolFile3D"
-              name="MdlMolfileContentType3D"
+              name="MDL molfile (3D)"
               priority="high">
 		 <describer class="net.bioclipse.ui.contenttypes.MdlMolFileCoordinatesDescriber">
               <parameter
