@@ -20,6 +20,7 @@
 
    <requires>
       <import feature="net.bioclipse.xws4j_feature" version="1.0.0" match="greaterOrEqual"/>
+      <import feature="net.bioclipse.core_feature" version="2.0.0.B20090227"/>
    </requires>
 
    <plugin
