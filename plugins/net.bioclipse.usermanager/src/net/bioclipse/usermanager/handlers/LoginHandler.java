@@ -18,9 +18,9 @@ public class LoginHandler extends AbstractHandler {
     
     public Object execute( ExecutionEvent event ) throws ExecutionException {
         
-        String param=event.getParameter( "net.bioclipse.usermanager.loginParameter" );
+//        String param=event.getParameter( "net.bioclipse.usermanager.loginParameter" );
         
-        System.out.println("Param: " + param + " detected");
+//        System.out.println("Param: " + param + " detected");
         
         UserContainer sandboxUserContainer = Activator
         .getDefault()

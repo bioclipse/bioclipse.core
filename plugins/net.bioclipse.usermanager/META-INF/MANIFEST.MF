@@ -23,4 +23,5 @@ Bundle-ClassPath: .,
 Export-Package: net.bioclipse.usermanager,
  net.bioclipse.usermanager.business,
  net.bioclipse.usermanager.dialogs,
+ net.bioclipse.usermanager.handlers,
  net.bioclipse.usermanager.preferences
