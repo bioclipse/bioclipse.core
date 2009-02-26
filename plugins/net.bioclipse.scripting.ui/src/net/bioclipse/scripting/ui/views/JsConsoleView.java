@@ -23,9 +23,10 @@ import org.mozilla.javascript.NativeJavaObject;
 
 public class JsConsoleView extends ScriptingConsoleView {
 
-    private static final String JS_UNDEFINED_RE = "org.mozilla.javascript.Undefined@.*";
+    private static final String JS_UNDEFINED_RE
+      = "org.mozilla.javascript.Undefined@.*";
     private static JsThread jsThread
-    = net.bioclipse.scripting.Activator.getDefault().JS_THREAD;
+      = net.bioclipse.scripting.Activator.getDefault().JS_THREAD;
 
     static {
         jsThread.enqueue( "function clear() { js.clear() }" );
@@ -136,12 +137,7 @@ public class JsConsoleView extends ScriptingConsoleView {
     
     private String dashes(int length, int maxLength) {
 
-        StringBuilder result = new StringBuilder();
-
-        for ( int i = 0; i < Math.min(length, maxLength); ++i )
-            result.append('-');
-
-        return result.toString();
+        return dashes(Math.min( length, maxLength ));
     }
 
     /**

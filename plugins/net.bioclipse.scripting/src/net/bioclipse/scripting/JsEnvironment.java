@@ -9,7 +9,6 @@ package net.bioclipse.scripting;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import net.bioclipse.core.PublishedMethod;
@@ -17,7 +16,6 @@ import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
