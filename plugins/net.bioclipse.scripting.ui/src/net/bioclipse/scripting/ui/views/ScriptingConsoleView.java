@@ -170,12 +170,23 @@ public abstract class ScriptingConsoleView extends ViewPart {
         GridData outputData = new GridData(GridData.FILL_BOTH);
         output.setBackground(new Color(parent.getDisplay(), 0xFF, 0xFF, 0xFF));
         output.setLayoutData(outputData);
+        output.addKeyListener(new KeyListener() {
+            public void keyPressed(KeyEvent e) {
+                if (e.character != '\0' && e.stateMask == 0) {
+                    e.doit = false;
+                    input.setText( input.getText() + e.character );
+                    input.setSelection( input.getText().length() );
+                    input.setFocus();
+                }
+            }
+            public void keyReleased(KeyEvent _) { }
+        });
         
         input = new Text(parent, SWT.SINGLE | SWT.BORDER);
         input.setFont(JFaceResources.getTextFont());
         input.addKeyListener( new KeyListener() {
             public void keyPressed(KeyEvent e) { handleKey(e); }
-            public void keyReleased(KeyEvent e) { }
+            public void keyReleased(KeyEvent _) { }
         });
         input.addTraverseListener( new TraverseListener() {
             public void keyTraversed(TraverseEvent e) {
