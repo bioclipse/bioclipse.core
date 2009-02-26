@@ -27,7 +27,6 @@ import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
-import org.mozilla.javascript.WrappedException;
 
 /**
  * Javascript environment. Holds variables and evaluates expressions.
@@ -49,6 +48,8 @@ public class JsEnvironment implements ScriptingEnvironment {
     /**
      * Initializes the Javascript environment for use.
      */
+    // TODO: Look into doing this the non-deprecated way.
+    @SuppressWarnings("deprecation")
     public final void reset() {
         if (context != null)
             Context.exit();
@@ -121,21 +122,9 @@ public class JsEnvironment implements ScriptingEnvironment {
             return context.evaluateString(scope, expression,
                                           null, 0, null);
         }
-        catch (WrappedException e) {
-            LogUtils.debugTrace(logger, e);
-            return e.getWrappedException().getMessage();
-        }
         catch (EvaluatorException e) {
             LogUtils.debugTrace(logger, e);
             return explanationAboutParameters( expression, e );
-        }
-        catch (EcmaError e) {
-            LogUtils.debugTrace(logger, e);
-            return e.getMessage();
-        }
-        catch (Exception e) {
-            LogUtils.debugTrace(logger, e);
-            return e.getMessage();
         }
     }
 

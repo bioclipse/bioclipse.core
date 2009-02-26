@@ -10,10 +10,8 @@ package net.bioclipse.scripting;
 
 import java.util.LinkedList;
 
-import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jsexecution.tools.MonitorContainer;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -25,7 +23,6 @@ public class JsThread extends ScriptingThread {
     public static JsEnvironment js;
     private LinkedList<JsAction> actions;
     private static boolean busy;
-    private Logger logger = Logger.getLogger( JsThread.class );
     
     public void run() {
         js = new JsEnvironment();
@@ -89,11 +86,16 @@ public class JsThread extends ScriptingThread {
                 try {
                     MonitorContainer.getInstance().addMonitor(monitor[0]);
                     result[0] = js.eval( nextAction.getCommand() );
+                    if (result[0] instanceof String) {
+                        String s = (String)result[0];
+                        if (s.startsWith( "Wrapped " ))
+                            result[0] = "Something went wrong. The complete"
+                                + " error message has been written to the"
+                                + " logs.";
+                    }
                 }
-                catch (Throwable t) {
-                    LogUtils.debugTrace( logger, t );
-                    result[0] = 
-                        t.getClass().getSimpleName() + ": " + t.getMessage();
+                finally {
+                    // We might want to catch something here, some day.
                 }
                 synchronized ( wait ) {
                     wait[0] = false;
