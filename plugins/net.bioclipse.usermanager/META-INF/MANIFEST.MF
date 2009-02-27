@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Usermanager
 Bundle-SymbolicName: net.bioclipse.usermanager;singleton:=true
-Bundle-Version: 2.0.0.B20090213
+Bundle-Version: 2.0.0.B20090227
 Bundle-Activator: net.bioclipse.usermanager.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
