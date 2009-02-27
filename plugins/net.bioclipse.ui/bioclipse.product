@@ -36,6 +36,7 @@ See http://www.bioclipse.net for more information
 
    <launcherArgs>
       <programArgs>-consolelog</programArgs>
+      <programArgsLin>-data &quot;@user.home/bioclipse&quot;</programArgsLin>
       <programArgsMac>-data &quot;@user.home/Library/Application Support/Bioclipse/Default Workspace/&quot;</programArgsMac>
       <vmArgs>-ea  -Xmx512M -XX:MaxPermSize=128m</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
@@ -80,14 +81,14 @@ See http://www.bioclipse.net for more information
       <plugin id="org.eclipse.core.filesystem"/>
       <plugin id="org.eclipse.core.filesystem.hpux.ia64_32"/>
       <plugin id="org.eclipse.core.filesystem.linux.ppc"/>
-      <plugin id="org.eclipse.core.filesystem.linux.x86"/>
+      <plugin id="org.eclipse.core.filesystem.linux.x86" fragment="true"/>
       <plugin id="org.eclipse.core.filesystem.linux.x86_64"/>
-      <plugin id="org.eclipse.core.filesystem.macosx" fragment="true"/>
+      <plugin id="org.eclipse.core.filesystem.macosx"/>
       <plugin id="org.eclipse.core.filesystem.solaris.sparc"/>
       <plugin id="org.eclipse.core.filesystem.win32.x86"/>
       <plugin id="org.eclipse.core.jobs"/>
       <plugin id="org.eclipse.core.net"/>
-      <plugin id="org.eclipse.core.net.linux.x86"/>
+      <plugin id="org.eclipse.core.net.linux.x86" fragment="true"/>
       <plugin id="org.eclipse.core.net.win32.x86"/>
       <plugin id="org.eclipse.core.resources"/>
       <plugin id="org.eclipse.core.resources.compatibility" fragment="true"/>
@@ -99,7 +100,7 @@ See http://www.bioclipse.net for more information
       <plugin id="org.eclipse.equinox.preferences"/>
       <plugin id="org.eclipse.equinox.registry"/>
       <plugin id="org.eclipse.equinox.security"/>
-      <plugin id="org.eclipse.equinox.security.macosx" fragment="true"/>
+      <plugin id="org.eclipse.equinox.security.macosx"/>
       <plugin id="org.eclipse.equinox.security.win32.x86"/>
       <plugin id="org.eclipse.help"/>
       <plugin id="org.eclipse.jface"/>
@@ -107,9 +108,9 @@ See http://www.bioclipse.net for more information
       <plugin id="org.eclipse.jface.text"/>
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.swt"/>
-      <plugin id="org.eclipse.swt.carbon.macosx" fragment="true"/>
+      <plugin id="org.eclipse.swt.carbon.macosx"/>
       <plugin id="org.eclipse.swt.gtk.linux.ppc"/>
-      <plugin id="org.eclipse.swt.gtk.linux.x86"/>
+      <plugin id="org.eclipse.swt.gtk.linux.x86" fragment="true"/>
       <plugin id="org.eclipse.swt.gtk.linux.x86_64"/>
       <plugin id="org.eclipse.swt.gtk.solaris.sparc"/>
       <plugin id="org.eclipse.swt.motif.aix.ppc"/>
@@ -120,7 +121,7 @@ See http://www.bioclipse.net for more information
       <plugin id="org.eclipse.text"/>
       <plugin id="org.eclipse.ui"/>
       <plugin id="org.eclipse.ui.browser"/>
-      <plugin id="org.eclipse.ui.carbon" fragment="true"/>
+      <plugin id="org.eclipse.ui.carbon"/>
       <plugin id="org.eclipse.ui.cheatsheets"/>
       <plugin id="org.eclipse.ui.editors"/>
       <plugin id="org.eclipse.ui.forms"/>
@@ -136,7 +137,7 @@ See http://www.bioclipse.net for more information
       <plugin id="org.eclipse.ui.workbench.texteditor"/>
       <plugin id="org.eclipse.update.configurator"/>
       <plugin id="org.eclipse.update.core"/>
-      <plugin id="org.eclipse.update.core.linux"/>
+      <plugin id="org.eclipse.update.core.linux" fragment="true"/>
       <plugin id="org.eclipse.update.core.win32"/>
       <plugin id="org.eclipse.update.ui"/>
       <plugin id="org.springframework.bundle.osgi.core"/>
