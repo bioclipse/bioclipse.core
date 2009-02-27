@@ -2,14 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Javascript Editor
 Bundle-SymbolicName: net.bioclipse.jseditor;singleton:=true
-Bundle-Version: 2.0.0.B20090213
+Bundle-Version: 2.0.0.B20090227
 Bundle-Activator: net.bioclipse.jseditor.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.ui.console;bundle-version="3.3.0",
- org.eclipse.ui.editors;bundle-version="3.4.0",
- org.eclipse.jface.text;bundle-version="3.4.0"
+ org.eclipse.ui.console,
+ org.eclipse.ui.editors,
+ org.eclipse.jface.text
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Import-Package: net.bioclipse.jsexecution.execution,
