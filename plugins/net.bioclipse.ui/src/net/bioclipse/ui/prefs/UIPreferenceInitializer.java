@@ -36,8 +36,17 @@ public class UIPreferenceInitializer extends AbstractPreferenceInitializer {
     public void initializeDefaultPreferences() {
 
     	//This string is the default update site for Bioclipse
-		String defstr="Bioclipse Update Site" + IPreferenceConstants.PREFERENCES_DELIMITER+ BioclipseConstants.UPDATE_SITE+
-						IPreferenceConstants.PREFERENCES_OBJECT_DELIMITER+"Speclipse Update Site"+ IPreferenceConstants.PREFERENCES_DELIMITER+ BioclipseConstants.SPECLIPSE_UPDATE_SITE;
+		String defstr="Bioclipse Update Site" + 
+		IPreferenceConstants.PREFERENCES_DELIMITER 
+		+ BioclipseConstants.UPDATE_SITE
+		+ IPreferenceConstants.PREFERENCES_OBJECT_DELIMITER
+		+ "Speclipse Update Site"
+		+ IPreferenceConstants.PREFERENCES_DELIMITER
+		+ BioclipseConstants.SPECLIPSE_UPDATE_SITE
+    + IPreferenceConstants.PREFERENCES_OBJECT_DELIMITER
+    + "Bioclipse Experimental Update Site"
+    + IPreferenceConstants.PREFERENCES_DELIMITER
+    + BioclipseConstants.BIOCLIPSE_EXPERIMENTAL_UPDATE_SITE;
 
 		IEclipsePreferences prefs = new DefaultScope().getNode(Activator.PLUGIN_ID);
 		prefs.put(
