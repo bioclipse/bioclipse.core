@@ -403,7 +403,7 @@
               base-type="net.bioclipse.contenttypes.cml"
 	          id="net.bioclipse.contenttypes.cml.singleMolecule2d"
               name="CML (Single 2D Molecule)"
-              priority="high">
+              priority="low">
 		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
             	<parameter
                     name="dimension"
@@ -420,7 +420,7 @@
               base-type="net.bioclipse.contenttypes.cml"
 	          id="net.bioclipse.contenttypes.cml.multipleMolecule2d"
               name="CML (Multiple 2D Molecules)"
-              priority="high">
+              priority="low">
 		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
             	<parameter
                     name="dimension"
@@ -437,7 +437,7 @@
               base-type="net.bioclipse.contenttypes.cml"
 	          id="net.bioclipse.contenttypes.cml.singleMolecule3d"
               name="CML (Single 3D Molecule)"
-              priority="high">
+              priority="low">
 		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
             	<parameter
                     name="dimension"
@@ -454,7 +454,7 @@
               base-type="net.bioclipse.contenttypes.cml"
 	          id="net.bioclipse.contenttypes.cml.multipleMolecule3d"
               name="CML (Multiple 3D Molecules)"
-              priority="high">
+              priority="low">
 		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
             	<parameter
                     name="dimension"
@@ -467,6 +467,40 @@
        		</describer>
         </content-type>
 
+        <content-type
+              base-type="net.bioclipse.contenttypes.cml"
+	          id="net.bioclipse.contenttypes.cml.singleMolecule5d"
+              name="CMLSingleMoleculeContentType5D"
+              priority="high">
+		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
+            	<parameter
+                    name="dimension"
+                    value="5D">
+              	</parameter>
+              	<parameter
+                    name="cardinality"
+                    value="single">
+              	</parameter>
+       		</describer>
+        </content-type>
+        
+        <content-type
+              base-type="net.bioclipse.contenttypes.cml"
+	          id="net.bioclipse.contenttypes.cml.multipleMolecule5d"
+              name="CMLMultipleMoleculeContentType5D"
+              priority="high">
+		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
+            	<parameter
+                    name="dimension"
+                    value="5D">
+              	</parameter>
+              	<parameter
+                    name="cardinality"
+                    value="multiple">
+              	</parameter>
+       		</describer>
+        </content-type>
+        
         <content-type
               base-type="org.eclipse.core.runtime.text"
               file-extensions="pdb"

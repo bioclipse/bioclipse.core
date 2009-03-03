@@ -8,7 +8,7 @@
  * Contributors:
  *     Ola Spjuth
  *     Stefan Kuhn
- *     Carl MŠsak
+ *     Carl Mï¿½sak
  *     
  ******************************************************************************/
 package net.bioclipse.ui.contenttypes;
@@ -185,12 +185,26 @@ public class CmlFileDescriber extends TextContentDescriber
 		String requiredDimension = (String) elements.get("dimension");
 		boolean wants2D = requiredDimension.equalsIgnoreCase("2D");
 		boolean wants3D = requiredDimension.equalsIgnoreCase("3D");
+		boolean wants5D = requiredDimension.equalsIgnoreCase("5D");
 
 		String requiredCardinality = (String) elements.get("cardinality");
 		boolean wantsSingle = requiredCardinality.equalsIgnoreCase("single");
 		boolean wantsMultiple = requiredCardinality.equalsIgnoreCase("multiple");
 
-		if ((has2D && wants2D) && (moleculeCount == 1 && wantsSingle)) {
+    if ((has3D && has2D && wants5D) && (moleculeCount == 1 && wantsSingle)) {
+      return VALID;
+    }
+
+    if ((has3D && has2D && wants5D) && (moleculeCount > 1 && wantsMultiple)) {
+      return VALID;
+    }
+    
+    //it would still return valid for 2d if a 5d file is tested, but
+    //since we want types to mutally exclusiv, we return invalid here if 5d is asked
+    if(wants5D)
+        return INVALID;
+
+    if ((has2D && wants2D) && (moleculeCount == 1 && wantsSingle)) {
 			return VALID;
 		}
 
@@ -199,11 +213,11 @@ public class CmlFileDescriber extends TextContentDescriber
 		}
 
 		// a CML file without any atoms, is considered input for 2D editing
-        if ((!hasAtoms && wants2D) && (moleculeCount == 1 && wantsSingle)) {
-            return VALID;
-        }
+    if ((!hasAtoms && wants2D) && (moleculeCount == 1 && wantsSingle)) {
+      return VALID;
+    }
 
-        if ((has3D && wants3D) && (moleculeCount == 1 && wantsSingle)) {
+    if ((has3D && wants3D) && (moleculeCount == 1 && wantsSingle)) {
 			return VALID;
 		}
 
