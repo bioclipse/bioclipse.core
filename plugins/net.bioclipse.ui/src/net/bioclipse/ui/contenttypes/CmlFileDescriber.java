@@ -201,14 +201,14 @@ public class CmlFileDescriber extends TextContentDescriber
     
     //it would still return valid for 2d if a 5d file is tested, but
     //since we want types to mutally exclusiv, we return invalid here if 5d is asked
-    if(wants5D)
+    if(has2D && has3D && !wants5D)
         return INVALID;
 
-    if ((has2D && wants2D) && (moleculeCount == 1 && wantsSingle)) {
+    if ((has2D && !has3D && wants2D) && (moleculeCount == 1 && wantsSingle)) {
 			return VALID;
 		}
 
-		if ((has2D && wants2D) && (moleculeCount > 1 && wantsMultiple)) {
+		if ((has2D && !has3D && wants2D) && (moleculeCount > 1 && wantsMultiple)) {
 			return VALID;
 		}
 
@@ -217,11 +217,11 @@ public class CmlFileDescriber extends TextContentDescriber
       return VALID;
     }
 
-    if ((has3D && wants3D) && (moleculeCount == 1 && wantsSingle)) {
+    if ((has3D && !has2D && wants3D) && (moleculeCount == 1 && wantsSingle)) {
 			return VALID;
 		}
 
-		if ((has3D && wants3D) && (moleculeCount > 1 && wantsMultiple)) {
+		if ((has3D && !has2D && wants3D) && (moleculeCount > 1 && wantsMultiple)) {
 			return VALID;
 		}
 
