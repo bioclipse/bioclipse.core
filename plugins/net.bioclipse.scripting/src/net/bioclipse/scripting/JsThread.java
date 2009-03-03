@@ -10,18 +10,23 @@ package net.bioclipse.scripting;
 
 import java.util.LinkedList;
 
+import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jsexecution.tools.MonitorContainer;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.mozilla.javascript.EvaluatorException;
 
 public class JsThread extends ScriptingThread {
 
     public static JsEnvironment js;
     private LinkedList<JsAction> actions;
+    
+    private static final Logger logger = Logger.getLogger(JsEnvironment.class);
     private static boolean busy;
     
     public void run() {
@@ -94,8 +99,9 @@ public class JsThread extends ScriptingThread {
                                 + " logs.";
                     }
                 }
-                finally {
-                    // We might want to catch something here, some day.
+                catch (EvaluatorException e) {
+                    LogUtils.debugTrace(logger, e);
+                    result[0] = e;
                 }
                 synchronized ( wait ) {
                     wait[0] = false;

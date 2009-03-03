@@ -126,80 +126,85 @@ public class JsEnvironment implements ScriptingEnvironment {
             LogUtils.debugTrace(logger, e);
             return explanationAboutParameters( expression, e );
         }
+        catch (EcmaError e) {
+            LogUtils.debugTrace(logger, e);
+            return e;
+        }
     }
 
     private String explanationAboutParameters( String expression,
                                                EvaluatorException exception ) {
 
         String message = exception.getMessage();
-        if (message.startsWith( "Can't find method " )) {
-            int iPeriod = message.indexOf( '.' ),
-                 iParen = message.indexOf( '(' );
+        if (!message.startsWith( "Can't find method " ))
+            throw exception;
+        
+        int iPeriod = message.indexOf( '.' ),
+             iParen = message.indexOf( '(' );
+        
+        String calledMethod = message.substring( iPeriod + 1, iParen );
+        
+        if (expression.contains( "." + calledMethod + "(" )) {
             
-            String calledMethod = message.substring( iPeriod + 1, iParen );
+            int iService
+                = expression.indexOf( "." + calledMethod + "(" ) - 1;
+            while ( iService > 0 && Character.isJavaIdentifierPart(
+                       expression.charAt( iService - 1 )) )
+                --iService;
             
-            if (expression.contains( "." + calledMethod + "(" )) {
-                
-                int iService
-                    = expression.indexOf( "." + calledMethod + "(" ) - 1;
-                while ( iService > 0 && Character.isJavaIdentifierPart(
-                           expression.charAt( iService - 1 )) )
-                    --iService;
-                
-                String managerName
-                    = expression.substring( iService,
-                                            expression.indexOf(
-                                               '.', iService ) );
-              
-                IBioclipseManager manager = getManagers().get(managerName);
+            String managerName
+                = expression.substring( iService,
+                                        expression.indexOf(
+                                           '.', iService ) );
+            
+              IBioclipseManager manager = getManagers().get(managerName);
 
-                String params = null;
-                int requiredParams = 0;
-                if(manager != null) {
+              String params = null;
+              int requiredParams = 0;
+              if(manager != null) {
 
-                    for ( Class<?> interfaze :
-                            manager.getClass().getInterfaces() ) {
-                        for ( Method method : interfaze.getMethods() ) {
-   
-                            if ( method.getName().equals(calledMethod) &&
-                                 method.isAnnotationPresent(
-                                     PublishedMethod.class) ) {
-   
-                                PublishedMethod publishedMethod
-                                    = method.getAnnotation(
-                                        PublishedMethod.class);
-   
-                                params = publishedMethod.params();
-                                requiredParams
-                                    = numberOfSuchCharactersIn(
-                                          params, ',' ) + 1;
-                                
-                                if ( "".equals(publishedMethod.params()
-                                               .trim()) )
-                                    requiredParams = 0;
-                            }
+                  for ( Class<?> interfaze :
+                          manager.getClass().getInterfaces() ) {
+                      for ( Method method : interfaze.getMethods() ) {
+ 
+                          if ( method.getName().equals(calledMethod) &&
+                               method.isAnnotationPresent(
+                                   PublishedMethod.class) ) {
+ 
+                              PublishedMethod publishedMethod
+                                  = method.getAnnotation(
+                                      PublishedMethod.class);
+ 
+                              params = publishedMethod.params();
+                              requiredParams
+                                  = numberOfSuchCharactersIn(
+                                        params, ',' ) + 1;
+                            
+                            if ( "".equals(publishedMethod.params()
+                                           .trim()) )
+                                requiredParams = 0;
                         }
                     }
-                
-                    int calledParams
-                        = numberOfSuchCharactersIn(message, ',') + 1;
-                    if ( message.substring( iParen + 1,
-                                            message.indexOf( ')' ))
-                                                .trim().equals( "" ) )
-                        calledParams = 0;
-
-                    if (calledParams != requiredParams)
-                        return "The method " + calledMethod
-                             + " can not be called with " + calledParams
-                             + " parameter" + (calledParams == 1 ? "" : "s")
-                             + ", it needs " + requiredParams + ".\n"
-                             + managerName + '.' + calledMethod
-                             + '(' + params + ")";
                 }
+            
+                int calledParams
+                    = numberOfSuchCharactersIn(message, ',') + 1;
+                if ( message.substring( iParen + 1,
+                                        message.indexOf( ')' ))
+                                            .trim().equals( "" ) )
+                    calledParams = 0;
+
+                if (calledParams != requiredParams)
+                    return "The method " + calledMethod
+                         + " can not be called with " + calledParams
+                         + " parameter" + (calledParams == 1 ? "" : "s")
+                         + ", it needs " + requiredParams + ".\n"
+                         + managerName + '.' + calledMethod
+                         + '(' + params + ")";
             }
         }
         
-        return exception.getMessage();
+        throw exception;
     }
 
     private int numberOfSuchCharactersIn( String s, char c ) {
