@@ -8,8 +8,6 @@
  *******************************************************************************/
 package net.bioclipse.scripting.ui;
 
-import net.bioclipse.core.util.LogUtils;
-import net.bioclipse.jmol.business.IJmolManager;
 import net.bioclipse.scripting.ui.business.IJsConsoleManager;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -89,18 +87,5 @@ public class Activator extends AbstractUIPlugin {
      */
     public static Activator getDefault() {
         return plugin;
-    }
-
-    public IJmolManager getJmolManager() {
-        IJmolManager manager = null;
-        try {
-            manager = (IJmolManager) finderTracker.waitForService(1000*10);
-        } catch (InterruptedException e) {
-            LogUtils.debugTrace(logger, e);
-        }
-        if(manager == null) {
-            throw new IllegalStateException("Could not get the Jmol manager");
-        }
-        return manager;
     }
 }
