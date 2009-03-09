@@ -119,12 +119,16 @@ public class JsEnvironment implements ScriptingEnvironment {
      */
     public Object eval(String expression) {
         try {
-            return context.evaluateString(scope, expression,
-                                          null, 0, null);
+            Object o = context.evaluateString(scope, expression,
+                                              null, 0, null);
+            return o;
         }
         catch (EvaluatorException e) {
-            LogUtils.debugTrace(logger, e);
-            return explanationAboutParameters( expression, e );
+            String message = e.getMessage();
+            if (!message.startsWith( "Can't find method " ))
+                throw e;
+            
+            return explanationAboutParameters( expression, message );
         }
         catch (EcmaError e) {
             LogUtils.debugTrace(logger, e);
@@ -133,12 +137,8 @@ public class JsEnvironment implements ScriptingEnvironment {
     }
 
     private String explanationAboutParameters( String expression,
-                                               EvaluatorException exception ) {
+                                               String message ) {
 
-        String message = exception.getMessage();
-        if (!message.startsWith( "Can't find method " ))
-            throw exception;
-        
         int iPeriod = message.indexOf( '.' ),
              iParen = message.indexOf( '(' );
         
@@ -204,7 +204,7 @@ public class JsEnvironment implements ScriptingEnvironment {
             }
         }
         
-        throw exception;
+        return message;
     }
 
     private int numberOfSuchCharactersIn( String s, char c ) {
