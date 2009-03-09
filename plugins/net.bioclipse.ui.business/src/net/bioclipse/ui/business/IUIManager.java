@@ -11,6 +11,7 @@
  ******************************************************************************/
 package net.bioclipse.ui.business;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import net.bioclipse.core.PublishedClass;
@@ -18,10 +19,12 @@ import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.TestMethods;
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.domain.IBioObject;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
@@ -87,4 +90,12 @@ public interface IUIManager extends IBioclipseManager {
     )
     @TestMethods("testExists_String")
     public boolean fileExists(String filePath);
+
+    @Recorded
+    @PublishedMethod(
+        params="IBioObject bioObject",
+        methodSummary="Opens the IBikoObject in its preferred editor"
+    )
+    void open( IBioObject bioObject ) throws BioclipseException, CoreException, 
+        IOException;
 }

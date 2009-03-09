@@ -12,17 +12,27 @@
  ******************************************************************************/
 package net.bioclipse.ui.business;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import net.bioclipse.core.ResourcePathTransformer;
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.scripting.ui.business.IJsConsoleManager;
+import net.bioclipse.ui.business.describer.EditorDetermination;
+import net.bioclipse.ui.business.describer.IBioObjectDescriber;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.content.IContentType;
+import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 import org.eclipse.ui.IWorkbenchPage;
@@ -164,4 +174,53 @@ public class UIManager implements IUIManager {
 		}
 	}
 
+	
+  public void open(IBioObject bioObject) throws BioclipseException, CoreException, IOException {
+
+      //Strategy: Determine editor ID from IBioObject and open in this
+
+      IJsConsoleManager js = net.bioclipse.scripting.ui.Activator.getDefault().getJsConsoleManager();
+
+      //If bioObject has a resource, use Content Type on this to determine editor
+      if (bioObject.getResource()!=null){
+          if ( bioObject.getResource() instanceof IFile ) {
+            IFile file = (IFile) bioObject.getResource();
+
+            IContentTypeManager contentTypeManager = Platform.getContentTypeManager();
+            InputStream stream = file.getContents();
+            IContentType contentType = contentTypeManager.findContentTypeFor(stream, file.getName());
+            
+//            IEditorDescriptor[] editors = PlatformUI.getWorkbench().getEditorRegistry().getEditors( file.getName(), contentType );
+            IEditorDescriptor editor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor( file.getName(), contentType );
+            if (editor!=null){
+                js.print( "Chosen editor: " + editor.getLabel());
+                open( bioObject, editor.getId() );
+                return;
+            }
+        }
+      }
+      
+      //Ok, either we had a file but could not get an editor for it, or we don't
+      //have a resource for the IBioObject
+      
+      //Get all describers that are valid for this bioObject
+      List<IBioObjectDescriber> describers = EditorDetermination.getAvailableDescribersFromEP();
+
+      for (IBioObjectDescriber describer : describers){
+          String editorId=describer.getPreferredEditorID( bioObject );
+          //For now, just grab the first that comes.
+          //TODO: implement some sort of hierarchy here if multiple matches
+          if (editorId!=null){
+              IEditorDescriptor editor = PlatformUI.getWorkbench().getEditorRegistry().findEditor( editorId );
+              if (editor!=null){
+                  js.print( "Chosen editor: " +editor.getLabel());
+                  open( bioObject, editor.getId() );
+                  return;
+              }
+          }
+      }
+      throw new IllegalArgumentException("No editor found for object: " + bioObject);
+
+  }
+  
 }
