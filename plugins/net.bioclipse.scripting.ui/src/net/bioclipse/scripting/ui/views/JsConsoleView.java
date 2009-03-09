@@ -12,6 +12,7 @@ import java.util.Queue;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.scripting.Hook;
 import net.bioclipse.scripting.JsAction;
@@ -68,6 +69,18 @@ public class JsConsoleView extends ScriptingConsoleView {
                                 else {
                                     message[0] = unwrappedObject.toString();
                                 }
+                            }
+                            else if (result instanceof Exception) {
+                                Exception e = (Exception)result;
+                                Throwable t = (Throwable)e;
+                                while (!(t instanceof BioclipseException)
+                                        && t.getCause() != null)
+                                    t = t.getCause();
+
+                                message[0]
+                                  = (t instanceof BioclipseException
+                                          ? "" : t.getClass().getName() + ": ")
+                                    + t.getMessage();
                             }
                             else {
                                 String s = result.toString();
