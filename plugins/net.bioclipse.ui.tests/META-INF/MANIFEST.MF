@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Core UI Tests Plugin
 Bundle-SymbolicName: net.bioclipse.ui.tests
 Bundle-Version: 0.1.0
-Bundle-Activator: net.bioclipse.core.ui.tests.Activator
+Bundle-Activator: net.bioclipse.ui.tests.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
