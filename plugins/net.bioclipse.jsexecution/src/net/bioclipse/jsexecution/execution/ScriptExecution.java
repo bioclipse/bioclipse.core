@@ -4,12 +4,14 @@ import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
 
+import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jsexecution.Activator;
 import net.bioclipse.jsexecution.exceptions.ScriptException;
 import net.bioclipse.jsexecution.execution.helper.ThreadSafeConsoleWrap;
 import net.bioclipse.jsexecution.tools.MonitorContainer;
 import net.bioclipse.jsexecution.tools.ScriptingTools;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -44,6 +46,8 @@ import org.mozilla.javascript.ScriptableObject;
  */
 public class ScriptExecution {
 	
+  private static Logger logger = Logger.getLogger( ScriptExecution.class );
+    
 	/*
 	 * This is the only function required by the JsEditor Plug-in
 	 * The editor Plug-In passes
@@ -52,7 +56,6 @@ public class ScriptExecution {
 	 * A (derived) class/object of MessageConsole that must show
 	 * the stuff associated with the newly spawned js Context.
 	 */
-	
 	public static void runRhinoScript(String scriptString,
 			String scriptDescription,
 			MessageConsole parent_console) {
@@ -78,6 +81,8 @@ public class ScriptExecution {
 		final String scriptStringFinal = scriptString;
 		final String title = "Javascript - " + scriptDescription;
 
+		
+		
 		// show progress window		
 		IWorkbench wb = PlatformUI.getWorkbench();
 		IWorkbenchPage wbPage = wb.getActiveWorkbenchWindow().getActivePage(); 
@@ -218,6 +223,7 @@ public class ScriptExecution {
 			// Convert the result to a string and print it.
 			scriptResult = Context.toString(ev);
 		} catch (Exception e){
+		    LogUtils.debugTrace( logger, e );
 			throw new ScriptException(e);
 		} finally {
 			// Exit from the context.
