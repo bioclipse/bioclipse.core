@@ -110,7 +110,6 @@ public class ScriptingTools implements INamespaceProvider{
      * @param runnable The runnable
      */
     public void syncExec(Runnable runnable) {
-        // do not use async, we need the GUI!
         Display.getDefault().syncExec(runnable);
     }
 

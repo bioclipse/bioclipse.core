@@ -127,7 +127,7 @@ public class ScriptExecution {
 					setProperty(IProgressConstants.ACTION_PROPERTY, JobErrorAction());
 				} // ... and else, finish job imediately!
 
-				Display.getDefault().syncExec(new Runnable() {	// do not use async, we need the GUI!
+				Display.getDefault().syncExec(new Runnable() {
 					public void run() {
 						console.writeToConsole(scriptResult);
 						console.writeToConsoleBlue("Javascript done.");

@@ -65,7 +65,7 @@ public class UIManager implements IUIManager {
 
     public void open( final IFile file ) {
 
-        Display.getDefault().asyncExec(new Runnable() {    // do not use async, we need the GUI!
+        Display.getDefault().asyncExec(new Runnable() {
             public void run() {
                 IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
                 try {
@@ -86,7 +86,7 @@ public class UIManager implements IUIManager {
     }
 
     public void open( final IBioObject bioObject, final String editorId) {
-        Display.getDefault().asyncExec(new Runnable() {    // do not use async, we need the GUI!
+        Display.getDefault().asyncExec(new Runnable() {
             public void run() {
                 IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
                 try {

@@ -398,7 +398,6 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 
 
     private void showMessage(final String message) {
-        // do not use async, we need the GUI!
         Display.getDefault().syncExec(new Runnable() {
             public void run() {
                 MessageDialog.openInformation(
