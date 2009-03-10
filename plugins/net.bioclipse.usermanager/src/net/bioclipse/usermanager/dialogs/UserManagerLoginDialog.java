@@ -86,34 +86,30 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
 
         usernameLabel = new Label(container, SWT.NONE);
         final FormData formData = new FormData();
-        formData.top = new FormAttachment(0, 58);
-        formData.bottom = new FormAttachment(0, 75);
-        formData.left = new FormAttachment(0, 34);
-        formData.right = new FormAttachment(0, 105);
         usernameLabel.setLayoutData(formData);
         usernameLabel.setText("Username:");
 
         passwordLabel = new Label(container, SWT.NONE);
         final FormData formData_1 = new FormData();
-        formData_1.right = new FormAttachment(usernameLabel, 63, SWT.LEFT);
-        formData_1.left = new FormAttachment(usernameLabel, 0, SWT.LEFT);
         passwordLabel.setLayoutData(formData_1);
         passwordLabel.setText("Password:");
 
         passwordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
-        formData_1.top = new FormAttachment(passwordText, -17, SWT.BOTTOM);
         formData_1.bottom = new FormAttachment(passwordText, 0, SWT.BOTTOM);
+        formData_1.right = new FormAttachment(passwordText, -5, SWT.LEFT);
         final FormData formData_2 = new FormData();
         formData_2.top = new FormAttachment(0, 93);
         passwordText.setLayoutData(formData_2);
 
         usernameText = new Text(container, SWT.BORDER);
+        formData.bottom = new FormAttachment(usernameText, 0, SWT.BOTTOM);
+        formData.right = new FormAttachment(usernameText, -5, SWT.LEFT);
         formData_2.right = new FormAttachment(usernameText, 0, SWT.RIGHT);
         formData_2.left = new FormAttachment(usernameText, 0, SWT.LEFT);
         final FormData formData_3 = new FormData();
+        formData_3.left = new FormAttachment(0, 140);
         formData_3.right = new FormAttachment(100, -34);
         formData_3.top = new FormAttachment(0, 53);
-        formData_3.left = new FormAttachment(usernameLabel, 5, SWT.RIGHT);
         usernameText.setLayoutData(formData_3);
 
         createNewKeyringButton = new Button(container, SWT.NONE);
@@ -158,7 +154,7 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
                                              passwordLabel, 
                                              usernameLabel, 
                                              createNewKeyringButton });
-        setTitle("Log in to the User Manager");
+        setTitle("Log In to the User Manager");
         //
         return area;
     }
@@ -256,4 +252,8 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
     public boolean isUserContainerEdited() {
         return userContainerEdited;
     }
+	protected void configureShell(Shell newShell) {
+		super.configureShell(newShell);
+		newShell.setText("Log In");
+	}
 }
