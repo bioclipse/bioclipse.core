@@ -69,44 +69,44 @@ public class CreateUserDialog extends TitleAreaDialog {
 
         usernameLabel = new Label(container, SWT.NONE);
         final FormData formData = new FormData();
-        formData.left = new FormAttachment(0, 40);
         usernameLabel.setLayoutData(formData);
         usernameLabel.setText("Username:");
 
         passwordLabel = new Label(container, SWT.NONE);
         final FormData formData_1 = new FormData();
-        formData_1.left = new FormAttachment(usernameLabel, 0, SWT.LEFT);
         passwordLabel.setLayoutData(formData_1);
         passwordLabel.setText("Password:");
 
         repeatPasswordLabel = new Label(container, SWT.NONE);
         final FormData formData_2 = new FormData();
-        formData_2.left = new FormAttachment(passwordLabel, 0, SWT.LEFT);
         repeatPasswordLabel.setLayoutData(formData_2);
         repeatPasswordLabel.setText("Repeat password:");
 
         userNameText = new Text(container, SWT.BORDER);
         formData.bottom = new FormAttachment(userNameText, 0, SWT.BOTTOM);
+        formData.right = new FormAttachment(userNameText, -5, SWT.LEFT);
         final FormData formData_3 = new FormData();
-        formData_3.top = new FormAttachment(0, 50);
-        formData_3.left = new FormAttachment(usernameLabel, 46, SWT.DEFAULT);
-        formData_3.right = new FormAttachment(100, -35);
+        formData_3.top = new FormAttachment(0, 19);
         userNameText.setLayoutData(formData_3);
 
         passwordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
+        formData_3.left = new FormAttachment(passwordText, -317, SWT.RIGHT);
+        formData_3.right = new FormAttachment(passwordText, 0, SWT.RIGHT);
         formData_1.bottom = new FormAttachment(passwordText, 0, SWT.BOTTOM);
+        formData_1.right = new FormAttachment(passwordText, -5, SWT.LEFT);
         final FormData formData_4 = new FormData();
-        formData_4.top = new FormAttachment(0, 90);
-        formData_4.right = new FormAttachment(userNameText, 0, SWT.RIGHT);
-        formData_4.left = new FormAttachment(userNameText, 0, SWT.LEFT);
+        formData_4.top = new FormAttachment(0, 63);
         passwordText.setLayoutData(formData_4);
 
         repeatPasswordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
         formData_2.bottom = new FormAttachment(repeatPasswordText, 0, SWT.BOTTOM);
+        formData_2.right = new FormAttachment(repeatPasswordText, -5, SWT.LEFT);
+        formData_4.left = new FormAttachment(repeatPasswordText, -316, SWT.RIGHT);
+        formData_4.right = new FormAttachment(repeatPasswordText, 0, SWT.RIGHT);
         final FormData formData_5 = new FormData();
-        formData_5.top = new FormAttachment(0, 130);
-        formData_5.right = new FormAttachment(passwordText, 0, SWT.RIGHT);
-        formData_5.left = new FormAttachment(passwordText, 0, SWT.LEFT);
+        formData_5.top = new FormAttachment(0, 107);
+        formData_5.left = new FormAttachment(0, 154);
+        formData_5.right = new FormAttachment(0, 470);
         repeatPasswordText.setLayoutData(formData_5);
         container.setTabList(new Control[] { userNameText, 
                                              passwordText, 
@@ -172,4 +172,8 @@ public class CreateUserDialog extends TitleAreaDialog {
         }
         super.buttonPressed(buttonId);
     }
+	protected void configureShell(Shell newShell) {
+		super.configureShell(newShell);
+		newShell.setText("Create User");
+	}
 }
