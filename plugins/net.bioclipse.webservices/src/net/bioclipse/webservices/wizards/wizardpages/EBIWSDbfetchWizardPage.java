@@ -339,7 +339,7 @@ public class EBIWSDbfetchWizardPage extends WizardPage implements IDoPerformFini
 					monitor.setTaskName("Result of " + query + " ");
 
 				if (IsModal() == true && bSuccess == true) {	// finish job imediately!
-					Display.getDefault().syncExec(new Runnable() {	// do not use async, we need the GUI!
+					Display.getDefault().syncExec(new Runnable() {
 						public void run() {
 							FinishJob();
 						}
