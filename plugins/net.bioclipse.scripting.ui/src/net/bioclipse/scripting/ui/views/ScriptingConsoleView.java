@@ -146,6 +146,16 @@ public abstract class ScriptingConsoleView extends ViewPart {
                 }
             }
         });
+        put( new Integer(32), new KeyAction() { // space
+            public void receiveKey(KeyEvent e) {
+                if (e.stateMask == SWT.CTRL) {
+                    tabComplete();
+                }
+                else {
+                    e.doit = true;
+                }
+            }
+        });
     }};
 
     /**
