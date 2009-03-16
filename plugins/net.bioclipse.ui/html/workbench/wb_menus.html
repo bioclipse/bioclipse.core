@@ -10,23 +10,20 @@
 <h1>The Bioclipse menu</h1>
 <p>
 
-<img src="images/menu.png">
-
-
 <table>
 
 <tr><td colspan=2>&nbsp;</td></tr>
 <tr><td colspan=2 bgcolor="DDDDFF">File</td></tr>
-<tr><td width="220">New...</td><td>Open the NewWizards dialog for constructing new BioResources that will be placed in the current selected folder of the BioResource Navigator</td></tr>
+<tr><td width="220">New...</td><td>Open the NewWizards dialog for constructing new Resources that will be placed in the current selected folder of the Navigator</td></tr>
 <tr><td>Save</td><td>Save the contents in the active editor</td></tr>
 <tr><td>Save as...</td><td>Open the "Save as..." dialog for the active editor and allow for customized saving of the contents e. g. new name, format etc. </td></tr>
 <tr><td>Save all</td><td>Save all editors with unsaved content</td></tr>
 <tr><td>Revert</td><td>Revert to latest saved version</td></tr>
 
-<tr><td>Import...</td><td> </td></tr>
-<tr><td>Export...</td><td> </td></tr>
-<tr><td>Log out</td><td> </td></tr>
-<tr><td>Log in</td><td> </td></tr>
+<tr><td>Import...</td><td> Open a list of available wizards to import Projects, Files, and Folders into the workspace </td></tr>
+<tr><td>Export...</td><td> Open a list of available wizards to export Projects, Files, and Folders</td></tr>
+<tr><td>Log out</td><td> Log out of Bioclipse password storage (Usermanager) </td></tr>
+<tr><td>Log in</td><td> Log in to Bioclipse password storage (Usermanager) </td></tr>
 
 <tr><td>Exit</td><td>Exit Bioclipse</td></tr>
 
@@ -37,7 +34,7 @@
 <tr><td>Redo</td><td>Redo the last undone action</td></tr>
 <tr><td>Cut</td><td>Cut the selection and place it in the clipboard</td></tr>
 <tr><td>Copy</td><td>Copy the selection and place it in the clipboard</td></tr>
-<tr><td>Paste</td><td>Paste from clipboard to selected part</td></tr>
+<tr><td>Paste</td><td>Paste from clipboard</td></tr>
 <tr><td>Select all</td><td>Select all objects/content in the current window</td></tr>
 <tr><td>Find/Replace</td><td>For text editors: open the find and replace dalog for search- and replacement of text</td></tr>
 <tr><td>Find next</td><td>Repeat the find step to find the next object/text matching a previous find criteria</td></tr>
@@ -52,32 +49,31 @@ You can leave the Incremental Find mode by pressing Esc.
 <tr><td>Incremental find previous</td><td>see Incremental find next</td></tr>
 <tr><td>Word completion</td><td>Use this to get word completion assistance if available for the current editor</td></tr>
 
-
-<tr><td colspan=2>&nbsp;</td></tr>
-<tr><td colspan=2 bgcolor="DDDDFF">Operations</td></tr>
-<tr><td>Install BO chemical strucures</td><td>Install a directory containing Blue Obelisk Chemical Structures into the currently selected folder in BioResource Navigator</td></tr>
-<tr><td>Install sample data</td><td>Install a directory containing sample data in the currently selected folder into the BioResource Navigator</td></tr>
-
-
-<tr><td colspan=2>&nbsp;</td></tr>
-<tr><td colspan=2 bgcolor="DDDDFF">Plugin contributions</td></tr>
-<tr><td colspan=2>Plugins may contribute menus here. These are described in the plugins own documentation and are available from the left menu in the Bioclipse Help System</td></tr>
-
 <tr><td colspan=2>&nbsp;</td></tr>
 <tr><td colspan=2 bgcolor="DDDDFF">Window</td></tr>
-<tr><td>Show view...</td><td>Open up the "Show view..." dialog and allow for the opening of views. Not all Views are opened by default, and this is one way to display them.</td></tr>
+<tr><td>Show view</td><td>Open up the "Show view..." dialog and allow for the opening of views. Not all Views are opened by default, and this is one way to display them.</td></tr>
+
+<tr><td>Open perspective</td><td> Open or switch to another perspective </td></tr>
+<tr><td>Reset perspective</td><td> Reset the current Perspective to its default placing of views </td></tr>
+<tr><td>Preferences</td><td> Open the <a href="wb_preferences.html">Bioclipse Preferences</a> </td></tr>
 	
 	
 <tr><td colspan=2>&nbsp;</td></tr>
 <tr><td colspan=2 bgcolor="DDDDFF">Help</td></tr>
+<tr><td>Welcome</td><td> Open the Welcome page </td></tr>
 <tr><td>Help contents</td><td>Open the help system in a browser (external or internal is chosen in the Preferences menu alternative)</td></tr>
-<tr><td>Preferences...</td><td>Open the <a href="wb_preferences.html">Preferences dialog</a>.</td></tr>
-<tr><td>About Bioclipse</td><td>Display version number as well as author and licensing information.</td></tr>
-
+<tr><td>Dynamic help</td><td>Open the Inline Help </td></tr>
+<tr><td>Cheat Sheets</td><td>Open a dialog to select Cheat Sheet for inline tutorials</td></tr>
+<tr><td>Key assists</td><td>Display Key shortcuts</td></tr>
+<tr><td>Software Updates</td><td>Open teh dialog to search for and install new features from the update site</td></tr>
+<tr><td>About Bioclipse</td><td>Display the About dialog with details of the current Bioclipse installation, versions, configuration etc.</td></tr>
 
 
 </table>
-	
+
+<p>
+Plugins may contribute menus in any location. Documentation for these actions are 
+described in the plugins own documentation.
 
 
 <!-- ******************************** -->
