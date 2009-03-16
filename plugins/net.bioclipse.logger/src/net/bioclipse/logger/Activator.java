@@ -221,7 +221,7 @@ public class Activator extends Plugin {
      * File attribute is not set.
      */
     
-    private static String getActualLogFileName() {
+    public static String getActualLogFileName() {
     
         // find first file appender
         @SuppressWarnings("unchecked")
