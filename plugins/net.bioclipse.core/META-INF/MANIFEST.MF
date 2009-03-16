@@ -28,8 +28,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.springframework.bundle.osgi.extender;bundle-version="1.0.2",
  org.springframework.bundle.osgi.core;bundle-version="1.0.2",
  org.springframework.bundle.osgi.io;bundle-version="1.0.2",
- org.springframework.osgi.aopalliance.osgi;bundle-version="1.0.0",
- net.bioclipse.logger;bundle-version="2.0.0"
+ org.springframework.osgi.aopalliance.osgi;bundle-version="1.0.0"
 Bundle-ClassPath: libs/js.jar,
  .,
  libs/groovy-1.0.jar,
@@ -37,6 +36,7 @@ Bundle-ClassPath: libs/js.jar,
  libs/antlr-2.7.5.jar
 Bundle-Activator: net.bioclipse.core.Activator
 Bundle-ActivationPolicy: lazy
-Import-Package: org.apache.log4j
+Import-Package: net.bioclipse.logger,
+ org.apache.log4j
 Bundle-Vendor: The Bioclipse Team
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
