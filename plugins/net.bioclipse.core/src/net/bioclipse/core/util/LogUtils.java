@@ -11,13 +11,13 @@
  */
 package net.bioclipse.core.util;
 
-import org.apache.log4j.Logger;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Shell;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
+import org.apache.log4j.Logger;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * LogUtils:
@@ -75,6 +75,6 @@ public class LogUtils {
  			debugTrace(logger, ex);
  		}
  		ex.printStackTrace();
- 		MessageDialog.openError(new Shell(), "Unexpected error", "An unexpected error occorued. Bioclipse has no idea how to handle this. The message is: "+ex.getMessage()+". If you do not know what to do, report this to the Bioclipse team. A stack trace has been written to the log file to be included in your report.");
+ 		MessageDialog.openError(new Shell(), "Unexpected error", "An unexpected error occorued. Bioclipse has no idea how to handle this. The message is: "+ex.getMessage()+". If you do not know what to do, report this to the Bioclipse team. A stack trace has been written to the log file ("+net.bioclipse.logger.Activator.getActualLogFileName()+") to be included in your report.");
     }
 }
