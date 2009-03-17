@@ -71,8 +71,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                                 }
                             }
                             else if (result instanceof Exception) {
-                                Exception e = (Exception)result;
-                                Throwable t = (Throwable)e;
+                                Throwable t = (Throwable)result;
                                 while (!(t instanceof BioclipseException)
                                         && t.getCause() != null)
                                     t = t.getCause();
@@ -86,7 +85,6 @@ public class JsConsoleView extends ScriptingConsoleView {
                                 String s = result.toString();
                                 message[0] = s.matches( JS_UNDEFINED_RE )
                                              ? "" : result.toString();
-                                
                             }
                             printMessage(message[0] + "\n");
                         }
