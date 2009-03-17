@@ -60,4 +60,6 @@ public interface IJsConsoleManager extends IBioclipseManager {
     @PublishedMethod(params="String filePath",
                      methodSummary="Runs a js script file.")
     public void executeFile(String filePath);
+
+    public void printError( Throwable t );
 }

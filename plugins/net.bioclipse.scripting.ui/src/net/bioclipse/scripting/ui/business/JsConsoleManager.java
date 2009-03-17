@@ -139,4 +139,8 @@ public class JsConsoleManager implements IJsConsoleManager {
             })
         );
     }
+
+    public void printError( Throwable t ) {
+        print(t.getClass().getName() + ": " + t.getMessage());
+    }
 }
