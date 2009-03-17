@@ -13,6 +13,8 @@
 
   <osgi:reference id="createJobAdvice"
                   interface="net.bioclipse.ui.jobs.ICreateJobAdvice" />
+  <osgi:reference id="guiActionAdvice"
+                  interface="net.bioclipse.scripting.ui.business.IGUIActionAdvice" />
 
   <!--+ 
       | Point cut advisor that inserts the recording advice on all methods.
@@ -23,6 +25,12 @@
   		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
         <property name="advice"  ref="recordingAdvice" />
   		<property name="pattern" value=".*" />
+  </bean>
+  
+  <bean id="guiActionAdvisor"
+        class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice"  ref="guiActionAdvice" />
+        <property name="pattern" value=".*" />
   </bean>
 
   <!-- The target that later on will be proxied. Our manager class. -->
@@ -44,6 +52,7 @@
         <list>
            <value>recordingAdvisor</value>
            <value>createJobAdvice</value>
+           <value>guiActionAdvisor</value>
         </list>
     </property>
   </bean>
