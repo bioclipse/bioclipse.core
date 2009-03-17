@@ -15,7 +15,7 @@
                   interface="net.bioclipse.ui.jobs.ICreateJobAdvice" />
   
   <osgi:service id="guiActionAdviceOSGI" ref="guiActionAdvice"
-        interface="net.bioclipse.scripting.ui.business.IGUIActionAdvice" />
+        interface="net.bioclipse.scripting.ui.business.IGuiActionAdvice" />
   
   <!--+ 
       | Point cut advisor that inserts the recording advice on all methods.
@@ -33,7 +33,7 @@
         class="net.bioclipse.scripting.ui.business.JsConsoleManager">
   </bean>
   
-  <bean id="guiActionAdvice" class="net.bioclipse.scripting.ui.business.GUIActionAdvice">
+  <bean id="guiActionAdvice" class="net.bioclipse.scripting.ui.business.GuiActionAdvice">
     <property name="jsConsoleManager" 
               ref="jsConsoleManager" />
   </bean>

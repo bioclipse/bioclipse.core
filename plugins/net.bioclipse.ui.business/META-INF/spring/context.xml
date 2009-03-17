@@ -14,7 +14,7 @@
   <osgi:reference id="createJobAdvice"
                   interface="net.bioclipse.ui.jobs.ICreateJobAdvice" />
   <osgi:reference id="guiActionAdvice"
-                  interface="net.bioclipse.scripting.ui.business.IGUIActionAdvice" />
+                  interface="net.bioclipse.scripting.ui.business.IGuiActionAdvice" />
 
   <!--+ 
       | Point cut advisor that inserts the recording advice on all methods.

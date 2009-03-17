@@ -16,7 +16,7 @@ public class GuiActionAdvice implements IGuiActionAdvice {
 
     private IJsConsoleManager jsConsoleManager;
     
-    public void setUiManager(IJsConsoleManager jsConsoleManager) {
+    public void setJsConsoleManager(IJsConsoleManager jsConsoleManager) {
         this.jsConsoleManager = jsConsoleManager;
     }
     
