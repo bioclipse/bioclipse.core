@@ -23,13 +23,16 @@ import org.mozilla.javascript.EvaluatorException;
 
 public class JsThread extends ScriptingThread {
 
-    public static JsEnvironment js       = new JsEnvironment();
-    private LinkedList<JsAction> actions = new LinkedList<JsAction>();
+    public static JsEnvironment js;
+    private LinkedList<JsAction> actions;
     
     private static final Logger logger = Logger.getLogger(JsEnvironment.class);
     private static boolean busy;
     
     public void run() {
+        js = new JsEnvironment();
+        actions = new LinkedList<JsAction>();
+
         synchronized (actions) {
             while (true) {
                 try {
@@ -118,6 +121,13 @@ public class JsThread extends ScriptingThread {
     }
     
     public synchronized void enqueue(JsAction action) {
+        while (actions == null) { // BIG UGLY HACK!
+            try {
+                Thread.sleep( 500 );
+            } catch ( InterruptedException e ) {
+            }
+        }
+        
         synchronized (actions) {
             actions.addLast( action );
             actions.notifyAll();
