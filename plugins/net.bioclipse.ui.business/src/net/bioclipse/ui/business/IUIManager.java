@@ -22,6 +22,7 @@ import net.bioclipse.core.TestMethods;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.scripting.ui.business.GuiAction;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -54,6 +55,7 @@ public interface IUIManager extends IBioclipseManager {
     @PublishedMethod(params="IBioObject bioObject, String editorID",
                      methodSummary="Opens editor of given ID with bioObject"
     )
+    @GuiAction
     public void open( final IBioObject bioObject, final String editorId);
 
     @Recorded

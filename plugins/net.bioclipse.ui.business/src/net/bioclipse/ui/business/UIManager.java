@@ -86,48 +86,40 @@ public class UIManager implements IUIManager {
     }
 
     public void open( final IBioObject bioObject, final String editorId) {
-        Display.getDefault().asyncExec(new Runnable() {
-            public void run() {
-                IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-                try {
-                   IEditorInput input = new IEditorInput() {
+        IWorkbenchPage page = PlatformUI.getWorkbench()
+                                        .getActiveWorkbenchWindow()
+                                        .getActivePage();
+        try {
+            IEditorInput input = new IEditorInput() {
 
-                    public boolean exists() {
-
-                        return true;
-                    }
-
-                    public ImageDescriptor getImageDescriptor() {
-
-                       return ImageDescriptor.getMissingImageDescriptor();
-                    }
-
-                    public String getName() {
-
-                        return "BioObject";
-                    }
-
-                    public IPersistableElement getPersistable() {
-
-                        return null;
-                    }
-
-                    public String getToolTipText() {
-
-                        return bioObject.getUID().toString();
-                    }
-
-                    public Object getAdapter( Class adapter ) {
-                        return bioObject.getAdapter( adapter );
-                    }
-
-                   };
-                   page.openEditor( input, editorId );
-                } catch (PartInitException e) {
-                    throw new RuntimeException(e);
+                public boolean exists() {
+                    return true;
                 }
-            }
-        });
+
+                public ImageDescriptor getImageDescriptor() {
+                    return ImageDescriptor.getMissingImageDescriptor();
+                }
+
+                public String getName() {
+                    return "BioObject";
+                }
+
+                public IPersistableElement getPersistable() {
+                    return null;
+                }
+
+                public String getToolTipText() {
+                    return bioObject.getUID().toString();
+                }
+
+                public Object getAdapter( Class adapter ) {
+                    return bioObject.getAdapter( adapter );
+                }
+            };
+            page.openEditor( input, editorId );
+        } catch (PartInitException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void save(String filePath, InputStream toWrite) {
