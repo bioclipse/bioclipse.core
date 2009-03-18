@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry excluding="net/bioclipse/cdk/ui/models/Molecule.java|net/bioclipse/cdk/ui/editors/JCPMultiPageEditor.java|net/bioclipse/cdk/ui/editors/JCPMultiPageEditorContributor.java|org/openscience/cdk/applications/jchempaint/|org/openscience/cdk/applications/jchempaint/action/|org/openscience/cdk/applications/jchempaint/dialogs/|net/bioclipse/cdk/ui/editors/IJCPEditorPart.java|net/bioclipse/cdk/ui/editors/JCPEditor.java|net/bioclipse/cdk/ui/editors/sdf/MoleculeListLabelProvider.java|net/bioclipse/cdk/ui/editors/sdf/SDFEditor2.java|net/bioclipse/cdk/ui/editors/sdf/StructureTablePage2.java" kind="src" path="src"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

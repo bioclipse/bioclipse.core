@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Bioclipse RDF
+Bundle-SymbolicName: net.bioclipse.rdf;singleton:=true
+Bundle-Version: 2.0.0.A20081028
+Bundle-Activator: net.bioclipse.rdf.Activator
+Bundle-Vendor: The Bioclipse Team
+Bundle-ActivationPolicy: lazy
+Import-Package: org.apache.log4j
+Require-Bundle: net.bioclipse.core
