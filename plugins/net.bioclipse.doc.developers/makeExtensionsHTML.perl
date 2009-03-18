@@ -20,9 +20,9 @@ my %bioclipseExtensionPoints = (
   'folder', 'net.bioclipse.data.install'
 );
 
-my @plugins = `find . -name plugin.xml`;
+my @plugins = `find .. -name plugin.xml`;
 
-open(my $INDEX, '>', 'ep.index.html') or die $!;
+open(my $INDEX, '>', 'doc/ep.index.html') or die $!;
 print $INDEX "<html>\n";
 print $INDEX "<head>\n";
 print $INDEX "  <title>Extension Points used in Bioclipse</title>\n";
@@ -35,18 +35,18 @@ print $INDEX "<ul>\n";
 while ( my ($ep, $id) = each(%extensionPoints) ) {
   print $INDEX "<li>\n";
   print $INDEX "<a href=\"ep.$ep.html\">$id</a>\n";
-  system('echo "<list>" > ep.'.$ep.'.xml');
+  system('echo "<list>" > doc/ep.'.$ep.'.xml');
   foreach my $plugin (@plugins) {
     $plugin =~ s/[\n|\r]//g;
     $plugin =~ m/.*\/([\w|\.]+)\/plugin\.xml/;
     my $pluginID = $1;
-    `echo "<plugin id=\\"$pluginID\\">" >> ep.$ep.xml`;
-    `echo "<!-- $plugin -->" >> ep.$ep.xml`;
-    `xpath -q -e "\/\/extension[\@point=\'$id\']" $plugin >> ep.$ep.xml`;
-    `echo "<\/plugin>" >> ep.$ep.xml`;
+    `echo "<plugin id=\\"$pluginID\\">" >> doc/ep.$ep.xml`;
+    `echo "<!-- $plugin -->" >> doc/ep.$ep.xml`;
+    `xpath -q -e "\/\/extension[\@point=\'$id\']" $plugin >> doc/ep.$ep.xml`;
+    `echo "<\/plugin>" >> doc/ep.$ep.xml`;
   }
-  system('echo "</list>" >> ep.'.$ep.'.xml');
-  system('xsltproc --stringparam epElement '.$ep.' ep2html.xslt ep.'.$ep.'.xml > ep.'.$ep.'.html');
+  system('echo "</list>" >> doc/ep.'.$ep.'.xml');
+  system('xsltproc --stringparam epElement '.$ep.' ep2html.xslt doc/ep.'.$ep.'.xml > doc/ep.'.$ep.'.html');
   print $INDEX "</li>\n";
 }
 print $INDEX "</ul>\n";
@@ -56,18 +56,18 @@ print $INDEX "<ul>\n";
 while ( my ($ep, $id) = each(%bioclipseExtensionPoints) ) {
   print $INDEX "<li>\n";
   print $INDEX "<a href=\"ep.$ep.html\">$id</a>\n";
-  system('echo "<list>" > ep.'.$ep.'.xml');
+  system('echo "<list>" > doc/ep.'.$ep.'.xml');
   foreach my $plugin (@plugins) {
     $plugin =~ s/[\n|\r]//g;
     $plugin =~ m/.*\/([\w|\.]+)\/plugin\.xml/;
     my $pluginID = $1;
-    `echo "<plugin id=\\"$pluginID\\">" >> ep.$ep.xml`;
-    `echo "<!-- $plugin -->" >> ep.$ep.xml`;
-    `xpath -q -e "\/\/extension[\@point=\'$id\']" $plugin >> ep.$ep.xml`;
-    `echo "<\/plugin>" >> ep.$ep.xml`;
+    `echo "<plugin id=\\"$pluginID\\">" >> doc/ep.$ep.xml`;
+    `echo "<!-- $plugin -->" >> doc/ep.$ep.xml`;
+    `xpath -q -e "\/\/extension[\@point=\'$id\']" $plugin >> doc/ep.$ep.xml`;
+    `echo "<\/plugin>" >> doc/ep.$ep.xml`;
   }
-  system('echo "</list>" >> ep.'.$ep.'.xml');
-  system('xsltproc --stringparam epElement '.$ep.' ep2html.xslt ep.'.$ep.'.xml > ep.'.$ep.'.html');
+  system('echo "</list>" >> doc/ep.'.$ep.'.xml');
+  system('xsltproc --stringparam epElement '.$ep.' ep2html.xslt doc/ep.'.$ep.'.xml > doc/ep.'.$ep.'.html');
   print $INDEX "</li>\n";
 }
 print $INDEX "</ul>\n";

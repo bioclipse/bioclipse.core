@@ -2,12 +2,8 @@
 <?eclipse version="3.0"?>
 <plugin>
 
-   <extension
-         point="net.bioclipse.scripting.contribution">
-      <scriptContribution
-            id="net.bioclipse.rdf.business.RDFManager"
-            service="net.bioclipse.rdf.business.RDFManagerFactory">
-      </scriptContribution>
+   <extension  point="org.eclipse.help.toc">
+      <toc file="toc.xml" primary="true"/>
    </extension>
 
 </plugin>
