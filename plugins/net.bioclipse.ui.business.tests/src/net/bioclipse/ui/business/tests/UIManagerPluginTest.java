@@ -53,7 +53,7 @@ public class UIManagerPluginTest {
             new Path(filePath)
         );
         Assert.assertTrue(savedFile.exists());
-        manager.remove(savedFile);
+        manager.remove(savedFile, null);
         IFile removedFile = ResourcesPlugin.getWorkspace().getRoot().getFile(
             new Path(filePath)
         );
