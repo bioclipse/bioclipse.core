@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cheatsheet
+      title="Using the Javscript Console">
+   <intro
+         href="/net.bioclipse.scripting.ui/html/scriptingBioclipse.html">
+      <description>
+         This CheatSheet is a tutotial for using the Javscript Console in Bioclipse.
+      </description>
+   </intro>
+
+	<item title="Step 1: Reveal the Javascript Console">
+		<description>
+			If not visible, reveal the JavaScript Console from the menu <b>Window &amp;gt; Show View &amp;gt; Other...</b> and then under category <b>Scripting</b>, select <b>JavaScript Console</b>.
+		</description>
+  <command
+        required="false"
+        serialization="org.eclipse.ui.views.showView(org.eclipse.ui.views.showView.viewId=net.bioclipse.scripting.ui.views.JsConsoleView)"/>
+	</item>
+ <item
+       title="Step 2: Explore tab completion">
+    <description>
+       The JavaScript Console is equipped with tab completion. Simply click the tab key to reveal the core namespaces that are available.
+<br/>
+<br/>
+
+A namespace is a grouping of functionality, for example does the <b>cdk</b> namespace group CDK functionality. Write &apos;cdk.&apos; ending with a dot, and click the tab key again. Now you will see the methods the cdk namespaces offer.
+    </description>
+ </item>
+ <item
+       title="Step 3: Getting help for commands">
+    <description>
+       In the Javascript Console, write &apos;<b>help</b>&apos;. This shows the same list of namespaces as pressing the tab key.
+<br/>
+<br/>
+
+Try &apos;help cdk&apos;. This displays help about all methods in cdk, and what inputs they expect.
+<br/>
+<br/>
+
+Try &apos;help cdk.fromSMILES&apos;. This shows an explanation for what this method does, and how it is used.
+    </description>
+ </item>
+ <item
+       title="Step 4: Some basic commands">
+    <description>
+       Try the following commands, they are quite self-explanatory:
+<br/>
+<br/>
+	print(&quot;hello world &quot; + (12-4))
+<br/>
+<br/>
+clear()
+    </description>
+ </item>
+ <item
+       title="Step 5: Opening files in editors">
+    <description>
+       The &apos;ui&apos; namespace contains methods to interact with editors. Try the following:
+<br/>
+<br/>
+
+mol=cdk.fromSMILES(&quot;CC&quot;)<br/>
+mol2=cdk.generate2dCoordinates(mol)<br/>
+cdk.saveMolecule(mol2, &quot;/Virtual/mymol.cml&quot;)<br/>
+<br/>
+<br/>
+
+
+Note in the Bioclipse Navigator that this file is created. Now write: &apos;ui.open(&apos; and then drag this file and drop it onto the Javascript Console. This completes the command too look like:
+<br/>
+<br/>
+
+ui.open(&quot;/Virtual/mymol.cml&quot;)
+<br/>
+This opens the molecule (now with 2D coordinates) in JChemPaint.
+    </description>
+ </item>
+ <item
+       title="Step 6: More scripting commands">
+    <description>
+       For more information, see Bioclipse Help.
+    </description>
+    <command
+          required="false"
+          serialization="org.eclipse.ui.help.displayHelp(href=/net.bioclipse.scripting.ui/html/scriptingBioclipse.html)"/>
+ </item>
+</cheatsheet>

@@ -69,6 +69,23 @@
           </viewShortcut>
     </perspectiveExtension>
  </extension>
+    <extension
+          point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+            <cheatsheet
+            category="net.bioclipse.cheatsheets.workbench"
+            composite="false"
+            contentFile="cheatsheets/usingJSConsole.xml"
+            id="net.bioclipse.cheatsheets.javascript"
+            name="Using the Javscript Console"/>
+          
+    </extension>
+    <extension
+          point="org.eclipse.help.toc">
+       <toc
+             file="toc.xml"
+             primary="true">
+       </toc>
+    </extension>
    
    
 </plugin>
