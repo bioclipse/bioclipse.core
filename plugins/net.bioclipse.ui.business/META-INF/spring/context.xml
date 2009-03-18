@@ -51,8 +51,8 @@
   	          value="net.bioclipse.ui.business.IUIManager" />
   	<property name="interceptorNames">
         <list>
-           <value>recordingAdvisor</value>
-           <value>createJobAdvice</value>
+            <value>createJobAdvice</value>
+            <value>recordingAdvisor</value>
         </list>
     </property>
   </bean>
@@ -65,8 +65,8 @@
               value="net.bioclipse.ui.business.IJSUIManager" />
     <property name="interceptorNames" >
         <list>
-            <value>JSJobCreatorAdvice</value>
-            <value>guiActionAdvisor</value>            
+            <value>guiActionAdvisor</value>
+            <value>JSJobCreatorAdvice</value>            
         </list>
     </property>    
   </bean>
