@@ -566,12 +566,12 @@
          id="net.bioclipse.tutorials"
          point="org.eclipse.ui.cheatsheets.cheatSheetContent">
       <category
-            id="net.bioclipse.cheatsheets.basics"
-            name="Bioclipse basics"/>
+            id="net.bioclipse.cheatsheets.workbench"
+            name="Bioclipse workbench"/>
       <cheatsheet
-            category="net.bioclipse.cheatsheets.basics"
+            category="net.bioclipse.cheatsheets.workbench"
             composite="false"
-            contentFile="cheatsheets/intro.xml"
+            contentFile="cheatsheets/usingWorkbench.xml"
             id="net.bioclipse.cheatsheets.basics"
             name="Using the Bioclipse Workbench"/>
    </extension>
