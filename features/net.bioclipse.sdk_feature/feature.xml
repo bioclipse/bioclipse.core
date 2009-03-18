@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="net.bioclipse.sdk_feature"
+      label="Bioclipse SDK Feature"
+      version="1.0.0"
+      provider-name="Bioclipse Team"
+      plugin="net.bioclipse.doc.developers">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <requires>
+      <import feature="net.bioclipse.core_feature" version="2.0.0.B20090227"/>
+   </requires>
+
+   <plugin
+         id="net.bioclipse.doc.developers"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
