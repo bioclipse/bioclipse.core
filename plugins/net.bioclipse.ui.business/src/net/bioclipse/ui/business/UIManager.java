@@ -52,10 +52,9 @@ public class UIManager implements IUIManager {
         return "ui";
     }
 
-    public void remove( IFile file ) {
-        //TODO: jonalv use real progressmonitor
+    public void remove( IFile file, IProgressMonitor monitor ) {
         try {
-            file.delete(true, new NullProgressMonitor());
+            file.delete(true, monitor);
         } catch (PartInitException e) {
             throw new RuntimeException(e);
         } catch (CoreException e) {

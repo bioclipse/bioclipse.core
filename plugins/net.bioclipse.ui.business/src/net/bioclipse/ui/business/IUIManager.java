@@ -66,7 +66,7 @@ public interface IUIManager extends IBioclipseManager {
 
     @Recorded
     @TestMethods("testSaveAndRemove_IFile")
-    public void remove(IFile file);
+    public void remove(IFile file, IProgressMonitor monitor);
 
     @Recorded
     @PublishedMethod(
