@@ -23,7 +23,7 @@ public class GuiActionAdvice implements IGuiActionAdvice {
     public Object invoke( final MethodInvocation invocation ) 
                   throws Throwable {
 
-        if ( !invocation.getMethod().isAnnotationPresent(Recorded.class) ) {
+        if ( !invocation.getMethod().isAnnotationPresent(GuiAction.class) ) {
             return invocation.proceed();
         }
         
