@@ -60,6 +60,13 @@
       properties="isLoggedIn"
       class="net.bioclipse.usermanager.LoggedInTester">
     </propertyTester>
+    <propertyTester
+      id="net.bioclipse.usermanager.AccountTypeTester"
+      type="java.lang.Object"
+      namespace="net.bioclipse.usermanager"
+      properties="accountTypeExists"
+      class="net.bioclipse.usermanager.AccountTypeTester">
+    </propertyTester>
   </extension>
 
 <extension
@@ -104,8 +111,6 @@
        </enabledWhen>
 	</handler>        
 </extension>
-
-
   
   	<extension 
   		point="org.eclipse.ui.menus">
@@ -115,6 +120,12 @@
 		    	commandId="net.bioclipse.usermanager.commands.login"
 		    	label="Log In"
 		        icon="icons/login_16.png">
+		        <visibleWhen >
+                	<test
+        	              property="net.bioclipse.usermanager.accountTypeExists"
+        	              value="true">
+             	   </test>
+		        </visibleWhen>
 	       </command>
 		</menuContribution>
 		<menuContribution
@@ -123,6 +134,12 @@
 		    	commandId="net.bioclipse.usermanager.commands.logout"
 		    	label="Log Out"
 		        icon="icons/login_16.png">
+		        <visibleWhen >
+                	<test
+        	              property="net.bioclipse.usermanager.accountTypeExists"
+        	              value="true">
+             	   </test>
+		        </visibleWhen>
 	       </command>
 		</menuContribution>
 </extension>
