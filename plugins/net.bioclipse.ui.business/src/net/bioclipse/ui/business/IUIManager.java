@@ -46,9 +46,11 @@ public interface IUIManager extends IBioclipseManager {
     @PublishedMethod(params="String filePath",
                      methodSummary="Opens a file in an editor.")
     @TestMethods("testOpen_String")
+    @GuiAction
     public void open(String filePath);
 
     @Recorded
+    @GuiAction
     public void open(IFile file);
 
     @Recorded

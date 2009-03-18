@@ -19,6 +19,7 @@ import java.util.List;
 import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.scripting.ui.business.GuiAction;
 import net.bioclipse.scripting.ui.business.IJsConsoleManager;
 import net.bioclipse.ui.business.describer.EditorDetermination;
 import net.bioclipse.ui.business.describer.IBioObjectDescriber;
@@ -64,18 +65,14 @@ public class UIManager implements IUIManager {
 
     public void open( final IFile file ) {
 
-        Display.getDefault().asyncExec(new Runnable() {
-            public void run() {
-                IWorkbenchPage page = PlatformUI.getWorkbench()
-                                                .getActiveWorkbenchWindow()
-                                                .getActivePage();
-                try {
-                    IDE.openEditor(page, file);
-                } catch (PartInitException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+        IWorkbenchPage page = PlatformUI.getWorkbench()
+                                        .getActiveWorkbenchWindow()
+                                        .getActivePage();
+        try {
+            IDE.openEditor(page, file);
+        } catch (PartInitException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void remove( String filePath ) {
