@@ -30,13 +30,10 @@ public class JSJobCreatorAdvice implements IJSJobCreatorAdvice {
     public Object invoke( MethodInvocation invocation ) throws Throwable {
 
         Method methodToInvoke = invocation.getMethod();
+        Object[] args = invocation.getArguments();
         Method m = findMethodWithMonitor(invocation);
         if ( m != null) {
             methodToInvoke = m;
-        }
-
-        Object[] args;
-        if ( methodToInvoke != invocation.getMethod() ) {
             /*
              * Setup args array
              */
@@ -59,26 +56,73 @@ public class JSJobCreatorAdvice implements IJSJobCreatorAdvice {
                               args, 
                               0, 
                               invocation.getArguments().length );
-            /*
-             * Then substitute from String to IFile where suitable
-             */
-            for ( int i = 0; i < args.length; i++ ) {
-                Object arg = args[i];
-                if ( arg instanceof String &&
-                     methodToInvoke
-                         .getParameterTypes()[i] == IFile.class ) {
-                     
-                    args[i] = ResourcePathTransformer
-                              .getInstance()
-                              .transform( (String) arg );
-                }
-            }
+
         }
         else {
-            args = invocation.getArguments();
+            m = findMethodWithCorrespondingIFile(invocation);
+            if ( m != null ) {
+                methodToInvoke = m;
+            }
         }
-    
+
+        /*
+         * Then substitute from String to IFile where suitable
+         */
+        for ( int i = 0; i < args.length; i++ ) {
+            Object arg = args[i];
+            if ( arg instanceof String &&
+                 methodToInvoke
+                     .getParameterTypes()[i] == IFile.class ) {
+                 
+                args[i] = ResourcePathTransformer
+                          .getInstance()
+                          .transform( (String) arg );
+            }
+        }
+        
         return methodToInvoke.invoke( invocation.getThis(), args ); 
+    }
+
+    private Method 
+            findMethodWithCorrespondingIFile( MethodInvocation invocation ) {
+
+        List<Class<?>> invocationParamTypes 
+            = Arrays.asList( invocation.getMethod().getParameterTypes() );
+        METHODS:
+        for ( Method m : invocation.getMethod()
+                                   .getDeclaringClass().getMethods() ) {
+    
+            List<Class<?>> currentParamTypes 
+                = Arrays.asList( m.getParameterTypes() );
+            if ( !m.getName().equals( invocation.getMethod().getName() ) ) 
+                continue METHODS;
+            
+            if ( currentParamTypes.size() != invocationParamTypes.size() ) {
+                continue METHODS;
+            }
+            
+            if ( !currentParamTypes.contains( IFile.class ) ) {
+                continue METHODS;
+            }
+            PARAMS:
+            for ( int i = 0; i < invocationParamTypes.size(); i++ ) {
+                 Object arg = currentParamTypes.get( i );
+                 
+                 if ( arg.equals( invocationParamTypes.get( i ) ) ) {
+                     continue PARAMS;
+                 }
+                 else {
+                     if ( (arg == IFile.class &&
+                           invocationParamTypes.get( i ) == String.class) ) {
+                         continue PARAMS;
+                     }
+                 }
+                 continue METHODS;
+            }
+                   
+            return m;
+        }
+        return null;
     }
 
     private Method findMethodWithMonitor( MethodInvocation invocation ) {
