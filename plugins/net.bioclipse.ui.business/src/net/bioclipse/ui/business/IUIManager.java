@@ -96,6 +96,7 @@ public interface IUIManager extends IBioclipseManager {
     public boolean fileExists(String filePath);
 
     @Recorded
+    @GuiAction
     @PublishedMethod(
         params="IBioObject bioObject",
         methodSummary="Opens the IBikoObject in its preferred editor"
