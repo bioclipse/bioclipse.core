@@ -56,7 +56,6 @@ public interface IUserManager extends IBioclipseManager {
      * @param monitor a progressmonitor
      * @throws IllegalArgumentException if signIn not succesfull
      */
-    @Recorded
     public void signInWithProgressBar( String username,
                                        String password,
                                        SubProgressMonitor monitor );
@@ -65,7 +64,6 @@ public interface IUserManager extends IBioclipseManager {
      * @return whether any user is logged in
      */
     @TestMethods("testCreateMasterKeyAndLogin")
-    @Recorded
     @PublishedMethod (methodSummary = "Returns whether a user is logged in")
     public boolean isLoggedIn();
 
@@ -94,7 +92,6 @@ public interface IUserManager extends IBioclipseManager {
      * @return the name of the user currently logged in
      */
     @TestMethods("testGettingInfoWhenLoggedOut,testCreateMasterKeyAndLogin")
-    @Recorded
     @PublishedMethod (methodSummary = "Gives the name of the currently " +
                                       "logged in user")
     public String getLoggedInUserName();
@@ -219,7 +216,6 @@ public interface IUserManager extends IBioclipseManager {
      * @param newkey new password
      */
     @TestMethods("textChangeMasterKey")
-    @Recorded
     @PublishedMethod (params = "String oldPassword, String newPassword",
                       methodSummary = "Changes the password for " +
                                       "the logged in user if the oldPassword " +
