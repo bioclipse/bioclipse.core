@@ -22,7 +22,7 @@
 		<topic label="Customizing the Workbench" href="html/workbench/wb_customize.html"/> 
 		<topic label="Editors" href="html/workbench/wb_editors.html"> 
 			<topic label="Text editor" href="html/workbench/editors/ed_textEditor.html"/> 
-			<topic label="XML editor" href="html/workbench/editors/ed_xmlEditor.html"/> 
+			<topic label="XML-Lite editor" href="html/workbench/editors/ed_xmlEditor.html"/> 
 		</topic>
 		<topic label="Views" href="html/workbench/wb_views.html"> 
 			<topic label="The Bioclipse Navigator" href="html/workbench/views/vi_navigator.html"/> 
