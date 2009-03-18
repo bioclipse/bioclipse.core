@@ -67,7 +67,9 @@ public class UIManager implements IUIManager {
 
         Display.getDefault().asyncExec(new Runnable() {
             public void run() {
-                IWorkbenchPage page=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+                IWorkbenchPage page = PlatformUI.getWorkbench()
+                                                .getActiveWorkbenchWindow()
+                                                .getActivePage();
                 try {
                     IDE.openEditor(page, file);
                 } catch (PartInitException e) {
@@ -78,11 +80,11 @@ public class UIManager implements IUIManager {
     }
 
     public void remove( String filePath ) {
-        remove(ResourcePathTransformer.getInstance().transform( filePath ));
+        throw new IllegalStateException("This method should not be called");
     }
 
     public void open( String filePath ) {
-        open(ResourcePathTransformer.getInstance().transform( filePath ));
+        throw new IllegalStateException("This method should not be called");
     }
 
     public void open( final IBioObject bioObject, final String editorId) {
@@ -123,10 +125,7 @@ public class UIManager implements IUIManager {
     }
 
     public void save(String filePath, InputStream toWrite) {
-        save(
-            ResourcePathTransformer.getInstance().transform( filePath ),
-            toWrite, null, null
-        );
+        throw new IllegalStateException("This method should not be called");
     }
 
     public void save(final IFile target, InputStream toWrite,
@@ -158,33 +157,36 @@ public class UIManager implements IUIManager {
 	}
 
 	public boolean fileExists(String filePath) {
-		try {
-			return fileExists(ResourcePathTransformer.getInstance()
-					.transform( filePath ));
-		} catch (IllegalArgumentException exception) {
-			return false;
-		}
+	    throw new IllegalStateException("This method should not be called");
 	}
 
 	
-  public void open(IBioObject bioObject) throws BioclipseException, CoreException, IOException {
+  public void open(IBioObject bioObject) throws BioclipseException, 
+                                                CoreException, 
+                                                IOException {
 
       //Strategy: Determine editor ID from IBioObject and open in this
 
-      IJsConsoleManager js = net.bioclipse.scripting.ui.Activator.getDefault().getJsConsoleManager();
+      IJsConsoleManager js = net.bioclipse.scripting.ui.Activator
+                                .getDefault().getJsConsoleManager();
 
-      //If bioObject has a resource, use Content Type on this to determine editor
-      if (bioObject.getResource()!=null){
+      //If bioObject has a resource, 
+      //use Content Type on this to determine editor
+      if (bioObject.getResource()!=null) {
           if ( bioObject.getResource() instanceof IFile ) {
             IFile file = (IFile) bioObject.getResource();
 
-            IContentTypeManager contentTypeManager = Platform.getContentTypeManager();
+            IContentTypeManager contentTypeManager 
+                = Platform.getContentTypeManager();
             InputStream stream = file.getContents();
-            IContentType contentType = contentTypeManager.findContentTypeFor(stream, file.getName());
+            IContentType contentType 
+                = contentTypeManager.findContentTypeFor( stream, 
+                                                         file.getName() );
             
-//            IEditorDescriptor[] editors = PlatformUI.getWorkbench().getEditorRegistry().getEditors( file.getName(), contentType );
-            IEditorDescriptor editor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor( file.getName(), contentType );
-            if (editor!=null){
+            IEditorDescriptor editor 
+                = PlatformUI.getWorkbench().getEditorRegistry()
+                            .getDefaultEditor( file.getName(), contentType );
+            if (editor != null) {
                 js.print( "Chosen editor: " + editor.getLabel());
                 open( bioObject, editor.getId() );
                 return;
@@ -192,27 +194,29 @@ public class UIManager implements IUIManager {
         }
       }
       
-      //Ok, either we had a file but could not get an editor for it, or we don't
-      //have a resource for the IBioObject
+      //Ok, either we had a file but could not get an editor for it, 
+      //or we don't have a resource for the IBioObject
       
       //Get all describers that are valid for this bioObject
-      List<IBioObjectDescriber> describers = EditorDetermination.getAvailableDescribersFromEP();
+      List<IBioObjectDescriber> describers 
+          = EditorDetermination.getAvailableDescribersFromEP();
 
-      for (IBioObjectDescriber describer : describers){
+      for (IBioObjectDescriber describer : describers) {
           String editorId=describer.getPreferredEditorID( bioObject );
           //For now, just grab the first that comes.
           //TODO: implement some sort of hierarchy here if multiple matches
-          if (editorId!=null){
-              IEditorDescriptor editor = PlatformUI.getWorkbench().getEditorRegistry().findEditor( editorId );
-              if (editor!=null){
-                  js.print( "Chosen editor: " +editor.getLabel());
+          if (editorId != null) {
+              IEditorDescriptor editor 
+                  = PlatformUI.getWorkbench().getEditorRegistry()
+                                             .findEditor( editorId );
+              if (editor != null) {
+                  js.print( "Chosen editor: " +editor.getLabel() );
                   open( bioObject, editor.getId() );
                   return;
               }
           }
       }
-      throw new IllegalArgumentException("No editor found for object: " + bioObject);
-
+      throw new IllegalArgumentException(
+                    "No editor found for object: " + bioObject );
   }
-  
 }

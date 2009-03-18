@@ -31,7 +31,7 @@ public class UIManagerFactory implements IExecutableExtension,
                                        String propertyName, 
                                        Object data) throws CoreException {
     
-        jsConsoleManager = Activator.getDefault().getUIManager();
+        jsConsoleManager = Activator.getDefault().getJSUIManager();
     }
     
     public Object create() throws CoreException {

@@ -15,7 +15,8 @@
                   interface="net.bioclipse.ui.jobs.ICreateJobAdvice" />
   <osgi:reference id="guiActionAdvice"
                   interface="net.bioclipse.scripting.ui.business.IGuiActionAdvice" />
-
+  <osgi:reference id="JSJobCreatorAdvice" 
+                  interface="net.bioclipse.scripting.business.IJSJobCreatorAdvice"/>
   <!--+ 
       | Point cut advisor that inserts the recording advice on all methods.
       | (The class does nothing on toString() 
@@ -52,9 +53,22 @@
         <list>
            <value>recordingAdvisor</value>
            <value>createJobAdvice</value>
-           <value>guiActionAdvisor</value>
         </list>
     </property>
+  </bean>
+  
+  <bean id="jsuiManager"
+        class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="target" 
+              ref="uiManagerTarget" />
+    <property name="proxyInterfaces" 
+              value="net.bioclipse.ui.business.IJSUIManager" />
+    <property name="interceptorNames" >
+        <list>
+            <value>JSJobCreatorAdvice</value>
+            <value>guiActionAdvisor</value>            
+        </list>
+    </property>    
   </bean>
 
   <!-- publishes the final manager (the proxy) -->
@@ -62,4 +76,9 @@
     id="uiManagerOSGI" 
     ref="uiManager"
     interface="net.bioclipse.ui.business.IUIManager" />
+  
+  <osgi:service
+    id="jsuiManagerOSGI"
+    ref="jsuiManager"
+    interface="net.bioclipse.ui.business.IJSUIManager" />
 </beans>

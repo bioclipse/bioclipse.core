@@ -16,6 +16,7 @@ public class Activator extends AbstractUIPlugin {
 	private static Activator plugin;
 	
   private ServiceTracker finderTracker;
+  private ServiceTracker jsFinderTracker;
 	
 	/**
 	 * The constructor
@@ -23,24 +24,21 @@ public class Activator extends AbstractUIPlugin {
 	public Activator() {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
 		
-    finderTracker = new ServiceTracker(context,
-                                       IUIManager.class.getName(),
-                                       null);
+    finderTracker = new ServiceTracker( context,
+                                        IUIManager.class.getName(),
+                                        null );
     finderTracker.open();
+    
+    jsFinderTracker = new ServiceTracker( context,
+                                          IJSUIManager.class.getName(),
+                                          null );
+    jsFinderTracker.open();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
@@ -72,4 +70,20 @@ public class Activator extends AbstractUIPlugin {
       return uiManager;
   }
   
+  public IUIManager getJSUIManager() {
+      IJSUIManager jsuiManager;
+      
+      try {
+          jsuiManager
+              = (IJSUIManager) jsFinderTracker.waitForService(1000*30);
+      }
+      catch (InterruptedException e) {
+          throw
+            new IllegalStateException("Could not get js console manager", e);
+      }
+      if (jsuiManager == null) {
+          throw new IllegalStateException("Could not get js console manager");
+      }
+      return jsuiManager;
+  }
 }
