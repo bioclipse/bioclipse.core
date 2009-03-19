@@ -359,8 +359,16 @@ public class JsConsoleView extends ScriptingConsoleView {
                           + ") { zzz1[zzz2++] = zzz3 } zzz1",
                           new Hook() {
                               public void run(Object o) {
-                                  String array = jsThread.toJsString(o);
                                   synchronized (variables) {
+                                      if (o instanceof Exception) {
+                                          // it's probably the tab-completed
+                                          // object that doesn't exist
+                                          variables[0] =
+                                              new ArrayList<String>();
+                                          variables.notifyAll();
+                                          return;
+                                      }
+                                      String array = jsThread.toJsString(o);
                                       variables[0]
                                           = new ArrayList<String>(
                                                   Arrays.asList(

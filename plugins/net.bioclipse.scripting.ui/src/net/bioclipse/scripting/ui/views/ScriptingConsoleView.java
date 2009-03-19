@@ -570,7 +570,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
         else {
             addAtCursor( longestCommonPrefix );
             if ( interestingVariables.size() == 1 )
-                addAtCursor( tabCompletionHook(object, interestingVariables.get(0)) );
+                addAtCursor( tabCompletionHook(object,
+                                               interestingVariables.get(0)) );
             if (interestingVariables.size() != 1)
                 beep();
         }
