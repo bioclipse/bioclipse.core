@@ -156,7 +156,7 @@ See http://www.bioclipse.net for more information
 
    <features>
       <feature id="net.bioclipse.core_feature" version="2.0.0.B20090227"/>
-      <feature id="net.bioclipse.chemoinformatics_feature" version="2.0.0.B20090313"/>
+      <feature id="net.bioclipse.chemoinformatics_feature" version="2.0.0.B20090318"/>
    </features>
 
 </product>
