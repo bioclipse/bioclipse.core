@@ -16,10 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IBioObject;
-import net.bioclipse.scripting.ui.business.GuiAction;
 import net.bioclipse.scripting.ui.business.IJsConsoleManager;
 import net.bioclipse.ui.business.describer.EditorDetermination;
 import net.bioclipse.ui.business.describer.IBioObjectDescriber;
