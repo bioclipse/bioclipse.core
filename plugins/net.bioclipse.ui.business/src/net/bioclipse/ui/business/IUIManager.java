@@ -54,9 +54,6 @@ public interface IUIManager extends IBioclipseManager {
     public void open(IFile file);
 
     @Recorded
-    @PublishedMethod(params="IBioObject bioObject, String editorID",
-                     methodSummary="Opens editor of given ID with bioObject"
-    )
     @GuiAction
     public void open( final IBioObject bioObject, final String editorId);
 
