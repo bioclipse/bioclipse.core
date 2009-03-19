@@ -22,19 +22,21 @@ import org.eclipse.ui.PlatformUI;
  */
 public class Application implements IApplication {
 
-    /* (non-Javadoc)
-     * @see org.eclipse.equinox.app.IApplication#start(org.eclipse.equinox.app.IApplicationContext)
-     */
     public Object start(IApplicationContext context) {
         Display display = PlatformUI.createDisplay();
         try {
-            int returnCode = PlatformUI.createAndRunWorkbench(display, new ApplicationWorkbenchAdvisor());
+            int returnCode 
+                = PlatformUI
+                  .createAndRunWorkbench( display, 
+                                          new ApplicationWorkbenchAdvisor() );
             if (returnCode == PlatformUI.RETURN_RESTART) {
                 return IApplication.EXIT_RESTART;
             }
             return IApplication.EXIT_OK;
         } catch (Throwable exception) {
-            System.out.println("Error while booting Bioclipse: " + exception.getMessage());
+            System.out.println( "Error while booting Bioclipse: " 
+                                + exception.getClass().getSimpleName()  
+                                + exception.getMessage() );
             exception.printStackTrace();
         } finally {
             display.dispose();
@@ -42,9 +44,6 @@ public class Application implements IApplication {
         return IApplication.EXIT_OK;
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.equinox.app.IApplication#stop()
-     */
     public void stop() {
         final IWorkbench workbench = PlatformUI.getWorkbench();
         if (workbench == null)
