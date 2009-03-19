@@ -515,8 +515,14 @@ public abstract class ScriptingConsoleView extends ViewPart {
     /**
      * Automatically writes to the command line the rest of a variable or
      * method name. (Names are completed case-insensitively; the case of the
-     * already-written parts doesn't matter) Beeps if no unique such completion
-     * exists. Gives a list of possible completions if called a second time.
+     * already-written parts doesn't matter.) Beeps if no unique such
+     * completion exists. Gives a list of possible completions if called a
+     * second time.
+     *
+     * This method is meant to implement generic tab-completion and should
+     * generally not need to be overridden in deriving classes. Instead,
+     * override <code>getAllVariablesIn</code>, which returns the relevant
+     * things to tab-complete on.
      */
     protected void tabComplete() {
         String command = input.getText();
