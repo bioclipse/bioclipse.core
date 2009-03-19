@@ -79,7 +79,9 @@ public class JsConsoleView extends ScriptingConsoleView {
                                 message[0]
                                   = (t instanceof BioclipseException
                                           ? "" : t.getClass().getName() + ": ")
-                                    + t.getMessage();
+                                    + t.getMessage()
+                                       .replaceAll( " end of file",
+                                                    " end of line" );
                             }
                             else {
                                 String s = result.toString();
