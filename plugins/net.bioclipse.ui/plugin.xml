@@ -379,6 +379,189 @@
   </extension-->
 
 
+    <extension
+          point="org.eclipse.core.runtime.contentTypes">
+          <content-type
+                base-type="org.eclipse.core.runtime.xml"
+                id="net.bioclipse.contenttypes.cml"
+                name="Chemical Markup Language (CML)"
+                file-extensions="cml,xml"
+                priority="normal">
+            <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">
+              <parameter name="element"
+                         value="{http://www.xml-cml.org/schema}*">
+              </parameter>
+            </describer>
+          </content-type>
+    </extension>
+
+
+<extension
+           point="org.eclipse.core.runtime.contentTypes">
+        
+		<content-type
+              base-type="net.bioclipse.contenttypes.cml"
+	          id="net.bioclipse.contenttypes.cml.singleMolecule2d"
+              name="CML (Single 2D Molecule)"
+              priority="high">
+		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
+            	<parameter
+                    name="dimension"
+                    value="2D">
+              	</parameter>
+              	<parameter
+                    name="cardinality"
+                    value="single">
+              	</parameter>
+       		</describer>
+        </content-type>
+        
+        <content-type
+              base-type="net.bioclipse.contenttypes.cml"
+	          id="net.bioclipse.contenttypes.cml.multipleMolecule2d"
+              name="CML (Multiple 2D Molecules)"
+              priority="high">
+		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
+            	<parameter
+                    name="dimension"
+                    value="2D">
+              	</parameter>
+              	<parameter
+                    name="cardinality"
+                    value="multiple">
+              	</parameter>
+       		</describer>
+        </content-type>
+        
+        <content-type
+              base-type="net.bioclipse.contenttypes.cml"
+	          id="net.bioclipse.contenttypes.cml.singleMolecule3d"
+              name="CML (Single 3D Molecule)"
+              priority="high">
+		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
+            	<parameter
+                    name="dimension"
+                    value="3D">
+              	</parameter>
+              	<parameter
+                    name="cardinality"
+                    value="single">
+              	</parameter>
+       		</describer>
+        </content-type>
+        
+        <content-type
+              base-type="net.bioclipse.contenttypes.cml"
+	          id="net.bioclipse.contenttypes.cml.multipleMolecule3d"
+              name="CML (Multiple 3D Molecules)"
+              priority="high">
+		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
+            	<parameter
+                    name="dimension"
+                    value="3D">
+              	</parameter>
+              	<parameter
+                    name="cardinality"
+                    value="multiple">
+              	</parameter>
+       		</describer>
+        </content-type>
+
+        <content-type
+              base-type="net.bioclipse.contenttypes.cml"
+	          id="net.bioclipse.contenttypes.cml.singleMolecule5d"
+              name="CMLSingleMoleculeContentType5D"
+              priority="high">
+		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
+            	<parameter
+                    name="dimension"
+                    value="5D">
+              	</parameter>
+              	<parameter
+                    name="cardinality"
+                    value="single">
+              	</parameter>
+       		</describer>
+        </content-type>
+        
+        <content-type
+              base-type="net.bioclipse.contenttypes.cml"
+	          id="net.bioclipse.contenttypes.cml.multipleMolecule5d"
+              name="CMLMultipleMoleculeContentType5D"
+              priority="high">
+		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
+            	<parameter
+                    name="dimension"
+                    value="5D">
+              	</parameter>
+              	<parameter
+                    name="cardinality"
+                    value="multiple">
+              	</parameter>
+       		</describer>
+        </content-type>
+        
+        <content-type
+              base-type="org.eclipse.core.runtime.text"
+              file-extensions="pdb"
+              id="net.bioclipse.contenttypes.pdb"
+              name="Protein Brookhaven Database File"
+              priority="high">
+        </content-type>
+
+        <content-type
+              base-type="org.eclipse.core.runtime.text"
+              file-extensions="sdf"
+              id="net.bioclipse.contenttypes.sdf"
+              name="MDL SD file"
+              priority="high">
+        </content-type>
+        <content-type
+              base-type="org.eclipse.core.runtime.text"
+              file-extensions="smi"
+              id="net.bioclipse.contenttypes.smi"
+              name="SMILES (Multiple Molecules)"
+              priority="high">
+        </content-type>
+
+        <content-type
+              base-type="org.eclipse.core.runtime.text"
+              id="net.bioclipse.contenttypes.mdlMolFile"
+              name="MDL MolFile"
+              priority="high">
+        </content-type>
+
+        <content-type
+              base-type="net.bioclipse.contenttypes.mdlMolFile"
+              file-extensions="mdl,mol"
+              id="net.bioclipse.contenttypes.mdlMolFile2D"
+              name="MDL Molfile (2D)"
+              priority="high">
+		 <describer class="net.bioclipse.ui.contenttypes.MdlMolFileCoordinatesDescriber">
+              <parameter
+                    name="type"
+                    value="2D">
+              </parameter>
+       	</describer>
+        </content-type>
+
+        <content-type
+              base-type="net.bioclipse.contenttypes.mdlMolFile"
+              file-extensions="mdl,mol"
+              id="net.bioclipse.contenttypes.mdlMolFile3D"
+              name="MDL molfile (3D)"
+              priority="high">
+		 <describer class="net.bioclipse.ui.contenttypes.MdlMolFileCoordinatesDescriber">
+              <parameter
+                    name="type"
+                    value="3D">
+              </parameter>
+       	</describer>
+        </content-type>
+
+     </extension>  
+
+
    <extension
          id="net.bioclipse.tutorials"
          point="org.eclipse.ui.cheatsheets.cheatSheetContent">
