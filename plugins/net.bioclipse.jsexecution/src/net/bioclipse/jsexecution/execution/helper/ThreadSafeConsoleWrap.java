@@ -28,30 +28,37 @@ public class ThreadSafeConsoleWrap {
         public ThreadSafeConsoleWrap(MessageConsole console) {
         	messageConsole = console;
         }
+        private static void println(final MessageConsoleStream consolestream, final String message) {
+        	int message_length = message.length();
+        	final int MAX_SIZE = 25000;
+        	if (message_length > MAX_SIZE) {
+        		Runnable r = new Runnable() {
+                    public void run() {
+                    	consolestream.print(message.substring(0, MAX_SIZE));
+                    	consolestream.println(" [...]");
+                    	consolestream.println(" A String was cut: the String exceeded the maxiumum size of 25000");
+                    }
+        		};
+        		Display.getDefault().asyncExec(r);
+        	} else {
+        		Runnable r = new Runnable() {
+                    public void run() {
+                    	consolestream.println(message);
+                    }
+        		};
+        		Display.getDefault().asyncExec(r);
+        	}
+        }
         
         public void writeToConsole(final String message) {
-                Runnable r = new Runnable() {
-                        public void run() {
-                                getConsoleStream().println(message);
-                        }
-                };
-                Display.getDefault().asyncExec(r);
+        	println(getConsoleStream(), message);
+
         }
         public void writeToConsoleBlue(final String message) {
-                Runnable r = new Runnable() {
-                        public void run() {
-                                getConsoleStreamBlue().println(message);
-                        }
-                };
-                Display.getDefault().asyncExec(r);
+        	println(getConsoleStreamBlue(), message);
         }
         public void writeToConsoleRed(final String message) {
-                Runnable r = new Runnable() {
-                        public void run() {
-                                getConsoleStreamRed().println(message);
-                        }
-                };
-                Display.getDefault().asyncExec(r);
+        	println(getConsoleStreamRed(), message);
         }
         // with time-stamp
         public void writeToConsoleBlueT(String message) {

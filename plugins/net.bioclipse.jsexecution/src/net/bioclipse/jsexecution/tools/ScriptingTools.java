@@ -1,5 +1,9 @@
 package net.bioclipse.jsexecution.tools;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import net.bioclipse.jsexecution.execution.helper.ThreadSafeConsoleWrap;
 
 import org.eclipse.swt.widgets.Display;
@@ -57,7 +61,7 @@ public class ScriptingTools {
 	/**
 	 * Shows a message box. Please consider that this function requires special care when
 	 * used in a threaded script.
-	 * (Warps: MessageDialog.openInformation(...);)
+	 * (Wraps: MessageDialog.openInformation(...);)
 	 * @param title The title of the message box window
 	 * @param message The message within the message box window
 	 */
@@ -76,7 +80,7 @@ public class ScriptingTools {
 	/**
 	 * Shows a message box. Please consider that this function requires special care when
 	 * used in a threaded script.
-	 * (Warps: MessageDialog.openInformation(...);)
+	 * (Wraps: MessageDialog.openInformation(...);)
 	 * @param message The message within the message box window
 	 */
 	public void showMessage(final String message) {
@@ -93,7 +97,7 @@ public class ScriptingTools {
 	
 	/**
 	 * Causes the script's thread to sleep for the specified amount of milliseconds.
-	 * (Warps: Thread.sleep(ms);)
+	 * (Wraps: Thread.sleep(ms);)
 	 * @param ms Milliseconds the thread should sleep
 	 */
 	public void sleep(int ms) {
@@ -105,7 +109,7 @@ public class ScriptingTools {
 	
 	/**
 	 * Returns Bioclipse's shell.
-	 * (Warps: PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();)
+	 * (Wraps: PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();)
 	 * @return The shell
 	 */
 	public Shell getShell() {
@@ -116,7 +120,7 @@ public class ScriptingTools {
 	 * Executes the specified Runnable within Bioclipse's main thread. This function is only
 	 * useful for scripts that are run in separate threads. Please refer to the eclipse documentation
 	 * to learn more about asyncExec() and asyncExec().
-	 * (Warps: Display.getDefault().syncExec(runnable);)
+	 * (Wraps: Display.getDefault().syncExec(runnable);)
 	 * @param runnable The runnable
 	 */
 	public void syncExec(Runnable runnable) {
@@ -127,7 +131,7 @@ public class ScriptingTools {
 	 * Executes the specified Runnable within Bioclipse's main thread. This function is only
 	 * useful for scripts that are run in separate threads. Please refer to the eclipse documentation
 	 * to learn more about asyncExec() and asyncExec().
-	 * (Warps: Display.getDefault().asyncExec(runnable);)
+	 * (Wraps: Display.getDefault().asyncExec(runnable);)
 	 * @param runnable The runnable
 	 */
 	public void asyncExec(Runnable runnable) {
@@ -136,7 +140,7 @@ public class ScriptingTools {
 	
 	/**
 	 * Converts the specified string to integer.
-	 * (Warps: Integer.parseInt(string);) 
+	 * (Wraps: Integer.parseInt(string);) 
 	 * @param string The string
 	 * @return The integer
 	 */
@@ -146,12 +150,24 @@ public class ScriptingTools {
 	
 	/**
 	 * Converts the specified string to integer.
-	 * (Warps: new Integer(i).toString();) 
+	 * (Wraps: new Integer(i).toString();) 
 	 * @param i The integer
 	 * @return The string
 	 */
 	public String int2string(int i) {
 		return new Integer(i).toString();
+	}
+	
+	/**
+	 * Saves object's toString() result to the specified file.
+	 * @param i The integer
+	 * @return The string
+	 * @throws IOException 
+	 */
+	public void saveToFile(Object o, String filename) throws IOException {
+        BufferedWriter out = new BufferedWriter(new FileWriter(filename));
+        out.write(o.toString());
+        out.close();
 	}
 	
 	/**
