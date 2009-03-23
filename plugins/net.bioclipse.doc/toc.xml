@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Bioclipse Scripting">
+  <topic label="Scripting Language Documentation"  href="html/index.html"/> 
+  <topic label="Guide to Scripting Bioclipse"  href="html/scriptingBioclipse.html" />
+</toc>

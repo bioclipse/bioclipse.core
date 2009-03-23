@@ -33,7 +33,7 @@ while (my $line = <>) {
     if ( $line =~ / \s interface \s+ (\w+) /x ) {
 
         $interface = $1;
-        my @class_files = `grep -Rl "implements $interface" ../plugins/`;
+        my @class_files = `grep -Rl "implements $interface" ..`;
 
         @classes = grep { $_ }
                    map { m[/(\w+)\.java$] && $1 }

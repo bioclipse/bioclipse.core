@@ -3,4 +3,4 @@
 . find-published-classes |
     xargs perl parse-file-for-annotations |
     perl render-as-html |
-    tidy -i 2> /dev/null
+    tidy -i 2> /dev/null > html/index.html
