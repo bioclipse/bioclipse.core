@@ -95,4 +95,16 @@ public class ContentTypesPluginTest{
         stream.close();
         Assert.assertEquals( "net.bioclipse.contenttypes.cml.multipleMolecule5d",contentType.getId() );
     }
+
+    @Test public void testBug708() throws Exception{
+        URI uri = getClass().getResource("/testFiles/bug708.cml").toURI();
+        URL url=FileLocator.toFileURL(uri.toURL());
+        String path=url.getFile();
+        IFile file=new MockIFile(path);
+        IContentTypeManager contentTypeManager = Platform.getContentTypeManager();
+        InputStream stream = file.getContents();
+        IContentType contentType = contentTypeManager.findContentTypeFor(stream, "single2d.cml");
+        stream.close();
+        Assert.assertEquals( "net.bioclipse.contenttypes.cml.singleMolecule5d",contentType.getId() );
+    }
 }
