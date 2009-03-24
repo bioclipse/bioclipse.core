@@ -10,7 +10,6 @@ package net.bioclipse.core;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import net.bioclipse.core.business.IMoleculeManager;
 import net.bioclipse.core.util.LogUtils;
@@ -23,13 +22,7 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.window.Window;
-import org.eclipse.osgi.service.datalocation.Location;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
@@ -63,62 +56,6 @@ public class Activator extends Plugin {
     public void start(BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
-
-        // fetch the Location that we will be modifying 
-        Location instanceLoc = Platform.getInstanceLocation();
-        // if the location is already set, we start from eclipse
-        if(!instanceLoc.isSet()){
-          Display display = PlatformUI.createDisplay();  
-          // get what the user last said about remembering the workspace location 
-          boolean remember = PickWorkspaceDialog.isRememberWorkspace(); 
-   
-          // get the last used workspace location 
-          String lastUsedWs = PickWorkspaceDialog.getLastSetWorkspaceDirectory(); 
-   
-          // if we have a "remember" but no last used workspace, it's not much to remember 
-          if (remember && (lastUsedWs == null || lastUsedWs.length() == 0)) { 
-              remember = false; 
-          } 
-   
-          // check to ensure the workspace location is still OK 
-          if (remember) { 
-              // if there's any problem whatsoever with the workspace, force a dialog which in its turn will tell them what's bad 
-              String ret = PickWorkspaceDialog.checkWorkspaceDirectory(Display.getDefault().getActiveShell(), lastUsedWs, false, false); 
-              if (ret != null) { 
-              remember = false; 
-              } 
-   
-          } 
-   
-          // if we don't remember the workspace, show the dialog 
-          if (!remember) { 
-              PickWorkspaceDialog pwd = new PickWorkspaceDialog(false,null); 
-              int pick = pwd.open(); 
-   
-              // if the user cancelled, we can't do anything as we need a workspace, so in this case, we tell them and exit 
-              if (pick == Window.CANCEL) { 
-              if (pwd.getSelectedWorkspaceLocation()  == null) { 
-                  MessageDialog.openError(display.getActiveShell(), "Error", 
-                      "The application can not start without a workspace root and will now exit."); 
-                  try { 
-                  PlatformUI.getWorkbench().close(); 
-                  } catch (Exception err) { 
-   
-                  } 
-                  System.exit(0); 
-              } 
-              } 
-              else { 
-              // tell Eclipse what the selected location was and continue 
-              instanceLoc.set(new URL("file", null, pwd.getSelectedWorkspaceLocation()), false); 
-              } 
-          } 
-          else { 
-              // set the last used location and continue 
-              instanceLoc.set(new URL("file", null, lastUsedWs), false); 
-          }
-        }
-        
         getVirtualProject();
         historyTracker 
             = new ServiceTracker( context, 
