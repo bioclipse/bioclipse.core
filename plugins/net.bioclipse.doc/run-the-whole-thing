@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# This file is meant to be run like this:
+#
+# ./run-the-whole-thing > html/index.html
+
 if (which tiny > /dev/null); then
     # we have tidy -- do a null command to make bash happy
     true
@@ -11,4 +15,4 @@ fi
 . find-published-classes |
     xargs perl parse-file-for-annotations |
     perl render-as-html |
-    tidy -i 2> /dev/null > html/index.html
+    tidy -i 2> /dev/null
