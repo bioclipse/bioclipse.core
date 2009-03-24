@@ -1,2 +1,2 @@
 #!/bin/bash
-grep -Rl @PublishedClass .. | grep -v .svn
+grep -Rl @PublishedClass .. | grep \\.java | grep -v \\.svn
