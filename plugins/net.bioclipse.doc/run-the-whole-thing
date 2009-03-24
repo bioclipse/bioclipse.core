@@ -4,7 +4,7 @@
 #
 # ./run-the-whole-thing > html/index.html
 
-if (which tiny > /dev/null); then
+if (which tidy > /dev/null); then
     # we have tidy -- do a null command to make bash happy
     true
 else
