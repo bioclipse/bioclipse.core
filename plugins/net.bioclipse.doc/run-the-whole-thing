@@ -1,5 +1,13 @@
 #!/bin/bash
 
+if (which tiny > /dev/null); then
+    # we have tidy -- do a null command to make bash happy
+    true
+else
+    echo 'Grab tidy at <http://tidy.sourceforge.net/>' >&2;
+    exit;
+fi
+
 . find-published-classes |
     xargs perl parse-file-for-annotations |
     perl render-as-html |
