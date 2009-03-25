@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+     <category
+         name="Scripting"
+         id="net.bioclipse.ScriptingCategory">
+      </category>
+      <view
+         allowMultiple="false"
+         name="Action History"
+         category="net.bioclipse.ScriptingCategory"
+         class="net.bioclipse.actionhistory.views.ActionHistoryView"
+         id="net.bioclipse.actionhistory.views.ActionHistoryView">
+      </view>
+   
+    </extension>
+   
+</plugin>

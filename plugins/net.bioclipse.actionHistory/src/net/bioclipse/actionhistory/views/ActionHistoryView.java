@@ -6,7 +6,7 @@
  *http://www.eclipse.org/legal/epl-v10.html
  *
  *******************************************************************************/
-package net.bioclipse.scripting.ui.views;
+package net.bioclipse.actionhistory.views;
 
 import java.util.ArrayList;
 
