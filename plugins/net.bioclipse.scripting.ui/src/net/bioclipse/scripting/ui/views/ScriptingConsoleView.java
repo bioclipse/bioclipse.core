@@ -365,7 +365,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         
         if (message == null)
             return;
-        
+
         // Non-printable characters are removed because people have complained
         // of seeing them. See http://en.wikipedia.org/wiki/Robustness_Principle
         // for more information. Also, feel free to add other disturbing non-
@@ -404,7 +404,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
                                               int maxLineLength ) {
         
         if (text == null || text.length() == 0)
-            return new String[] {""};
+            return new String[] { "" };
         
         if (maxLineLength <= 0)
             return new String[] { text };
@@ -429,9 +429,18 @@ public abstract class ScriptingConsoleView extends ViewPart {
 
             result.add( line );
 
-            // And we can live without the spaces at which we chose to break.
-            while (currentPos < text.length() && text.charAt(currentPos) == ' ')
-                ++currentPos;
+            // The following condition is necessary to prevent infinite looping
+            // when breaking on spaces. We skip over the space that just
+            // contributed in the line breaking. On the other hand, often
+            // it's important to keep spaces used for indentation in the
+            // beginnings of lines, so we don't skip any space if they come
+            // directly after a NEWLINE.
+            if (currentPos < text.length() - 1
+                && !NEWLINE.equals(text.substring(currentPos-NEWLINE.length(),
+                                                  currentPos))
+                && " ".equals(text.substring(currentPos,
+                                             currentPos + 1)))
+                currentPos++;
         }
         
         return result.toArray(new String[0]);
