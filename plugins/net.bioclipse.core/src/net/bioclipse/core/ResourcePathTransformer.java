@@ -89,7 +89,9 @@ public class ResourcePathTransformer {
         java.io.File localFile = new java.io.File(resourceString);
         if (!localFile.exists()) return null;
         try{
-            uri = new URI("file:"+localFile.getAbsolutePath());
+            String localPath = localFile.getAbsolutePath();
+            localPath = localPath.replaceAll( "\\s", "%20" );
+            uri = new URI("file:"+localPath);
         }
         catch (URISyntaxException e) {
             return null;
