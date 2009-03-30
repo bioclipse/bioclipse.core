@@ -123,7 +123,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         put( new Integer(SWT.ARROW_UP), new KeyAction() {
             public void receiveKey(KeyEvent e) {
                 if (currentHistoryLine == commandHistory.size() - 1)
-                    commandHistory.set( commandHistory.size()-1,
+                    commandHistory.set( commandHistory.size() - 1,
                                         input.getText().trim() );
                 if (currentHistoryLine > 0) {
                     String previousCommand
@@ -172,7 +172,6 @@ public abstract class ScriptingConsoleView extends ViewPart {
     public void createPartControl(Composite parent) {
         GridLayout layout = new GridLayout();
         layout.numColumns = 1;
-//        data.grabExcessHorizontalSpace = true;
         parent.setLayout(layout);
         
         output = new Text(parent, SWT.READ_ONLY | SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
@@ -466,7 +465,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         // ...or to break where there is already a break...
         if ( text.substring(currentPos,
                             currentPos + maxLineLength).contains(NEWLINE) )
-            return text.indexOf(NEWLINE, currentPos) + 1;
+            return text.indexOf(NEWLINE, currentPos) + NEWLINE.length();
         
         // ...or at the last possible space...
         if ( text.substring(currentPos,
