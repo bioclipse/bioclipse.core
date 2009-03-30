@@ -148,11 +148,6 @@ public class JsConsoleView extends ScriptingConsoleView {
         return result.toString();
     }
     
-    private String dashes(int length, int maxLength) {
-
-        return dashes(Math.min( length, maxLength ));
-    }
-
     /**
      * Returns a help string documenting a Manager or one of its methods.
      * These help strings are printed to the console in response to the
@@ -218,11 +213,11 @@ public class JsConsoleView extends ScriptingConsoleView {
                         = method.getAnnotation( PublishedMethod.class );
 
                     String line
-                        = dashes(managerName.length()
-                                 + method.getName().length()
-                                 + publishedMethod.params().length()
-                                 + 3,
-                                 MAX_OUTPUT_LINE_LENGTH);
+                        = dashes(Math.min((managerName.length()
+                                           + method.getName().length()
+                                           + publishedMethod.params().length()
+                                           + 3),
+                                          MAX_OUTPUT_LINE_LENGTH));
     
                     result.append( line );
                     result.append( NEWLINE );
@@ -299,13 +294,9 @@ public class JsConsoleView extends ScriptingConsoleView {
                         }
                     }
                 }
-                for ( String methodName : methodNames ) {
-                    managerDescription.append( methodName );
-                    managerDescription.append( NEWLINE );
-                }
-                
-                managerDescription.deleteCharAt( 
-                    managerDescription.length()-1 );
+                managerDescription.append(
+                    listToString(methodNames, "", NEWLINE, "")
+                );
             }
 
 
