@@ -13,7 +13,6 @@
 package net.bioclipse.scripting.ui.business;
 
 import net.bioclipse.core.ResourcePathTransformer;
-import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.scripting.Activator;
 import net.bioclipse.scripting.Hook;
 import net.bioclipse.scripting.JsAction;
@@ -142,11 +141,6 @@ public class JsConsoleManager implements IJsConsoleManager {
     }
 
     public void printError( Throwable t ) {
-        while ( !(t instanceof BioclipseException) && t.getCause() != null )
-            t = t.getCause();
-
-        print( (t instanceof BioclipseException
-                  ? "" : t.getClass().getName() + ": ") 
-                + t.getMessage() );
+        print( getJsConsoleView().getErrorMessage( t ) );
     }
 }

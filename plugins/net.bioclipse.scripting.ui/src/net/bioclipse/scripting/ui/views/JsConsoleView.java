@@ -71,17 +71,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                                 }
                             }
                             else if (result instanceof Exception) {
-                                Throwable t = (Throwable)result;
-                                while (!(t instanceof BioclipseException)
-                                        && t.getCause() != null)
-                                    t = t.getCause();
-
-                                message[0]
-                                  = (t instanceof BioclipseException
-                                          ? "" : t.getClass().getName() + ": ")
-                                    + t.getMessage()
-                                       .replaceAll( " end of file",
-                                                    " end of line" );
+                                message[0] = getErrorMessage((Exception)result);
                             }
                             else {
                                 String s = result.toString();
@@ -95,7 +85,19 @@ public class JsConsoleView extends ScriptingConsoleView {
             }
         }));
     }
-    
+
+    public String getErrorMessage(Throwable t) {
+        while (!(t instanceof BioclipseException)
+                && t.getCause() != null)
+            t = t.getCause();
+
+        return (t instanceof BioclipseException
+                ? "" : t.getClass().getName() + ": ")
+               + t.getMessage()
+                  .replaceAll( " end of file",
+                               " end of line" );
+    }
+
     private StringBuilder listToString( List<?> list, String opener,
                                         String separator, String closer ) {
 
