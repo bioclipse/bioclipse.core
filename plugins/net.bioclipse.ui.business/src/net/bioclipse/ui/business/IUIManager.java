@@ -49,12 +49,15 @@ public interface IUIManager extends IBioclipseManager {
     @GuiAction
     public void open(String filePath);
 
-    @Recorded
-    @PublishedMethod(params="String filePath, String editor",
-                     methodSummary="Opens a file in an editor specified by ID or alias.")
     @GuiAction
     public void open(String filePath, String editor) throws BioclipseException;
 
+    @Recorded
+    @PublishedMethod(params="IFile file, String editor",
+                     methodSummary="Opens a file in an editor specified by ID or alias.")
+    @GuiAction
+    public void open(IFile file, String editor) throws BioclipseException;
+    
     @Recorded
     @GuiAction
     public void open(IFile file);

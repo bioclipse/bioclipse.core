@@ -86,19 +86,33 @@ public class UIManager implements IUIManager {
         throw new IllegalStateException("This method should not be called");
     }
     
-    public void open( String filePath, String editor ) throws BioclipseException {
+    public void open( IFile file, String editor ) throws BioclipseException {
 
         //Determine editorID from putative alias
         final String editorID = getEditorID( editor );
         
         if (editorID==null){
-            Activator.getDefault().getJsConsoleManager().print( "No editor with ID: " + editor + " found" );
-            return;
+            throw new BioclipseException( "No editor with ID: " 
+                                          + editor + " found" );
         }
         
-        //FIXME: Jonalv, do your new world order magic here
+        IWorkbenchPage page = PlatformUI.getWorkbench()
+                                        .getActiveWorkbenchWindow()
+                                        .getActivePage();
         
+        try {
+            IDE.openEditor( page, file, editorID);
+        }
+        catch ( PartInitException e ) {
+            throw new RuntimeException(e);
+        }
     }
+    
+    public void open( String filePath, String editor ) 
+                throws BioclipseException {
+        throw new IllegalStateException("This method shoudl not be called");
+    }
+    
     public void open( final IBioObject bioObject, final String editor) throws BioclipseException {
         
         //Determine editorID from putative alias
