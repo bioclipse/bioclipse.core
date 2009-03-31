@@ -14,16 +14,21 @@ package net.bioclipse.ui.business;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.scripting.ui.Activator;
 import net.bioclipse.scripting.ui.business.IJsConsoleManager;
-import net.bioclipse.ui.business.describer.EditorDetermination;
+import net.bioclipse.ui.business.describer.ExtensionPointHelper;
 import net.bioclipse.ui.business.describer.IBioObjectDescriber;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
@@ -64,8 +69,8 @@ public class UIManager implements IUIManager {
     public void open( final IFile file ) {
 
         IWorkbenchPage page = PlatformUI.getWorkbench()
-                                        .getActiveWorkbenchWindow()
-                                        .getActivePage();
+        .getActiveWorkbenchWindow()
+        .getActivePage();
         try {
             IDE.openEditor(page, file);
         } catch (PartInitException e) {
@@ -80,11 +85,34 @@ public class UIManager implements IUIManager {
     public void open( String filePath ) {
         throw new IllegalStateException("This method should not be called");
     }
+    
+    public void open( String filePath, String editor ) throws BioclipseException {
 
-    public void open( final IBioObject bioObject, final String editorId) {
+        //Determine editorID from putative alias
+        final String editorID = getEditorID( editor );
+        
+        if (editorID==null){
+            Activator.getDefault().getJsConsoleManager().print( "No editor with ID: " + editor + " found" );
+            return;
+        }
+        
+        //FIXME: Jonalv, do your new world order magic here
+        
+    }
+    public void open( final IBioObject bioObject, final String editor) throws BioclipseException {
+        
+        //Determine editorID from putative alias
+        final String editorID = getEditorID( editor );
+        
+        if (editorID==null){
+            Activator.getDefault().getJsConsoleManager().print( "No editor with ID: " + editor + " found" );
+            return;
+        }
+        
+        
         IWorkbenchPage page = PlatformUI.getWorkbench()
-                                        .getActiveWorkbenchWindow()
-                                        .getActivePage();
+        .getActiveWorkbenchWindow()
+        .getActivePage();
         try {
             IEditorInput input = new IEditorInput() {
 
@@ -112,7 +140,7 @@ public class UIManager implements IUIManager {
                     return bioObject.getAdapter( adapter );
                 }
             };
-            page.openEditor( input, editorId );
+            page.openEditor( input, editorID );
         } catch (PartInitException e) {
             throw new RuntimeException(e);
         }
@@ -136,7 +164,7 @@ public class UIManager implements IUIManager {
             monitor.worked(ticks);
         } catch (Exception exception) {
             throw new RuntimeException(
-                "Error while saving to IFile", exception
+                                       "Error while saving to IFile", exception
             );
         } finally {
             monitor.done();
@@ -146,71 +174,120 @@ public class UIManager implements IUIManager {
         }
     }
 
-	public boolean fileExists(IFile file) {
-		return file.exists();
-	}
+    public boolean fileExists(IFile file) {
+        return file.exists();
+    }
 
-	public boolean fileExists(String filePath) {
-	    throw new IllegalStateException("This method should not be called");
-	}
+    public boolean fileExists(String filePath) {
+        throw new IllegalStateException("This method should not be called");
+    }
 
-	
-  public void open(IBioObject bioObject) throws BioclipseException, 
-                                                CoreException, 
-                                                IOException {
 
-      //Strategy: Determine editor ID from IBioObject and open in this
+    public void open(IBioObject bioObject) throws BioclipseException, 
+    CoreException, 
+    IOException {
 
-      IJsConsoleManager js = net.bioclipse.scripting.ui.Activator
-                                .getDefault().getJsConsoleManager();
+        //Strategy: Determine editor ID from IBioObject and open in this
 
-      //If bioObject has a resource, 
-      //use Content Type on this to determine editor
-      if (bioObject.getResource()!=null) {
-          if ( bioObject.getResource() instanceof IFile ) {
-            IFile file = (IFile) bioObject.getResource();
+        IJsConsoleManager js = net.bioclipse.scripting.ui.Activator
+        .getDefault().getJsConsoleManager();
 
-            IContentTypeManager contentTypeManager 
+        //If bioObject has a resource, 
+        //use Content Type on this to determine editor
+        if (bioObject.getResource()!=null) {
+            if ( bioObject.getResource() instanceof IFile ) {
+                IFile file = (IFile) bioObject.getResource();
+
+                IContentTypeManager contentTypeManager 
                 = Platform.getContentTypeManager();
-            InputStream stream = file.getContents();
-            IContentType contentType 
+                InputStream stream = file.getContents();
+                IContentType contentType 
                 = contentTypeManager.findContentTypeFor( stream, 
                                                          file.getName() );
-            
-            IEditorDescriptor editor 
+
+                IEditorDescriptor editor 
                 = PlatformUI.getWorkbench().getEditorRegistry()
-                            .getDefaultEditor( file.getName(), contentType );
-            if (editor != null) {
-                js.print( "Chosen editor: " + editor.getLabel());
-                open( bioObject, editor.getId() );
-                return;
+                .getDefaultEditor( file.getName(), contentType );
+                if (editor != null) {
+                    js.print( "Chosen editor: " + editor.getLabel());
+                    open( bioObject, editor.getId() );
+                    return;
+                }
             }
         }
-      }
-      
-      //Ok, either we had a file but could not get an editor for it, 
-      //or we don't have a resource for the IBioObject
-      
-      //Get all describers that are valid for this bioObject
-      List<IBioObjectDescriber> describers 
-          = EditorDetermination.getAvailableDescribersFromEP();
 
-      for (IBioObjectDescriber describer : describers) {
-          String editorId=describer.getPreferredEditorID( bioObject );
-          //For now, just grab the first that comes.
-          //TODO: implement some sort of hierarchy here if multiple matches
-          if (editorId != null) {
-              IEditorDescriptor editor 
-                  = PlatformUI.getWorkbench().getEditorRegistry()
-                                             .findEditor( editorId );
-              if (editor != null) {
-                  js.print( "Chosen editor: " +editor.getLabel() );
-                  open( bioObject, editor.getId() );
-                  return;
-              }
-          }
-      }
-      throw new IllegalArgumentException(
-                    "No editor found for object: " + bioObject );
-  }
+        //Ok, either we had a file but could not get an editor for it, 
+        //or we don't have a resource for the IBioObject
+
+        //Get all describers that are valid for this bioObject
+        List<IBioObjectDescriber> describers 
+        = ExtensionPointHelper.getAvailableDescribersFromEP();
+
+        for (IBioObjectDescriber describer : describers) {
+            String editorId=describer.getPreferredEditorID( bioObject );
+            //For now, just grab the first that comes.
+            //TODO: implement some sort of hierarchy here if multiple matches
+            if (editorId != null) {
+                IEditorDescriptor editor 
+                = PlatformUI.getWorkbench().getEditorRegistry()
+                .findEditor( editorId );
+                if (editor != null) {
+                    js.print( "Chosen editor: " +editor.getLabel() );
+                    open( bioObject, editor.getId() );
+                    return;
+                }
+            }
+        }
+        throw new IllegalArgumentException(
+                                           "No editor found for object: " + bioObject );
+    }
+
+
+    public void getEditors() throws BioclipseException{
+
+        String retstr="Alias\t\tEditorID\n========================\n";
+        Map<String, String> aliasmap=ExtensionPointHelper.getAvailableAliasesFromEP();
+
+        for (Iterator<String> it = aliasmap.keySet().iterator(); it.hasNext();){
+            String alias=it.next();
+            retstr=retstr+alias + "\t\t" + aliasmap.get( alias ) +"\n";
+        }
+
+        //      retstr=retstr+"\nEditorIDs:\n============\n";
+        //
+        //      IConfigurationElement[] exts = Platform.getExtensionRegistry().getExtensionPoint( "org.eclipse.ui.editors" ).getConfigurationElements();
+        //
+        //      for (int i=0; i<exts.length;i++){
+        //          IConfigurationElement ext=exts[i];
+        //          retstr=retstr+ext.getAttribute( "name" ) + "\t\t" + ext.getAttribute( "id" ) +"\n";
+        //      }
+
+        Activator.getDefault().getJsConsoleManager().print( retstr );
+
+    }
+
+    /**
+     * Returns a valid editorID or null if no editor could be found
+     * @param request an alias or editorID
+     * @return
+     * @throws BioclipseException
+     */
+    private String getEditorID(String request) throws BioclipseException{
+
+        //Start by looking if the submitted itself is a valid editorID
+        IEditorDescriptor editor = PlatformUI.getWorkbench().getEditorRegistry()
+        .findEditor( request );
+        if (editor!=null)
+            return request;
+
+        //Next, look up in aliasmap
+        Map<String, String> aliasmap=ExtensionPointHelper.getAvailableAliasesFromEP();
+        if (aliasmap.keySet().contains( request ))
+            return aliasmap.get( request );
+
+        //Nothing found
+        return null;
+
+    }
+
 }

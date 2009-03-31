@@ -2,6 +2,7 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension-point id="net.bioclipse.ui.bioobjectDescriber" name="BioObjectDescriber" schema="schema/net.bioclipse.ui.bioobjectDescriber.exsd"/>
+   <extension-point id="editorShortname" name="Editor Shortname" schema="schema/editorShortname.exsd"/>
    <extension
          point="net.bioclipse.scripting.contribution">
       <scriptContribution

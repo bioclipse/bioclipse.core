@@ -50,12 +50,22 @@ public interface IUIManager extends IBioclipseManager {
     public void open(String filePath);
 
     @Recorded
+    @PublishedMethod(params="String filePath, String editor",
+                     methodSummary="Opens a file in an editor specified by ID or alias.")
+    @GuiAction
+    public void open(String filePath, String editor) throws BioclipseException;
+
+    @Recorded
     @GuiAction
     public void open(IFile file);
 
     @Recorded
     @GuiAction
-    public void open( final IBioObject bioObject, final String editorId);
+    @PublishedMethod(params="IBioObject bioObject=Object to open in editor, " +
+    		"String editor = the editorID or alias",
+                     methodSummary="Opens a file in the designated editor.")
+    public void open( final IBioObject bioObject, final String editor) 
+            throws BioclipseException;
 
     @Recorded
     @PublishedMethod(params="String filePath",
@@ -100,4 +110,11 @@ public interface IUIManager extends IBioclipseManager {
     )
     void open( IBioObject bioObject ) throws BioclipseException, CoreException, 
         IOException;
+
+    @Recorded
+    @GuiAction
+    @PublishedMethod(
+        methodSummary="Returns a list of available editors"
+    )
+    public void getEditors() throws BioclipseException;
 }

@@ -1,7 +1,9 @@
 package net.bioclipse.ui.business.describer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.bioclipse.core.business.BioclipseException;
 
@@ -13,7 +15,7 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
 
-public class EditorDetermination {
+public class ExtensionPointHelper {
 
     public static List<IBioObjectDescriber> getAvailableDescribersFromEP() throws BioclipseException{
 
@@ -38,8 +40,8 @@ public class EditorDetermination {
 
                 if (element.getName().equals("BioObject")){
 
-//                    String id=element.getAttribute("id");
-//                    String rname=element.getAttribute("name");
+                    //                    String id=element.getAttribute("id");
+                    //                    String rname=element.getAttribute("name");
 
                     Object obj;
                     try {
@@ -55,6 +57,41 @@ public class EditorDetermination {
 
         return describers;
 
+    }
+
+    public static Map<String, String> getAvailableAliasesFromEP() throws BioclipseException {
+
+        IExtensionRegistry registry = Platform.getExtensionRegistry();
+
+        if ( registry == null ) throw new BioclipseException(
+        "Eclipse registry=null");
+        // it likely means that the Eclipse workbench has not
+        // started, for example when running tests
+
+        Map<String, String> aliases=new HashMap<String, String>();
+
+        IExtensionPoint serviceObjectExtensionPoint = registry
+        .getExtensionPoint("net.bioclipse.ui.business.editorShortname");
+
+        IExtension[] serviceObjectExtensions
+        = serviceObjectExtensionPoint.getExtensions();
+
+        for(IExtension extension : serviceObjectExtensions) {
+            for( IConfigurationElement element
+                    : extension.getConfigurationElements() ) {
+
+                if (element.getName().equals("shortname")){
+
+                    String alias=element.getAttribute("alias");
+                    String editorID=element.getAttribute("editorID");
+
+                    aliases.put( alias, editorID );
+
+                }
+            }
+        }
+
+        return aliases;    
     }
 
 }
