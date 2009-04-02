@@ -36,7 +36,7 @@ public class ActionSwitchWorkspace extends Action {
  
         MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Switch Workspace", "The client will now restart with the new workspace"); 
           // restart client
-        PickWorkspaceDialog.setRememberWorkspace( true );
+        PickWorkspaceDialog.setStartedFromSwitchWorkspace( true );
         PlatformUI.getWorkbench().restart();
     }
 }

@@ -46,6 +46,7 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
     private static final String _KeyWorkspaceRootDir   = "wsRootDir";
     private static final String _KeyRememberWorkspace  = "wsRemember";
     private static final String _KeyLastUsedWorkspaces = "wsLastUsedWorkspaces";
+    private static final String _KeyStartedFromSwitchWorkspace = "wsWasStartedFromSwitchWorkspace";
 
     // this are our preferences we will be using as the IPreferenceStore is not available yet
     private static Preferences  _preferences           = Preferences.userNodeForPackage(PickWorkspaceDialog.class);
@@ -103,8 +104,17 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
         return _preferences.getBoolean(_KeyRememberWorkspace, false);
     }
     
-    public static void setRememberWorkspace(boolean value) {
-        _preferences.putBoolean(_KeyRememberWorkspace, value);
+    /**
+     * Returns whether we start from switch workspace
+     * 
+     * @return
+     */
+    public static boolean isStartedFromSwitchWorkspace() {
+        return _preferences.getBoolean(_KeyStartedFromSwitchWorkspace, false);
+    }
+    
+    public static void setStartedFromSwitchWorkspace(boolean value) {
+        _preferences.putBoolean(_KeyStartedFromSwitchWorkspace, value);
     }
     
     /**
@@ -393,7 +403,8 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
         }
 
         // save them onto our preferences
-        _preferences.putBoolean(_KeyRememberWorkspace, true);
+        _preferences.putBoolean(_KeyRememberWorkspace, _RememberWorkspaceButton.getSelection());
+        _preferences.putBoolean(_KeyLastUsedWorkspaces, true);
         _preferences.put(_KeyLastUsedWorkspaces, buf.toString());
 
         // now create it 
