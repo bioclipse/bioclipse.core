@@ -12,8 +12,8 @@
 package net.bioclipse.ui;
 
 
+import net.bioclipse.ui.actions.ActionSwitchWorkspace;
 import net.bioclipse.ui.actions.SoftwareUpdatesAction;
-import net.bioclipse.ui.actions.UpdateAction;
 
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.jface.action.GroupMarker;
@@ -32,11 +32,9 @@ import org.eclipse.ui.actions.ContributionItemFactory;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
-import org.eclipse.ui.ide.IDEActionFactory;
 import org.eclipse.ui.internal.WorkbenchPlugin;
 import org.eclipse.ui.internal.registry.ActionSetRegistry;
 import org.eclipse.ui.internal.registry.IActionSetDescriptor;
-import org.eclipse.ui.views.IViewDescriptor;
 
 /**
  * The action bar advisor is responsible for creating, adding, and disposing of
@@ -62,7 +60,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
     private IWorkbenchAction saveAction;
     
-    private IWorkbenchAction switchWorkspaceAction;
+    private ActionSwitchWorkspace switchWorkspaceAction;
 
     private IWorkbenchAction importAction;
     private IWorkbenchAction exportAction;
@@ -136,7 +134,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         saveAction = ActionFactory.SAVE.create(window);
         register(saveAction);
 
-        switchWorkspaceAction = IDEActionFactory.OPEN_WORKSPACE.create(window);
+        switchWorkspaceAction = new ActionSwitchWorkspace(null);
         register(switchWorkspaceAction);
 
         importAction = ActionFactory.IMPORT.create(window);
@@ -234,8 +232,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         fileMenu.add(saveAllAction);
         fileMenu.add(revertAction);
         fileMenu.add(new Separator("SWITCHWORKSPACE"));
-        //see bug #476
-        //fileMenu.add(switchWorkspaceAction);
+        fileMenu.add(switchWorkspaceAction);
         fileMenu.add(new Separator("IMPORTandEXPORT"));
         fileMenu.add(importAction);
         fileMenu.add(exportAction);

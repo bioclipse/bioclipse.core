@@ -35,9 +35,7 @@ See http://www.bioclipse.net for more information
    </configIni>
 
    <launcherArgs>
-      <programArgs>-consolelog</programArgs>
-      <programArgsLin>-data &quot;@user.home/bioclipse&quot;</programArgsLin>
-      <programArgsMac>-data &quot;@user.home/Library/Application Support/Bioclipse/Default Workspace/&quot;</programArgsMac>
+      <programArgs>-consolelog -data &quot;@nodefault&quot;</programArgs>
       <vmArgs>-ea  -Xmx512M -XX:MaxPermSize=128m</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
@@ -159,5 +157,4 @@ See http://www.bioclipse.net for more information
       <feature id="net.bioclipse.core_feature" version="2.0.0.B20090227"/>
       <feature id="net.bioclipse.experimental_feature" version="1.0.0"/>
    </features>
-
 </product>

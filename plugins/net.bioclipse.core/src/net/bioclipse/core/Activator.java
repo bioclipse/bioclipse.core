@@ -10,6 +10,7 @@ package net.bioclipse.core;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 import net.bioclipse.core.business.IMoleculeManager;
 import net.bioclipse.core.util.LogUtils;
@@ -22,7 +23,13 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.window.Window;
+import org.eclipse.osgi.service.datalocation.Location;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
@@ -56,6 +63,24 @@ public class Activator extends Plugin {
     public void start(BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
+
+        // fetch the Location that we will be modifying 
+        Location instanceLoc = Platform.getInstanceLocation();
+        // if the location is already set, we start from eclipse
+        if(!instanceLoc.isSet()){
+          // remember=true means we do a restart from "switch workspace" and therefore
+          // get the workspace location from dialog, if not, we use the default one.
+          boolean remember = PickWorkspaceDialog.isRememberWorkspace();
+          if(remember){
+              instanceLoc.set(new URL("file", null, PickWorkspaceDialog.getLastSetWorkspaceDirectory()), false);
+              PickWorkspaceDialog.setRememberWorkspace( false );
+          }else{
+              instanceLoc.set(new URL("file", null, PickWorkspaceDialog.getWorkspacePathSuggestion()), false); 
+          }
+   
+
+        }
+        
         getVirtualProject();
         historyTracker 
             = new ServiceTracker( context, 
