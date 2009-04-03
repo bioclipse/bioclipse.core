@@ -26,9 +26,9 @@ import net.bioclipse.ui.business.describer.ExtensionPointHelper;
 import net.bioclipse.ui.business.describer.IBioObjectDescriber;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
@@ -301,7 +301,17 @@ public class UIManager implements IUIManager {
 
         //Nothing found
         return null;
-
     }
 
+    public void newFile( IFile file, IProgressMonitor monitor ) {
+        try {
+            file.create(null, true, monitor);
+        } catch ( CoreException e ) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void newFile( String path ) {
+        throw new IllegalStateException("This method should not be called");
+    }
 }

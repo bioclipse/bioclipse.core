@@ -25,6 +25,8 @@ import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.scripting.ui.business.GuiAction;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -120,4 +122,13 @@ public interface IUIManager extends IBioclipseManager {
         methodSummary="Returns a list of available editors"
     )
     public void getEditors() throws BioclipseException;
+
+    @Recorded
+    @PublishedMethod(
+        methodSummary="Creates an empty file with the specified name"
+    )
+    public void newFile(String fileName);
+
+    @Recorded
+    public void newFile(IFile file, IProgressMonitor monitor);
 }
