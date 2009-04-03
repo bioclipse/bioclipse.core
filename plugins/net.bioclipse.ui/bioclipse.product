@@ -40,7 +40,7 @@ See http://www.bioclipse.net for more information
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
-   <windowImages i16="/net.bioclipse.ui/icons/logo/logo_16_trans.gif" i32="/net.bioclipse.ui/icons/logo/logo_32_trans.gif" i48="/net.bioclipse.ui/icons/logo/logo_48.gif" i64="/net.bioclipse.ui/icons/logo/logo_64.gif" i128="/net.bioclipse.ui/icons/logo/logo_128.gif"/>
+   <windowImages i16="/net.bioclipse.ui/icons/logo/logo_16_trans.gif" i32="/net.bioclipse.ui/icons/logo/logo_32_trans.gif" i48="/net.bioclipse.ui/icons/logo/logo_48_trans.gif" i64="/net.bioclipse.ui/icons/logo/logo_64_trans.gif" i128="/net.bioclipse.ui/icons/logo/logo_128_trans.gif"/>
 
    <splash
       location="net.bioclipse.ui"
