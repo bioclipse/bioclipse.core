@@ -213,7 +213,7 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
 
         buf.append(uHome);
         buf.append(File.separator);
-        buf.append("bioclipse");
+        buf.append("bioclipse-workspace");
 
         return buf.toString();
     }
