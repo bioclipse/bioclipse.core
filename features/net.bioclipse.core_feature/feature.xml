@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse.core_feature"
       label="Bioclipse Workbench"
-      version="2.0.0.B20090227"
+      version="2.0.0.B20090407"
       provider-name="The Bioclipse Team"
       plugin="net.bioclipse.ui">
 
