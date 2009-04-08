@@ -373,13 +373,17 @@ public abstract class ScriptingConsoleView extends ViewPart {
         message = message.replaceAll("\u0008", "");
         
         synchronized (output) {
-            if (message.length() > MAX_OUTPUT_LINE_LENGTH) {
-                for (String line :
-                         splitIntoSeveralLines(message, MAX_OUTPUT_LINE_LENGTH))
+            for (String line : message.split(NEWLINE)) {
+                if (line.length() > MAX_OUTPUT_LINE_LENGTH) {
+                    for (String splitLine
+                         : splitIntoSeveralLines(line,
+                                                 MAX_OUTPUT_LINE_LENGTH))
+                        output.append(splitLine);
+                }
+                else {
                     output.append(line);
-            }
-            else {
-                output.append(message);
+                }
+                output.append(NEWLINE);
             }
             output.redraw();
         }
@@ -406,7 +410,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         if (text == null || text.length() == 0)
             return new String[] { "" };
         
-        if (maxLineLength <= 0)
+        if (maxLineLength <= 0 || text.length() <= maxLineLength )
             return new String[] { text };
 
         List<String> result = new ArrayList<String>();

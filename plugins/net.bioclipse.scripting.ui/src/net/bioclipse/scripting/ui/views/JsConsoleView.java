@@ -110,25 +110,7 @@ public class JsConsoleView extends ScriptingConsoleView {
             if ( index++ > 0 )
                 sb.append( separator );
 
-            sb.append( NEWLINE );
-            
-            String s = item.toString();
-            if (s.length() <= MAX_OUTPUT_LINE_LENGTH) {
-                sb.append( s );
-            }
-            else {
-                // Cut out and print the first line manually
-                sb.append( s.substring( 0, MAX_OUTPUT_LINE_LENGTH ));
-                s = s.substring( MAX_OUTPUT_LINE_LENGTH );
-                sb.append( NEWLINE );
-
-                // Break the rest of the lines
-                for (String line
-                       : splitIntoSeveralLines(s, MAX_OUTPUT_LINE_LENGTH-4)) {
-                    sb.append("    ");
-                    sb.append(line);
-                }
-            }
+            sb.append( item.toString() );
         }
         
         sb.append( closer );
