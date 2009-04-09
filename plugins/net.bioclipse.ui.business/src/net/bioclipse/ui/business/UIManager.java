@@ -14,6 +14,7 @@ package net.bioclipse.ui.business;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +27,6 @@ import net.bioclipse.ui.business.describer.ExtensionPointHelper;
 import net.bioclipse.ui.business.describer.IBioObjectDescriber;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -38,11 +37,15 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPersistableElement;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.part.FileEditorInput;
 
 /**
  * Contains general methods for interacting with the Bioclipse graphical
@@ -150,6 +153,7 @@ public class UIManager implements IUIManager {
                     return bioObject.getUID().toString();
                 }
 
+                @SuppressWarnings("unchecked")
                 public Object getAdapter( Class adapter ) {
                     return bioObject.getAdapter( adapter );
                 }
@@ -313,5 +317,46 @@ public class UIManager implements IUIManager {
 
     public void newFile( String path ) {
         throw new IllegalStateException("This method should not be called");
+    }
+
+    public void closeActiveEditor() {
+        Display.getDefault().asyncExec( new Runnable() {
+            public void run() {
+
+                IWorkbench workB = PlatformUI.getWorkbench();
+                IWorkbenchPage page = workB.getActiveWorkbenchWindow().getActivePage();
+                page.closeEditor( page.getActiveEditor(), false );
+            }
+        });
+    }
+
+    public void closeEditor( String path ) {
+        throw new IllegalStateException("This method should not be called");
+    }
+
+    public void closeEditor( final IFile file) {
+        Display.getDefault().asyncExec( new Runnable() {
+
+            public void run() {
+                IWorkbench workB = PlatformUI.getWorkbench();
+                IWorkbenchPage page = workB.getActiveWorkbenchWindow().getActivePage();
+                List<IEditorReference> toClose = new ArrayList<IEditorReference>();
+                IFileEditorInput ei= new FileEditorInput(file);
+                IEditorReference[] editorRefs = page.getEditorReferences();
+
+                for(IEditorReference ref:editorRefs) {
+                    try {
+                        if(ei.equals( ref.getEditorInput()))
+                            toClose.add(ref);
+                    } catch ( PartInitException e ) {
+                        // Failed to close one edtior
+                    }
+                }
+                editorRefs = toClose.toArray(new IEditorReference[toClose.size()] );
+                page.closeEditors( editorRefs, false );
+
+            }
+        });
+
     }
 }
