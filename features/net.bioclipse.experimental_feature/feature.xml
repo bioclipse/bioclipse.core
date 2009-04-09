@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="net.bioclipse.experimental_feature"
-      label="Experimental_feature Feature"
-      version="1.0.0">
+      label="Bioclipse Experimental"
+      version="2.0.0.B20090409"
+      provider-name="The Bioclipse Team">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
