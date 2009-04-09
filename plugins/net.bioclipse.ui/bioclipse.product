@@ -133,9 +133,9 @@
    </plugins>
 
    <features>
-      <feature id="net.bioclipse.core_feature" version="2.0.0.B20090407"/>
-      <feature id="net.bioclipse.chemoinformatics_feature" version="2.0.0.B20090407"/>
-      <feature id="net.bioclipse.balloon_feature" version="2.0.0.B20090407"/>
+      <feature id="net.bioclipse.core_feature" version="2.0.0.B20090409"/>
+      <feature id="net.bioclipse.chemoinformatics_feature" version="2.0.0.B20090409"/>
+      <feature id="net.bioclipse.balloon_feature" version="2.0.0.B20090409"/>
    </features>
 
 </product>
