@@ -109,7 +109,7 @@ public interface IUIManager extends IBioclipseManager {
     @GuiAction
     @PublishedMethod(
         params="IBioObject bioObject",
-        methodSummary="Opens the IBikoObject in its preferred editor"
+        methodSummary="Opens the IBioObject in its preferred editor"
     )
     void open( IBioObject bioObject ) throws BioclipseException, CoreException,
         IOException;
