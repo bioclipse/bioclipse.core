@@ -147,8 +147,8 @@ public class JsConsoleView extends ScriptingConsoleView {
         if (command == null)
             return "";
 
-        final String usageMessage = "Usage of help: `help <manager>` " +
-                                    "or: `help <manager>.<method>`";
+        final String usageMessage = "Usage of help: 'help', 'help <manager>', "
+                                    + "or 'help <manager>.<method>'";
         StringBuilder result = new StringBuilder();
 
         if ( "help".equals(command.trim()) || 
