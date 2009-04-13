@@ -377,7 +377,9 @@ public abstract class ScriptingConsoleView extends ViewPart {
         message = message.replaceAll("\u0008", "");
         
         synchronized (output) {
-            for (String line : message.split(NEWLINE)) {
+            int nLines     = message.split(NEWLINE, -1).length,
+                curLineNum = 0;
+            for (String line : message.split(NEWLINE, -1)) {
                 if (line.length() > MAX_OUTPUT_LINE_LENGTH) {
                     for (String splitLine
                          : splitIntoSeveralLines(line,
@@ -387,7 +389,9 @@ public abstract class ScriptingConsoleView extends ViewPart {
                 else {
                     output.append(line);
                 }
-                output.append(NEWLINE);
+                // Output newlines on all lines but the last (or only) one.
+                if (curLineNum++ < nLines - 1)
+                    output.append(NEWLINE);
             }
             output.redraw();
         }
