@@ -187,6 +187,10 @@ public abstract class ScriptingConsoleView extends ViewPart {
                     input.setSelection( input.getText().length() );
                     input.setFocus();
                 }
+                else if (actionTable.containsKey( e.keyCode )) {
+                    input.setFocus();
+                    handleKey(e);
+                }
             }
             public void keyReleased(KeyEvent _) { }
         });
