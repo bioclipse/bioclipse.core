@@ -64,9 +64,9 @@ public interface IUIManager extends IBioclipseManager {
 
     @Recorded
     @GuiAction
-    @PublishedMethod(params="IBioObject bioObject=Object to open in editor, " +
-    		"String editor = the editorID or alias",
-                     methodSummary="Opens a file in the designated editor.")
+    @PublishedMethod(params="IBioObject bioObject, String editor",
+                     methodSummary="Opens a file in the designated editor, " +
+                     		"identified by editor id or shortname.")
     public void open( final IBioObject bioObject, final String editor)
             throws BioclipseException;
 
