@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.IBioclipseManager;
 
 import org.aopalliance.intercept.MethodInvocation;
@@ -37,6 +38,11 @@ public class CreateJobAdvice implements ICreateJobAdvice {
         Method methodToInvoke = invocation.getMethod();
 
         Method m = findMethodWithMonitor(invocation);
+        if ( m == null ) {
+            m = findMethodToRun(invocation);
+            return m.invoke( invocation.getThis(), 
+                             tranformArgs(invocation, m) );
+        }
         if ( m != null) {
             methodToInvoke = m;
         }
@@ -61,6 +67,63 @@ public class CreateJobAdvice implements ICreateJobAdvice {
 
         job.schedule();
 
+        return null;
+    }
+
+    private Object[] tranformArgs( MethodInvocation invocation, Method m ) {
+
+        Object[] result = new Object[invocation.getArguments().length];
+        for ( int i = 0; i < invocation.getArguments().length; i++ ) {
+            Object arg = invocation.getArguments()[i];
+            if ( arg instanceof String &&
+                 m.getParameterTypes()[i] == IFile.class ) {
+                
+                result[i] = ResourcePathTransformer.getInstance()
+                                                   .transform( (String) arg );
+            }
+            else {
+                result[i] = arg;
+            }
+        }
+        return result;
+    }
+
+    private Method findMethodToRun( MethodInvocation invocation ) {
+
+        List<Class<?>> invocationParamTypes 
+            = Arrays.asList( invocation.getMethod().getParameterTypes() );
+        METHODS:
+        for ( Method m : invocation.getMethod()
+                                   .getDeclaringClass().getMethods() ) {
+
+            List<Class<?>> currentParamTypes 
+                = Arrays.asList( m.getParameterTypes() );
+            // deal with IFile / String transformation too...
+            if ( !m.getName().equals( invocation.getMethod().getName() ) ) 
+                continue METHODS;
+            
+            if ( currentParamTypes.size() != invocationParamTypes.size() ) {
+                continue METHODS;
+            }
+            
+            PARAMS:
+            for ( int i = 0; i < currentParamTypes.size(); i++ ) {
+                 Object arg = currentParamTypes.get( i );
+                 
+                 if ( arg.equals( invocationParamTypes.get( i ) ) ) {
+                     continue PARAMS;
+                 }
+                 else {
+                     if ( (arg == IFile.class &&
+                           invocationParamTypes.get( i ) == String.class) ) {
+                         continue PARAMS;
+                     }
+                  }
+                 continue METHODS;
+            }
+                   
+            return m;
+        }
         return null;
     }
 
