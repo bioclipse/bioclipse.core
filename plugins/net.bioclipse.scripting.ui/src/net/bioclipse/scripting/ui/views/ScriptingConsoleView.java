@@ -375,6 +375,12 @@ public abstract class ScriptingConsoleView extends ViewPart {
         // for more information. Also, feel free to add other disturbing non-
         // printables here.
         message = message.replaceAll("\u0008", "");
+        // R has a tendency to output newlines as "\r\n". Bringing those in line
+        // here. If you read the below code and think that it could be
+        // shortened to one call, you're probably not taking R's chunking into
+        // account.
+        message = message.replaceAll("\r", "");
+        message = message.replaceAll("\n", NEWLINE);
         
         synchronized (output) {
             int nLines     = message.split(NEWLINE, -1).length,
