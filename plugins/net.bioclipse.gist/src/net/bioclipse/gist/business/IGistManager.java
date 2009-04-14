@@ -26,13 +26,13 @@ public interface IGistManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod(
         params = "int gist, String path to save the Gist too", 
-        methodSummary = "Loads the Gist with the given number to the given path"
+        methodSummary = "Downloads the Gist with the given number to the given path"
     )
-    public void load(int gist, String target)
+    public void download(int gist, String target)
         throws IOException, BioclipseException, CoreException;
 
     @Recorded
-    public void load(int gist, IFile target, IProgressMonitor monitor )
+    public void download(int gist, IFile target, IProgressMonitor monitor )
         throws IOException, BioclipseException, CoreException;
 
 }

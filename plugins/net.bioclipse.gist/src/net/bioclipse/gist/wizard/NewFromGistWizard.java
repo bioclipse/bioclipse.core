@@ -102,7 +102,7 @@ public class NewFromGistWizard extends BasicNewResourceWizard {
 	    private void downloadGist(IProgressMonitor monitor, IFile file) throws InvocationTargetException {
 	        GistManager gistManager = new GistManager();
 	        try {
-                gistManager.load(getGist(), file, monitor);
+                gistManager.download(getGist(), file, monitor);
             } catch (IOException exception) {
                 throw new InvocationTargetException(exception, "Error while downloading gist...");
             } catch (BioclipseException exception) {

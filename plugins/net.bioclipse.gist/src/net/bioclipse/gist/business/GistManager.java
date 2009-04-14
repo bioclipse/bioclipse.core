@@ -34,12 +34,12 @@ import org.eclipse.swt.widgets.Shell;
 
 public class GistManager implements IGistManager {
 
-    public void load(int gist, String target) throws IOException, BioclipseException,
+    public void download(int gist, String target) throws IOException, BioclipseException,
             CoreException {
-        load(gist, ResourcePathTransformer.getInstance().transform(target), null);
+        download(gist, ResourcePathTransformer.getInstance().transform(target), null);
     }
 
-    public void load(int gist, IFile target, IProgressMonitor monitor)
+    public void download(int gist, IFile target, IProgressMonitor monitor)
             throws IOException, BioclipseException, CoreException {
         if (monitor == null) {
             monitor = new NullProgressMonitor();
