@@ -28,6 +28,7 @@ public class ThreadSafeConsoleWrap {
     public ThreadSafeConsoleWrap(MessageConsole console) {
         messageConsole = console;
     }
+
     private static void println(final MessageConsoleStream consolestream,
                                 final String message) {
         int message_length = message.length();
@@ -57,29 +58,36 @@ public class ThreadSafeConsoleWrap {
         println(getConsoleStream(), message);
 
     }
+
     public void writeToConsoleBlue(final String message) {
         println(getConsoleStreamBlue(), message);
     }
+
     public void writeToConsoleRed(final String message) {
         println(getConsoleStreamRed(), message);
     }
-    // with time-stamp
+
+    // The three methods ending in 'T' below are variations of the three
+    // methods above, but they output the message with a time-stamp.
+
     public void writeToConsoleBlueT(String message) {
         writeToConsoleBlue(getCurrentTime() + " " + message);
     }
-    // with time-stamp
+
     public void writeToConsoleT(String message) {
         writeToConsole(getCurrentTime() + " " + message);
     }
-    // with time-stamp
+
     public void writeToConsoleRedT(String message) {
         writeToConsoleRed(getCurrentTime() + " " + message);
     }
+
     private MessageConsoleStream getConsoleStream() {
         if (out == null)
             out = messageConsole.newMessageStream();
         return out;
     }
+
     private MessageConsoleStream getConsoleStreamBlue() {
         if (out_blue == null) {
             Color color_blue = PlatformUI.getWorkbench().getDisplay()
@@ -89,6 +97,7 @@ public class ThreadSafeConsoleWrap {
         }
         return out_blue;
     }
+
     private MessageConsoleStream getConsoleStreamRed() {
         if (out_red == null) {
             Color color_red = PlatformUI.getWorkbench().getDisplay()
@@ -98,6 +107,7 @@ public class ThreadSafeConsoleWrap {
         }
         return out_red;
     }
+
     private String getCurrentTime() {
         SimpleDateFormat simpleDateForm = new SimpleDateFormat("hh:mm:ss");
         Date current = new Date();
