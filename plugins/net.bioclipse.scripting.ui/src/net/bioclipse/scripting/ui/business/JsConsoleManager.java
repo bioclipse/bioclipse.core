@@ -118,7 +118,8 @@ public class JsConsoleManager implements IJsConsoleManager {
             new JsAction(contents, new Hook() {
                 public void run( Object result ) {
                     monitor.done();
-                    if ( !"undefined".equals( result ) ) {
+                    if ( !"org.mozilla.javascript.Undefined".equals(
+                            result.getClass().getName() ) ) {
                         message(jsThread.toJsString(result));
                     }
                 }
