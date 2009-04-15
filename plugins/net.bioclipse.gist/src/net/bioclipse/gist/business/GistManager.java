@@ -24,7 +24,13 @@ import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.BioclipseException;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.SWT;
@@ -33,6 +39,54 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 public class GistManager implements IGistManager {
+
+    private static String findUnusedFileName(
+            IFolder currentFolder,
+            String prefix, String suffix) {
+        String fileName = prefix + suffix;
+        IPath path = currentFolder.getFullPath();
+        path = path.append( fileName );
+        IFile file = currentFolder.getFile( path );
+        int i=0;
+        while(file.exists()) {
+            i++;
+            path = path.removeLastSegments( 1 );
+            path = path.append( prefix+i+suffix );
+            IPath copy = path.removeFirstSegments( 1 );
+            file = currentFolder.getProject().getFile( copy );
+        }
+        fileName = path.lastSegment();
+        return fileName;
+    }
+
+    private IFolder getProjectDirectory(IProgressMonitor monitor)
+    throws CoreException {
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        IWorkspaceRoot root = workspace.getRoot();
+        IProject project = root.getProject(GIST_PROJECT);
+        try {
+            if (!project.exists()) project.create(monitor);
+            if (!project.isOpen()) project.open(monitor);
+        } catch (CoreException e) {
+            // FIXME: do something
+        }
+
+        return project.getFolder(GIST_PROJECT);
+    }
+
+    public String download(int gist)
+    throws IOException, BioclipseException, CoreException {
+        return download(gist, (IProgressMonitor)null);
+    }
+
+    public String download(int gist, IProgressMonitor monitor)
+    throws IOException, BioclipseException, CoreException {
+        IFolder project = getProjectDirectory(monitor);
+        String tName = findUnusedFileName(project, gist + ".0", ".js");
+        tName = project.getFullPath().toString() + tName;
+        IFile target = ResourcePathTransformer.getInstance().transform(tName);
+        return download(gist, target, monitor);
+    }
 
     public String download(int gist, String target) throws IOException, BioclipseException,
             CoreException {

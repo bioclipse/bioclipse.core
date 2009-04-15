@@ -23,6 +23,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 public interface IGistManager extends IBioclipseManager {
 
+    public final static String GIST_PROJECT = "Gists";
+
     @Recorded
     @PublishedMethod(
         params = "int gist, String path to save the Gist too", 
@@ -34,6 +36,19 @@ public interface IGistManager extends IBioclipseManager {
 
     @Recorded
     public String download(int gist, IFile target, IProgressMonitor monitor )
+        throws IOException, BioclipseException, CoreException;
+
+    @Recorded
+    @PublishedMethod(
+        params = "int gist",
+        methodSummary = "Downloads the Gist with the given number to the" +
+            "project 'Gists/'"
+    )
+    public String download(int gist)
+        throws IOException, BioclipseException, CoreException;
+
+    @Recorded
+    public String download(int gist, IProgressMonitor monitor )
         throws IOException, BioclipseException, CoreException;
 
 }
