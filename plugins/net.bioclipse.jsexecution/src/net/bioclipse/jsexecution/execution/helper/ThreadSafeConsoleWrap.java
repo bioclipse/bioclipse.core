@@ -37,9 +37,9 @@ public class ThreadSafeConsoleWrap {
                 public void run() {
                     consolestream.print(message.substring(0, MAX_SIZE));
                     consolestream.println(" [...]");
-                    consolestream.println(" A String was cut: the String "
+                    consolestream.println(" A String was truncated: the String "
                                           + "exceeded the maxiumum size of "
-                                          + "25000");
+                                          + MAX_SIZE);
                 }
             };
             Display.getDefault().asyncExec(r);
