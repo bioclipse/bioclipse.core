@@ -30,9 +30,6 @@ public class RunRhinoScriptAsJobAction extends Action {
     }
 
     public void run() {
-        // show javascript console (eclipse console)
-        RhinoConsole.show();
-
         String scriptString = "";
         // Get the command from the editor
         IEditorPart ep = PlatformUI.getWorkbench().getActiveWorkbenchWindow()

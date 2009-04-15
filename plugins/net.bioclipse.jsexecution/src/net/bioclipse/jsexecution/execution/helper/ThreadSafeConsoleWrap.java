@@ -31,6 +31,9 @@ public class ThreadSafeConsoleWrap {
 
     private static void println(final MessageConsoleStream consolestream,
                                 final String message) {
+        if (consolestream == null)
+            return;
+
         int message_length = message.length();
         final int MAX_SIZE = 25000;
         if (message_length > MAX_SIZE) {
@@ -83,8 +86,11 @@ public class ThreadSafeConsoleWrap {
     }
 
     private MessageConsoleStream getConsoleStream() {
-        if (out == null)
+        if (out == null) {
+            if (messageConsole == null)
+                return null;
             out = messageConsole.newMessageStream();
+        }
         return out;
     }
 
@@ -92,6 +98,8 @@ public class ThreadSafeConsoleWrap {
         if (out_blue == null) {
             Color color_blue = PlatformUI.getWorkbench().getDisplay()
                                          .getSystemColor(SWT.COLOR_BLUE);
+            if (messageConsole == null)
+                return null;
             out_blue = messageConsole.newMessageStream();
             out_blue.setColor(color_blue);
         }
@@ -102,6 +110,8 @@ public class ThreadSafeConsoleWrap {
         if (out_red == null) {
             Color color_red = PlatformUI.getWorkbench().getDisplay()
                                         .getSystemColor(SWT.COLOR_RED);
+            if (messageConsole == null)
+                return null;
             out_red = messageConsole.newMessageStream();
             out_red.setColor(color_red);
         }

@@ -5,6 +5,7 @@ import java.util.Date;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -57,27 +58,40 @@ public class RhinoConsole implements IConsoleFactory {
     }
 
     public static MessageConsole getRhinoConsole() {
-        if (messageConsole == null) {
-            messageConsole = findConsole(consoleName);
-        }
-        return messageConsole;
-    }
+        if (messageConsole != null)
+            return messageConsole;
 
-    private static MessageConsole findConsole(String name) {
-        ConsolePlugin conPlugin = ConsolePlugin.getDefault();
-        IConsoleManager conManager = conPlugin.getConsoleManager();
-        IConsole[] consAll = conManager.getConsoles();
-        for (int i = 0; i < consAll.length; i++)
-            if (name.equals(consAll[i].getName()))
-                return (MessageConsole) consAll[i];
-        //no console found, so we create a new one
-        MessageConsole rhinoConsole = new MessageConsole(name, null);
-        conManager.addConsoles(new IConsole[]{rhinoConsole});
+        IViewPart[] views = PlatformUI.getWorkbench()
+                                      .getActiveWorkbenchWindow()
+                                      .getActivePage()
+                                      .getViews();
+
+        boolean foundConsole = false;
+        for (IViewPart view : views) {
+            if (view instanceof IConsoleView)
+                foundConsole = true;
+        }
+
+        if (!foundConsole)
+            return null;
+
+        IConsoleManager consoleManager
+            = ConsolePlugin.getDefault().getConsoleManager();
+        for (IConsole console : consoleManager.getConsoles())
+            if (consoleName.equals(console.getName()))
+                return (MessageConsole) console;
+
+        MessageConsole rhinoConsole = new MessageConsole(consoleName, null);
+        consoleManager.addConsoles(new IConsole[] { rhinoConsole });
+
         return rhinoConsole;
     }
 
     private static void println(final MessageConsoleStream consolestream,
                                 final String message) {
+        if (consolestream == null)
+            return;
+
         int message_length = message.length();
         final int MAX_SIZE = 25000;
         if (message_length > MAX_SIZE) {
@@ -87,7 +101,7 @@ public class RhinoConsole implements IConsoleFactory {
                     consolestream.println(" [...]");
                     consolestream.println(" A String was truncated: the String "
                                           + "exceeded the maxiumum size of "
-                                          + "25000");
+                                          + MAX_SIZE);
                 }
             };
             Display.getDefault().asyncExec(r);
@@ -138,7 +152,10 @@ public class RhinoConsole implements IConsoleFactory {
         if (out_blue == null) {
             Color color_blue = PlatformUI.getWorkbench().getDisplay()
                                .getSystemColor(SWT.COLOR_BLUE);
-            out_blue = getRhinoConsole().newMessageStream();
+            MessageConsole console = getRhinoConsole();
+            if (console == null)
+                return null;
+            out_blue = console.newMessageStream();
             out_blue.setColor(color_blue);
         }
         return out_blue;
@@ -148,7 +165,10 @@ public class RhinoConsole implements IConsoleFactory {
         if (out_red == null) {
             Color color_red = PlatformUI.getWorkbench().getDisplay()
                               .getSystemColor(SWT.COLOR_RED);
-            out_red = getRhinoConsole().newMessageStream();
+            MessageConsole console = getRhinoConsole();
+            if (console == null)
+                return null;
+            out_red = console.newMessageStream();
             out_red.setColor(color_red);
         }
         return out_red;
