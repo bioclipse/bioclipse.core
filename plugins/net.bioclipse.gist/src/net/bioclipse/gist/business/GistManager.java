@@ -34,12 +34,12 @@ import org.eclipse.swt.widgets.Shell;
 
 public class GistManager implements IGistManager {
 
-    public void download(int gist, String target) throws IOException, BioclipseException,
+    public String download(int gist, String target) throws IOException, BioclipseException,
             CoreException {
-        download(gist, ResourcePathTransformer.getInstance().transform(target), null);
+        return download(gist, ResourcePathTransformer.getInstance().transform(target), null);
     }
 
-    public void download(int gist, IFile target, IProgressMonitor monitor)
+    public String download(int gist, IFile target, IProgressMonitor monitor)
             throws IOException, BioclipseException, CoreException {
         if (monitor == null) {
             monitor = new NullProgressMonitor();
@@ -74,7 +74,7 @@ public class GistManager implements IGistManager {
             monitor.worked(1);
             
             if (monitor.isCanceled()) {
-                return;
+                return null;
             }
 
             if (rev != null) {
@@ -98,7 +98,7 @@ public class GistManager implements IGistManager {
                         }
                     });
                 monitor.done();
-                return;
+                return null;
             }
         } catch (PatternSyntaxException exception) {
             exception.printStackTrace();
@@ -108,6 +108,7 @@ public class GistManager implements IGistManager {
             throw new BioclipseException("Invalid URL.", exception);
         }
         monitor.done();
+        return target.getFullPath().toString();
     }
 
     public String getNamespace() {
