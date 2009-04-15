@@ -25,32 +25,37 @@ import org.eclipse.ui.PlatformUI;
  */
 
 public class RunRhinoScriptAsJobAction extends Action {
-	public RunRhinoScriptAsJobAction() {
-		super("Run script in separate thread");
-	}
+    public RunRhinoScriptAsJobAction() {
+        super("Run script in separate thread");
+    }
 
-	public void run() {
-		// show javascript console (eclipse console)
-		RhinoConsole.show();
-		
-		String scriptString = "";
-		// Get the command from the editor
-		IEditorPart ep = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		if (!(ep instanceof JsEditor)) {
-			PluginLogger.log("No Javascript Editor active");
-			return;
-		}
+    public void run() {
+        // show javascript console (eclipse console)
+        RhinoConsole.show();
 
-		JsEditor re = (JsEditor) ep;
-		
-		try {
-			scriptString = re.getScriptString();
-		} catch (EditorException e) {
-			RhinoConsole.writeToConsoleRed("Exception: " + e.getMessage());
-		}
-		
-		RhinoConsole.writeToConsoleBlue("Running Javascript...");
+        String scriptString = "";
+        // Get the command from the editor
+        IEditorPart ep = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+                                   .getActivePage().getActiveEditor();
+        if (!(ep instanceof JsEditor)) {
+            PluginLogger.log("No Javascript Editor active");
+            return;
+        }
 
-		ScriptExecution.runRhinoScript(scriptString, re.getTitle(), RhinoConsole.getRhinoConsole());
-	}
+        JsEditor re = (JsEditor) ep;
+
+        try {
+            scriptString = re.getScriptString();
+        } catch (EditorException e) {
+            RhinoConsole.writeToConsoleRed("Exception: " + e.getMessage());
+        }
+
+        RhinoConsole.writeToConsoleBlue("Running Javascript...");
+
+        ScriptExecution.runRhinoScript(
+                scriptString,
+                re.getTitle(),
+                RhinoConsole.getRhinoConsole()
+        );
+    }
 }
