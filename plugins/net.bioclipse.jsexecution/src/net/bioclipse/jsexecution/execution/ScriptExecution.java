@@ -63,10 +63,7 @@ public class ScriptExecution {
 		// The passed console is wrapped with a Thread Safe!! API, thus it is possible
 		// to use it from non GUI thread.
 		// Beside this the wrap supports simple methods to print with different colors
-		ThreadSafeConsoleWrap console
-		    = parent_console == null
-		        ? null
-		        : new ThreadSafeConsoleWrap(parent_console);
+		ThreadSafeConsoleWrap console = new ThreadSafeConsoleWrap(parent_console);
 		
 		// now run the script in a JOB
 		runRhinoScriptAsJob(scriptString, scriptDescription, console);
@@ -95,6 +92,7 @@ public class ScriptExecution {
             	try {
             		wbPage.showView("org.eclipse.ui.views.ProgressView");
             	} catch (PartInitException e) {
+            		console.writeToConsole("PartInitException: " + e.getMessage());
             	}
         }
         // define the job
@@ -131,6 +129,8 @@ public class ScriptExecution {
 
 				Display.getDefault().syncExec(new Runnable() {
 					public void run() {
+						console.writeToConsole(scriptResult);
+						console.writeToConsoleBlue("Javascript done.");
 					}
 				});
 				return Status.OK_STATUS;

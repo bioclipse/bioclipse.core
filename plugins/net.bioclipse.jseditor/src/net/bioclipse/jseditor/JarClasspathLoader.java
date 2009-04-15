@@ -34,6 +34,7 @@ public class JarClasspathLoader {
 		try {
 			addURL(file.toURI().toURL());	// file:/c:/xws-aacodeconverter.jar
 		} catch (MalformedURLException e) {
+			RhinoConsole.writeToConsole("Error, could not convert File to URL.");
 			return false;
 		}
 		return true;
@@ -45,6 +46,7 @@ public class JarClasspathLoader {
 		ClassLoader sysloader = ClassLoader.getSystemClassLoader();
 		
 		if (!(sysloader instanceof URLClassLoader)) {
+			RhinoConsole.writeToConsole("Error, system classloader is not instance of URLClassLoader.");
 			return false;
 		}
 		
@@ -56,8 +58,10 @@ public class JarClasspathLoader {
 			method.setAccessible(true);
 			method.invoke((URLClassLoader)sysloader, new Object[]{ url });
 		} catch (Throwable t) {
+			RhinoConsole.writeToConsole("Error, could not add URL to system's Classloader.");
 			return false;
 		}
+		RhinoConsole.writeToConsole("Added " + url.toString() + " to system's Classloader.");
 		return true;
 	}
 }
