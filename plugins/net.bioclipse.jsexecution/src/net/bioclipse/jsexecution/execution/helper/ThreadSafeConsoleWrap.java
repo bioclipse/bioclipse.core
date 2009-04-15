@@ -22,81 +22,86 @@ import org.eclipse.ui.console.MessageConsoleStream;
  *    Johannes Wagener - initial API and implementation
  */
 public class ThreadSafeConsoleWrap {
-        private MessageConsole messageConsole = null;
-        private MessageConsoleStream out = null, out_blue = null, out_red = null;
-        
-        public ThreadSafeConsoleWrap(MessageConsole console) {
-        	messageConsole = console;
-        }
-        private static void println(final MessageConsoleStream consolestream, final String message) {
-        	int message_length = message.length();
-        	final int MAX_SIZE = 25000;
-        	if (message_length > MAX_SIZE) {
-        		Runnable r = new Runnable() {
-                    public void run() {
-                    	consolestream.print(message.substring(0, MAX_SIZE));
-                    	consolestream.println(" [...]");
-                    	consolestream.println(" A String was cut: the String exceeded the maxiumum size of 25000");
-                    }
-        		};
-        		Display.getDefault().asyncExec(r);
-        	} else {
-        		Runnable r = new Runnable() {
-                    public void run() {
-                    	consolestream.println(message);
-                    }
-        		};
-        		Display.getDefault().asyncExec(r);
-        	}
-        }
-        
-        public void writeToConsole(final String message) {
-        	println(getConsoleStream(), message);
+    private MessageConsole messageConsole = null;
+    private MessageConsoleStream out = null, out_blue = null, out_red = null;
 
-        }
-        public void writeToConsoleBlue(final String message) {
-        	println(getConsoleStreamBlue(), message);
-        }
-        public void writeToConsoleRed(final String message) {
-        	println(getConsoleStreamRed(), message);
-        }
-        // with time-stamp
-        public void writeToConsoleBlueT(String message) {
-                writeToConsoleBlue(getCurrentTime() + " " + message);
-        }
-        // with time-stamp
-        public void writeToConsoleT(String message) {
-                writeToConsole(getCurrentTime() + " " + message);
-        }
-        // with time-stamp
-        public void writeToConsoleRedT(String message) {
-                writeToConsoleRed(getCurrentTime() + " " + message);
-        }
-        private MessageConsoleStream getConsoleStream() {
-                if (out == null)
-                        out = messageConsole.newMessageStream();
-                return out;
-        }
-        private MessageConsoleStream getConsoleStreamBlue() {
-                if (out_blue == null) {
-                        Color color_blue = PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_BLUE);
-                        out_blue = messageConsole.newMessageStream();
-                        out_blue.setColor(color_blue);
+    public ThreadSafeConsoleWrap(MessageConsole console) {
+        messageConsole = console;
+    }
+    private static void println(final MessageConsoleStream consolestream,
+                                final String message) {
+        int message_length = message.length();
+        final int MAX_SIZE = 25000;
+        if (message_length > MAX_SIZE) {
+            Runnable r = new Runnable() {
+                public void run() {
+                    consolestream.print(message.substring(0, MAX_SIZE));
+                    consolestream.println(" [...]");
+                    consolestream.println(" A String was cut: the String "
+                                          + "exceeded the maxiumum size of "
+                                          + "25000");
                 }
-                return out_blue;
-        }
-        private MessageConsoleStream getConsoleStreamRed() {
-                if (out_red == null) {
-                        Color color_red = PlatformUI.getWorkbench().getDisplay().getSystemColor(SWT.COLOR_RED);
-                        out_red = messageConsole.newMessageStream();
-                        out_red.setColor(color_red);
+            };
+            Display.getDefault().asyncExec(r);
+        } else {
+            Runnable r = new Runnable() {
+                public void run() {
+                    consolestream.println(message);
                 }
-                return out_red;
+            };
+            Display.getDefault().asyncExec(r);
         }
-        private String getCurrentTime() {
-                SimpleDateFormat simpleDateForm = new SimpleDateFormat("hh:mm:ss");
-                Date current = new Date();
-                current.setTime(System.currentTimeMillis());
-                return simpleDateForm.format(current);
+    }
+
+    public void writeToConsole(final String message) {
+        println(getConsoleStream(), message);
+
+    }
+    public void writeToConsoleBlue(final String message) {
+        println(getConsoleStreamBlue(), message);
+    }
+    public void writeToConsoleRed(final String message) {
+        println(getConsoleStreamRed(), message);
+    }
+    // with time-stamp
+    public void writeToConsoleBlueT(String message) {
+        writeToConsoleBlue(getCurrentTime() + " " + message);
+    }
+    // with time-stamp
+    public void writeToConsoleT(String message) {
+        writeToConsole(getCurrentTime() + " " + message);
+    }
+    // with time-stamp
+    public void writeToConsoleRedT(String message) {
+        writeToConsoleRed(getCurrentTime() + " " + message);
+    }
+    private MessageConsoleStream getConsoleStream() {
+        if (out == null)
+            out = messageConsole.newMessageStream();
+        return out;
+    }
+    private MessageConsoleStream getConsoleStreamBlue() {
+        if (out_blue == null) {
+            Color color_blue = PlatformUI.getWorkbench().getDisplay()
+                                         .getSystemColor(SWT.COLOR_BLUE);
+            out_blue = messageConsole.newMessageStream();
+            out_blue.setColor(color_blue);
         }
+        return out_blue;
+    }
+    private MessageConsoleStream getConsoleStreamRed() {
+        if (out_red == null) {
+            Color color_red = PlatformUI.getWorkbench().getDisplay()
+                                        .getSystemColor(SWT.COLOR_RED);
+            out_red = messageConsole.newMessageStream();
+            out_red.setColor(color_red);
+        }
+        return out_red;
+    }
+    private String getCurrentTime() {
+        SimpleDateFormat simpleDateForm = new SimpleDateFormat("hh:mm:ss");
+        Date current = new Date();
+        current.setTime(System.currentTimeMillis());
+        return simpleDateForm.format(current);
+    }
 }
