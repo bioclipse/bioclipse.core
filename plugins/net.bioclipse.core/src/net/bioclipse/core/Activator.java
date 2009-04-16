@@ -88,7 +88,7 @@ public class Activator extends Plugin {
    
 
         }
-        
+        deleteVirtualProject();
         getVirtualProject();
         historyTracker 
             = new ServiceTracker( context, 
@@ -218,7 +218,7 @@ public class Activator extends Plugin {
         try {
             project.delete(true, null);
         } catch (CoreException e) {            
-            e.printStackTrace();
+            LogUtils.debugTrace( logger, e );
         }
     }
 }
