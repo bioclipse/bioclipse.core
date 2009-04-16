@@ -63,6 +63,13 @@ public class JsConsoleManager implements IJsConsoleManager {
         } );
     }
 
+    public void delay(int seconds) {
+        try {
+            Thread.sleep( seconds*1000 );
+        } catch ( InterruptedException e ) {
+        }
+    }
+
     public void say(final String message) {
         print(message + JsConsoleView.NEWLINE);
     }

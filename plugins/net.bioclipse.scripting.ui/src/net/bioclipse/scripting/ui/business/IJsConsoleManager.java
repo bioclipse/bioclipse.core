@@ -62,4 +62,9 @@ public interface IJsConsoleManager extends IBioclipseManager {
     public void executeFile(String filePath);
 
     public void printError( Throwable t );
+
+    @Recorded
+    @PublishedMethod(params="int seconds ",
+                     methodSummary="Holds execution a number of seconds")
+    void delay( int seconds );
 }
