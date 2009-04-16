@@ -140,7 +140,7 @@
 <td>net.bioclipse.jalview.editors.JalviewEditorContributor</td>
 </tr>
 </table>
-<!--Found extension plugin...--><!--Looking for editor elements...--><h2><a name="net.bioclipse.qsar.editors.QSARFormEditor">QSAR Editor</a></h2>
+<!--Found extension plugin...--><!--Looking for editor elements...--><h2><a name="net.bioclipse.qsar.ui.editor2.QsarEditor">QSAR Editor</a></h2>
 <table>
 <tr>
 <td><b>plugin</b></td>
@@ -148,11 +148,11 @@
 </tr>
 <tr>
 <td><b>class</b></td>
-<td>net.bioclipse.qsar.ui.editors.QSARFormEditor</td>
+<td>net.bioclipse.qsar.ui.editors.QsarEditor</td>
 </tr>
 <tr>
 <td><b>contributor class</b></td>
-<td>org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor</td>
+<td>net.bioclipse.qsar.ui.editors.QsarActionBarContributor</td>
 </tr>
 </table>
 <!--Found extension plugin...--><!--Looking for editor elements...--><h2><a name="net.bioclipse.jmol.editors.JmolEditor">Jmol Editor</a></h2>
@@ -194,16 +194,19 @@
       <a href="ep.content-type.html#net.bioclipse.contenttypes.cml.singleMolecule3d">net.bioclipse.contenttypes.cml.singleMolecule3d</a>
 </td>
 </tr>
-</table>
-<h2><a name="net.bioclipse.jmol.editors.script.JmolScriptEditor">Jmol Script</a></h2>
-<table>
 <tr>
-<td><b>plugin</b></td>
-<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.jmol">net.bioclipse.jmol</a></td>
+<td></td>
+<td>
+<i>Content Type</i>:
+      <a href="ep.content-type.html#net.bioclipse.contenttypes.cml.singleMolecule5d">net.bioclipse.contenttypes.cml.singleMolecule5d</a>
+</td>
 </tr>
 <tr>
-<td><b>class</b></td>
-<td>net.bioclipse.jmol.editors.script.JmolScriptEditor</td>
+<td></td>
+<td>
+<i>Content Type</i>:
+      <a href="ep.content-type.html#net.bioclipse.contenttypes.sdf3d">net.bioclipse.contenttypes.sdf3d</a>
+</td>
 </tr>
 </table>
 <!--Found extension plugin...--><!--Looking for editor elements...--><h2><a name="net.bioclipse.cdk.ui.editors.jchempaint">JChemPaintEditor</a></h2>
@@ -217,7 +220,7 @@
 <td>net.bioclipse.cdk.jchempaint.editor.JChemPaintEditor</td>
 </tr>
 </table>
-<h2><a name="net.bioclipse.cdk.ui.editors.jchempaint">MDLMolfileEditor</a></h2>
+<h2><a name="net.bioclipse.cdk.ui.editors.jchempaint.mdl">MDLMolfileEditor</a></h2>
 <table>
 <tr>
 <td><b>plugin</b></td>
@@ -239,7 +242,7 @@
 </td>
 </tr>
 </table>
-<h2><a name="net.bioclipse.cdk.ui.editors.jchempaint">CMLfileEditor</a></h2>
+<h2><a name="net.bioclipse.cdk.ui.editors.jchempaint.cml">CMLfileEditor</a></h2>
 <table>
 <tr>
 <td><b>plugin</b></td>
@@ -261,7 +264,29 @@
 </td>
 </tr>
 </table>
-<h2><a name="net.bioclipse.cdk.ui.editors.jchempaint">PubChemCompoundXMLMolfileEditor</a></h2>
+<h2><a name="net.bioclipse.cdk.ui.editors.jchempaint.cml">CMLfileEditor</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.cdk.jchempaint">net.bioclipse.cdk.jchempaint</a></td>
+</tr>
+<tr>
+<td><b>class</b></td>
+<td>net.bioclipse.cdk.jchempaint.editor.JChemPaintEditor</td>
+</tr>
+<tr>
+<td><b>Bindings</b></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>Content Type</i>:
+      <a href="ep.content-type.html#net.bioclipse.contenttypes.cml.singleMolecule5d">net.bioclipse.contenttypes.cml.singleMolecule5d</a>
+</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.cdk.ui.editors.jchempaint.pubchem">PubChemCompoundXMLMolfileEditor</a></h2>
 <table>
 <tr>
 <td><b>plugin</b></td>
@@ -398,7 +423,14 @@
 <td></td>
 <td>
 <i>Content Type</i>:
-      <a href="ep.content-type.html#net.bioclipse.contenttypes.sdf">net.bioclipse.contenttypes.sdf</a>
+      <a href="ep.content-type.html#net.bioclipse.contenttypes.sdf2d">net.bioclipse.contenttypes.sdf2d</a>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>Content Type</i>:
+      <a href="ep.content-type.html#net.bioclipse.contenttypes.sdf3d">net.bioclipse.contenttypes.sdf3d</a>
 </td>
 </tr>
 <tr>

@@ -108,6 +108,9 @@
 <plugin id="net.bioclipse.statistics.jama">
 <!-- ../net.bioclipse.statistics.jama/plugin.xml -->
 </plugin>
+<plugin id="net.bioclipse.data.speclipse">
+<!-- ../net.bioclipse.data.speclipse/plugin.xml -->
+</plugin>
 <plugin id="net.bioclipse.seneca">
 <!-- ../net.bioclipse.seneca/plugin.xml -->
 </plugin>
@@ -147,11 +150,81 @@
 <plugin id="net.bioclipse.pcore.edit">
 <!-- ../net.bioclipse.pcore.edit/plugin.xml -->
 </plugin>
+<plugin id="net.bioclipse.bibtexml">
+<!-- ../net.bioclipse.bibtexml/plugin.xml -->
+</plugin>
 <plugin id="net.bioclipse.cml">
 <!-- ../net.bioclipse.cml/plugin.xml -->
+<extension point="org.eclipse.core.runtime.contentTypes">
+          <content-type base-type="org.eclipse.core.runtime.xml" id="net.bioclipse.contenttypes.cml" name="Chemical Markup Language (CML)" file-extensions="cml,xml" priority="normal">
+            <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">
+              <parameter name="element" value="{http://www.xml-cml.org/schema}*">
+              </parameter>
+            </describer>
+          </content-type>
+    </extension>
+<extension point="org.eclipse.core.runtime.contentTypes">
+        
+		<content-type base-type="net.bioclipse.contenttypes.cml" id="net.bioclipse.contenttypes.cml.singleMolecule2d" name="CML (Single 2D Molecule)" priority="high">
+		 	<describer class="net.bioclipse.cml.contenttypes.CmlFileDescriber">
+            	<parameter name="dimension" value="2D">
+              	</parameter>
+              	<parameter name="cardinality" value="single">
+              	</parameter>
+       		</describer>
+        </content-type>
+        
+        <content-type base-type="net.bioclipse.contenttypes.cml" id="net.bioclipse.contenttypes.cml.multipleMolecule2d" name="CML (Multiple 2D Molecules)" priority="high">
+		 	<describer class="net.bioclipse.cml.contenttypes.CmlFileDescriber">
+            	<parameter name="dimension" value="2D">
+              	</parameter>
+              	<parameter name="cardinality" value="multiple">
+              	</parameter>
+       		</describer>
+        </content-type>
+        
+        <content-type base-type="net.bioclipse.contenttypes.cml" id="net.bioclipse.contenttypes.cml.singleMolecule3d" name="CML (Single 3D Molecule)" priority="high">
+		 	<describer class="net.bioclipse.cml.contenttypes.CmlFileDescriber">
+            	<parameter name="dimension" value="3D">
+              	</parameter>
+              	<parameter name="cardinality" value="single">
+              	</parameter>
+       		</describer>
+        </content-type>
+        
+        <content-type base-type="net.bioclipse.contenttypes.cml" id="net.bioclipse.contenttypes.cml.multipleMolecule3d" name="CML (Multiple 3D Molecules)" priority="high">
+		 	<describer class="net.bioclipse.cml.contenttypes.CmlFileDescriber">
+            	<parameter name="dimension" value="3D">
+              	</parameter>
+              	<parameter name="cardinality" value="multiple">
+              	</parameter>
+       		</describer>
+        </content-type>
+
+        <content-type base-type="net.bioclipse.contenttypes.cml" id="net.bioclipse.contenttypes.cml.singleMolecule5d" name="CML (Single 2D+3D Molecule)" priority="high">
+		 	<describer class="net.bioclipse.cml.contenttypes.CmlFileDescriber">
+            	<parameter name="dimension" value="5D">
+              	</parameter>
+              	<parameter name="cardinality" value="single">
+              	</parameter>
+       		</describer>
+        </content-type>
+        
+        <content-type base-type="net.bioclipse.contenttypes.cml" id="net.bioclipse.contenttypes.cml.multipleMolecule5d" name="CMLMultipleMoleculeContentType5D" priority="high">
+		 	<describer class="net.bioclipse.cml.contenttypes.CmlFileDescriber">
+            	<parameter name="dimension" value="5D">
+              	</parameter>
+              	<parameter name="cardinality" value="multiple">
+              	</parameter>
+       		</describer>
+        </content-type>
+ 	</extension>
 </plugin>
 <plugin id="net.bioclipse.cdk.debug">
 <!-- ../net.bioclipse.cdk.debug/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.balloon.business">
+<!-- ../net.bioclipse.balloon.business/plugin.xml -->
 </plugin>
 <plugin id="net.bioclipse.structuredb.tests">
 <!-- ../net.bioclipse.structuredb.tests/plugin.xml -->
@@ -161,7 +234,43 @@
 <extension point="org.eclipse.core.runtime.contentTypes">
     <content-type base-type="org.eclipse.core.runtime.text" id="net.bioclipse.contenttypes.smiles.singlemol" name="SMILES value (Single Molecule)" file-extensions="smiles,smi" priority="normal">
     </content-type>
-  </extension>
+    <content-type base-type="org.eclipse.core.runtime.text" file-extensions="pdb" id="net.bioclipse.contenttypes.pdb" name="Protein Brookhaven Database File" priority="high">
+        </content-type>
+
+        <content-type base-type="org.eclipse.core.runtime.text" id="net.bioclipse.contenttypes.sdf" file-extensions="sdf" name="MDL SD file" priority="high">
+        </content-type>
+        <content-type base-type="net.bioclipse.contenttypes.sdf" file-extensions="sdf" id="net.bioclipse.contenttypes.sdf2d" name="MDL SD file (2D)" priority="high">
+		   <describer class="net.bioclipse.chemoinformatics.contenttypes.MdlMolFileCoordinatesDescriber">
+              <parameter name="type" value="2D" />
+       	   </describer>
+        </content-type>
+        <content-type base-type="net.bioclipse.contenttypes.sdf" file-extensions="sdf" id="net.bioclipse.contenttypes.sdf3d" name="MDL SD file (3D)" priority="high">
+		   <describer class="net.bioclipse.chemoinformatics.contenttypes.MdlMolFileCoordinatesDescriber">
+              <parameter name="type" value="3D" />
+       	   </describer>
+        </content-type>
+
+        <content-type base-type="org.eclipse.core.runtime.text" file-extensions="smi" id="net.bioclipse.contenttypes.smi" name="SMILES (Multiple Molecules)" priority="high">
+        </content-type>
+
+        <content-type base-type="org.eclipse.core.runtime.text" id="net.bioclipse.contenttypes.mdlMolFile" name="MDL MolFile" priority="high">
+        </content-type>
+
+        <content-type base-type="net.bioclipse.contenttypes.mdlMolFile" file-extensions="mdl,mol" id="net.bioclipse.contenttypes.mdlMolFile2D" name="MDL Molfile (2D)" priority="high">
+		 <describer class="net.bioclipse.chemoinformatics.contenttypes.MdlMolFileCoordinatesDescriber">
+              <parameter name="type" value="2D">
+              </parameter>
+       	</describer>
+        </content-type>
+
+        <content-type base-type="net.bioclipse.contenttypes.mdlMolFile" file-extensions="mdl,mol" id="net.bioclipse.contenttypes.mdlMolFile3D" name="MDL molfile (3D)" priority="high">
+		 <describer class="net.bioclipse.chemoinformatics.contenttypes.MdlMolFileCoordinatesDescriber">
+              <parameter name="type" value="3D">
+              </parameter>
+       	</describer>
+        </content-type>
+
+     </extension>
 </plugin>
 <plugin id="se.uu.farmbio.hivpred.client">
 <!-- ../se.uu.farmbio.hivpred.client/plugin.xml -->
@@ -189,6 +298,9 @@
 </plugin>
 <plugin id="se.uu.farmbio.hivpredrt.model">
 <!-- ../se.uu.farmbio.hivpredrt.model/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.actionHistory">
+<!-- ../net.bioclipse.actionHistory/plugin.xml -->
 </plugin>
 <plugin id="net.bioclipse.specmol">
 <!-- ../net.bioclipse.specmol/plugin.xml -->
@@ -222,6 +334,9 @@
       </content-type>
    </extension>
 </plugin>
+<plugin id="net.bioclipse.bibtexml.edit">
+<!-- ../net.bioclipse.bibtexml.edit/plugin.xml -->
+</plugin>
 <plugin id="net.bioclipse.scripting">
 <!-- ../net.bioclipse.scripting/plugin.xml -->
 </plugin>
@@ -230,96 +345,6 @@
 </plugin>
 <plugin id="net.bioclipse.ui">
 <!-- ../net.bioclipse.ui/plugin.xml -->
-<extension point="org.eclipse.core.runtime.contentTypes">
-          <content-type base-type="org.eclipse.core.runtime.xml" id="net.bioclipse.contenttypes.cml" name="Chemical Markup Language (CML)" file-extensions="cml,xml" priority="normal">
-            <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2">
-              <parameter name="element" value="{http://www.xml-cml.org/schema}*">
-              </parameter>
-            </describer>
-          </content-type>
-    </extension>
-<extension point="org.eclipse.core.runtime.contentTypes">
-        
-		<content-type base-type="net.bioclipse.contenttypes.cml" id="net.bioclipse.contenttypes.cml.singleMolecule2d" name="CML (Single 2D Molecule)" priority="high">
-		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
-            	<parameter name="dimension" value="2D">
-              	</parameter>
-              	<parameter name="cardinality" value="single">
-              	</parameter>
-       		</describer>
-        </content-type>
-        
-        <content-type base-type="net.bioclipse.contenttypes.cml" id="net.bioclipse.contenttypes.cml.multipleMolecule2d" name="CML (Multiple 2D Molecules)" priority="high">
-		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
-            	<parameter name="dimension" value="2D">
-              	</parameter>
-              	<parameter name="cardinality" value="multiple">
-              	</parameter>
-       		</describer>
-        </content-type>
-        
-        <content-type base-type="net.bioclipse.contenttypes.cml" id="net.bioclipse.contenttypes.cml.singleMolecule3d" name="CML (Single 3D Molecule)" priority="high">
-		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
-            	<parameter name="dimension" value="3D">
-              	</parameter>
-              	<parameter name="cardinality" value="single">
-              	</parameter>
-       		</describer>
-        </content-type>
-        
-        <content-type base-type="net.bioclipse.contenttypes.cml" id="net.bioclipse.contenttypes.cml.multipleMolecule3d" name="CML (Multiple 3D Molecules)" priority="high">
-		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
-            	<parameter name="dimension" value="3D">
-              	</parameter>
-              	<parameter name="cardinality" value="multiple">
-              	</parameter>
-       		</describer>
-        </content-type>
-
-        <content-type base-type="net.bioclipse.contenttypes.cml" id="net.bioclipse.contenttypes.cml.singleMolecule5d" name="CMLSingleMoleculeContentType5D" priority="high">
-		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
-            	<parameter name="dimension" value="5D">
-              	</parameter>
-              	<parameter name="cardinality" value="single">
-              	</parameter>
-       		</describer>
-        </content-type>
-        
-        <content-type base-type="net.bioclipse.contenttypes.cml" id="net.bioclipse.contenttypes.cml.multipleMolecule5d" name="CMLMultipleMoleculeContentType5D" priority="high">
-		 	<describer class="net.bioclipse.ui.contenttypes.CmlFileDescriber">
-            	<parameter name="dimension" value="5D">
-              	</parameter>
-              	<parameter name="cardinality" value="multiple">
-              	</parameter>
-       		</describer>
-        </content-type>
-        
-        <content-type base-type="org.eclipse.core.runtime.text" file-extensions="pdb" id="net.bioclipse.contenttypes.pdb" name="Protein Brookhaven Database File" priority="high">
-        </content-type>
-
-        <content-type base-type="org.eclipse.core.runtime.text" file-extensions="sdf" id="net.bioclipse.contenttypes.sdf" name="MDL SD file" priority="high">
-        </content-type>
-        <content-type base-type="org.eclipse.core.runtime.text" file-extensions="smi" id="net.bioclipse.contenttypes.smi" name="SMILES (Multiple Molecules)" priority="high">
-        </content-type>
-
-        <content-type base-type="org.eclipse.core.runtime.text" id="net.bioclipse.contenttypes.mdlMolFile" name="MDL MolFile" priority="high">
-        </content-type>
-
-        <content-type base-type="net.bioclipse.contenttypes.mdlMolFile" file-extensions="mdl,mol" id="net.bioclipse.contenttypes.mdlMolFile2D" name="MDL Molfile (2D)" priority="high">
-		 <describer class="net.bioclipse.ui.contenttypes.MdlMolFileCoordinatesDescriber">
-              <parameter name="type" value="2D">
-              </parameter>
-       	</describer>
-        </content-type>
-
-        <content-type base-type="net.bioclipse.contenttypes.mdlMolFile" file-extensions="mdl,mol" id="net.bioclipse.contenttypes.mdlMolFile3D" name="MDL molfile (3D)" priority="high">
-		 <describer class="net.bioclipse.ui.contenttypes.MdlMolFileCoordinatesDescriber">
-              <parameter name="type" value="3D">
-              </parameter>
-       	</describer>
-        </content-type>
-
-     </extension>
 </plugin>
 <plugin id="net.bioclipse.moss">
 <!-- ../net.bioclipse.moss/plugin.xml -->

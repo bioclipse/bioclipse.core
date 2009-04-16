@@ -114,6 +114,9 @@
 <plugin id="net.bioclipse.statistics.jama">
 <!-- ../net.bioclipse.statistics.jama/plugin.xml -->
 </plugin>
+<plugin id="net.bioclipse.data.speclipse">
+<!-- ../net.bioclipse.data.speclipse/plugin.xml -->
+</plugin>
 <plugin id="net.bioclipse.seneca">
 <!-- ../net.bioclipse.seneca/plugin.xml -->
 </plugin>
@@ -153,6 +156,9 @@
 <plugin id="net.bioclipse.pcore.edit">
 <!-- ../net.bioclipse.pcore.edit/plugin.xml -->
 </plugin>
+<plugin id="net.bioclipse.bibtexml">
+<!-- ../net.bioclipse.bibtexml/plugin.xml -->
+</plugin>
 <plugin id="net.bioclipse.cml">
 <!-- ../net.bioclipse.cml/plugin.xml -->
 <extension point="org.eclipse.ui.menus">
@@ -175,11 +181,65 @@
 <plugin id="net.bioclipse.cdk.debug">
 <!-- ../net.bioclipse.cdk.debug/plugin.xml -->
 </plugin>
+<plugin id="net.bioclipse.balloon.business">
+<!-- ../net.bioclipse.balloon.business/plugin.xml -->
+<extension point="org.eclipse.ui.menus">
+         
+    <menuContribution locationURI="popup:net.bioclipse.chemoinformatics.popup.gen3d?after=additions">
+       <command commandId="net.bioclipse.balloon.commands.gen3dCommand" id="net.bioclipse.balloon.popup.gen3dCommand" icon="icons/balloon16.gif" mnemonic="B">
+          <visibleWhen checkEnabled="true">
+  		     <iterate operator="and" ifEmpty="false">
+		
+  		       <adapt type="org.eclipse.core.resources.IResource">
+         		<or>
+                    <!--test property="org.eclipse.core.resources.contentTypeId" 
+            	    	value="net.bioclipse.contenttypes.smi"/-->
+   	      		     <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.sdf" />
+   	      		     <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.mdlMolFile2D" />
+  	      		     <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.mdlMolFile3D" />
+               	</or>
+               </adapt>
+	        </iterate>
+          </visibleWhen>
+         </command>
+        </menuContribution>
+        
+    <menuContribution locationURI="popup:net.bioclipse.chemoinformatics.popup.genConformers?after=additions">
+       <command commandId="net.bioclipse.balloon.commands.genConformersCommand" id="net.bioclipse.balloon.popup.genConformersCommand" icon="icons/balloon16.gif" mnemonic="B">
+          <visibleWhen checkEnabled="true">
+  		     <iterate operator="and" ifEmpty="false">
+		
+  		       <adapt type="org.eclipse.core.resources.IResource">
+         		<or>
+                    <!--test property="org.eclipse.core.resources.contentTypeId" 
+            	    	value="net.bioclipse.contenttypes.smi"/-->
+   	      		     <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.sdf" />
+   	      		     <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.mdlMolFile2D" />
+  	      		     <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.mdlMolFile3D" />
+               	</or>
+               </adapt>
+	        </iterate>
+          </visibleWhen>
+         </command>
+        </menuContribution>
+   </extension>
+</plugin>
 <plugin id="net.bioclipse.structuredb.tests">
 <!-- ../net.bioclipse.structuredb.tests/plugin.xml -->
 </plugin>
 <plugin id="net.bioclipse.chemoinformatics">
 <!-- ../net.bioclipse.chemoinformatics/plugin.xml -->
+<extension point="org.eclipse.ui.menus">
+
+     <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+		<menu label="Generate 2D" id="net.bioclipse.chemoinformatics.popup.gen2d">
+		</menu>
+		<menu label="Generate 3D" id="net.bioclipse.chemoinformatics.popup.gen3d">
+		</menu>
+		<menu label="Generate Conformers" id="net.bioclipse.chemoinformatics.popup.genConformers">
+		</menu>
+      </menuContribution>
+ </extension>
 </plugin>
 <plugin id="se.uu.farmbio.hivpred.client">
 <!-- ../se.uu.farmbio.hivpred.client/plugin.xml -->
@@ -214,7 +274,7 @@
       <menuContribution locationURI="menu:org.eclipse.ui.main.menu?after=additions">
          <menu id="net.bioclipse.jmol.editor.menu" label="Jmol">
 			<separator name="additions">
-			</separator>               
+			</separator>
                <visibleWhen>
                   <reference definitionId="net.bioclipse.definitions.activeJmolEditor">
                   </reference>
@@ -223,31 +283,31 @@
       </menuContribution>
       <menuContribution locationURI="menu:net.bioclipse.jmol.editor.menu?after=additions">
          <menu id="net.bioclipse.jmol.editor.menu.select" label="Select">
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Select all" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Select All" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="Select all">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Select none" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Select None" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="Select none">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Select protein" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Select Protein" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="Select protein">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Select amino" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Select Amino" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="Select amino">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Select nucleic" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Select Nucleic" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="Select nucleic">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Select water" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Select Water" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="Select water">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Select hetero" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Select Hetero" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="Select hetero">
                   </parameter>
             </command>
@@ -266,7 +326,7 @@
          </menu>
 
          <menu id="net.bioclipse.jmol.editor.menu.atoms" label="Atoms">
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Spacefill 0" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Off" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="spacefill 0">
                   </parameter>
             </command>
@@ -281,7 +341,7 @@
          </menu>
 
          <menu id="net.bioclipse.jmol.editor.menu.bonds" label="Bonds">
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="off" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Off" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="wireframe off">
                   </parameter>
             </command>
@@ -300,89 +360,89 @@
          </menu>
 
          <menu id="net.bioclipse.jmol.editor.menu.surface" label="Surface">
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="dots on" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Dots On" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="dots on">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="dots off" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Dots Off" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="dots off">
                   </parameter>
             </command>
          </menu>
 
          <menu id="net.bioclipse.jmol.editor.menu.frame" label="Frame">
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Next frame" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Next Frame" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="frame previous">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Previous frame" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Previous Frame" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="frame previous">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Play once" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Play Once" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="animation mode ONCE; animation fps 1; animation on">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Play repeat" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Play Repeat" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="animation mode loop; animation fps 1; animation on">
                   </parameter>
             </command>
          </menu>
 
          <menu id="net.bioclipse.jmol.editor.menu.biopolymer" label="Biopolymer">
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Cartoon on" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Cartoon On" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="cartoon on">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Cartoon off" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Cartoon Off" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="cartoon off">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Ribbons on" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Ribbons On" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="ribbons on">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Ribbons off" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Ribbons Off" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="ribbons off">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Rockets on" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Rockets On" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="rockets on">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Rockets off" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Rockets Off" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="rockets off">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Meshribbons on" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Meshribbons On" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="meshribbons on">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Meshribbons off" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Meshribbons Off" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="meshribbons off">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Strands on" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Strands On" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="strands on">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Strands off" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Strands Off" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="strands off">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Trace on" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Trace On" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="trace on">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Trace off" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Trace Off" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="trace off">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Backbone on" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Backbone On" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="backbone on">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Backbone off" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Backbone Off" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="backbone off">
                   </parameter>
             </command>
@@ -405,48 +465,48 @@
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="label %e">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Location: center" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Location: Center" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="set labeloffset 0 0">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Location: Top right" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Location: Top Right" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="set labeloffset 4 4">
                   </parameter>
             </command>
          </menu>
-         
+
           <menu id="net.bioclipse.jmol.editor.menu.rotate" label="Rotate">
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Rotate around X" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Rotate Around X-axis" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="rotate x 360">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Spin on" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Spin On" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="spin on">
                   </parameter>
             </command>
-            <command commandId="net.bioclipse.jmol.actions.runscript" label="Spin off" icon="icons/molecule3D.png">
+            <command commandId="net.bioclipse.jmol.actions.runscript" label="Spin Off" icon="icons/molecule3D.png">
                   <parameter name="net.bioclipse.jmol.scriptParameter" value="spin off">
                   </parameter>
             </command>
          </menu>
-         
 
-         <!-- It seems we need to have at least one command in top menu 
+
+         <!-- It seems we need to have at least one command in top menu
          for it to show-->
             <command commandId="net.bioclipse.jmol.actions.export" tooltip="Export as image..." label="Export as image...">
              </command>
       </menuContribution>
 
-      
+
       <menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
          <toolbar id="net.bioclipse.jmol.editor.toolbar">
-            <command commandId="net.bioclipse.jmol.actions.export" tooltip="Export as image" icon="icons/capture-screen.png">
+            <command commandId="net.bioclipse.jmol.actions.export" tooltip="Export as Image" icon="icons/capture-screen.png">
                <visibleWhen>
                   <reference definitionId="net.bioclipse.definitions.activeJmolEditor">
                   </reference>
                </visibleWhen>
              </command>
-            <command commandId="net.bioclipse.jmol.actions.runEditorScript" tooltip="Run script in editor" icon="icons/smallRun.gif">
+            <command commandId="net.bioclipse.jmol.actions.runEditorScript" tooltip="Run Script in Editor" icon="icons/smallRun.gif">
                <visibleWhen>
                   <reference definitionId="net.bioclipse.definitions.activeJmolScriptEditor">
                   </reference>
@@ -456,7 +516,7 @@
             </separator>
          </toolbar>
       </menuContribution>
-      
+
 </extension>
 </plugin>
 <plugin id="net.bioclipse.qsar">
@@ -473,11 +533,15 @@
 <extension point="org.eclipse.ui.menus">
     <menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
        <toolbar id="net.bioclipse.cdk.ui.jchempaint.toolbar">
-        <command commandId="net.bioclipse.cdk.ui.editors.jchempaint.command.addbond" icon="icons/jcp/bond.png" label="Add Bond" style="radio" tooltip="Add Bond">
+        <command commandId="net.bioclipse.cdk.ui.editors.jchempaint.command.module" icon="icons/jcp/bond.png" label="Add Bond" style="radio" tooltip="Add Bond">
              <visibleWhen checkEnabled="true">
                 <reference definitionId="net.bioclipse.cdk.jchempaint.editor.type">
                 </reference>
              </visibleWhen>
+             <parameter name="jcp.controller.module" value="AddBondModule">
+             </parameter>
+             <parameter name="net.bioclipse.cdk.jchempaint.DrawModeString" value="Draw Bond">
+             </parameter>
           </command>
              <!--
           <command
@@ -505,6 +569,8 @@
              </visibleWhen>
              <parameter name="jcp.controller.module" value="CycleSymbolModule">
              </parameter>
+             <parameter name="net.bioclipse.cdk.jchempaint.DrawModeString" value="Cycle Symbol">
+             </parameter>
           </command>
           <command commandId="net.bioclipse.cdk.ui.editors.jchempaint.command.module" icon="icons/jcp/up_bond.png" label="Bond Up" style="radio" tooltip="Add or convert to bond up">
              <visibleWhen checkEnabled="true">
@@ -514,6 +580,8 @@
              <parameter name="jcp.controller.module" value="AlterBondStereoModule">
              </parameter>
              <parameter name="jcp.controller.param.direction" value="Up">
+             </parameter>
+             <parameter name="net.bioclipse.cdk.jchempaint.DrawModeString" value="Add or convert to bond up">
              </parameter>
           </command>
           <command commandId="net.bioclipse.cdk.ui.editors.jchempaint.command.module" icon="icons/jcp/down_bond.png" label="Bond Down" style="radio" tooltip="Add or convert to bond down">
@@ -525,6 +593,8 @@
              </parameter>
              <parameter name="jcp.controller.param.direction" value="Down">
              </parameter>
+             <parameter name="net.bioclipse.cdk.jchempaint.DrawModeString" value="Add or convert to bond down">
+             </parameter>
           </command>
           <command commandId="net.bioclipse.cdk.ui.editors.jchempaint.command.module" icon="icons/jcp/plus_one.png" label="Increase Charge" style="radio" tooltip="Increase Charge">
              <visibleWhen checkEnabled="true">
@@ -534,6 +604,8 @@
              <parameter name="jcp.controller.module" value="ChangeFormalChargeModule">
              </parameter>
              <parameter name="jcp.controller.param.int" value="1">
+             </parameter>
+             <parameter name="net.bioclipse.cdk.jchempaint.DrawModeString" value="Increase Charge">
              </parameter>
           </command>
           <command commandId="net.bioclipse.cdk.ui.editors.jchempaint.command.module" icon="icons/jcp/min_one.png" label="Decrease Charge" style="radio" tooltip="Decrease Charge">
@@ -545,6 +617,8 @@
              </parameter>
              <parameter name="jcp.controller.param.int" value="-1">
              </parameter>
+             <parameter name="net.bioclipse.cdk.jchempaint.DrawModeString" value="Decrease Charge">
+             </parameter>
           </command>
           <command commandId="net.bioclipse.cdk.ui.editors.jchempaint.command.module" icon="icons/jcp/move.png" label="Move" style="radio" tooltip="Move">
              <visibleWhen checkEnabled="true">
@@ -552,6 +626,8 @@
                 </reference>
              </visibleWhen>
              <parameter name="jcp.controller.module" value="MoveModule">
+             </parameter>
+             <parameter name="net.bioclipse.cdk.jchempaint.DrawModeString" value="Move">
              </parameter>
           </command>
           <command commandId="net.bioclipse.cdk.ui.editors.jchempaint.command.module" icon="icons/jcp/eraser.png" label="Delete" style="radio" tooltip="Delete">
@@ -561,6 +637,8 @@
              </visibleWhen>
              <parameter name="jcp.controller.module" value="RemoveModule">
              </parameter>
+             <parameter name="net.bioclipse.cdk.jchempaint.DrawModeString" value="Delete">
+             </parameter>
           </command>
           <command commandId="net.bioclipse.cdk.ui.editors.jchempaint.command.module" icon="icons/jcp/lasso.png" label="Select" style="radio" tooltip="Select in Free Form">
              <visibleWhen checkEnabled="true">
@@ -569,6 +647,8 @@
              </visibleWhen>
              <parameter name="jcp.controller.module" value="SelectLassoModule">
              </parameter>
+             <parameter name="net.bioclipse.cdk.jchempaint.DrawModeString" value="Select in Free Form">
+             </parameter>
           </command>
           <command commandId="net.bioclipse.cdk.ui.editors.jchempaint.command.module" icon="icons/jcp/selectsquare.png" label="Select Square" style="radio" tooltip="Select Square">
              <visibleWhen checkEnabled="true">
@@ -576,6 +656,8 @@
                 </reference>
              </visibleWhen>
              <parameter name="jcp.controller.module" value="SelectSquareModule">
+             </parameter>
+             <parameter name="net.bioclipse.cdk.jchempaint.DrawModeString" value="Select Square">
              </parameter>
           </command>
           <command commandId="net.bioclipse.cdk.ui.editors.jchempaint.command.module" icon="icons/jcp/triangle.png" label="Ring 3" style="radio" tooltip="Ring 3">
@@ -589,6 +671,8 @@
              </parameter>
              <parameter name="jcp.controller.param.boolean" value="false">
              </parameter>
+             <parameter name="net.bioclipse.cdk.jchempaint.DrawModeString" value="Ring 3">
+             </parameter>
           </command>
           <command commandId="net.bioclipse.cdk.ui.editors.jchempaint.command.module" icon="icons/jcp/square.png" label="Ring 4" style="radio" tooltip="Ring 4">
              <visibleWhen checkEnabled="true">
@@ -600,6 +684,8 @@
              <parameter name="jcp.controller.param.int" value="4">
              </parameter>
              <parameter name="jcp.controller.param.boolean" value="false">
+             </parameter>
+             <parameter name="net.bioclipse.cdk.jchempaint.DrawModeString" value="Ring 4">
              </parameter>
           </command>
           <command commandId="net.bioclipse.cdk.ui.editors.jchempaint.command.module" icon="icons/jcp/pentagon.png" label="Ring 5" style="radio" tooltip="Ring 5">
@@ -613,6 +699,8 @@
              </parameter>
              <parameter name="jcp.controller.param.boolean" value="false">
              </parameter>
+             <parameter name="net.bioclipse.cdk.jchempaint.DrawModeString" value="Ring 5">
+             </parameter>
           </command>
           <command commandId="net.bioclipse.cdk.ui.editors.jchempaint.command.module" icon="icons/jcp/hexagon.png" label="Ring 6" style="radio" tooltip="Ring 6">
              <visibleWhen checkEnabled="true">
@@ -624,6 +712,8 @@
              <parameter name="jcp.controller.param.int" value="6">
              </parameter>
              <parameter name="jcp.controller.param.boolean" value="false">
+             </parameter>
+             <parameter name="net.bioclipse.cdk.jchempaint.DrawModeString" value="Ring 6">
              </parameter>
           </command>
           <command commandId="net.bioclipse.cdk.ui.editors.jchempaint.command.module" icon="icons/jcp/heptagon.png" label="Ring 7" style="radio" tooltip="Ring 7">
@@ -637,6 +727,8 @@
              </parameter>
              <parameter name="jcp.controller.param.boolean" value="false">
              </parameter>
+             <parameter name="net.bioclipse.cdk.jchempaint.DrawModeString" value="Ring 7">
+             </parameter>
           </command>
           <command commandId="net.bioclipse.cdk.ui.editors.jchempaint.command.module" icon="icons/jcp/octagon.png" label="Ring 8" style="radio" tooltip="Ring 8">
              <visibleWhen checkEnabled="true">
@@ -649,6 +741,8 @@
              </parameter>
              <parameter name="jcp.controller.param.boolean" value="false">
              </parameter>
+             <parameter name="net.bioclipse.cdk.jchempaint.DrawModeString" value="Ring 8">
+             </parameter>
           </command>
           <command commandId="net.bioclipse.cdk.ui.editors.jchempaint.command.module" icon="icons/jcp/benzene.png" label="Benzene" style="radio" tooltip="Benzene">
              <visibleWhen checkEnabled="true">
@@ -660,6 +754,8 @@
              <parameter name="jcp.controller.param.int" value="6">
              </parameter>
              <parameter name="jcp.controller.param.boolean" value="true">
+             </parameter>
+             <parameter name="net.bioclipse.cdk.jchempaint.DrawModeString" value="Benzene">
              </parameter>
           </command>
           <command commandId="net.bioclipse.cdk.jchempaint.manager.action" icon="icons/jcp/cleanup.png" label="Clean Up" style="push" tooltip="Clean Up">
@@ -764,6 +860,9 @@
 <plugin id="se.uu.farmbio.hivpredrt.model">
 <!-- ../se.uu.farmbio.hivpredrt.model/plugin.xml -->
 </plugin>
+<plugin id="net.bioclipse.actionHistory">
+<!-- ../net.bioclipse.actionHistory/plugin.xml -->
+</plugin>
 <plugin id="net.bioclipse.specmol">
 <!-- ../net.bioclipse.specmol/plugin.xml -->
 <extension point="org.eclipse.ui.menus">
@@ -864,14 +963,13 @@
 <plugin id="net.bioclipse.cdk.ui">
 <!-- ../net.bioclipse.cdk.ui/plugin.xml -->
 <extension point="org.eclipse.ui.menus">
-		<menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-		    <command commandId="net.bioclipse.cdk.ui.handlers.create3d" label="Recreate 3D coordinates" icon="icons/molecule3D.png">
+		<menuContribution locationURI="popup:net.bioclipse.chemoinformatics.popup.gen3d?after=additions">
+		    <command commandId="net.bioclipse.cdk.ui.handlers.create3dwithoutreset" label="Recreate with CDK" icon="icons/molecule3D.png">
 		      	<visibleWhen>
 			   		<iterate operator="and" ifEmpty="false">
 		      			<adapt type="org.eclipse.core.resources.IResource">
 			      			<or>
 				                <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.cml.singleMolecule3d" />
-					   		    <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.mdlMolFile3D" />
 				                <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.cml.singleMolecule5d" />
 				            </or>
 			      		</adapt>
@@ -879,13 +977,12 @@
 		        </visibleWhen>
 	       </command>
 		</menuContribution>
-		<menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-		    <command commandId="net.bioclipse.cdk.ui.handlers.create3d" label="Create 3D coordinates" icon="icons/molecule3D.png">
+		<menuContribution locationURI="popup:net.bioclipse.chemoinformatics.popup.gen3d?after=additions">
+		    <command commandId="net.bioclipse.cdk.ui.handlers.create3dwithoutreset" label="Create with CDK" icon="icons/molecule3D.png">
 		      	<visibleWhen>
 			   		<iterate operator="and" ifEmpty="false">
 		      			<adapt type="org.eclipse.core.resources.IResource">
 			      			<or>
-				                <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.mdlMolFile2D" />
 					   		    <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.cml.singleMolecule2d" />
 				            </or>
 			      		</adapt>
@@ -893,14 +990,13 @@
 		        </visibleWhen>
 	       </command>
 		</menuContribution>
-		<menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-		    <command commandId="net.bioclipse.cdk.ui.handlers.create2d" label="Recreate 2D coordinates" icon="icons/molecule2D.png">
+		<menuContribution locationURI="popup:net.bioclipse.chemoinformatics.popup.gen2d?after=additions">
+		    <command commandId="net.bioclipse.cdk.ui.handlers.create2dwithoutreset" label="Recreate with CDK" icon="icons/molecule2D.png">
 		      	<visibleWhen>
 			   		<iterate operator="and" ifEmpty="false">
 		      			<adapt type="org.eclipse.core.resources.IResource">
 			      			<or>
 				                <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.cml.singleMolecule2d" />
-					   		    <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.mdlMolFile2D" />
 				                <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.cml.singleMolecule5d" />
 				            </or>
 			      		</adapt>
@@ -908,13 +1004,64 @@
 		        </visibleWhen>
 	       </command>
 		</menuContribution>
-		<menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
-		    <command commandId="net.bioclipse.cdk.ui.handlers.create2d" label="Create 2D coordinates" icon="icons/molecule2D.png">
+		<menuContribution locationURI="popup:net.bioclipse.chemoinformatics.popup.gen2d?after=additions">
+		    <command commandId="net.bioclipse.cdk.ui.handlers.create2dwithoutreset" label="Create with CDK" icon="icons/molecule2D.png">
 		      	<visibleWhen>
 			   		<iterate operator="and" ifEmpty="false">
 		      			<adapt type="org.eclipse.core.resources.IResource">
 			      			<or>
 				                <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.cml.singleMolecule3d" />
+				            </or>
+			      		</adapt>
+			   		</iterate>
+		        </visibleWhen>
+	       </command>
+		</menuContribution>
+		<menuContribution locationURI="popup:net.bioclipse.chemoinformatics.popup.gen3d?after=additions">
+		    <command commandId="net.bioclipse.cdk.ui.handlers.create3dwithreset" label="Recreate with CDK" icon="icons/molecule3D.png">
+		      	<visibleWhen>
+			   		<iterate operator="and" ifEmpty="false">
+		      			<adapt type="org.eclipse.core.resources.IResource">
+			      			<or>
+					   		    <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.mdlMolFile3D" />
+				            </or>
+			      		</adapt>
+			   		</iterate>
+		        </visibleWhen>
+	       </command>
+		</menuContribution>
+		<menuContribution locationURI="popup:net.bioclipse.chemoinformatics.popup.gen3d?after=additions">
+		    <command commandId="net.bioclipse.cdk.ui.handlers.create3dwithreset" label="Create with CDK" icon="icons/molecule3D.png">
+		      	<visibleWhen>
+			   		<iterate operator="and" ifEmpty="false">
+		      			<adapt type="org.eclipse.core.resources.IResource">
+			      			<or>
+				                <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.mdlMolFile2D" />
+				            </or>
+			      		</adapt>
+			   		</iterate>
+		        </visibleWhen>
+	       </command>
+		</menuContribution>
+		<menuContribution locationURI="popup:net.bioclipse.chemoinformatics.popup.gen2d?after=additions">
+		    <command commandId="net.bioclipse.cdk.ui.handlers.create2dwithreset" label="Recreate with CDK" icon="icons/molecule2D.png">
+		      	<visibleWhen>
+			   		<iterate operator="and" ifEmpty="false">
+		      			<adapt type="org.eclipse.core.resources.IResource">
+			      			<or>
+					   		    <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.mdlMolFile2D" />
+				            </or>
+			      		</adapt>
+			   		</iterate>
+		        </visibleWhen>
+	       </command>
+		</menuContribution>
+		<menuContribution locationURI="popup:net.bioclipse.chemoinformatics.popup.gen2d?after=additions">
+		    <command commandId="net.bioclipse.cdk.ui.handlers.create2dwithreset" label="Create with CDK" icon="icons/molecule2D.png">
+		      	<visibleWhen>
+			   		<iterate operator="and" ifEmpty="false">
+		      			<adapt type="org.eclipse.core.resources.IResource">
+			      			<or>
 					   		    <test property="org.eclipse.core.resources.contentTypeId" value="net.bioclipse.contenttypes.mdlMolFile3D" />
 				            </or>
 			      		</adapt>
@@ -924,6 +1071,9 @@
 		</menuContribution>
 
 	</extension>
+</plugin>
+<plugin id="net.bioclipse.bibtexml.edit">
+<!-- ../net.bioclipse.bibtexml.edit/plugin.xml -->
 </plugin>
 <plugin id="net.bioclipse.scripting">
 <!-- ../net.bioclipse.scripting/plugin.xml -->

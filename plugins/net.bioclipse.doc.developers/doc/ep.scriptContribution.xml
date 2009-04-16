@@ -101,6 +101,9 @@
 <plugin id="net.bioclipse.statistics.jama">
 <!-- ../net.bioclipse.statistics.jama/plugin.xml -->
 </plugin>
+<plugin id="net.bioclipse.data.speclipse">
+<!-- ../net.bioclipse.data.speclipse/plugin.xml -->
+</plugin>
 <plugin id="net.bioclipse.seneca">
 <!-- ../net.bioclipse.seneca/plugin.xml -->
 <extension point="net.bioclipse.scripting.contribution">
@@ -123,10 +126,6 @@
 </plugin>
 <plugin id="net.bioclipse.doc">
 <!-- ../net.bioclipse.doc/plugin.xml -->
-<extension point="net.bioclipse.scripting.contribution">
-      <scriptContribution id="net.bioclipse.rdf.business.RDFManager" service="net.bioclipse.rdf.business.RDFManagerFactory">
-      </scriptContribution>
-   </extension>
 </plugin>
 <plugin id="net.bioclipse.hsqldb">
 <!-- ../net.bioclipse.hsqldb/plugin.xml -->
@@ -149,10 +148,6 @@
 </plugin>
 <plugin id="net.bioclipse.doc.developers">
 <!-- ../net.bioclipse.doc.developers/plugin.xml -->
-<extension point="net.bioclipse.scripting.contribution">
-      <scriptContribution id="net.bioclipse.rdf.business.RDFManager" service="net.bioclipse.rdf.business.RDFManagerFactory">
-      </scriptContribution>
-   </extension>
 </plugin>
 <plugin id="net.bioclipse.core">
 <!-- ../net.bioclipse.core/plugin.xml -->
@@ -163,6 +158,9 @@
 </plugin>
 <plugin id="net.bioclipse.pcore.edit">
 <!-- ../net.bioclipse.pcore.edit/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.bibtexml">
+<!-- ../net.bioclipse.bibtexml/plugin.xml -->
 </plugin>
 <plugin id="net.bioclipse.cml">
 <!-- ../net.bioclipse.cml/plugin.xml -->
@@ -175,6 +173,13 @@
 <!-- ../net.bioclipse.cdk.debug/plugin.xml -->
 <extension point="net.bioclipse.scripting.contribution">
       <scriptContribution id="net.bioclipse.cdkdebug.business.CDKDebugManager" service="net.bioclipse.cdkdebug.business.CDKDebugManagerFactory">
+      </scriptContribution>
+   </extension>
+</plugin>
+<plugin id="net.bioclipse.balloon.business">
+<!-- ../net.bioclipse.balloon.business/plugin.xml -->
+<extension point="net.bioclipse.scripting.contribution">
+      <scriptContribution id="net.bioclipse.balloon.business.BalloonManager" service="net.bioclipse.balloon.business.BalloonManagerFactory">
       </scriptContribution>
    </extension>
 </plugin>
@@ -229,6 +234,9 @@
 <plugin id="se.uu.farmbio.hivpredrt.model">
 <!-- ../se.uu.farmbio.hivpredrt.model/plugin.xml -->
 </plugin>
+<plugin id="net.bioclipse.actionHistory">
+<!-- ../net.bioclipse.actionHistory/plugin.xml -->
+</plugin>
 <plugin id="net.bioclipse.specmol">
 <!-- ../net.bioclipse.specmol/plugin.xml -->
 <extension point="net.bioclipse.scripting.contribution">
@@ -254,6 +262,9 @@
 </plugin>
 <plugin id="net.bioclipse.cdk.ui">
 <!-- ../net.bioclipse.cdk.ui/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.bibtexml.edit">
+<!-- ../net.bioclipse.bibtexml.edit/plugin.xml -->
 </plugin>
 <plugin id="net.bioclipse.scripting">
 <!-- ../net.bioclipse.scripting/plugin.xml -->

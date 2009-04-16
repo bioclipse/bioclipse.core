@@ -76,6 +76,12 @@
 <plugin id="net.bioclipse.statistics.jama">
 <!-- ../net.bioclipse.statistics.jama/plugin.xml -->
 </plugin>
+<plugin id="net.bioclipse.data.speclipse">
+<!-- ../net.bioclipse.data.speclipse/plugin.xml -->
+<extension point="net.bioclipse.data.install">
+      <folder name="Speclipse" description="Speclipse sample data" location="data/speclipse" wizard="net.bioclipse.data.speclipse.NewSpeclipseProjectWizard" icon="icons/spectrum.gif" />
+  </extension>
+</plugin>
 <plugin id="net.bioclipse.seneca">
 <!-- ../net.bioclipse.seneca/plugin.xml -->
 </plugin>
@@ -115,11 +121,17 @@
 <plugin id="net.bioclipse.pcore.edit">
 <!-- ../net.bioclipse.pcore.edit/plugin.xml -->
 </plugin>
+<plugin id="net.bioclipse.bibtexml">
+<!-- ../net.bioclipse.bibtexml/plugin.xml -->
+</plugin>
 <plugin id="net.bioclipse.cml">
 <!-- ../net.bioclipse.cml/plugin.xml -->
 </plugin>
 <plugin id="net.bioclipse.cdk.debug">
 <!-- ../net.bioclipse.cdk.debug/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.balloon.business">
+<!-- ../net.bioclipse.balloon.business/plugin.xml -->
 </plugin>
 <plugin id="net.bioclipse.structuredb.tests">
 <!-- ../net.bioclipse.structuredb.tests/plugin.xml -->
@@ -141,8 +153,16 @@
       <folder name="SMILES" description="Sample SMILES files" location="data/SMILES" />
       <folder name="Nucleobases" description="Some sample nucleobases" location="data/nucleobases" />
       <folder name="PDB" description="Sample files in PDB format" location="data/pdb" />
-      <folder name="spectra" description="Sample spectral data" location="data/spectra" />
-      <folder name="specmol" description="Sample assigned spectral data" location="data/specmol" />
+      <!--folder 
+        name="spectra"
+        description="Sample spectral data"
+        location="data/spectra"
+      />
+      <folder 
+        name="specmol"
+        description="Sample assigned spectral data"
+        location="data/specmol"
+      /-->
 </extension>
 </plugin>
 <plugin id="net.bioclipse.jmol">
@@ -166,6 +186,9 @@
 <plugin id="se.uu.farmbio.hivpredrt.model">
 <!-- ../se.uu.farmbio.hivpredrt.model/plugin.xml -->
 </plugin>
+<plugin id="net.bioclipse.actionHistory">
+<!-- ../net.bioclipse.actionHistory/plugin.xml -->
+</plugin>
 <plugin id="net.bioclipse.specmol">
 <!-- ../net.bioclipse.specmol/plugin.xml -->
 </plugin>
@@ -183,6 +206,9 @@
 </plugin>
 <plugin id="net.bioclipse.cdk.ui">
 <!-- ../net.bioclipse.cdk.ui/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.bibtexml.edit">
+<!-- ../net.bioclipse.bibtexml.edit/plugin.xml -->
 </plugin>
 <plugin id="net.bioclipse.scripting">
 <!-- ../net.bioclipse.scripting/plugin.xml -->
