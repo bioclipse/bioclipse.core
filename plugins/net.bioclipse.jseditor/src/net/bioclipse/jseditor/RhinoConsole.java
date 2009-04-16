@@ -2,6 +2,7 @@ package net.bioclipse.jseditor;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
@@ -37,6 +38,12 @@ public class RhinoConsole implements IConsoleFactory {
     private static MessageConsoleStream out = null,
                                         out_blue = null,
                                         out_red = null;
+    
+    private enum Colors {
+    	BLACK,
+    	BLUE,
+    	RED
+    }
 
     public void openConsole() {
         show();
@@ -87,16 +94,23 @@ public class RhinoConsole implements IConsoleFactory {
         return rhinoConsole;
     }
 
-    private static void println(final MessageConsoleStream consolestream,
-                                final String message) {
-        if (consolestream == null)
-            return;
+    private static void println(final Colors colors, final String message) {
 
         int message_length = message.length();
         final int MAX_SIZE = 25000;
         if (message_length > MAX_SIZE) {
             Runnable r = new Runnable() {
                 public void run() {
+                	MessageConsoleStream consolestream;
+                	if (colors == Colors.BLUE)
+                		consolestream = getConsoleStreamBlue();
+                	else if (colors == Colors.RED)
+                		consolestream = getConsoleStreamRed();
+                	else
+                		consolestream = getConsoleStream();
+                    if (consolestream == null)
+                        return;
+                    
                     consolestream.print(message.substring(0, MAX_SIZE));
                     consolestream.println(" [...]");
                     consolestream.println(" A String was truncated: the String "
@@ -108,6 +122,15 @@ public class RhinoConsole implements IConsoleFactory {
         } else {
             Runnable r = new Runnable() {
                 public void run() {
+                	MessageConsoleStream consolestream;
+                	if (colors == Colors.BLUE)
+                		consolestream = getConsoleStreamBlue();
+                	else if (colors == Colors.RED)
+                		consolestream = getConsoleStreamRed();
+                	else
+                		consolestream = getConsoleStream();
+                    if (consolestream == null)
+                        return;
                     consolestream.println(message);
                 }
             };
@@ -116,15 +139,15 @@ public class RhinoConsole implements IConsoleFactory {
     }
 
     public static void writeToConsole(final String message) {
-        println(getConsoleStream(), message);
+        println(Colors.BLACK, message);
     }
 
     public static void writeToConsoleBlue(final String message) {
-        println(getConsoleStreamBlue(), message);
+        println(Colors.BLUE, message);
     }
 
     public static void writeToConsoleRed(final String message) {
-        println(getConsoleStreamRed(), message);
+        println(Colors.RED, message);
     }
 
     // with time-stamp
