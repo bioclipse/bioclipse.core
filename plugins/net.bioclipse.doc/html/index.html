@@ -1,0 +1,3203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html>
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 7 December 2008), see www.w3.org">
+
+  <title>Manager documentation</title>
+  <style type="text/css">
+    body {
+        font-size: 80%;
+        font-family: "Lucida Grande", Verdana, Arial, Sans-Serif;
+      }
+      h2 {
+        border-bottom: solid 1px black;
+      }
+      .description {
+        background: #fcc;
+        border: solid 1px #800;
+        padding: 1em;
+      }
+      .method {
+        background: #ccc;
+        border: solid 1px #444;
+        padding: 0.5em 1em 0.5em 1em;
+        margin: 1em;
+      }
+  </style>
+</head>
+
+<body>
+  <ul>
+    <li><a href='#bibtex'>bibtex</a></li>
+
+    <li><a href='#biojava'>biojava</a></li>
+
+    <li><a href='#cdk'>cdk</a></li>
+
+    <li><a href='#cdx'>cdx</a></li>
+
+    <li><a href='#inchi'>inchi</a></li>
+
+    <li><a href='#jcp'>jcp</a></li>
+
+    <li><a href='#jcpprop'>jcpprop</a></li>
+
+    <li><a href='#jmol'>jmol</a></li>
+
+    <li><a href='#js'>js</a></li>
+
+    <li><a href='#molecule'>molecule</a></li>
+
+    <li><a href='#rdf'>rdf</a></li>
+
+    <li><a href='#seneca'>seneca</a></li>
+
+    <li><a href='#services'>services</a></li>
+
+    <li><a href='#specmol'>specmol</a></li>
+
+    <li><a href='#spectrum'>spectrum</a></li>
+
+    <li><a href='#structuredb'>structuredb</a></li>
+
+    <li><a href='#ui'>ui</a></li>
+
+    <li><a href='#userManager'>userManager</a></li>
+
+    <li><a href='#webservices'>webservices</a></li>
+  </ul>
+
+  <h2 id='bibtex'>bibtex</h2>
+
+  <p class='description'>Contains Specmol related methods</p>
+
+  <div class='method'>
+    <h3>loadBibliodata</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Loads a bibtex file using jabref.</dd>
+
+      <dt>params</dt>
+
+      <dd>String path</dd>
+    </dl>
+  </div>
+
+  <h2 id='biojava'>biojava</h2>
+
+  <p class='description'>Provides bioinformatics services through
+  the BioJava project.</p>
+
+  <div class='method'>
+    <h3>DNAToProtein</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Converts a BiojavaDNASequence into a
+      BiojavaAASequence.</dd>
+
+      <dt>params</dt>
+
+      <dd>BiojavaDNASequence sequence</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>DNAtoRNA</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Converts a DNA sequence into RNA (transcription.</dd>
+
+      <dt>params</dt>
+
+      <dd>BiojavaDNASequence sequence</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>RNAtoDNA</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Converts a RNA sequence into DNA (reverse
+      transcription.</dd>
+
+      <dt>params</dt>
+
+      <dd>BiojavaRNASequence rnaSeq</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>RNAtoProtein</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Convert a BiojavaRNASequence into a
+      BiojavaAASequence.</dd>
+
+      <dt>params</dt>
+
+      <dd>BiojavaRNASequence sequence</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>createSequence</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates sequence from a name and a plain sequence string
+      (content.</dd>
+
+      <dt>params</dt>
+
+      <dd>String name, String content</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>createSequenceFromFasta</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates sequence from a plain sequence string. Will set
+      name to empty.</dd>
+
+      <dt>params</dt>
+
+      <dd>String content</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>loadSequence</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Loads sequence from InputStream.</dd>
+
+      <dt>params</dt>
+
+      <dd>InputStream instream</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>loadSequences</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Loads sequenceCollection from InputStream.</dd>
+
+      <dt>params</dt>
+
+      <dd>String path</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>renderAs</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Converts a BiojavaSequence to a String representation in
+      a given format.</dd>
+
+      <dt>params</dt>
+
+      <dd>SequenceFormat format</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>saveSequence</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Saves a Biojava sequence to a given path using a given
+      format.</dd>
+
+      <dt>params</dt>
+
+      <dd>BiojavaSequence seq, String path, SequenceFormat
+      format</dd>
+    </dl>
+  </div>
+
+  <h2 id='cdk'>cdk</h2>
+
+  <p class='description'>Contains CDK related methods</p>
+
+  <div class='method'>
+    <h3>addExplicitHydrogens</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Adds explicit hydrogens to this molecule</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule mol</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>addImplicitHydrogens</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Adds implicit hydrogens to this molecule</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule mol</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>areIsomorphic</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns true if the paramater named molecule1 and the
+      paramater named molecule2 are isomorph.<br>
+      (Performs an isomophism test without checking
+      fingerprints</dd>
+
+      <dt>params</dt>
+
+      <dd>ICDKMolecule molecule1, ICDKMolecule molecule2</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>calculateMass</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Calculate and return the molecular weight for the
+      molecule.</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule molecule</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>calculateSMILES</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns the SMILES for a molecule</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule molecule</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>create</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a cdk molecule from a molecule</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule m</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>createConformerIterator</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns an iterator to the molecules in an IFile that
+      might contain conformers.</dd>
+
+      <dt>params</dt>
+
+      <dd>String path</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>createMoleculeIterator</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates and iterator to the molecules in the file at the
+      path</dd>
+
+      <dt>params</dt>
+
+      <dd>String path</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>createMoleculeList</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates an empty molecule list.</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>createSDFIndex</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a index of the molecules positons in a
+      SDFile</dd>
+
+      <dt>params</dt>
+
+      <dd>String file</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>createSDFPropertyMap</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Create a index for molecules that contains a certain
+      property</dd>
+
+      <dt>params</dt>
+
+      <dd>String file, String property</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>createSDFile</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates an sd file from a number of molecules</dd>
+
+      <dt>params</dt>
+
+      <dd>String file, List&lt;IMolecule&gt; entries</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>createSDFileIndex</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a index file for the SD-file.</dd>
+
+      <dt>params</dt>
+
+      <dd>String filePath</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>determineFormat</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Determines the IChemFormat equivalent of the givencontent
+      type</dd>
+
+      <dt>params</dt>
+
+      <dd>IContentType type</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>extractFromSDFile</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Extracts moleculs indicated by index in values to a
+      list</dd>
+
+      <dt>params</dt>
+
+      <dd>String file, String property, Collection values</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>fingerPrintMatches</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns true if the fingerprint of the subStructure is a
+      subset of thefingerprint for the molecule</dd>
+
+      <dt>params</dt>
+
+      <dd>ICDKMolecule molecule, ICDKMolecule subStructure</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>fromCml</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a cdk molecule from a CML String</dd>
+
+      <dt>params</dt>
+
+      <dd>String cml</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>fromSMILES</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a cdk molecule from SMILES</dd>
+
+      <dt>params</dt>
+
+      <dd>String SMILES</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>fromString</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a cdk molecule from a String.</dd>
+
+      <dt>params</dt>
+
+      <dd>String input file</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>generate2dCoordinates</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Create 2D coordinate for the given molecule</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule molecule</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>generate3dCoordinates</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Create 3D coordinate for the given molecule</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule molecule</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getFormat</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns the IChemFormat for the given type</dd>
+
+      <dt>params</dt>
+
+      <dd>String type</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getFormats</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns all available IChemFormats</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getInfo</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns number of molecules in file.</dd>
+
+      <dt>params</dt>
+
+      <dd>String path</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getNoMolecules</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns number of molecules in file.</dd>
+
+      <dt>params</dt>
+
+      <dd>String path</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getSmartsMatches</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Query a molecule for a SMARTS string and return a list of
+      IAtomCOntainers with the matches.</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule molecule: Molecule to query, String SMARTS</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>guessFormatFromExtension</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Makes an educated guess if the file format basedon the
+      file extension alone.</dd>
+
+      <dt>params</dt>
+
+      <dd>String path</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>has2d</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns true if molecule has 2D coordinates, false
+      otherwise.</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule mol</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>has3d</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns true if molecule has 3D coordinates, false
+      otherwise.</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule mol</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>isValidSmarts</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Determines if a SMARTS string cane be interpreted by
+      CDK.</dd>
+
+      <dt>params</dt>
+
+      <dd>String SMARTS</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>loadConformers</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Loads the molecules at the path into a list, and take
+      conformers into account. Currently only reads SDFiles.</dd>
+
+      <dt>params</dt>
+
+      <dd>String path</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>loadMolecule</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Loads a molecule from file. Does not do aromaticity
+      detection (use perceiveAromaticity. Returns the first if
+      multiple molecules exists in the file</dd>
+
+      <dt>params</dt>
+
+      <dd>String path</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>loadMolecules</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Loads molecules from a file at a given path into a list
+      of molecules</dd>
+
+      <dt>params</dt>
+
+      <dd>String path</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>loadSMILESFile</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Loads molecules from a SMILES file at a given path into a
+      list of molecules</dd>
+
+      <dt>params</dt>
+
+      <dd>String path</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>molecularFormula</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Gives the molecularformula as a String</dd>
+
+      <dt>params</dt>
+
+      <dd>ICDKMolecule m</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>numberOfEntriesInSDF</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Counts the number of entries in an SDF file at the given
+      file path. Returns 0 in case of problem.</dd>
+
+      <dt>params</dt>
+
+      <dd>String filePath</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>partition</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Splits up an atom container into fully connected
+      molecules</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule molecule: atom container to fragmentate</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>perceiveAromaticity</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Perceives aromaticity on an IMolecule. The molecule will
+      be unchanged and a new molecule created. Uses the
+      org.openscience.cdk.aromaticity.CDKHueckelAromaticityDetector
+      class from CDK.</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule mol</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>saveCML</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Saves a molecule in the Chemical Markup Language format
+      (filename must be a relative to workspace root and folder
+      must exist. Example of file String: \</dd>
+
+      <dt>params</dt>
+
+      <dd>ICDKMolecule molecule, String filename</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>saveMDLMolfile</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Saves a molecule in the MDL molfile V2000 format
+      (filename must be a relative to workspace root and folder
+      must exist</dd>
+
+      <dt>params</dt>
+
+      <dd>ICDKMolecule molecule, String filename</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>saveMolecule</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>saves mol to a file (filename must be a relative to
+      workspace root and folder must exist, filetype must be a
+      IChemFormat. If overwrite=true then file will be overwritten
+      if exists.</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule mol, String filename, IChemFormat filetype,
+      boolean overwrite</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>smartsMatches</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns true if the given SMARTS matches the given
+      molecule</dd>
+
+      <dt>params</dt>
+
+      <dd>ICDKMolecule molecule, String smarts</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>subStructureMatches</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns true if the paramater named subStructure is a
+      substructure of the paramater named molecule.<br>
+      (Performs an isomophism test without checking
+      fingerprints</dd>
+
+      <dt>params</dt>
+
+      <dd>ICDKMolecule molecule, ICDKMolecule subStructure</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>totalFormalCharge</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Calculates the total formal charge.</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule molecule: molecule to calculate the total
+      formal charge for.</dd>
+    </dl>
+  </div>
+
+  <h2 id='cdx'>cdx</h2>
+
+  <p class='description'>Contains CDK debug related methods</p>
+
+  <div class='method'>
+    <h3>debug</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns a string representation of the data
+      structures.</dd>
+
+      <dt>params</dt>
+
+      <dd>ICDKMolecule mol</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>diff</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns the differences between the two molecules</dd>
+
+      <dt>params</dt>
+
+      <dd>ICDKMolecule mol, ICDKMolecule mol2</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>perceiveCDKAtomTypes</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns a list of CDK atom types.</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule mol</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>perceiveSybylAtomTypes</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns a list of Sybyl atom types.</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule mol</dd>
+    </dl>
+  </div>
+
+  <h2 id='inchi'>inchi</h2>
+
+  <p class='description'>Manager for creating InChI and
+  InChIKeys.</p>
+
+  <div class='method'>
+    <h3>generate</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Generates the InChI for the given molecule.</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule molecule</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>generateKey</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Generates the InChIKey for the given molecule.</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule molecule</dd>
+    </dl>
+  </div>
+
+  <h2 id='jcp'>jcp</h2>
+
+  <p class='description'>Manager for the JChemPaintEditor scripting
+  language."</p>
+
+  <div class='method'>
+    <h3>addAtom</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Adds a new atom bonded to the given atom.</dd>
+
+      <dt>params</dt>
+
+      <dd>String element symbol, IAtom atom to attach the new atom
+      too</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>addBond</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Create a new bond between the two given atoms.</dd>
+
+      <dt>params</dt>
+
+      <dd>IAtom first atom in the bond, IAtom second atom in the
+      bond</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>addPhenyl</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Adds a phenyl ring fused with the given bond.</dd>
+
+      <dt>params</dt>
+
+      <dd>IBond bond to add the phenyl ring to</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>addRing</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Adds a carbon ring of the given size fused with the given
+      bond.</dd>
+
+      <dt>params</dt>
+
+      <dd>IBond bond to add the ring to, int ring size</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>cleanup</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Recalculates 2D coordinates for the complete
+      molecule.</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getAtomRadius</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>get the radius of an atom symbol</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getBondDistance</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>get distance between multiple bonds</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getBondLength</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>get the standard bond length</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getBondOrder</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns a IBond.Order matching the given order.</dd>
+
+      <dt>params</dt>
+
+      <dd>int order</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getBondWidth</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>get the width of bonds</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getClosestAtom</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns the IAtom closest to the world coordinate.</dd>
+
+      <dt>params</dt>
+
+      <dd>Point2d worldCoordinate</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getClosestBond</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns the IBond closest to the world coordinate.</dd>
+
+      <dt>params</dt>
+
+      <dd>Point2d worldCoordinate</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getDrawNumbers</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>showing atom numbers</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getFitToScreen</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>get if the diagram fits the screen</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getHighlightDistance</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>get the distance to highlight within</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getIsCompact</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>get to true if atoms are to be compact</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getMargin</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>get the margin of the diagram</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getModel</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns the ICDKMolecule of the active JChemPaint
+      editor.</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getRingProportion</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>get the position of inner-ring bonds</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getShowAromaticity</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>true if aromatic indicators on</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getShowAromaticityInCDKStyle</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>true if CDK indicators are shown</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getShowEndCarbons</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>true if showing explicit methyl groups</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getShowExplicitHydrogens</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>get to show hydrogens explicitly</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getShowImplicitHydrogens</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>get to show hydrogens implicitly</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getWedgeWidth</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>get the on-screen width of a wedge</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getZoom</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>get the zoom factor</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>moveTo</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Moves the center of the bond to the new point.</dd>
+
+      <dt>params</dt>
+
+      <dd>IBond bond to move, Point2d point to move the atom
+      to</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>newPoint2d</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a new javax.vecmath.Point2d.</dd>
+
+      <dt>params</dt>
+
+      <dd>double x coordinate, double y coordinate</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>removeAtom</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Removes an IAtom from the data model.</dd>
+
+      <dt>params</dt>
+
+      <dd>IAtom atom to remove</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>removeBond</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Removes a IBond from the data model.</dd>
+
+      <dt>params</dt>
+
+      <dd>IBond bond to remove</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setAtomRadius</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set the radius of an atom symbol</dd>
+
+      <dt>params</dt>
+
+      <dd>double radius of the atom symbol on screen</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setBondDistance</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set distance between multiple bonds</dd>
+
+      <dt>params</dt>
+
+      <dd>double distance on screen between bonds</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setBondLength</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set the standard bond length</dd>
+
+      <dt>params</dt>
+
+      <dd>double length on screen of a typical bond</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setBondWidth</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set the width of bonds</dd>
+
+      <dt>params</dt>
+
+      <dd>double width of a bond</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setCharge</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Changes the formal charge of this atom.</dd>
+
+      <dt>params</dt>
+
+      <dd>IAtom atom to change, int new formal charge</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setDrawNumbers</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set to show atom numbers</dd>
+
+      <dt>params</dt>
+
+      <dd>boolean true if atom numbers shown</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setFitToScreen</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set the diagram to fit the screen</dd>
+
+      <dt>params</dt>
+
+      <dd>boolean true if the diagram should fit screen</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setHighlightDistance</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set the distance to highlight within</dd>
+
+      <dt>params</dt>
+
+      <dd>double the highlight distance on screen</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setIsCompact</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set to true if atoms are to be compact</dd>
+
+      <dt>params</dt>
+
+      <dd>boolean atoms should be shown in compact form</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setMargin</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set the margin of the diagram</dd>
+
+      <dt>params</dt>
+
+      <dd>double the screen margin</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setMassNumber</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Changes the mass number of this element.</dd>
+
+      <dt>params</dt>
+
+      <dd>IAtom atom to change, int new mass number</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setModel</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Sets the ICDKMolecule of the active JChemPaint
+      editor.</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setOrder</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Changes the order of the bond.</dd>
+
+      <dt>params</dt>
+
+      <dd>IBond bond to change, IBond.Order new bond order</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setRingProportion</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set the position of inner-ring bonds</dd>
+
+      <dt>params</dt>
+
+      <dd>double the fraction of ring diameter to use</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setShowAromaticity</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set to true if aromatic indicators on</dd>
+
+      <dt>params</dt>
+
+      <dd>boolean true if aromatic indicators shown</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setShowAromaticityInCDKStyle</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set to true for CDK indicators</dd>
+
+      <dt>params</dt>
+
+      <dd>boolean true if CDK aromatic indicators shown</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setShowEndCarbons</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set to show explicit methyl groups</dd>
+
+      <dt>params</dt>
+
+      <dd>boolean true if methyl groups shown explicitly</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setShowExplicitHydrogens</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set to show hydrogens explicitly</dd>
+
+      <dt>params</dt>
+
+      <dd>boolean true if hydrogens shown explicitly</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setShowImplicitHydrogens</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set to show hydrogens implicitly</dd>
+
+      <dt>params</dt>
+
+      <dd>boolean true if hydrogens shown implicitly</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setSymbol</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Changes the element of this atom.</dd>
+
+      <dt>params</dt>
+
+      <dd>IAtom atom to change, Symbol new element symbol</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setWedgeType</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Changes the wedge type of the bond.</dd>
+
+      <dt>params</dt>
+
+      <dd>IBond bond to change, int new wedge type</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setWedgeWidth</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set the on-screen width of a wedge</dd>
+
+      <dt>params</dt>
+
+      <dd>double the width on screen of a wedge bond</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setZoom</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set the zoom factor</dd>
+
+      <dt>params</dt>
+
+      <dd>double the zoom factor</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>snapshot</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set the zoom factor</dd>
+
+      <dt>params</dt>
+
+      <dd>double the zoom factor</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>updateImplicitHydrogenCounts</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Updates the implicit hydrogen counts, given the given the
+      current connectivity.</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>updateView</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Refreshes the JChemPaint view screen.</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>zap</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Deletes all atoms and bonds.</dd>
+    </dl>
+  </div>
+
+  <h2 id='jcpprop'>jcpprop</h2>
+
+  <p class='description'>Manager for the JChemPaintEditor
+  Properties scripting language."</p>
+
+  <div class='method'>
+    <h3>applyGlobalProperties</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>applies the global properties to allopened JChemPaint
+      editors</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getAtomRadius</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>returns the radius of a compact atom</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getBondDistance</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>returns the length of a standard bond</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getBondLength</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>returns the length of a standard bond</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getHighlightDistance</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>returns the length of a standard bond</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getMargin</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>returns the margin size</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getShowAromaticity</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>true if aromatic indicators on</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getShowEndCarbons</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>true if showing explicit methyl groups</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getShowExplicitHydrogens</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>true if showing explicit hydrogens</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getShowImplicitHydrogens</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>true if showing implicit hydrogens</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getShowNumbers</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>true if showing numbers on atoms</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getWedgeWidth</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>returns the width of a stereo wedge</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setAtomRadius</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set the radius of a compact atom</dd>
+
+      <dt>params</dt>
+
+      <dd>atomRadius the radius of a compact atom</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setBondDistance</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set the distance between double bonds</dd>
+
+      <dt>params</dt>
+
+      <dd>bondDistance the distance between bonds</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setBondLength</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set the length of a standard bond</dd>
+
+      <dt>params</dt>
+
+      <dd>bondLength the length of a standard bond</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setHighlightDistance</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set the highlight distance</dd>
+
+      <dt>params</dt>
+
+      <dd>highlightDistance the distance within which an atom or
+      bond is highlighted</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setMargin</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set the amount of whitespace aroundthe diagram</dd>
+
+      <dt>params</dt>
+
+      <dd>margin whitespace margin size</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setShowAromaticity</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set to true if aromatic indicators on</dd>
+
+      <dt>params</dt>
+
+      <dd>boolean true if aromatic indicators shown</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setShowEndCarbons</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set to show explicit methyl groups</dd>
+
+      <dt>params</dt>
+
+      <dd>boolean true if methyl groups shown explicitly</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setShowExplicitHydrogens</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set to show explicit hydrogens</dd>
+
+      <dt>params</dt>
+
+      <dd>boolean true if hydrogens shown explicitly</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setShowImplicitHydrogens</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set to show implicit hydrogens</dd>
+
+      <dt>params</dt>
+
+      <dd>boolean true if implicit hydrogens shown</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setShowNumbers</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set to show numbers on atoms</dd>
+
+      <dt>params</dt>
+
+      <dd>boolean true if numbers shown on atoms</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setWedgeWidth</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>set the width on screen of a wedge</dd>
+
+      <dt>params</dt>
+
+      <dd>wedge width on screen of the fat end of astereo
+      wedge</dd>
+    </dl>
+  </div>
+
+  <h2 id='jmol'>jmol</h2>
+
+  <p class='description'>This manager contains methods for
+  controlling jmol</p>
+
+  <div class='method'>
+    <h3>load</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Load a file into the active Jmol editor.</dd>
+
+      <dt>params</dt>
+
+      <dd>Path to file</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>minimize</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Optimizes the geometry of the structurein the active
+      JmolEditor (but not back to file</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>print</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Prints the given string to the Jmol console</dd>
+
+      <dt>params</dt>
+
+      <dd>String s</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>run</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Execute the given String as a script in the active Jmol
+      editor.</dd>
+
+      <dt>params</dt>
+
+      <dd>String script</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>snapshot</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Export as image to path</dd>
+
+      <dt>params</dt>
+
+      <dd>String filepath</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>spinOff</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Causes active jmol to stop spinning molecule</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>spinOn</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Causes active jmol to spin molecule</dd>
+    </dl>
+  </div>
+
+  <h2 id='js'>js</h2>
+
+  <p class='description'>Controls access to the Javascript
+  Console.</p>
+
+  <div class='method'>
+    <h3>clear</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Clears the console.</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>eval</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Evaluates a script.</dd>
+
+      <dt>params</dt>
+
+      <dd>String command</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>executeFile</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Runs a js script file.</dd>
+
+      <dt>params</dt>
+
+      <dd>String filePath</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>print</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Prints a message to the console.</dd>
+
+      <dt>params</dt>
+
+      <dd>String message</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>say</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Prints a message to the console, adding a trailing
+      newline.</dd>
+
+      <dt>params</dt>
+
+      <dd>String message</dd>
+    </dl>
+  </div>
+
+  <h2 id='molecule'>molecule</h2>
+
+  <p class='description'>Manages light weight molecules</p>
+
+  <div class='method'>
+    <h3>fromSmiles</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>creates a light weight molecule from smiles</dd>
+
+      <dt>params</dt>
+
+      <dd>String smiles</dd>
+    </dl>
+  </div>
+
+  <h2 id='rdf'>rdf</h2>
+
+  <p class='description'>Contains RDF related methods</p>
+
+  <div class='method'>
+    <h3>createStore</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a new RDF store</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>dump</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Dumps the full model to the console</dd>
+
+      <dt>params</dt>
+
+      <dd>IRDFStore store to dump</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>importFile</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Loads an RDF/XML file</dd>
+
+      <dt>params</dt>
+
+      <dd>IRDFStore store to which loaded content is added,String
+      path of file to load, String format of the content to read
+      (\</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>importURL</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Loads a RDF/XML file</dd>
+
+      <dt>params</dt>
+
+      <dd>IRDFStore store to which loaded content is added,String
+      URL to load from</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>reason</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns the results matching the query</dd>
+
+      <dt>params</dt>
+
+      <dd>IRDFStore store to query,String SPARQL query</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>sparql</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns the results matching the query</dd>
+
+      <dt>params</dt>
+
+      <dd>IRDFStore store to query,String SPARQL query</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>validate</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Validates the consistency of the RDF model</dd>
+
+      <dt>params</dt>
+
+      <dd>IRDFStore store to validate</dd>
+    </dl>
+  </div>
+
+  <h2 id='seneca'>seneca</h2>
+
+  <p class='description'>Contains Seneca methods</p>
+
+  <div class='method'>
+    <h3>getJobSpecification</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Loads a job specification from a file.</dd>
+
+      <dt>params</dt>
+
+      <dd>IFile file</dd>
+    </dl>
+  </div>
+
+  <h2 id='services'>services</h2>
+
+  <p class='description'>Services are different implementations of
+  functionality that can have local or networked
+  implementations.</p>
+
+  <div class='method'>
+    <h3>run</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Runs the service with the given name provided with the
+      given input.</dd>
+
+      <dt>params</dt>
+
+      <dd>String serviceName, Object input</dd>
+    </dl>
+  </div>
+
+  <h2 id='specmol'>specmol</h2>
+
+  <p class='description'>Contains Specmol related methods</p>
+
+  <div class='method'>
+    <h3>create</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a jubmo spectrum from a spectrum</dd>
+
+      <dt>params</dt>
+
+      <dd>ISpectrum m</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>fromCml</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a jumbo specmol from a CML String</dd>
+
+      <dt>params</dt>
+
+      <dd>String cml</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>loadSpecmol</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Loads an assigned spectrum from file.</dd>
+
+      <dt>params</dt>
+
+      <dd>IFile file</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>saveSpecmol</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Saves a jubmo specmol to a file</dd>
+
+      <dt>params</dt>
+
+      <dd>JumboSpecmol spemol, IFile target</dd>
+    </dl>
+  </div>
+
+  <h2 id='spectrum'>spectrum</h2>
+
+  <p class='description'>Contains Spectrum related methods</p>
+
+  <div class='method'>
+    <h3>create</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a jubmo spectrum from a spectrum</dd>
+
+      <dt>params</dt>
+
+      <dd>ISpectrum m</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>fromCml</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a jumbo spectrum from a CML String</dd>
+
+      <dt>params</dt>
+
+      <dd>String cml</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>loadSpectrum</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Loads a spectrum from file.</dd>
+
+      <dt>params</dt>
+
+      <dd>IFile file</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>pickPeaks</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Does a peak picking on spectruminput and adds a peak
+      list(existing peaks are conserved</dd>
+
+      <dt>params</dt>
+
+      <dd>IJumboSpectrum spectruminput</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>saveSpectrum</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Saves a jubmo spectrum to a file</dd>
+
+      <dt>params</dt>
+
+      <dd>JumboSpectrum spectrum, IFile target, String
+      filetype</dd>
+    </dl>
+  </div>
+
+  <h2 id='structuredb'>structuredb</h2>
+
+  <p class='description'>Handles structure databases</p>
+
+  <div class='method'>
+    <h3>addMoleculesFromSDF</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Saves all molecules in a given sdf file in the database
+      with the given name. The molecules are annotated with
+      file_origin</dd>
+
+      <dt>params</dt>
+
+      <dd>String databaseName, String filePath</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>allAnnotations</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Fetches all annotations from a database with a given
+      name</dd>
+
+      <dt>params</dt>
+
+      <dd>String databaseName</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>allDatabaseNames</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns a list with the names of all structuredb database
+      instances.</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>allLabels</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns all labels in a database. That is: all
+      TextAnnotations with the corresponding Property being \</dd>
+
+      <dt>params</dt>
+
+      <dd>String databaseName</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>allMolecules</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Fetches all molecules from a database with a given
+      name</dd>
+
+      <dt>params</dt>
+
+      <dd>String databaseName</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>allMoleculesByName</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Fetches all structures by a given name from a database
+      with a given name</dd>
+
+      <dt>params</dt>
+
+      <dd>String databaseName, String name</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>allUsers</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Fetches all users from a database with a given name</dd>
+
+      <dt>params</dt>
+
+      <dd>String databaseName</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>createChoiceAnnotation</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a ChoiceAnnotation with the given property (which
+      must be a ChoiceProperty, name and saves it in the database
+      with the given name</dd>
+
+      <dt>params</dt>
+
+      <dd>String databaseName, String propertyName, String
+      value</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>createDatabase</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a local structure database with the given name if
+      no such database already exists.</dd>
+
+      <dt>params</dt>
+
+      <dd>String databaseName</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>createMolecule</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a database molecule with the given name from the
+      given cdkmolecule and saves it in the database with the given
+      name</dd>
+
+      <dt>params</dt>
+
+      <dd>String databaseName, String moleculeName, ICDKMolecule
+      cdkMolecule</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>createRealNumberAnnotation</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a RealNumberAnnotation with the given property
+      (which must be a RealNumberProperty, name and saves it in the
+      database with the given name</dd>
+
+      <dt>params</dt>
+
+      <dd>String databaseName, String propertyName, String
+      value</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>createTextAnnotation</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a TextAnnotation with the given property (which
+      must be a TextProperty, name and saves it in the database
+      with the given name</dd>
+
+      <dt>params</dt>
+
+      <dd>String databaseName, String propertyName, String
+      value</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>createUser</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a user with the given username and password and
+      with administrator rights if that variable is true</dd>
+
+      <dt>params</dt>
+
+      <dd>String databaseName, String username, String password,
+      boolean administrator</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>deleteAnnotation</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Deletes the given annotation from the given database</dd>
+
+      <dt>params</dt>
+
+      <dd>String database, Annotation annotation</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>deleteDatabase</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Removes a local database with the given name if such
+      exists, otherwise does nothing</dd>
+
+      <dt>params</dt>
+
+      <dd>String databaseName</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>deleteStructure</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Deletes the given molecule from the given database</dd>
+
+      <dt>params</dt>
+
+      <dd>String database, DBMolecule molecule</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>deleteWithMolecules</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Deletes the given annotation from the specified database
+      and all molecules annotated with that annotation</dd>
+
+      <dt>params</dt>
+
+      <dd>String name, Annotation annotation</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>save</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Saves changes on a annotation retrieved from the database
+      back to the database.</dd>
+
+      <dt>params</dt>
+
+      <dd>String database, Annotation annotation</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>smartsQuery</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Performs a SMARTS query returning a list of hitting
+      molecules in the database</dd>
+
+      <dt>params</dt>
+
+      <dd>String database, String smarts</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>smartsQueryIterator</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Performs a SMARTS query returning an iterator to the
+      hitting molecules in the database</dd>
+
+      <dt>params</dt>
+
+      <dd>String database, String smarts</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>subStructureSearch</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns a list of all molecules in the given database
+      that contains the given molecule</dd>
+
+      <dt>params</dt>
+
+      <dd>String databaseName, IMolecule molecule</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>subStructureSearchIterator</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns an iterator to all molecules in the given
+      database that contains the given molecule</dd>
+
+      <dt>params</dt>
+
+      <dd>String databaseName, IMolecule molecule</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>userByName</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Fetches a user with a given username from a database with
+      a given name</dd>
+
+      <dt>params</dt>
+
+      <dd>String databaseName, String username</dd>
+    </dl>
+  </div>
+
+  <h2 id='ui'>ui</h2>
+
+  <p class='description'>Controls access to Bioclipse UI.</p>
+
+  <div class='method'>
+    <h3>closeActiveEditor</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Closes the active editor</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>closeEditor</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Closes all editors working on a file</dd>
+
+      <dt>params</dt>
+
+      <dd>String path</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>fileExists</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Determines if the given file exists in the workspace</dd>
+
+      <dt>params</dt>
+
+      <dd>String filePath</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getEditors</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns a list of available editors</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>newFile</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates an empty file with the specified name</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>open</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Opens the IBioObject in its preferred editor</dd>
+
+      <dt>params</dt>
+
+      <dd>IBioObject bioObject</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>remove</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Deletes a file.</dd>
+
+      <dt>params</dt>
+
+      <dd>String filePath</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>save</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Save the content of the InputStream to the given
+      path.</dd>
+
+      <dt>params</dt>
+
+      <dd>String filePath, InputStream content</dd>
+    </dl>
+  </div>
+
+  <h2 id='userManager'>userManager</h2>
+
+  <p class='description'>Handles users and accounts in Bioclipse.
+  Can store things like database passwords and usernames in an
+  encrypted file.</p>
+
+  <div class='method'>
+    <h3>accountExists</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Wether an account with a given account id exists</dd>
+
+      <dt>params</dt>
+
+      <dd>String accountId</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>changePassword</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Changes the password for the logged in user if the
+      oldPassword is given correctly</dd>
+
+      <dt>params</dt>
+
+      <dd>String oldPassword, String newPassword</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>clearAccounts</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Removes all accounts for the currently logged in
+      user</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>createAccount</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a new account of the given accountType and with
+      the given properties</dd>
+
+      <dt>params</dt>
+
+      <dd>String accountID, HashMap&lt;String, String&gt;
+      properties, AccountType accountType</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>createUser</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a new user with the given username and
+      password</dd>
+
+      <dt>params</dt>
+
+      <dd>String username, String password</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>deleteUser</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>deletes the user with the given username</dd>
+
+      <dt>params</dt>
+
+      <dd>String username</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getAccountType</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Gives the accounttype for account with given account
+      id</dd>
+
+      <dt>params</dt>
+
+      <dd>String accountID</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getAvailableAccountTypeNames</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Gives the names of all available account types</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getAvailableAccountTypes</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Gives all available account types</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getLoggedInUser</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>gives the logged in user</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getLoggedInUserName</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Gives the name of the currently logged in user</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getLoggedInUsersAccountNames</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Gives the account names of the logged in user</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getProperty</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Gives the value of the given property for the account
+      with the given account id</dd>
+
+      <dt>params</dt>
+
+      <dd>String accountId, String property</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getPropertyKeys</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>gives the names of the properties for an account with a
+      given account id</dd>
+
+      <dt>params</dt>
+
+      <dd>String accountId</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getUserNames</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Gives a list of all user names</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>isLoggedIn</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns whether a user is logged in</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>logIn</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Logs in the user with the given username given that the
+      given password matches the stored one.</dd>
+
+      <dt>params</dt>
+
+      <dd>String username, String password</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>logOut</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Logs out the currently logged in user</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>persist</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Write all data to file</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>reloadFromFile</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Reloads all data from file discarding changes</dd>
+    </dl>
+  </div>
+
+  <h2 id='webservices'>webservices</h2>
+
+  <p class='description'>Contains webservices related methods</p>
+
+  <div class='method'>
+    <h3>downloadDbEntry</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Fetches an entry from the EBI databases</dd>
+
+      <dt>params</dt>
+
+      <dd>String db, String query, String format</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>downloadDbEntryAsFile</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Fetches an entry from the EBI databases and saves it</dd>
+
+      <dt>params</dt>
+
+      <dd>String db, String query, String format</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>downloadPDBAsFile</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Fetches a PDB entry with ID="pdbid' from the EBI
+      databases and saves it under the specified filename</dd>
+
+      <dt>params</dt>
+
+      <dd>String pdbid, String filename</dd>
+    </dl>
+  </div>
+</body>
+</html>
