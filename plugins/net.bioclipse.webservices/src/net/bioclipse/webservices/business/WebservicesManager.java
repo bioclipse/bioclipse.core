@@ -48,9 +48,16 @@ public class WebservicesManager implements IWebservicesManager{
     	
     	String ent = downloadDbEntry(db, query, format);
 
-		if (ResourceCreator.resourceExists(filename))
-			throw new BioclipseException("Error, the file "
-					+ filename + " exists already.");
+		if (ResourceCreator.resourceExists(filename)){
+		    //Remove PDB
+		    String noext=filename.substring( 0,filename.length()-4 );
+		    int cnt=2;
+		    while(ResourceCreator.resourceExists(noext+"_" + cnt + ".pdb")){
+		        cnt++;
+		    }
+		    filename=noext+"_" + cnt + ".pdb";
+		    
+		}
 
     	try {
 			IFile file = ResourceCreator.createResource(filename, ent,
