@@ -645,4 +645,28 @@ public abstract class ScriptingConsoleView extends ViewPart {
         input.setText( textWithNewTextAdded );
         input.setSelection( oldPosition + newText.length() );
     }
+    
+    /**
+     * A convenience method to simulate that a user enters a command in the 
+     * Input Textbox. This is used e.g. in ScriptAction to simulate that users 
+     * enter command from e.g. a Cheat Sheet.
+     * 
+     * FIXME: for masak, see bug 940
+     * This method is copied from ActionTable and should probably be refactored.
+     * 
+     * @param content String with simulated command
+     */
+    public void simulateInputWithReturn(String content){
+        String command = content.trim();
+        printMessage(NEWLINE + "> " + command + NEWLINE);
+        if ( !"".equals(command) ) {
+            commandHistory.remove( commandHistory.size() - 1 );
+            commandHistory.add( command );
+            commandHistory.add( "" );
+            currentHistoryLine = commandHistory.size() - 1;
+        }
+        executeCommand(command);
+        input.setText("");
+
+    }
 }

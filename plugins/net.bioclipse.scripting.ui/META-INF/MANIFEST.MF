@@ -23,6 +23,7 @@ Import-Package: net.bioclipse.scripting,
  org.eclipse.ui.internal.editors.text,
  org.eclipse.ui.texteditor
 Export-Package: net.bioclipse.scripting.ui,
+ net.bioclipse.scripting.ui.actions,
  net.bioclipse.scripting.ui.business,
  net.bioclipse.scripting.ui.views
 Bundle-Vendor: The Bioclipse Team
