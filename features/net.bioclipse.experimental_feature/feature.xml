@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse.experimental_feature"
       label="Bioclipse Experimental"
-      version="2.0.0.B20090409"
+      version="2.0.0.B20090417"
       provider-name="The Bioclipse Team">
 
    <description>
