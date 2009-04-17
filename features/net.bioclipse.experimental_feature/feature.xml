@@ -28,6 +28,10 @@ is available at
 http://www.eclipse.org/legal/epl-v10.html
    </license>
 
+   <requires>
+      <import feature="net.bioclipse.core.patch" version="2.0.0.B20090417" match="greaterOrEqual"/>
+   </requires>
+
    <plugin
          id="net.bioclipse.actionHistory"
          download-size="0"
