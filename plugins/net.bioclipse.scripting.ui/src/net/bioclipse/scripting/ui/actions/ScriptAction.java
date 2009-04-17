@@ -30,13 +30,14 @@ public class ScriptAction extends Action implements ICheatSheetAction {
                 try {
                     ScriptingConsoleView jsview = (ScriptingConsoleView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView( "net.bioclipse.scripting.ui.views.JsConsoleView" );
                     jsview.simulateInputWithReturn( cmd );
-                    notifyResult( true );
                 } catch ( PartInitException e ) {
                     LogUtils.handleException( e, logger );
                     notifyResult( false );
+                    return;
                 }
             }
         }
+        notifyResult( true );
         
     }
     
