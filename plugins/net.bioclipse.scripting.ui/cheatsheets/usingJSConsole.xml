@@ -2,7 +2,7 @@
 <cheatsheet
       title="Using the Javscript Console">
    <intro
-         href="/net.bioclipse.scripting.ui/html/scriptingBioclipse.html">
+         href="/net.bioclipse.doc/html/scriptingBioclipse.html">
       <description>
          This CheatSheet is a tutotial for using the Javscript Console in Bioclipse.
       </description>
