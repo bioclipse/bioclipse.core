@@ -10,7 +10,28 @@
 <h1>Guide to Scripting Bioclipse</h1>
 <p/>
 This is an introduction for how to use the scripting capabilities of Bioclipse.
+<p>
+Scripting in Bioclipse is based on Javascript. Bioclipse provides Managers that 
+add custom funtionality. For example, the CDK Manager contributes functionality 
+for working with cheminformatics using the Chemistry Development Kit (CDK).
+</p>
 
+<p>
+Managers are access like this:
+</p>
+
+<p>
+&lt;manager name&gt;.&lt;manager method&gt;(Parameters)
+</p>
+<p>
+For example: cdk.fromSMILES("CCCO")
+</p>
+
+<p>
+For a complete listing of available manager and methods, see 
+<a href="index.html">Manager documentation</a>.
+
+</p>
 
 </body>
 </html>
