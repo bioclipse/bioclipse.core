@@ -191,12 +191,17 @@ public abstract class ScriptingConsoleView extends ViewPart {
                     input.setFocus();
                     handleKey(e);
                 }
+                // "Paste" forwarding for Mac OS X.
                 // The below condition means "if Ctrl+V or Command+V was
                 // pressed". Those funny '&' and '|' are bitops. Cf the JLS.
                 else if (Character.toLowerCase(e.character) == 'v'
                          && (e.stateMask & (SWT.COMMAND | SWT.CONTROL)) != 0) {
                     input.setFocus();
                     input.paste();
+                }
+                // "Paste" forwarding for Windows.
+                else if (e.stateMask == 0 && e.keyCode == 262144) {
+                  input.setFocus();
                 }
             }
             public void keyReleased(KeyEvent _) { }
