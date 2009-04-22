@@ -663,9 +663,6 @@ public abstract class ScriptingConsoleView extends ViewPart {
      * Input Textbox. This is used e.g. in ScriptAction to simulate that users 
      * enter command from e.g. a Cheat Sheet.
      * 
-     * FIXME: for masak, see bug 940
-     * This method is copied from ActionTable and should probably be refactored.
-     * 
      * @param content String with simulated command
      */
     public void simulateInputWithReturn(String content){
@@ -679,6 +676,5 @@ public abstract class ScriptingConsoleView extends ViewPart {
         }
         executeCommand(command);
         input.setText("");
-
     }
 }
