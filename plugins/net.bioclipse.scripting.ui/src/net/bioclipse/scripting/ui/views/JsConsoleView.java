@@ -4,11 +4,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
@@ -20,7 +17,6 @@ import net.bioclipse.scripting.JsThread;
 
 import org.eclipse.swt.widgets.Display;
 import org.mozilla.javascript.NativeJavaObject;
-
 
 public class JsConsoleView extends ScriptingConsoleView {
 
@@ -141,7 +137,6 @@ public class JsConsoleView extends ScriptingConsoleView {
      * @param command the complete command from the console input
      * @return a string documenting a manager or one of its methods
      */
-    @SuppressWarnings("unchecked")
     private String helpString(String command) {
 
         if (command == null)
@@ -203,22 +198,13 @@ public class JsConsoleView extends ScriptingConsoleView {
                                            + 3),
                                           MAX_OUTPUT_LINE_LENGTH));
     
-                    result.append( line );
-                    result.append( NEWLINE );
-    
-                    result.append( managerName );
-                    result.append( '.' );
-                    result.append( method.getName() );
-                    result.append( '(' );
-                    result.append( publishedMethod.params() );
-                    result.append( ")" );
-                    result.append( NEWLINE );
-    
-                    result.append( line );
-                    result.append( NEWLINE );
-    
-                    result.append( publishedMethod.methodSummary() );
-                    result.append( NEWLINE );
+                    for (String _ : new String[] {
+                            line, NEWLINE,
+                            managerName, ".", method.getName(), "(",
+                            publishedMethod.params(), ")", NEWLINE,
+                            line, NEWLINE,
+                            publishedMethod.methodSummary(), NEWLINE })
+                        result.append(_);
                 }
             }
         }
@@ -229,75 +215,45 @@ public class JsConsoleView extends ScriptingConsoleView {
                 = JsThread.js.getManagers().get(helpObject);
 
             if (manager == null)
-                return "No such method: " + helpObject
-                       + NEWLINE + usageMessage;
+                return "No such method: " + helpObject + NEWLINE
+                       + usageMessage;
 
-            StringBuilder managerDescription = new StringBuilder();
-            Queue<Class> q = new LinkedList<Class>();
-            q.add( manager.getClass() );
-            while ( !q.isEmpty() ) {
-                Class<?> interfaze = q.remove();
-                q.addAll( Arrays.asList(interfaze.getInterfaces()) );
-                if (!interfaze.isAnnotationPresent( PublishedClass.class ) ) {
-                    continue;
-                }
-                managerDescription.append( interfaze.getAnnotation(
-                                                  PublishedClass.class
-                                           ).value() );
-                managerDescription.append( 
-                    NEWLINE + NEWLINE + " This manager has " +
-                    "the following methods: " + NEWLINE );
-                
-                List<String> methodNames = new ArrayList<String>();
-                Method[] methods = interfaze.getMethods();
-                Arrays.sort( methods, new Comparator<Method>()  {
-                    public int compare( Method m1, Method m2 ) {
-                        int c = m1.getName().compareTo( m2.getName() );
-                        return c != 0 
-                            ? c
-                            :  m1.getParameterTypes().length
-                             - m2.getParameterTypes().length;
-                    }
-                });
-                for ( Method method : methods ) {
-                    if ( method.isAnnotationPresent( 
-                         PublishedMethod.class ) ) {
-                        
-                        if ( method
-                             .getAnnotation( PublishedMethod.class )
-                             .params().length() == 0 ) {
-                            methodNames.add( method.getName() 
-                                             + "()" );
-                        }
-                        else {
-                            methodNames.add( 
-                                method.getName() + "( "  
-                                + method.getAnnotation( 
-                                  PublishedMethod.class ).params() 
-                                + " )" );
-                        }
-                    }
-                }
-                managerDescription.append(
-                    listToString(methodNames, "", NEWLINE, "")
-                );
-            }
-
+            StringBuffer managerDescBuffer = new StringBuffer();
+            for (Class<?> clazz
+                    : findAllPublishedClasses(manager.getClass()))
+                managerDescBuffer.append(clazz.getAnnotation(
+                                       PublishedClass.class
+                                   ).value());
+            String managerDesc = managerDescBuffer.toString();
 
             String line = dashes( Math.min(helpObject.length(), 
                                   MAX_OUTPUT_LINE_LENGTH) );
+            String theseMeths = " This manager has the following methods:";
 
-            result.append(line);
-            result.append( NEWLINE );
+            for (String _ : new String[] {
+                    line,        NEWLINE,
+                    helpObject,  NEWLINE,
+                    line,        NEWLINE,
+                    managerDesc, NEWLINE,
+                                 NEWLINE,
+                    theseMeths,  NEWLINE } )
+                result.append(_);
 
-            result.append(helpObject);
-            result.append( NEWLINE );
-
-            result.append(line);
-            result.append( NEWLINE );
-
-            result.append( managerDescription );
-            result.append( NEWLINE );
+            for (Method method : findAllPublishedMethods(manager.getClass())) {
+                if ( method
+                        .getAnnotation( PublishedMethod.class )
+                        .params().length() == 0 ) {
+                    result.append( method.getName() + "()" );
+                }
+                else {
+                    result.append(
+                            method.getName() + "( "
+                            + method.getAnnotation( PublishedMethod.class )
+                                .params()
+                            + " )" );
+                }
+                result.append(NEWLINE);
+            }
         }
 
         return result.toString();
@@ -407,7 +363,7 @@ public class JsConsoleView extends ScriptingConsoleView {
 
                 String signature = method.getName() + publishedMethod.params();
                 if (visited.contains( signature ))
-                    return methods;
+                    continue;
                 visited.add( signature ); 
                 methods.add( method );
             }
@@ -418,7 +374,31 @@ public class JsConsoleView extends ScriptingConsoleView {
             
         return methods;
     }
+
+    private Class<?>[] findAllPublishedClasses(Class<?> clazz) {
+        return findAllPublishedClasses(
+                clazz,
+                new ArrayList<Class<?>>(),
+                new HashSet<Class<?>>()
+               ).toArray(new Class<?>[0]);
+    }
     
+    private List<Class<?>> findAllPublishedClasses(Class<?> clazz,
+                                                   List<Class<?>> classes,
+                                                   HashSet<Class<?>> visited) {
+        if (visited.contains( clazz ))
+            return classes;
+
+        visited.add( clazz );
+        if ( clazz.isAnnotationPresent(PublishedClass.class) )
+            classes.add( clazz );
+
+        for (Class<?> parent : clazz.getInterfaces())
+            findAllPublishedClasses(parent, classes, visited);
+
+        return classes;
+    }
+
     /**
      * Outputs extra characters after the actual name of the completed thing.
      * For managers, this could be a period ("."), because that's what the
