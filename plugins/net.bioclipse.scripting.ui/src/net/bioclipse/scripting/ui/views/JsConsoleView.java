@@ -260,7 +260,7 @@ public class JsConsoleView extends ScriptingConsoleView {
     }
 
     @SuppressWarnings("unchecked")
-    protected List<String> getAllVariablesIn(String object) {
+    protected List<String> allNamesIn(String object) {
 
         // Tab completion has to get in line, just as everything else. Instead
         // of blocking the console waiting for a command to finish, we take the
@@ -340,8 +340,16 @@ public class JsConsoleView extends ScriptingConsoleView {
         variables[0].remove("zzz1");
         variables[0].remove("zzz2");
         variables[0].remove("zzz3");
-        
+
         return variables[0];
+    }
+
+    @SuppressWarnings("serial")
+    protected List<String> allSpecialCommands() {
+        return new ArrayList<String>() {{
+           add("help");
+           add("man");
+        }};
     }
 
     private Method[] findAllPublishedMethods(Class<?> interfaze) {
@@ -349,7 +357,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                 interfaze,
                 new ArrayList<Method>(),
                 new HashSet<String>()
-               ).toArray(new Method[0]);
+        ).toArray(new Method[0]);
     }
     
     private List<Method> findAllPublishedMethods(Class<?> interfaze,
@@ -380,7 +388,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                 clazz,
                 new ArrayList<Class<?>>(),
                 new HashSet<Class<?>>()
-               ).toArray(new Class<?>[0]);
+        ).toArray(new Class<?>[0]);
     }
     
     private List<Class<?>> findAllPublishedClasses(Class<?> clazz,

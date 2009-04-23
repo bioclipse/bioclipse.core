@@ -529,12 +529,29 @@ public abstract class ScriptingConsoleView extends ViewPart {
     protected abstract String executeCommand(String command);
     
     /**
-     * Returns all variable names contained in a certain container object.
+     * Returns all names of variables and methods contained in a certain
+     * container object, or, if <code>""</code> or <code>null</code> is passed,
+     * in the root container object. This method is meant to be overridden
+     * by deriving classes.
+     *
      * @param object The container object of interest
      * @return A list of all the variable names in the container object
      */
     @SuppressWarnings("unchecked")
-    protected List<String> getAllVariablesIn(String object) {
+    protected List<String> allNamesIn(String object) {
+        return Collections.EMPTY_LIST;
+    }
+
+    /**
+     * Returns all special commands for this scripting console. A special
+     * command is an out-of-band command given at the start of a command line.
+     * This method is meant to be overridden by deriving classes.
+     *
+     * @param object The container object of interest
+     * @return A list of all the variable names in the container object
+     */
+    @SuppressWarnings("unchecked")
+    protected List<String> allSpecialCommands() {
         return Collections.EMPTY_LIST;
     }
 
@@ -559,8 +576,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
      *
      * This method is meant to implement generic tab-completion and should
      * generally not need to be overridden in deriving classes. Instead,
-     * override <code>getAllVariablesIn</code>, which returns the relevant
-     * things to tab-complete on.
+     * override <code>allNamesIn</code> and <code>allSpecialCommands</code>,
+     * which returns the relevant things to tab-complete on.
      */
     protected void tabComplete() {
         String command = input.getText();
@@ -586,7 +603,9 @@ public abstract class ScriptingConsoleView extends ViewPart {
         }
         List<String> variables = object == null
                                    ? new ArrayList<String>()
-                                   : getAllVariablesIn(object);
+                                   : allNamesIn(object);
+        if (pos == -1)
+            variables.addAll(allSpecialCommands());
         List<String> interestingVariables = new ArrayList<String>();
         for (String variable : variables)
             if (variable.toLowerCase().startsWith(prefix.toLowerCase()))
