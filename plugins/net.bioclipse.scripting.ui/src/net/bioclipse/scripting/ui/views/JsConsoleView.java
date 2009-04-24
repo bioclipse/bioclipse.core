@@ -199,11 +199,12 @@ public class JsConsoleView extends ScriptingConsoleView {
                                           MAX_OUTPUT_LINE_LENGTH));
     
                     for (String _ : new String[] {
-                            line, NEWLINE,
-                            managerName, ".", method.getName(), "(",
-                            publishedMethod.params(), ")", NEWLINE,
-                            line, NEWLINE,
-                            publishedMethod.methodSummary(), NEWLINE })
+                            line,                               NEWLINE,
+                            managerName, ".", method.getName(),
+                            "(", publishedMethod.params(), ")", NEWLINE,
+                            line,                               NEWLINE,
+                            publishedMethod.methodSummary(),    NEWLINE,
+                                                                NEWLINE })
                         result.append(_);
                 }
             }
