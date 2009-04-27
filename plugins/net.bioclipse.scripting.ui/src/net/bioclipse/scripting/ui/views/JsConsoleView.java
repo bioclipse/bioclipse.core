@@ -420,11 +420,11 @@ public class JsConsoleView extends ScriptingConsoleView {
      */
     protected String tabCompletionHook( String parent, String completedName ) {
         
-        // if the user typed "help" or "man", we don't want to complete with
-        // anything.
-        if ( currentCommand().startsWith( "help " )
-             || currentCommand().startsWith( "man " ) )
-            return "";
+        // if the user typed any of the special-cased commands, we don't want
+        // to complete with anything.
+        for ( String prefix : allSpecialCommands() )
+            if ( currentCommand().startsWith( prefix + " " ) )
+                return "";
         
         // a manager gets a period ('.') appended to it, since that's what the
         // user wants to write anyway.
@@ -439,10 +439,11 @@ public class JsConsoleView extends ScriptingConsoleView {
             for ( Class<?> interfaze : manager.getClass().getInterfaces() )
                 for ( Method method : interfaze.getDeclaredMethods() )
                     if ( method.isAnnotationPresent(PublishedMethod.class)
-                         && method.getName().equals( completedName ))
+                         && method.getName().equals(completedName) )
 
-                        return "("
-                          + (method.getParameterTypes().length == 0 ? ")" : "");
+                        return method.getParameterTypes().length == 0
+                            ? "()"
+                            : "(";
         
         // in all other cases, we add nothing
         return "";
