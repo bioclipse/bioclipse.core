@@ -436,8 +436,8 @@ public class JsConsoleView extends ScriptingConsoleView {
         // no parameters
         IBioclipseManager manager = JsThread.js.getManagers().get(parent);
         if ( null != manager )
-            for ( Class<?> interfaze : manager.getClass().getInterfaces() )
-                for ( Method method : interfaze.getDeclaredMethods() )
+            for (Class<?> clazz : findAllPublishedClasses(manager.getClass()))
+                for ( Method method : clazz.getDeclaredMethods() )
                     if ( method.isAnnotationPresent(PublishedMethod.class)
                          && method.getName().equals(completedName) )
 
