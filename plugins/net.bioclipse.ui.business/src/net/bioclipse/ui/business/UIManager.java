@@ -12,6 +12,7 @@
  ******************************************************************************/
 package net.bioclipse.ui.business;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.scripting.ui.Activator;
@@ -26,10 +28,19 @@ import net.bioclipse.scripting.ui.business.IJsConsoleManager;
 import net.bioclipse.ui.business.describer.ExtensionPointHelper;
 import net.bioclipse.ui.business.describer.IBioObjectDescriber;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
@@ -165,7 +176,9 @@ public class UIManager implements IUIManager {
     }
 
     public void save(String filePath, InputStream toWrite) {
-        throw new IllegalStateException("This method should not be called");
+        save(ResourcePathTransformer.getInstance().transform( filePath ), 
+             toWrite, new NullProgressMonitor(),null);
+//        throw new IllegalStateException("This method should not be called");
     }
 
     public void save(final IFile target, InputStream toWrite,
@@ -197,7 +210,7 @@ public class UIManager implements IUIManager {
     }
 
     public boolean fileExists(String filePath) {
-        throw new IllegalStateException("This method should not be called");
+        return fileExists( ResourcePathTransformer.getInstance().transform( filePath ) );
     }
 
 
@@ -307,16 +320,20 @@ public class UIManager implements IUIManager {
         return null;
     }
 
-    public void newFile( IFile file, IProgressMonitor monitor ) {
-        try {
-            file.create(null, true, monitor);
-        } catch ( CoreException e ) {
-            throw new RuntimeException(e);
-        }
-    }
+    
+    public void newFile( String path) throws CoreException, BioclipseException {
+        
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        IWorkspaceRoot root = workspace.getRoot();
+        IPath ipath=new Path(path);
+        IFile file=root.getFile( ipath );
 
-    public void newFile( String path ) {
-        throw new IllegalStateException("This method should not be called");
+        if (!file.exists()){
+            byte[] bytes = "".getBytes();
+            InputStream source = new ByteArrayInputStream(bytes);
+            file.create(source, IResource.NONE, new NullProgressMonitor());
+        }
+
     }
 
     public void closeActiveEditor() {

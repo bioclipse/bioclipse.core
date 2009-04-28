@@ -123,12 +123,11 @@ public interface IUIManager extends IBioclipseManager {
 
     @Recorded
     @PublishedMethod(
-        methodSummary="Creates an empty file with the specified name"
+        params="String path",
+        methodSummary="Creates an empty file at the specified path"
     )
-    public void newFile(String fileName);
+    public void newFile( String path) throws CoreException, BioclipseException;
 
-    @Recorded
-    public void newFile(IFile file, IProgressMonitor monitor);
 
     @Recorded
     @PublishedMethod(methodSummary = "Closes the active editor")
