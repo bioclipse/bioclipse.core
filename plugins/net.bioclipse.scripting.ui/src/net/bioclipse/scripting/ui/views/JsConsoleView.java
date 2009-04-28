@@ -4,8 +4,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
@@ -18,6 +20,7 @@ import net.bioclipse.scripting.JsThread;
 import org.eclipse.swt.widgets.Display;
 import org.mozilla.javascript.NativeJavaObject;
 
+@SuppressWarnings("serial")
 public class JsConsoleView extends ScriptingConsoleView {
 
     private static final String JS_UNDEFINED_RE
@@ -25,10 +28,19 @@ public class JsConsoleView extends ScriptingConsoleView {
     private static JsThread jsThread
       = net.bioclipse.scripting.Activator.getDefault().JS_THREAD;
 
+    private static Map<String, String[]> topLevelCommands
+        = new HashMap<String, String[]>() {{
+        // { "fn name" => [ "parameters", "fn body" ] }
+        put("clear", new String[] { "",        "js.clear()"        } );
+        put("print", new String[] { "message", "js.print(message)" } );
+        put("say",   new String[] { "message", "js.say(message)"   } );
+    }};
+
     static {
-        jsThread.enqueue( "function clear() { js.clear() }" );
-        jsThread.enqueue( "function print(message) { js.print(message) }" );
-        jsThread.enqueue( "function say(message) { js.say(message) }" );
+        for (Map.Entry<String, String[]> e : topLevelCommands.entrySet())
+            jsThread.enqueue( "function " + e.getKey()
+                               + "(" + e.getValue()[0] + ")"
+                               + " { " + e.getValue()[1] + " }" );
     }
 
     @Override
@@ -146,8 +158,9 @@ public class JsConsoleView extends ScriptingConsoleView {
                                     + "or 'help <manager>.<method>'";
         StringBuilder result = new StringBuilder();
 
-        if ( "help".equals(command.trim()) || 
-             "man".equals(command.trim()) ) {
+        command = command.trim();
+
+        if ( "help".equals(command) || "man".equals(command) ) {
             
             StringBuilder sb = new StringBuilder();
             
@@ -169,6 +182,13 @@ public class JsConsoleView extends ScriptingConsoleView {
         }
         
         String helpObject = command.substring(command.indexOf(' ') + 1);
+
+        if ( topLevelCommands.containsKey(helpObject) )
+            return helpObject
+                   + "(" + topLevelCommands.get(helpObject)[0] + ")"
+                   + " is a shortcut for "
+                   + topLevelCommands.get(helpObject)[1] + NEWLINE;
+
         //Doing manager method 
         if ( helpObject.contains(".") ) {
 
@@ -345,7 +365,6 @@ public class JsConsoleView extends ScriptingConsoleView {
         return variables[0];
     }
 
-    @SuppressWarnings("serial")
     protected List<String> allSpecialCommands() {
         return new ArrayList<String>() {{
            add("help");
@@ -432,6 +451,14 @@ public class JsConsoleView extends ScriptingConsoleView {
              && JsThread.js.getManagers().containsKey( completedName ) )
             return ".";
         
+        // a top level command is really an aliased method, and should have
+        // a '(' and possibly a ')' on it
+        if ( "".equals(parent)
+             && topLevelCommands.containsKey( completedName ) )
+            return "".equals( topLevelCommands.get(completedName)[0] )
+                ? "()"
+                : "(";
+
         // a manager method gets a '(', and possibly a ')' too if it takes
         // no parameters
         IBioclipseManager manager = JsThread.js.getManagers().get(parent);
