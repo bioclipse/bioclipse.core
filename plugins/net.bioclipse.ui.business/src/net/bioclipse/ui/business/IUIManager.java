@@ -147,4 +147,11 @@ public interface IUIManager extends IBioclipseManager {
     @PublishedMethod( params="String path",
                       methodSummary="Reveals a file in Navigator")
     public void revealAndSelect( String path ) throws BioclipseException;
+
+    @Recorded
+    @PublishedMethod( params="String path",
+                      methodSummary="Refresh resource given by path")
+
+    public void refresh(String path) throws BioclipseException;
+    public void refresh(String path,IProgressMonitor monitor) throws BioclipseException;
 }

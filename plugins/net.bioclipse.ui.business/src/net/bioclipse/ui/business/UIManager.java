@@ -28,10 +28,7 @@ import net.bioclipse.scripting.ui.business.IJsConsoleManager;
 import net.bioclipse.ui.business.describer.ExtensionPointHelper;
 import net.bioclipse.ui.business.describer.IBioObjectDescriber;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -402,4 +399,18 @@ public class UIManager implements IUIManager {
         } );
     }
 
+    public void refresh(String path) {
+        throw new IllegalStateException("This method should not be called");
+    }
+    public void refresh(String path,IProgressMonitor monitor) throws BioclipseException{
+
+        IWorkspaceRoot root=ResourcesPlugin.getWorkspace().getRoot();
+        IResource resource = root.findMember( new Path(path) );
+        try {
+            resource.refreshLocal( IResource.DEPTH_ONE, monitor );
+        } catch ( CoreException e ) {
+            throw new BioclipseException( "Failed to refresh "
+                                   + resource.getLocation().toPortableString());
+        }
+    }
 }
