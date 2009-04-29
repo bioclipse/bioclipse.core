@@ -13,10 +13,6 @@
             </text>
 	         </link>
        		
-			<link label="Installing more features" url="http://org.eclipse.ui.intro/showStandby?partId=net.bioclipse.cheatsheet&amp;input=net.bioclipse.cheatsheets.basics" id="downloaditem" style-id="content-link">
-          		<text>This cheatsheet goes through the steps to download and install more features into Bioclipse.</text>
-       		</link>
-       		
       		<link label="Bioclipse Help" url="http://org.eclipse.ui.intro/showHelp" id="helpitem">
             <text>Go to the Bioclispe help system</text>
          </link>
