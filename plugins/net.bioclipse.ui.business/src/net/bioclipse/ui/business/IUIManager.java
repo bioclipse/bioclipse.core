@@ -13,6 +13,7 @@ package net.bioclipse.ui.business;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
@@ -154,4 +155,15 @@ public interface IUIManager extends IBioclipseManager {
 
     public void refresh(String path) throws BioclipseException;
     public void refresh(String path,IProgressMonitor monitor) throws BioclipseException;
+
+    @Recorded
+    @PublishedMethod( params="String feature",
+                      methodSummary="Assert a feature is installed.")
+    public void assertInstalled( String feature ) throws BioclipseException;
+
+    @Recorded
+    @PublishedMethod( 
+                      methodSummary="Get a list of the installed features.")
+    public List<String> getInstalledFeatures();
+
 }

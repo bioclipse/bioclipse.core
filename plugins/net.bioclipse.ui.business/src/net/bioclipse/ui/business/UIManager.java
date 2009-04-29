@@ -34,6 +34,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IBundleGroupProvider;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -57,6 +58,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.update.configurator.ConfiguratorUtils;
+import org.eclipse.update.configurator.IPlatformConfiguration.IFeatureEntry;
 
 /**
  * Contains general methods for interacting with the Bioclipse graphical
@@ -413,4 +416,28 @@ public class UIManager implements IUIManager {
                                    + resource.getLocation().toPortableString());
         }
     }
+    
+    public void assertInstalled(String feature) throws BioclipseException{
+
+        if (getInstalledFeatures().contains( feature ))
+            return;
+        else
+            throw new BioclipseException("The feature: " + feature + 
+                                         " is not installed.");
+    }
+    
+    public List<String> getInstalledFeatures() {
+        List<String> installedFeatures=new ArrayList<String>();
+        for (IFeatureEntry en : ConfiguratorUtils.getCurrentPlatformConfiguration().getConfiguredFeatureEntries()){
+            //Omit eclipse features
+            if (!en.getFeatureIdentifier().startsWith( "org.eclipse" )){
+                System.out.println(en.getFeatureIdentifier());
+                installedFeatures.add( en.getFeatureIdentifier());
+            }
+        }
+        
+        return installedFeatures;
+    }
+
+    
 }
