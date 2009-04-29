@@ -94,6 +94,12 @@ public class ResourcePathTransformer {
         catch (URISyntaxException e) {
             return null;
         }
+        // Check if uri referes to a file in workspace if so return it
+        IFile[] files = ResourcesPlugin.getWorkspace().getRoot()
+        .findFilesForLocationURI( uri );
+        if(files.length!=0)
+            return files[0];
+
         IProject vProject=Activator.getVirtualProject();
         IFile vFile=vProject.getFile(localFile.getName());
         // if file already exist in Virtual project
