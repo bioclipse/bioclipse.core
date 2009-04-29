@@ -45,17 +45,20 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPersistableElement;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.navigator.CommonNavigator;
 import org.eclipse.ui.part.FileEditorInput;
 
 /**
@@ -65,6 +68,8 @@ import org.eclipse.ui.part.FileEditorInput;
  * @author masak
  */
 public class UIManager implements IUIManager {
+
+    private static final String NAVIGATOR_ID = "net.bioclipse.navigator";
 
     public String getNamespace() {
         return "ui";
@@ -376,4 +381,25 @@ public class UIManager implements IUIManager {
         });
 
     }
+    
+    public void revealAndSelect(String path) throws BioclipseException{
+        revealAndSelect(ResourcePathTransformer.getInstance().transform( path ));
+    }
+    
+    public void revealAndSelect(final IFile file) throws BioclipseException{
+        if (!file.exists())
+            throw new BioclipseException("The file: " + file.getName() + 
+                                         " does not exist.");
+        
+        //Get navigator view and reveal in UI thread
+        Display.getDefault().asyncExec( new Runnable(){
+            public void run() {
+                IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( NAVIGATOR_ID );
+                CommonNavigator nav=(CommonNavigator)view;
+                nav.getCommonViewer().reveal( file );
+                nav.getCommonViewer().setSelection( new StructuredSelection(file) );
+            }
+        } );
+    }
+
 }
