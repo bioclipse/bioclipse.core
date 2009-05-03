@@ -145,6 +145,8 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         String entireString=prefsStore.getString(IPreferenceConstants.UPDATE_SITES);
         List<String[]> sites=UpdateSitesPreferencePage.convertPreferenceStringToArraylist(entireString);
 
+        //Create list of available features on update site
+        //================================================
         List<IFeatureReference> refs=new ArrayList<IFeatureReference>();
         for (String[] updateSite : sites){
 
@@ -166,106 +168,90 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
             }
         }
 
-        IFeatureReference[] frs = refs.toArray(new IFeatureReference[0]);
+        //Convert the features we have found to array
+        IFeatureReference[] updateSiteFeatures = refs.toArray(new IFeatureReference[0]);
 
-        ILocalSite ls = SiteManager.getLocalSite();
-        if (ls.getCurrentConfiguration().getConfiguredSites()==null || 
-                ls.getCurrentConfiguration().getConfiguredSites().length<=0){
+        //Find local site and local features
+        //================================================
+        ILocalSite localSite = SiteManager.getLocalSite();
+        if (localSite.getCurrentConfiguration().getConfiguredSites()==null || 
+                localSite.getCurrentConfiguration().getConfiguredSites().length<=0){
             logger.error("Bioclispe seems not to have a local site. This should not happen.");
-            throw new CoreException(new IStatus(){
-
-                public IStatus[] getChildren() {
-                    return null;
-                }
-
-                public int getCode() {
-                    return 0;
-                }
-
-                public Throwable getException() {
-                    return null;
-                }
-
-                public String getMessage() {
-                    return "Bioclispe seems not to have a local site. This should not happen.";
-                }
-
-                public String getPlugin() {
-                    return Activator.PLUGIN_ID;
-                }
-
-                public int getSeverity() {
-                    return IStatus.ERROR;
-                }
-
-                public boolean isMultiStatus() {
-                    return false;
-                }
-
-                public boolean isOK() {
-                    return false;
-                }
-
-                public boolean matches(int severityMask) {
-                    return false;
-                }
-
-            });
+            throw new CoreException(new Status(IStatus.ERROR,Activator.PLUGIN_ID,"Bioclispe seems not to have a local site. This should not happen."));
         }
 
         IConfiguredSite ics
-        = ls.getCurrentConfiguration().getConfiguredSites()[0];
-        IFeatureReference[] lfrs = ics.getConfiguredFeatures();
+        = localSite.getCurrentConfiguration().getConfiguredSites()[0];
+        IFeatureReference[] installedFeatures = ics.getConfiguredFeatures();
         List<IInstallFeatureOperation> installOps
         = new ArrayList<IInstallFeatureOperation>();
 
-        for (int i = 0; i < frs.length; i++) {
+        //Loop over all features found on update site and compare versions to installed
+        //================================================
+        for (int i = 0; i < updateSiteFeatures.length; i++) {
+
+            logger.debug("Processing update site feature: " + updateSiteFeatures[i].getName() );
 
             //Default is not installed
             boolean installedFeature=false;
 
+            VersionedIdentifier updateSiteVersion = updateSiteFeatures[i].getVersionedIdentifier();
+
             //Add if feature and version > what is installed
-            for (int j = 0; j < lfrs.length; j++) {
+            for (int j = 0; j < installedFeatures.length; j++) {
 
-                VersionedIdentifier frsVi = frs[i].getVersionedIdentifier();
-                VersionedIdentifier lfrsVi = lfrs[j].getVersionedIdentifier();
+                VersionedIdentifier localVersion = installedFeatures[j].getVersionedIdentifier();
 
-                if (frsVi.getIdentifier().equals(lfrsVi.getIdentifier())) {
+                if (updateSiteVersion.getIdentifier().equals(localVersion.getIdentifier())) {
+
+                    logger.debug("Local feature: " + installedFeatures[j].getName() + " is already installed with version: " + localVersion.getVersion() );
+                    logger.debug("Update site feature: " + updateSiteFeatures[i].getName() + " is available with version: " + updateSiteVersion.getVersion());
+
                     //We have this feature installed
                     installedFeature=true;
 
                     //Only install feature if version is greater than installed
-                    if (frsVi.getVersion().isGreaterThan(lfrsVi.getVersion())) {
+                    if (updateSiteVersion.getVersion().isGreaterThan(localVersion.getVersion())) {
 
+
+                        //Add feature to be installed
                         installOps.add(
                                        OperationsManager
                                        .getOperationFactory()
                                        .createInstallOperation(
                                                                ics,
-                                                               frs[i].getFeature(monitor),
+                                                               updateSiteFeatures[i].getFeature(monitor),
                                                                null,
                                                                null,
                                                                null)
                         );
-                        logger.debug("** Added feature: "
-                                     + frs[i].getName()
-                                     + " to update list");
+                        logger.debug("Added feature: " + 
+                                     updateSiteFeatures[i].getName() + 
+                                     " version: " + updateSiteVersion.getVersion()
+                                     + " to update operations list");
+                    }else{
+                        logger.debug("Update site feature: " + updateSiteFeatures[i].getName() + " version: " + updateSiteVersion.getVersion() + " SKIPPED due to not newer than existing version.");
                     }
                 }
             }
             //Found a not installed feature
             if (installedFeature==false){
+                
+                logger.debug("The feature: " +
+                                     updateSiteFeatures[i].getName() + 
+                                     " version: " + updateSiteVersion.getVersion()
+                                     + " is not installed");
 
-                //Add if feature patch
-                if (frs[i].isPatch()){
+                //We should install it if it is a feature patch
+                if (updateSiteFeatures[i].isPatch()){
                     logger.debug("** Found and added remote feature patch: "
-                                 + frs[i].getName());
+                                 + updateSiteFeatures[i].getName());
                     installOps.add(
                                    OperationsManager
                                    .getOperationFactory()
                                    .createInstallOperation(
                                                            ics,
-                                                           frs[i].getFeature(monitor),
+                                                           updateSiteFeatures[i].getFeature(monitor),
                                                            null,
                                                            null,
                                                            null)
@@ -275,33 +261,51 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
             }
         }
 
-        if (installOps.size() > 0) {
+        //If we have new features, review, confirm, and install
+        //================================================
+        if (installOps.size() <= 0) {
+            logger.debug("** No features found on update site");
+            monitor.done();
+            return;
+        }
 
-            //Ask to install, if we have not prev said don't bother us
-            if (settings.getBoolean(IDialogConstants.SKIP_UPDATE_DIALOG_ON_STARTUP)){
-                logger.debug("Updates dialog skipped.");
-            }else{
-                logger.debug("Updates dialog should open.");
+        //Review features that should be installed
+        logger.debug("===============");
+        logger.debug("Proceeding to installation steps. Features to download" +
+        "and install:");
+        for (IInstallFeatureOperation op: installOps){
+            logger.debug("* " + op.getFeature().getVersionedIdentifier().getIdentifier());
+        }
+        logger.debug("===============");
 
-                Display.getDefault().syncExec(new Runnable(){
+        //Ask to install, if we have not prev said don't bother us
+        //=======================================
+        if (settings.getBoolean(IDialogConstants.SKIP_UPDATE_DIALOG_ON_STARTUP)){
+            logger.debug("Updates dialog skipped due to dialog setting");
+        }else{
+            logger.debug("Updates dialog should open since not skipped in " +
+            "dialog setting");
 
-                    public void run() {
-                        Dialog dlg=new UpdatesAvailableDialog(PlatformUI.getWorkbench().
-                                                              getActiveWorkbenchWindow().getShell());
+            Display.getDefault().syncExec(new Runnable(){
 
-                        int ret=dlg.open();
-                        if (ret==Window.CANCEL){
-                            setAbort(true);
-                        }
+                public void run() {
+                    Dialog dlg=new UpdatesAvailableDialog(PlatformUI.getWorkbench().
+                                                          getActiveWorkbenchWindow().getShell());
+
+                    int ret=dlg.open();
+                    if (ret==Window.CANCEL){
+                        setAbort(true);
                     }
+                }
 
-                });
+            });
 
-                if (abort==true) return;
+            //Cancel was clicked so abort
+            if (abort==true) return;
 
-            }
+        }
 
-            /*        	
+        /*        	
         	if (settings.getBoolean(IDialogConstants.REVIEW_UPDATES)){
 
         		Display.getDefault().syncExec(new Runnable(){
@@ -316,40 +320,42 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
           		return;
         	}
         	else{
-             */
-            //Automatically download in background
-            for (Iterator iter = installOps.iterator(); iter.hasNext();) {
-                IInstallFeatureOperation op
-                = (IInstallFeatureOperation) iter.next();
-                logger.debug("** Installing feature: "
-                             + op.getFeature().getLabel());
-                op.execute(monitor, null);
-            }
+         */
 
-            boolean restartRequired = ls.save();
-            logger.debug("Restart required (seems always true): " + restartRequired);
-            if (restartRequired){
+        //Automatically download features in background
+        //=======================================
+        for (Iterator iter = installOps.iterator(); iter.hasNext();) {
+            IInstallFeatureOperation op
+            = (IInstallFeatureOperation) iter.next();
+            logger.debug("** Downloading and installing feature: "
+                         + op.getFeature().getLabel());
+            op.execute(monitor, null);
+        }
 
-                //Create new runnable for UI thread sync and confirm dialog
-                Display.getDefault().syncExec(new Runnable() {
-                    public void run() {
+        logger.debug( "All features are downloaded and installed." );
 
-                        if (PlatformUI.getWorkbench()!=null){
-                            if (PlatformUI.getWorkbench().getActiveWorkbenchWindow()!=null){
-                                if (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()!=null){
+        boolean restartRequired = localSite.save();
+        logger.debug("Is restart required (seems always true)? " + restartRequired);
+        if (restartRequired){
+
+            logger.debug("Open confirm restart dialog");
+
+            //Create new runnable for UI thread sync and confirm dialog
+            Display.getDefault().syncExec(new Runnable() {
+                public void run() {
+
+                    if (PlatformUI.getWorkbench()!=null){
+                        if (PlatformUI.getWorkbench().getActiveWorkbenchWindow()!=null){
+                            if (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()!=null){
 
 
-                                    boolean answer=MessageDialog.openQuestion(
-                                                                              PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-                                                                              "Restart required",
-                                                                              "You are advised to restart Bioclipse in order for all " +
-                                                                              "updates to be active.\n\n" +
-                                    "Would you like to restart Bioclipse now?");
-                                    if (answer){
-                                        Activator.getDefault().getWorkbench().restart();
-                                    }
-
-                                }else{
+                                boolean answer=MessageDialog.openQuestion(
+                                                                          PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                                                                          "Restart required",
+                                                                          "You are advised to restart Bioclipse in order for all " +
+                                                                          "updates to be active.\n\n" +
+                                "Would you like to restart Bioclipse now?");
+                                if (answer){
                                     Activator.getDefault().getWorkbench().restart();
                                 }
 
@@ -360,32 +366,15 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
                         }else{
                             Activator.getDefault().getWorkbench().restart();
                         }
-                    }
-                });
-            }else{
-                showMessage("Updates for Bioclipse have been "
-                            + "downloaded and installed.");
-            }
-            //        	}
 
-            /*
-        	 //Automatically download in background
-            for (Iterator iter = installOps.iterator(); iter.hasNext();) {
-                IInstallFeatureOperation op
-                  = (IInstallFeatureOperation) iter.next();
-                logger.debug("** Installing feature: "
-                             + op.getFeature().getLabel());
-                op.execute(monitor, null);
-            }
-            boolean restartRequired = ls.save();
-            logger.debug("Restart required (seems always true): " + restartRequired);
+                    }else{
+                        Activator.getDefault().getWorkbench().restart();
+                    }
+                }
+            });
+        }else{
             showMessage("Updates for Bioclipse have been "
                         + "downloaded and installed.");
-
-             */
-        }
-        else {
-            logger.debug("** No features found on update site");
         }
 
         monitor.done();
