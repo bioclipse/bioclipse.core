@@ -33,7 +33,7 @@ public class UpdatesAvailableDialog extends TitleAreaDialog{
 
     @Override
     protected Control createDialogArea(Composite parent) {
-
+        
         Composite composite = new Composite(parent, SWT.NONE);
         GridLayout layout = new GridLayout();
         layout.marginHeight      = 0;
@@ -49,7 +49,7 @@ public class UpdatesAvailableDialog extends TitleAreaDialog{
         titleBarSeparator.setLayoutData(gd);
 
 
-        Label lblUpdate = new Label(composite, SWT.NONE | SWT.CENTER);
+        Label lblUpdate = new Label(composite, SWT.NONE | SWT.LEFT);
         lblUpdate.setText(updateQuestion);
         GridData gd2 = new GridData(GridData.FILL_BOTH);
         lblUpdate.setLayoutData(gd2);
