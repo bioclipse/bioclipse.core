@@ -588,7 +588,9 @@ public abstract class ScriptingConsoleView extends ViewPart {
             prefix = additionalCharacter + prefix;
         deleteBackwards(input.getCaretPosition() - (pos+1));
         String object = "";
+        boolean foundDot = false;
         if ( pos > 0 && command.charAt(pos) == '.' ) {
+            foundDot = true;
             --pos;
             if ( Character.isLetterOrDigit( command.charAt(pos) ) ) {
                 for (char additionalCharacter; pos >= 0
@@ -604,7 +606,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         List<String> variables = object == null
                                    ? new ArrayList<String>()
                                    : allNamesIn(object);
-        if (pos == -1)
+        if (!foundDot && pos == -1)
             variables.addAll(allSpecialCommands());
         List<String> interestingVariables = new ArrayList<String>();
         for (String variable : variables)
