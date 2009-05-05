@@ -44,8 +44,8 @@ public class JsThread extends ScriptingThread {
                 final JsAction nextAction = actions.removeFirst();
                 final Object[] result = new Object[1];
                 busy = true;
-                final Boolean[] wait = { new Boolean(true) };
-                final Boolean[] monitorIsSet = { new Boolean(false) };
+                final Boolean[] wait = { true };
+                final Boolean[] monitorIsSet = { false };
                 final IProgressMonitor[] monitor 
                     = { new NullProgressMonitor() };
                 
