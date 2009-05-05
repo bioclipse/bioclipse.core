@@ -29,8 +29,12 @@ public class JsThread extends ScriptingThread {
     private static final Logger logger = Logger.getLogger(JsEnvironment.class);
     private static boolean busy;
     
-    public void run() {
+    private static void initJs() {
         js = new JsEnvironment();
+    }
+
+    public void run() {
+        initJs();
 
         synchronized (actions) {
             while (true) {
@@ -44,7 +48,7 @@ public class JsThread extends ScriptingThread {
                 final JsAction nextAction = actions.removeFirst();
                 final Object[] result = new Object[1];
                 busy = true;
-                final Boolean[] wait = { true };
+                final Boolean[] jsRunning = { true };
                 final Boolean[] monitorIsSet = { false };
                 final IProgressMonitor[] monitor 
                     = { new NullProgressMonitor() };
@@ -62,10 +66,14 @@ public class JsThread extends ScriptingThread {
                             monitorIsSet[0] = true;
                             monitorIsSet.notifyAll();
                         }
-                        synchronized ( wait ) {
-                            while (wait[0]) {
+                        synchronized ( jsRunning ) {
+                            while (jsRunning[0]) {
                                 try {
-                                    wait.wait();
+                                    jsRunning.wait(500);
+                                    if (m.isCanceled()) {
+                                        initJs();
+                                        return Status.CANCEL_STATUS;
+                                    }
                                 } 
                                 catch ( InterruptedException e ) {
                                     break;
@@ -102,9 +110,9 @@ public class JsThread extends ScriptingThread {
                     LogUtils.debugTrace(logger, e);
                     result[0] = e;
                 }
-                synchronized ( wait ) {
-                    wait[0] = false;
-                    wait.notifyAll();
+                synchronized ( jsRunning ) {
+                    jsRunning[0] = false;
+                    jsRunning.notifyAll();
                 }
                 try {
                     job.join();
