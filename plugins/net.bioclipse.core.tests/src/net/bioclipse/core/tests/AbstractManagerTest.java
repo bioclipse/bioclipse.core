@@ -12,6 +12,8 @@ package net.bioclipse.core.tests;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
@@ -265,6 +267,24 @@ public abstract class AbstractManagerTest {
                     method.getName(),
                     method.getParameterTypes().length, parameters.length
                 );
+                Pattern pattern = Pattern.compile("(\\w+)\\s+(\\w+)");
+                for (int i=0; i<parameters.length; i++) {
+                    // assume each parameter has the syntax "Type name"
+                    String param = parameters[i];
+                    Matcher matcher = pattern.matcher(param);
+                    if (matcher.find()) {
+                        String type = matcher.group(1);
+                        String name = matcher.group(2);
+                        Assert.assertTrue(
+                            "The help for parameter " + i + " of the " +
+                            method.getName() + " method does not" +
+                            "adhere to the expected syntax \"Type " +
+                            "name\", but is: " + param,
+                            method.getParameterTypes()[i]
+                                .getName().endsWith(type)
+                        );
+                    }
+                }
             }
         }
     }
