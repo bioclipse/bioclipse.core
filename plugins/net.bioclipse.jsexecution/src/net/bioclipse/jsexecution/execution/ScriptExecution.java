@@ -116,6 +116,7 @@ public class ScriptExecution {
 				} catch (Exception e) {
 					monitor.setTaskName("Error: " + e.getMessage());
 					
+					//scriptResult = "test123";
 					scriptResult = e.getMessage();
 					String traced_e = getErrorMessage(e);
 					if (!scriptResult.equals(traced_e))
@@ -240,14 +241,20 @@ public class ScriptExecution {
 	}
 	
 	public static String getErrorMessage(Throwable t) {
+		if (t == null)
+			return "";
+		
         while (!(t instanceof BioclipseException)
                 && t.getCause() != null)
             t = t.getCause();
+        
+        String msg = t.getMessage();
+        if (msg == null)
+        	msg = "";
 
         return (t instanceof BioclipseException
                 ? "" : t.getClass().getName() + ": ")
-               + t.getMessage()
-                  .replaceAll( " end of file",
+               + msg.replaceAll( " end of file",
                                " end of line" );
     }
 }
