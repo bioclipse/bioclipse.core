@@ -14,6 +14,20 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 public @interface PublishedMethod {
 
+    /**
+     * Field that defines the list of comma-separated parameters, but only as
+     * 'Type name'. This field must not describe what the parameters really
+     * represent, only give the type and name. Examples:
+     * <pre>
+     * IMolecule molecule
+     * IMolecule mol, boolean someOption
+     * </pre>
+     */
     String params() default "";
+
+    /**
+     * Summary of the method, describing the parameters as well as what the
+     * method does.
+     */
     String methodSummary();
 }
