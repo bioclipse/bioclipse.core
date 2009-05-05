@@ -4,10 +4,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
@@ -20,28 +18,12 @@ import net.bioclipse.scripting.JsThread;
 import org.eclipse.swt.widgets.Display;
 import org.mozilla.javascript.NativeJavaObject;
 
-@SuppressWarnings("serial")
 public class JsConsoleView extends ScriptingConsoleView {
 
     private static final String JS_UNDEFINED_RE
       = "org.mozilla.javascript.Undefined@.*";
     private static JsThread jsThread
       = net.bioclipse.scripting.Activator.getDefault().JS_THREAD;
-
-    private static Map<String, String[]> topLevelCommands
-        = new HashMap<String, String[]>() {{
-        // { "fn name" => [ "parameters", "fn body" ] }
-        put("clear", new String[] { "",        "js.clear()"        } );
-        put("print", new String[] { "message", "js.print(message)" } );
-        put("say",   new String[] { "message", "js.say(message)"   } );
-    }};
-
-    static {
-        for (Map.Entry<String, String[]> e : topLevelCommands.entrySet())
-            jsThread.enqueue( "function " + e.getKey()
-                               + "(" + e.getValue()[0] + ")"
-                               + " { " + e.getValue()[1] + " }" );
-    }
 
     @Override
     protected String executeCommand( String command ) {
@@ -183,11 +165,11 @@ public class JsConsoleView extends ScriptingConsoleView {
         
         String helpObject = command.substring(command.indexOf(' ') + 1);
 
-        if ( topLevelCommands.containsKey(helpObject) )
+        if ( JsThread.topLevelCommands.containsKey(helpObject) )
             return helpObject
-                   + "(" + topLevelCommands.get(helpObject)[0] + ")"
+                   + "(" + JsThread.topLevelCommands.get(helpObject)[0] + ")"
                    + " is a shortcut for "
-                   + topLevelCommands.get(helpObject)[1] + NEWLINE;
+                   + JsThread.topLevelCommands.get(helpObject)[1] + NEWLINE;
 
         //Doing manager method 
         if ( helpObject.contains(".") ) {
@@ -454,8 +436,8 @@ public class JsConsoleView extends ScriptingConsoleView {
         // a top level command is really an aliased method, and should have
         // a '(' and possibly a ')' on it
         if ( "".equals(parent)
-             && topLevelCommands.containsKey( completedName ) )
-            return "".equals( topLevelCommands.get(completedName)[0] )
+             && JsThread.topLevelCommands.containsKey( completedName ) )
+            return "".equals( JsThread.topLevelCommands.get(completedName)[0] )
                 ? "()"
                 : "(";
 

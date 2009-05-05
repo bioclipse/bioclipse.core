@@ -8,7 +8,9 @@
  *******************************************************************************/
 package net.bioclipse.scripting;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jsexecution.tools.MonitorContainer;
@@ -21,6 +23,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.mozilla.javascript.EvaluatorException;
 
+@SuppressWarnings("serial")
 public class JsThread extends ScriptingThread {
 
     public static JsEnvironment js;
@@ -28,9 +31,22 @@ public class JsThread extends ScriptingThread {
     
     private static final Logger logger = Logger.getLogger(JsEnvironment.class);
     private static boolean busy;
-    
+
+    public static Map<String, String[]> topLevelCommands
+        = new HashMap<String, String[]>() {{
+            // { "fn name" => [ "parameters", "fn body" ] }
+            put("clear", new String[] { "",        "js.clear()"        } );
+            put("print", new String[] { "message", "js.print(message)" } );
+            put("say",   new String[] { "message", "js.say(message)"   } );
+        }};
+
     private static void initJs() {
         js = new JsEnvironment();
+
+        for (Map.Entry<String, String[]> e : topLevelCommands.entrySet())
+            js.eval( "function " + e.getKey()
+                     + "(" + e.getValue()[0] + ")"
+                     + " { " + e.getValue()[1] + " }" );
     }
 
     public void run() {
