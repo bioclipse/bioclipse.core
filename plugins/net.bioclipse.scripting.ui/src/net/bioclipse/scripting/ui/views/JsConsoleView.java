@@ -347,6 +347,7 @@ public class JsConsoleView extends ScriptingConsoleView {
         return variables[0];
     }
 
+    @SuppressWarnings("serial")
     protected List<String> allSpecialCommands() {
         return new ArrayList<String>() {{
            add("help");
