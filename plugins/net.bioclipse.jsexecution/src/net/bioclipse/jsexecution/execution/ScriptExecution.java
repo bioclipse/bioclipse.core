@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
 
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jsexecution.Activator;
 import net.bioclipse.jsexecution.exceptions.ScriptException;
@@ -114,7 +115,12 @@ public class ScriptExecution {
 					monitor.done();
 				} catch (Exception e) {
 					monitor.setTaskName("Error: " + e.getMessage());
+					
 					scriptResult = e.getMessage();
+					String traced_e = getErrorMessage(e);
+					if (!scriptResult.equals(traced_e))
+						scriptResult = scriptResult + System.getProperty("line.separator") +
+						" " + traced_e;
 					bSuccess = false;
 				}
 
@@ -232,4 +238,16 @@ public class ScriptExecution {
 
 		return scriptResult;
 	}
+	
+	public static String getErrorMessage(Throwable t) {
+        while (!(t instanceof BioclipseException)
+                && t.getCause() != null)
+            t = t.getCause();
+
+        return (t instanceof BioclipseException
+                ? "" : t.getClass().getName() + ": ")
+               + t.getMessage()
+                  .replaceAll( " end of file",
+                               " end of line" );
+    }
 }
