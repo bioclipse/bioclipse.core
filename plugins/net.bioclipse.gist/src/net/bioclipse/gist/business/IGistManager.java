@@ -12,6 +12,7 @@ package net.bioclipse.gist.business;
 
 import java.io.IOException;
 
+import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.BioclipseException;
@@ -21,6 +22,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+@PublishedClass("Manager for downloading Gists")
 public interface IGistManager extends IBioclipseManager {
 
     public final static String GIST_PROJECT = "Gists";
