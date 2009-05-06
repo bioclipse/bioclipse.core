@@ -77,15 +77,19 @@ public class JsConsoleView extends ScriptingConsoleView {
     }
 
     public String getErrorMessage(Throwable t) {
+        if (t == null)
+            return "";
+
         while (!(t instanceof BioclipseException)
                 && t.getCause() != null)
             t = t.getCause();
 
         return (t instanceof BioclipseException
                 ? "" : t.getClass().getName() + ": ")
-               + t.getMessage()
-                  .replaceAll( " end of file",
-                               " end of line" );
+               + (t.getMessage() == null
+                  ? ""
+                  : t.getMessage() .replaceAll(" end of file", " end of line")
+                 );
     }
 
     private StringBuilder listToString( List<?> list, String opener,
