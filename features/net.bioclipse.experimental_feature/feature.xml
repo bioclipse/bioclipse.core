@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse.experimental_feature"
       label="Bioclipse Experimental"
-      version="2.0.0.B20090417"
+      version="2.0.0.B20090506"
       provider-name="The Bioclipse Team">
 
    <description>
@@ -14,22 +14,20 @@
    </copyright>
 
    <license url="http://www.eclipse.org/org/documents/epl-v10.php">
-      This program and the accompanying materials
-are made available under the terms of the Eclipse Public License
-v1.0
-+ exception, putting no constraints on choice of backend and/or
-license for creating
-plugins for Bioclipse; it is totally open for both open source
-plugins as well as commercial. The exception allows GPL plugins
-to be written and run in any combination with EPL licensed plugins,
-addressing incompatibility between the EPL and the GPL v.2.
+      This program and the accompanying materials are made available
+under the terms of the Eclipse Public License v1.0 + exception,
+putting no constraints on choice of backend and/or license for
+creating plugins for Bioclipse; it is totally open for both open
+source plugins as well as commercial. The exception allows GPL
+plugins to be written and run in any combination with EPL licensed
+plugins, addressing incompatibility between the EPL and the GPL
+v.2.
 The Eclipse Public License accompanies this distribution, and
-is available at
-http://www.eclipse.org/legal/epl-v10.html
+is available at http://www.eclipse.org/legal/epl-v10.html
    </license>
 
    <requires>
-      <import feature="net.bioclipse.core.patch" version="2.0.0.B20090417" match="greaterOrEqual"/>
+      <import feature="net.bioclipse.core.patch" version="2.0.0.B20090506" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -43,7 +41,6 @@ http://www.eclipse.org/legal/epl-v10.html
          id="net.bioclipse.r"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>
