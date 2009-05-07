@@ -76,6 +76,17 @@ public class JsConsoleView extends ScriptingConsoleView {
         }));
     }
 
+    public void waitUntilCommandFinished() {
+        // If there is a nicer way to do this, please let me know. -- masak
+        while (JsThread.isBusy()) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                break;
+            }
+        }
+    }
+
     public String getErrorMessage(Throwable t) {
         if (t == null)
             return "";

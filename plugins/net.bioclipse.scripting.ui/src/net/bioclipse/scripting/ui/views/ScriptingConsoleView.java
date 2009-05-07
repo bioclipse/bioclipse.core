@@ -108,16 +108,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         = new HashMap<Integer, KeyAction>() {{
         put( new Integer(SWT.CR), new KeyAction() {
             public void receiveKey(KeyEvent e) {
-                String command = input.getText().trim();
-                input.setText("");
-                if ("".equals(command))
-                    return;
-                printMessage(NEWLINE + "> " + command + NEWLINE);
-                commandHistory.remove( commandHistory.size() - 1 );
-                commandHistory.add( command );
-                commandHistory.add( "" );
-                currentHistoryLine = commandHistory.size() - 1;
-                executeCommand(command);
+                carryOutCommand(input.getText().trim());
             }
         });
         put( new Integer(SWT.ARROW_UP), new KeyAction() {
@@ -529,6 +520,14 @@ public abstract class ScriptingConsoleView extends ViewPart {
     protected abstract String executeCommand(String command);
     
     /**
+     * Waits for a command to finish executing. Used especially for
+     * asynchronous scripting environments, where the environment goes off and
+     * executes the command in some other thread. Console views which don't
+     * do async can simply leave this method empty.
+     */
+    protected abstract void waitUntilCommandFinished();
+
+    /**
      * Returns all names of variables and methods contained in a certain
      * container object, or, if <code>""</code> or <code>null</code> is passed,
      * in the root container object. This method is meant to be overridden
@@ -680,22 +679,31 @@ public abstract class ScriptingConsoleView extends ViewPart {
     }
     
     /**
-     * A convenience method to simulate that a user enters a command in the 
-     * Input Textbox. This is used e.g. in ScriptAction to simulate that users 
-     * enter command from e.g. a Cheat Sheet.
+     * Prints the command to the console with an appropriate prefix,
+     * and executes it. Doesn't do anything if the command string is empty.
      * 
-     * @param content String with simulated command
+     * @param command the command to be printed and executed
      */
-    public void simulateInputWithReturn(String content){
-        String command = content.trim();
-        printMessage(NEWLINE + "> " + command + NEWLINE);
-        if ( !"".equals(command) ) {
-            commandHistory.remove( commandHistory.size() - 1 );
-            commandHistory.add( command );
-            commandHistory.add( "" );
-            currentHistoryLine = commandHistory.size() - 1;
-        }
-        executeCommand(command);
+    private void carryOutCommand(String command){
         input.setText("");
+        if ("".equals(command))
+            return;
+        printMessage(NEWLINE + "> " + command + NEWLINE);
+        commandHistory.remove( commandHistory.size() - 1 );
+        commandHistory.add( command );
+        commandHistory.add( "" );
+        currentHistoryLine = commandHistory.size() - 1;
+        executeCommand(command);
+    }
+
+    /**
+     * Calls <code>carryOutCommand</code> and then waits for the command to
+     * finish executing before returning control to the caller.
+     *
+     * @param command the command to be printed and executed
+     */
+    public void carryOutCommandAndWait(String command){
+        carryOutCommand(command);
+        waitUntilCommandFinished();
     }
 }
