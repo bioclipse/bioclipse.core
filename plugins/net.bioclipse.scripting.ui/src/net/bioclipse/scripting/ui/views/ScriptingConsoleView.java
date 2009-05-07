@@ -109,15 +109,15 @@ public abstract class ScriptingConsoleView extends ViewPart {
         put( new Integer(SWT.CR), new KeyAction() {
             public void receiveKey(KeyEvent e) {
                 String command = input.getText().trim();
-                printMessage(NEWLINE + "> " + command + NEWLINE);
-                if ( !"".equals(command) ) {
-                    commandHistory.remove( commandHistory.size() - 1 );
-                    commandHistory.add( command );
-                    commandHistory.add( "" );
-                    currentHistoryLine = commandHistory.size() - 1;
-                }
-                executeCommand(command);
                 input.setText("");
+                if ("".equals(command))
+                    return;
+                printMessage(NEWLINE + "> " + command + NEWLINE);
+                commandHistory.remove( commandHistory.size() - 1 );
+                commandHistory.add( command );
+                commandHistory.add( "" );
+                currentHistoryLine = commandHistory.size() - 1;
+                executeCommand(command);
             }
         });
         put( new Integer(SWT.ARROW_UP), new KeyAction() {
