@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Signature Significance
+Bundle-SymbolicName: net.bioclipse.ds.signsig
+Bundle-Version: 0.1.1
+Bundle-Activator: net.bioclipse.ds.signsig.Activator
+Bundle-Vendor: The Bioclipse Team
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
