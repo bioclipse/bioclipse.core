@@ -1,7 +1,5 @@
 package net.bioclipse.scripting.ui.business;
 
-import net.bioclipse.core.Recorded;
-
 import org.aopalliance.intercept.MethodInvocation;
 import org.eclipse.swt.widgets.Display;
 
