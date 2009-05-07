@@ -6,6 +6,18 @@ Bundle-Version: 0.1.1
 Bundle-Activator: net.bioclipse.ds.signsig.bursi.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ net.bioclipse.ds;bundle-version="0.1.1",
+ net.bioclipse.core;bundle-version="2.0.0",
+ net.bioclipse.ui;bundle-version="2.0.0",
+ net.bioclipse.ui.business;bundle-version="2.0.0",
+ net.bioclipse.scripting;bundle-version="2.0.0",
+ net.bioclipse.scripting.ui;bundle-version="2.0.0",
+ net.bioclipse.cdk.smartsmatching;bundle-version="2.0.0",
+ net.bioclipse.cdk.business;bundle-version="2.0.0",
+ org.openscience.cdk.interfaces;bundle-version="1.2.2",
+ org.openscience.cdk.smarts;bundle-version="1.2.2",
+ org.openscience.cdk.core;bundle-version="1.2.2"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
+Import-Package: org.apache.log4j;version="1.2.15"
