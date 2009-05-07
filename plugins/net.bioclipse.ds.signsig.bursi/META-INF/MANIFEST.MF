@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bursi Signature Significance
-Bundle-SymbolicName: net.bioclipse.ds.signsig.bursi
+Bundle-SymbolicName: net.bioclipse.ds.signsig.bursi;singleton:=true
 Bundle-Version: 0.1.1
 Bundle-Activator: net.bioclipse.ds.signsig.bursi.Activator
 Bundle-Vendor: The Bioclipse Team

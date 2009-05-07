@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="net.bioclipse.ds.test">
+      <test
+            class="net.bioclipse.ds.signsig.bursi.SignSIcRunner"
+            id="signsic.bursi"
+            name="Bursi SignSic QSAR">
+      </test>
+   </extension>
+
+</plugin>
