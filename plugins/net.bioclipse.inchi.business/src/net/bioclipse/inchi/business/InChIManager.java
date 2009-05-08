@@ -66,7 +66,7 @@ public class InChIManager implements IInChIManager {
             if (status == INCHI_RET.OKAY) {
                 return gen.getInchiKey();
             } else if (status == INCHI_RET.WARNING) {
-                return gen.getInchi();
+                return gen.getInchiKey();
             } else {
                 throw new InvalidParameterException(
                     "Error while generating InChI: " +
