@@ -424,5 +424,10 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         return null;
     }
 
+    @Override
+    public String toString() {
+        return getName();
+    }
+
 
 }
