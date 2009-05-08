@@ -343,9 +343,18 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
 
         //Get the CDKManager that can carry out cheminfo stuff
         ICDKManager cdk = Activator.getDefault().getCDKManager();
+        
+        ICDKMolecule cdkmol=null;
+        try {
+            cdkmol = cdk.create( molecule );
+        } catch ( BioclipseException e1 ) {
+            throw new DSException("Coudl not convert input molecule to " +
+            		"CDKMolecule: " + e1.getMessage());
+        }
 
         //Remove all hydrogens in molecule
-        //TODO
+        cdkmol=cdk.removeExplicitHydrogens( cdkmol );
+        cdkmol=cdk.removeImplicitHydrogens( cdkmol );
 
         //Write a temp molfile and return path
         File f=null;
@@ -353,7 +362,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
             f = File.createTempFile("signsig", ".mol");
 
             //Write mol as MDL to the temp file
-            String mdlString=cdk.getMDLMolfileString( molecule );
+            String mdlString=cdk.getMDLMolfileString( cdkmol );
             FileWriter w = new FileWriter(f);
             w.write( mdlString );
             w.close();
@@ -373,13 +382,11 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
             throw new DSException("Path to temp molfile is empty");
 
 
+        
+        //Ready to invoke signatures and predict
         logger.debug("Wrote temp MDL file as: " + molfilePath);
         logger.debug("Path to signatures: " + signaturesPath);
-
-
-
-
-
+        
         //=======================================
         //TODO Lars: Work your QSAR magic here...
         //=======================================
