@@ -350,7 +350,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         //Write a temp molfile and return path
         File f=null;
         try {
-            f = File.createTempFile("signsig", ".mdl");
+            f = File.createTempFile("signsig", ".mol");
 
             //Write mol as MDL to the temp file
             String mdlString=cdk.getMDLMolfileString( molecule );
