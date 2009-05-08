@@ -13,7 +13,6 @@ package net.bioclipse.inchi.business;
 
 import java.security.InvalidParameterException;
 
-import net.bioclipse.cdk.domain.CDKMolecule;
 import net.bioclipse.core.domain.IMolecule;
 import net.sf.jniinchi.INCHI_RET;
 
@@ -37,8 +36,9 @@ public class InChIManager implements IInChIManager {
     }
 
     public String generate(IMolecule molecule) throws Exception {
-        if (molecule instanceof CDKMolecule) {
-            IAtomContainer container = ((CDKMolecule)molecule).getAtomContainer();
+        Object adapted = molecule.getAdapter(IAtomContainer.class);
+        if (adapted != null) {
+            IAtomContainer container = (IAtomContainer)adapted;
             InChIGenerator gen = getFactory().getInChIGenerator(container);
             INCHI_RET status = gen.getReturnStatus();
             if (status == INCHI_RET.OKAY) {
@@ -59,8 +59,9 @@ public class InChIManager implements IInChIManager {
     }
 
     public String generateKey(IMolecule molecule) throws Exception {
-        if (molecule instanceof CDKMolecule) {
-            IAtomContainer container = ((CDKMolecule)molecule).getAtomContainer();
+        Object adapted = molecule.getAdapter(IAtomContainer.class);
+        if (adapted != null) {
+            IAtomContainer container = (IAtomContainer)adapted;
             InChIGenerator gen = getFactory().getInChIGenerator(container);
             INCHI_RET status = gen.getReturnStatus();
             if (status == INCHI_RET.OKAY) {
