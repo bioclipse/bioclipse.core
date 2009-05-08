@@ -397,7 +397,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         atoms.add( 5 );
         atoms.add( 8 );
         match.setMatchingAtoms( atoms );
-        match.setName( "WEEHOOW" ); //Will appear in GUI
+        match.setName( "HIT 1" ); //Will appear in GUI
 
         //We can have multiple hits...
         List<ITestResult> results=new ArrayList<ITestResult>();
