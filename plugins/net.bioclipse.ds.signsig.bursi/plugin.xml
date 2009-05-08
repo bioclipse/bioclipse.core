@@ -5,6 +5,7 @@
          point="net.bioclipse.ds.test">
       <test
             class="net.bioclipse.ds.signsig.bursi.SignSIcRunner"
+            icon="icons/test.gif"
             id="signsic.bursi"
             name="Bursi SignSic QSAR">
       </test>
