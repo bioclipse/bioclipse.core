@@ -3,10 +3,22 @@
 <plugin>
 
    <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="net.bioclipse.gist.wizard"
+            name="Gists (gist.github.com)">
+      </category>
       <wizard
+            canFinishEarly="false"
+            category="net.bioclipse.gist.wizard"
             class="net.bioclipse.gist.wizard.NewFromGistWizard"
+            hasPages="true"
+            icon="icons/png/gist.png"
             id="net.bioclipse.gist.wizards.NewFromGistWizard"
-            name="Download Gist">
+            name="Download Gist"
+            project="false">
+         <description>
+            Retrieves a Gist from gist.github.com. To find new gists, for example javascripts, for bioclipse visit http://delicious.com/tag/bioclipse+gist.
+         </description>
       </wizard>
    </extension>
 
