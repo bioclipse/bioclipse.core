@@ -20,6 +20,7 @@ import net.bioclipse.recording.IRecordingAdvice;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -188,6 +189,7 @@ public class Activator extends Plugin {
         try{
             description.setLocationURI(new URI("memory:/Virtual"));
             project.create(description,null);
+            project.refreshLocal( IResource.DEPTH_ZERO, null );
             project.open(null);
         }catch(URISyntaxException use){
             logger.debug(use.getMessage(),use);
