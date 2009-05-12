@@ -29,10 +29,12 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.openscience.cdk.interfaces.IAtomContainer;
 
 import net.bioclipse.cdk.business.Activator;
 import net.bioclipse.cdk.business.CDKManager;
 import net.bioclipse.cdk.business.ICDKManager;
+import net.bioclipse.cdk.domain.AtomContainerSelection;
 import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
@@ -166,10 +168,10 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         //Get path to our plugin
         String signaturesPath="";
         try {
-            URL url = FileLocator.toFileURL(Platform.getBundle(getPluginID())
-                                            .getEntry(filepath));
+            URL preurl=Platform.getBundle(getPluginID()).getEntry(filepath);
+            URL url = FileLocator.toFileURL(preurl);
             signaturesPath=url.getFile();
-        } catch ( IOException e ) {
+        } catch ( Exception e ) {
             throw new DSException("Could not read native file: " + filepath);                                  
         }
 
@@ -399,11 +401,12 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         //Let's say we get the atoms to highlight back as 1,5,8
         //TODO: Remove this bogus impl when real impl is working.
         SubStructureMatch match=new SubStructureMatch();
-        List<Integer> atoms=new ArrayList<Integer>();
-        atoms.add( 1 );
-        atoms.add( 5 );
-        atoms.add( 8 );
-        match.setMatchingAtoms( atoms );
+        IAtomContainer ac=cdkmol.getAtomContainer().getBuilder().newAtomContainer();
+        ac.addAtom( cdkmol.getAtomContainer().getAtom( 1 ));
+        ac.addAtom( cdkmol.getAtomContainer().getAtom( 2 ));
+        ac.addAtom( cdkmol.getAtomContainer().getAtom( 5 ));
+
+        match.setAtomContainer( ac );
         match.setName( "HIT 1" ); //Will appear in GUI
 
         //We can have multiple hits...
