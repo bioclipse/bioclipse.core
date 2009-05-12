@@ -443,6 +443,11 @@ public class JsConsoleView extends ScriptingConsoleView {
             if ( currentCommand().startsWith( prefix + " " ) )
                 return "";
         
+        // however, an extra space doesn't hurt
+        for ( String specialCmd : allSpecialCommands() )
+            if ( currentCommand().equals( specialCmd ) )
+                return " ";
+
         // a manager gets a period ('.') appended to it, since that's what the
         // user wants to write anyway.
         if ( "".equals(parent)
