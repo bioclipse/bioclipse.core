@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.bioclipse.scripting.ui.tabcompletion.TabCompleter;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -67,24 +69,9 @@ public abstract class ScriptingConsoleView extends ViewPart {
      * and ARROW_DOWN keys are used.
      */
     private int currentHistoryLine = 0;
-
-    /**
-     * Tab completion has a sort of short-term memory in the form of this
-     * instance variable, which remembers the expansion "result" of the last
-     * tab completion. Something like this is needed so that the tab completer
-     * can beep the first time upon encountering an ambiguous completion, and
-     * print the alternatives the second time.
-     *
-     * Note also that even this isn't perfect. There's an unlikely false
-     * positive when the value of this variable survives to the next set of tab
-     * completions -- let's say that the user tab completes on "foo" and gets
-     * first a beep and then a list of alternatives. She goes for a cup of
-     * coffee, and five minutes later when she presses tab on "foo" again as
-     * part of a different command, she will get the list and not a beep,
-     * because this variable still contains "foo".
-     */
-    private String lastPrefix = null;
     
+    private TabCompleter tabCompleter = new TabCompleter();
+
     /**
      * Represents something to do when a specific key is pressed. Java 5 doesn't
      * have closures, so we use anonymous classes with a method in it instead,
@@ -554,18 +541,6 @@ public abstract class ScriptingConsoleView extends ViewPart {
         return Collections.EMPTY_LIST;
     }
 
-    /* Returns the longest common prefix of all strings in a list. */
-    private String commonPrefix(List<String> strings) {
-        if (strings.size() == 0)
-            return "";
-        String commonPrefix = strings.get(0);
-        for (String s : strings)
-            while ( !s.toLowerCase().startsWith(commonPrefix.toLowerCase()) )
-                commonPrefix
-                    = commonPrefix.substring(0, commonPrefix.length() - 1);
-        return commonPrefix;
-    }
-
     /**
      * Automatically writes to the command line the rest of a variable or
      * method name. (Names are completed case-insensitively; the case of the
@@ -581,59 +556,57 @@ public abstract class ScriptingConsoleView extends ViewPart {
     protected void tabComplete() {
         String command = input.getText();
         int pos = input.getCaretPosition() - 1;
-        String prefix = "";
-        for (char additionalCharacter; pos >= 0 && Character.isLetterOrDigit(
-                additionalCharacter = command.charAt(pos)); --pos)
-            prefix = additionalCharacter + prefix;
-        deleteBackwards(input.getCaretPosition() - (pos+1));
-        String object = "";
-        boolean foundDot = false;
+        String prefix = eatTermBackwards(command, pos);
+        pos -= prefix.length();
+        int startOfCompletedWord = pos + 1;
+        List<String> variables = new ArrayList<String>();
+        String parent = "";
         if ( pos > 0 && command.charAt(pos) == '.' ) {
-            foundDot = true;
-            --pos;
-            if ( Character.isLetterOrDigit( command.charAt(pos) ) ) {
-                for (char additionalCharacter; pos >= 0
-                     && (Character.isLetterOrDigit(
-                             additionalCharacter = command.charAt(pos) )
-                         || additionalCharacter == '.' ); --pos)
-                    object = additionalCharacter + object;
+            if ( Character.isLetterOrDigit( command.charAt(pos-1) ) ) {
+                parent = eatTermBackwards(command, pos-1, ".");
+                pos -= parent.length() + 1;
             }
             else {
-                object = null;
+                return;
             }
         }
-        List<String> variables = object == null
-                                   ? new ArrayList<String>()
-                                   : allNamesIn(object);
-        if (!foundDot && pos == -1)
+        else if (pos == -1) {
             variables.addAll(allSpecialCommands());
-        List<String> interestingVariables = new ArrayList<String>();
-        for (String variable : variables)
-            if (variable.toLowerCase().startsWith(prefix.toLowerCase()))
-                interestingVariables.add( variable );
-        String longestCommonPrefix = commonPrefix(interestingVariables);
-        if ( prefix.length() > longestCommonPrefix.length() ) {
-            addAtCursor(prefix);
+        }
+        variables.addAll(allNamesIn(parent));
+        List<String> interestingVariables
+            = tabCompleter.complete(prefix, variables);
+        if ( interestingVariables.isEmpty() ) {
             beep();
         }
-        else if ( longestCommonPrefix.equals(lastPrefix)
-             && interestingVariables.size() > 1 ) {
-            Collections.sort( interestingVariables );
-            String varList = interestingVariables.toString();
-            varList
-                = varList.substring(1, varList.length() - 1).replace(',', ' ');
-            printMessage( varList + NEWLINE );
-            addAtCursor(prefix);
+        else if ( interestingVariables.size() > 1
+                  && tabCompleter.secondTime() ) {
+
+            printMessage( tabCompleter.completions(interestingVariables)
+                          + NEWLINE );
         }
         else {
-            addAtCursor( longestCommonPrefix );
+            deleteBackwards(input.getCaretPosition() - startOfCompletedWord);
+            addAtCursor( tabCompleter.commonPrefix(interestingVariables) );
             if ( interestingVariables.size() == 1 )
-                addAtCursor( tabCompletionHook(object,
+                addAtCursor( tabCompletionHook(parent,
                                                interestingVariables.get(0)) );
-            if (interestingVariables.size() != 1)
+            else
                 beep();
         }
-        lastPrefix = longestCommonPrefix;
+    }
+
+    private String eatTermBackwards(String string, int pos) {
+        return eatTermBackwards(string, pos, "");
+    }
+
+    private String eatTermBackwards(String string, int pos, String okChars) {
+        String accTerm = "";
+        for (char additionalCharacter; pos >= 0 && (Character.isLetterOrDigit(
+                additionalCharacter = string.charAt(pos))
+                || okChars.contains("" + additionalCharacter)); --pos)
+            accTerm = additionalCharacter + accTerm;
+        return accTerm;
     }
 
     private void deleteBackwards(int length) {
