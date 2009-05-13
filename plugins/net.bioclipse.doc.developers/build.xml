@@ -1,0 +1,9 @@
+<project default="runPerl">
+
+  <target name="runPerl">
+  	<exec executable="perl">
+  	  <arg value="makeExtensionsHTML.perl"/>
+  	</exec>
+  </target>
+
+</project>
