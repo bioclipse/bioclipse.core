@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.Dialog;
@@ -42,7 +43,9 @@ import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 import org.eclipse.update.configuration.IConfiguredSite;
 import org.eclipse.update.configuration.ILocalSite;
+import org.eclipse.update.core.IFeature;
 import org.eclipse.update.core.IFeatureReference;
+import org.eclipse.update.core.IPluginEntry;
 import org.eclipse.update.core.ISite;
 import org.eclipse.update.core.SiteManager;
 import org.eclipse.update.core.VersionedIdentifier;
@@ -244,18 +247,58 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 
                 //We should install it if it is a feature patch
                 if (updateSiteFeatures[i].isPatch()){
-                    logger.debug("** Found and added remote feature patch: "
-                                 + updateSiteFeatures[i].getName());
-                    installOps.add(
-                                   OperationsManager
-                                   .getOperationFactory()
-                                   .createInstallOperation(
-                                                           ics,
-                                                           updateSiteFeatures[i].getFeature(monitor),
-                                                           null,
-                                                           null,
-                                                           null)
-                    );
+
+                    logger.debug( "  This is a feature patch." );
+                    boolean installPatch=false;
+                    
+                    IPluginEntry[] patchPlugins = updateSiteFeatures[i].getFeature(new NullProgressMonitor()).getPluginEntries();
+                    
+                    for (IPluginEntry pPlugin : patchPlugins){
+
+                        //Add if feature and version > what is installed
+                        for (IFeatureReference instFeatureRef : installedFeatures) {
+                            IFeature instFeature = instFeatureRef.getFeature(new NullProgressMonitor());
+                            for (IPluginEntry iPlugin : instFeature.getPluginEntries()){
+                                if (pPlugin.getVersionedIdentifier().getIdentifier()
+                                        .equals( iPlugin.getVersionedIdentifier().getIdentifier() )){
+                                    //Same plugin, compare version
+                                    if (pPlugin.getVersionedIdentifier().getVersion().isGreaterThan( iPlugin.getVersionedIdentifier().getVersion() )){
+                                        //New plugin is larger than installed
+                                        //hence, a plugin that should be installed is detected
+                                        //so: install this patch
+                                        installPatch=true;
+                                        logger.debug("    () Found remote patch plugin: " + pPlugin.getVersionedIdentifier().getIdentifier() + " with version: " + pPlugin.getVersionedIdentifier().getVersion());
+                                        logger.debug("    () Local existing plugin: " + iPlugin.getVersionedIdentifier().getIdentifier() + " with version: " + iPlugin.getVersionedIdentifier().getVersion());
+                                        logger.debug( "  ==> feature patch selected for installation." );
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                    
+                    if (installPatch){
+                        logger.debug("** Added remote feature patch: "
+                                     + updateSiteFeatures[i].getName());
+                        installOps.add(
+                                       OperationsManager
+                                       .getOperationFactory()
+                                       .createInstallOperation(
+                                                               ics,
+                                                               updateSiteFeatures[i].getFeature(monitor),
+                                                               null,
+                                                               null,
+                                                               null)
+                        );
+                        
+                    }
+                    else{
+                        logger.debug("  Found remote feature patch: "
+                                     + updateSiteFeatures[i].getName() + 
+                                     " was not scheduled for install since no " +
+                                     "plugins with greater version was found.");
+
+                    }
                 }
 
             }
