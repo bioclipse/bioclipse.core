@@ -14,6 +14,7 @@ package net.bioclipse.inchi.business;
 import java.security.InvalidParameterException;
 
 import net.bioclipse.core.domain.IMolecule;
+import net.bioclipse.inchi.InChI;
 import net.sf.jniinchi.INCHI_RET;
 
 import org.openscience.cdk.inchi.InChIGenerator;
@@ -35,16 +36,18 @@ public class InChIManager implements IInChIManager {
         return "inchi";
     }
 
-    public String generate(IMolecule molecule) throws Exception {
+    public InChI generate(IMolecule molecule) throws Exception {
         Object adapted = molecule.getAdapter(IAtomContainer.class);
         if (adapted != null) {
             IAtomContainer container = (IAtomContainer)adapted;
             InChIGenerator gen = getFactory().getInChIGenerator(container);
             INCHI_RET status = gen.getReturnStatus();
-            if (status == INCHI_RET.OKAY) {
-                return gen.getInchi();
-            } else if (status == INCHI_RET.WARNING) {
-                return gen.getInchi();
+            if (status == INCHI_RET.OKAY ||
+                status == INCHI_RET.WARNING) {
+                InChI inchi = new InChI();
+                inchi.setValue(gen.getInchi());
+                inchi.setKey(gen.getInchiKey());
+                return inchi;
             } else {
                 throw new InvalidParameterException(
                     "Error while generating InChI: " +
@@ -58,26 +61,4 @@ public class InChIManager implements IInChIManager {
         }
     }
 
-    public String generateKey(IMolecule molecule) throws Exception {
-        Object adapted = molecule.getAdapter(IAtomContainer.class);
-        if (adapted != null) {
-            IAtomContainer container = (IAtomContainer)adapted;
-            InChIGenerator gen = getFactory().getInChIGenerator(container);
-            INCHI_RET status = gen.getReturnStatus();
-            if (status == INCHI_RET.OKAY) {
-                return gen.getInchiKey();
-            } else if (status == INCHI_RET.WARNING) {
-                return gen.getInchiKey();
-            } else {
-                throw new InvalidParameterException(
-                    "Error while generating InChI: " +
-                    gen.getMessage()
-                );
-            }
-        } else {
-            throw new InvalidParameterException(
-                "Given molecule must be a CDKMolecule"
-            );
-        }
-    }
 }

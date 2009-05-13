@@ -17,6 +17,7 @@ import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.TestMethods;
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.domain.IMolecule;
+import net.bioclipse.inchi.InChI;
 
 @PublishedClass ("Manager for creating InChI and InChIKeys.")
 @TestClasses("net.bioclipse.inchi.business.test.InChIManagerTest")
@@ -25,15 +26,9 @@ public interface IInChIManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod(
         params = "IMolecule molecule",
-        methodSummary = "Generates the InChI for the given molecule.")
+        methodSummary = "Generates the InChI and InChIKey for the " +
+        		"given molecule.")
     @TestMethods("testGenerate")
-    public String generate(IMolecule molecule) throws Exception;
-
-    @Recorded
-    @PublishedMethod(
-        params = "IMolecule molecule",
-        methodSummary = "Generates the InChIKey for the given molecule.")
-    @TestMethods("testGenerateKey")
-    public String generateKey(IMolecule molecule) throws Exception;
+    public InChI generate(IMolecule molecule) throws Exception;
 
 }
