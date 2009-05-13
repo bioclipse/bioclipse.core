@@ -1,13 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 2009 Jonathan Alvarsson <jonathan.alvarsson@farmbio.uu.se>
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * <http://www.eclipse.org/legal/epl-v10.html>
+ *
+ * Contact: http://www.bioclipse.net/
+ ******************************************************************************/
 package net.bioclipse.scripting.business;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
-import net.bioclipse.core.Activator;
 import net.bioclipse.core.ResourcePathTransformer;
-import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.jsexecution.tools.MonitorContainer;
 
 import org.aopalliance.intercept.MethodInvocation;
@@ -15,7 +22,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.SubProgressMonitor;
-import org.springframework.aop.framework.ProxyFactory;
 
 
 /**

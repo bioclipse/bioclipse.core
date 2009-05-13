@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2009 Ola Spjuth <ola.spjuth@farmbio.uu.se>
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * <http://www.eclipse.org/legal/epl-v10.html>
+ *
+ * Contact: http://www.bioclipse.net/
+ ******************************************************************************/
 package net.bioclipse.scripting.ui.actions;
 
 import net.bioclipse.core.util.LogUtils;
@@ -9,8 +19,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.cheatsheets.ICheatSheetAction;
 import org.eclipse.ui.cheatsheets.ICheatSheetManager;
-
-
 
 public class ScriptAction extends Action implements ICheatSheetAction {
 
