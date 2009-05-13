@@ -34,7 +34,6 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IBundleGroupProvider;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -88,8 +87,8 @@ public class UIManager implements IUIManager {
     public void open( final IFile file ) {
 
         IWorkbenchPage page = PlatformUI.getWorkbench()
-        .getActiveWorkbenchWindow()
-        .getActivePage();
+                                        .getActiveWorkbenchWindow()
+                                        .getActivePage();
         try {
             IDE.openEditor(page, file);
         } catch (PartInitException e) {
@@ -132,13 +131,16 @@ public class UIManager implements IUIManager {
         throw new IllegalStateException("This method shoudl not be called");
     }
     
-    public void open( final IBioObject bioObject, final String editor) throws BioclipseException {
+    public void open( final IBioObject bioObject, final String editor)
+        throws BioclipseException {
         
         //Determine editorID from putative alias
         final String editorID = getEditorID( editor );
         
         if (editorID==null){
-            Activator.getDefault().getJsConsoleManager().print( "No editor with ID: " + editor + " found" );
+            Activator.getDefault().getJsConsoleManager().print(
+                    "No editor with ID: " + editor + " found"
+            );
             return;
         }
         
@@ -215,7 +217,9 @@ public class UIManager implements IUIManager {
     }
 
     public boolean fileExists(String filePath) {
-        return fileExists( ResourcePathTransformer.getInstance().transform( filePath ) );
+        return fileExists(
+                ResourcePathTransformer.getInstance().transform( filePath )
+        );
     }
 
 
@@ -235,15 +239,15 @@ public class UIManager implements IUIManager {
                 IFile file = (IFile) bioObject.getResource();
 
                 IContentTypeManager contentTypeManager 
-                = Platform.getContentTypeManager();
+                    = Platform.getContentTypeManager();
                 InputStream stream = file.getContents();
                 IContentType contentType 
-                = contentTypeManager.findContentTypeFor( stream, 
-                                                         file.getName() );
+                    = contentTypeManager.findContentTypeFor( stream, 
+                                                             file.getName() );
 
                 IEditorDescriptor editor 
-                = PlatformUI.getWorkbench().getEditorRegistry()
-                .getDefaultEditor( file.getName(), contentType );
+                    = PlatformUI.getWorkbench().getEditorRegistry()
+                                .getDefaultEditor(file.getName(), contentType);
                 if (editor != null) {
                     js.print( "Chosen editor: " + editor.getLabel());
                     open( bioObject, editor.getId() );
@@ -275,31 +279,23 @@ public class UIManager implements IUIManager {
             }
         }
         throw new IllegalArgumentException(
-                                           "No editor found for object: " + bioObject );
+            "No editor found for object: " + bioObject
+        );
     }
 
 
     public void getEditors() throws BioclipseException{
 
         String retstr="Alias\t\tEditorID\n========================\n";
-        Map<String, String> aliasmap=ExtensionPointHelper.getAvailableAliasesFromEP();
+        Map<String, String> aliasmap
+            = ExtensionPointHelper.getAvailableAliasesFromEP();
 
-        for (Iterator<String> it = aliasmap.keySet().iterator(); it.hasNext();){
+        for (Iterator<String> it = aliasmap.keySet().iterator();it.hasNext();) {
             String alias=it.next();
             retstr=retstr+alias + "\t\t" + aliasmap.get( alias ) +"\n";
         }
 
-        //      retstr=retstr+"\nEditorIDs:\n============\n";
-        //
-        //      IConfigurationElement[] exts = Platform.getExtensionRegistry().getExtensionPoint( "org.eclipse.ui.editors" ).getConfigurationElements();
-        //
-        //      for (int i=0; i<exts.length;i++){
-        //          IConfigurationElement ext=exts[i];
-        //          retstr=retstr+ext.getAttribute( "name" ) + "\t\t" + ext.getAttribute( "id" ) +"\n";
-        //      }
-
         Activator.getDefault().getJsConsoleManager().print( retstr );
-
     }
 
     /**
@@ -311,13 +307,14 @@ public class UIManager implements IUIManager {
     private String getEditorID(String request) throws BioclipseException{
 
         //Start by looking if the submitted itself is a valid editorID
-        IEditorDescriptor editor = PlatformUI.getWorkbench().getEditorRegistry()
-        .findEditor( request );
+        IEditorDescriptor editor
+            = PlatformUI.getWorkbench().getEditorRegistry().findEditor(request);
         if (editor!=null)
             return request;
 
         //Next, look up in aliasmap
-        Map<String, String> aliasmap=ExtensionPointHelper.getAvailableAliasesFromEP();
+        Map<String, String> aliasmap
+            = ExtensionPointHelper.getAvailableAliasesFromEP();
         if (aliasmap.keySet().contains( request ))
             return aliasmap.get( request );
 
@@ -327,7 +324,6 @@ public class UIManager implements IUIManager {
 
     
     public void newFile( String path) throws CoreException, BioclipseException {
-        
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         IWorkspaceRoot root = workspace.getRoot();
         IPath ipath=new Path(path);
@@ -338,7 +334,6 @@ public class UIManager implements IUIManager {
             InputStream source = new ByteArrayInputStream(bytes);
             file.create(source, IResource.NONE, new NullProgressMonitor());
         }
-
     }
 
     public void closeActiveEditor() {
@@ -346,7 +341,8 @@ public class UIManager implements IUIManager {
             public void run() {
 
                 IWorkbench workB = PlatformUI.getWorkbench();
-                IWorkbenchPage page = workB.getActiveWorkbenchWindow().getActivePage();
+                IWorkbenchPage page
+                    = workB.getActiveWorkbenchWindow().getActivePage();
                 page.closeEditor( page.getActiveEditor(), false );
             }
         });
@@ -361,8 +357,10 @@ public class UIManager implements IUIManager {
 
             public void run() {
                 IWorkbench workB = PlatformUI.getWorkbench();
-                IWorkbenchPage page = workB.getActiveWorkbenchWindow().getActivePage();
-                List<IEditorReference> toClose = new ArrayList<IEditorReference>();
+                IWorkbenchPage page
+                    = workB.getActiveWorkbenchWindow().getActivePage();
+                List<IEditorReference> toClose
+                    = new ArrayList<IEditorReference>();
                 IFileEditorInput ei= new FileEditorInput(file);
                 IEditorReference[] editorRefs = page.getEditorReferences();
 
@@ -374,7 +372,9 @@ public class UIManager implements IUIManager {
                         // Failed to close one edtior
                     }
                 }
-                editorRefs = toClose.toArray(new IEditorReference[toClose.size()] );
+                editorRefs = toClose.toArray(
+                    new IEditorReference[toClose.size()]
+                );
                 page.closeEditors( editorRefs, false );
 
             }
@@ -383,7 +383,7 @@ public class UIManager implements IUIManager {
     }
     
     public void revealAndSelect(String path) throws BioclipseException{
-        revealAndSelect(ResourcePathTransformer.getInstance().transform( path ));
+        revealAndSelect(ResourcePathTransformer.getInstance().transform(path));
     }
     
     public void revealAndSelect(final IFile file) throws BioclipseException{
@@ -394,10 +394,16 @@ public class UIManager implements IUIManager {
         //Get navigator view and reveal in UI thread
         Display.getDefault().asyncExec( new Runnable(){
             public void run() {
-                IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( NAVIGATOR_ID );
+                IViewPart view
+                    = PlatformUI.getWorkbench()
+                                .getActiveWorkbenchWindow()
+                                .getActivePage()
+                                .findView( NAVIGATOR_ID );
                 CommonNavigator nav=(CommonNavigator)view;
                 nav.getCommonViewer().reveal( file );
-                nav.getCommonViewer().setSelection( new StructuredSelection(file) );
+                nav.getCommonViewer().setSelection(
+                    new StructuredSelection(file)
+                );
             }
         } );
     }
@@ -405,7 +411,8 @@ public class UIManager implements IUIManager {
     public void refresh(String path) {
         throw new IllegalStateException("This method should not be called");
     }
-    public void refresh(String path,IProgressMonitor monitor) throws BioclipseException{
+    public void refresh(String path,IProgressMonitor monitor)
+        throws BioclipseException{
 
         IWorkspaceRoot root=ResourcesPlugin.getWorkspace().getRoot();
         IResource resource = root.findMember( new Path(path) );
@@ -428,8 +435,10 @@ public class UIManager implements IUIManager {
     
     public List<String> getInstalledFeatures() {
         List<String> installedFeatures=new ArrayList<String>();
-        for (IFeatureEntry en : ConfiguratorUtils.getCurrentPlatformConfiguration().getConfiguredFeatureEntries()){
-            //Omit eclipse features
+        for (IFeatureEntry en
+                : ConfiguratorUtils.getCurrentPlatformConfiguration()
+                                   .getConfiguredFeatureEntries()) {
+            //Omit Eclipse features
             if (!en.getFeatureIdentifier().startsWith( "org.eclipse" )){
                 System.out.println(en.getFeatureIdentifier());
                 installedFeatures.add( en.getFeatureIdentifier());
@@ -438,6 +447,4 @@ public class UIManager implements IUIManager {
         
         return installedFeatures;
     }
-
-    
 }
