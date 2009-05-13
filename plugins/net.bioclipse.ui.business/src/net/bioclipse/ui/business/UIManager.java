@@ -76,6 +76,10 @@ public class UIManager implements IUIManager {
 
     public void remove( IFile file, IProgressMonitor monitor ) {
         try {
+            if (!file.exists())
+                throw new IllegalArgumentException(
+                    "File not found: " + file.getName()
+                );
             file.delete(true, monitor);
         } catch (PartInitException e) {
             throw new RuntimeException(e);
