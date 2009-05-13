@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: QuickImage
 Bundle-SymbolicName: nu.psnet.quickimage; singleton:=true
-Bundle-Version: 2.0.0.B20090506
+Bundle-Version: 2.0.0.B20090513
 Bundle-ClassPath: quickimage.jar
 Bundle-Activator: nu.psnet.quickimage.QuickImagePlugin
 Bundle-Vendor: psnet.nu

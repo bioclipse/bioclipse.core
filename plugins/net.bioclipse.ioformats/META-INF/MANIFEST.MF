@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bioclipse IO Format Detection
 Bundle-SymbolicName: net.bioclipse.ioformats;singleton:=true
-Bundle-Version: 2.0.0.B20090506
+Bundle-Version: 2.0.0.B20090513
 Bundle-Activator: net.bioclipse.ioformats.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
