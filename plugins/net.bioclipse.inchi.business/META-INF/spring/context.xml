@@ -11,45 +11,57 @@
   <osgi:reference id="recordingAdvice" 
                   interface="net.bioclipse.recording.IRecordingAdvice" />
 
-  <osgi:reference id="createJobAdvice"
-                  interface="net.bioclipse.ui.jobs.ICreateJobAdvice" />
+  <osgi:reference id="javaManagerDispatcherAdvisor"
+		interface="net.bioclipse.managers.business.IJavaManagerDispatcherAdvisor" />
 
-  <!--+ 
-      | Point cut advisor that inserts the recording advice on all methods.
-      | (The class does nothing on toString() 
-      |  since a regexp for that behavior failed)
-      +-->
+  <osgi:reference id="javaScriptManagerDispatcherAdvisor"
+		interface="net.bioclipse.managers.business.IJavaScriptManagerDispatcherAdvisor" />
+
+  <osgi:reference id="wrapInProxyAdvice"
+		interface="net.bioclipse.recording.IWrapInProxyAdvice" />
+
   <bean id="recordingAdvisor"
   		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
         <property name="advice"  ref="recordingAdvice" />
   		<property name="pattern" value=".*" />
   </bean>
 
-  <!-- The target that later on will be proxied. Our manager class. -->
   <bean id="inchiManagerTarget" 
         class="net.bioclipse.inchi.business.InChIManager">
   </bean>
   
-  <!--+ 
-      | The proxy puts together the managerTarget, the pointcut advisor
-      | and defines which interfaces to be proxied 
-      +-->
-  <bean id="inchiManager"
+  <osgi:service id="javaInchiManagerOSGI" ref="javaInchiManager"
+      interface="net.bioclipse.inchi.business.IJavaInChIManager" />
+      
+  <bean id="javaInchiManager"
   		class="org.springframework.aop.framework.ProxyFactoryBean">
-  	<property name="target" 
-  	          ref="inchiManagerTarget" />
+  	<property name="target" ref="inchiManagerTarget" />
   	<property name="proxyInterfaces" 
-  	          value="net.bioclipse.inchi.business.IInChIManager" />
+  	          value="net.bioclipse.inchi.business.IJavaInChIManager" />
   	<property name="interceptorNames">
         <list>
            <value>recordingAdvisor</value>
-           <value>createJobAdvice</value>
+           <value>wrapInProxyAdvice</value>
+           <value>javaManagerDispatcherAdvisor</value>
         </list>
     </property>
   </bean>
 
-  <!-- publishes the final manager (the proxy) -->
-  <osgi:service id="inchiManagerOSGI" 
-                ref="inchiManager"
-                interface="net.bioclipse.inchi.business.IInChIManager" />
+  <osgi:service id="javaScriptInchiManagerOSGI" ref="javaScriptInchiManager"
+      interface="net.bioclipse.inchi.business.IJavaScriptInChIManager" />
+      
+  <bean id="javaScriptInchiManager"
+  		class="org.springframework.aop.framework.ProxyFactoryBean">
+  	<property name="target" ref="inchiManagerTarget" />
+  	<property name="proxyInterfaces" 
+  	          value="net.bioclipse.inchi.business.IJavaScriptInChIManager" />
+  	<property name="interceptorNames">
+        <list>
+           <value>recordingAdvisor</value>
+           <value>wrapInProxyAdvice</value>
+           <value>javaScriptManagerDispatcherAdvisor</value>
+        </list>
+    </property>
+  </bean>
+
 </beans>

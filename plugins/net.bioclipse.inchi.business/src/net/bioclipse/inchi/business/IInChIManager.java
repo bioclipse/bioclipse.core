@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008  Egon Willighagen <egonw@users.sf.net>
+ * Copyright (c) 2008-2009  Egon Willighagen <egonw@users.sf.net>
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -17,6 +17,8 @@ import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.TestMethods;
 import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.inchi.InChI;
+import net.bioclipse.jobs.BioclipseJob;
+import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.managers.business.IBioclipseManager;
 
 @PublishedClass ("Manager for creating InChI and InChIKeys.")
@@ -30,5 +32,7 @@ public interface IInChIManager extends IBioclipseManager {
         		"given molecule.")
     @TestMethods("testGenerate")
     public InChI generate(IMolecule molecule) throws Exception;
+    public BioclipseJob<String> generate(IMolecule molecule, 
+            BioclipseJobUpdateHook h );
 
 }

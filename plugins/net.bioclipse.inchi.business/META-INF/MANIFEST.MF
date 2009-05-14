@@ -20,3 +20,5 @@ Export-Package: net.bioclipse.inchi.business,
  net.bioclipse.inchi.ui,
  net.bioclipse.inchi
 Bundle-Vendor: The Bioclipse Team
+Bundle-ClassPath: .
+Import-Package: org.apache.log4j

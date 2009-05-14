@@ -24,7 +24,7 @@ public class InChIManagerFactory implements IExecutableExtension,
     public void setInitializationData(IConfigurationElement config,
                                       String propertyName, 
                                       Object data) throws CoreException {
-        inchiManager = Activator.getDefault().getInChIManager();
+        inchiManager = Activator.getDefault().getJavaScriptInChIManager();
     }
     
     public Object create() throws CoreException {

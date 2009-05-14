@@ -14,8 +14,11 @@ package net.bioclipse.inchi.business;
 import java.security.InvalidParameterException;
 
 import net.bioclipse.core.domain.IMolecule;
+<<<<<<< HEAD:plugins/net.bioclipse.inchi.business/src/net/bioclipse/inchi/business/InChIManager.java
 import net.bioclipse.inchi.InChI;
+=======
 import net.bioclipse.managers.business.IBioclipseManager;
+>>>>>>> Converted the InChI manager to NWO:plugins/net.bioclipse.inchi.business/src/net/bioclipse/inchi/business/InChIManager.java
 import net.sf.jniinchi.INCHI_RET;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -38,20 +41,33 @@ public class InChIManager implements IBioclipseManager {
         return "inchi";
     }
 
-    public InChI generate(IMolecule molecule, IProgressMonitor monitor) throws Exception {
+<<<<<<< HEAD:plugins/net.bioclipse.inchi.business/src/net/bioclipse/inchi/business/InChIManager.java
+    public InChI generate(IMolecule molecule) throws Exception {
+        Object adapted = molecule.getAdapter(IAtomContainer.class);
+=======
+    public String generate(IMolecule molecule, IProgressMonitor monitor) throws Exception {
     	monitor.beginTask("Calculating InChI", IProgressMonitor.UNKNOWN);
     	Object adapted = molecule.getAdapter(IAtomContainer.class);
+>>>>>>> Converted the InChI manager to NWO:plugins/net.bioclipse.inchi.business/src/net/bioclipse/inchi/business/InChIManager.java
         if (adapted != null) {
             IAtomContainer container = (IAtomContainer)adapted;
             InChIGenerator gen = getFactory().getInChIGenerator(container);
             INCHI_RET status = gen.getReturnStatus();
+<<<<<<< HEAD:plugins/net.bioclipse.inchi.business/src/net/bioclipse/inchi/business/InChIManager.java
             if (status == INCHI_RET.OKAY ||
                 status == INCHI_RET.WARNING) {
-            	monitor.done();
                 InChI inchi = new InChI();
                 inchi.setValue(gen.getInchi());
                 inchi.setKey(gen.getInchiKey());
                 return inchi;
+=======
+            if (status == INCHI_RET.OKAY) {
+            	monitor.done();
+                return gen.getInchi();
+            } else if (status == INCHI_RET.WARNING) {
+            	monitor.done();
+                return gen.getInchi();
+>>>>>>> Converted the InChI manager to NWO:plugins/net.bioclipse.inchi.business/src/net/bioclipse/inchi/business/InChIManager.java
             } else {
                 throw new InvalidParameterException(
                     "Error while generating InChI: " +

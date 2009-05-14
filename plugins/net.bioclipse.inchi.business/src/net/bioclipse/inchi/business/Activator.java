@@ -10,6 +10,9 @@
  ******************************************************************************/
 package net.bioclipse.inchi.business;
 
+import net.bioclipse.core.util.LogUtils;
+
+import org.apache.log4j.Logger;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
@@ -21,11 +24,13 @@ import org.osgi.util.tracker.ServiceTracker;
  */
 public class Activator extends AbstractUIPlugin {
 
+    private static final Logger logger = Logger.getLogger(Activator.class);
     public static final String PLUGIN_ID = "net.bioclipse.inchi";
 
     private static Activator myself;
     
-    private ServiceTracker finderTracker;
+    private ServiceTracker javaFinderTracker;
+    private ServiceTracker jsFinderTracker;
     
     public Activator() {}
 
@@ -33,20 +38,41 @@ public class Activator extends AbstractUIPlugin {
         super.start(context);
         myself = this;
         
-        finderTracker = new ServiceTracker(
-            context, 
-            IInChIManager.class.getName(), 
+        javaFinderTracker = new ServiceTracker(
+            context,
+            IJavaInChIManager.class.getName(), 
             null
         );
-        finderTracker.open();
+        javaFinderTracker.open();
+        jsFinderTracker = new ServiceTracker(
+            context,
+            IJavaScriptInChIManager.class.getName(), 
+            null
+        );
+        jsFinderTracker.open();
     }
 
-    public IInChIManager getInChIManager() {
+    public IInChIManager getJavaInChIManager() {
         IInChIManager inchiManager = null;
         try {
-            inchiManager = (IInChIManager) finderTracker.waitForService(1000*30);
+            inchiManager = (IInChIManager)
+                javaFinderTracker.waitForService(1000*10);
         } catch (InterruptedException e) {
-            throw new IllegalStateException("Could not get inchi manager", e);
+            LogUtils.debugTrace(logger, e);
+        }
+        if(inchiManager == null) {
+            throw new IllegalStateException("Could not get inchi manager");
+        }
+        return inchiManager;
+    }
+
+    public IInChIManager getJavaScriptInChIManager() {
+        IInChIManager inchiManager = null;
+        try {
+            inchiManager = (IInChIManager)
+                jsFinderTracker.waitForService(1000*10);
+        } catch (InterruptedException e) {
+            LogUtils.debugTrace(logger, e);
         }
         if(inchiManager == null) {
             throw new IllegalStateException("Could not get inchi manager");
