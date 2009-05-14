@@ -22,7 +22,7 @@ public class WebservicesManager implements IWebservicesManager{
     	throws BioclipseException, CoreException, IOException {
 
     	String ent = downloadDbEntry("pdb", pdbid, "pdb");
-    	return Activator.getDefault().getCDKManager().fromString(ent);
+    	return Activator.getDefault().getJavaCDKManager().fromString(ent);
     }
 
     public String downloadPDBAsFile(String pdbid, String filename)
