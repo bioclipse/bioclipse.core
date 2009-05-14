@@ -1,4 +1,4 @@
-package net.bioclipse.ui.jobs;
+package net.bioclipse.jobs;
 
 
 /**

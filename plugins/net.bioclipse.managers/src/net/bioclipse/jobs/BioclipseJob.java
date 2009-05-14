@@ -1,10 +1,11 @@
-package net.bioclipse.ui.jobs;
+package net.bioclipse.jobs;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import net.bioclipse.core.ResourcePathTransformer;
+import net.bioclipse.jobs.BioclipseUIJob;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.eclipse.core.resources.IFile;

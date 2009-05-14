@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.Map;
 
-import net.bioclipse.ui.jobs.BioclipseJobUpdateHook;
+import net.bioclipse.jobs.BioclipseJobUpdateHook;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;

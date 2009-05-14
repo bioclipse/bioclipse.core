@@ -4,8 +4,14 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import net.bioclipse.jobs.BioclipseJob;
+import net.bioclipse.jobs.BioclipseJobUpdateHook;
+import net.bioclipse.jobs.BioclipseUIJob;
+
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IProgressMonitor;
 
 
 public abstract class AbstractManagerMethodDispatcher 
@@ -24,8 +30,8 @@ public abstract class AbstractManagerMethodDispatcher
             = interfaze.getAnnotation( ManagerImplementation.class );
         
         if ( annotation == null ) {
-            throw new IllegalStateException( interfaze.getName() + " does not" +
-                " have the annotation " + ManagerImplementation.class.getName() 
+            throw new IllegalStateException( interfaze.getName() + " does not "
+                + "have the annotation " + ManagerImplementation.class.getName() 
                 + " so can't figure out what method to run." );
         }
         
@@ -39,20 +45,60 @@ public abstract class AbstractManagerMethodDispatcher
     private Method findMethodToRun( MethodInvocation invocation, 
                                     ManagerImplementation annotation ) {
         
-        Method m;
+        Method result;
+        
+        //If a method with the same signature exists use that one
         try {
-            m = annotation.value().getMethod( invocation.getMethod().getName(), 
-                                              invocation.getMethod()
-                                                        .getParameterTypes() );
-        } catch ( SecurityException e ) {
+            result = annotation.value()
+                               .getMethod( invocation.getMethod().getName(), 
+                                           invocation.getMethod()
+                                                     .getParameterTypes() );
+        } 
+        catch ( SecurityException e ) {
             throw new RuntimeException("Failed to find the method to run", e);
-        } catch ( NoSuchMethodException e ) {
-            m = null;
+        } 
+        catch ( NoSuchMethodException e ) {
+            result = null;
         }
-        if ( m != null ) {
-            return m;
+        if ( result != null ) {
+            return result;
         }
 
+        //Look for "the JavaScript method" (taking String instead of IFile)
+        METHODS:
+        for ( Method m : annotation.value().getMethods() ) {
+            Method refMethod = invocation.getMethod();
+            int refLength = refMethod.getParameterTypes().length;
+            int mLength   = m.getParameterTypes().length;
+            if ( m.getName().equals( refMethod.getName() ) &&
+                  mLength >= refLength && 
+                  mLength <= refLength + 2 ) {
+                PARAMS:
+                for ( int i = 0; i < m.getParameterTypes().length; i++ ) {
+                    Class<?> currentParam = m.getParameterTypes()[i];
+                    if ( currentParam == BioclipseJob.class ||
+                         currentParam == IProgressMonitor.class ) {
+                        continue PARAMS;
+                    }
+                    Class<?> refParam = invocation.getMethod()
+                                                  .getParameterTypes()[i];
+                    if ( currentParam == refParam ) {
+                        continue PARAMS;
+                    }
+                    if ( !(currentParam == String.class && 
+                           refParam == IFile.class) ) {
+                        continue PARAMS;
+                    }
+                    continue METHODS;
+                }
+                return m;
+            }
+        }
+        
+        //Look for "the Java method" (taking an IFile)
+        
+        
+        
         throw new RuntimeException("Failed to find the method to run");
     }
 

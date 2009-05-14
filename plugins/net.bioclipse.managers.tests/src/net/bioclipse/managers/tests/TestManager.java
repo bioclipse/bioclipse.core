@@ -4,8 +4,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.managers.business.IBioclipseManager;
-import net.bioclipse.ui.jobs.BioclipseJob;
 
 import static org.junit.Assert.*;
 
@@ -23,7 +23,6 @@ public class TestManager implements IBioclipseManager {
                                IProgressMonitor monitor ) {
 
         assertNotNull( file );
-        assertNotNull( job );
         assertNotNull( monitor );
     }
     

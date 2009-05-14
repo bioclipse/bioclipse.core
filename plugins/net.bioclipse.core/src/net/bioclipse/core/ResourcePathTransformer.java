@@ -34,14 +34,12 @@ import org.eclipse.core.runtime.Path;
  * if it dose not it will assume it is a absolute path on a UNIX/OSX type 
  * system where '/' indicates the root in the file system.
  *
- * This class is a singleton.
- *
  * @author jonalv
  *
  */
-public class ResourcePathTransformer {
+public class ResourcePathTransformer implements IResourcePathTransformer {
 
-    private static volatile ResourcePathTransformer instance =
+    private static volatile IResourcePathTransformer instance =
         new ResourcePathTransformer();
 
     private ResourcePathTransformer() {
@@ -53,18 +51,12 @@ public class ResourcePathTransformer {
      *
      * @return a singleton instance of this utility class
      */
-    public static ResourcePathTransformer getInstance() {
+    public static IResourcePathTransformer getInstance() {
         return instance;
     }
 
-    /**
-     * Converts resourceString to an IFile. First check if the path is a
-     * workspace relative path, if that fails it tries to lookup the file using
-     * an URI. Last it assumes the path is an absolute path to the file system
-     * not in the workspace and creates a link in /Virtual.
-     *
-     * @param resourceString
-     * @return IFile
+    /* (non-Javadoc)
+     * @see net.bioclipse.core.IResourcePathTransformer#transform(java.lang.String)
      */
     public IFile transform(String resourceString) {
 

@@ -1,6 +1,7 @@
 package net.bioclipse.managers.tests;
 
 import net.bioclipse.managers.business.JavaScriptManagerMethodDispatcher;
+import net.bioclipse.managers.business.UglyHacker;
 
 
 /**
@@ -10,7 +11,14 @@ import net.bioclipse.managers.business.JavaScriptManagerMethodDispatcher;
 public class JavaScriptManagerMethodTest 
        extends AbstractManagerMethodDispatcherTest {
 
+    static JavaScriptManagerMethodDispatcher d 
+        = new JavaScriptManagerMethodDispatcher();
+
+    static {
+        UglyHacker.switchTransformer( d ); 
+    }
+    
     public JavaScriptManagerMethodTest() {
-        super( new JavaScriptManagerMethodDispatcher() );
+        super( d );
     }
 }

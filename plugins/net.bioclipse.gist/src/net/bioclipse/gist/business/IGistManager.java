@@ -10,8 +10,6 @@
  ******************************************************************************/
 package net.bioclipse.gist.business;
 
-import java.io.IOException;
-
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;

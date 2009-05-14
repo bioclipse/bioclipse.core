@@ -71,7 +71,7 @@ public class ResourcePathTransformerTest {
     }
 
     private void doWorkSpaceRelativeTesting( IFile file ) {
-        ResourcePathTransformer 
+        IResourcePathTransformer 
             transformer = ResourcePathTransformer.getInstance();
     
         assertEquals( file, transformer.transform( 
@@ -83,7 +83,7 @@ public class ResourcePathTransformerTest {
     }
     
     private void doURITesting( IFile file ) {
-        ResourcePathTransformer 
+        IResourcePathTransformer 
         transformer = ResourcePathTransformer.getInstance();
     
         assertEquals( file, transformer.transform( 
