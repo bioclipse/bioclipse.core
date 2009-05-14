@@ -17,6 +17,7 @@ import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.business.IBioclipseManager;
+import net.bioclipse.ui.jobs.BioclipseUIJob;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -29,13 +30,18 @@ public interface IGistManager extends IBioclipseManager {
 
     @Recorded
     @PublishedMethod(
-        params = "int gist, String path to save the Gist too", 
-        methodSummary = "Downloads the Gist with the given number to the given " +
-            "path and echos the target path"
+        params = "int gist, String path", 
+        methodSummary = "Downloads the Gist with the given number to the " +
+        		            "given path and echos the target path"
     )
-    public String download(int gist, String target)
-        throws IOException, BioclipseException, CoreException;
+    public String download( int gist, String target );
 
+    public void download( int gist, 
+                          String targer, 
+                          BioclipseUIJob<IFile> uiJob );
+    
+    public BioclipseJob<IFile>
+    
     @Recorded
     public String download(int gist, IFile target, IProgressMonitor monitor )
         throws IOException, BioclipseException, CoreException;
@@ -44,7 +50,7 @@ public interface IGistManager extends IBioclipseManager {
     @PublishedMethod(
         params = "int gist",
         methodSummary = "Downloads the Gist with the given number to the" +
-            "project 'Gists/'"
+                        "project 'Gists/'"
     )
     public String download(int gist)
         throws IOException, BioclipseException, CoreException;
@@ -52,5 +58,4 @@ public interface IGistManager extends IBioclipseManager {
     @Recorded
     public String download(int gist, IProgressMonitor monitor )
         throws IOException, BioclipseException, CoreException;
-
 }
