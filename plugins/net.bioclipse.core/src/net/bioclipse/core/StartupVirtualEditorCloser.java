@@ -11,6 +11,8 @@ package net.bioclipse.core;
 import java.util.Collection;
 import java.util.HashSet;
 
+import net.bioclipse.core.Activator;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorReference;

@@ -8,7 +8,7 @@
  *******************************************************************************/
 package net.bioclipse.recording;
 
-import net.bioclipse.core.Activator;
+import net.bioclipse.recording.Activator;
 import net.bioclipse.core.domain.IBioObject;
 
 import org.aopalliance.intercept.MethodInvocation;

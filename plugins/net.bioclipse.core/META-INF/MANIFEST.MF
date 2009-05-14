@@ -8,8 +8,7 @@ Export-Package: net.bioclipse.core,
  net.bioclipse.core.business,
  net.bioclipse.core.domain,
  net.bioclipse.core.domain.props,
- net.bioclipse.core.util,
- net.bioclipse.recording
+ net.bioclipse.core.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jface.text,
  org.eclipse.ui,
@@ -34,7 +33,7 @@ Bundle-ClassPath: libs/js.jar,
  libs/groovy-1.0.jar,
  libs/asm-2.2.jar,
  libs/antlr-2.7.5.jar
-Bundle-Activator: net.bioclipse.core.Activator
+Bundle-Activator: net.bioclipse.recording.Activator
 Bundle-ActivationPolicy: lazy
 Import-Package: net.bioclipse.logger,
  org.apache.log4j

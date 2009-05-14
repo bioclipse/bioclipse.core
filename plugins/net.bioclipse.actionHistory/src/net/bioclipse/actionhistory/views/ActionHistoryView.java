@@ -16,7 +16,7 @@ import net.bioclipse.recording.IHistory;
 import net.bioclipse.recording.IHistoryListener;
 import net.bioclipse.recording.IRecord;
 import net.bioclipse.recording.JsScriptGenerator;
-import net.bioclipse.ui.Activator;
+import net.bioclipse.recording.Activator;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.filesystem.EFS;
@@ -56,7 +56,7 @@ public class ActionHistoryView extends ViewPart implements IHistoryListener {
 
 
     public ActionHistoryView() {
-        history = Activator.getDefault().getHistoryObject();
+        history = Activator.getDefault().getHistory();
         history.addHistoryListener(this);
     }
 /**

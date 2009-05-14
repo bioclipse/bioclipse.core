@@ -14,6 +14,8 @@ package net.bioclipse.core;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import net.bioclipse.core.Activator;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;

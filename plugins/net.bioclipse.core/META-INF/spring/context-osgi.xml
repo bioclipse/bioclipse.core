@@ -17,9 +17,6 @@
 	<osgi:service id="wrapInProxyAdviceOSGI" ref="wrapInProxyAdvice"
 		interface="net.bioclipse.recording.IWrapInProxyAdvice" />
 
-	<osgi:service id="moleculeManagerOSGI" ref="moleculeManager"
-		interface="net.bioclipse.core.business.IMoleculeManager" />
-
 	<osgi:reference id="createJobAdvice"
 		interface="net.bioclipse.ui.jobs.ICreateJobAdvice" />
 
@@ -29,17 +26,6 @@
 		<property name="pattern" value=".*" /> <!-- See also class implementation -->
 	</bean>
 
-	<bean id="moleculeManager" class="org.springframework.aop.framework.ProxyFactoryBean">
-		<property name="target" ref="moleculeManagerTarget" />
-		<property name="proxyInterfaces" value="net.bioclipse.core.business.IMoleculeManager" />
-		<property name="interceptorNames">
-			<list>
-				<value>recordingAdvice</value>
-				<value>wrapInProxyAdvice</value>
-				<value>createJobAdvice</value>
-			</list>
-		</property>
-	</bean>
 	<osgi:service id="JSJobCreatorAdviceOSGI" ref="createJSJobAdvice"
 		interface="net.bioclipse.scripting.business.IJSJobCreatorAdvice" />
 
