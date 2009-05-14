@@ -120,7 +120,7 @@ public class Activator extends BioclipseActivator {
         checkJVMVersion();  
         handleStartupArgs();
         startBundleExtender();
-        initBioclipseCache();
+//        initBioclipseCache();
         
     }
 
