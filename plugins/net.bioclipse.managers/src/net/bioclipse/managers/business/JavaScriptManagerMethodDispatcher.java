@@ -67,8 +67,6 @@ public class JavaScriptManagerMethodDispatcher
             }
         }
         
-
-        
         try {
             if ( doingPartialReturns ) {
                 method.invoke( manager, arguments );

@@ -1,7 +1,6 @@
 package net.bioclipse.managers.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.AccessibleObject;
@@ -11,6 +10,7 @@ import net.bioclipse.core.domain.BioList;
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
+import net.bioclipse.managers.business.AbstractManagerMethodDispatcher;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -36,6 +37,11 @@ public abstract class AbstractManagerMethodDispatcherTest {
     private static final String FILENAME = "test.file";
     private static final String PATH = "/Virtual/";
     
+    private static TestManager m 
+        = (TestManager) AbstractManagerMethodDispatcher
+                        .getManager( TestManager.class );
+    
+    
     private static IFile file 
         = net.bioclipse.core.Activator.getVirtualProject()
              .getFile( new Path(FILENAME) );
@@ -50,6 +56,13 @@ public abstract class AbstractManagerMethodDispatcherTest {
             file.create( new ByteArrayInputStream("".getBytes()), 
                          true, 
                          new NullProgressMonitor() );
+        }
+    }
+    
+    @Before
+    public void resetTestManager() {
+        synchronized ( TestManager.methodRun ) {
+            TestManager.methodRun = false;
         }
     }
 
@@ -71,6 +84,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                            null ) );
         job.join();
         assertTrue( job.getReturnValue() instanceof BioList ) ;
+        assertMethodRun();
     }
     
     @Test
@@ -82,6 +96,23 @@ public abstract class AbstractManagerMethodDispatcherTest {
                                               IFile.class ),
                 new Object[] { file },
                 null ) );
+        assertMethodRun();
+    }
+
+    private void assertMethodRun() throws InterruptedException {
+        
+        long time = System.currentTimeMillis();
+        
+        while ( !TestManager.methodRun )  {
+            synchronized ( TestManager.lock ) {
+                TestManager.lock.wait(1000);
+            }
+            if ( System.currentTimeMillis() - time > 1000 * 5 ) {
+                fail("Timed out");
+            }
+        }
+        
+        assertTrue( TestManager.methodRun );
     }
 
     @Test
@@ -93,6 +124,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                                               String.class ),
                 new Object[] { PATH + FILENAME },
                 null ) );
+        assertMethodRun();
     }
     
     @Test
@@ -107,6 +139,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                 null ) 
             ) 
         );
+        assertMethodRun();
     }
     
     @Test
@@ -120,6 +153,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                                               String.class ),
                 new Object[] { PATH + FILENAME },
                 null ) );
+        assertMethodRun();
     }
     
     @Test
@@ -133,6 +167,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                                               IFile.class ),
                 new Object[] { file },
                 null ) );
+        assertMethodRun();
     }
     
     @Test
@@ -145,6 +180,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                                               IFile.class ),
                 new Object[] { file },
                 null ) );
+        assertMethodRun();
     }
     
     @Test
@@ -157,6 +193,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                                               String.class ),
                 new Object[] { PATH + FILENAME },
                 null ) );
+        assertMethodRun();
     }
     
     @Test
@@ -170,6 +207,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                                                             IFile.class ),
                               new Object[] { file },
                               null ) ) );
+        assertMethodRun();
     }
     
     @Test
@@ -183,6 +221,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                                                             String.class ),
                           new Object[] { PATH + FILENAME },
                           null ) ) );
+        assertMethodRun();
     }
     
     protected static class MyInvocation implements MethodInvocation {

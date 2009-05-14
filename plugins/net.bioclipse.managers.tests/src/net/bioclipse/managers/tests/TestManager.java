@@ -16,6 +16,9 @@ import static org.junit.Assert.*;
  */
 public class TestManager implements IBioclipseManager {
 
+    public static volatile Boolean methodRun = false;
+    public static Object lock = new Object(); 
+    
     public String getNamespace() {
         return "test";
     }
@@ -28,9 +31,11 @@ public class TestManager implements IBioclipseManager {
         assertNotNull( monitor );
         returner.partialReturn( new BioObject(){} );
         returner.partialReturn( new BioObject(){} );
+        done();
     }
     
     public String getGreeting(String name) {
+        done();
         return "OH HAI " + name;
     }
     
@@ -39,13 +44,22 @@ public class TestManager implements IBioclipseManager {
         monitor.worked( 1 );
         monitor.worked( 1 );
         monitor.done();
+        done();
     }
     
     public void dontRunAsJob(IFile file) {
-        
+        done();
     }
     
     public String getPath(IFile file) {
+        done();
         return file.getFullPath().toPortableString();
+    }
+    
+    public void done() {
+        methodRun = true;
+        synchronized ( lock ) {
+            lock.notifyAll();
+        }
     }
 }

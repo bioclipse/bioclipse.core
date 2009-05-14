@@ -23,8 +23,11 @@ public abstract class AbstractManagerMethodDispatcher
         = new WeakHashMap<Class<? extends IBioclipseManager>, 
                           IBioclipseManager>();
     
+    protected MethodInvocation invocation;
+    
     public Object invoke( MethodInvocation invocation ) throws Throwable {
 
+        this.invocation = invocation;
         Class<?> interfaze = invocation.getMethod().getDeclaringClass();
         
         ManagerImplementation annotation 
@@ -99,7 +102,7 @@ public abstract class AbstractManagerMethodDispatcher
         throw new RuntimeException("Failed to find the method to run");
     }
 
-    private IBioclipseManager 
+    public static IBioclipseManager 
             getManager( Class<? extends IBioclipseManager> value ) {
 
         if ( !managers.containsKey(value) ) {

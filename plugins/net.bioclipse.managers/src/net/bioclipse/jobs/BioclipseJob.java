@@ -30,8 +30,12 @@ public class BioclipseJob<T> extends Job implements IPartialReturner {
                          Method methodToBeInvocated, 
                          MethodInvocation originalInvocation ) {
         super( name );
-        this.method     = methodToBeInvocated;
-        this.invocation = originalInvocation;
+        this.setMethod( methodToBeInvocated );
+        this.setInvocation( originalInvocation );
+    }
+    
+    public BioclipseJob(String name) {
+        super( name );
     }
 
     public static final Object NULLVALUE = new Object();
@@ -42,25 +46,25 @@ public class BioclipseJob<T> extends Job implements IPartialReturner {
 
         Object[] args;
         try {
-            if ( method != invocation.getMethod() ) {
+            if ( getMethod() != getInvocation().getMethod() ) {
                 /*
                  * Setup args array
                  */
                 boolean hasUIJob = false;
-                for ( Object o : invocation.getArguments() ) {
+                for ( Object o : getInvocation().getArguments() ) {
                     if ( o instanceof BioclipseUIJob ) {
                         hasUIJob = true;
                         break;
                     }
                 }
                 if (hasUIJob) {
-                    args = new Object[invocation.getArguments().length];
+                    args = new Object[getInvocation().getArguments().length];
                 }
                 else { 
-                    args = new Object[invocation.getArguments().length + 1];
+                    args = new Object[getInvocation().getArguments().length + 1];
                 }
                 args[args.length-1] = monitor;
-                System.arraycopy( invocation.getArguments(), 
+                System.arraycopy( getInvocation().getArguments(), 
                                   0, 
                                   args, 
                                   0, 
@@ -71,7 +75,7 @@ public class BioclipseJob<T> extends Job implements IPartialReturner {
                 for ( int i = 0; i < args.length; i++ ) {
                     Object arg = args[i];
                     if ( arg instanceof String &&
-                        method.getParameterTypes()[i] == IFile.class ) {
+                        getMethod().getParameterTypes()[i] == IFile.class ) {
                          
                         args[i] = ResourcePathTransformer
                                   .getInstance()
@@ -80,19 +84,19 @@ public class BioclipseJob<T> extends Job implements IPartialReturner {
                 }
             }
             else {
-                args = invocation.getArguments();
+                args = getInvocation().getArguments();
                 monitor.beginTask( "", IProgressMonitor.UNKNOWN );
             }
         
-            returnValue = method.invoke( invocation.getThis(), args );
+            returnValue = getMethod().invoke( getInvocation().getThis(), args );
             
-            int i = Arrays.asList( invocation.getMethod().getParameterTypes() )
+            int i = Arrays.asList( getInvocation().getMethod().getParameterTypes() )
                           .indexOf( BioclipseUIJob.class );
 
             final BioclipseUIJob uiJob ;
             
             if ( i != -1 )
-                uiJob = ( (BioclipseUIJob)invocation.getArguments()[i] );
+                uiJob = ( (BioclipseUIJob)getInvocation().getArguments()[i] );
             else {
                 uiJob = null;
             }
@@ -122,8 +126,10 @@ public class BioclipseJob<T> extends Job implements IPartialReturner {
                                         + e.getMessage(),
                                         e );
         }
+        finally {
+            monitor.done();
+        }
         
-        monitor.done();
         return Status.OK_STATUS;
     }
 
@@ -136,8 +142,22 @@ public class BioclipseJob<T> extends Job implements IPartialReturner {
     }
 
     public void partialReturn( BioObject bioObject ) {
-
         // TODO Auto-generated method stub
-        
+    }
+
+    public void setMethod( Method method ) {
+        this.method = method;
+    }
+
+    public Method getMethod() {
+        return method;
+    }
+
+    public void setInvocation( MethodInvocation invocation ) {
+        this.invocation = invocation;
+    }
+
+    public MethodInvocation getInvocation() {
+        return invocation;
     }
 }
