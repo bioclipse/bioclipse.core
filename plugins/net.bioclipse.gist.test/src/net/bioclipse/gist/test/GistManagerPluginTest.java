@@ -31,7 +31,7 @@ public class GistManagerPluginTest {
     
     @Test public void testDownload() throws Exception {
         String target = "/Virtual/84188.js";
-        String foo = gist.downloadToPath(84188, target);
+        String foo = gist.download(84188, target);
         Assert.assertEquals(target, foo);
     }
 
