@@ -39,7 +39,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
     }
 
     @Test
-    public void JavaScriptManagerMethodDispatcherTest() throws Throwable {
+    public void iFileAndBioclipseJobUpdateHook() throws Throwable {
 
         dispatcher.invoke( 
             new MyInvocation(
@@ -47,8 +47,30 @@ public abstract class AbstractManagerMethodDispatcherTest {
                                               IFile.class, 
                                               BioclipseJobUpdateHook.class),
             new Object[] { new MyIFile(), new BioclipseJobUpdateHook("") }, 
-            new MyIFile() ) );
+            null ) );
         
+    }
+    
+    @Test
+    public void iFile() throws Throwable {
+        
+        dispatcher.invoke( 
+            new MyInvocation(
+                ITestManager.class.getMethod( "getBioObjects", 
+                                              IFile.class ),
+                new Object[] { new MyIFile() },
+                null ) );
+    }
+
+    @Test
+    public void string() throws Throwable {
+        
+        dispatcher.invoke( 
+            new MyInvocation(
+                ITestManager.class.getMethod( "getBioObjects", 
+                                              String.class ),
+                new Object[] { new String() },
+                null ) );
     }
     
     protected static class MyInvocation implements MethodInvocation {
