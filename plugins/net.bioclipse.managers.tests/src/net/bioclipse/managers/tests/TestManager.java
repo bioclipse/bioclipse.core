@@ -26,6 +26,33 @@ public class TestManager implements IBioclipseManager {
     public String getNamespace() {
         return "test";
     }
+
+    public String getGreeting(String name) {
+        done();
+        return "OH HAI " + name;
+    }
+    
+    public void dontRunAsJob(IFile file) {
+        done();
+    }
+    
+    public void runAsJob(IFile file, IProgressMonitor monitor) {
+        monitor.beginTask( "bla", 2 );
+        monitor.worked( 1 );
+        monitor.worked( 1 );
+        monitor.done();
+        done();
+    }
+
+    public IFile returnsAFile(IFile file) {
+        done();
+        return file;
+    }
+    
+    public String getPath(IFile file) {
+        done();
+        return file.getFullPath().toPortableString();
+    }
     
     public void getBioObjects( IFile file, 
                                IPartialReturner returner, 
@@ -38,42 +65,15 @@ public class TestManager implements IBioclipseManager {
         done();
     }
     
-    public String getGreeting(String name) {
-        done();
-        return "OH HAI " + name;
-    }
-    
-    public void runAsJob(IFile file, IProgressMonitor monitor) {
-        monitor.beginTask( "bla", 2 );
-        monitor.worked( 1 );
-        monitor.worked( 1 );
-        monitor.done();
+    public void guiAction() {
+        assertNotNull( Display.getCurrent() );
         done();
     }
-    
-    public void dontRunAsJob(IFile file) {
-        done();
-    }
-    
-    public String getPath(IFile file) {
-        done();
-        return file.getFullPath().toPortableString();
-    }
-    
+
     public void done() {
         methodRun = true;
         synchronized ( lock ) {
             lock.notifyAll();
         }
-    }
-    
-    public void guiAction() {
-        assertNotNull( Display.getCurrent() );
-        done();
-    }
-    
-    public IFile returnsAFile(IFile file) {
-        done();
-        return file;
     }
 }
