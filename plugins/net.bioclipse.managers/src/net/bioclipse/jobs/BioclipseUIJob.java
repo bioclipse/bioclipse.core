@@ -17,10 +17,14 @@ public abstract class BioclipseUIJob<T> {
         this.returnValue = returnValue;
     }
     
-    protected T getReturnValue() {
+    public T getReturnValue() {
         return returnValue;
     }
     
+    /**
+     * Method that will be run using the UI thread. 
+     * The return value van be reached by calling getReturnValue.
+     */
     public abstract void runInUI();
     
     /**
