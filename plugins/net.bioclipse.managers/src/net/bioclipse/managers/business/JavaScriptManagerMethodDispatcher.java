@@ -8,6 +8,7 @@ import java.util.List;
 
 import net.bioclipse.core.IResourcePathTransformer;
 import net.bioclipse.core.ResourcePathTransformer;
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.BioList;
 import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IBioObject;
@@ -39,7 +40,7 @@ public class JavaScriptManagerMethodDispatcher
     
     @Override
     public Object doInvoke( IBioclipseManager manager, Method method,
-                            Object[] arguments ) {
+                            Object[] arguments ) throws BioclipseException {
 
         List<Object> newArguments = new ArrayList<Object>();
         newArguments.addAll( Arrays.asList( arguments ) );
@@ -100,6 +101,13 @@ public class JavaScriptManagerMethodDispatcher
         } catch ( IllegalAccessException e ) {
             throw new RuntimeException("Failed to run method", e);
         } catch ( InvocationTargetException e ) {
+            Throwable t = e.getCause();
+            while ( t != null ) {
+                if ( t instanceof BioclipseException ) {
+                    throw (BioclipseException)t;
+                }
+                t = t.getCause();
+            }
             throw new RuntimeException("Failed to run method", e);
         }
     }
