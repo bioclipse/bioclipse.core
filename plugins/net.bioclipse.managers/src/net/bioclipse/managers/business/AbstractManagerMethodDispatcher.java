@@ -31,9 +31,15 @@ public abstract class AbstractManagerMethodDispatcher
                                         invocation.getArguments() );
         }
         
-        return doInvoke( (IBioclipseManager)invocation.getThis(), 
-                         m, 
-                         invocation.getArguments() );
+        Object returnValue =  doInvoke( (IBioclipseManager)invocation.getThis(), 
+                                        m, 
+                                        invocation.getArguments() );
+        if ( returnValue instanceof IFile && 
+             invocation.getMethod().getReturnType() == String.class ) {
+            returnValue = ( (IFile) returnValue ).getLocationURI()
+                                                 .getPath();
+        }
+        return returnValue;
     }
 
     protected abstract Object doInvokeInGuiThread( IBioclipseManager manager, 
@@ -74,8 +80,11 @@ public abstract class AbstractManagerMethodDispatcher
                 PARAMS:
                 for ( int i = 0; i < m.getParameterTypes().length; i++ ) {
                     Class<?> currentParam = m.getParameterTypes()[i];
-                    if ( currentParam == IPartialReturner.class ||
-                         currentParam == IProgressMonitor.class ) {
+                    if ( ( currentParam == IPartialReturner.class ||
+                           currentParam == IProgressMonitor.class ) &&
+                         // can only skip if there is nothing 
+                         // corresponding in the refMethods parameter types.
+                         refMethod.getParameterTypes().length < i + 1 ) {
                         continue PARAMS;
                     }
                     Class<?> refParam = invocation.getMethod()
@@ -83,8 +92,8 @@ public abstract class AbstractManagerMethodDispatcher
                     if ( currentParam == refParam ) {
                         continue PARAMS;
                     }
-                    if ( !(currentParam == String.class && 
-                           refParam == IFile.class) ) {
+                    if ( currentParam == IFile.class && 
+                         refParam == String.class ) {
                         continue PARAMS;
                     }
                     continue METHODS;

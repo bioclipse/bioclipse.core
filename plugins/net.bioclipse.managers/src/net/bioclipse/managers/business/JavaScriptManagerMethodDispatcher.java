@@ -81,11 +81,6 @@ public class JavaScriptManagerMethodDispatcher
             }
             else {
                 Object returnValue = method.invoke( manager, arguments );
-                if ( returnValue instanceof IFile && 
-                     invocation.getMethod().getReturnType() == String.class ) {
-                    returnValue = ( (IFile) returnValue ).getLocationURI()
-                                                         .getPath();
-                }
                 return returnValue;
             }
         } catch ( IllegalArgumentException e ) {
