@@ -7,6 +7,9 @@ import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.Map;
 
+import net.bioclipse.core.domain.BioList;
+import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 
 import org.aopalliance.intercept.MethodInterceptor;
@@ -43,14 +46,21 @@ public abstract class AbstractManagerMethodDispatcherTest {
     @Test
     public void iFileAndBioclipseJobUpdateHook() throws Throwable {
 
-        dispatcher.invoke( 
+        BioclipseJob job = (BioclipseJob) dispatcher.invoke( 
             new MyInvocation(
                 ITestManager.class.getMethod( "getBioObjects", 
                                               IFile.class, 
                                               BioclipseJobUpdateHook.class),
-            new Object[] { new MyIFile(), new BioclipseJobUpdateHook("") }, 
-            null ) );
-        
+            new Object[] { new MyIFile(), 
+                           new BioclipseJobUpdateHook("") {
+                               @Override
+                               public void processResult( IBioObject chunk ) {
+                    
+                               } 
+                           } }, 
+                           null ) );
+        job.join();
+        assertTrue( job.getReturnValue() instanceof BioList ) ;
     }
     
     @Test

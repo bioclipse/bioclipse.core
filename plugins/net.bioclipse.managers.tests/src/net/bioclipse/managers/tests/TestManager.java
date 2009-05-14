@@ -3,6 +3,7 @@ package net.bioclipse.managers.tests;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.managers.business.IBioclipseManager;
@@ -24,6 +25,8 @@ public class TestManager implements IBioclipseManager {
 
         assertNotNull( file );
         assertNotNull( monitor );
+        job.partialReturn( new BioObject(){} );
+        job.partialReturn( new BioObject(){} );
     }
     
     public String getGreeting(String name) {

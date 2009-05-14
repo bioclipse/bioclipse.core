@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import net.bioclipse.core.ResourcePathTransformer;
+import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.jobs.BioclipseUIJob;
 
 import org.aopalliance.intercept.MethodInvocation;
@@ -132,5 +133,11 @@ public class BioclipseJob<T> extends Job {
             throw new IllegalStateException( "There is no return value" );
         }
         return (T)returnValue;
+    }
+
+    public void partialReturn( BioObject bioObject ) {
+
+        // TODO Auto-generated method stub
+        
     }
 }
