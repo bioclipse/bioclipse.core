@@ -135,6 +135,56 @@ public abstract class AbstractManagerMethodDispatcherTest {
                 null ) );
     }
     
+    @Test
+    public void dontRunAsJobIFile() throws Throwable {
+        assertTrue( file.exists() );
+        
+        dispatcher.invoke( 
+            new MyInvocation(
+                ITestManager.class.getMethod( "dontRunAsJob", 
+                                              IFile.class ),
+                new Object[] { file },
+                null ) );
+    }
+    
+    @Test
+    public void dontRunAsJobString() throws Throwable {
+        assertTrue( file.exists() );
+        
+        dispatcher.invoke( 
+            new MyInvocation(
+                ITestManager.class.getMethod( "dontRunAsJob", 
+                                              String.class ),
+                new Object[] { PATH + FILENAME },
+                null ) );
+    }
+    
+    @Test
+    public void getPathIFile() throws Throwable {
+        assertTrue( file.exists() );
+        
+        assertEquals( PATH + FILENAME , 
+                      dispatcher.invoke( 
+                          new MyInvocation(
+                              ITestManager.class.getMethod( "getPath", 
+                                                            IFile.class ),
+                              new Object[] { file },
+                              null ) ) );
+    }
+    
+    @Test
+    public void getPathString() throws Throwable {
+        assertTrue( file.exists() );
+        
+        assertEquals( PATH + FILENAME, 
+                      dispatcher.invoke( 
+                          new MyInvocation(
+                              ITestManager.class.getMethod( "getPath", 
+                                                            String.class ),
+                          new Object[] { PATH + FILENAME },
+                          null ) ) );
+    }
+    
     protected static class MyInvocation implements MethodInvocation {
 
         private Method method;

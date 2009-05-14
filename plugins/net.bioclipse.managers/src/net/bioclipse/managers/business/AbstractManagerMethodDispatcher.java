@@ -96,10 +96,6 @@ public abstract class AbstractManagerMethodDispatcher
             }
         }
         
-        //Look for "the Java method" (taking an IFile)
-        
-        
-        
         throw new RuntimeException("Failed to find the method to run");
     }
 

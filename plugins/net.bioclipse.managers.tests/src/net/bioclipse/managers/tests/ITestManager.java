@@ -20,6 +20,12 @@ public interface ITestManager extends IBioclipseManager {
     
     public String getGreeting(String name);
     
-    public void runAsJob(IFile path);
+    public void runAsJob(IFile file);
     public void runAsJob(String path);
+    
+    public void dontRunAsJob(IFile file);
+    public void dontRunAsJob(String path);
+    
+    public String getPath(IFile file);
+    public String getPath(String path);
 }

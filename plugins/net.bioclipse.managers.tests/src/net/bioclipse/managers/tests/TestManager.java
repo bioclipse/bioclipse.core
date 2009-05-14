@@ -40,4 +40,12 @@ public class TestManager implements IBioclipseManager {
         monitor.worked( 1 );
         monitor.done();
     }
+    
+    public void dontRunAsJob(IFile file) {
+        
+    }
+    
+    public String getPath(IFile file) {
+        return file.getLocation().toPortableString();
+    }
 }
