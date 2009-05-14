@@ -1,4 +1,4 @@
-package net.bioclipse.core.business;
+package net.bioclipse.managers.tests;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

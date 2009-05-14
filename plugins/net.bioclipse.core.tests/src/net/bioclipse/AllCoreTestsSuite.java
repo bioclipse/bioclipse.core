@@ -9,7 +9,6 @@
 
 package net.bioclipse;
 
-import net.bioclipse.core.business.AllManagerMethodDispatcherTests;
 import net.bioclipse.core.domain.BioListTest;
 
 import org.junit.runner.RunWith;
@@ -18,8 +17,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 
 @RunWith(value=Suite.class)
-@SuiteClasses( value = { BioListTest.class,
-                         AllManagerMethodDispatcherTests.class } )
+@SuiteClasses( value = { BioListTest.class, } )
 public class AllCoreTestsSuite {
 
 }

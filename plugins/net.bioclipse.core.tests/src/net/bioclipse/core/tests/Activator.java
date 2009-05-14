@@ -11,9 +11,6 @@
  ******************************************************************************/
 package net.bioclipse.core.tests;
 
-import net.bioclipse.core.business.IJSTestManager;
-import net.bioclipse.core.business.IJTestManager;
-import net.bioclipse.core.business.ITestManager;
 import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;
@@ -31,10 +28,6 @@ public class Activator extends AbstractUIPlugin {
     // The shared instance
     private static Activator plugin;
 
-    //For Spring
-    private ServiceTracker javaFinderTracker;
-    private ServiceTracker javaScriptFinderTracker;
-
     /**
      * The constructor
      */
@@ -44,18 +37,6 @@ public class Activator extends AbstractUIPlugin {
     public void start(BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
-        javaFinderTracker 
-            = new ServiceTracker( context, 
-                                  IJTestManager.class.getName(), 
-                                  null );
-        
-        javaFinderTracker.open();
-        javaScriptFinderTracker 
-            = new ServiceTracker( context, 
-                                  IJSTestManager.class.getName(), 
-                                  null );
-              
-              javaFinderTracker.open();
     }
 
     public void stop(BundleContext context) throws Exception {
@@ -70,35 +51,5 @@ public class Activator extends AbstractUIPlugin {
      */
     public static Activator getDefault() {
         return plugin;
-    }
-
-    public ITestManager getJavaTestManager() {
-        ITestManager manager = null;
-        try {
-            manager = (ITestManager) 
-                      javaFinderTracker.waitForService(1000*10);
-        } catch (InterruptedException e) {
-            LogUtils.debugTrace(logger, e);
-            throw new IllegalStateException("Could not get the manager: " +
-                e.getMessage(), e);
-        }
-        if(manager == null) {
-            throw new IllegalStateException("Could not get the manager.");
-        }
-        return manager;
-    }
-    
-    public ITestManager getJavaScriptTestManager() {
-        ITestManager manager = null;
-        try {
-            manager = (ITestManager) 
-                      javaScriptFinderTracker.waitForService(1000*10);
-        } catch (InterruptedException e) {
-            LogUtils.debugTrace(logger, e);
-        }
-        if(manager == null) {
-            throw new IllegalStateException("Could not get the CDK manager");
-        }
-        return manager;
     }
 }

@@ -1,4 +1,4 @@
-package net.bioclipse.core.business;
+package net.bioclipse.managers.tests;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;

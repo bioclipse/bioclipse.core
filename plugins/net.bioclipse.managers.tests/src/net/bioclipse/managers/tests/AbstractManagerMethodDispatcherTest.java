@@ -1,4 +1,4 @@
-package net.bioclipse.core.business;
+package net.bioclipse.managers.tests;
 
 import java.io.InputStream;
 import java.io.Reader;
