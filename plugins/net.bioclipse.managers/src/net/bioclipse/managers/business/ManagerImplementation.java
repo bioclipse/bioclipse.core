@@ -1,4 +1,4 @@
-package net.bioclipse.core.business;
+package net.bioclipse.managers.business;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

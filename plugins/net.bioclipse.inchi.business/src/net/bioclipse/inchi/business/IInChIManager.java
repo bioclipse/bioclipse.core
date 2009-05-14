@@ -15,9 +15,9 @@ import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.TestMethods;
-import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.inchi.InChI;
+import net.bioclipse.managers.business.IBioclipseManager;
 
 @PublishedClass ("Manager for creating InChI and InChIKeys.")
 @TestClasses("net.bioclipse.inchi.business.test.InChIManagerTest")

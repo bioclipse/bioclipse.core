@@ -21,8 +21,8 @@ import net.bioclipse.core.Recorded;
 import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.TestMethods;
 import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.ui.business.GuiAction;
 
 import org.eclipse.core.resources.IFile;

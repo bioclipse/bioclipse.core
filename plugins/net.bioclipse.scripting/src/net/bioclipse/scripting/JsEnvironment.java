@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.bioclipse.core.PublishedMethod;
-import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.util.LogUtils;
+import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;

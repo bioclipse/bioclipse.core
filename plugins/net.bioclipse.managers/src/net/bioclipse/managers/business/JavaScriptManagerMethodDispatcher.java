@@ -1,14 +1,12 @@
-package net.bioclipse.core.business;
+package net.bioclipse.managers.business;
 
 import java.lang.reflect.Method;
-
-import org.aopalliance.intercept.MethodInvocation;
 
 /**
  * @author jonalv
  *
  */
-public class JavaManagerMethodDispatcher 
+public class JavaScriptManagerMethodDispatcher 
        extends AbstractManagerMethodDispatcher {
 
     @Override
@@ -18,5 +16,6 @@ public class JavaManagerMethodDispatcher
         // TODO Auto-generated method stub
         return null;
     }
+
 
 }

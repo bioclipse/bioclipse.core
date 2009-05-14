@@ -1,4 +1,4 @@
-package net.bioclipse.core.business;
+package net.bioclipse.managers.business;
 
 
 /**

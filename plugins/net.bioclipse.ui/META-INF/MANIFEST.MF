@@ -28,6 +28,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.update.ui,
  org.springframework.osgi.aopalliance.osgi,
  org.eclipse.ui.intro.universal
+ net.bioclipse.managers;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: net.bioclipse.ui,
  net.bioclipse.ui.actions,

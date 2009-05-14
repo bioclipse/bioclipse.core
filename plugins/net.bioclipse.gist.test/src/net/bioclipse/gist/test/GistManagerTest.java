@@ -10,11 +10,11 @@
  ******************************************************************************/
 package net.bioclipse.gist.test;
 
-import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.tests.AbstractManagerTest;
 import net.bioclipse.core.tests.AbstractNewWorldOrderManagerTest;
 import net.bioclipse.gist.business.GistManager;
 import net.bioclipse.gist.business.IGistManager;
+import net.bioclipse.managers.business.IBioclipseManager;
 
 public class GistManagerTest extends AbstractNewWorldOrderManagerTest {
 

@@ -15,9 +15,9 @@ package net.bioclipse.recording;
 import java.lang.reflect.Method;
 
 import net.bioclipse.core.Recorded;
-import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.apache.log4j.Logger;
 

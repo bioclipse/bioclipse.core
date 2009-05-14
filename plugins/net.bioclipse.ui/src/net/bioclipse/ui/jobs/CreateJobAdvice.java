@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import net.bioclipse.core.ResourcePathTransformer;
-import net.bioclipse.core.business.IBioclipseManager;
+import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.eclipse.core.resources.IFile;

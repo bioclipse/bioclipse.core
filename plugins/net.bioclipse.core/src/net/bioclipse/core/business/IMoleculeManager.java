@@ -14,6 +14,7 @@ package net.bioclipse.core.business;
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.domain.IMolecule;
+import net.bioclipse.managers.business.IBioclipseManager;
 
 
 /**

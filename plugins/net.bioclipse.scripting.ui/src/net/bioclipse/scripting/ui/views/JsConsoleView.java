@@ -20,7 +20,7 @@ import java.util.List;
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.core.business.IBioclipseManager;
+import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.Hook;
 import net.bioclipse.scripting.JsAction;
 import net.bioclipse.scripting.JsThread;

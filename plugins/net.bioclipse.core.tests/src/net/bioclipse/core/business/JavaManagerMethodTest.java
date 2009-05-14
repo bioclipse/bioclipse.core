@@ -1,5 +1,7 @@
 package net.bioclipse.core.business;
 
+import net.bioclipse.managers.business.JavaManagerMethodDispatcher;
+
 /**
  * @author jonalv
  *

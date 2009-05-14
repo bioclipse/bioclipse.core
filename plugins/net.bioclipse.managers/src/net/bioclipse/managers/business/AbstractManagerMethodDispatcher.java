@@ -1,4 +1,4 @@
-package net.bioclipse.core.business;
+package net.bioclipse.managers.business;
 
 import java.lang.reflect.Method;
 import java.util.Map;

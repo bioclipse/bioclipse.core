@@ -12,8 +12,8 @@
  ******************************************************************************/
 package net.bioclipse.ui.business.tests;
 
-import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.tests.AbstractManagerTest;
+import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.ui.business.IUIManager;
 import net.bioclipse.ui.business.UIManager;
 

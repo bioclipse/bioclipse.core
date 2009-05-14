@@ -10,7 +10,7 @@
  ******************************************************************************/
 package net.bioclipse.core.tests;
 
-import net.bioclipse.core.business.IBioclipseManager;
+import net.bioclipse.managers.business.IBioclipseManager;
 
 /**
  * Tests basic API patterns for New World Order {@link IBioclipseManager}s.

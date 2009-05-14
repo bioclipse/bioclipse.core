@@ -11,8 +11,8 @@
  ******************************************************************************/
 package net.bioclipse.usermanager.business;
 
-import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.core.tests.coverage.AbstractCoverageTest;
+import net.bioclipse.managers.business.IBioclipseManager;
 
 
 public class CoverageTest extends AbstractCoverageTest {
