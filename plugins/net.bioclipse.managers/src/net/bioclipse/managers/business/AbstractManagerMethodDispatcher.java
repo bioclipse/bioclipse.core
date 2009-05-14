@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.jobs.IPartialReturner;
 
@@ -102,9 +103,12 @@ public abstract class AbstractManagerMethodDispatcher
                     }
                     if ( invocation.getMethod()
                                    .getParameterTypes().length >= j + 1 &&
-                         invocation.getMethod()
-                                   .getParameterTypes()[j] 
-                             == BioclipseUIJob.class ) {
+                         ( invocation.getMethod()
+                                     .getParameterTypes()[j] 
+                             == BioclipseUIJob.class  || 
+                           invocation.getMethod()
+                                     .getParameterTypes()[j] 
+                             == BioclipseJobUpdateHook.class  ) ) {
                         j++;
                     }
                     if ( currentParam == IProgressMonitor.class &&
