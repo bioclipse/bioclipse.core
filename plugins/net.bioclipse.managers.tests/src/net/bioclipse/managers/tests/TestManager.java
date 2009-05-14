@@ -32,4 +32,11 @@ public class TestManager implements IBioclipseManager {
     public String getGreeting(String name) {
         return "OH HAI " + name;
     }
+    
+    public void runAsJob(IFile file, IProgressMonitor monitor) {
+        monitor.beginTask( "bla", 2 );
+        monitor.worked( 1 );
+        monitor.worked( 1 );
+        monitor.done();
+    }
 }

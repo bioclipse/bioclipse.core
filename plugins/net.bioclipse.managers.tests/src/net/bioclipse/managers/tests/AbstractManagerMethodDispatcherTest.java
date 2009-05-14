@@ -64,7 +64,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
     }
     
     @Test
-    public void iFile() throws Throwable {
+    public void getListIFile() throws Throwable {
         
         dispatcher.invoke( 
             new MyInvocation(
@@ -75,7 +75,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
     }
 
     @Test
-    public void string() throws Throwable {
+    public void getListString() throws Throwable {
         
         dispatcher.invoke( 
             new MyInvocation(
@@ -97,6 +97,26 @@ public abstract class AbstractManagerMethodDispatcherTest {
                 null ) 
             ) 
         );
+    }
+    
+    @Test
+    public void runAsJobString() throws Throwable {
+        dispatcher.invoke( 
+            new MyInvocation(
+                ITestManager.class.getMethod( "runAsJob", 
+                                              String.class ),
+                new Object[] { new String() },
+                null ) );
+    }
+    
+    @Test
+    public void runAsJobIFile() throws Throwable {
+        dispatcher.invoke( 
+            new MyInvocation(
+                ITestManager.class.getMethod( "runAsJob", 
+                                              IFile.class ),
+                new Object[] { new MyIFile() },
+                null ) );
     }
     
     protected static class MyInvocation implements MethodInvocation {

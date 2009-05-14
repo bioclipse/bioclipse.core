@@ -2,13 +2,6 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension
-         point="net.bioclipse.scripting.contribution">
-      <scriptContribution
-            id="net.bioclipse.core.business.MoleculeManager"
-            service="net.bioclipse.core.business.MoleculeManagerFactory">
-      </scriptContribution>
-   </extension>
-   <extension
          point="org.eclipse.core.filesystem.filesystems">
       <filesystem
             scheme="memory">

@@ -22,7 +22,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 public class JavaScriptManagerMethodDispatcher 
        extends AbstractManagerMethodDispatcher {
 
-    protected IResourcePathTransformer transformer 
+    IResourcePathTransformer transformer 
         = ResourcePathTransformer.getInstance();
     
     @Override

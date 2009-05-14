@@ -19,4 +19,7 @@ public interface ITestManager extends IBioclipseManager {
                                                    BioclipseJobUpdateHook h );
     
     public String getGreeting(String name);
+    
+    public void runAsJob(IFile path);
+    public void runAsJob(String path);
 }
