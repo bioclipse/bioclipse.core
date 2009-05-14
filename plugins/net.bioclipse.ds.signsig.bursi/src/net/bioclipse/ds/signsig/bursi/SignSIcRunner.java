@@ -344,7 +344,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
             initialize();
 
         //Get the CDKManager that can carry out cheminfo stuff
-        ICDKManager cdk = Activator.getDefault().getCDKManager();
+        ICDKManager cdk = Activator.getDefault().getJavaCDKManager();
         
         ICDKMolecule cdkmol=null;
         try {
