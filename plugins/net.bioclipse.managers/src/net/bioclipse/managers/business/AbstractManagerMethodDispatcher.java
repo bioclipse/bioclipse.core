@@ -78,17 +78,21 @@ public abstract class AbstractManagerMethodDispatcher
                   mLength >= refLength && 
                   mLength <= refLength + 2 ) {
                 PARAMS:
-                for ( int i = 0; i < m.getParameterTypes().length; i++ ) {
+                for ( int i = 0, j = 0; 
+                      i < m.getParameterTypes().length; 
+                      i++ ) {
                     Class<?> currentParam = m.getParameterTypes()[i];
-                    if ( ( currentParam == IPartialReturner.class ||
-                           currentParam == IProgressMonitor.class ) &&
+                    if ( currentParam == IPartialReturner.class ) {
+                        continue PARAMS;
+                    }
+                    if ( currentParam == IProgressMonitor.class &&
                          // can only skip if there is nothing 
                          // corresponding in the refMethods parameter types.
                          refMethod.getParameterTypes().length < i + 1 ) {
                         continue PARAMS;
                     }
                     Class<?> refParam = invocation.getMethod()
-                                                  .getParameterTypes()[i];
+                                                  .getParameterTypes()[j++];
                     if ( currentParam == refParam ) {
                         continue PARAMS;
                     }
