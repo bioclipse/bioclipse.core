@@ -17,7 +17,7 @@ import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.ui.jobs.BioclipseJob;
-import net.bioclipse.ui.jobs.BioclipseUIJob;
+import net.bioclipse.ui.jobs.BioclipseJobUpdateHook;
 
 import org.eclipse.core.resources.IFile;
 
@@ -30,15 +30,14 @@ public interface IGistManager extends IBioclipseManager {
         methodSummary = "Downloads the Gist with the given number to the " +
         		            "given path and returns the target path"
     )
-    public String downloadToPath( int gist, String path );
+    public String download( int gist, String path );
 
-    public void downloadToPath( int gist, 
-                                String target, 
-                                BioclipseUIJob<IFile> uiJob );
+    public IFile download( int gist, 
+                           IFile target );
     
-    public BioclipseJob<IFile> downloadToPath( int gist, 
-                                               String target, 
-                                               String jobName );
+    public BioclipseJob<IFile> download( int gist, 
+                                         IFile target, 
+                                         BioclipseJobUpdateHook hook );
     
     @Recorded
     @PublishedMethod(
@@ -47,8 +46,7 @@ public interface IGistManager extends IBioclipseManager {
                         "project 'Gists/' and returns the path"
     )
     public String download(int gist);
-    
-    public void download( int gist, BioclipseUIJob<IFile> uiJob );
 
-    public BioclipseJob<IFile> download( int gist, String jobName );
+    public BioclipseJob<IFile> download( int gist, 
+                                         BioclipseJobUpdateHook hook );
 }
