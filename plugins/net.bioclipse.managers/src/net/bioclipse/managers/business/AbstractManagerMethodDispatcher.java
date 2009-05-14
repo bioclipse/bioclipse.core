@@ -7,6 +7,7 @@ import java.util.WeakHashMap;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
+import net.bioclipse.jobs.IPartialReturner;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -76,7 +77,7 @@ public abstract class AbstractManagerMethodDispatcher
                 PARAMS:
                 for ( int i = 0; i < m.getParameterTypes().length; i++ ) {
                     Class<?> currentParam = m.getParameterTypes()[i];
-                    if ( currentParam == BioclipseJob.class ||
+                    if ( currentParam == IPartialReturner.class ||
                          currentParam == IProgressMonitor.class ) {
                         continue PARAMS;
                     }

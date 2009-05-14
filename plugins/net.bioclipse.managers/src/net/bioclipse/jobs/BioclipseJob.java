@@ -21,7 +21,7 @@ import org.eclipse.ui.progress.WorkbenchJob;
  * @author jonalv
  *
  */
-public class BioclipseJob<T> extends Job {
+public class BioclipseJob<T> extends Job implements IPartialReturner {
 
     private Method method;
     private MethodInvocation invocation;
