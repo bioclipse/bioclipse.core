@@ -8,7 +8,7 @@ import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.ui.jobs.BioclipseJob;
 import net.bioclipse.ui.jobs.BioclipseJobUpdateHook;
 
-
+@ManagerImplementation(TestManager.class)
 public interface ITestManager extends IBioclipseManager {
 
     public List<IBioObject> getBioObjects(String path);
