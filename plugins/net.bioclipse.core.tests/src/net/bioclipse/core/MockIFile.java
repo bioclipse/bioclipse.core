@@ -19,6 +19,8 @@ import java.io.Reader;
 import java.net.URI;
 import java.util.Map;
 
+import net.bioclipse.core.Activator;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFileState;

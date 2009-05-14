@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.eclipse.core.resources.IFile;
 
 
 /**
@@ -20,8 +21,8 @@ public class JavaManagerMethodDispatcher implements MethodInterceptor {
                 interfaze.getAnnotation( ManagerImplementation.class );
             }
         }
-        
-        // TODO Auto-generated method stub
-        return null;
+        throw new BioclipseException( "Something went wrong when trying to " +
+        		                          "find the implementation for the method" +
+        		                          invocation.getMethod().getName() + "." );
     }
 }

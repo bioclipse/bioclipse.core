@@ -21,7 +21,8 @@ public class JavaScriptManagerMethodDispatcher implements MethodInterceptor {
             }
         }
         
-        // TODO Auto-generated method stub
-        return null;
+        throw new BioclipseException( "Something went wrong when trying to " +
+                                      "find the implementation for the method" +
+                                      invocation.getMethod().getName() + "." );
     }
 }

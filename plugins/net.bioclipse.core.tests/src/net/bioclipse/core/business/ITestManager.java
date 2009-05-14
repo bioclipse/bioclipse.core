@@ -11,8 +11,8 @@ import net.bioclipse.ui.jobs.BioclipseJobUpdateHook;
 
 public interface ITestManager extends IBioclipseManager {
 
-    public List<IBioObject> getBioObjects(String p);
-    public List<IBioObject> getBioObjects(IFile f);
-    public BioclipseJob<IBioObject> getBioObjects( IFile f, 
+    public List<IBioObject> getBioObjects(String path);
+    public List<IBioObject> getBioObjects(IFile ffile);
+    public BioclipseJob<IBioObject> getBioObjects( IFile file, 
                                                    BioclipseJobUpdateHook h );
 }
