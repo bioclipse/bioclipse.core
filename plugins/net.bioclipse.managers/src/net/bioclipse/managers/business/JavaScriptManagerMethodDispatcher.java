@@ -1,5 +1,6 @@
 package net.bioclipse.managers.business;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -13,9 +14,15 @@ public class JavaScriptManagerMethodDispatcher
     public Object doInvoke( IBioclipseManager manager, Method method,
                             Object[] arguments ) {
 
-        // TODO Auto-generated method stub
-        return null;
+        try {
+            return method.invoke( manager, arguments );
+        } catch ( IllegalArgumentException e ) {
+            throw new RuntimeException("Failed to run method", e);
+        } catch ( IllegalAccessException e ) {
+            throw new RuntimeException("Failed to run method", e);
+        } catch ( InvocationTargetException e ) {
+            throw new RuntimeException("Failed to run method", e);
+        }
     }
-
 
 }

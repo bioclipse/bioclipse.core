@@ -26,4 +26,8 @@ public class TestManager implements IBioclipseManager {
         assertNotNull( job );
         assertNotNull( monitor );
     }
+    
+    public String getGreeting(String name) {
+        return "OH HAI " + name;
+    }
 }

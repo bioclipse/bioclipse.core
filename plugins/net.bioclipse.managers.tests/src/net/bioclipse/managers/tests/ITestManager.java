@@ -17,4 +17,5 @@ public interface ITestManager extends IBioclipseManager {
     public List<IBioObject> getBioObjects(IFile ffile);
     public BioclipseJob<IBioObject> getBioObjects( IFile file, 
                                                    BioclipseJobUpdateHook h );
+    public String getGreeting(String name);
 }

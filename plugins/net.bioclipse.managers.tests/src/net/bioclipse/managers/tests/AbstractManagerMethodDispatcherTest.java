@@ -30,6 +30,8 @@ import org.eclipse.core.runtime.content.IContentDescription;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 public abstract class AbstractManagerMethodDispatcherTest {
 
     private MethodInterceptor dispatcher;
@@ -71,6 +73,20 @@ public abstract class AbstractManagerMethodDispatcherTest {
                                               String.class ),
                 new Object[] { new String() },
                 null ) );
+    }
+    
+    @Test
+    public void plainOldMethodCall() throws Throwable {
+        assertEquals( 
+            "OH HAI Ceiling cat", 
+            dispatcher.invoke( 
+                new MyInvocation(
+                    ITestManager.class.getMethod( "getGreeting", 
+                                                  String.class ),
+                new Object[] { "Ceiling cat" },
+                null ) 
+            ) 
+        );
     }
     
     protected static class MyInvocation implements MethodInvocation {

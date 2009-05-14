@@ -29,13 +29,31 @@ public abstract class AbstractManagerMethodDispatcher
                 + " so can't figure out what method to run." );
         }
         
-        Method m = annotation.value()
-                  .getMethod( invocation.getMethod().getName(), 
-                              invocation.getMethod().getParameterTypes() );
+        Method m = findMethodToRun(invocation, annotation);
         
         return doInvoke( getManager( annotation.value() ), 
                          m, 
                          invocation.getArguments() );
+    }
+
+    private Method findMethodToRun( MethodInvocation invocation, 
+                                    ManagerImplementation annotation ) {
+        
+        Method m;
+        try {
+            m = annotation.value().getMethod( invocation.getMethod().getName(), 
+                                              invocation.getMethod()
+                                                        .getParameterTypes() );
+        } catch ( SecurityException e ) {
+            throw new RuntimeException("Failed to find the method to run", e);
+        } catch ( NoSuchMethodException e ) {
+            m = null;
+        }
+        if ( m != null ) {
+            return m;
+        }
+
+        throw new RuntimeException("Failed to find the method to run");
     }
 
     private IBioclipseManager 
