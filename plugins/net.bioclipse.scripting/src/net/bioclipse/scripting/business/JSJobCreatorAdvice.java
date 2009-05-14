@@ -16,7 +16,6 @@ import java.util.List;
 
 import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.jsexecution.tools.MonitorContainer;
-import net.bioclipse.recording.Activator;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.eclipse.core.resources.IFile;

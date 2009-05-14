@@ -18,22 +18,19 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
+import net.bioclipse.core.util.ListFuncs;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.core.util.Predicate;
-import net.bioclipse.core.util.ListFuncs;
-import net.bioclipse.recording.IHistory;
 
 import org.apache.log4j.Logger;
-
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.framework.BundleException;
 
 /**
@@ -56,8 +53,6 @@ public class Activator extends BioclipseActivator {
     public boolean checkForUpdates;
 
     private static final Logger logger = Logger.getLogger(Activator.class);
-    
-    private ServiceTracker finderTracker;
     
     private static final String EXTENDER_BUNDLE_NAME = 
         "org.springframework.bundle.osgi.extender";
@@ -127,9 +122,6 @@ public class Activator extends BioclipseActivator {
         startBundleExtender();
         initBioclipseCache();
         
-        finderTracker = new ServiceTracker(context, IHistory.class.getName(),
-                null);
-        finderTracker.open();
     }
 
 
@@ -146,25 +138,6 @@ public class Activator extends BioclipseActivator {
         
     }
 
-
-    public IHistory getHistoryObject() {
-        IHistory history = null;
-        try {
-            history = (IHistory) finderTracker.waitForService(1000 * 30);
-        } catch (InterruptedException e) {
-            // honoring the intention to print a stack trace here
-            logger.warn("Could not get history object: " + e);
-            LogUtils.debugTrace(logger, e);
-        }
-        if (history == null) {
-            logger.debug("getHistoryObject() returning NULL.");
-            return null;
-        } 
-        logger.debug("getHistoryObject() returning history object.");
-        return history;
-    }
-  
-    
     private void handleStartupArgs() {
         String[] args  = Platform.getCommandLineArgs();
 
