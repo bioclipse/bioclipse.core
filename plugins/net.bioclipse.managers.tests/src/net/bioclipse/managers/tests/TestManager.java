@@ -46,6 +46,6 @@ public class TestManager implements IBioclipseManager {
     }
     
     public String getPath(IFile file) {
-        return file.getLocation().toPortableString();
+        return file.getFullPath().toPortableString();
     }
 }
