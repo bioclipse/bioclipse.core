@@ -99,10 +99,15 @@ public abstract class AbstractManagerMethodDispatcher
                     if ( currentParam == IPartialReturner.class ) {
                         continue PARAMS;
                     }
+                    if ( invocation.getMethod()
+                                   .getParameterTypes()[j] 
+                             == BioclipseUIJob.class ) {
+                        j++;
+                    }
                     if ( currentParam == IProgressMonitor.class &&
                          // can only skip if there is nothing 
                          // corresponding in the refMethods parameter types.
-                         refMethod.getParameterTypes().length < i + 1 ) {
+                         refMethod.getParameterTypes().length < j + 1 ) {
                         continue PARAMS;
                     }
                     Class<?> refParam = invocation.getMethod()

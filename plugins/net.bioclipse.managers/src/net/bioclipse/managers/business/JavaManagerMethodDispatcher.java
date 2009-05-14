@@ -9,6 +9,7 @@ import net.bioclipse.core.IResourcePathTransformer;
 import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
+import net.bioclipse.jobs.BioclipseUIJob;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -53,17 +54,26 @@ public class JavaManagerMethodDispatcher
             }
         }
         
+        
+        List<Object> args = new ArrayList<Object>( Arrays.asList( arguments ) );
         //Add a NullProgressMonitor if needed
         if ( Arrays.asList( method.getParameterTypes() )
                    .contains( IProgressMonitor.class ) &&
-             !Arrays.asList( arguments )
-                    .contains( IProgressMonitor.class ) ) {
+             !Arrays.asList( arguments ).contains( IProgressMonitor.class ) ) {
             
-            List<Object> args 
-                = new ArrayList<Object>( Arrays.asList( arguments ) );
             args.add( new NullProgressMonitor() );
-            arguments = args.toArray();
         }
+        
+        //Remove BioclipseUiJob if there
+        BioclipseUIJob<Object> uiJob = null;
+        for ( Object o : args ) {
+            if ( o instanceof BioclipseUIJob ) {
+                uiJob = (BioclipseUIJob<Object>) o;
+            }
+        }
+        args.remove( uiJob );
+
+        arguments = args.toArray();
         
         try {
             return method.invoke( manager, arguments );
