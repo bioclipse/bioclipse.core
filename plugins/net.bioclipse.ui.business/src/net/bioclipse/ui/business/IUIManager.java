@@ -23,7 +23,7 @@ import net.bioclipse.core.TestMethods;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.managers.business.IBioclipseManager;
-import net.bioclipse.scripting.ui.business.GuiAction;
+import net.bioclipse.managers.business.GuiAction;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
