@@ -100,6 +100,8 @@ public abstract class AbstractManagerMethodDispatcher
                         continue PARAMS;
                     }
                     if ( invocation.getMethod()
+                                   .getParameterTypes().length >= j + 1 &&
+                         invocation.getMethod()
                                    .getParameterTypes()[j] 
                              == BioclipseUIJob.class ) {
                         j++;
