@@ -14,6 +14,7 @@ package net.bioclipse.gist;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.gist.business.IGistManager;
 import net.bioclipse.gist.business.IJavaGistManager;
+import net.bioclipse.gist.business.IJavaScriptGistManager;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -49,7 +50,7 @@ public class Activator extends AbstractUIPlugin {
         javaGistManagerTracker.open();
         javaScriptGistManagerTracker = new ServiceTracker(
             context, 
-            IJavaGistManager.class.getName(), 
+            IJavaScriptGistManager.class.getName(), 
             null
         );
         javaScriptGistManagerTracker.open();
