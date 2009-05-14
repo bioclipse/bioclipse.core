@@ -13,6 +13,7 @@ import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.widgets.Display;
@@ -34,7 +35,8 @@ public class JavaManagerMethodDispatcher
                             Object[] arguments ) {
 
         if ( Arrays.asList( method.getParameterTypes() )
-                    .contains( IProgressMonitor.class ) ) {
+                   .contains( IProgressMonitor.class ) &&
+             method.getReturnType() == void.class ) {
             return runAsJob(manager, method, arguments);
         }
         return runInSameThread(manager, method, arguments);
@@ -49,6 +51,18 @@ public class JavaManagerMethodDispatcher
                  method.getParameterTypes()[i] == IFile.class ) {
                 arguments[i] = transformer.transform( (String)arguments[i] );
             }
+        }
+        
+        //Add a NullProgressMonitor if needed
+        if ( Arrays.asList( method.getParameterTypes() )
+                   .contains( IProgressMonitor.class ) &&
+             !Arrays.asList( arguments )
+                    .contains( IProgressMonitor.class ) ) {
+            
+            List<Object> args 
+                = new ArrayList<Object>( Arrays.asList( arguments ) );
+            args.add( new NullProgressMonitor() );
+            arguments = args.toArray();
         }
         
         try {
