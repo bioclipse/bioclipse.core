@@ -12,7 +12,6 @@ import net.bioclipse.core.domain.BioList;
 import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.core.util.IJavaScriptConsolePrinterChannel;
-import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.IPartialReturner;
 import net.bioclipse.jsexecution.tools.MonitorContainer;
 
@@ -36,7 +35,6 @@ public class JavaScriptManagerMethodDispatcher
 
     IResourcePathTransformer transformer 
         = ResourcePathTransformer.getInstance();
-    
     
     @Override
     public Object doInvoke( IBioclipseManager manager, Method method,

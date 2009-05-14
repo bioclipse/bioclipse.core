@@ -15,36 +15,23 @@ import org.eclipse.core.runtime.IProgressMonitor;
 public abstract class AbstractManagerMethodDispatcher 
                 implements MethodInterceptor {
 
-    private static final Map<Class<? extends IBioclipseManager>, 
-                             IBioclipseManager> managers 
-        = new WeakHashMap<Class<? extends IBioclipseManager>, 
-                          IBioclipseManager>();
-    
     protected MethodInvocation invocation;
     
     public Object invoke( MethodInvocation invocation ) throws Throwable {
 
         this.invocation = invocation;
-        Class<?> interfaze = invocation.getMethod().getDeclaringClass();
-        
-        ManagerImplementation annotation 
-            = interfaze.getAnnotation( ManagerImplementation.class );
-        
-        if ( annotation == null ) {
-            throw new IllegalStateException( interfaze.getName() + " does not "
-                + "have the annotation " + ManagerImplementation.class.getName() 
-                + " so can't figure out what method to run." );
-        }
-        
-        Method m = findMethodToRun(invocation, annotation);
+                
+        Method m = findMethodToRun( invocation, 
+                                    (Class<? extends IBioclipseManager>) 
+                                        invocation.getThis().getClass() );
         
         if ( invocation.getMethod().getAnnotation( GuiAction.class ) != null ) {
-            return doInvokeInGuiThread( getManager( annotation.value() ),
-                                                    m,
-                                                    invocation.getArguments() );
+            return doInvokeInGuiThread( (IBioclipseManager)invocation.getThis(),
+                                        m,
+                                        invocation.getArguments() );
         }
         
-        return doInvoke( getManager( annotation.value() ), 
+        return doInvoke( (IBioclipseManager)invocation.getThis(), 
                          m, 
                          invocation.getArguments() );
     }
@@ -53,17 +40,17 @@ public abstract class AbstractManagerMethodDispatcher
                                                    Method m,
                                                    Object[] arguments );
 
-    private Method findMethodToRun( MethodInvocation invocation, 
-                                    ManagerImplementation annotation ) {
+    private Method findMethodToRun( 
+                       MethodInvocation invocation, 
+                       Class<? extends IBioclipseManager> manager ) {
         
         Method result;
         
         //If a method with the same signature exists use that one
         try {
-            result = annotation.value()
-                               .getMethod( invocation.getMethod().getName(), 
-                                           invocation.getMethod()
-                                                     .getParameterTypes() );
+            result = manager.getMethod( invocation.getMethod().getName(), 
+                                        invocation.getMethod()
+                                                  .getParameterTypes() );
         } 
         catch ( SecurityException e ) {
             throw new RuntimeException("Failed to find the method to run", e);
@@ -77,7 +64,7 @@ public abstract class AbstractManagerMethodDispatcher
 
         //Look for "the JavaScript method" (taking String instead of IFile)
         METHODS:
-        for ( Method m : annotation.value().getMethods() ) {
+        for ( Method m : manager.getMethods() ) {
             Method refMethod = invocation.getMethod();
             int refLength = refMethod.getParameterTypes().length;
             int mLength   = m.getParameterTypes().length;
@@ -107,21 +94,6 @@ public abstract class AbstractManagerMethodDispatcher
         }
         
         throw new RuntimeException("Failed to find the method to run");
-    }
-
-    public static IBioclipseManager 
-            getManager( Class<? extends IBioclipseManager> value ) {
-
-        if ( !managers.containsKey(value) ) {
-          try {
-            managers.put(value, value.newInstance() );
-          } 
-          catch ( Exception e ) {
-              throw new RuntimeException(
-                  "Could not instatiate manager class:" + value.getName() , e);
-          }
-        }
-        return managers.get(value);
     }
 
     public abstract Object doInvoke( IBioclipseManager manager,

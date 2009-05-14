@@ -42,10 +42,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
     protected static final String FILENAME = "test.file";
     protected static final String PATH = "/Virtual/";
     
-    protected static TestManager m 
-        = (TestManager) AbstractManagerMethodDispatcher
-                        .getManager( TestManager.class );
-    
+    protected static TestManager m  = new TestManager();
     
     protected static IFile file 
         = net.bioclipse.core.Activator.getVirtualProject()
@@ -88,7 +85,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                                    chunks[0]++;
                                }
                            } }, 
-            null ) );
+            m ) );
         job.join();
         assertMethodRun();
     }
@@ -101,7 +98,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                 ITestManager.class.getMethod( "getBioObjects", 
                                               IFile.class ),
                 new Object[] { file },
-                null ) );
+                m ) );
         assertMethodRun();
     }
 
@@ -129,7 +126,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                 ITestManager.class.getMethod( "getBioObjects", 
                                               String.class ),
                 new Object[] { PATH + FILENAME },
-                null ) );
+                m ) );
         assertMethodRun();
     }
     
@@ -142,7 +139,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                     ITestManager.class.getMethod( "getGreeting", 
                                                   String.class ),
                 new Object[] { "Ceiling cat" },
-                null ) 
+                m ) 
             ) 
         );
         assertMethodRun();
@@ -158,7 +155,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                 ITestManager.class.getMethod( "runAsJob", 
                                               String.class ),
                 new Object[] { PATH + FILENAME },
-                null ) );
+                m ) );
         assertMethodRun();
     }
     
@@ -172,7 +169,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                 ITestManager.class.getMethod( "runAsJob", 
                                               IFile.class ),
                 new Object[] { file },
-                null ) );
+                m ) );
         assertMethodRun();
     }
     
@@ -185,7 +182,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                 ITestManager.class.getMethod( "dontRunAsJob", 
                                               IFile.class ),
                 new Object[] { file },
-                null ) );
+                m ) );
         assertMethodRun();
     }
     
@@ -198,7 +195,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                 ITestManager.class.getMethod( "dontRunAsJob", 
                                               String.class ),
                 new Object[] { PATH + FILENAME },
-                null ) );
+                m ) );
         assertMethodRun();
     }
     
@@ -212,7 +209,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                               ITestManager.class.getMethod( "getPath", 
                                                             IFile.class ),
                               new Object[] { file },
-                              null ) ) );
+                              m ) ) );
         assertMethodRun();
     }
     
@@ -226,7 +223,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                               ITestManager.class.getMethod( "getPath", 
                                                             String.class ),
                           new Object[] { PATH + FILENAME },
-                          null ) ) );
+                          m ) ) );
         assertMethodRun();
     }
     
@@ -243,7 +240,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
                                       new MyInvocation(
                                           ITestManager.class.getMethod( "guiAction" ),
                                       new Object[] { },
-                                      null ) );
+                                      m ) );
                 } 
                 catch ( Throwable e ) {
                     exception[0] = e;

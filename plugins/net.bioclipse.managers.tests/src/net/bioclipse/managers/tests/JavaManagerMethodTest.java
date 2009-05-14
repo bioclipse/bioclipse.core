@@ -29,7 +29,7 @@ public class JavaManagerMethodTest
                               ITestManager.class.getMethod( "returnsAFile", 
                                                             IFile.class ),
                           new Object[] { file },
-                          null ) ) );
+                          m ) ) );
         assertMethodRun();
     }
 }

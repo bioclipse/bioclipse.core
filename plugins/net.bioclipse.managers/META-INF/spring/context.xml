@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:osgi="http://www.springframework.org/schema/osgi"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                      http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+    <osgi:service id="javaManagerDispatcherAdvisorOSGI" 
+                  ref="javaManagerDispatcherAdvisor"
+                  interface="net.bioclipse.managers.business.IJavaManagerDispatcherAdvisor" />
+
+    <osgi:service id="javaScriptManagerDispatcherAdvisorOSGI" 
+                  ref="javaScriptManagerDispatcherAdvisor"
+                  interface="net.bioclipse.managers.business.IJavaScriptManagerDispatcherAdvisor" />
+
+    <bean id="javaManagerMethodDispatcher"
+          class="net.bioclipse.managers.business.JavaManagerMethodDispatcher" >
+    </bean>
+
+    <bean id="javaScriptManagerMethodDispatcher"
+          class="net.bioclipse.managers.business.JavaScriptManagerMethodDispatcher" >
+    </bean>
+    
+    <bean id="javaManagerDispatcherAdvisor"
+        class="net.bioclipse.managers.business.JavaManagerDispatcherAdvisor">
+        <property name="advice"  ref="javaManagerMethodDispatcher" />
+        <property name="pattern" value=".*" />
+    </bean>
+    
+    <bean id="javaScriptManagerDispatcherAdvisor"
+        class="net.bioclipse.managers.business.JavaScriptManagerDispatcherAdvisor">
+        <property name="advice"  ref="javaScriptManagerMethodDispatcher" />
+        <property name="pattern" value=".*" />
+    </bean>      
+</beans>

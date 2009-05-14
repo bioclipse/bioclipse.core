@@ -1,10 +1,14 @@
 package net.bioclipse.managers.business;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import net.bioclipse.core.IResourcePathTransformer;
+import net.bioclipse.core.ResourcePathTransformer;
+import net.bioclipse.jobs.BioclipseJob;
+import net.bioclipse.jobs.BioclipseJobUpdateHook;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -13,12 +17,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
-
-import net.bioclipse.core.IResourcePathTransformer;
-import net.bioclipse.core.ResourcePathTransformer;
-import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.jobs.BioclipseJob;
-import net.bioclipse.jobs.BioclipseJobUpdateHook;
 
 /**
  * @author jonalv

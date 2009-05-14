@@ -13,6 +13,7 @@ package net.bioclipse.gist;
 
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.gist.business.IGistManager;
+import net.bioclipse.gist.business.IJavaGistManager;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -32,20 +33,26 @@ public class Activator extends AbstractUIPlugin {
     // The shared instance
     private static Activator plugin;
 
-    // For Spring
-    private ServiceTracker finderTracker;
+    private ServiceTracker javaGistManagerTracker;
+    private ServiceTracker javaScriptGistManagerTracker;
 
     public Activator() {}
 
     public void start(BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
-        finderTracker = new ServiceTracker(
+        javaGistManagerTracker = new ServiceTracker(
             context, 
-            IGistManager.class.getName(), 
+            IJavaGistManager.class.getName(), 
             null
         );
-        finderTracker.open();
+        javaGistManagerTracker.open();
+        javaScriptGistManagerTracker = new ServiceTracker(
+            context, 
+            IJavaGistManager.class.getName(), 
+            null
+        );
+        javaScriptGistManagerTracker.open();
     }
 
     public void stop(BundleContext context) throws Exception {
@@ -57,17 +64,31 @@ public class Activator extends AbstractUIPlugin {
         return plugin;
     }
 
-    public IGistManager getManager() {
+    public IGistManager getJavaManager() {
         IGistManager manager = null;
         try {
-            manager = (IGistManager) finderTracker.waitForService(1000*10);
+            manager = (IGistManager) 
+                      javaGistManagerTracker.waitForService(1000*10);
         } catch (InterruptedException e) {
             LogUtils.debugTrace(logger, e);
         }
-        if(manager == null) {
+        if (manager == null) {
             throw new IllegalStateException("Could not get the Gist manager");
         }
         return manager;
     }
-    
+
+    public IGistManager getJavaScriptManager() {
+        IGistManager manager = null;
+        try {
+            manager = (IGistManager) 
+                      javaScriptGistManagerTracker.waitForService(1000*10);
+        } catch (InterruptedException e) {
+            LogUtils.debugTrace(logger, e);
+        }
+        if (manager == null) {
+            throw new IllegalStateException("Could not get the Gist manager");
+        }
+        return manager;
+    }
 }

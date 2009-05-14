@@ -13,6 +13,7 @@ package net.bioclipse.gist.business;
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
+<<<<<<< HEAD:plugins/net.bioclipse.gist/src/net/bioclipse/gist/business/IGistManager.java
 import net.bioclipse.core.business.IBioclipseManager;
 import net.bioclipse.ui.jobs.BioclipseJob;
 import net.bioclipse.ui.jobs.BioclipseJobUpdateHook;
@@ -20,6 +21,15 @@ import net.bioclipse.ui.jobs.BioclipseJobUpdateHook;
 import org.eclipse.core.resources.IFile;
 
 @PublishedClass("Manager for downloading Gists")
+=======
+import net.bioclipse.jobs.BioclipseJob;
+import net.bioclipse.jobs.BioclipseJobUpdateHook;
+import net.bioclipse.managers.business.IBioclipseManager;
+
+import org.eclipse.core.resources.IFile;
+
+@PublishedClass("The gist manager is used for downloading gists")
+>>>>>>> Started to refactor the Gist manager. Ran into some problems with the manager design and changed that. (removed annotation for ManagerImplementation and had to wrap dispatchers in Advisors):plugins/net.bioclipse.gist/src/net/bioclipse/gist/business/IGistManager.java
 public interface IGistManager extends IBioclipseManager {
 
     @Recorded

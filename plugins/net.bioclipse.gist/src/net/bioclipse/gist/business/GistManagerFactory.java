@@ -22,9 +22,12 @@ public class GistManagerFactory implements IExecutableExtension,
     
     private Object manager;
 
-    public void setInitializationData(IConfigurationElement config,
-            String propertyName, Object data) throws CoreException {
-        manager = Activator.getDefault().getManager();
+    public void setInitializationData( IConfigurationElement config,
+                                       String propertyName, 
+                                       Object data ) 
+                throws CoreException {
+        
+        manager = Activator.getDefault().getJavaScriptManager();
         
         if (manager == null ) {
             manager = new Object();
@@ -34,5 +37,4 @@ public class GistManagerFactory implements IExecutableExtension,
     public Object create() throws CoreException {
         return manager;
     }
-
 }

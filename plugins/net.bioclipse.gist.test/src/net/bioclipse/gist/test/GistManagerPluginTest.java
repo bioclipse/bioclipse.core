@@ -26,7 +26,7 @@ public class GistManagerPluginTest {
         // can be loaded too. Otherwise, it will fail with a time out.
         net.bioclipse.ui.Activator.getDefault();
 
-        gist = net.bioclipse.gist.Activator.getDefault().getManager();
+        gist = net.bioclipse.gist.Activator.getDefault().getJavaManager();
     }
     
     @Test public void testDownload() throws Exception {
@@ -34,5 +34,4 @@ public class GistManagerPluginTest {
         String foo = gist.download(84188, target);
         Assert.assertEquals(target, foo);
     }
-
 }

@@ -29,7 +29,7 @@ public class JavaScriptManagerMethodTest
                               ITestManager.class.getMethod( "returnsAFile", 
                                                             String.class ),
                           new Object[] { PATH + FILENAME },
-                          null ) ) );
+                          m ) ) );
         assertMethodRun();
     }
 }
