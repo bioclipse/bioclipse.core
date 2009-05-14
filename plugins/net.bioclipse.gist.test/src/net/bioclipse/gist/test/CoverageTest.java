@@ -22,7 +22,7 @@ import net.bioclipse.gist.business.IGistManager;
  */
 public class CoverageTest extends AbstractCoverageTest {
     
-    private static IGistManager manager = new GistManager();
+    private static GistManager manager = new GistManager();
 
     @Override
     public IBioclipseManager getManager() {

@@ -15,47 +15,40 @@ import java.io.IOException;
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
-import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.business.IBioclipseManager;
+import net.bioclipse.ui.jobs.BioclipseJob;
 import net.bioclipse.ui.jobs.BioclipseUIJob;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
 
 @PublishedClass("Manager for downloading Gists")
 public interface IGistManager extends IBioclipseManager {
-
-    public final static String GIST_PROJECT = "Gists";
 
     @Recorded
     @PublishedMethod(
         params = "int gist, String path", 
         methodSummary = "Downloads the Gist with the given number to the " +
-        		            "given path and echos the target path"
+        		            "given path and returns the target path"
     )
-    public String download( int gist, String target );
+    public String downloadToPath( int gist, String path );
 
-    public void download( int gist, 
-                          String targer, 
-                          BioclipseUIJob<IFile> uiJob );
+    public void downloadToPath( int gist, 
+                                String target, 
+                                BioclipseUIJob<IFile> uiJob );
     
-    public BioclipseJob<IFile>
+    public BioclipseJob<IFile> downloadToPath( int gist, 
+                                               String target, 
+                                               String jobName );
     
-    @Recorded
-    public String download(int gist, IFile target, IProgressMonitor monitor )
-        throws IOException, BioclipseException, CoreException;
-
     @Recorded
     @PublishedMethod(
         params = "int gist",
         methodSummary = "Downloads the Gist with the given number to the" +
-                        "project 'Gists/'"
+                        "project 'Gists/' and returns the path"
     )
-    public String download(int gist)
-        throws IOException, BioclipseException, CoreException;
+    public String download(int gist);
+    
+    public void download( int gist, BioclipseUIJob<IFile> uiJob );
 
-    @Recorded
-    public String download(int gist, IProgressMonitor monitor )
-        throws IOException, BioclipseException, CoreException;
+    public BioclipseJob<IFile> download( int gist, String jobName );
 }

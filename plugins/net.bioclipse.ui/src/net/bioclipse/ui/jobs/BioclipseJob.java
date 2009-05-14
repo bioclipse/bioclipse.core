@@ -19,7 +19,7 @@ import org.eclipse.ui.progress.WorkbenchJob;
  * @author jonalv
  *
  */
-public class BioclipseJob extends Job {
+public class BioclipseJob<T> extends Job {
 
     private Method method;
     private MethodInvocation invocation;
@@ -125,7 +125,11 @@ public class BioclipseJob extends Job {
         return Status.OK_STATUS;
     }
 
-    public synchronized Object getReturnValue() {
-        return returnValue;
+    @SuppressWarnings("unchecked")
+    public synchronized T getReturnValue() {
+        if ( returnValue == NULLVALUE ) {
+            throw new IllegalStateException( "There is no return value" );
+        }
+        return (T)returnValue;
     }
 }

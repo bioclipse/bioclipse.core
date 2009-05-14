@@ -22,6 +22,7 @@ import java.util.regex.PatternSyntaxException;
 
 import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.business.IBioclipseManager;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -38,11 +39,13 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class GistManager implements IGistManager {
+public class GistManager implements IBioclipseManager {
 
-    private static String findUnusedFileName(
-            IFolder currentFolder,
-            String prefix, String suffix) {
+    public final static String GIST_PROJECT = "Gists";
+    
+    private static String findUnusedFileName( IFolder currentFolder,
+                                              String prefix, 
+                                              String suffix ) {
         String fileName = prefix + suffix;
         IPath path = currentFolder.getFullPath();
         path = path.append( fileName );
@@ -60,41 +63,34 @@ public class GistManager implements IGistManager {
     }
 
     private IFolder getProjectDirectory(IProgressMonitor monitor)
-    throws CoreException {
+                    throws CoreException {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         IWorkspaceRoot root = workspace.getRoot();
         IProject project = root.getProject(GIST_PROJECT);
-        try {
-            if (!project.exists()) project.create(monitor);
-            if (!project.isOpen()) project.open(monitor);
-        } catch (CoreException e) {
-            // FIXME: do something
-        }
+        if (!project.exists()) project.create(monitor);
+        if (!project.isOpen()) project.open(monitor);
 
         return project.getFolder(GIST_PROJECT);
     }
 
-    public String download(int gist)
-    throws IOException, BioclipseException, CoreException {
-        return download(gist, (IProgressMonitor)null);
-    }
-
     public String download(int gist, IProgressMonitor monitor)
-    throws IOException, BioclipseException, CoreException {
-        IFolder project = getProjectDirectory(monitor);
+                  throws BioclipseException {
+        IFolder project;
+        try {
+            project = getProjectDirectory(monitor);
+        } 
+        catch ( CoreException e ) {
+            throw new BioclipseException( "Could not find a project " +
+            		                          "to save the gist in." );
+        }
         String tName = findUnusedFileName(project, gist + ".0", ".js");
         tName = project.getFullPath().toString() + tName;
         IFile target = ResourcePathTransformer.getInstance().transform(tName);
         return download(gist, target, monitor);
     }
 
-    public String download(int gist, String target) throws IOException, BioclipseException,
-            CoreException {
-        return download(gist, ResourcePathTransformer.getInstance().transform(target), null);
-    }
-
     public String download(int gist, IFile target, IProgressMonitor monitor)
-            throws IOException, BioclipseException, CoreException {
+                  throws BioclipseException {
         if (monitor == null) {
             monitor = new NullProgressMonitor();
         }
@@ -138,8 +134,8 @@ public class GistManager implements IGistManager {
                 if (target.exists()) {
                     target.setContents(rawConn.getInputStream(), true, false, null);
                 } else {
-                    target.create(rawConn.getInputStream(), false, null);                }
-                
+                    target.create(rawConn.getInputStream(), false, null);                
+                }
                 monitor.worked(1);
             } else {
                 Display.getDefault().syncExec(
@@ -160,8 +156,14 @@ public class GistManager implements IGistManager {
         } catch (MalformedURLException exception) {
             exception.printStackTrace();
             throw new BioclipseException("Invalid URL.", exception);
+        } catch ( IOException e ) {
+            throw new BioclipseException("Failed to download the gist", e);
+        } catch ( CoreException e ) {
+            throw new BioclipseException("Failed during saving of gist", e);
         }
-        monitor.done();
+        finally {
+            monitor.done();
+        }
         return target.getFullPath().toString();
     }
 
