@@ -6,7 +6,6 @@ import java.util.Date;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -65,34 +64,23 @@ public class RhinoConsole implements IConsoleFactory {
     }
 
     public static MessageConsole getRhinoConsole() {
-        if (messageConsole != null)
-            return messageConsole;
-
-        IViewPart[] views = PlatformUI.getWorkbench()
-                                      .getActiveWorkbenchWindow()
-                                      .getActivePage()
-                                      .getViews();
-
-        boolean foundConsole = false;
-        for (IViewPart view : views) {
-            if (view instanceof IConsoleView)
-                foundConsole = true;
+        if (messageConsole == null) {
+            messageConsole = findConsole(consoleName);
         }
-
-        if (!foundConsole)
-            return null;
-
-        IConsoleManager consoleManager
-            = ConsolePlugin.getDefault().getConsoleManager();
-        for (IConsole console : consoleManager.getConsoles())
-            if (consoleName.equals(console.getName()))
-                return (MessageConsole) console;
-
-        MessageConsole rhinoConsole = new MessageConsole(consoleName, null);
-        consoleManager.addConsoles(new IConsole[] { rhinoConsole });
-
-        return rhinoConsole;
+        return messageConsole;
     }
+    private static MessageConsole findConsole(String name) {
+	    ConsolePlugin conPlugin = ConsolePlugin.getDefault();
+	    IConsoleManager conManager = conPlugin.getConsoleManager();
+	    IConsole[] consAll = conManager.getConsoles();
+	    for (int i = 0; i < consAll.length; i++)
+	            if (name.equals(consAll[i].getName()))
+	                    return (MessageConsole) consAll[i];
+	    //no console found, so we create a new one
+	    MessageConsole console = new MessageConsole(name, null);
+	    conManager.addConsoles(new IConsole[]{console});
+	    return console;
+	}
 
     private static void println(final Colors colors, final String message) {
 
