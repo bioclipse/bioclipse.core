@@ -39,7 +39,7 @@ public class WebservicesManagerPluginTest {
 		String path= ws.downloadPDBAsFile("1d66");
 		assertNotNull(path);
 		System.out.println("Path: " + path);
-		ICDKMolecule mol = Activator.getDefault().getCDKManager().loadMolecule(path);
+		ICDKMolecule mol = Activator.getDefault().getJavaCDKManager().loadMolecule(path);
 		assertNotNull(mol);
 
 		//FIXME: correct no atoms
