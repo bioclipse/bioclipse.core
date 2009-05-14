@@ -76,9 +76,9 @@ public class JavaManagerMethodDispatcher
         args.remove( uiJob );
 
         arguments = args.toArray();
-        
+        Object returnValue;
         try {
-            return method.invoke( manager, arguments );
+            returnValue = method.invoke( manager, arguments );
         } 
         catch ( Exception e ) {
             Throwable t = e;
@@ -93,6 +93,16 @@ public class JavaManagerMethodDispatcher
                 + "." + method.getName(), 
                 e);
         }
+        if ( uiJob != null ) {
+            final BioclipseUIJob<Object> finalUiJob = uiJob;
+            finalUiJob.setReturnValue( returnValue );
+            Display.getDefault().asyncExec( new Runnable() {
+                public void run() {
+                    finalUiJob.runInUI();
+                }
+            });
+        }
+        return returnValue;
     }
 
     private Object runAsJob( IBioclipseManager manager, Method method,
