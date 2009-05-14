@@ -13,7 +13,7 @@ public abstract class BioclipseUIJob<T> {
 
     private T returnValue;
     
-    void setReturnValue(T returnValue) {
+    public void setReturnValue(T returnValue) {
         this.returnValue = returnValue;
     }
     

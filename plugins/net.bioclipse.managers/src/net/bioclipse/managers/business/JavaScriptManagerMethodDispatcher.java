@@ -12,6 +12,7 @@ import net.bioclipse.core.domain.BioList;
 import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.core.util.IJavaScriptConsolePrinterChannel;
+import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.jobs.IPartialReturner;
 import net.bioclipse.jsexecution.tools.MonitorContainer;
 
@@ -51,6 +52,17 @@ public class JavaScriptManagerMethodDispatcher
                 doingPartialReturns = true;
                 newArguments.add( returnCollector );
             }
+        }
+        
+        //remove any BioclipseUIJob
+        BioclipseUIJob uiJob = null;
+        for ( Object o : newArguments ) {
+            if ( o instanceof BioclipseUIJob) {
+                uiJob = (BioclipseUIJob) o;
+            }
+        }
+        if ( uiJob != null ) {
+            newArguments.remove( uiJob );
         }
         
         if ( Arrays.asList( method.getParameterTypes() )

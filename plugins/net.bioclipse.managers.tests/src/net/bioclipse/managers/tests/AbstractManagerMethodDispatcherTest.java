@@ -11,6 +11,7 @@ import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
+import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.managers.business.AbstractManagerMethodDispatcher;
 
 import org.aopalliance.intercept.MethodInterceptor;
@@ -43,6 +44,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
     protected static final String PATH = "/Virtual/";
     
     protected static TestManager m  = new TestManager();
+    private volatile boolean[] methodRun = {false};
     
     protected static IFile file 
         = net.bioclipse.core.Activator.getVirtualProject()
@@ -87,6 +89,31 @@ public abstract class AbstractManagerMethodDispatcherTest {
                            } }, 
             m ) );
         job.join();
+        assertMethodRun();
+    }
+    
+    @Test
+    public void bioclipseUIJob() throws Throwable {
+
+        assertTrue( file.exists() );
+        
+        dispatcher.invoke( 
+            new MyInvocation(
+                ITestManager.class
+                            .getMethod( "getBioObjects", 
+                                        IFile.class,
+                                        BioclipseUIJob.class ),
+                new Object[] { file,
+                               new BioclipseUIJob<IBioObject>() {
+                                   @Override
+                                   public void runInUI() {
+                                   }
+                               } },
+                m ) );
+        
+        long before = System.currentTimeMillis();
+        long wait = 0;
+        
         assertMethodRun();
     }
     

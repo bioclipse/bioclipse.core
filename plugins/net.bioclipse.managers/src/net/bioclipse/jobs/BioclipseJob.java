@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.progress.WorkbenchJob;
 
 
@@ -186,6 +187,8 @@ public class BioclipseJob<T> extends Job {
             else {
                 uiJob = null;
             }
+            
+            newArguments.remove( uiJob );
 
             newArguments.add( monitor );
             monitor.beginTask( "", IProgressMonitor.UNKNOWN );
@@ -209,16 +212,11 @@ public class BioclipseJob<T> extends Job {
             
             if ( uiJob != null ) {
                 uiJob.setReturnValue( returnValue );
-                new WorkbenchJob("Refresh") {
-        
-                    @Override
-                    public IStatus runInUIThread( 
-                            IProgressMonitor monitor ) {
+                Display.getDefault().asyncExec( new Runnable() {
+                    public void run() {
                         uiJob.runInUI();
-                        return Status.OK_STATUS;
                     }
-                    
-                }.schedule();
+                });
             }
         } 
         catch ( Exception e ) {

@@ -1,15 +1,18 @@
 package net.bioclipse.managers.business;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.jobs.IPartialReturner;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.swt.widgets.Display;
 
 
 public abstract class AbstractManagerMethodDispatcher 
@@ -34,12 +37,23 @@ public abstract class AbstractManagerMethodDispatcher
         Object returnValue =  doInvoke( (IBioclipseManager)invocation.getThis(), 
                                         m, 
                                         invocation.getArguments() );
+
         if ( returnValue instanceof IFile && 
              invocation.getMethod().getReturnType() == String.class ) {
             returnValue = ( (IFile) returnValue ).getLocationURI()
                                                  .getPath();
         }
         return returnValue;
+    }
+
+    private BioclipseUIJob<Object> getBioclipseUIJob() {
+
+       for ( Object o : invocation.getArguments() ) {
+           if ( o instanceof BioclipseUIJob) {
+               return (BioclipseUIJob<Object>) o;
+           }
+       }
+       return null;
     }
 
     protected abstract Object doInvokeInGuiThread( IBioclipseManager manager, 
