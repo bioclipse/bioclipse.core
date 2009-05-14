@@ -73,7 +73,7 @@ public class GistManager implements IBioclipseManager {
         return project.getFolder(GIST_PROJECT);
     }
 
-    public String download(int gist, IProgressMonitor monitor)
+    public IFile download(int gist, IProgressMonitor monitor)
                   throws BioclipseException {
         IFolder project;
         try {
@@ -89,7 +89,7 @@ public class GistManager implements IBioclipseManager {
         return download(gist, target, monitor);
     }
 
-    public String download(int gist, IFile target, IProgressMonitor monitor)
+    public IFile download(int gist, IFile target, IProgressMonitor monitor)
                   throws BioclipseException {
         if (monitor == null) {
             monitor = new NullProgressMonitor();
@@ -164,7 +164,7 @@ public class GistManager implements IBioclipseManager {
         finally {
             monitor.done();
         }
-        return target.getFullPath().toString();
+        return target;
     }
 
     public String getNamespace() {
