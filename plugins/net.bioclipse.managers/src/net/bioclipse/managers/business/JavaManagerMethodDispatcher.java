@@ -7,6 +7,7 @@ import java.util.List;
 
 import net.bioclipse.core.IResourcePathTransformer;
 import net.bioclipse.core.ResourcePathTransformer;
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
@@ -33,7 +34,7 @@ public class JavaManagerMethodDispatcher
     @Override
     public Object doInvoke( IBioclipseManager manager, 
                             Method method,
-                            Object[] arguments ) {
+                            Object[] arguments ) throws BioclipseException {
 
         if ( Arrays.asList( method.getParameterTypes() )
                    .contains( IProgressMonitor.class ) &&
@@ -44,7 +45,8 @@ public class JavaManagerMethodDispatcher
     }
 
     private Object runInSameThread( IBioclipseManager manager, Method method,
-                                    Object[] arguments ) {
+                                    Object[] arguments ) 
+                   throws BioclipseException {
 
         //translate String -> IFile
         for ( int i = 0; i < arguments.length; i++ ) {
@@ -77,7 +79,15 @@ public class JavaManagerMethodDispatcher
         
         try {
             return method.invoke( manager, arguments );
-        } catch ( Exception e ) {
+        } 
+        catch ( Exception e ) {
+            Throwable t = e;
+            while ( t.getCause() != null ) {
+                if ( t.getCause() instanceof BioclipseException) {
+                    throw (BioclipseException)t.getCause();
+                }
+                t = t.getCause();
+            }
             throw new RuntimeException (
                 "Failed to run method " + manager.getNamespace() 
                 + "." + method.getName(), 

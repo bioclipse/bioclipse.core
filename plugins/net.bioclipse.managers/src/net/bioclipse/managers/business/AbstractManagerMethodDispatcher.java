@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.jobs.IPartialReturner;
 
@@ -132,5 +133,6 @@ public abstract class AbstractManagerMethodDispatcher
 
     public abstract Object doInvoke( IBioclipseManager manager,
                                      Method method, 
-                                     Object[] arguments );
+                                     Object[] arguments ) 
+                           throws BioclipseException;
 }
