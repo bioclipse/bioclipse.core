@@ -8,7 +8,8 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.core,
  org.junit4,
  org.eclipse.core.resources,
- org.eclipse.jdt.junit4.runtime
+ org.eclipse.jdt.junit4.runtime,
+ net.bioclipse.ui;bundle-version="2.0.0"
 Eclipse-LazyStart: true
 Bundle-Vendor: The Bioclipse project
 Bundle-ClassPath: junit.jar,

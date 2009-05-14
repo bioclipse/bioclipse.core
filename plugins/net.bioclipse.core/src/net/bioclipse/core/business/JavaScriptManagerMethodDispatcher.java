@@ -10,7 +10,7 @@ import org.aopalliance.intercept.MethodInvocation;
  * @author jonalv
  *
  */
-public class JavaManagerMethodDispatcher implements MethodInterceptor {
+public class JavaScriptManagerMethodDispatcher implements MethodInterceptor {
 
     public Object invoke( MethodInvocation invocation ) throws Throwable {
 
