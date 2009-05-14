@@ -73,5 +73,11 @@
             name="Using the Javscript Console"/>
           
     </extension>
-   
+    <extension
+          point="net.bioclipse.core.JavaScriptConsolePrinterChannel">
+      <service
+         id="net.bioclipse.scripting.ui.business.JsConsoleManager"
+         service="net.bioclipse.scripting.ui.business.JsConsoleManagerFactory">
+      </service>
+   </extension>
 </plugin>

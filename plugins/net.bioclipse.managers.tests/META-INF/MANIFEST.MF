@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.ui,
  org.junit4,
  net.bioclipse.managers;bundle-version="1.0.0",
  net.bioclipse.core;bundle-version="2.0.0",
- net.bioclipse.core.tests;bundle-version="0.1.0"
+ net.bioclipse.core.tests;bundle-version="0.1.0",
+ net.bioclipse.scripting.ui;bundle-version="2.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: org.junit

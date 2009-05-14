@@ -7,6 +7,7 @@ import org.eclipse.core.resources.IFile;
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
+import net.bioclipse.managers.business.GuiAction;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.managers.business.ManagerImplementation;
 
@@ -28,4 +29,7 @@ public interface ITestManager extends IBioclipseManager {
     
     public String getPath(IFile file);
     public String getPath(String path);
+    
+    @GuiAction
+    public void guiAction();
 }

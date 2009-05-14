@@ -4,9 +4,6 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import net.bioclipse.jobs.BioclipseJob;
-import net.bioclipse.jobs.BioclipseJobUpdateHook;
-import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.jobs.IPartialReturner;
 
 import org.aopalliance.intercept.MethodInterceptor;
@@ -41,10 +38,20 @@ public abstract class AbstractManagerMethodDispatcher
         
         Method m = findMethodToRun(invocation, annotation);
         
+        if ( invocation.getMethod().getAnnotation( GuiAction.class ) != null ) {
+            return doInvokeInGuiThread( getManager( annotation.value() ),
+                                                    m,
+                                                    invocation.getArguments() );
+        }
+        
         return doInvoke( getManager( annotation.value() ), 
                          m, 
                          invocation.getArguments() );
     }
+
+    protected abstract Object doInvokeInGuiThread( IBioclipseManager manager, 
+                                                   Method m,
+                                                   Object[] arguments );
 
     private Method findMethodToRun( MethodInvocation invocation, 
                                     ManagerImplementation annotation ) {

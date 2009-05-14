@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="net.bioclipse.core.patch"
+      label="Core Patch"
+      version="2.0.0.B20090417"
+      provider-name="The Bioclipse Team"
+      plugin="net.bioclipse.ui">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <requires>
+      <import feature="net.bioclipse.core_feature" version="2.0.0.B20090409" patch="true"/>
+   </requires>
+
+   <plugin
+         id="net.bioclipse.core"
+         download-size="0"
+         install-size="0"
+         version="2.0.0.B20090417"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.doc"
+         download-size="0"
+         install-size="0"
+         version="2.0.0.B20090417"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.encryption"
+         download-size="0"
+         install-size="0"
+         version="2.0.0.B20090417"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.gist"
+         download-size="0"
+         install-size="0"
+         version="2.0.0.B20090417"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.ioformats"
+         download-size="0"
+         install-size="0"
+         version="2.0.0.B20090417"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.jseditor"
+         download-size="0"
+         install-size="0"
+         version="2.0.0.B20090417"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.jsexecution"
+         download-size="0"
+         install-size="0"
+         version="2.0.0.B20090417"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.logger"
+         download-size="0"
+         install-size="0"
+         version="2.0.0.B20090417"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.scripting"
+         download-size="0"
+         install-size="0"
+         version="2.0.0.B20090417"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.scripting.ui"
+         download-size="0"
+         install-size="0"
+         version="2.0.0.B20090417"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.ui"
+         download-size="0"
+         install-size="0"
+         version="2.0.0.B20090417"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.ui.business"
+         download-size="0"
+         install-size="0"
+         version="2.0.0.B20090417"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.usermanager"
+         download-size="0"
+         install-size="0"
+         version="2.0.0.B20090417"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.xom"
+         download-size="0"
+         install-size="0"
+         version="1.1.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.data"
+         download-size="0"
+         install-size="0"
+         version="2.0.0.B20090417"
+         unpack="false"/>
+
+</feature>

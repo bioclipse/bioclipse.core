@@ -19,6 +19,7 @@ import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.TestClasses;
 import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.core.util.IJavaScriptConsolePrinterChannel;
 
 /**
  * Controls programmatic access to the Javascript Console.
@@ -28,7 +29,8 @@ import net.bioclipse.managers.business.IBioclipseManager;
  */
 @PublishedClass("Controls access to the Javascript Console.")
 @TestClasses("net.bioclipse.scripting.ui.tests.JsConsoleManagerTest")
-public interface IJsConsoleManager extends IBioclipseManager {
+public interface IJsConsoleManager extends IBioclipseManager, 
+                                           IJavaScriptConsolePrinterChannel {
 
     @Recorded
     @PublishedMethod(methodSummary="Clears the console.")

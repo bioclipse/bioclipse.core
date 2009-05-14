@@ -1,11 +1,11 @@
 package net.bioclipse.jobs;
 
-import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.core.domain.BioObject;
 
 /**
  * @author jonalv
  */
-public class BioclipseJobUpdateHook {
+public class BioclipseJobUpdateHook implements IPartialReturner {
 
     private String jobName;
     
@@ -17,9 +17,10 @@ public class BioclipseJobUpdateHook {
         return jobName;
     }
     
-    public void processResult(IBioObject chunk) {
-    }
-    
     public void done() {
+    }
+
+    public void partialReturn( BioObject chunk ) {
+
     }
 }

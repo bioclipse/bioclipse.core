@@ -10,7 +10,8 @@
  ******************************************************************************/
 package net.bioclipse.scripting.ui.business;
 
-import org.aopalliance.intercept.MethodInvocation;
+import net.bioclipse.core.Recorded;
+import net.bioclipse.managers.business.GuiAction;
 import org.eclipse.swt.widgets.Display;
 
 /**

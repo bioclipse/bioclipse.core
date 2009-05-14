@@ -2,6 +2,10 @@ package net.bioclipse.managers.tests;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.ui.PlatformUI;
 
 import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IBioObject;
@@ -61,5 +65,10 @@ public class TestManager implements IBioclipseManager {
         synchronized ( lock ) {
             lock.notifyAll();
         }
+    }
+    
+    public void guiAction() {
+        assertNotNull( Display.getCurrent() );
+        done();
     }
 }

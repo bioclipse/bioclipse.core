@@ -9,7 +9,7 @@
  *     Jonathan Alvarsson - jonalv@users.sourceforge.net
  *     
  ******************************************************************************/
-package net.bioclipse.scripting.ui.business;
+package net.bioclipse.managers.business;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

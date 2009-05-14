@@ -7,6 +7,7 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Method;
 
 import net.bioclipse.core.domain.BioList;
+import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
@@ -16,8 +17,12 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -69,6 +74,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
     @Test
     public void iFileAndBioclipseJobUpdateHook() throws Throwable {
 
+        final int chunks[] = {0};
         BioclipseJob<?> job = (BioclipseJob<?>) dispatcher.invoke( 
             new MyInvocation(
                 ITestManager.class.getMethod( "getBioObjects", 
@@ -77,13 +83,13 @@ public abstract class AbstractManagerMethodDispatcherTest {
             new Object[] { file, 
                            new BioclipseJobUpdateHook("") {
                                @Override
-                               public void processResult( IBioObject chunk ) {
-                    
-                               } 
+                               public void partialReturn( BioObject chunk ) {
+                                   assertNotNull( chunk );
+                                   chunks[0]++;
+                               }
                            } }, 
-                           null ) );
+            null ) );
         job.join();
-        assertTrue( job.getReturnValue() instanceof BioList ) ;
         assertMethodRun();
     }
     
@@ -222,6 +228,36 @@ public abstract class AbstractManagerMethodDispatcherTest {
                           new Object[] { PATH + FILENAME },
                           null ) ) );
         assertMethodRun();
+    }
+    
+    @Test
+    public void guiAction() throws Throwable {
+        final Throwable[] exception = new Throwable[1];
+        Job job = new Job("test") {
+
+            @Override
+            protected IStatus run( IProgressMonitor monitor ) {
+
+                try {
+                    dispatcher.invoke( 
+                                      new MyInvocation(
+                                          ITestManager.class.getMethod( "guiAction" ),
+                                      new Object[] { },
+                                      null ) );
+                } 
+                catch ( Throwable e ) {
+                    exception[0] = e;
+                    e.printStackTrace();
+                }
+                
+                return Status.OK_STATUS;
+            }
+        };
+        job.schedule();
+        job.join();
+        if ( exception[0] != null ) {
+            throw exception[0];
+        }
     }
     
     protected static class MyInvocation implements MethodInvocation {
