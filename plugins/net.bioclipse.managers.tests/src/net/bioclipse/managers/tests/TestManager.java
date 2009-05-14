@@ -71,4 +71,9 @@ public class TestManager implements IBioclipseManager {
         assertNotNull( Display.getCurrent() );
         done();
     }
+    
+    public IFile returnsAFile(IFile file) {
+        done();
+        return file;
+    }
 }

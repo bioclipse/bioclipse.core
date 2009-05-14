@@ -37,17 +37,17 @@ import org.junit.Test;
  */
 public abstract class AbstractManagerMethodDispatcherTest {
 
-    private MethodInterceptor dispatcher;
+    protected MethodInterceptor dispatcher;
     
-    private static final String FILENAME = "test.file";
-    private static final String PATH = "/Virtual/";
+    protected static final String FILENAME = "test.file";
+    protected static final String PATH = "/Virtual/";
     
-    private static TestManager m 
+    protected static TestManager m 
         = (TestManager) AbstractManagerMethodDispatcher
                         .getManager( TestManager.class );
     
     
-    private static IFile file 
+    protected static IFile file 
         = net.bioclipse.core.Activator.getVirtualProject()
              .getFile( new Path(FILENAME) );
     
@@ -105,7 +105,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
         assertMethodRun();
     }
 
-    private void assertMethodRun() throws InterruptedException {
+    protected void assertMethodRun() throws InterruptedException {
         
         long time = System.currentTimeMillis();
         

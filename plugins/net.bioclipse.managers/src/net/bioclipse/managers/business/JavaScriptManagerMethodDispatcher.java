@@ -82,7 +82,13 @@ public class JavaScriptManagerMethodDispatcher
                 return returnCollector.getReturnValues();
             }
             else {
-                return method.invoke( manager, arguments );
+                Object returnValue = method.invoke( manager, arguments );
+                if ( returnValue instanceof IFile && 
+                     invocation.getMethod().getReturnType() == String.class ) {
+                    returnValue = ( (IFile) returnValue ).getLocationURI()
+                                                         .getPath();
+                }
+                return returnValue;
             }
         } catch ( IllegalArgumentException e ) {
             throw new RuntimeException("Failed to run method", e);

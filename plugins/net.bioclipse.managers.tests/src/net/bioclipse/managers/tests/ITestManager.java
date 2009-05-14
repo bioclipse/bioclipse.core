@@ -32,4 +32,7 @@ public interface ITestManager extends IBioclipseManager {
     
     @GuiAction
     public void guiAction();
+    
+    public IFile returnsAFile(IFile file);
+    public String returnsAFile(String string);
 }
