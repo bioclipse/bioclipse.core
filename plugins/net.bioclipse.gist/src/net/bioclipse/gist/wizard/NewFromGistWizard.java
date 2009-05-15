@@ -143,7 +143,7 @@ public class NewFromGistWizard extends BasicNewResourceWizard {
 
 	public void setGist(int gist) {
 		this.gist = gist;
-		selectFilePage.setFileName("gist." + gist + ".txt");
+		selectFilePage.setFileName("gist." + gist + ".js");
 	}
 
 }
