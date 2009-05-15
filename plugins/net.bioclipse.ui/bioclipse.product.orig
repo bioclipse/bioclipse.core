@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.4"?>
 
-<product name="Bioclipse" id="net.bioclipse.ui.product" application="net.bioclipse.ui.application" version="2.0.0.B20090513" useFeatures="true">
+<product name="Bioclipse" id="net.bioclipse.ui.product" application="net.bioclipse.ui.application" version="2.0.0.B20090515" useFeatures="true">
 
    <aboutInfo>
       <image path="/net.bioclipse.ui/icons/logo/abot_img.gif"/>
@@ -134,10 +134,10 @@
 
    <features>
 <<<<<<< HEAD:plugins/net.bioclipse.ui/bioclipse.product
-      <feature id="net.bioclipse.chemoinformatics_feature" version="2.0.0.B20090513"/>
-      <feature id="net.bioclipse.core_feature" version="2.0.0.B20090513"/>
-      <feature id="net.bioclipse.xws4j_feature" version="2.0.0.B20090513"/>
-      <feature id="se.uu.farmbio.hivpred_feature" version="2.0.0.B20090513"/>
+      <feature id="net.bioclipse.chemoinformatics_feature" version="2.0.0.B20090515"/>
+      <feature id="net.bioclipse.core_feature" version="2.0.0.B20090515"/>
+      <feature id="net.bioclipse.xws4j_feature" version="2.0.0.B20090515"/>
+      <feature id="se.uu.farmbio.hivpred_feature" version="2.0.0.B20090515"/>
 =======
       <feature id="net.bioclipse.core_feature" version="2.0.0.B20090506"/>
       <feature id="net.bioclipse.chemoinformatics_feature" version="2.0.0.B20090506"/>
