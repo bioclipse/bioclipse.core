@@ -30,7 +30,15 @@ import org.junit.Test;
  */
 public abstract class AbstractCoverageTest {
     
+    @Deprecated
     abstract public IBioclipseManager getManager();
+
+    // FIXME: need to make this method abstract
+    public Class<? extends IBioclipseManager> getManagerInterface() {
+        throw new RuntimeException(
+            "The getManagerInterface() method must be overwritten."
+        );
+    }
     
     /**
      * Tests if {@link PublishedMethod}'s are tested and annotated
@@ -39,7 +47,8 @@ public abstract class AbstractCoverageTest {
     @Test public void testCoverage() throws Exception {
         TestClasses testClassAnnotation = getClassAnnotation();
         Assert.assertNotNull(
-            "Class does not have TestClasses annotation: " + getManager().getClass().getName(),
+            "Class does not have TestClasses annotation: " +
+            getManagerInterface().getName(),
             testClassAnnotation
         );
         String testClassNames = testClassAnnotation.value();
@@ -67,6 +76,7 @@ public abstract class AbstractCoverageTest {
         String testClassNames = testClassAnnotation.value();
         List<Class> testClasses = new ArrayList<Class>();
         for (String testClassName : testClassNames.split(",")) {
+            System.out.println("test name: " + testClassName);
             Class testClass = this.getClass().getClassLoader().loadClass(testClassName);
             // should do this recursively, but for now let's just assume
             // the first superclass is the AbstractManagerTest
@@ -85,7 +95,7 @@ public abstract class AbstractCoverageTest {
         String methodsMissingAnnotation = "";
         int missingTestMethods = 0;
         String testMethodsMissing = "";
-        for (Class<?> iface : getManager().getClass().getInterfaces()) {
+        for (Class<?> iface : getManagerInterface().getInterfaces()) {
             for (Method method : iface.getMethods()) {
                 if (method.getAnnotation(PublishedMethod.class) != null) {
                     // every published method should have one or more tests
@@ -119,8 +129,9 @@ public abstract class AbstractCoverageTest {
         }
         String message = "";
         if (missingTestMethodAnnotations > 0) {
-            message += "Missing method annotations (" + missingTestMethodAnnotations +
-                       "): " + methodsMissingAnnotation + "; ";
+            message += "Missing method annotations (" +
+                missingTestMethodAnnotations +
+                "): " + methodsMissingAnnotation + "; ";
         }
         if (missingTestMethods > 0) {
             message += "Missing test methods (" + testMethodsMissing +
@@ -129,7 +140,8 @@ public abstract class AbstractCoverageTest {
         Assert.assertFalse(message, message.length() > 0);
     }
     
-    private boolean checkIfATestClassContainsTheMethod(List<Class> testClasses, String testMethod) {
+    private boolean checkIfATestClassContainsTheMethod(List<Class> testClasses,
+            String testMethod) {
         for (Class testClass : testClasses) {
             // now test if the listed test methods really exist
             Method[] testClassMethods = testClass.getMethods();
@@ -143,11 +155,9 @@ public abstract class AbstractCoverageTest {
     }
 
     private TestClasses getClassAnnotation() {
-        for (Class<?> iface : getManager().getClass().getInterfaces()) {
-            TestClasses testClass = iface.getAnnotation(TestClasses.class);
-            if (testClass != null) return testClass; 
-        }
-        return null;
+        Class<? extends IBioclipseManager> manager = getManagerInterface();
+        TestClasses testClass = manager.getAnnotation(TestClasses.class);
+        return testClass; 
     }
 
 }
