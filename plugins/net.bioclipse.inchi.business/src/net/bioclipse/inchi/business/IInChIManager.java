@@ -22,7 +22,10 @@ import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.managers.business.IBioclipseManager;
 
 @PublishedClass ("Manager for creating InChI and InChIKeys.")
-@TestClasses("net.bioclipse.inchi.business.test.InChIManagerTest")
+@TestClasses(
+    "net.bioclipse.inchi.business.test.APITest," +
+    "net.bioclipse.inchi.business.test.JavaInChIManagerPluginTest"
+)
 public interface IInChIManager extends IBioclipseManager {
 
     @Recorded
