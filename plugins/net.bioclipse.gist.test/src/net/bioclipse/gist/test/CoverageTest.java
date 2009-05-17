@@ -29,4 +29,8 @@ public class CoverageTest extends AbstractCoverageTest {
         return manager;
     }
 
+    @Override
+    public Class<? extends IBioclipseManager> getManagerInterface() {
+        return IGistManager.class;
+    }
 }

@@ -10,22 +10,23 @@
  ******************************************************************************/
 package net.bioclipse.gist.test;
 
-import net.bioclipse.core.tests.AbstractNewWorldOrderManagerTest;
+import net.bioclipse.core.tests.AbstractManagerTest;
 import net.bioclipse.gist.business.GistManager;
+import net.bioclipse.gist.business.IGistManager;
 import net.bioclipse.managers.business.IBioclipseManager;
 
-public class GistManagerTest extends AbstractNewWorldOrderManagerTest {
+public class APITest extends AbstractManagerTest {
 
     GistManager gist;
 
-    //Do not use SPRING OSGI for this manager
-    //since we are only testing the implementations of the manager methods
-    public GistManagerTest() {
-        gist = new GistManager();
-    }
-
+    @Override
     public IBioclipseManager getManager() {
         return gist;
+    }
+
+    @Override
+    public Class<? extends IBioclipseManager> getManagerInterface() {
+        return IGistManager.class;
     }
 
 }

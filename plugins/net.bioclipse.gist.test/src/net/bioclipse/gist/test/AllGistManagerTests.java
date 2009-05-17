@@ -10,13 +10,15 @@
  ******************************************************************************/
 package net.bioclipse.gist.test;
 
-import org.junit.BeforeClass;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
+@RunWith(Suite.class)
+@SuiteClasses({
+    APITest.class,
+    CoverageTest.class
+})
+public class AllGistManagerTests {
 
-public class JavaGistManagerPluginTest extends AbstractGistManagerPluginTest {
-
-    @BeforeClass 
-    public static void setup() {
-        gist = net.bioclipse.gist.Activator.getDefault().getJavaManager();
-    }
 }

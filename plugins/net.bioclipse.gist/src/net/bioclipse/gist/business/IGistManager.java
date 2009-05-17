@@ -13,6 +13,7 @@ package net.bioclipse.gist.business;
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
+import net.bioclipse.core.TestClasses;
 
 import org.eclipse.core.resources.IFile;
 
@@ -20,8 +21,12 @@ import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.managers.business.IBioclipseManager;
 
-
 @PublishedClass("The gist manager is used for downloading gists")
+@TestClasses(
+    "net.bioclipse.gist.test.APITest," +
+    "net.bioclipse.gist.test.CoverageTest," +
+    "net.bioclipse.gist.test.JavaGistManagerPluginTest"
+)
 public interface IGistManager extends IBioclipseManager {
 
     @Recorded
