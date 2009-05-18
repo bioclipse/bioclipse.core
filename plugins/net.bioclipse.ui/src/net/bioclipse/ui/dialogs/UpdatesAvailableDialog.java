@@ -36,26 +36,22 @@ public class UpdatesAvailableDialog extends TitleAreaDialog{
         
         Composite composite = new Composite(parent, SWT.NONE);
         GridLayout layout = new GridLayout();
-        layout.marginHeight      = 0;
-        layout.marginWidth       = 0;
-        layout.verticalSpacing   = 0;
-        layout.horizontalSpacing = 0;
+        layout.marginTop       = 10;
+        layout.verticalSpacing = 0;
         composite.setLayout(layout);
         composite.setLayoutData(new GridData(GridData.FILL_BOTH));
         composite.setFont(parent.getFont());
-        Label titleBarSeparator
-            = new Label(composite, SWT.HORIZONTAL | SWT.SEPARATOR);
-        GridData gd = new GridData(GridData.FILL_BOTH);
-        titleBarSeparator.setLayoutData(gd);
-
 
         Label lblUpdate = new Label(composite, SWT.NONE | SWT.LEFT);
         lblUpdate.setText(updateQuestion);
-        GridData gd2 = new GridData(GridData.FILL_BOTH);
-        lblUpdate.setLayoutData(gd2);
+        GridData gdLblUpdate = new GridData(GridData.FILL_BOTH);
+        gdLblUpdate.horizontalIndent = 10;
+        lblUpdate.setLayoutData(gdLblUpdate);
 
         btnRemember = new Button(composite, SWT.CHECK );
-        btnRemember.setLayoutData(new GridData(GridData.FILL_BOTH));
+        GridData gdBtnRemember = new GridData(GridData.FILL_BOTH);
+        gdBtnRemember.horizontalIndent = 10;
+        btnRemember.setLayoutData(gdBtnRemember);
         btnRemember.setText(rememberText);
         btnRemember.setSelection(true);
 
