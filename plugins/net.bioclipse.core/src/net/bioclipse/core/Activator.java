@@ -49,6 +49,30 @@ public class Activator extends Plugin {
         super.start(context);
         plugin = this;
 
+        // fetch the Location that we will be modifying 
+        Location instanceLoc = Platform.getInstanceLocation();
+        // if the location is already set, we start from eclipse
+        if(!instanceLoc.isSet()){
+          // startedFromWorkspace=true means we do a restart from "switch workspace" and therefore
+          // get the workspace location from dialog, if not, we use the default one or the remembered one set by user.
+          boolean startedFromWorkspace = PickWorkspaceDialog.isStartedFromSwitchWorkspace();
+          if(startedFromWorkspace){
+              instanceLoc.set(new URL("file", null, PickWorkspaceDialog.getLastSetWorkspaceDirectory()), false);
+              PickWorkspaceDialog.setStartedFromSwitchWorkspace( false );
+          }else{
+              // get what the user last said about remembering the workspace location 
+              boolean remember = PickWorkspaceDialog.isRememberWorkspace();
+              if(remember){
+                  // get the last used workspace location 
+                  String lastUsedWs = PickWorkspaceDialog.getLastSetWorkspaceDirectory();  
+                  instanceLoc.set(new URL("file", null, lastUsedWs), false);
+              }else{
+                  instanceLoc.set(new URL("file", null, PickWorkspaceDialog.getWorkspacePathSuggestion()), false);
+              }
+          }
+   
+
+        }
         deleteVirtualProject();
         getVirtualProject();
     }

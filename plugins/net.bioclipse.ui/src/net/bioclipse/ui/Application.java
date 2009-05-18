@@ -11,14 +11,8 @@
  ******************************************************************************/
 package net.bioclipse.ui;
 
-import java.net.URL;
-
-import net.bioclipse.core.PickWorkspaceDialog;
-
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
-import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
@@ -31,7 +25,6 @@ public class Application implements IApplication {
     public Object start(IApplicationContext context) {
         Display display = PlatformUI.createDisplay();
         try {
-            setupWorkspaceLocation();
             int returnCode 
                 = PlatformUI
                   .createAndRunWorkbench( display, 
@@ -51,32 +44,7 @@ public class Application implements IApplication {
         return IApplication.EXIT_OK;
     }
 
-    private void setupWorkspaceLocation() throws Exception {
-        // fetch the Location that we will be modifying 
-        Location instanceLoc = Platform.getInstanceLocation();
-        // if the location is already set, we start from eclipse
-        if(!instanceLoc.isSet()){
-          // startedFromWorkspace=true means we do a restart from "switch workspace" and therefore
-          // get the workspace location from dialog, if not, we use the default one or the remembered one set by user.
-          boolean startedFromWorkspace = PickWorkspaceDialog.isStartedFromSwitchWorkspace();
-          if(startedFromWorkspace){
-              instanceLoc.set(new URL("file", null, PickWorkspaceDialog.getLastSetWorkspaceDirectory()), false);
-              PickWorkspaceDialog.setStartedFromSwitchWorkspace( false );
-          }else{
-              // get what the user last said about remembering the workspace location 
-              boolean remember = PickWorkspaceDialog.isRememberWorkspace();
-              if(remember){
-                  // get the last used workspace location 
-                  String lastUsedWs = PickWorkspaceDialog.getLastSetWorkspaceDirectory();  
-                  instanceLoc.set(new URL("file", null, lastUsedWs), false);
-              }else{
-                  instanceLoc.set(new URL("file", null, PickWorkspaceDialog.getWorkspacePathSuggestion()), false);
-              }
-          }
-        }
-	}
-
-	public void stop() {
+    public void stop() {
         final IWorkbench workbench = PlatformUI.getWorkbench();
         if (workbench == null)
             return;
