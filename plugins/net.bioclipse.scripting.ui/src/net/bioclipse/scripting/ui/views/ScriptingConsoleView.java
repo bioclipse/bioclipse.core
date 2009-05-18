@@ -180,15 +180,21 @@ public abstract class ScriptingConsoleView extends ViewPart {
                     handleKey(e);
                 }
                 // "Paste" forwarding for Mac OS X.
-                // The below condition means "if Ctrl+V or Command+V was
-                // pressed". Those funny '&' and '|' are bitops. Cf the JLS.
+                // SWT.MOD1 is Ctrl or Command as appropriate based on the
+                // platform. That funny '&' is a bitop. Cf the JLS.
                 else if (Character.toLowerCase(e.character) == 'v'
-                         && (e.stateMask & (SWT.COMMAND | SWT.CONTROL)) != 0) {
+                         && (e.stateMask & SWT.MOD1) != 0) {
                     input.setFocus();
                     input.paste();
                 }
+                else if (Character.toLowerCase(e.character) == 'c'
+                         && (e.stateMask & SWT.MOD1) != 0) {
+                    // We'll want to let this one pass through, so that
+                    // the output can do copying as it should.
+                    // Added because of #1076, shk3++.
+                }
                 // "Paste" forwarding for Windows.
-                else if (e.stateMask == 0 && e.keyCode == 262144) {
+                else if (e.stateMask == 0 && e.keyCode == 1 << 18) {
                   input.setFocus();
                 }
             }
