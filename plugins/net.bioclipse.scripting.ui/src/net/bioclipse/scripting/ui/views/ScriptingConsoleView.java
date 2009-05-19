@@ -162,7 +162,10 @@ public abstract class ScriptingConsoleView extends ViewPart {
         layout.numColumns = 1;
         parent.setLayout(layout);
         
-        output = new Text(parent, SWT.READ_ONLY | SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
+        output = new Text(
+            parent,
+            SWT.READ_ONLY | SWT.MULTI | SWT.V_SCROLL | SWT.BORDER
+        );
         output.setFont(JFaceResources.getTextFont());
         GridData outputData = new GridData(GridData.FILL_BOTH);
         output.setBackground(new Color(parent.getDisplay(), 0xFF, 0xFF, 0xFF));
@@ -179,7 +182,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
                     input.setFocus();
                     handleKey(e);
                 }
-                // "Paste" forwarding for Mac OS X.
+                // "Paste" forwarding.
                 // SWT.MOD1 is Ctrl or Command as appropriate based on the
                 // platform. That funny '&' is a bitop. Cf the JLS.
                 else if (Character.toLowerCase(e.character) == 'v'
@@ -192,10 +195,6 @@ public abstract class ScriptingConsoleView extends ViewPart {
                     // We'll want to let this one pass through, so that
                     // the output can do copying as it should.
                     // Added because of #1076, shk3++.
-                }
-                // "Paste" forwarding for Windows.
-                else if (e.stateMask == 0 && e.keyCode == 1 << 18) {
-                  input.setFocus();
                 }
             }
             public void keyReleased(KeyEvent _) { }
