@@ -13,8 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.filesystem,
  org.eclipse.ui.editors,
  org.eclipse.ui.navigator,
- org.eclipse.update.configurator,
- net.bioclipse.managers
+ org.eclipse.update.configurator
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: net.bioclipse.core,

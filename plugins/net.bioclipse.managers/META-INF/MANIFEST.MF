@@ -14,8 +14,5 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.jsexecution;bundle-version="2.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: net.bioclipse.jobs,
- net.bioclipse.managers,
- net.bioclipse.managers.business
 Import-Package: org.apache.log4j;version="1.2.15"
 Bundle-Vendor: The Bioclipse Team
