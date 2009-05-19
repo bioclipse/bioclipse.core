@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
 
 import net.bioclipse.cdk.business.Activator;
@@ -56,6 +57,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
     Object modelpredictor;
 
     private String signaturesPath;
+    private String molfilePath;
     
     //The model file
     private static final String MODEL_FILE="/data/bursiSignsXYZ_1.txt.model";
@@ -71,14 +73,15 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
     public static final double upper = 1.0;
     public static final double[] feature_min = {0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 };
     public static final double[] feature_max = {2.0 , 2.0 , 3.0 , 4.0 , 1.0 , 6.0 , 6.0 , 1.0 , 6.0 , 1.0 , 12.0 , 1.0 , 1.0 , 1.0 , 3.0 , 2.0 , 3.0 , 1.0 , 2.0 , 2.0 , 1.0 , 1.0 , 1.0 , 2.0 , 1.0 , 1.0 , 1.0 , 1.0 , 1.0 , 1.0 , 8.0 , 3.0 , 14.0 , 1.0 , 1.0 , 1.0 , 2.0 , 1.0 , 1.0 , 8.0 , 1.0 , 1.0 , 2.0 , 13.0 , 1.0 , 3.0 , 1.0 , 2.0 , 1.0 , 1.0 , 2.0 , 3.0 , 6.0 , 1.0 , 2.0 , 6.0 , 8.0 , 4.0 , 1.0 , 3.0 , 1.0 , 1.0 , 23.0 , 2.0 , 2.0 , 3.0 , 6.0 , 1.0 , 32.0 , 1.0 , 3.0 , 1.0 , 6.0 , 1.0 , 1.0 , 7.0 , 1.0 , 1.0 , 4.0 , 1.0 , 10.0 , 6.0 , 1.0 , 2.0 , 3.0 , 1.0 , 1.0 , 1.0 , 1.0 , 1.0 , 4.0 , 8.0 , 2.0 , 6.0 , 1.0 , 5.0 , 2.0 , 10.0 , 1.0 , 1.0 , 1.0 , 1.0 , 2.0 , 2.0 , 1.0 , 1.0 , 2.0 , 3.0 , 1.0 , 3.0 , 2.0 , 6.0 , 2.0 , 2.0 , 1.0 , 1.0 , 2.0 , 2.0 , 39.0 , 1.0 , 23.0 , 12.0 , 1.0 , 1.0 , 29.0 , 3.0 , 1.0 , 1.0 , 4.0 , 1.0 , 2.0 , 1.0 , 1.0 , 1.0 , 6.0 , 1.0 , 2.0 , 2.0 , 1.0 , 1.0 , 1.0 , 3.0 , 1.0 , 19.0 , 1.0 , 1.0 , 6.0 , 2.0 , 1.0 , 1.0 , 2.0 , 1.0 , 2.0 , 4.0 , 1.0 , 1.0 , 2.0 , 15.0 , 2.0 , 2.0 , 1.0 , 12.0 , 12.0 , 1.0 , 1.0 , 1.0 , 1.0 , 1.0 , 1.0 , 4.0 , 1.0 , 1.0 , 2.0 , 1.0 , 1.0 , 1.0 , 2.0 , 1.0 , 6.0 , 1.0 , 4.0 , 1.0 , 1.0 , 10.0 , 1.0 , 3.0 , 16.0 , 1.0 , 3.0 , 1.0 , 1.0 , 2.0 , 1.0 , 2.0 , 2.0 , 1.0 , 1.0 , 35.0 };
+    // The ones below are needed, but they depend on some hardcoded info. We need to avoid this, reading 198.
     public static final svm_node[] xScaled = new svm_node[198];
     public static final double[] x = new double[198];
     public static svm_model bursiModel;
-    public static final String signatureExecutable = "/home/lc/workspace/signatures/Release/signatures --filename /home/lc/Molecules/omeprazole.mol --height 1 --atomtype XYZ";
-    //public static final String signatureExecutable = "/home/lc/workspace/signatures/Release/signatures --filename /home/lc/Molecules/Cocaine.mol --height 1 --atomtype XYZ";
-    //public static final String signatureExecutable = "/home/lc/workspace/signatures/Release/signatures --filename /home/lc/Molecules/noHHydrogen.mol --height 1 --atomtype XYZ";
+    public static String signaturesExecutableOptions = " --height 1 --atomtype XYZ --filename ";
     public static Map<Integer,Integer> attributeValues = new HashMap<Integer,Integer>();
-
+    public static Map<String,ArrayList<Integer>> signatureAtoms = new HashMap<String,ArrayList<Integer>>();
+    public static ArrayList<Integer> significantAtoms = new ArrayList<Integer>();
+    public static double prediction;
     /**
      * Default constructor
      */
@@ -113,6 +116,8 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
             throw new DSException("Could not read model file '" + modelPath 
                                   + "' due to: " + e.getMessage());
         }
+        
+        // Add the reading of the range file and set up the related variables.
 
     }
 
@@ -187,7 +192,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
 
     private double partialDerivative(int component)
     {
-        // Component numbering starts from 1.
+        // Component numbering starts at 1.
         double pD, xScaledCompOld;
         xScaledCompOld = xScaled[component-1].value; // Store the old component so we can copy it back.
 
@@ -211,9 +216,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
     private void predict()
     {
 
-        // Do a prediction using libsvm.
-        System.out.println(svm.svm_predict(bursiModel, xScaled));
-        //double[] decValues = new double[bursiModel.nSV[0]];
+        prediction = svm.svm_predict(bursiModel, xScaled);
 
         // Retrieve the decision function value.
         double lowPointDecisionFuncValue;
@@ -222,6 +225,8 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         System.out.println(decValues[0]);
         lowPointDecisionFuncValue = decValues[0];
 
+        // For a positive decision function we are looking for the largest positive component of the gradient.
+        // For a negative, we are looking for the largest negative component.
         boolean maximum;
         double highPointDecisionFuncValue;
         if (lowPointDecisionFuncValue > 0)
@@ -232,6 +237,9 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         {
             maximum = false;
         }
+ 
+        //NB. We aren't looking for saddle points which is wrong but probably very rare.
+        //For example if the lowPointDecisionFuncValue is greater than the highPointDecisionPointValue for a maximum case.
         double extremeValue = 0;
         int significantSignatureNr = 1;
         for (int key : attributeValues.keySet()) {
@@ -257,7 +265,11 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         }
         System.out.println("Extreme value: " + extremeValue);
         System.out.println("Keys: " + significantSignatureNr);
-        System.out.println(signatureList[significantSignatureNr-1]);
+        System.out.println("predict: " + signatureList[significantSignatureNr-1]);
+        for (int i : signatureAtoms.get(signatureList[significantSignatureNr-1])){
+        	System.out.println(i-1);
+        	significantAtoms.add(i-1);
+        }
     }
 
 
@@ -293,20 +305,24 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
                 x[i] = 0.0;
             }
         }
-
+        // Do a scaling.
         scale();
+        
+        // Predict
+        predict();
 
     }
 
     private void createSignatures(){
         Process signatureRun;
         try {
-            signatureRun = Runtime.getRuntime().exec(signatureExecutable);
+            //System.out.println("createSignatures::LC added: Path to signatures: " + signaturesPath + signaturesExecutableOptions + molfilePath);
+            signatureRun = Runtime.getRuntime().exec(signaturesPath + signaturesExecutableOptions + molfilePath);
             BufferedReader br = new BufferedReader (new InputStreamReader(signatureRun.getInputStream ()));
             String line;
             int lineNr = 0;
             while ( (line = br.readLine()) != null ){
-                lineNr = lineNr + 1;
+                lineNr = lineNr + 1; // This number corresponds to the atom number,
                 if ( lineNr > 1 ){
                     //System.out.println(line);
                     int signatureNr = 0;
@@ -314,13 +330,24 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
                     for (String signature : signatureList) {
                         signatureNr = signatureNr + 1;
                         if (signature.equals(line)){
-                            //System.out.println("Matching sign: "+signature);
+                            // We have a matching signature. Add 1 to the attribute and append the atomNr to the signature hashmap list.
                             if (attributeValues.containsKey(signatureNr)){
                                 currentAttributeValue = (Integer) attributeValues.get(signatureNr);
                                 attributeValues.put(signatureNr, new Integer(currentAttributeValue + 1));
                             }
                             else {
                                 attributeValues.put(signatureNr, new Integer(1));
+                            }
+                            if (signatureAtoms.containsKey(signature)){ 
+                            	signatureAtoms.get(signature).add(lineNr);
+                            	//System.out.println("Significant atom:" + lineNr);
+                            	//System.out.println(signature);
+                            }
+                            else {
+                            	signatureAtoms.put(signature, new ArrayList<Integer>());
+                            	signatureAtoms.get(signature).add(lineNr);
+                            	//System.out.println("Significant atom:" + lineNr);
+                            	//System.out.println(signature);
                             }
                         }
                     }
@@ -355,12 +382,13 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         }
 
         //Remove all hydrogens in molecule
-        cdkmol=cdk.removeExplicitHydrogens( cdkmol );
-        cdkmol=cdk.removeImplicitHydrogens( cdkmol );
+        //cdkmol=cdk.removeExplicitHydrogens( cdkmol );
+        //cdkmol=cdk.removeImplicitHydrogens( cdkmol );
 
         //Write a temp molfile and return path
         File f=null;
         try {
+        	// Is this the way to do it? Can we produce a unique filename that can be removed after it has been used? Thread safe?
             f = File.createTempFile("signsig", ".mol");
 
             //Write mol as MDL to the temp file
@@ -379,7 +407,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
             throw new DSException("Path to temp molfile is empty");
 
         //Set this file as input file
-        String molfilePath=f.getAbsolutePath();
+        molfilePath=f.getAbsolutePath();
         if (molfilePath==null || molfilePath.length()<=0)
             throw new DSException("Path to temp molfile is empty");
 
@@ -392,21 +420,19 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         //=======================================
         //TODO Lars: Work your QSAR magic here...
         //=======================================
-//        createSignatures();
-//        scale();
-//        predict();
-//        predictAndComputeSignificance();
+        createSignatures();
+        predictAndComputeSignificance();
 
-
-        //Let's say we get the atoms to highlight back as 1,5,8
-        //TODO: Remove this bogus impl when real impl is working.
         SubStructureMatch match=new SubStructureMatch();
-        IAtomContainer ac=cdkmol.getAtomContainer().getBuilder().newAtomContainer();
-        ac.addAtom( cdkmol.getAtomContainer().getAtom( 1 ));
-        ac.addAtom( cdkmol.getAtomContainer().getAtom( 2 ));
-        ac.addAtom( cdkmol.getAtomContainer().getAtom( 5 ));
-
-        match.setAtomContainer( ac );
+        IAtomContainer significantAtomsContainer=cdkmol.getAtomContainer().getBuilder().newAtomContainer();
+        for (int significantAtom : SignSIcRunner.significantAtoms){
+        	significantAtomsContainer.addAtom( cdkmol.getAtomContainer().getAtom( significantAtom ));
+        	for (IAtom nbr : cdkmol.getAtomContainer().getConnectedAtomsList(cdkmol.getAtomContainer().getAtom( significantAtom )) ){
+        		significantAtomsContainer.addAtom(nbr);
+        		//Vill skriva ut atomnumret till nbr har. Hur gor man? Hittar ingen sadan funktion for en IAtom.
+        	}
+        }
+        match.setAtomContainer( significantAtomsContainer );
         match.setName( "HIT 1" ); //Will appear in GUI
 
         //We can have multiple hits...
