@@ -82,6 +82,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
     public static Map<String,ArrayList<Integer>> signatureAtoms = new HashMap<String,ArrayList<Integer>>();
     public static ArrayList<Integer> significantAtoms = new ArrayList<Integer>();
     public static double prediction;
+    public static String significantSignature = "";
     /**
      * Default constructor
      */
@@ -204,7 +205,6 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         // Retrieve the decision function value.
         double[] decValues = new double[1]; // We only have two classes so this should be one. Look in svm_predict_values for an explanation. 
         svm.svm_predict_values(bursiModel, xScaled, decValues);
-        System.out.println(decValues[0]);
 
         xScaled[component-1].value = xScaledCompOld;
 
@@ -213,16 +213,16 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         return pD;
     }
 
+    
     private void predict()
     {
-
         prediction = svm.svm_predict(bursiModel, xScaled);
 
         // Retrieve the decision function value.
         double lowPointDecisionFuncValue;
         double[] decValues = new double[1]; // We only have two classes so this should be one. Look in svm_predict_values for an explanation. 
         svm.svm_predict_values(bursiModel, xScaled, decValues);
-        System.out.println(decValues[0]);
+        logger.debug("Predicted decision function value: " + decValues[0]);
         lowPointDecisionFuncValue = decValues[0];
 
         // For a positive decision function we are looking for the largest positive component of the gradient.
@@ -243,7 +243,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         double extremeValue = 0;
         int significantSignatureNr = 1;
         for (int key : attributeValues.keySet()) {
-            System.out.println("Keys:" + key);
+            logger.debug("Keys:" + key);
             highPointDecisionFuncValue = partialDerivative(key);
             if (maximum)
             {
@@ -261,15 +261,14 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
                     significantSignatureNr = key;
                 }
             }
-            System.out.println(highPointDecisionFuncValue);			
+            logger.debug(highPointDecisionFuncValue);			
         }
-        System.out.println("Extreme value: " + extremeValue);
-        System.out.println("Keys: " + significantSignatureNr);
-        System.out.println("predict: " + signatureList[significantSignatureNr-1]);
+        logger.debug("Extreme value: " + extremeValue);
+        logger.debug("Keys: " + significantSignatureNr);
+        significantSignature = signatureList[significantSignatureNr-1];
         // Make sure significantAtoms is empty.
         significantAtoms.clear();
         for (int i : signatureAtoms.get(signatureList[significantSignatureNr-1])){
-        	System.out.println(i-1);
         	significantAtoms.add(i-1);
         }
     }
@@ -277,31 +276,26 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
 
     private void scale()
     {
-        System.out.println("Scaling descriptors.");
         //Initialize xScaled. In this case the lower value is -1. This is defined in the range file.
         for (int i = 0; i < nrSignatures; i++){
-            //System.out.println(i);
-            //System.out.println(x[i]);
-            //System.out.println("feature_max" + feature_max[i]);
             xScaled[i] = new svm_node();
             xScaled[i].index = i + 1;
             xScaled[i].value = lower + (upper-lower) * 
             (x[i]-feature_min[i])/
             (feature_max[i]-feature_min[i]);
-            //System.out.println(xScaled[i].value);
-        }
+       }
     }
 
 
     private void predictAndComputeSignificance() {
-        System.out.println("Predicting and computing significance.");
+        logger.debug("Predicting and computing significance.");
 
         // The unscaled attributes. 
         for (int i = 0; i < nrSignatures; i++){
             int signatureNr = i + 1;
             if (attributeValues.containsKey(signatureNr) ){
                 x[i] = attributeValues.get(signatureNr);
-                System.out.println("Singature number: " + signatureNr + ", value: " + x[i]);
+                logger.debug("Singature number: " + signatureNr + ", value: " + x[i]);
             }
             else{
                 x[i] = 0.0;
@@ -430,15 +424,20 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         SubStructureMatch match=new SubStructureMatch();
         IAtomContainer significantAtomsContainer=cdkmol.getAtomContainer().getBuilder().newAtomContainer();
         for (int significantAtom : SignSIcRunner.significantAtoms){
-        	significantAtomsContainer.addAtom( cdkmol.getAtomContainer().getAtom( significantAtom ));
-        	for (IAtom nbr : cdkmol.getAtomContainer().getConnectedAtomsList(cdkmol.getAtomContainer().getAtom( significantAtom )) ){
-        		significantAtomsContainer.addAtom(nbr);
-        		System.out.println("nbr: " +  cdkmol.getAtomContainer().getAtomNumber(nbr));
+        	significantAtomsContainer.addAtom( cdkmol.getAtomContainer().getAtom( significantAtom-1 ));
+        	logger.debug("center atom: " + significantAtom);
+        	for (IAtom nbr : cdkmol.getAtomContainer().getConnectedAtomsList(cdkmol.getAtomContainer().getAtom( significantAtom-1 )) ){
+        		int nbrAtomNr = cdkmol.getAtomContainer().getAtomNumber(nbr) + 1;
+        		significantAtomsContainer.addAtom(cdkmol.getAtomContainer().getAtom(nbrAtomNr-1));
+        		logger.debug("nbr: " + nbrAtomNr);
         	}
         }
-        System.out.println("Number of center atoms: " + SignSIcRunner.significantAtoms.size());
+        logger.debug("Number of center atoms: " + SignSIcRunner.significantAtoms.size());
+        
+        //We want to set the color of the hilighting depending on the prediction. If the decision function > 0.0 the color should be red, otherwise it should be green.
+        //we also want the filled circles to be larger so that they become visible for non carbons.
         match.setAtomContainer( significantAtomsContainer );
-        match.setName( "HIT 1" ); //Will appear in GUI
+        match.setName( significantSignature ); //Will appear in GUI
 
         //We can have multiple hits...
         List<ITestResult> results=new ArrayList<ITestResult>();
