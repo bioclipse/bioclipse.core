@@ -266,6 +266,8 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         System.out.println("Extreme value: " + extremeValue);
         System.out.println("Keys: " + significantSignatureNr);
         System.out.println("predict: " + signatureList[significantSignatureNr-1]);
+        // Make sure significantAtoms is empty.
+        significantAtoms.clear();
         for (int i : signatureAtoms.get(signatureList[significantSignatureNr-1])){
         	System.out.println(i-1);
         	significantAtoms.add(i-1);
@@ -321,6 +323,8 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
             BufferedReader br = new BufferedReader (new InputStreamReader(signatureRun.getInputStream ()));
             String line;
             int lineNr = 0;
+            attributeValues.clear();
+            signatureAtoms.clear();
             while ( (line = br.readLine()) != null ){
                 lineNr = lineNr + 1; // This number corresponds to the atom number,
                 if ( lineNr > 1 ){
@@ -429,9 +433,10 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         	significantAtomsContainer.addAtom( cdkmol.getAtomContainer().getAtom( significantAtom ));
         	for (IAtom nbr : cdkmol.getAtomContainer().getConnectedAtomsList(cdkmol.getAtomContainer().getAtom( significantAtom )) ){
         		significantAtomsContainer.addAtom(nbr);
-        		//Vill skriva ut atomnumret till nbr har. Hur gor man? Hittar ingen sadan funktion for en IAtom.
+        		System.out.println("nbr: " +  cdkmol.getAtomContainer().getAtomNumber(nbr));
         	}
         }
+        System.out.println("Number of center atoms: " + SignSIcRunner.significantAtoms.size());
         match.setAtomContainer( significantAtomsContainer );
         match.setName( "HIT 1" ); //Will appear in GUI
 
