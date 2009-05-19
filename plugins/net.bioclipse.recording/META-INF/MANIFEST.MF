@@ -9,6 +9,7 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.core;bundle-version="2.0.0",
  org.springframework.bundle.spring.aop;bundle-version="2.5.1",
  org.springframework.osgi.aopalliance.osgi;bundle-version="1.0.0",
+ net.bioclipse.managers;bundle-version="1.0.0",
  net.sf.cglib;bundle-version="2.1.3",
  org.springframework.bundle.spring.core;bundle-version="2.5.1"
 Bundle-ActivationPolicy: lazy

@@ -8,7 +8,8 @@ Require-Bundle: net.bioclipse.usermanager,
  net.bioclipse.core,
  org.junit4,
  org.eclipse.core.runtime,
- net.bioclipse.core.tests;bundle-version="0.1.0"
+ net.bioclipse.core.tests;bundle-version="0.1.0",
+ net.bioclipse.managers;bundle-version="1.0.0"
 Eclipse-LazyStart: false
 Bundle-ClassPath: lib/commons-codec-1.3.jar,
  lib/commons-lang-2.3.jar,

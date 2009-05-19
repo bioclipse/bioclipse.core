@@ -15,7 +15,7 @@ import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.core.util.IJavaScriptConsolePrinterChannel;
 import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.jobs.IPartialReturner;
-import net.bioclipse.managers.MonitorContainer;
+import net.bioclipse.jsexecution.tools.MonitorContainer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
