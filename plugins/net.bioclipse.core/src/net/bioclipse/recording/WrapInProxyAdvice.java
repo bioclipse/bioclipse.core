@@ -24,7 +24,7 @@ public class WrapInProxyAdvice implements IWrapInProxyAdvice {
            !(returnValue instanceof net.sf.cglib.proxy.Factory) ) {
             pf = new ProxyFactory();
             pf.addAdvice(this);
-            pf.addAdvice(Activator.getDefault().getRecordingAdvice());
+//            pf.addAdvice(Activator.getDefault().getRecordingAdvice());
             pf.setTarget(returnValue);
             returnValue = pf.getProxy();
         }
