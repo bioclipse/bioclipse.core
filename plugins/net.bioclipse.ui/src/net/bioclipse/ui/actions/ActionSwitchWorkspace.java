@@ -8,7 +8,7 @@
  *******************************************************************************/
 package net.bioclipse.ui.actions;
 
-import net.bioclipse.ui.dialogs.PickWorkspaceDialog;
+import net.bioclipse.core.PickWorkspaceDialog;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.Dialog;

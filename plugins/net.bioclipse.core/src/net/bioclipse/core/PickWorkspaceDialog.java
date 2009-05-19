@@ -6,7 +6,7 @@
  *http://www.eclipse.org/legal/epl-v10.html
  *
  *******************************************************************************/
-package net.bioclipse.ui.dialogs;
+package net.bioclipse.core;
 
 import java.io.File;
 import java.io.FileInputStream;

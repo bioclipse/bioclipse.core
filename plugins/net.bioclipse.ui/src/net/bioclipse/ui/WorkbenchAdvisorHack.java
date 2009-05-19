@@ -8,23 +8,17 @@
  *******************************************************************************/
 package net.bioclipse.ui;
 
-import java.net.URL;
+import java.net.*;
 
-import net.bioclipse.ui.dialogs.PickWorkspaceDialog;
-
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.osgi.service.datalocation.Location;
-import org.eclipse.ui.activities.WorkbenchActivityHelper;
-import org.eclipse.ui.application.IWorkbenchConfigurer;
-import org.eclipse.ui.application.WorkbenchAdvisor;
-import org.eclipse.ui.ide.IDE;
-import org.eclipse.ui.internal.ide.IDEInternalWorkbenchImages;
-import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
-import org.eclipse.ui.internal.ide.model.WorkbenchAdapterBuilder;
-import org.osgi.framework.Bundle;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.*;
+import org.eclipse.jface.resource.*;
+import org.eclipse.ui.application.*;
+import org.eclipse.ui.ide.*;
+import org.eclipse.ui.internal.ide.*;
+import org.eclipse.ui.internal.ide.model.*;
+import org.osgi.framework.*;
 
 /**
  * Methods copied from {@link org.eclipse.ui.internal.ide.IDEWorkbenchAdvisor}
@@ -197,13 +191,13 @@ public abstract class WorkbenchAdvisorHack extends WorkbenchAdvisor
         configurer.setSaveAndRestore(true);
     }
 
-//    @Override
-//    public IAdaptable getDefaultPageInput()
-//    {
-//        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-//        return root;
-////        return new NavigatorRoot();
-//    }
+    @Override
+    public IAdaptable getDefaultPageInput()
+    {
+        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        return root;
+//        return new NavigatorRoot();
+    }
 
     @Override
     public void preStartup()

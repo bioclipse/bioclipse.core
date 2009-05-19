@@ -20,7 +20,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.bioclipse.ui.dialogs.IDialogConstants;
-import net.bioclipse.ui.dialogs.PickWorkspaceDialog;
 import net.bioclipse.ui.dialogs.UpdatesAvailableDialog;
 import net.bioclipse.ui.prefs.IPreferenceConstants;
 import net.bioclipse.ui.prefs.UpdateSitesPreferencePage;
@@ -30,7 +29,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.Dialog;
@@ -38,7 +36,6 @@ import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.window.Window;
-import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
@@ -69,37 +66,6 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 
     private boolean abort;
 
-    public ApplicationWorkbenchAdvisor() {
-        System.out.println("Yeah, i'm being run!");
-        // fetch the Location that we will be modifying 
-        Location instanceLoc = Platform.getInstanceLocation();
-        // if the location is already set, we start from eclipse
-        if(true){ //!instanceLoc.isSet()){
-          // startedFromWorkspace=true means we do a restart from "switch workspace" and therefore
-          // get the workspace location from dialog, if not, we use the default one or the remembered one set by user.
-          boolean startedFromWorkspace = PickWorkspaceDialog.isStartedFromSwitchWorkspace();
-          try {
-            if(startedFromWorkspace){
-              instanceLoc.set(new URL("file", null, PickWorkspaceDialog.getLastSetWorkspaceDirectory()), false);
-              PickWorkspaceDialog.setStartedFromSwitchWorkspace( false );
-            }else{
-              // get what the user last said about remembering the workspace location 
-              boolean remember = PickWorkspaceDialog.isRememberWorkspace();
-              if(remember){
-                  // get the last used workspace location 
-                  String lastUsedWs = PickWorkspaceDialog.getLastSetWorkspaceDirectory();  
-                  instanceLoc.set(new URL("file", null, lastUsedWs), false);
-              }else{
-                  instanceLoc.set(new URL("file", null, PickWorkspaceDialog.getWorkspacePathSuggestion()), false);
-              }
-            }
-          } catch (Exception exception) {
-            throw new RuntimeException("Failed to set up the Bioclipse " +
-                "workspace: " + exception.getMessage(), exception);
-          }
-        }
-    }
-    
     public boolean isAbort() {
         return abort;
     }

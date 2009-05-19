@@ -11,14 +11,8 @@
  ******************************************************************************/
 package net.bioclipse.ui;
 
-import java.net.URL;
-
-import net.bioclipse.ui.dialogs.PickWorkspaceDialog;
-
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
-import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
