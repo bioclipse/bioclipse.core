@@ -26,7 +26,7 @@ public class Activator extends Plugin {
     private static final long SERVICE_TIMEOUT_MILLIS = 10*1000;    
     
     // Virtual project
-    public static final String VIRTUAL_PROJECT_NAME = "Virtual";
+//    public static final String VIRTUAL_PROJECT_NAME = "Virtual";
     
     // The shared instance
     private static Activator plugin;

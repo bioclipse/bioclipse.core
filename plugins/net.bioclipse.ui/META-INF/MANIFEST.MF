@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bioclipse Workbench
 Bundle-SymbolicName: net.bioclipse.ui;singleton:=true
-Bundle-Version: 2.0.0.B20090515
+Bundle-Version: 2.0.0.B20090519
 Bundle-Activator: net.bioclipse.ui.Activator
 Bundle-Vendor: The Bioclipse Team
 Bundle-Localization: plugin

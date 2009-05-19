@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Recording Plug-in
 Bundle-SymbolicName: net.bioclipse.recording
-Bundle-Version: 2.0.0.B20090515
+Bundle-Version: 2.0.0.B20090519
 Bundle-Activator: net.bioclipse.recording.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
