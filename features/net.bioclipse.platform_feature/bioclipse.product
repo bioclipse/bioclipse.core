@@ -133,7 +133,7 @@
    </plugins>
 
    <features>
-      <feature id="net.bioclipse.product_feature" version="1.0.0"/>
+      <feature id="net.bioclipse.platform_feature" version="1.0.0"/>
    </features>
 
 </product>
