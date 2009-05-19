@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
-package net.bioclipse.cml.managers;
+package org.xmlcml.cmlxom.managers;
 
 import org.eclipse.core.runtime.Plugin;
 
