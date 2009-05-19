@@ -13,5 +13,6 @@ Require-Bundle: org.eclipse.ui,
  org.springframework.bundle.spring.core;bundle-version="2.5.1"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: net.bioclipse.recording
 Import-Package: org.apache.log4j;version="1.2.15"
 Bundle-Vendor: The Bioclipse Team
