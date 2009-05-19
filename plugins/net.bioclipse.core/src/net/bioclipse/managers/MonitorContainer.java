@@ -10,7 +10,7 @@
  *     
  *******************************************************************************/
 
-package net.bioclipse.jsexecution.tools;
+package net.bioclipse.managers;
 
 import java.util.Map;
 import java.util.WeakHashMap;

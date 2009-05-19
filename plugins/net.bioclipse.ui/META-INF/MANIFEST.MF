@@ -28,7 +28,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.update.ui,
  org.springframework.osgi.aopalliance.osgi,
  org.eclipse.ui.intro.universal,
- net.bioclipse.managers;bundle-version="1.0.0",
  net.bioclipse.recording;bundle-version="1.0.0",
  org.springframework.bundle.osgi.extender;bundle-version="1.0.2"
 Bundle-ActivationPolicy: lazy

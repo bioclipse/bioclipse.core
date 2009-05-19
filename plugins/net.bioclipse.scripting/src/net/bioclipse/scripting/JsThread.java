@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import net.bioclipse.core.util.LogUtils;
-import net.bioclipse.jsexecution.tools.MonitorContainer;
+import net.bioclipse.managers.MonitorContainer;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
