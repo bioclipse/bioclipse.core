@@ -21,4 +21,12 @@
          id="net.bioclipse.core_feature"
          version="0.0.0"/>
 
+   <includes
+         id="net.bioclipse.chemoinformatics_feature"
+         version="0.0.0"/>
+
+   <includes
+         id="net.bioclipse.balloon_feature"
+         version="0.0.0"/>
+
 </feature>

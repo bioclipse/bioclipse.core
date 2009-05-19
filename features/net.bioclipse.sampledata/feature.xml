@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse.sampledata_feature"
       label="Sample Data Feature"
-      version="2.0.0.B20090515"
+      version="2.0.0.B20090519"
       provider-name="The Bioclipse Team"
       plugin="net.bioclipse.data.sampledata">
 

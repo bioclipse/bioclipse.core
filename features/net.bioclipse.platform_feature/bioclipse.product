@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.4"?>
 
-<product name="Bioclipse" id="net.bioclipse.ui.product" application="net.bioclipse.ui.application" version="2.0.0.B20090515" useFeatures="true">
+<product name="Bioclipse" id="net.bioclipse.ui.product" application="net.bioclipse.ui.application" version="2.0.0.B20090519" useFeatures="true">
 
    <aboutInfo>
       <image path="/net.bioclipse.ui/icons/logo/abot_img.gif"/>
@@ -133,7 +133,7 @@
    </plugins>
 
    <features>
-      <feature id="net.bioclipse.platform_feature" version="1.0.0"/>
+      <feature id="net.bioclipse.platform_feature" version="2.0.0.B20090519"/>
    </features>
 
 </product>

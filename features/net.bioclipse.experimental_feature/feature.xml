@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse.experimental_feature"
       label="Bioclipse Experimental"
-      version="2.0.0.B20090515"
+      version="2.0.0.B20090519"
       provider-name="The Bioclipse Team">
 
    <description>
@@ -27,7 +27,7 @@ is available at http://www.eclipse.org/legal/epl-v10.html
    </license>
 
    <requires>
-      <import feature="net.bioclipse.core.patch" version="2.0.0.B20090515" match="greaterOrEqual"/>
+      <import feature="net.bioclipse.core.patch" version="2.0.0.B20090519" match="greaterOrEqual"/>
    </requires>
 
    <plugin
