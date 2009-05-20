@@ -12,7 +12,10 @@ import java.net.URL;
 
 import net.bioclipse.ui.dialogs.PickWorkspaceDialog;
 
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -197,13 +200,13 @@ public abstract class WorkbenchAdvisorHack extends WorkbenchAdvisor
         configurer.setSaveAndRestore(true);
     }
 
-//    @Override
-//    public IAdaptable getDefaultPageInput()
-//    {
-//        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-//        return root;
-////        return new NavigatorRoot();
-//    }
+    @Override
+    public IAdaptable getDefaultPageInput()
+    {
+        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        return root;
+//        return new NavigatorRoot();
+    }
 
     @Override
     public void preStartup()

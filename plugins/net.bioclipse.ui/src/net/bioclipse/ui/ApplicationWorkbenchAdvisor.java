@@ -44,6 +44,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
+import org.eclipse.ui.navigator.CommonNavigator;
 import org.eclipse.update.configuration.IConfiguredSite;
 import org.eclipse.update.configuration.ILocalSite;
 import org.eclipse.update.core.IFeature;
@@ -97,6 +98,8 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
                 "workspace: " + exception.getMessage(), exception);
           }
         }
+        
+        
     }
     
     public boolean isAbort() {
@@ -119,9 +122,12 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 
     @Override
     public void postStartup() {
-        super.postStartup();
 
         abort=false;
+        
+        CommonNavigator nav = (CommonNavigator) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "net.bioclipse.navigator" );
+        nav.getCommonViewer().setInput( getDefaultPageInput() );
+
 
         //If we said do not update in the earlier dialog, skip check.
         if (settings.getBoolean(IDialogConstants.SKIP_UPDATE_ON_STARTUP)){
