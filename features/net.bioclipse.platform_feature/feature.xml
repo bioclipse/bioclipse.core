@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse.platform_feature"
       label="Product_feature Feature"
-      version="2.0.0.B20090519"
+      version="2.0.0.B20090520"
       provider-name="The Bioclipse Team">
 
    <description url="http://www.example.com/description">
