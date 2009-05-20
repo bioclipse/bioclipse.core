@@ -73,7 +73,9 @@ public class JavaManagerMethodDispatcher
                 uiJob = (BioclipseUIJob<Object>) o;
             }
         }
-        args.remove( uiJob );
+        if ( uiJob != null ) {
+            args.remove( uiJob );
+        }
 
         arguments = args.toArray();
         Object returnValue;
