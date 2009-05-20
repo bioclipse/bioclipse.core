@@ -117,6 +117,10 @@ public abstract class AbstractManagerMethodDispatcher
                          refMethod.getParameterTypes().length < j + 1 ) {
                         continue PARAMS;
                     }
+                    if ( invocation.getMethod()
+                                   .getParameterTypes().length <= j ) {
+                        continue METHODS;
+                    }
                     Class<?> refParam = invocation.getMethod()
                                                   .getParameterTypes()[j++];
                     if ( currentParam == refParam ) {
