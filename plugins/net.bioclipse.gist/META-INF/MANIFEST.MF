@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Gist Support
 Bundle-SymbolicName: net.bioclipse.gist;singleton:=true
-Bundle-Version: 2.0.0.B20090519
+Bundle-Version: 2.0.0.B20090520
 Bundle-Activator: net.bioclipse.gist.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
