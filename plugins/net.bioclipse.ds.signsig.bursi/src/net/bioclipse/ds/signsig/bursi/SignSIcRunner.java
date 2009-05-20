@@ -27,7 +27,6 @@ import libsvm.svm_node;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
@@ -35,7 +34,6 @@ import org.openscience.cdk.interfaces.IAtomContainer;
 import net.bioclipse.cdk.business.Activator;
 import net.bioclipse.cdk.business.CDKManager;
 import net.bioclipse.cdk.business.ICDKManager;
-import net.bioclipse.cdk.domain.AtomContainerSelection;
 import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
@@ -44,7 +42,6 @@ import net.bioclipse.ds.model.AbstractWarningTest;
 import net.bioclipse.ds.model.IDSTest;
 import net.bioclipse.ds.model.ITestResult;
 import net.bioclipse.ds.model.SubStructureMatch;
-import net.bioclipse.ds.model.TestRun;
 import net.bioclipse.ds.model.impl.DSException;
 
 
@@ -53,36 +50,48 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
     //The logger of the class
     private static final Logger logger = Logger.getLogger(CDKManager.class);
 
-    //The model execution object
-    Object modelpredictor;
-
-    private String signaturesPath;
-    private String molfilePath;
-    
     //The model file
     private static final String MODEL_FILE="/data/bursiSignsXYZ_1.txt.model";
 
+    //Path to the platform-specific signatures file
+    private String signaturesPath;
     
     // Block of member variables. Can they reside here?
-    // Most of the member variables below are hardcoded for the specific example with 198 descriptors.
-    // This is an array of the signatures used in the model. All model specific files resides in the directory ModelSpecificFiles.
+    // Most of the member variables below are hardcoded for the specific example
+    //with 198 descriptors.
+
+    // This is an array of the signatures used in the model. 
+    //All model specific files resides in the directory ModelSpecificFiles.
+    //TODO: read this info from file
     public static final String[] signatureList = {"[C]([C][Cl][Cl])","[P]([C][O][O][O])","[C]([O][O])","[S]([C][O][O][O])","[C]([C][F])","[N]([C][P])","[N]([C][O][O])","[N]([C][S][S])","[C]([C][C][C][C])","[C]([Cl][Cl][Cl][S])","[Cl]([C])","[C]([Br][Cl][Cl][Cl])","[P]([Cl][N][N][O])","[C]([Br][Br][Br][N])","[C]([C][C][Cl][F])","[N]([C][H][N])","[C]([C][C][P])","[C]([Br][C][Cl])","[P]([O][O][O][O])","[C]([Cl][N][N])","[P]([N][O][O][S])","[C]([I][I])","[P]([N][N][N][S])","[S]([C])","[C]([C][C][C][S])","[S]([C][Cl][O][O])","[N]([C][C][C][N])","[C]([C][I])","[P]([C][Cl][O][O])","[N]([Br][C][C])","[N]([C][N])","[N]([P][P])","[O]([C][C])","[O]([N][P])","[S]([C][N])","[S]([C][C][N][O])","[C]([C][F][F][F])","[N]([C][N][O])","[Br]([N])","[C]([C][C][C][Cl])","[C]([C][Cl][Cl][N])","[C]([Cl][Cl][Cl][N])","[N]([C][C][N])","[N]([C])","[N]([N][O][O])","[P]([N][N][N][N])","[P]([C][C][C])","[N]([C][S])","[C]([O][O][S])","[C]([C][Cl][F][F])","[O]([C][S])","[Cl]([N])","[C]([C][Cl])","[C]([H][N][N])","[C]([N][N][S])","[N]([C][C][C])","[C]([C][C][Cl])","[C]([O][P])","[H]([C])","[C]([C][C][O][O])","[C]([N][O][S])","[C]([C][O][P][P])","[C]([C][C][O])","[S]([C][S])","[C]([C][Cl][Cl][Cl])","[N]([C][C][Cl])","[O]([P])","[C]([C][C][N][O])","[N]([C][C])","[C]([Cl][N][O])","[N]([C][Cl])","[C]([N][P])","[C]([O])","[C]([Cl][Cl])","[C]([C][P])","[C]([C][O][O])","[C]([Br][Cl])","[C]([C][F][S])","[N]([O][O][O])","[C]([C][O][S])","[C]([Br][C][C])","[C]([N][N][N])","[N]([O])","[C]([S])","[S]([C][C])","[C]([Cl][Cl][N])","[N]([O][S])","[N]([C][C][S])","[C]([C][Cl][F])","[C]([N][N][N][N])","[O]([C][N])","[C]([C][C][F][F])","[S]([C][C][O][O])","[C]([N][N])","[C]([C][N][O][O])","[C]([C][C][F])","[C]([C][Cl][N])","[C]([C][N])","[S]([C][C][O])","[P]([N][N][N][O])","[N]([O][O])","[Cl]([P])","[C]([C][Cl][O])","[C]([C][C][Cl][Cl])","[P]([N][O][O][O])","[P]([C][F][O][O])","[N]([N])","[H]([N])","[C]([C][C][N][N])","[C]([N][N][O])","[N]([C][O])","[I]([C])","[S]([C][P])","[C]([N][S][S])","[C]([C][N][P])","[N]([P])","[C]([C][F][N])","[N]([C][C][O])","[O]([C])","[C]([C][F][F])","[C]([C][C][N])","[C]([C])","[N]([C][C][C][O])","[S]([N][N][O][O])","[C]([C][N][O])","[N]([C][C][H])","[C]([S][S][S])","[N]([C][C][C][C])","[C]([C][S])","[N]([S])","[P]([O][O][O][S])","[C]([Cl][Cl][F][S])","[C]([Br][C][C][C])","[F]([P])","[O]([C][P])","[P]([N][N][O][O])","[N]([N][O])","[C]([N][S])","[S]([O][O][O])","[C]([Cl][Cl][Cl][F])","[C]([C][Cl][S])","[N]([C][C][P])","[N]([N][N][O])","[F]([C])","[C]([C][F][F][O])","[P]([O][O][S][S])","[C]([C][C][I])","[C]([N][O])","[C]([Cl][S])","[C]([Cl][O][S])","[P]([O][O][O])","[C]([Br][Br])","[S]([C][N][O][O])","[C]([C][C][C][O])","[O]([O])","[S]([O][O][O][O])","[N]([N][N])","[C]([C][O])","[C]([O][O][O])","[C]([C][N][S])","[C]([P])","[O]([N])","[O]([S])","[P]([C][C][C][C])","[P]([C][N][O][O])","1","[S]([N][N])","[N]([N][S])","[C]([Br])","[C]([C][C][S])","[C]([C][C][C][F])","[N]([C][H][S])","[C]([C][C][C][N])","[C]([C][C][S][S])","[C]([C][S][S])","[O]([P][P])","[N]([C][N][N])","[C]([Br][Br][C])","[C]([N])","[C]([C][O][P])","[O]([C][O])","[S]([N][O][O][O])","[C]([C][C][Cl][N])","[Br]([C])","[C]([Cl][O][O])","[C]([C][N][N])","[C]([C][C][C])","[S]([C][C][C])","[C]([Br][C])","[C]([C][O][O][O])","[Cl]([S])","[S]([P])","[C]([Cl][N])","[C]([N][O][O])","[C]([C][C][N][S])","[C]([F][F][F][S])","[C]([S][S])","[C]([C][C])"};
     public static final int nrSignatures = 198;
-    // These variables are defined by the range file. We include them here to avoid parsing the range file.
+
+    // These variables are defined by the range file.
+    //We include them here to avoid parsing the range file.
+    //TODO: read this info from file
     public static final double lower = -1.0;
     public static final double upper = 1.0;
     public static final double[] feature_min = {0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 , 0.0 };
     public static final double[] feature_max = {2.0 , 2.0 , 3.0 , 4.0 , 1.0 , 6.0 , 6.0 , 1.0 , 6.0 , 1.0 , 12.0 , 1.0 , 1.0 , 1.0 , 3.0 , 2.0 , 3.0 , 1.0 , 2.0 , 2.0 , 1.0 , 1.0 , 1.0 , 2.0 , 1.0 , 1.0 , 1.0 , 1.0 , 1.0 , 1.0 , 8.0 , 3.0 , 14.0 , 1.0 , 1.0 , 1.0 , 2.0 , 1.0 , 1.0 , 8.0 , 1.0 , 1.0 , 2.0 , 13.0 , 1.0 , 3.0 , 1.0 , 2.0 , 1.0 , 1.0 , 2.0 , 3.0 , 6.0 , 1.0 , 2.0 , 6.0 , 8.0 , 4.0 , 1.0 , 3.0 , 1.0 , 1.0 , 23.0 , 2.0 , 2.0 , 3.0 , 6.0 , 1.0 , 32.0 , 1.0 , 3.0 , 1.0 , 6.0 , 1.0 , 1.0 , 7.0 , 1.0 , 1.0 , 4.0 , 1.0 , 10.0 , 6.0 , 1.0 , 2.0 , 3.0 , 1.0 , 1.0 , 1.0 , 1.0 , 1.0 , 4.0 , 8.0 , 2.0 , 6.0 , 1.0 , 5.0 , 2.0 , 10.0 , 1.0 , 1.0 , 1.0 , 1.0 , 2.0 , 2.0 , 1.0 , 1.0 , 2.0 , 3.0 , 1.0 , 3.0 , 2.0 , 6.0 , 2.0 , 2.0 , 1.0 , 1.0 , 2.0 , 2.0 , 39.0 , 1.0 , 23.0 , 12.0 , 1.0 , 1.0 , 29.0 , 3.0 , 1.0 , 1.0 , 4.0 , 1.0 , 2.0 , 1.0 , 1.0 , 1.0 , 6.0 , 1.0 , 2.0 , 2.0 , 1.0 , 1.0 , 1.0 , 3.0 , 1.0 , 19.0 , 1.0 , 1.0 , 6.0 , 2.0 , 1.0 , 1.0 , 2.0 , 1.0 , 2.0 , 4.0 , 1.0 , 1.0 , 2.0 , 15.0 , 2.0 , 2.0 , 1.0 , 12.0 , 12.0 , 1.0 , 1.0 , 1.0 , 1.0 , 1.0 , 1.0 , 4.0 , 1.0 , 1.0 , 2.0 , 1.0 , 1.0 , 1.0 , 2.0 , 1.0 , 6.0 , 1.0 , 4.0 , 1.0 , 1.0 , 10.0 , 1.0 , 3.0 , 16.0 , 1.0 , 3.0 , 1.0 , 1.0 , 2.0 , 1.0 , 2.0 , 2.0 , 1.0 , 1.0 , 35.0 };
-    // The ones below are needed, but they depend on some hardcoded info. We need to avoid this, reading 198.
-    public static final svm_node[] xScaled = new svm_node[198];
-    public static final double[] x = new double[198];
+
+    //The SVM model. Read once on initialization.
     public static svm_model bursiModel;
+    
+    //Parameters for the native signatures executable
     public static String signaturesExecutableOptions = " --height 1 --atomtype XYZ --filename ";
-    public static Map<Integer,Integer> attributeValues = new HashMap<Integer,Integer>();
-    public static Map<String,ArrayList<Integer>> signatureAtoms = new HashMap<String,ArrayList<Integer>>();
-    public static ArrayList<Integer> significantAtoms = new ArrayList<Integer>();
-    public static double prediction;
-    public static String significantSignature = "";
+
+    // The ones below are needed, but they depend on some hardcoded info.
+    //We need to avoid this, reading 198.
+    private svm_node[] xScaled;
+    private double[] x;
+
+    //Instance fields for a prediction
+    private Map<Integer,Integer> attributeValues;
+    private Map<String,ArrayList<Integer>> signatureAtoms;
+    private ArrayList<Integer> significantAtoms;
+    private double prediction;
+    private String significantSignature = "";
+    
     /**
      * Default constructor
      */
@@ -309,7 +318,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
 
     }
 
-    private void createSignatures(){
+    private void createSignatures(String molfilePath){
         Process signatureRun;
         try {
             //System.out.println("createSignatures::LC added: Path to signatures: " + signaturesPath + signaturesExecutableOptions + molfilePath);
@@ -317,8 +326,6 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
             BufferedReader br = new BufferedReader (new InputStreamReader(signatureRun.getInputStream ()));
             String line;
             int lineNr = 0;
-            attributeValues.clear();
-            signatureAtoms.clear();
             while ( (line = br.readLine()) != null ){
                 lineNr = lineNr + 1; // This number corresponds to the atom number,
                 if ( lineNr > 1 ){
@@ -405,7 +412,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
             throw new DSException("Path to temp molfile is empty");
 
         //Set this file as input file
-        molfilePath=f.getAbsolutePath();
+        String molfilePath=f.getAbsolutePath();
         if (molfilePath==null || molfilePath.length()<=0)
             throw new DSException("Path to temp molfile is empty");
 
@@ -416,23 +423,33 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         logger.debug("Path to signatures: " + signaturesPath);
         
         //=======================================
-        //TODO Lars: Work your QSAR magic here...
+        // Here comes the actual predictions
         //=======================================
-        createSignatures();
+        
+        //Make room for new predicions
+        attributeValues=new HashMap<Integer, Integer>();
+        signatureAtoms=new HashMap<String, ArrayList<Integer>>();
+        significantAtoms=new ArrayList<Integer>();
+        xScaled = new svm_node[nrSignatures];
+        x=new double[nrSignatures];
+
+        //Create signatures for this molfile and predict
+        createSignatures(molfilePath);
         predictAndComputeSignificance();
 
         SubStructureMatch match=new SubStructureMatch();
         IAtomContainer significantAtomsContainer=cdkmol.getAtomContainer().getBuilder().newAtomContainer();
-        for (int significantAtom : SignSIcRunner.significantAtoms){
+        for (int significantAtom : significantAtoms){
         	significantAtomsContainer.addAtom( cdkmol.getAtomContainer().getAtom( significantAtom-1 ));
         	logger.debug("center atom: " + significantAtom);
+        	//Also add all atoms connected to significant atoms to list
         	for (IAtom nbr : cdkmol.getAtomContainer().getConnectedAtomsList(cdkmol.getAtomContainer().getAtom( significantAtom-1 )) ){
         		int nbrAtomNr = cdkmol.getAtomContainer().getAtomNumber(nbr) + 1;
         		significantAtomsContainer.addAtom(cdkmol.getAtomContainer().getAtom(nbrAtomNr-1));
         		logger.debug("nbr: " + nbrAtomNr);
         	}
         }
-        logger.debug("Number of center atoms: " + SignSIcRunner.significantAtoms.size());
+        logger.debug("Number of center atoms: " + significantAtoms.size());
         
         //We want to set the color of the hilighting depending on the prediction. If the decision function > 0.0 the color should be red, otherwise it should be green.
         //we also want the filled circles to be larger so that they become visible for non carbons.
@@ -447,22 +464,6 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         return results;
     }
 
-
-
-
-
-
-
-
-    /**
-     * DO NOT USE THIS; SCHEDULED FOR REMOVAL
-     */
-    @Deprecated
-    public List<ITestResult> runWarningTest( IMolecule molecule, TestRun testrun )
-    throws DSException {
-        //DO NOT USE THIS; SCHEDULED FOR REMOVAL
-        return null;
-    }
 
     @Override
     public String toString() {
