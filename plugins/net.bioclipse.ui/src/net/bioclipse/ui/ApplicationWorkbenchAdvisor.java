@@ -73,7 +73,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         // fetch the Location that we will be modifying 
         Location instanceLoc = Platform.getInstanceLocation();
         // if the location is already set, we start from eclipse
-        if(true){ //!instanceLoc.isSet()){
+        if(!instanceLoc.isSet()){
           // startedFromWorkspace=true means we do a restart from "switch workspace" and therefore
           // get the workspace location from dialog, if not, we use the default one or the remembered one set by user.
           boolean startedFromWorkspace = PickWorkspaceDialog.isStartedFromSwitchWorkspace();
