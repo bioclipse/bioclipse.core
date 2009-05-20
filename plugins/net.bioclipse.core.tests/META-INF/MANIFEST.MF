@@ -19,5 +19,7 @@ Export-Package: net.bioclipse,
  net.bioclipse.core,
  net.bioclipse.core.domain,
  net.bioclipse.core.tests,
- net.bioclipse.core.tests.coverage
+ net.bioclipse.core.tests.coverage,
+ net.bioclipse.managers.tests,
+ net.bioclipse.recording
 Import-Package: org.apache.log4j;version="1.2.15"

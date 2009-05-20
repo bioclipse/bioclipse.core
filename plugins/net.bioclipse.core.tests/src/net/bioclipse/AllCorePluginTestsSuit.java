@@ -9,6 +9,7 @@
 
 package net.bioclipse;
 import net.bioclipse.core.ResourcePathTransformerTest;
+import net.bioclipse.managers.tests.AllManagerMethodDispatcherTests;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -16,8 +17,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 
 @RunWith(value=Suite.class)
-@SuiteClasses( value = { ResourcePathTransformerTest.class, } )
-
+@SuiteClasses( value = { ResourcePathTransformerTest.class,
+                         AllManagerMethodDispatcherTests.class } )
 public class AllCorePluginTestsSuit {
 
 }
