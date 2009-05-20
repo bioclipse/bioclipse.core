@@ -3,7 +3,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * www.eclipse.org—epl-v10.html <http://www.eclipse.org/legal/epl-v10.html>
+ * http://www.eclipse.org/legal/epl-v10.html.
  * 
  * Contributors:
  *     Ola Spjuth - initial API and implementation
@@ -70,7 +70,6 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
     private boolean abort;
 
     public ApplicationWorkbenchAdvisor() {
-        System.out.println("Yeah, i'm being run!");
         // fetch the Location that we will be modifying 
         Location instanceLoc = Platform.getInstanceLocation();
         // if the location is already set, we start from eclipse
