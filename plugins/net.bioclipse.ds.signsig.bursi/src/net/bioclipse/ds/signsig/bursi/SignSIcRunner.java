@@ -440,7 +440,13 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         //Remove the temp file
         tempfile.delete();
 
-        SubStructureMatch match=new SubStructureMatch();
+        //Create a new match with correct coloring
+        SignSicHit match=new SignSicHit();
+        if (prediction>0)
+            match.setPositive( true );
+        else
+            match.setPositive( false );
+            
         IAtomContainer significantAtomsContainer=cdkmol.getAtomContainer().getBuilder().newAtomContainer();
         for (int significantAtom : significantAtoms){
         	significantAtomsContainer.addAtom( cdkmol.getAtomContainer().getAtom( significantAtom-1 ));
