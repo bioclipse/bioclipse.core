@@ -391,14 +391,14 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         //cdkmol=cdk.removeImplicitHydrogens( cdkmol );
 
         //Write a temp molfile and return path
-        File f=null;
+        File tempfile=null;
         try {
         	// Is this the way to do it? Can we produce a unique filename that can be removed after it has been used? Thread safe?
-            f = File.createTempFile("signsig", ".mol");
+            tempfile = File.createTempFile("signsig", ".mol");
 
             //Write mol as MDL to the temp file
             String mdlString=cdk.getMDLMolfileString( cdkmol );
-            FileWriter w = new FileWriter(f);
+            FileWriter w = new FileWriter(tempfile);
             w.write( mdlString );
             w.close();
 
@@ -408,11 +408,11 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         }
 
         //Just another check for null
-        if (f==null)
+        if (tempfile==null)
             throw new DSException("Path to temp molfile is empty");
 
         //Set this file as input file
-        String molfilePath=f.getAbsolutePath();
+        String molfilePath=tempfile.getAbsolutePath();
         if (molfilePath==null || molfilePath.length()<=0)
             throw new DSException("Path to temp molfile is empty");
 
@@ -436,6 +436,9 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         //Create signatures for this molfile and predict
         createSignatures(molfilePath);
         predictAndComputeSignificance();
+        
+        //Remove the temp file
+        tempfile.delete();
 
         SubStructureMatch match=new SubStructureMatch();
         IAtomContainer significantAtomsContainer=cdkmol.getAtomContainer().getBuilder().newAtomContainer();
