@@ -233,6 +233,15 @@ public class JsConsoleView extends ScriptingConsoleView {
                             publishedMethod.methodSummary(),    NEWLINE,
                                                                 NEWLINE })
                         result.append(_);
+
+                    String doi = publishedMethod.doi();
+                    if (doi != null && doi.length() > 0) {
+                        for (String _ : new String[] {
+                            "Further information (DOI): ",      NEWLINE,
+                            publishedMethod.doi(),              NEWLINE,
+                                                                NEWLINE })
+                            result.append(_);
+                    }
                 }
             }
         }

@@ -30,4 +30,10 @@ public @interface PublishedMethod {
      * method does.
      */
     String methodSummary();
+
+    /**
+     * Field that defines the Digital Object Identifier (DOI) allowing to
+     * link a publication with further details to this method.
+     */
+    String doi() default "";
 }
