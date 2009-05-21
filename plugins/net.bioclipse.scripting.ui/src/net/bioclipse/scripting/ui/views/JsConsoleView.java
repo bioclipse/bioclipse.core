@@ -172,62 +172,52 @@ public class JsConsoleView extends ScriptingConsoleView {
 
         command = command.trim();
 
-        if ( "doi".equals(command) ) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(usageMessage);
-            return sb.toString();
-        }
+        if ( !command.matches("doi \\w+\\.\\w+") )
+            return usageMessage;
 
         String helpObject = command.substring(command.indexOf(' ') + 1);
 
-        //Doing manager method
-        if ( helpObject.contains(".") ) {
+        String[] parts = helpObject.split("\\.");
 
-            String[] parts = helpObject.split("\\.");
+        String managerName = parts[0];
+        String methodName  = parts[1];
 
-            if ( parts.length != 2 )
-                return usageMessage;
+        IBioclipseManager manager
+            = JsThread.js.getManagers().get(managerName);
+        if (manager == null)
+            return "No such manager: " + managerName
+                   + NEWLINE + usageMessage;
 
-            String managerName = parts[0];
-            String methodName  = parts[1];
+        List<String> uniqueDOIs = new ArrayList<String>();
+        for (Method method : findAllPublishedMethods(manager.getClass())) {
+            if ( method.getName().equals(methodName) ) {
+                PublishedMethod publishedMethod
+                    = method.getAnnotation( PublishedMethod.class );
 
-            IBioclipseManager manager
-                = JsThread.js.getManagers().get(managerName);
-            if (manager == null)
-                return "No such manager: " + managerName
-                       + NEWLINE + usageMessage;
-
-            List<String> uniqueDOIs = new ArrayList<String>();
-            for (Method method : findAllPublishedMethods(manager.getClass())) {
-                if ( method.getName().equals(methodName) ) {
-                    PublishedMethod publishedMethod
-                        = method.getAnnotation( PublishedMethod.class );
-
-                    String doi = publishedMethod.doi();
-                    if (doi != null && doi.length() != 0 &&
-                        !uniqueDOIs.contains(doi)) uniqueDOIs.add(doi);
-                }
+                String doi = publishedMethod.doi();
+                if (doi != null && doi.length() != 0 &&
+                    !uniqueDOIs.contains(doi)) uniqueDOIs.add(doi);
             }
-            if (uniqueDOIs.size() == 0) {
-                return "Method(s) does not refer to any DOI." + NEWLINE;
-            } else {
-                for (String doi : uniqueDOIs) {
-                    IWorkbenchBrowserSupport browserSupport =
-                        WebBrowserUIPlugin.getInstance().getWorkbench().
-                            getBrowserSupport();
-                    IWebBrowser browser;
-                    try {
-                        browser = browserSupport.createBrowser(
-                            IWorkbenchBrowserSupport.LOCATION_BAR |
-                            IWorkbenchBrowserSupport.NAVIGATION_BAR,
-                            null, null, null
-                        );
-                        browser.openURL(new URL("http://dx.doi.org/" + doi));
-                    } catch (PartInitException e) {
-                        return "Could not open DOI link: " + e.getMessage();
-                    } catch (MalformedURLException e) {
-                        return "Invalid DOI: " + doi;
-                    }
+        }
+        if (uniqueDOIs.size() == 0) {
+            return "Method(s) does not refer to any DOI." + NEWLINE;
+        } else {
+            for (String doi : uniqueDOIs) {
+                IWorkbenchBrowserSupport browserSupport =
+                    WebBrowserUIPlugin.getInstance().getWorkbench().
+                        getBrowserSupport();
+                IWebBrowser browser;
+                try {
+                    browser = browserSupport.createBrowser(
+                        IWorkbenchBrowserSupport.LOCATION_BAR |
+                        IWorkbenchBrowserSupport.NAVIGATION_BAR,
+                        null, null, null
+                    );
+                    browser.openURL(new URL("http://dx.doi.org/" + doi));
+                } catch (PartInitException e) {
+                    return "Could not open DOI link: " + e.getMessage();
+                } catch (MalformedURLException e) {
+                    return "Invalid DOI: " + doi;
                 }
             }
         }
@@ -474,6 +464,7 @@ public class JsConsoleView extends ScriptingConsoleView {
         return new ArrayList<String>() {{
            add("help");
            add("man");
+           add("doi");
         }};
     }
 
