@@ -31,7 +31,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
-import org.eclipse.ui.internal.browser.WebBrowserUIPlugin;
 import org.mozilla.javascript.NativeJavaObject;
 
 public class JsConsoleView extends ScriptingConsoleView {
@@ -204,7 +203,7 @@ public class JsConsoleView extends ScriptingConsoleView {
         } else {
             for (String doi : uniqueDOIs) {
                 IWorkbenchBrowserSupport browserSupport =
-                    WebBrowserUIPlugin.getInstance().getWorkbench().
+                        getSite().getPage().getWorkbenchWindow().getWorkbench().
                         getBrowserSupport();
                 IWebBrowser browser;
                 try {
