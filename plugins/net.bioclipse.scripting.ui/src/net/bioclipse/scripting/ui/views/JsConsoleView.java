@@ -11,6 +11,8 @@
 package net.bioclipse.scripting.ui.views;
 
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,6 +28,10 @@ import net.bioclipse.scripting.JsAction;
 import net.bioclipse.scripting.JsThread;
 
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.browser.IWebBrowser;
+import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
+import org.eclipse.ui.internal.browser.WebBrowserUIPlugin;
 import org.mozilla.javascript.NativeJavaObject;
 
 public class JsConsoleView extends ScriptingConsoleView {
@@ -39,6 +45,9 @@ public class JsConsoleView extends ScriptingConsoleView {
     protected String executeCommand( String command ) {
         if (command.matches("help( .*)?") || command.matches("man( .*)?")) {
             printMessage( helpString(command) );
+            return "";
+        } else if (command. matches("doi( .*)?")) {
+            printMessage( openDOI(command) );
             return "";
         }
 
@@ -147,6 +156,85 @@ public class JsConsoleView extends ScriptingConsoleView {
         return result.toString();
     }
     
+    /**
+     * Opens a web browser if the method for which the 'doi' command is
+     * called has an associated DOI.
+     *
+     * @param command the complete command from the console input
+     * @return nothing if everything went fine; error message or help on the
+     *         command otherwise.
+     */
+    private String openDOI(String command) {
+        if (command == null)
+            return "";
+
+        final String usageMessage = "Usage of doi: 'doi <manager>.<method>'";
+
+        command = command.trim();
+
+        if ( "doi".equals(command) ) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(usageMessage);
+            return sb.toString();
+        }
+
+        String helpObject = command.substring(command.indexOf(' ') + 1);
+
+        //Doing manager method
+        if ( helpObject.contains(".") ) {
+
+            String[] parts = helpObject.split("\\.");
+
+            if ( parts.length != 2 )
+                return usageMessage;
+
+            String managerName = parts[0];
+            String methodName  = parts[1];
+
+            IBioclipseManager manager
+                = JsThread.js.getManagers().get(managerName);
+            if (manager == null)
+                return "No such manager: " + managerName
+                       + NEWLINE + usageMessage;
+
+            List<String> uniqueDOIs = new ArrayList<String>();
+            for (Method method : findAllPublishedMethods(manager.getClass())) {
+                if ( method.getName().equals(methodName) ) {
+                    PublishedMethod publishedMethod
+                        = method.getAnnotation( PublishedMethod.class );
+
+                    String doi = publishedMethod.doi();
+                    if (doi != null && doi.length() != 0 &&
+                        !uniqueDOIs.contains(doi)) uniqueDOIs.add(doi);
+                }
+            }
+            if (uniqueDOIs.size() == 0) {
+                return "Method(s) does not refer to any DOI." + NEWLINE;
+            } else {
+                for (String doi : uniqueDOIs) {
+                    IWorkbenchBrowserSupport browserSupport =
+                        WebBrowserUIPlugin.getInstance().getWorkbench().
+                            getBrowserSupport();
+                    IWebBrowser browser;
+                    try {
+                        browser = browserSupport.createBrowser(
+                            IWorkbenchBrowserSupport.LOCATION_BAR |
+                            IWorkbenchBrowserSupport.NAVIGATION_BAR,
+                            null, null, null
+                        );
+                        browser.openURL(new URL("http://dx.doi.org/" + doi));
+                    } catch (PartInitException e) {
+                        return "Could not open DOI link: " + e.getMessage();
+                    } catch (MalformedURLException e) {
+                        return "Invalid DOI: " + doi;
+                    }
+                }
+            }
+        }
+
+        return "";
+    }
+
     /**
      * Returns a help string documenting a Manager or one of its methods.
      * These help strings are printed to the console in response to the
