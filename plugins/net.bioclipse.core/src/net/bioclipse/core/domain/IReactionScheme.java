@@ -14,25 +14,13 @@ package net.bioclipse.core.domain;
 import net.bioclipse.core.business.BioclipseException;
 
 /**
- * An interface to represent a Reaction that can be represented with 
- * Smiles notation. Since we can get SMILES, we can also get 2D coordinates.
+ * An interface to represent a Reaction Scheme.
  * Interface also requires the IReaction to be able to be serialized as CML.
  * 
  * @author Miguel Rojas
  *
  */
-public interface IReaction extends IBioObject{
-	
-	public enum Property {
-        USE_CACHED,
-        USE_CACHED_OR_CALCULATED,
-        USE_CALCULATED
-    }
-	/**
-     * @return the SMILES string for this IReaction
-     * @throws BioclipseException is SMILES can not be returned
-     */
-    public String getSMILES(Property urgency) throws BioclipseException;
+public interface IReactionScheme extends IBioObject{
 
     /**
      * @return the IReaction serialized to CML
