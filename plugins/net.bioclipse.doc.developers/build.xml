@@ -1,7 +1,40 @@
 <project default="runPerl">
 
-  <target name="runPerl">
-  	<exec executable="perl">
+  <!-- Include the ant-contrib goodies -->
+  <taskdef resource="net/sf/antcontrib/antlib.xml">
+    <classpath>
+      <pathelement location="${basedir}/jars/ant-contrib-1.0b3.jar"/>
+    </classpath>
+  </taskdef>
+
+  <target name="check">
+  	<if><os family="mac"/>
+  	  <then>
+  	  	<property name="perl.exec" value="/usr/bin/perl" />
+  	  	<echo message="Operating system: Mac" />
+  	  </then>
+  	</if>
+  	<if><os family="winnt"/>
+  	  <then>
+  	  	<property name="perl.exec" value="perl.exe" />
+  	  	<echo message="Operating system: Windows" />
+  	  </then>
+  	</if>
+  	<if><os family="unix"/>
+  	  <then>
+  	  	<property name="perl.exec" value="/usr/bin/perl" />
+  	  	<echo message="Operating system: Unix" />
+  	  </then>
+  	</if>
+  	<available file="${perl.exec}" property="perl.present"/>
+  	<fail message="Perl not found at: ${perl.exec}"
+  	      unless="perl.present" />
+  	<echo message="Found Perl at: ${perl.exec}" />
+  </target>
+	
+  <target name="runPerl" depends="check">
+  	<mkdir dir="doc"/>
+  	<exec executable="${perl.exec}">
   	  <arg value="makeExtensionsHTML.perl"/>
   	</exec>
   </target>
