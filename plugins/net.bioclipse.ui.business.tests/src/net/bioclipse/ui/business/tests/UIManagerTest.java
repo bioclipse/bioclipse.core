@@ -19,7 +19,7 @@ import net.bioclipse.ui.business.UIManager;
 
 public class UIManagerTest extends AbstractManagerTest {
 
-    IUIManager ui;
+    UIManager ui;
 
     //Do not use SPRING OSGI for this manager
     //since we are only testing the implementations of the manager methods
