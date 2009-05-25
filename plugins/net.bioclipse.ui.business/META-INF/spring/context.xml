@@ -7,33 +7,24 @@
                       http://www.springframework.org/schema/osgi 
                       http://www.springframework.org/schema/osgi/spring-osgi.xsd">
 
-  <!-- Gets the recording advice -->
   <osgi:reference id="recordingAdvice" 
                   interface="net.bioclipse.recording.IRecordingAdvice" />
 
-  <osgi:reference id="createJobAdvice"
-                  interface="net.bioclipse.ui.jobs.ICreateJobAdvice" />
-  <osgi:reference id="guiActionAdvice"
-                  interface="net.bioclipse.scripting.ui.business.IGuiActionAdvice" />
-  <osgi:reference id="JSJobCreatorAdvice" 
-                  interface="net.bioclipse.scripting.business.IJSJobCreatorAdvice"/>
-  <!--+ 
-      | Point cut advisor that inserts the recording advice on all methods.
-      | (The class does nothing on toString() 
-      |  since a regexp for that behavior failed)
-      +-->
+  <osgi:reference id="javaManagerDispatcherAdvisor"
+                  interface="net.bioclipse.managers.business.IJavaManagerDispatcherAdvisor" />
+
+  <osgi:reference id="javaScriptManagerDispatcherAdvisor" 
+                  interface="net.bioclipse.managers.business.IJavaScriptManagerDispatcherAdvisor"/>
+
+  <osgi:reference id="wrapInProxyAdvice"
+                  interface="net.bioclipse.recording.IWrapInProxyAdvice" />  
+  
   <bean id="recordingAdvisor"
   		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
         <property name="advice"  ref="recordingAdvice" />
   		<property name="pattern" value=".*" />
   </bean>
   
-  <bean id="guiActionAdvisor"
-        class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
-        <property name="advice"  ref="guiActionAdvice" />
-        <property name="pattern" value=".*" />
-  </bean>
-
   <!-- The target that later on will be proxied. Our manager class. -->
   <bean id="uiManagerTarget" 
         class="net.bioclipse.ui.business.UIManager">
@@ -43,7 +34,7 @@
       | The proxy puts together the managerTarget, the pointcut advisor
       | and defines which interfaces to be proxied 
       +-->
-  <bean id="uiManager"
+  <bean id="javaUiManager"
   		class="org.springframework.aop.framework.ProxyFactoryBean">
   	<property name="target" 
   	          ref="uiManagerTarget" />
@@ -51,13 +42,14 @@
   	          value="net.bioclipse.ui.business.IUIManager" />
   	<property name="interceptorNames">
         <list>
-            <value>createJobAdvice</value>
-            <value>recordingAdvisor</value>
+	        <value>recordingAdvisor</value>
+	        <value>wrapInProxyAdvice</value>
+	        <value>javaManagerDispatcherAdvisor</value>
         </list>
     </property>
   </bean>
   
-  <bean id="jsuiManager"
+  <bean id="javaScriptUiManager"
         class="org.springframework.aop.framework.ProxyFactoryBean">
     <property name="target" 
               ref="uiManagerTarget" />
@@ -65,20 +57,21 @@
               value="net.bioclipse.ui.business.IJSUIManager" />
     <property name="interceptorNames" >
         <list>
-            <value>guiActionAdvisor</value>
-            <value>JSJobCreatorAdvice</value>            
+            <value>recordingAdvisor</value>
+            <value>wrapInProxyAdvice</value>
+            <value>javaScriptManagerDispatcherAdvisor</value>           
         </list>
     </property>    
   </bean>
 
   <!-- publishes the final manager (the proxy) -->
   <osgi:service
-    id="uiManagerOSGI" 
-    ref="uiManager"
+    id="javaUiManagerOSGI" 
+    ref="javaUiManager"
     interface="net.bioclipse.ui.business.IUIManager" />
   
   <osgi:service
-    id="jsuiManagerOSGI"
-    ref="jsuiManager"
+    id="javaScriptUiManagerOSGI"
+    ref="javaScriptUiManager"
     interface="net.bioclipse.ui.business.IJSUIManager" />
 </beans>

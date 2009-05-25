@@ -96,19 +96,12 @@ public class UIManager implements IBioclipseManager {
                                         .getActivePage();
         try {
             IDE.openEditor(page, file);
-        } catch (PartInitException e) {
+        } 
+        catch (PartInitException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void remove( String filePath ) {
-        throw new IllegalStateException("This method should not be called");
-    }
-
-    public void open( String filePath ) {
-        throw new IllegalStateException("This method should not be called");
-    }
-    
     public void open( IFile file, String editor ) throws BioclipseException {
 
         //Determine editorID from putative alias
@@ -129,11 +122,6 @@ public class UIManager implements IBioclipseManager {
         catch ( PartInitException e ) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public void open( String filePath, String editor ) 
-                throws BioclipseException {
-        throw new IllegalStateException("This method shoudl not be called");
     }
     
     public void open( final IBioObject bioObject, final String editor)
@@ -186,11 +174,11 @@ public class UIManager implements IBioclipseManager {
             throw new RuntimeException(e);
         }
     }
-
-    public void save(String filePath, InputStream toWrite) {
-        save(ResourcePathTransformer.getInstance().transform( filePath ), 
-             toWrite, null, null);
-//        throw new IllegalStateException("This method should not be called");
+    
+    public void save( IFile target, 
+                      InputStream toWrite, 
+                      IProgressMonitor monitor ) {
+       save ( target, toWrite, null, monitor);
     }
 
     public void save( final IFile target, 
@@ -222,13 +210,6 @@ public class UIManager implements IBioclipseManager {
     public boolean fileExists(IFile file) {
         return file.exists();
     }
-
-    public boolean fileExists(String filePath) {
-        return fileExists(
-                ResourcePathTransformer.getInstance().transform( filePath )
-        );
-    }
-
 
     public void open(IBioObject bioObject) throws BioclipseException, 
     CoreException, 
@@ -355,10 +336,6 @@ public class UIManager implements IBioclipseManager {
         });
     }
 
-    public void closeEditor( String path ) {
-        throw new IllegalStateException("This method should not be called");
-    }
-
     public void closeEditor( final IFile file) {
         Display.getDefault().asyncExec( new Runnable() {
 
@@ -389,10 +366,6 @@ public class UIManager implements IBioclipseManager {
 
     }
     
-    public void revealAndSelect(String path) throws BioclipseException{
-        revealAndSelect(ResourcePathTransformer.getInstance().transform(path));
-    }
-    
     public void revealAndSelect(final IFile file) throws BioclipseException{
         if (!file.exists())
             throw new BioclipseException("The file: " + file.getName() + 
@@ -415,9 +388,6 @@ public class UIManager implements IBioclipseManager {
         } );
     }
 
-    public void refresh(String path) {
-        throw new IllegalStateException("This method should not be called");
-    }
     public void refresh(String path,IProgressMonitor monitor)
         throws BioclipseException{
 
