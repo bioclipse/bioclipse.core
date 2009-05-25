@@ -23,6 +23,7 @@ import java.util.Map;
 import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.ui.Activator;
 import net.bioclipse.scripting.ui.business.IJsConsoleManager;
 import net.bioclipse.ui.business.describer.ExtensionPointHelper;
@@ -66,7 +67,7 @@ import org.eclipse.update.configurator.IPlatformConfiguration.IFeatureEntry;
  *
  * @author masak
  */
-public class UIManager implements IUIManager {
+public class UIManager implements IBioclipseManager {
 
     private static final String NAVIGATOR_ID = "net.bioclipse.navigator";
 
@@ -188,12 +189,14 @@ public class UIManager implements IUIManager {
 
     public void save(String filePath, InputStream toWrite) {
         save(ResourcePathTransformer.getInstance().transform( filePath ), 
-             toWrite, new NullProgressMonitor(),null);
+             toWrite, null, null);
 //        throw new IllegalStateException("This method should not be called");
     }
 
-    public void save(final IFile target, InputStream toWrite,
-                     IProgressMonitor monitor, Runnable callbackFunction) {
+    public void save( final IFile target, 
+                      InputStream toWrite,
+                      Runnable callbackFunction,
+                      IProgressMonitor monitor ) {
         if (monitor == null) monitor = new NullProgressMonitor();
         try {
             int ticks = 10000;

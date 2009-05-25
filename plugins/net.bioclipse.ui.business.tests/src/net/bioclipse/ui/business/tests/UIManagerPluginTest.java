@@ -31,7 +31,7 @@ public class UIManagerPluginTest {
         );
         manager.save(
             file, new ByteArrayInputStream("test file".getBytes()),
-            null, null
+            null
         );
         IFile savedFile = ResourcesPlugin.getWorkspace().getRoot().getFile(
             new Path(filePath)
@@ -47,7 +47,7 @@ public class UIManagerPluginTest {
         );
         manager.save(
             file, new ByteArrayInputStream("test file".getBytes()),
-            null, null
+            null
         );
         IFile savedFile = ResourcesPlugin.getWorkspace().getRoot().getFile(
             new Path(filePath)

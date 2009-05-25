@@ -79,7 +79,7 @@ public interface IUIManager extends IBioclipseManager {
 
     @Recorded
     @TestMethods("testSaveAndRemove_IFile")
-    public void remove(IFile file, IProgressMonitor monitor);
+    public void remove(IFile file);
 
     @Recorded
     @PublishedMethod(
@@ -92,7 +92,7 @@ public interface IUIManager extends IBioclipseManager {
     @Recorded
     @TestMethods("testSaveAndRemove_IFile")
     public void save(IFile file, InputStream toWrite,
-                     IProgressMonitor monitor, Runnable callBackFunction);
+                     Runnable callBackFunction);
 
     @Recorded
     @TestMethods("testExists_IFile")
