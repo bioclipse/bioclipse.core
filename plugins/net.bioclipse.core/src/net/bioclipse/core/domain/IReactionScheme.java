@@ -15,7 +15,7 @@ import net.bioclipse.core.business.BioclipseException;
 
 /**
  * An interface to represent a Reaction Scheme.
- * Interface also requires the IReaction to be able to be serialized as CML.
+ * Interface also requires the IReactionScheme to be able to be serialized as CML.
  * 
  * @author Miguel Rojas
  *
@@ -23,7 +23,7 @@ import net.bioclipse.core.business.BioclipseException;
 public interface IReactionScheme extends IBioObject{
 
     /**
-     * @return the IReaction serialized to CML
+     * @return the IReactionScheme serialized to CML
      * @throws BioclipseException if serialization fails
      */
     public String getCML() throws BioclipseException;
