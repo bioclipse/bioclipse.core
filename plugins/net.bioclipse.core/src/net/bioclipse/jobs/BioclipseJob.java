@@ -187,8 +187,9 @@ public class BioclipseJob<T> extends Job {
             else {
                 uiJob = null;
             }
-            
-            newArguments.remove( uiJob );
+            if ( uiJob != null ) {
+                newArguments.remove( uiJob );
+            }
 
             newArguments.add( monitor );
             monitor.beginTask( "", IProgressMonitor.UNKNOWN );
