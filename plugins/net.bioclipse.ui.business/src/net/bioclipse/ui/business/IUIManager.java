@@ -58,18 +58,20 @@ public interface IUIManager extends IBioclipseManager {
     public void open(String filePath, String editor) throws BioclipseException;
 
     @Recorded
-    @PublishedMethod(params="IFile file, String editor",
-                     methodSummary="Opens a file in an editor specified by ID or alias.")
+    @PublishedMethod(
+        params = "IFile file, String editor",
+        methodSummary = "Opens a file in an editor specified by ID or alias." )
     @GuiAction
     public void open(IFile file, String editor) throws BioclipseException;
 
     @Recorded
     @GuiAction
-    @PublishedMethod(params="IBioObject bioObject, String editor",
-                     methodSummary="Opens a file in the designated editor, " +
-                     		"identified by editor id or shortname.")
+    @PublishedMethod(
+        params = "IBioObject bioObject, String editor",
+        methodSummary = "Opens a file in the designated editor, identified " +
+        		            "by editor id or shortname." )
     public void open( final IBioObject bioObject, final String editor)
-            throws BioclipseException;
+                throws BioclipseException;
 
     @Recorded
     @PublishedMethod(params="String filePath",
@@ -83,16 +85,17 @@ public interface IUIManager extends IBioclipseManager {
 
     @Recorded
     @PublishedMethod(
-        params="String filePath, InputStream content",
-        methodSummary="Save the content of the InputStream to the given path."
+        params = "String filePath, InputStream content",
+        methodSummary = "Save the content of the InputStream to the given path."
     )
     @TestMethods("testSaveAndRemove_String")
     public void save(String filePath, InputStream toWrite);
 
     @Recorded
     @TestMethods("testSaveAndRemove_IFile")
-    public void save(IFile file, InputStream toWrite,
-                     Runnable callBackFunction);
+    public void save( IFile file, 
+                      InputStream toWrite,
+                      Runnable callBackFunction );
 
     @Recorded
     @TestMethods("testExists_IFile")
@@ -100,8 +103,8 @@ public interface IUIManager extends IBioclipseManager {
 
     @Recorded
     @PublishedMethod(
-        params="String filePath",
-        methodSummary="Determines if the given file exists in the workspace"
+        params = "String filePath",
+        methodSummary = "Determines if the given file exists in the workspace"
     )
     @TestMethods("testExists_String")
     public boolean fileExists(String filePath);
@@ -109,26 +112,25 @@ public interface IUIManager extends IBioclipseManager {
     @Recorded
     @GuiAction
     @PublishedMethod(
-        params="IBioObject bioObject",
-        methodSummary="Opens the IBioObject in its preferred editor"
+        params = "IBioObject bioObject",
+        methodSummary = "Opens the IBioObject in its preferred editor"
     )
-    void open( IBioObject bioObject ) throws BioclipseException, CoreException,
-        IOException;
+    void open( IBioObject bioObject ) 
+         throws BioclipseException, CoreException, IOException;
 
     @Recorded
     @GuiAction
     @PublishedMethod(
-        methodSummary="Returns a list of available editors"
+        methodSummary = "Returns a list of available editors"
     )
     public void getEditors() throws BioclipseException;
 
     @Recorded
     @PublishedMethod(
-        params="String path",
-        methodSummary="Creates an empty file at the specified path"
+        params = "String path",
+        methodSummary = "Creates an empty file at the specified path"
     )
     public void newFile( String path) throws CoreException, BioclipseException;
-
 
     @Recorded
     @PublishedMethod(methodSummary = "Closes the active editor")
@@ -136,7 +138,7 @@ public interface IUIManager extends IBioclipseManager {
 
     @Recorded
     @PublishedMethod( params="String path",
-                      methodSummary="Closes all editors working on a file")
+                      methodSummary="Closes all editors working on a file" )
     public void closeEditor(String path);
 
     public void closeEditor(IFile file);
@@ -146,24 +148,23 @@ public interface IUIManager extends IBioclipseManager {
 
     @Recorded
     @PublishedMethod( params="String path",
-                      methodSummary="Reveals a file in Navigator")
+                      methodSummary="Reveals a file in Navigator" )
     public void revealAndSelect( String path ) throws BioclipseException;
 
     @Recorded
-    @PublishedMethod( params="String path",
-                      methodSummary="Refresh resource given by path")
-
+    @PublishedMethod( params = "String path",
+                      methodSummary = "Refresh resource given by path" )
     public void refresh(String path) throws BioclipseException;
-    public void refresh(String path,IProgressMonitor monitor) throws BioclipseException;
+
+    public void refresh(String path, IProgressMonitor monitor) 
+                throws BioclipseException;
 
     @Recorded
     @PublishedMethod( params="String feature",
-                      methodSummary="Assert a feature is installed.")
+                      methodSummary="Assert a feature is installed." )
     public void assertInstalled( String feature ) throws BioclipseException;
 
     @Recorded
-    @PublishedMethod( 
-                      methodSummary="Get a list of the installed features.")
+    @PublishedMethod( methodSummary="Get a list of the installed features." )
     public List<String> getInstalledFeatures();
-
 }
