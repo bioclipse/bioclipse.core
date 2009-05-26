@@ -358,10 +358,12 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
                     }
                 }
             }
+            logger.debug("Result from signature creation was: " + lineNr + " lines");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        
 
     }
     /**
@@ -433,8 +435,15 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         xScaled = new svm_node[nrSignatures];
         x=new double[nrSignatures];
 
-        //Create signatures for this molfile and predict
+        //Create signatures for this molfile
         createSignatures(molfilePath);
+        
+        //Ensure we have what we need
+        if (signatureAtoms.size()<=0){
+            throw new DSException("No signature atoms produced by signaturesrunner.");
+        }
+
+        //Predict using the signatureatoms and attributevalues
         predictAndComputeSignificance();
         
         //Remove the temp file
