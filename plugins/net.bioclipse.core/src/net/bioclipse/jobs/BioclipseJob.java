@@ -209,7 +209,11 @@ public class BioclipseJob<T> extends Job {
                                               arguments );
             
             if ( doingPartialReturns ) {
-                returnValue = returnCollector.getReturnValues();
+                //TODO: Jonathan, please verify this.
+                if (returnCollector.getReturnValue()!=null)
+                    returnValue = returnCollector.getReturnValue();
+                else
+                    returnValue = returnCollector.getReturnValues();
             }
             
             if ( uiJob != null ) {
