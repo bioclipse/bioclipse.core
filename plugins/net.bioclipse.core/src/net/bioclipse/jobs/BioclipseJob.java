@@ -152,6 +152,7 @@ public class BioclipseJob<T> extends Job {
         return Status.OK_STATUS;
     }
 
+    @SuppressWarnings("unchecked")
     private IStatus runNewWay( IProgressMonitor monitor ) {
 
         Object[] arguments;
