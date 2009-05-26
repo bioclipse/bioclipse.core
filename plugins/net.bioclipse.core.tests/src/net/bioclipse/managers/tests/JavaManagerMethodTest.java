@@ -63,12 +63,8 @@ public class JavaManagerMethodTest
                              IPartialReturner returner,
                              IProgressMonitor monitor ) {
             
-            if ( Thread.currentThread() == t ) {
-                sameThread = true;
-            }
-            else {
-                sameThread = false;
-            }
+            sameThread = Thread.currentThread() == t;
+                 
             returner.partialReturn( new B() );
             returner.partialReturn( new B() );
             done = true;
