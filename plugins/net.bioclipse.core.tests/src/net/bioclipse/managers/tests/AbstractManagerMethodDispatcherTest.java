@@ -82,7 +82,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
             new Object[] { file, 
                            new BioclipseJobUpdateHook("") {
                                @Override
-                               public void partialReturn( BioObject chunk ) {
+                               public void partialReturn( Object chunk ) {
                                    assertNotNull( chunk );
                                    chunks[0]++;
                                }
