@@ -20,7 +20,11 @@ public class BioclipseJobUpdateHook implements IPartialReturner {
     public void done() {
     }
 
-    public void partialReturn( BioObject chunk ) {
+    public void partialReturn( Object chunk ) {
+
+    }
+
+    public void completeReturn( Object object ) {
 
     }
 }

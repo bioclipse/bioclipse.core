@@ -114,19 +114,28 @@ public class JavaScriptManagerMethodDispatcher
 
     private static class ReturnCollector implements IPartialReturner {
 
-        private List<IBioObject> returnValues = new BioList<IBioObject>();
+        private volatile Object returnValue;
+        private List<Object> returnValues = new ArrayList<Object>();
         
-        public void partialReturn( BioObject bioObject ) {
+        public void partialReturn( Object object ) {
             
             synchronized ( returnValues ) {
-                returnValues.add( bioObject );
+                returnValues.add( object );
             }
         }
         
-        public List<IBioObject> getReturnValues() {
+        public List<Object> getReturnValues() {
             synchronized ( returnValues ) {
                 return returnValues;
             }
+        }
+
+        public void completeReturn( Object object ) {
+            returnValue=object;
+        }
+        
+        public Object getReturnValue() {
+            return returnValue;
         }
     }
 
