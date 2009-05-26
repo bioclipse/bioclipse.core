@@ -370,12 +370,15 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
      * Method that takes an IMolecule as input and deliver a list of testresults
      * in the form of SubstructureMatches.
      */
-    public List<ITestResult> runWarningTest( IMolecule molecule )
-    throws DSException {
+    public List<ITestResult> runWarningTest( IMolecule molecule ){
 
         //If bursimodel is null it is not loaded, so initialize
         if (bursiModel==null)
-            initialize();
+            try {
+                initialize();
+            } catch ( DSException e1 ) {
+                return returnError( e1.getMessage());
+            }
 
         //Get the CDKManager that can carry out cheminfo stuff
         ICDKManager cdk = Activator.getDefault().getJavaCDKManager();
@@ -384,7 +387,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         try {
             cdkmol = cdk.create( molecule );
         } catch ( BioclipseException e1 ) {
-            throw new DSException("Coudl not convert input molecule to " +
+            return returnError("Coudl not convert input molecule to " +
             		"CDKMolecule: " + e1.getMessage());
         }
 
@@ -406,17 +409,17 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
 
         } catch ( Exception e ) {
             LogUtils.debugTrace( logger, e );
-            throw new DSException("Could not write MDL file: " + e.getMessage());
+            return returnError("Could not write MDL file: " + e.getMessage());
         }
 
         //Just another check for null
         if (tempfile==null)
-            throw new DSException("Path to temp molfile is empty");
+            return returnError("Path to temp molfile is empty");
 
         //Set this file as input file
         String molfilePath=tempfile.getAbsolutePath();
         if (molfilePath==null || molfilePath.length()<=0)
-            throw new DSException("Path to temp molfile is empty");
+            return returnError("Path to temp molfile is empty");
 
 
         
@@ -440,7 +443,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         
         //Ensure we have what we need
         if (signatureAtoms.size()<=0){
-            throw new DSException("No signature atoms produced by signaturesrunner.");
+            return returnError("No signature atoms produced by signaturesrunner.");
         }
 
         //Predict using the signatureatoms and attributevalues
