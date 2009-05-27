@@ -7,7 +7,7 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import net.bioclipse.core.domain.BioList;
+import net.bioclipse.core.domain.RecordableList;
 import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.jobs.BioclipseJob;

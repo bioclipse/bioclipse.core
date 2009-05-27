@@ -9,7 +9,7 @@ import java.util.List;
 import net.bioclipse.core.IResourcePathTransformer;
 import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.core.domain.BioList;
+import net.bioclipse.core.domain.RecordableList;
 import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.core.util.IJavaScriptConsolePrinterChannel;

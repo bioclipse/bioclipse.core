@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.bioclipse.core.domain.BioObject;
-import net.bioclipse.core.domain.BioList;
+import net.bioclipse.core.domain.RecordableList;
 import net.bioclipse.core.domain.IBioObject;
 
 import org.junit.Test;
@@ -125,9 +125,9 @@ public class ScriptGenerationTests {
     @Test
     public void testScriptGenerationOnBioObjectListReturningMethod() {
 
-        BioList<IBioObject>
-            returnValue1 = new BioList<IBioObject>(),
-            returnValue2 = new BioList<IBioObject>();
+        RecordableList<IBioObject>
+            returnValue1 = new RecordableList<IBioObject>(),
+            returnValue2 = new RecordableList<IBioObject>();
 
         generateAndCompare(
                 new MethodRecord[] {
@@ -196,8 +196,8 @@ public class ScriptGenerationTests {
     @Test
     public void testObjectInAbioListRecording() {
 
-        BioList<IBioObject> returnedList
-            = new BioList<IBioObject>();
+        RecordableList<IBioObject> returnedList
+            = new RecordableList<IBioObject>();
 
         returnedList.add( new TestObject() );
         TestObject theTestObject = new TestObject();

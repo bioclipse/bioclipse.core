@@ -17,7 +17,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import net.bioclipse.core.domain.BioList;
+import net.bioclipse.core.domain.RecordableList;
 import net.bioclipse.recording.MethodRecord.BioObjectParameter;
 import net.bioclipse.recording.MethodRecord.NonBioObjectParameter;
 import net.bioclipse.recording.MethodRecord.Parameter;
@@ -81,11 +81,11 @@ public class JsScriptGenerator implements IScriptGenerator {
         if(variables.containsKey( bioObjectId) ) {
             return variables.get( bioObjectId );
         }
-        else if( BioList.existsListContaining(bioObjectId) ){
-            String id = BioList.idOfListContainingBioObject( bioObjectId );
+        else if( RecordableList.existsListContaining(bioObjectId) ){
+            String id = RecordableList.idOfListContainingBioObject( bioObjectId );
             return variables.get(id)
                    + ".get( "
-                   + BioList.positionOfBioObjectInList(bioObjectId)
+                   + RecordableList.positionOfBioObjectInList(bioObjectId)
                    + " )";
         }
         return "null";
@@ -136,7 +136,7 @@ public class JsScriptGenerator implements IScriptGenerator {
                 }
             }
             for(String id : ids) {
-                if( BioList.existsListContaining(id) ) {
+                if( RecordableList.existsListContaining(id) ) {
                     return true;
                 }
             }

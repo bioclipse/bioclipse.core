@@ -28,8 +28,8 @@ import net.bioclipse.core.Recorded;
 import net.bioclipse.core.domain.props.BioListPropertySource;
 import net.bioclipse.core.domain.props.BioObjectPropertySource;
 
-public class BioList<T extends IBioObject> extends BioObject 
-                                           implements List<T> {
+public class RecordableList<T extends IBioObject> extends BioObject 
+                                                  implements List<T> {
 
     /**
      * The PropertySource available as adapter
@@ -46,11 +46,11 @@ public class BioList<T extends IBioObject> extends BioObject
     
     public List<T> list = new ArrayList<T>();
     
-    public BioList() {
+    public RecordableList() {
         
     }
     
-    public BioList(List<T> list) {
+    public RecordableList(List<T> list) {
         this.list = new ArrayList<T>(list);
     }
 
@@ -90,7 +90,7 @@ public class BioList<T extends IBioObject> extends BioObject
     /**
      *  Updates the created lists table.
      */
-    private void updateCreatedLists( BioList<? extends IBioObject> list ) {
+    private void updateCreatedLists( RecordableList<? extends IBioObject> list ) {
         
         createdLists.remove(list.getUID());
         clearListIdForObject( list.getUID() );

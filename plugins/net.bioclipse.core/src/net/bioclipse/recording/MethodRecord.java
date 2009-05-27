@@ -16,7 +16,7 @@ package net.bioclipse.recording;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.bioclipse.core.domain.BioList;
+import net.bioclipse.core.domain.RecordableList;
 import net.bioclipse.core.domain.IBioObject;
 
 /**
@@ -121,9 +121,9 @@ public abstract class MethodRecord implements IRecord {
         /*
          * List contents IDs
          */
-        if (returnValue instanceof BioList) {
-            BioList<IBioObject> returnedList
-                = (BioList<IBioObject>) returnValue;
+        if (returnValue instanceof RecordableList) {
+            RecordableList<IBioObject> returnedList
+                = (RecordableList<IBioObject>) returnValue;
             returnedListContentsIds = new String[ returnedList.size() ];
             
             int i = 0;
