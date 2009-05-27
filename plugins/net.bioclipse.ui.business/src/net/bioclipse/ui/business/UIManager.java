@@ -71,7 +71,7 @@ public class UIManager implements IBioclipseManager {
 
     private static final String NAVIGATOR_ID = "net.bioclipse.navigator";
 
-    public String getNamespace() {
+    public String getManagerName() {
         return "ui";
     }
 

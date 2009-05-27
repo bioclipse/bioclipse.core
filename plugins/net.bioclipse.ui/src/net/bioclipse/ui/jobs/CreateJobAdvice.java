@@ -139,7 +139,7 @@ public class CreateJobAdvice implements ICreateJobAdvice {
     }
 
     private String createJobName( MethodInvocation invocation ) {
-        return ( (IBioclipseManager)invocation.getThis() ).getNamespace() + "." 
+        return ( (IBioclipseManager)invocation.getThis() ).getManagerName() + "." 
                + invocation.getMethod().getName();
     }
 

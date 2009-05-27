@@ -91,7 +91,7 @@ public class JavaManagerMethodDispatcher
                 t = t.getCause();
             }
             throw new RuntimeException (
-                "Failed to run method " + manager.getNamespace() 
+                "Failed to run method " + manager.getManagerName() 
                 + "." + method.getName(), 
                 e);
         }
@@ -126,7 +126,7 @@ public class JavaManagerMethodDispatcher
 
         BioclipseJob<?> job 
             = new BioclipseJob( hook != null ? hook.getJobName()
-                                             : manager.getNamespace() + "." 
+                                             : manager.getManagerName() + "." 
                                                + method.getName() );
         
         job.setMethod( method );
@@ -160,7 +160,7 @@ public class JavaManagerMethodDispatcher
                                                  .getShell(), 
                         "Exception while running manaer method", 
                         "An exception occured while trying to run: " + 
-                        manager.getNamespace() + "." + method.getName(), 
+                        manager.getManagerName() + "." + method.getName(), 
                         new Status( IStatus.ERROR, 
                                     "net.bioclipse.managers", 
                                     e.getClass().getSimpleName() 

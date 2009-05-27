@@ -167,7 +167,7 @@ public class GistManager implements IBioclipseManager {
         return target;
     }
 
-    public String getNamespace() {
+    public String getManagerName() {
         return "gist";
     }
 

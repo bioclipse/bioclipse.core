@@ -74,7 +74,7 @@ public class JsConsoleManager implements IJsConsoleManager {
         print(message + JsConsoleView.NEWLINE);
     }
 
-    public String getNamespace() {
+    public String getManagerName() {
         return "js";
     }
 

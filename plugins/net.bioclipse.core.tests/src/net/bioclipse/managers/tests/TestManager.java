@@ -23,7 +23,7 @@ public class TestManager implements IBioclipseManager {
     public static volatile Boolean methodRun = false;
     public static Object lock = new Object(); 
     
-    public String getNamespace() {
+    public String getManagerName() {
         return "test";
     }
 

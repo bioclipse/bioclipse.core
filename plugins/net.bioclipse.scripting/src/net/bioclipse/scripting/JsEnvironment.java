@@ -99,12 +99,12 @@ public class JsEnvironment implements ScriptingEnvironment {
                 Object jsObject = Context.javaToJS(service, scope);
                 ScriptableObject.putProperty( scope,
                                               ( (IBioclipseManager)service )
-                                                .getNamespace(),
+                                                .getManagerName(),
                                               jsObject );
-                managers.put(((IBioclipseManager)service).getNamespace(),
+                managers.put(((IBioclipseManager)service).getManagerName(),
                              (IBioclipseManager)service);
                 logger.info( "Bioclipse manager: " + ( (IBioclipseManager)service )
-                             .getNamespace() + " added to Javascript " +
+                             .getManagerName() + " added to Javascript " +
                              "environment." );
             }
         }

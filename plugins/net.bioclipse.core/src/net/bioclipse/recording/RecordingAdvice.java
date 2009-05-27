@@ -58,7 +58,7 @@ public class RecordingAdvice implements IRecordingAdvice {
             IBioclipseManager manager = (IBioclipseManager) target;
             history.addRecord( 
                     new ManagerObjectRecord( method.getName(), 
-                                             manager.getNamespace(),
+                                             manager.getManagerName(),
                                              args, 
                                              returnValue ) );            
         }

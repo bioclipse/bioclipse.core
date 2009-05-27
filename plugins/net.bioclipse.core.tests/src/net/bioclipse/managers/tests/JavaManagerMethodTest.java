@@ -56,7 +56,7 @@ public class JavaManagerMethodTest
     
     public class Manager implements IBioclipseManager {
 
-        public String getNamespace() {
+        public String getManagerName() {
             return "manager";
         }
         

@@ -146,7 +146,7 @@ public class UserManager implements IUserManager {
         fireLogout();
     }
 
-    public String getNamespace() {
+    public String getManagerName() {
         return "userManager";
     }
 
