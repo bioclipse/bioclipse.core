@@ -23,6 +23,7 @@ import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.scripting.Activator;
 import net.bioclipse.scripting.Hook;
 import net.bioclipse.scripting.JsAction;
 import net.bioclipse.scripting.JsThread;
@@ -37,8 +38,7 @@ public class JsConsoleView extends ScriptingConsoleView {
 
     private static final String JS_UNDEFINED_RE
       = "org.mozilla.javascript.Undefined@.*";
-    private static JsThread jsThread
-      = net.bioclipse.scripting.Activator.getDefault().JS_THREAD;
+    private static JsThread jsThread = Activator.getDefault().JS_THREAD;
 
     @Override
     protected String executeCommand( String command ) {
@@ -55,6 +55,10 @@ public class JsConsoleView extends ScriptingConsoleView {
     }
 
     private void executeJsCommand(String command) {
+        if (!jsThread.isAlive()) {
+            Activator.getDefault().JS_THREAD = jsThread = new JsThread();
+            jsThread.start();
+        }
         jsThread.enqueue(new JsAction(command,
                                       new Hook() {
             public void run(final Object result) {

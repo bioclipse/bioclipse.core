@@ -87,7 +87,7 @@ public class JsThread extends ScriptingThread {
                                 try {
                                     jsRunning.wait(500);
                                     if (m.isCanceled()) {
-                                        initJs();
+                                        JsThread.this.stop();
                                         jsRunning[0] = false;
                                         return Status.CANCEL_STATUS;
                                     }
