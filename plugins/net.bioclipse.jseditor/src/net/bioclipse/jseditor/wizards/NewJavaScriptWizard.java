@@ -71,7 +71,6 @@ public class NewJavaScriptWizard extends Wizard implements INewWizard {
         IWorkbenchPage page = activeWindow.getActivePage();
         try {
             page.openEditor(input, "net.bioclipse.jseditor.editor");
-//          page.openEditor(input, "org.eclipse.ui.DefaultTextEditor");
         } catch (PartInitException e) {
             e.printStackTrace();
         }
@@ -105,7 +104,7 @@ public class NewJavaScriptWizard extends Wizard implements INewWizard {
         }
 
         public boolean isReadOnly() {
-            return true;
+            return false;
         }
 
         public Object getAdapter( Class adapter ) {
