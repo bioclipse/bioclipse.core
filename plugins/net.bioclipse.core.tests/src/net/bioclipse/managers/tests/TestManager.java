@@ -10,7 +10,7 @@ import org.eclipse.ui.PlatformUI;
 import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.jobs.BioclipseJob;
-import net.bioclipse.jobs.IPartialReturner;
+import net.bioclipse.jobs.IReturner;
 import net.bioclipse.managers.business.IBioclipseManager;
 
 import static org.junit.Assert.*;
@@ -55,7 +55,7 @@ public class TestManager implements IBioclipseManager {
     }
     
     public void getBioObjects( IFile file, 
-                               IPartialReturner returner, 
+                               IReturner returner, 
                                IProgressMonitor monitor ) {
 
         assertNotNull( file );

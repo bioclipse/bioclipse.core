@@ -3,7 +3,7 @@ package net.bioclipse.jobs;
 /**
  * @author jonalv
  */
-public class BioclipseJobUpdateHook implements IPartialReturner {
+public class BioclipseJobUpdateHook implements IReturner {
 
     private String jobName;
     

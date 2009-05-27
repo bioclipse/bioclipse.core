@@ -14,7 +14,7 @@ import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.managers.business.JavaManagerMethodDispatcher;
 import org.eclipse.core.runtime.IProgressMonitor;
-import net.bioclipse.jobs.IPartialReturner;
+import net.bioclipse.jobs.IReturner;
 /**
  * @author jonalv
  *
@@ -61,7 +61,7 @@ public class JavaManagerMethodTest
         }
         
         public void getList( Thread t,
-                             IPartialReturner returner,
+                             IReturner returner,
                              IProgressMonitor monitor ) {
             
             sameThread = Thread.currentThread() == t;

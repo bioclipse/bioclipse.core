@@ -14,7 +14,7 @@ import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
-import net.bioclipse.jobs.IPartialReturner;
+import net.bioclipse.jobs.IReturner;
 import net.bioclipse.managers.MonitorContainer;
 
 import org.aopalliance.intercept.MethodInterceptor;
@@ -34,7 +34,7 @@ public abstract class AbstractManagerMethodDispatcher
     protected IResourcePathTransformer transformer 
         = ResourcePathTransformer.getInstance();
     
-    protected static class ReturnCollector implements IPartialReturner {
+    protected static class ReturnCollector implements IReturner {
 
         private volatile Object returnValue = null;
         private List<Object> returnValues = new ArrayList<Object>();
@@ -140,7 +140,7 @@ public abstract class AbstractManagerMethodDispatcher
         ReturnCollector returnCollector = new ReturnCollector();
         //add partial returner
         for ( Class<?> param : method.getParameterTypes() ) {
-            if ( param == IPartialReturner.class ) {
+            if ( param == IReturner.class ) {
                 doingPartialReturns = true;
                 newArguments.add( returnCollector );
             }
@@ -239,7 +239,7 @@ public abstract class AbstractManagerMethodDispatcher
                       i < m.getParameterTypes().length; 
                       i++ ) {
                     Class<?> currentParam = m.getParameterTypes()[i];
-                    if ( currentParam == IPartialReturner.class ) {
+                    if ( currentParam == IReturner.class ) {
                         continue PARAMS;
                     }
                     if ( invocation.getMethod()

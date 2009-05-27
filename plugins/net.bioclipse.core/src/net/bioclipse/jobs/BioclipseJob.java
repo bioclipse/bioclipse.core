@@ -162,11 +162,11 @@ public class BioclipseJob<T> extends Job {
             ReturnCollector returnCollector = new ReturnCollector();
             //add partial returner
             for ( Class<?> param : method.getParameterTypes() ) {
-                if ( param == IPartialReturner.class ) {
+                if ( param == IReturner.class ) {
                     usingReturner = true;
                     boolean alreadyHasPartialReturner = false;
                     for ( Object o : newArguments ) {
-                        if ( o instanceof IPartialReturner ) {
+                        if ( o instanceof IReturner ) {
                             alreadyHasPartialReturner = true;
                         }
                     }
@@ -270,7 +270,7 @@ public class BioclipseJob<T> extends Job {
         this.bioclipseManager = manager;
     }
     
-    private static class ReturnCollector implements IPartialReturner {
+    private static class ReturnCollector implements IReturner {
 
         private volatile Object returnValue;
         private List<Object> returnValues = new ArrayList<Object>();
