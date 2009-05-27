@@ -14,7 +14,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 
 public class WebservicesManager implements IWebservicesManager{
 
-    public String getNamespace() {
+    public String getManagerName() {
         return "webservices";
 	}
 
