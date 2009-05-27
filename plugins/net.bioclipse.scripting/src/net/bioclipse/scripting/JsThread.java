@@ -21,10 +21,15 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 import org.mozilla.javascript.EvaluatorException;
 
 @SuppressWarnings("serial")
 public class JsThread extends ScriptingThread {
+    
+    private static volatile boolean firstTime = true;
 
     public static JsEnvironment js;
     private LinkedList<JsAction> actions= new LinkedList<JsAction>();
@@ -89,6 +94,9 @@ public class JsThread extends ScriptingThread {
                                     if (m.isCanceled()) {
                                         JsThread.this.stop();
                                         jsRunning[0] = false;
+                                        if (firstTime) {
+                                            popUpWarning();
+                                        }
                                         return Status.CANCEL_STATUS;
                                     }
                                 } 
@@ -162,5 +170,21 @@ public class JsThread extends ScriptingThread {
 
     public String toJsString( Object o ) {
         return js.toJsString(o);
+    }
+    
+    private void popUpWarning() {
+        firstTime = false;
+        Display.getDefault().asyncExec( new Runnable() {
+            public void run() {
+                MessageDialog.openWarning( 
+                  PlatformUI.getWorkbench()
+                            .getActiveWorkbenchWindow().getShell(), 
+                  "Restart recommended after cancelling JavaScripts", 
+                  "The cancelling of the running JavaScript script may have " +
+                    "left your data in an inconsistent state, depending upon " +
+                    "what the Javascript execution was working on. " +
+                    "You are recommended to restart Bioclipse." );
+            }
+        } );
     }
 }
