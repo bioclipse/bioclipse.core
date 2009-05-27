@@ -8,28 +8,25 @@
  *
  * Contact: http://www.bioclipse.net/
  ******************************************************************************/
-package net.bioclipse.scripting.ui.wizards;
+package net.bioclipse.jseditor.wizards;
 
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.filesystem.IFileStore;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
+import org.eclipse.core.resources.IStorage;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorRegistry;
 import org.eclipse.ui.INewWizard;
+import org.eclipse.ui.IPersistableElement;
+import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.editors.text.EditorsUI;
-import org.eclipse.ui.editors.text.TextEditor;
-import org.eclipse.ui.internal.editors.text.EditorsPlugin;
-import org.eclipse.ui.internal.editors.text.NonExistingFileEditorInput;
-import org.eclipse.ui.texteditor.IDocumentProvider;
 
 /**
  * Creates a new molecule and opens it in JChemPaint.
@@ -68,47 +65,72 @@ public class NewJavaScriptWizard extends Wizard implements INewWizard {
         activeWindow = workbench.getActiveWorkbenchWindow();
     }
 
-    private String getEditorId(IFileStore fileStore) {
-//        if (true) return "net.bioclipse.jseditor.editor";
-        
-        IWorkbench workbench = activeWindow.getWorkbench();
-        IEditorRegistry editorRegistry = workbench.getEditorRegistry();
-        IEditorDescriptor descriptor =
-            editorRegistry.getDefaultEditor(fileStore.getName());
-        if (descriptor != null) return descriptor.getId();
-        
-        // default to the plain TextEditor
-        return EditorsUI.DEFAULT_TEXT_EDITOR_ID;
-    }
-    
     public boolean performFinish() {
       //Open editor with content (String) as content
-        IFileStore fileStore= queryFileStore();
-        IEditorInput input = createEditorInput(fileStore);
+        IEditorInput input = createEditorInput();
         IWorkbenchPage page = activeWindow.getActivePage();
-        String editorId = getEditorId(fileStore);
         try {
-            IEditorPart editor=page.openEditor(input, editorId);
-            if (editor instanceof TextEditor) {
-                TextEditor ted = (TextEditor) editor;
-                IDocumentProvider pr=ted.getDocumentProvider();
-                IDocument doc=pr.getDocument(input);
-                doc.set(FILE_CONTENT);
-            }
+            page.openEditor(input, "net.bioclipse.jseditor.editor");
+//          page.openEditor(input, "org.eclipse.ui.DefaultTextEditor");
         } catch (PartInitException e) {
-//            LogUtils.debugTrace(logger, e);
             e.printStackTrace();
         }
         return true;
     }
 
-    private IFileStore queryFileStore() {
-        IPath stateLocation= EditorsPlugin.getDefault().getStateLocation();
-        IPath path= stateLocation.append("/_" + new Object().hashCode()); //$NON-NLS-1$
-        return EFS.getLocalFileSystem().getStore(path);
+    private IEditorInput createEditorInput() {
+        IStorage storage = new StringStorage(FILE_CONTENT);
+        IEditorInput input = new StringInput(storage);
+        return input;
     }
 
-    private IEditorInput createEditorInput(IFileStore fileStore) {
-        return new NonExistingFileEditorInput(fileStore, "New JavaScript");
+    class StringStorage implements IStorage {
+        private String string;
+
+        StringStorage(String input) {
+            this.string = input;
+        }
+
+        public InputStream getContents() throws CoreException {
+            return new ByteArrayInputStream(string.getBytes());
+        }
+
+        public IPath getFullPath() {
+            return null;
+        }
+
+        public String getName() {
+            int len = Math.min(8, string.length());
+            return string.substring(0, len).concat("...");
+        }
+
+        public boolean isReadOnly() {
+            return true;
+        }
+
+        public Object getAdapter( Class adapter ) {
+            return null;
+        }
+
+    }
+
+    class StringInput implements IStorageEditorInput {
+        private IStorage storage;
+        StringInput(IStorage storage) {this.storage = storage;}
+        public boolean exists() {return true;}
+        public ImageDescriptor getImageDescriptor() {return null;}
+        public String getName() {
+            return storage.getName();
+        }
+        public IPersistableElement getPersistable() {return null;}
+        public IStorage getStorage() {
+            return storage;
+        }
+        public String getToolTipText() {
+            return "String-based file: " + storage.getName();
+        }
+        public Object getAdapter( Class adapter ) {
+            return null;
+        }
     }
 }

@@ -80,12 +80,5 @@
          service="net.bioclipse.scripting.ui.business.JsConsoleManagerFactory">
       </service>
    </extension>
-  <extension point="org.eclipse.ui.newWizards">
-      <wizard
-            canFinishEarly="true"
-            class="net.bioclipse.scripting.ui.wizards.NewJavaScriptWizard"
-            hasPages="false"
-            id="net.bioclipse.scripting.ui.wizards.NewJavaScriptWizard"
-            name="JavaScript"/>
-   </extension>
+
 </plugin>

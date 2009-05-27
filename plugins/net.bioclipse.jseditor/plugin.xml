@@ -14,4 +14,13 @@
       </editor>
    </extension>
 
+  <extension point="org.eclipse.ui.newWizards">
+      <wizard
+            canFinishEarly="true"
+            class="net.bioclipse.jseditor.wizards.NewJavaScriptWizard"
+            hasPages="false"
+            id="net.bioclipse.jseditor.wizards.NewJavaScriptWizard"
+            name="JavaScript"/>
+   </extension>
+
 </plugin>
