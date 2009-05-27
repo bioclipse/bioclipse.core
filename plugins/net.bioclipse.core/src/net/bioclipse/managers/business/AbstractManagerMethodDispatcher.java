@@ -1,26 +1,75 @@
 package net.bioclipse.managers.business;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import net.bioclipse.core.IResourcePathTransformer;
+import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.jobs.IPartialReturner;
+import net.bioclipse.managers.MonitorContainer;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.core.runtime.NullProgressMonitor;
 
-
+/**
+ * @author jonalv
+ *
+ */
 public abstract class AbstractManagerMethodDispatcher 
                 implements MethodInterceptor {
 
     protected MethodInvocation invocation;
+    protected IResourcePathTransformer transformer 
+        = ResourcePathTransformer.getInstance();
+    
+    protected static class ReturnCollector implements IPartialReturner {
+
+        private volatile Object returnValue = null;
+        private List<Object> returnValues = new ArrayList<Object>();
+        
+        public void partialReturn( Object object ) {
+            if ( returnValue != null ) {
+                throw new IllegalStateException(
+                    "Method completeReturn already called. " +
+                    "Can't do more returns after completeReturn" );
+            }
+            synchronized ( returnValues ) {
+                returnValues.add( object );
+            }
+        }
+        
+        public List<Object> getReturnValues() {
+            synchronized ( returnValues ) {
+                return returnValues;
+            }
+        }
+
+        public void completeReturn( Object object ) {
+            if ( !returnValues.isEmpty() ) {
+                throw new IllegalStateException( 
+                    "Partial returns detected. " +
+                    "Can't do a complete return after partial " +
+                    "returning commenced" );
+            }
+            returnValue = object;
+        }
+        
+        public Object getReturnValue() {
+            return returnValue;
+        }
+    }
     
     public Object invoke( MethodInvocation invocation ) throws Throwable {
 
@@ -36,9 +85,20 @@ public abstract class AbstractManagerMethodDispatcher
                                         invocation.getArguments() );
         }
         
-        Object returnValue =  doInvoke( (IBioclipseManager)invocation.getThis(), 
-                                        m, 
-                                        invocation.getArguments() );
+        Object returnValue;
+        if ( invocation.getMethod().getReturnType() != BioclipseJob.class &&
+             invocation.getMethod().getReturnType() != void.class ) {
+            returnValue = doInvokeInSameThread( (IBioclipseManager)
+                                            invocation.getThis(), 
+                                            m, 
+                                            invocation.getArguments() );
+        }
+        else {
+            returnValue = doInvoke( (IBioclipseManager)invocation.getThis(), 
+                                    m, 
+                                    invocation.getArguments() );
+        }
+         
 
         if ( returnValue instanceof IFile && 
              invocation.getMethod().getReturnType() == String.class ) {
@@ -47,6 +107,9 @@ public abstract class AbstractManagerMethodDispatcher
         }
         return returnValue;
     }
+
+
+
 
     private BioclipseUIJob<Object> getBioclipseUIJob() {
 
@@ -62,6 +125,84 @@ public abstract class AbstractManagerMethodDispatcher
                                                    Method m,
                                                    Object[] arguments );
 
+    protected abstract Object doInvokeInSameThread( IBioclipseManager manager, 
+                                                    Method m,
+                                                    Object[] arguments )
+                              throws BioclipseException;
+    
+    public Object doInvoke( IBioclipseManager manager, Method method,
+                            Object[] arguments ) throws BioclipseException {
+
+        List<Object> newArguments = new ArrayList<Object>();
+        newArguments.addAll( Arrays.asList( arguments ) );
+        
+        boolean doingPartialReturns = false;
+        ReturnCollector returnCollector = new ReturnCollector();
+        //add partial returner
+        for ( Class<?> param : method.getParameterTypes() ) {
+            if ( param == IPartialReturner.class ) {
+                doingPartialReturns = true;
+                newArguments.add( returnCollector );
+            }
+        }
+        
+        //remove any BioclipseUIJob
+        BioclipseUIJob uiJob = null;
+        for ( Object o : newArguments ) {
+            if ( o instanceof BioclipseUIJob) {
+                uiJob = (BioclipseUIJob) o;
+            }
+        }
+        if ( uiJob != null ) {
+            newArguments.remove( uiJob );
+        }
+        
+        if ( Arrays.asList( method.getParameterTypes() )
+                   .contains( IProgressMonitor.class ) 
+             ) {
+            IProgressMonitor m = MonitorContainer.getInstance().getMonitor();
+            if ( m == null ) { 
+                m = new NullProgressMonitor(); 
+            }
+            newArguments.add( m );
+        }
+        
+        arguments = newArguments.toArray();
+
+        //translate String -> IFile
+        for ( int i = 0; i < arguments.length; i++ ) {
+            if ( arguments[i] instanceof String &&
+                 method.getParameterTypes()[i] == IFile.class ) {
+                arguments[i] 
+                    = transformer.transform( (String)arguments[i] );
+            }
+        }
+        
+        try {
+            if ( doingPartialReturns ) {
+                method.invoke( manager, arguments );
+                return returnCollector.getReturnValues();
+            }
+            else {
+                Object returnValue = method.invoke( manager, arguments );
+                return returnValue;
+            }
+        } catch ( IllegalArgumentException e ) {
+            throw new RuntimeException("Failed to run method", e);
+        } catch ( IllegalAccessException e ) {
+            throw new RuntimeException("Failed to run method", e);
+        } catch ( InvocationTargetException e ) {
+            Throwable t = e.getCause();
+            while ( t != null ) {
+                if ( t instanceof BioclipseException ) {
+                    throw (BioclipseException)t;
+                }
+                t = t.getCause();
+            }
+            throw new RuntimeException("Failed to run method", e);
+        }
+    }
+    
     private Method findMethodToRun( 
                        MethodInvocation invocation, 
                        Class<? extends IBioclipseManager> manager ) {
@@ -138,9 +279,4 @@ public abstract class AbstractManagerMethodDispatcher
         
         throw new RuntimeException("Failed to find the method to run");
     }
-
-    public abstract Object doInvoke( IBioclipseManager manager,
-                                     Method method, 
-                                     Object[] arguments ) 
-                           throws BioclipseException;
 }

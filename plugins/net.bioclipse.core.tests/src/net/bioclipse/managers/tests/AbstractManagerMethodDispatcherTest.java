@@ -118,6 +118,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
         assertMethodRun();
     }
     
+    @SuppressWarnings("unchecked")
     @Test
     public void getListIFile() throws Throwable {
         
@@ -147,6 +148,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
         assertTrue( TestManager.methodRun );
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void getListString() throws Throwable {
         

@@ -41,8 +41,9 @@ public class JavaManagerMethodTest
     }
 
     public interface IManager extends IBioclipseManager {
-        public void getList( Thread t,
-                             BioclipseUIJob<List<IBioObject>> uiJob );
+        public void getList( 
+            Thread t,
+            BioclipseUIJob<List<IBioObject>> uiJob );
     }
     
     private static volatile boolean sameThread = false;

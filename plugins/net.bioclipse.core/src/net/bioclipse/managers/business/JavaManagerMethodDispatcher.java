@@ -171,4 +171,13 @@ public class JavaManagerMethodDispatcher
         });
         return null;
     }
+
+    @Override
+    protected Object doInvokeInSameThread( IBioclipseManager manager, 
+                                           Method method,
+                                           Object[] arguments )
+                     throws BioclipseException {
+
+        return super.doInvoke(manager, method, arguments);
+    }
 }
