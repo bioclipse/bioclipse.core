@@ -114,11 +114,15 @@ public class JavaScriptManagerMethodDispatcher
 
     private static class ReturnCollector implements IPartialReturner {
 
-        private volatile Object returnValue;
+        private volatile Object returnValue = null;
         private List<Object> returnValues = new ArrayList<Object>();
         
         public void partialReturn( Object object ) {
-            
+            if ( returnValue != null ) {
+                throw new IllegalStateException(
+                    "Method completeReturn already called. " +
+                    "Can't do more returns after completeReturn" );
+            }
             synchronized ( returnValues ) {
                 returnValues.add( object );
             }
@@ -131,7 +135,13 @@ public class JavaScriptManagerMethodDispatcher
         }
 
         public void completeReturn( Object object ) {
-            returnValue=object;
+            if ( !returnValues.isEmpty() ) {
+                throw new IllegalStateException( 
+                    "Partial returns detected. " +
+                    "Can't do a complete return after partial " +
+                    "returning commenced" );
+            }
+            returnValue = object;
         }
         
         public Object getReturnValue() {
@@ -161,7 +171,8 @@ public class JavaScriptManagerMethodDispatcher
 
         IExtensionRegistry registry = Platform.getExtensionRegistry();
         IExtensionPoint serviceObjectExtensionPoint 
-            = registry.getExtensionPoint("net.bioclipse.scripting.contribution");
+            = registry.getExtensionPoint(
+                  "net.bioclipse.scripting.contribution" );
 
         IExtension[] serviceObjectExtensions
             = serviceObjectExtensionPoint.getExtensions();

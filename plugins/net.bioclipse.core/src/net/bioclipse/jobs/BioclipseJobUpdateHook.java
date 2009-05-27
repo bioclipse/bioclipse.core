@@ -1,7 +1,5 @@
 package net.bioclipse.jobs;
 
-import net.bioclipse.core.domain.BioObject;
-
 /**
  * @author jonalv
  */

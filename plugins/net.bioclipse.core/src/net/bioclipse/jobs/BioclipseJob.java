@@ -7,11 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.bioclipse.core.ResourcePathTransformer;
-import net.bioclipse.core.domain.BioList;
-import net.bioclipse.core.domain.BioObject;
-import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.core.util.LogUtils;
-import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.aopalliance.intercept.MethodInvocation;
@@ -76,10 +72,11 @@ public class BioclipseJob<T> extends Job {
                     }
                 }
                 if (hasUIJob) {
-                    args = new Object[getInvocation().getArguments().length];
+                    args = new Object[ getInvocation().getArguments().length ];
                 }
                 else { 
-                    args = new Object[getInvocation().getArguments().length + 1];
+                    args = new Object[ getInvocation().getArguments()
+                                                      .length + 1 ];
                 }
                 args[args.length-1] = monitor;
                 System.arraycopy( getInvocation().getArguments(), 
@@ -108,7 +105,8 @@ public class BioclipseJob<T> extends Job {
         
             returnValue = getMethod().invoke( getInvocation().getThis(), args );
             
-            int i = Arrays.asList( getInvocation().getMethod().getParameterTypes() )
+            int i = Arrays.asList( getInvocation().getMethod()
+                                                  .getParameterTypes() )
                           .indexOf( BioclipseUIJob.class );
 
             final BioclipseUIJob uiJob ;
@@ -160,12 +158,12 @@ public class BioclipseJob<T> extends Job {
             List<Object> newArguments = new ArrayList<Object>();
             newArguments.addAll( Arrays.asList( invocation.getArguments() ) );
             
-            boolean doingPartialReturns = false;
+            boolean usingReturner = false;
             ReturnCollector returnCollector = new ReturnCollector();
             //add partial returner
             for ( Class<?> param : method.getParameterTypes() ) {
                 if ( param == IPartialReturner.class ) {
-                    doingPartialReturns = true;
+                    usingReturner = true;
                     boolean alreadyHasPartialReturner = false;
                     for ( Object o : newArguments ) {
                         if ( o instanceof IPartialReturner ) {
@@ -178,7 +176,8 @@ public class BioclipseJob<T> extends Job {
                 }
             }
             
-            int i = Arrays.asList( getInvocation().getMethod().getParameterTypes() )
+            int i = Arrays.asList( getInvocation().getMethod()
+                                                  .getParameterTypes() )
                           .indexOf( BioclipseUIJob.class );
     
             final BioclipseUIJob uiJob ;
@@ -208,12 +207,11 @@ public class BioclipseJob<T> extends Job {
             returnValue = getMethod().invoke( bioclipseManager, 
                                               arguments );
             
-            if ( doingPartialReturns ) {
-                //TODO: Jonathan, please verify this.
-                if (returnCollector.getReturnValue()!=null)
-                    returnValue = returnCollector.getReturnValue();
-                else
+            if ( usingReturner ) {
+                returnValue = returnCollector.getReturnValue();
+                if ( returnValue == null ) {
                     returnValue = returnCollector.getReturnValues();
+                }
             }
             
             if ( uiJob != null ) {
@@ -252,10 +250,6 @@ public class BioclipseJob<T> extends Job {
         return (T)returnValue;
     }
 
-    public void partialReturn( BioObject bioObject ) {
-        // TODO Auto-generated method stub
-    }
-
     public void setMethod( Method method ) {
         this.method = method;
     }
@@ -278,12 +272,10 @@ public class BioclipseJob<T> extends Job {
     
     private static class ReturnCollector implements IPartialReturner {
 
-
         private volatile Object returnValue;
         private List<Object> returnValues = new ArrayList<Object>();
         
         public void partialReturn( Object object ) {
-            
             synchronized ( returnValues ) {
                 returnValues.add( object );
             }
@@ -301,5 +293,6 @@ public class BioclipseJob<T> extends Job {
         
         public Object getReturnValue() {
             return returnValue;
-        }    }
+        }    
+    }
 }
