@@ -137,11 +137,13 @@ public class BioclipseJob<T> extends Job {
                 returnValue = e.getCause();
             }
             
-            throw new RuntimeException( "Exception occured: "
-                                        + e.getClass().getSimpleName() 
-                                        + " - "
-                                        + e.getMessage(),
-                                        e );
+            throw new RuntimeException( 
+                "Exception occured: " + e.getClass().getSimpleName() + " - " 
+                    + e.getMessage() + " while attempting to run " 
+                    + bioclipseManager.getManagerName() + "." 
+                    + getMethod().getName() + " taking " 
+                    + Arrays.deepToString( getMethod().getParameterTypes() ),
+                e );
         }
         finally {
             monitor.done();
