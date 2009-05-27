@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import net.bioclipse.core.domain.BioList;
 import net.bioclipse.core.domain.BioObject;
@@ -120,13 +121,14 @@ public abstract class AbstractManagerMethodDispatcherTest {
     @Test
     public void getListIFile() throws Throwable {
         
-        dispatcher.invoke( 
-            new MyInvocation(
-                ITestManager.class.getMethod( "getBioObjects", 
-                                              IFile.class ),
-                new Object[] { file },
-                m ) );
+        List list = (List) dispatcher.invoke( 
+                        new MyInvocation(
+                            ITestManager.class.getMethod( "getBioObjects", 
+                                                          IFile.class ),
+                            new Object[] { file },
+                            m ) );
         assertMethodRun();
+        assertNotNull(list);
     }
 
     protected void assertMethodRun() throws InterruptedException {
@@ -148,13 +150,14 @@ public abstract class AbstractManagerMethodDispatcherTest {
     @Test
     public void getListString() throws Throwable {
         
-        dispatcher.invoke( 
-            new MyInvocation(
-                ITestManager.class.getMethod( "getBioObjects", 
-                                              String.class ),
-                new Object[] { PATH + FILENAME },
-                m ) );
+        List list = (List) dispatcher.invoke( 
+                        new MyInvocation(
+                            ITestManager.class.getMethod( "getBioObjects", 
+                                                          String.class ),
+                        new Object[] { PATH + FILENAME },
+                        m ) );
         assertMethodRun();
+        assertNotNull(list);
     }
     
     @Test
