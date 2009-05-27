@@ -69,6 +69,8 @@ public class NewJavaScriptWizard extends Wizard implements INewWizard {
     }
 
     private String getEditorId(IFileStore fileStore) {
+//        if (true) return "net.bioclipse.jseditor.editor";
+        
         IWorkbench workbench = activeWindow.getWorkbench();
         IEditorRegistry editorRegistry = workbench.getEditorRegistry();
         IEditorDescriptor descriptor =
