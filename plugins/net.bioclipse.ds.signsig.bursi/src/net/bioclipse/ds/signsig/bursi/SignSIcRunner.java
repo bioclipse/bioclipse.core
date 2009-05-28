@@ -377,7 +377,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
             try {
                 initialize();
             } catch ( DSException e1 ) {
-                return returnError( e1.getMessage());
+                return returnError( e1.getMessage(), e1.getStackTrace().toString());
             }
 
         //Get the CDKManager that can carry out cheminfo stuff
@@ -387,8 +387,8 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         try {
             cdkmol = cdk.create( molecule );
         } catch ( BioclipseException e1 ) {
-            return returnError("Coudl not convert input molecule to " +
-            		"CDKMolecule: " + e1.getMessage());
+            return returnError("Could not convert input molecule to " +
+            		"CDKMolecule" , e1.getMessage());
         }
 
         //Remove all hydrogens in molecule
@@ -409,17 +409,17 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
 
         } catch ( Exception e ) {
             LogUtils.debugTrace( logger, e );
-            return returnError("Could not write MDL file: " + e.getMessage());
+            return returnError("Could not write MDL file" , e.getMessage());
         }
 
         //Just another check for null
         if (tempfile==null)
-            return returnError("Path to temp molfile is empty");
+            return returnError("Path to temp molfile is empty", "");
 
         //Set this file as input file
         String molfilePath=tempfile.getAbsolutePath();
         if (molfilePath==null || molfilePath.length()<=0)
-            return returnError("Path to temp molfile is empty");
+            return returnError("Path to temp molfile is empty", "");
 
 
         
@@ -443,7 +443,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         
         //Ensure we have what we need
         if (signatureAtoms.size()<=0){
-            return returnError("No signature atoms produced by signaturesrunner.");
+            return returnError("No signature atoms produced by signaturesrunner", "");
         }
 
         //Predict using the signatureatoms and attributevalues
