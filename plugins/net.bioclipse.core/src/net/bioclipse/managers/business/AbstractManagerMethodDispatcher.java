@@ -19,9 +19,14 @@ import net.bioclipse.managers.MonitorContainer;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.progress.WorkbenchJob;
 
 /**
  * @author jonalv
@@ -33,6 +38,8 @@ public abstract class AbstractManagerMethodDispatcher
     protected MethodInvocation invocation;
     protected IResourcePathTransformer transformer 
         = ResourcePathTransformer.getInstance();
+    private final Logger logger 
+        = Logger.getLogger( AbstractManagerMethodDispatcher.class );
     
     protected static class ReturnCollector implements IReturner {
 
@@ -78,8 +85,12 @@ public abstract class AbstractManagerMethodDispatcher
         Method m = findMethodToRun( invocation, 
                                     (Class<? extends IBioclipseManager>) 
                                         invocation.getThis().getClass() );
-        
+        IBioclipseManager manager = (IBioclipseManager)invocation.getThis();
         if ( invocation.getMethod().getAnnotation( GuiAction.class ) != null ) {
+            
+            logger.debug( manager.getManagerName() + "." 
+                          + invocation.getMethod().getName() 
+                          + " has @GuiAction - running in gui thread" );
             return doInvokeInGuiThread( (IBioclipseManager)invocation.getThis(),
                                         m,
                                         invocation.getArguments() );
@@ -88,17 +99,28 @@ public abstract class AbstractManagerMethodDispatcher
         Object returnValue;
         if ( invocation.getMethod().getReturnType() != BioclipseJob.class &&
              invocation.getMethod().getReturnType() != void.class ) {
+            if ( Arrays.asList( m.getParameterTypes() )
+                       .contains( IProgressMonitor.class ) ) {
+                logger.warn( manager.getManagerName() + "." 
+                              + invocation.getMethod().getName() 
+                              + " is not void or returning a BioclipseJob."
+                              + " But implementation takes a progress monitor. "
+                              + " Can not run as Job. Running in same" 
+                              + " thread." );
+            }
+            
             returnValue = doInvokeInSameThread( (IBioclipseManager)
                                             invocation.getThis(), 
                                             m, 
                                             invocation.getArguments() );
         }
         else {
+            logger.debug( "Creating job for " + manager.getManagerName() + "." 
+                          + invocation.getMethod().getName() );
             returnValue = doInvoke( (IBioclipseManager)invocation.getThis(), 
                                     m, 
                                     invocation.getArguments() );
         }
-         
 
         if ( returnValue instanceof IFile && 
              invocation.getMethod().getReturnType() == String.class ) {
@@ -107,9 +129,6 @@ public abstract class AbstractManagerMethodDispatcher
         }
         return returnValue;
     }
-
-
-
 
     private BioclipseUIJob<Object> getBioclipseUIJob() {
 
@@ -178,14 +197,14 @@ public abstract class AbstractManagerMethodDispatcher
             }
         }
         
+        Object returnValue = null;
         try {
             if ( doingPartialReturns ) {
                 method.invoke( manager, arguments );
-                return returnCollector.getReturnValues();
+                returnValue =  returnCollector.getReturnValues();
             }
             else {
-                Object returnValue = method.invoke( manager, arguments );
-                return returnValue;
+                returnValue = method.invoke( manager, arguments );
             }
         } catch ( IllegalArgumentException e ) {
             throw new RuntimeException("Failed to run method", e);
@@ -201,6 +220,22 @@ public abstract class AbstractManagerMethodDispatcher
             }
             throw new RuntimeException("Failed to run method", e);
         }
+        
+        if ( uiJob != null ) {
+            uiJob.setReturnValue( returnValue );
+            final BioclipseUIJob finalUiJob = uiJob;
+            new WorkbenchJob("Refresh") {
+                
+                @Override
+                public IStatus runInUIThread( 
+                        IProgressMonitor monitor ) {
+                    finalUiJob.runInUI();
+                    return Status.OK_STATUS;
+                }
+                
+            }.schedule();
+        }
+        return returnValue;
     }
     
     private Method findMethodToRun( 
