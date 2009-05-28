@@ -155,7 +155,7 @@ public class BioclipseJob<T> extends Job {
     @SuppressWarnings("unchecked")
     private IStatus runNewWay( IProgressMonitor monitor ) {
 
-        Object[] arguments;
+        Object[] arguments = null;
         try {
             List<Object> newArguments = new ArrayList<Object>();
             newArguments.addAll( Arrays.asList( invocation.getArguments() ) );
@@ -231,11 +231,15 @@ public class BioclipseJob<T> extends Job {
                 returnValue = e.getCause();
             }
             LogUtils.debugTrace( logger, e );
-            throw new RuntimeException( "Exception occured: "
-                                        + e.getClass().getSimpleName() 
-                                        + " - "
-                                        + e.getMessage(),
-                                        e );
+            throw new RuntimeException( 
+                "Exception occured: " + e.getClass().getSimpleName() + " - " + 
+                  e.getMessage() + " when attempting to run "
+                  + bioclipseManager.getManagerName() + "." 
+                  + getMethod().getName() + " taking: " 
+                  + Arrays.deepToString( getMethod().getParameterTypes() )
+                  + ". It was called with: " 
+                  + Arrays.deepToString( arguments ),
+                e );
         }
         finally {
             monitor.done();
