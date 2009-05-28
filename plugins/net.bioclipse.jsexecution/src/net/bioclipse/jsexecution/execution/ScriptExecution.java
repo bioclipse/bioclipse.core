@@ -214,7 +214,7 @@ public class ScriptExecution {
 					
 					Class managerclass = object.getClass();
 					// access the method in this ugly way however it is not protected...
-					Method method = managerclass.getDeclaredMethod("getNamespace", new Class[0]);
+					Method method = managerclass.getDeclaredMethod("getManagerName", new Class[0]);
 					//method.setAccessible(true);
 					Object managerName = (String)method.invoke(object);
 					if (managerName instanceof String) {
