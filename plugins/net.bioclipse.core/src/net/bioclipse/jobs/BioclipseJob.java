@@ -157,23 +157,48 @@ public class BioclipseJob<T> extends Job {
 
         Object[] arguments = null;
         try {
-            List<Object> newArguments = new ArrayList<Object>();
+            final List<Object> newArguments = new ArrayList<Object>();
             newArguments.addAll( Arrays.asList( invocation.getArguments() ) );
             
             boolean usingReturner = false;
-            ReturnCollector returnCollector = new ReturnCollector();
+            final ReturnCollector returnCollector = new ReturnCollector();
             //add partial returner
             for ( Class<?> param : method.getParameterTypes() ) {
                 if ( param == IReturner.class ) {
                     usingReturner = true;
-                    boolean alreadyHasPartialReturner = false;
+                    int returnerPos = -1;
                     for ( Object o : newArguments ) {
                         if ( o instanceof IReturner ) {
-                            alreadyHasPartialReturner = true;
+                            returnerPos = newArguments.indexOf( o );
                         }
                     }
-                    if ( !alreadyHasPartialReturner ) {
+                    if ( returnerPos == -1 )  {
                         newArguments.add( returnCollector );
+                    }
+                    //If doing a complete return both the hook and the returner
+                    //needs to be called. So decorating the original with a new 
+                    //ReturnCollector that calls both for the complete return.
+                    else {
+                        final int finalReturnerPos = returnerPos;
+                        newArguments.set( returnerPos, new ReturnCollector() {
+                            IReturner collector;
+                            {
+                                collector 
+                                    = ( (IReturner)
+                                      newArguments.get( finalReturnerPos ) );
+                            }
+                            @Override
+                            public void completeReturn( Object returnValue ) {
+                                collector.completeReturn( returnValue );
+                                returnCollector.completeReturn( returnValue );
+                                super.completeReturn( returnValue );
+                            }
+                            @Override
+                            public void partialReturn( Object o ) {
+                                collector.partialReturn( o );
+                                super.partialReturn( returnValue );
+                            }
+                        });
                     }
                 }
             }
