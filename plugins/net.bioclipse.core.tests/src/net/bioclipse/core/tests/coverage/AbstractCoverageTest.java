@@ -76,7 +76,6 @@ public abstract class AbstractCoverageTest {
         String testClassNames = testClassAnnotation.value();
         List<Class> testClasses = new ArrayList<Class>();
         for (String testClassName : testClassNames.split(",")) {
-            System.out.println("test name: " + testClassName);
             Class testClass = this.getClass().getClassLoader().loadClass(testClassName);
             // should do this recursively, but for now let's just assume
             // the first superclass is the AbstractManagerTest
@@ -95,32 +94,31 @@ public abstract class AbstractCoverageTest {
         String methodsMissingAnnotation = "";
         int missingTestMethods = 0;
         String testMethodsMissing = "";
-        for (Class<?> iface : getManagerInterface().getInterfaces()) {
-            for (Method method : iface.getMethods()) {
-                if (method.getAnnotation(PublishedMethod.class) != null) {
-                    // every published method should have one or more tests
-                    if (method.getAnnotation(TestMethods.class) == null) {
+        Class<? extends IBioclipseManager> iface = getManagerInterface();
+        for (Method method : iface.getMethods()) {
+            if (method.getAnnotation(PublishedMethod.class) != null) {
+                // every published method should have one or more tests
+                if (method.getAnnotation(TestMethods.class) == null) {
+                    missingTestMethodAnnotations++;
+                    methodsMissingAnnotation += method.getName() + " ";
+                } else {
+                    TestMethods testMethodAnnotation = method.getAnnotation(
+                                                                            TestMethods.class
+                    );
+                    String methodsString = testMethodAnnotation.value();
+                    if (methodsString == null ||
+                                    methodsString.length() == 0) {
                         missingTestMethodAnnotations++;
                         methodsMissingAnnotation += method.getName() + " ";
                     } else {
-                        TestMethods testMethodAnnotation = method.getAnnotation(
-                            TestMethods.class
-                        );
-                        String methodsString = testMethodAnnotation.value();
-                        if (methodsString == null ||
-                            methodsString.length() == 0) {
-                            missingTestMethodAnnotations++;
-                            methodsMissingAnnotation += method.getName() + " ";
-                        } else {
-                            for (String testMethod : methodsString.split(",")) {
-                                boolean foundTestMethod =
-                                    checkIfATestClassContainsTheMethod(
-                                        testClasses, testMethod
-                                    );
-                                if (!foundTestMethod) {
-                                    missingTestMethods++;
-                                    testMethodsMissing += testMethod + " ";
-                                }
+                        for (String testMethod : methodsString.split(",")) {
+                            boolean foundTestMethod =
+                                checkIfATestClassContainsTheMethod(
+                                                                   testClasses, testMethod
+                                );
+                            if (!foundTestMethod) {
+                                missingTestMethods++;
+                                testMethodsMissing += testMethod + " ";
                             }
                         }
                     }
