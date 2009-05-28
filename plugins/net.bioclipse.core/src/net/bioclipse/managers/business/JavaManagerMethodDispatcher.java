@@ -13,10 +13,14 @@ import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResourceRuleFactory;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.ISchedulingRule;
+import org.eclipse.core.runtime.jobs.MultiRule;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
@@ -110,16 +114,10 @@ public class JavaManagerMethodDispatcher
     private Object runAsJob( IBioclipseManager manager, Method method,
                              Object[] arguments ) {
 
-        List<Object> newArguments = new ArrayList<Object>();
-        newArguments.addAll( Arrays.asList( arguments ) );
-        
-        boolean doingPartialReturns = false;
-        
         //find update hook
         BioclipseJobUpdateHook hook = null;
         for ( Object argument : arguments ) {
             if ( argument instanceof BioclipseJobUpdateHook ) {
-                doingPartialReturns = true;
                 hook = (BioclipseJobUpdateHook) argument;
             }
         }
@@ -132,6 +130,17 @@ public class JavaManagerMethodDispatcher
         job.setMethod( method );
         job.setInvocation( invocation );
         job.setBioclipseManager( manager );
+        
+        ISchedulingRule combinedRule = null;
+        IResourceRuleFactory ruleFactory = 
+              ResourcesPlugin.getWorkspace().getRuleFactory();
+        for ( Object o : invocation.getArguments() ) {
+            if ( o instanceof ISchedulingRule) {
+                combinedRule = MultiRule.combine( (ISchedulingRule) o, 
+                                                  combinedRule );
+            }
+        }
+        job.setRule( combinedRule );
         
         job.schedule();
         return job;
