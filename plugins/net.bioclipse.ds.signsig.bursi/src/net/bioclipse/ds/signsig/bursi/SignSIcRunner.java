@@ -27,6 +27,7 @@ import libsvm.svm_node;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.openscience.cdk.interfaces.IAtom;
 import org.openscience.cdk.interfaces.IAtomContainer;
@@ -370,8 +371,12 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
      * Method that takes an IMolecule as input and deliver a list of testresults
      * in the form of SubstructureMatches.
      */
-    public List<ITestResult> runWarningTest( IMolecule molecule ){
+    public List<ITestResult> runWarningTest( IMolecule molecule, IProgressMonitor monitor ){
 
+        //Check for cancellation
+        if (monitor.isCanceled())
+            return returnError( "Cancelled","");
+        
         //If bursimodel is null it is not loaded, so initialize
         if (bursiModel==null)
             try {
@@ -390,6 +395,10 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
             return returnError("Could not convert input molecule to " +
             		"CDKMolecule" , e1.getMessage());
         }
+
+        //Check for cancellation
+        if (monitor.isCanceled())
+            return returnError( "Cancelled","");
 
         //Remove all hydrogens in molecule
         //cdkmol=cdk.removeExplicitHydrogens( cdkmol );
@@ -421,8 +430,6 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         if (molfilePath==null || molfilePath.length()<=0)
             return returnError("Path to temp molfile is empty", "");
 
-
-        
         //Ready to invoke signatures and predict
         logger.debug("Wrote temp MDL file as: " + molfilePath);
         logger.debug("Path to signatures: " + signaturesPath);
@@ -438,6 +445,10 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         xScaled = new svm_node[nrSignatures];
         x=new double[nrSignatures];
 
+        //Check for cancellation
+        if (monitor.isCanceled())
+            return returnError( "Cancelled","");
+
         //Create signatures for this molfile
         createSignatures(molfilePath);
         
@@ -445,6 +456,10 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         if (signatureAtoms.size()<=0){
             return returnError("No signature atoms produced by signaturesrunner", "");
         }
+
+        //Check for cancellation
+        if (monitor.isCanceled())
+            return returnError( "Cancelled","");
 
         //Predict using the signatureatoms and attributevalues
         predictAndComputeSignificance();
