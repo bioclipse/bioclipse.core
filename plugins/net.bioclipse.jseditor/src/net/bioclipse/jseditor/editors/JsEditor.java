@@ -1,15 +1,18 @@
 package net.bioclipse.jseditor.editors;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.TextEditor;
 
 import net.bioclipse.jseditor.Activator;
 import net.bioclipse.jseditor.actions.RunRhinoScriptActionPulldown;
 import net.bioclipse.jseditor.exceptions.EditorException;
+import net.bioclipse.jseditor.wizards.StringInput;
 /*
  * This file is part of the Bioclipse Javascript Editor Plug-in.
  * 
@@ -39,6 +42,18 @@ public class JsEditor extends TextEditor {
 		super.dispose();
 	}
 
+	@Override
+	public void doSave(IProgressMonitor progressMonitor) {
+	    // override this method to catch StringInputs and redirect
+	    // to doSaveAs() then
+	    IEditorInput input = getEditorInput();
+	    if (input instanceof StringInput) {
+	        super.performSaveAs(progressMonitor);
+	    } else {
+	        super.doSave(progressMonitor);
+	    }
+	}
+	
 	/**
 	 * Add action bars by overriding
 	 */

@@ -10,19 +10,11 @@
  ******************************************************************************/
 package net.bioclipse.jseditor.wizards;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
 import org.eclipse.core.resources.IStorage;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.IPersistableElement;
-import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -83,53 +75,4 @@ public class NewJavaScriptWizard extends Wizard implements INewWizard {
         return input;
     }
 
-    class StringStorage implements IStorage {
-        private String string;
-
-        StringStorage(String input) {
-            this.string = input;
-        }
-
-        public InputStream getContents() throws CoreException {
-            return new ByteArrayInputStream(string.getBytes());
-        }
-
-        public IPath getFullPath() {
-            return null;
-        }
-
-        public String getName() {
-            int len = Math.min(8, string.length());
-            return string.substring(0, len).concat("...");
-        }
-
-        public boolean isReadOnly() {
-            return false;
-        }
-
-        public Object getAdapter( Class adapter ) {
-            return null;
-        }
-
-    }
-
-    class StringInput implements IStorageEditorInput {
-        private IStorage storage;
-        StringInput(IStorage storage) {this.storage = storage;}
-        public boolean exists() {return true;}
-        public ImageDescriptor getImageDescriptor() {return null;}
-        public String getName() {
-            return storage.getName();
-        }
-        public IPersistableElement getPersistable() {return null;}
-        public IStorage getStorage() {
-            return storage;
-        }
-        public String getToolTipText() {
-            return "String-based file: " + storage.getName();
-        }
-        public Object getAdapter( Class adapter ) {
-            return null;
-        }
-    }
 }
