@@ -65,6 +65,16 @@ public class TestManager implements IBioclipseManager {
         done();
     }
     
+    public void getBioObject( IFile file, 
+                              IReturner returner, 
+                              IProgressMonitor monitor ) {
+
+        assertNotNull( file );
+        assertNotNull( monitor );
+        returner.completeReturn( new BioObject(){} );
+        done();
+    }
+    
     public void guiAction() {
         assertNotNull( Display.getCurrent() );
         done();

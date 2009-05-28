@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import net.bioclipse.core.domain.RecordableList;
@@ -72,7 +74,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
     }
 
     @Test
-    public void iFileAndBioclipseJobUpdateHook() throws Throwable {
+    public void iFileAndBioclipseJobUpdateHookPartial() throws Throwable {
 
         final int chunks[] = {0};
         BioclipseJob<?> job = (BioclipseJob<?>) dispatcher.invoke( 
@@ -92,6 +94,30 @@ public abstract class AbstractManagerMethodDispatcherTest {
         job.join();
         assertMethodRun();
     }
+   
+    @Test
+    public void iFileAndBioclipseJobUpdateHookComplete() throws Throwable {
+
+        final List l = Collections.synchronizedList( new ArrayList<Object>() );
+        BioclipseJob<?> job = (BioclipseJob<?>) dispatcher.invoke( 
+            new MyInvocation(
+                ITestManager.class.getMethod( "getBioObject", 
+                                              IFile.class, 
+                                              BioclipseJobUpdateHook.class),
+            new Object[] { file, 
+                           new BioclipseJobUpdateHook("") {
+                               @Override
+                               public void completeReturn( Object object ) {
+                                  assertNotNull( object );
+                                  l.add( object );
+                               }
+                           } }, 
+            m ) );
+        job.join();
+        assertMethodRun();
+        assertSame( l.get( 0 ), job.getReturnValue() );
+    }
+    
     
     @Test
     public void bioclipseUIJob() throws Throwable {
