@@ -142,7 +142,7 @@ public class JavaManagerMethodDispatcher
         }
         job.setRule( combinedRule );
         
-        job.setUser( true );
+        job.setUser( false );
         job.schedule();
         return job;
     }
