@@ -35,5 +35,5 @@ public @interface PublishedMethod {
      * Field that defines the Digital Object Identifier (DOI) allowing to
      * link a publication with further details to this method.
      */
-    String doi() default "";
+    String[] doi() default {};
 }

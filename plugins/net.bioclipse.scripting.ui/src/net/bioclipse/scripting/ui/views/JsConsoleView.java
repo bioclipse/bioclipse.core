@@ -197,9 +197,12 @@ public class JsConsoleView extends ScriptingConsoleView {
                 PublishedMethod publishedMethod
                     = method.getAnnotation( PublishedMethod.class );
 
-                String doi = publishedMethod.doi();
-                if (doi != null && doi.length() != 0 &&
-                    !uniqueDOIs.contains(doi)) uniqueDOIs.add(doi);
+                String[] dois = publishedMethod.doi();
+                if (dois != null && dois.length != 0){
+                    for (String doi : dois)
+                        if (!uniqueDOIs.contains(doi))
+                            uniqueDOIs.add(doi);
+                }
             }
         }
         if (uniqueDOIs.size() == 0) {
@@ -315,14 +318,17 @@ public class JsConsoleView extends ScriptingConsoleView {
                                                                 NEWLINE })
                         result.append(_);
 
-                    String doi = publishedMethod.doi();
-                    if (doi != null && doi.length() > 0) {
-                        for (String _ : new String[] {
-                            "Further information (DOI): ",      NEWLINE,
-                            publishedMethod.doi(),              NEWLINE,
-                                                                NEWLINE })
-                            result.append(_);
+                    String[] dois = publishedMethod.doi();
+                    if (dois.length > 0) {
+                        result.append("Further information (DOI): ")
+                              .append(NEWLINE);
+                        for (String doi : dois) {
+                            if (doi != null && doi.length() > 0) {
+                                result.append(doi).append(NEWLINE);
+                            }
+                        }
                     }
+                    result.append(NEWLINE);
                 }
             }
         }
@@ -369,6 +375,28 @@ public class JsConsoleView extends ScriptingConsoleView {
                             + method.getAnnotation( PublishedMethod.class )
                                 .params()
                             + " )" );
+                }
+                result.append(NEWLINE);
+            }
+            
+            // output the manager associated DOIs
+            for (Class<?> clazz
+                            : findAllPublishedClasses(manager.getClass())) {
+                PublishedClass publishedClass = clazz.getAnnotation(
+                    PublishedClass.class
+                );
+                String[] dois = publishedClass.doi();
+                if (dois.length > 0) {
+                    for (String _ : new String[] {
+                                                      NEWLINE,
+                        line,                         NEWLINE,
+                        "Further information (DOI): ",NEWLINE})
+                        result.append(_);
+                    for (String doi : dois) {
+                        if (doi != null && doi.length() > 0) {
+                            result.append(doi).append(NEWLINE);
+                        }
+                    }
                 }
                 result.append(NEWLINE);
             }
