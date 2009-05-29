@@ -128,13 +128,14 @@ public class JavaManagerMethodDispatcher
                                                + method.getName() );
         
         job.setMethod( method );
-        job.setInvocation( invocation );
+        job.setArguments( arguments );
+        job.setMethodCalled( methodCalled );
         job.setBioclipseManager( manager );
         
         ISchedulingRule combinedRule = null;
         IResourceRuleFactory ruleFactory = 
               ResourcesPlugin.getWorkspace().getRuleFactory();
-        for ( Object o : invocation.getArguments() ) {
+        for ( Object o : arguments ) {
             if ( o instanceof ISchedulingRule) {
                 combinedRule = MultiRule.combine( (ISchedulingRule) o, 
                                                   combinedRule );

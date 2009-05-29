@@ -27,9 +27,14 @@ import org.eclipse.ui.progress.WorkbenchJob;
  */
 public class BioclipseJob<T> extends Job {
 
-    private Method method;
-    private MethodInvocation invocation;
-    private boolean newWay;
+    private volatile Method methodToRun;
+    private volatile Method methodCalled;
+    private volatile MethodInvocation invocation;
+    private volatile boolean newWay;
+    private volatile Object returnValue = NULLVALUE;
+    private volatile IBioclipseManager bioclipseManager;
+    
+    private volatile Object[] arguments;
 
     private static Logger logger = Logger.getLogger( BioclipseJob.class );
     
@@ -38,7 +43,7 @@ public class BioclipseJob<T> extends Job {
                          MethodInvocation originalInvocation ) {
         super( name );
         this.setMethod( methodToBeInvocated );
-        this.setInvocation( originalInvocation );
+        this.invocation = originalInvocation;
         newWay = false;
     }
     
@@ -48,9 +53,6 @@ public class BioclipseJob<T> extends Job {
     }
 
     public static final Object NULLVALUE = new Object();
-    
-    private Object returnValue = NULLVALUE;
-    private IBioclipseManager bioclipseManager;
     
     protected IStatus run( IProgressMonitor monitor ) {
 
@@ -155,15 +157,14 @@ public class BioclipseJob<T> extends Job {
     @SuppressWarnings("unchecked")
     private IStatus runNewWay( IProgressMonitor monitor ) {
 
-        Object[] arguments = null;
         try {
             final List<Object> newArguments = new ArrayList<Object>();
-            newArguments.addAll( Arrays.asList( invocation.getArguments() ) );
+            newArguments.addAll( Arrays.asList( this.arguments ) );
             
             boolean usingReturner = false;
             final ReturnCollector returnCollector = new ReturnCollector();
             //add partial returner
-            for ( Class<?> param : method.getParameterTypes() ) {
+            for ( Class<?> param : methodToRun.getParameterTypes() ) {
                 if ( param == IReturner.class ) {
                     usingReturner = true;
                     int returnerPos = -1;
@@ -203,14 +204,13 @@ public class BioclipseJob<T> extends Job {
                 }
             }
             
-            int i = Arrays.asList( getInvocation().getMethod()
-                                                  .getParameterTypes() )
+            int i = Arrays.asList( methodCalled.getParameterTypes() )
                           .indexOf( BioclipseUIJob.class );
     
             final BioclipseUIJob uiJob ;
             
             if ( i != -1 )
-                uiJob = ( (BioclipseUIJob)getInvocation().getArguments()[i] );
+                uiJob = ( (BioclipseUIJob)arguments[i] );
             else {
                 uiJob = null;
             }
@@ -225,13 +225,13 @@ public class BioclipseJob<T> extends Job {
             //translate String -> IFile
             for ( int j = 0; j < arguments.length; j++ ) {
                 if ( arguments[j] instanceof String &&
-                     method.getParameterTypes()[j] == IFile.class ) {
+                     methodToRun.getParameterTypes()[j] == IFile.class ) {
                     arguments[j] = ResourcePathTransformer.getInstance()
                                        .transform( (String)arguments[j] );
                 }
             }
 
-            returnValue = getMethod().invoke( bioclipseManager, 
+            returnValue = methodToRun.invoke( bioclipseManager, 
                                               arguments );
             
             if ( usingReturner ) {
@@ -282,15 +282,15 @@ public class BioclipseJob<T> extends Job {
     }
 
     public void setMethod( Method method ) {
-        this.method = method;
+        this.methodToRun = method;
     }
 
     public Method getMethod() {
-        return method;
+        return methodToRun;
     }
 
-    public void setInvocation( MethodInvocation invocation ) {
-        this.invocation = invocation;
+    public void setArguments(Object[] arguemtns) {
+        this.arguments = arguemtns;
     }
 
     public MethodInvocation getInvocation() {
@@ -301,6 +301,16 @@ public class BioclipseJob<T> extends Job {
         this.bioclipseManager = manager;
     }
     
+    public void setMethodCalled( Method methodCalled ) {
+
+        this.methodCalled = methodCalled;
+    }
+
+    public Method getMethodCalled() {
+
+        return methodCalled;
+    }
+
     private static class ReturnCollector implements IReturner {
 
         private volatile Object returnValue;

@@ -35,7 +35,8 @@ import org.eclipse.ui.progress.WorkbenchJob;
 public abstract class AbstractManagerMethodDispatcher 
                 implements MethodInterceptor {
 
-    protected MethodInvocation invocation;
+    protected Object[] arguments;
+    protected Method methodCalled;
     protected IResourcePathTransformer transformer 
         = ResourcePathTransformer.getInstance();
     private final Logger logger 
@@ -80,7 +81,8 @@ public abstract class AbstractManagerMethodDispatcher
     
     public Object invoke( MethodInvocation invocation ) throws Throwable {
 
-        this.invocation = invocation;
+        this.arguments = invocation.getArguments().clone();
+        this.methodCalled = invocation.getMethod();
                 
         Method m = findMethodToRun( invocation, 
                                     (Class<? extends IBioclipseManager>) 
@@ -132,7 +134,7 @@ public abstract class AbstractManagerMethodDispatcher
 
     private BioclipseUIJob<Object> getBioclipseUIJob() {
 
-       for ( Object o : invocation.getArguments() ) {
+       for ( Object o : arguments ) {
            if ( o instanceof BioclipseUIJob) {
                return (BioclipseUIJob<Object>) o;
            }
