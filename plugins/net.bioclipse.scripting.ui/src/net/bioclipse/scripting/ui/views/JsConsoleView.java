@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
@@ -191,18 +193,17 @@ public class JsConsoleView extends ScriptingConsoleView {
             return "No such manager: " + managerName
                    + NEWLINE + usageMessage;
 
-        List<String> uniqueDOIs = new ArrayList<String>();
+        Set<String> uniqueDOIs = new LinkedHashSet<String>();
         for (Method method : findAllPublishedMethods(manager.getClass())) {
             if ( method.getName().equals(methodName) ) {
                 PublishedMethod publishedMethod
                     = method.getAnnotation( PublishedMethod.class );
 
                 String[] dois = publishedMethod.doi();
-                if (dois != null && dois.length != 0){
-                    for (String doi : dois)
-                        if (!uniqueDOIs.contains(doi))
-                            uniqueDOIs.add(doi);
-                }
+                if (dois == null)
+                    continue;
+
+                uniqueDOIs.addAll(Arrays.asList(dois));
             }
         }
         if (uniqueDOIs.size() == 0) {
@@ -378,8 +379,8 @@ public class JsConsoleView extends ScriptingConsoleView {
                 }
                 result.append(NEWLINE);
             }
-            
-            // output the manager associated DOIs
+
+            // Output the manager-associated DOIs
             for (Class<?> clazz
                             : findAllPublishedClasses(manager.getClass())) {
                 PublishedClass publishedClass = clazz.getAnnotation(
@@ -390,12 +391,11 @@ public class JsConsoleView extends ScriptingConsoleView {
                     for (String _ : new String[] {
                                                       NEWLINE,
                         line,                         NEWLINE,
-                        "Further information (DOI): ",NEWLINE})
+                        "Further information (DOI): ",NEWLINE })
                         result.append(_);
                     for (String doi : dois) {
-                        if (doi != null && doi.length() > 0) {
+                        if (doi != null && doi.length() > 0)
                             result.append(doi).append(NEWLINE);
-                        }
                     }
                 }
                 result.append(NEWLINE);
