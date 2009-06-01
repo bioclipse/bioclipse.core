@@ -10,9 +10,6 @@
  ******************************************************************************/
 package net.bioclipse.ds.signsig.bursi;
 
-import java.awt.Color;
-
-import org.eclipse.ui.PlatformUI;
 import org.openscience.cdk.interfaces.IAtom;
 
 import net.bioclipse.ds.model.SubStructureMatch;
@@ -25,8 +22,6 @@ import net.bioclipse.ds.model.SubStructureMatch;
 public class SignSicHit extends SubStructureMatch{
 
     private boolean isPositive;
-    private Color red;
-    private Color green;
 
     public boolean isPositive() {
         return isPositive;
@@ -36,17 +31,12 @@ public class SignSicHit extends SubStructureMatch{
     }
     
     @Override
-    public Color getHighlightingColor( IAtom atom ) {
-        
-        if (red==null){
-            red=Color.RED;
-            green=Color.GREEN;
-        }
+    public java.awt.Color getHighlightingColor( IAtom atom ) {
         
         if (isPositive)
-            return green;
+            return java.awt.Color.GREEN;
         else
-            return red;
+            return java.awt.Color.RED;
     }
     
 }
