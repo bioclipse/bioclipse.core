@@ -340,7 +340,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                 = JsThread.js.getManagers().get(helpObject);
 
             if (manager == null)
-                return "No such method: " + helpObject + NEWLINE
+                return "No such manager: " + helpObject + NEWLINE
                        + usageMessage;
 
             StringBuffer managerDescBuffer = new StringBuffer();
