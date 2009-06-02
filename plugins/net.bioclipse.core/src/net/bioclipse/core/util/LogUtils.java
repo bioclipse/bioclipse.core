@@ -17,7 +17,9 @@ import java.io.StringWriter;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * LogUtils:
@@ -61,20 +63,37 @@ public class LogUtils {
     
     
     /**
-     * This method handles an exception by showing a popup, logging and printing the stack trace.
+     * This method handles an exception by showing a popup, 
+     * logging and printing the stack trace.
      * 
      * @param ex The exception to handle.
      * @param logger The logger to use.
      */
-    public static void handleException(Exception ex, Logger logger){
- 		StringWriter strWr = new StringWriter();
- 		PrintWriter prWr = new PrintWriter(strWr);
- 		ex.printStackTrace(prWr);
- 		if(logger!=null){
- 			logger.error(strWr.toString());
- 			debugTrace(logger, ex);
- 		}
- 		ex.printStackTrace();
- 		MessageDialog.openError(new Shell(), "Unexpected error", "An unexpected error occorued. Bioclipse has no idea how to handle this. The message is: "+ex.getMessage()+". If you do not know what to do, report this to the Bioclipse team. A stack trace has been written to the log file ("+net.bioclipse.logger.Activator.getActualLogFileName()+") to be included in your report.");
+    public static void handleException(final Exception ex, Logger logger){
+     		StringWriter strWr = new StringWriter();
+     		PrintWriter prWr = new PrintWriter(strWr);
+     		ex.printStackTrace(prWr);
+     		if(logger!=null){
+     			logger.error(strWr.toString());
+     			debugTrace(logger, ex);
+     		}
+     		ex.printStackTrace();
+     		Display.getDefault().asyncExec( new Runnable() {
+    
+            public void run() {
+                MessageDialog.openError( 
+                    PlatformUI.getWorkbench()
+                              .getActiveWorkbenchWindow()
+                              .getShell(), 
+                    "Unexpected error", 
+                    "An unexpected error occorued. Bioclipse has no idea " +
+                    "how to handle this. The message is: " + ex.getMessage() + 
+                    ". If you do not know what to do, report this to the " +
+                    "Bioclipse team. A stack trace has been written to the " +
+                    "log file ( " + 
+                    net.bioclipse.logger.Activator.getActualLogFileName() +
+                    ") to be included in your report.");
+            }
+     		} );
     }
 }
