@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse.cdkws09_feature"
       label="Cdkws09 Feature"
-      version="2.0.0.B20090520"
+      version="2.0.0.RC1"
       provider-name="Ola Spjuth"
       plugin="net.bioclipse.tutorials.cdkws09">
 
@@ -28,9 +28,9 @@ is available at http://www.eclipse.org/legal/epl-v10.html
    </license>
 
    <requires>
-      <import feature="net.bioclipse.qsar_feature" version="2.0.0.B20090520" match="greaterOrEqual"/>
-      <import feature="net.bioclipse.chemoinformatics_feature" version="2.0.0.B20090520" match="greaterOrEqual"/>
-      <import feature="net.bioclipse.experimental_feature" version="2.0.0.B20090520" match="greaterOrEqual"/>
+      <import feature="net.bioclipse.qsar_feature" version="2.0.0.RC1" match="greaterOrEqual"/>
+      <import feature="net.bioclipse.chemoinformatics_feature" version="2.0.0.RC1" match="greaterOrEqual"/>
+      <import feature="net.bioclipse.experimental_feature" version="2.0.0.RC1" match="greaterOrEqual"/>
    </requires>
 
    <plugin
