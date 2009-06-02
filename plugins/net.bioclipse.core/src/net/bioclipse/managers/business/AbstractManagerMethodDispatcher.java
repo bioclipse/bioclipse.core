@@ -102,7 +102,8 @@ public abstract class AbstractManagerMethodDispatcher
         if ( invocation.getMethod().getReturnType() != BioclipseJob.class &&
              invocation.getMethod().getReturnType() != void.class ) {
             if ( Arrays.asList( m.getParameterTypes() )
-                       .contains( IProgressMonitor.class ) ) {
+                       .contains( IProgressMonitor.class) &&
+                 !(this instanceof JavaScriptManagerMethodDispatcher) )  {
                 logger.warn( manager.getManagerName() + "." 
                               + invocation.getMethod().getName() 
                               + " is not void or returning a BioclipseJob."
@@ -203,7 +204,10 @@ public abstract class AbstractManagerMethodDispatcher
         try {
             if ( doingPartialReturns ) {
                 method.invoke( manager, arguments );
-                returnValue =  returnCollector.getReturnValues();
+                returnValue = returnCollector.getReturnValue();
+                if ( returnValue == null ) {
+                    returnValue = returnCollector.getReturnValues();
+                }
             }
             else {
                 returnValue = method.invoke( manager, arguments );
