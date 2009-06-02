@@ -92,7 +92,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                                 message[0] = s.matches( JS_UNDEFINED_RE )
                                              ? "" : result.toString();
                             }
-                            printMessage(message[0] + "\n");
+                            printMessage(message[0] + NEWLINE);
                         }
                     }
                 } );
@@ -188,7 +188,7 @@ public class JsConsoleView extends ScriptingConsoleView {
         String methodName  = parts[1];
 
         IBioclipseManager manager
-            = JsThread.js.getManagers().get(managerName);
+          = JsThread.js.getManagers().get(managerName);
         if (manager == null)
             return "No such manager: " + managerName
                    + NEWLINE + usageMessage;
@@ -258,8 +258,7 @@ public class JsConsoleView extends ScriptingConsoleView {
             
             sb.append(usageMessage);
             List<String> managerNames
-                = new ArrayList<String>( JsThread.js.getManagers()
-                                                 .keySet() );
+              = new ArrayList<String>( JsThread.js.getManagers().keySet() );
             if ( !managerNames.isEmpty() ) {
                 Collections.sort( managerNames );
                 sb.append( NEWLINE + "Available managers:" + NEWLINE );
@@ -293,7 +292,7 @@ public class JsConsoleView extends ScriptingConsoleView {
             String methodName  = parts[1];
 
             IBioclipseManager manager
-                = JsThread.js.getManagers().get(managerName);
+              = JsThread.js.getManagers().get(managerName);
             if (manager == null)
                 return "No such manager: " + managerName
                        + NEWLINE + usageMessage;
@@ -337,7 +336,7 @@ public class JsConsoleView extends ScriptingConsoleView {
         //Doing plain manager help
         else {
             IBioclipseManager manager
-                = JsThread.js.getManagers().get(helpObject);
+              = JsThread.js.getManagers().get(helpObject);
 
             if (manager == null)
                 return "No such manager: " + helpObject + NEWLINE
@@ -361,20 +360,19 @@ public class JsConsoleView extends ScriptingConsoleView {
                     line,        NEWLINE,
                     managerDesc, NEWLINE,
                                  NEWLINE,
-                    theseMeths,  NEWLINE } )
+                    theseMeths,  NEWLINE })
                 result.append(_);
 
             for (Method method : findAllPublishedMethods(manager.getClass())) {
-                if ( method
-                        .getAnnotation( PublishedMethod.class )
-                        .params().length() == 0 ) {
+                if ( method.getAnnotation( PublishedMethod.class )
+                           .params().length() == 0 ) {
                     result.append( method.getName() + "()" );
                 }
                 else {
                     result.append(
                             method.getName() + "( "
                             + method.getAnnotation( PublishedMethod.class )
-                                .params()
+                                    .params()
                             + " )" );
                 }
                 result.append(NEWLINE);
@@ -389,10 +387,11 @@ public class JsConsoleView extends ScriptingConsoleView {
                 String[] dois = publishedClass.doi();
                 if (dois.length > 0) {
                     for (String _ : new String[] {
-                                                      NEWLINE,
-                        line,                         NEWLINE,
-                        "Further information (DOI): ",NEWLINE })
+                                                       NEWLINE,
+                        line,                          NEWLINE,
+                        "Further information (DOI): ", NEWLINE })
                         result.append(_);
+
                     for (String doi : dois) {
                         if (doi != null && doi.length() > 0)
                             result.append(doi).append(NEWLINE);
@@ -601,8 +600,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                          && method.getName().equals(completedName) )
 
                         return method.getParameterTypes().length == 0
-                            ? "()"
-                            : "(";
+                               ? "()" : "(";
         
         // in all other cases, we add nothing
         return "";
