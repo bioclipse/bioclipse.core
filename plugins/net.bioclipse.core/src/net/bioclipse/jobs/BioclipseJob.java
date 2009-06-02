@@ -219,7 +219,6 @@ public class BioclipseJob<T> extends Job {
             }
 
             newArguments.add( monitor );
-            monitor.beginTask( "", IProgressMonitor.UNKNOWN );
             
             arguments = newArguments.toArray();
             //translate String -> IFile
