@@ -75,6 +75,7 @@ public class JsThread extends ScriptingThread {
                     = { new NullProgressMonitor() };
                 
                 Job job = new Job("JS-script") {
+                    @SuppressWarnings("deprecation")
                     @Override
                     protected IStatus run( IProgressMonitor m ) {
 
