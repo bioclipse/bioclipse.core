@@ -16,7 +16,9 @@
 
   <extension point="org.eclipse.ui.newWizards">
       <wizard
+		    category="net.bioclipse.ui.scripting"
             canFinishEarly="true"
+            icon="icons/png/jsfile.png"
             class="net.bioclipse.jseditor.wizards.NewJavaScriptWizard"
             hasPages="false"
             id="net.bioclipse.jseditor.wizards.NewJavaScriptWizard"
