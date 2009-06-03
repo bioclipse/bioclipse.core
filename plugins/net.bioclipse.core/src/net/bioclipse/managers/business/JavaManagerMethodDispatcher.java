@@ -8,10 +8,12 @@ import java.util.List;
 import net.bioclipse.core.IResourcePathTransformer;
 import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResourceRuleFactory;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -34,6 +36,8 @@ public class JavaManagerMethodDispatcher
 
     IResourcePathTransformer transformer 
         = ResourcePathTransformer.getInstance();
+    private Logger logger 
+        = Logger.getLogger( JavaManagerMethodDispatcher.class );
     
     @Override
     public Object doInvoke( IBioclipseManager manager, 
@@ -166,16 +170,18 @@ public class JavaManagerMethodDispatcher
                 try {
                     method.invoke( manager, arguments );
                 } catch ( Exception e ) {
-                    ErrorDialog.openError( 
-                        PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                                                 .getShell(), 
-                        "Exception while running manaer method", 
-                        "An exception occured while trying to run: " + 
-                        manager.getManagerName() + "." + method.getName(), 
+                    LogUtils.handleException( 
+                        e, 
+                        logger, 
+                        "net.bioclipse.managers",
                         new Status( IStatus.ERROR, 
                                     "net.bioclipse.managers", 
-                                    e.getClass().getSimpleName() 
-                                    + ": " + e.getMessage(), 
+                                    e.getClass().getSimpleName() + ": " 
+                                      + e.getMessage() + "\n"
+                                      + "Exception occured while running " 
+                                      + "manager method: " 
+                                      + manager.getManagerName() + "." 
+                                      + method.getName(), 
                                     e) );
                 }
             }

@@ -86,18 +86,41 @@ public class LogUtils {
      * @param logger The logger to use.
      * @param pluginId The name of the plugin the exception occured in.
      */
-    public static void handleException( final Exception ex, 
+    public static void handleException( Exception ex, 
                                         Logger logger, 
-                                        final String pluginId ) {
-     		StringWriter strWr = new StringWriter();
-     		PrintWriter prWr = new PrintWriter(strWr);
-     		ex.printStackTrace(prWr);
-     		if(logger!=null){
-     			logger.error(strWr.toString());
-     			debugTrace(logger, ex);
-     		}
-     		ex.printStackTrace();
-     		Display.getDefault().asyncExec( new Runnable() {
+                                        String pluginId ) {
+        handleException( ex, 
+                         logger, 
+                         pluginId, 
+                         new Status( IStatus.ERROR, 
+                                     pluginId == null ? "unknown" : pluginId, 
+                                     ex.getClass().getSimpleName() 
+                                       + ": " + ex.getMessage(),
+                                     ex ) );
+    }
+
+    /**
+     * @param e
+     * @param logger
+     * @param string
+     * @param status
+     */
+    public static void handleException( final Exception ex, 
+                                        Logger logger,
+                                        String string, 
+                                        final Status status ) {
+
+        if (logger != null ) {
+            StringWriter strWr = new StringWriter();
+            PrintWriter  prWr  = new PrintWriter(strWr);
+            ex.printStackTrace(prWr);
+            logger.error( strWr.toString() );
+        }
+        else {
+            ex.printStackTrace();
+        }
+        
+        Display.getDefault().asyncExec( new Runnable() {
     
             public void run() {
                 ErrorDialog.openError( 
@@ -114,12 +137,10 @@ public class LogUtils {
                       "explain what you where doing and what went wrong. The " +
                       "more information about the problem you write the " +
                       "easier it is for the developer to fix your problem.", 
-                    new Status( IStatus.ERROR, 
-                                pluginId == null ? "unknown" : pluginId, 
-                                ex.getClass().getSimpleName() 
-                                + ": " + ex.getMessage(), 
-                    ex ) );
+                    status 
+                );
             }
-     		} );
+        } );
+        
     }
 }
