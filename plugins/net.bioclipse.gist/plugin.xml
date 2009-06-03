@@ -3,13 +3,13 @@
 <plugin>
 
    <extension point="org.eclipse.ui.newWizards">
-      <category
+      <!--category
             id="net.bioclipse.gist.wizard"
             name="Gists (gist.github.com)">
-      </category>
+      </category-->
       <wizard
             canFinishEarly="false"
-            category="net.bioclipse.gist.wizard"
+            category="net.bioclipse.ui.scripting"
             class="net.bioclipse.gist.wizard.NewFromGistWizard"
             hasPages="true"
             icon="icons/png/gist.png"
