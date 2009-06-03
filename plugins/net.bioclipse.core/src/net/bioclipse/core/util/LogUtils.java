@@ -16,6 +16,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -61,6 +64,19 @@ public class LogUtils {
         }
     }
     
+    /**
+     * This method handles an exception by showing a popup, 
+     * logging and printing the stack trace.
+     * 
+     * @param ex The exception to handle.
+     * @param logger The logger to use.
+     * @deprecated replaced by 
+     *             {@link #handleException(Exception, Logger, String)}
+     */
+    @Deprecated 
+    public static void handleException(final Exception ex, Logger logger) {
+        handleException( ex, logger, "unknown" );
+    }
     
     /**
      * This method handles an exception by showing a popup, 
@@ -68,8 +84,11 @@ public class LogUtils {
      * 
      * @param ex The exception to handle.
      * @param logger The logger to use.
+     * @param pluginId The name of the plugin the exception occured in.
      */
-    public static void handleException(final Exception ex, Logger logger){
+    public static void handleException( final Exception ex, 
+                                        Logger logger, 
+                                        final String pluginId ) {
      		StringWriter strWr = new StringWriter();
      		PrintWriter prWr = new PrintWriter(strWr);
      		ex.printStackTrace(prWr);
@@ -81,18 +100,25 @@ public class LogUtils {
      		Display.getDefault().asyncExec( new Runnable() {
     
             public void run() {
-                MessageDialog.openError( 
-                    PlatformUI.getWorkbench()
-                              .getActiveWorkbenchWindow()
-                              .getShell(), 
+                ErrorDialog.openError( 
+                    PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+                                             .getShell(), 
                     "Unexpected error", 
-                    "An unexpected error occorued. Bioclipse has no idea " +
-                    "how to handle this. The message is: " + ex.getMessage() + 
-                    ". If you do not know what to do, report this to the " +
-                    "Bioclipse team. A stack trace has been written to the " +
-                    "log file ( " + 
-                    net.bioclipse.logger.Activator.getActualLogFileName() +
-                    ") to be included in your report.");
+                      "An unexpected error occured. Bioclipse has no idea " +
+                      "how to handle this. If you would like to report this " +
+                      "to the Bioclipse team a stack trace has been written " +
+                      "to the log file ( " + 
+                      net.bioclipse.logger.Activator.getActualLogFileName() +
+                      ") that you can include in an email to " +
+                      "bioclipse-devel@lists.sourceforge.net where you " +
+                      "explain what you where doing and what went wrong. The " +
+                      "more information about the problem you write the " +
+                      "easier it is for the developer to fix your problem.", 
+                    new Status( IStatus.ERROR, 
+                                pluginId == null ? "unknown" : pluginId, 
+                                ex.getClass().getSimpleName() 
+                                + ": " + ex.getMessage(), 
+                    ex ) );
             }
      		} );
     }
