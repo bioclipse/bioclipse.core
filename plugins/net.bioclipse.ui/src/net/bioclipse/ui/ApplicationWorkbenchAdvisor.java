@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import net.bioclipse.ui.dialogs.IDialogConstants;
 import net.bioclipse.ui.dialogs.PickWorkspaceDialog;
 import net.bioclipse.ui.dialogs.UpdatesAvailableDialog;
 import net.bioclipse.ui.prefs.IPreferenceConstants;
@@ -34,7 +33,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.window.Window;
@@ -64,9 +62,6 @@ import org.eclipse.update.operations.OperationsManager;
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 
     private static final Logger logger = Logger.getLogger(ApplicationWorkbenchAdvisor.class);
-
-    //Get settings for dialogs
-    IDialogSettings settings = Activator.getDefault().getDialogSettings();
 
     private boolean abort;
 
@@ -125,12 +120,20 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 
         abort=false;
         
-        CommonNavigator nav = (CommonNavigator) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView( "net.bioclipse.navigator" );
+        CommonNavigator nav = (CommonNavigator) PlatformUI.getWorkbench()
+                                     .getActiveWorkbenchWindow().getActivePage()
+                                     .findView( "net.bioclipse.navigator" );
+
         nav.getCommonViewer().setInput( getDefaultPageInput() );
 
+        //Read update prefs from store
+        IPreferenceStore prefsStore=Activator.getDefault().getPreferenceStore();
+        boolean skipUpdate=prefsStore.getBoolean(
+                                  IPreferenceConstants.SKIP_UPDATE_ON_STARTUP );
 
+        
         //If we said do not update in the earlier dialog, skip check.
-        if (settings.getBoolean(IDialogConstants.SKIP_UPDATE_ON_STARTUP)){
+        if (skipUpdate){
             logger.debug("Skipped updating due to preference setting.");
             return;
         }
@@ -362,7 +365,10 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 
         //Ask to install, if we have not prev said don't bother us
         //=======================================
-        if (settings.getBoolean(IDialogConstants.SKIP_UPDATE_DIALOG_ON_STARTUP)){
+        boolean skipDialog=prefsStore.getBoolean( 
+                           IPreferenceConstants.SKIP_UPDATE_DIALOG_ON_STARTUP );
+
+        if (skipDialog){
             logger.debug("Updates dialog skipped due to dialog setting");
         }else{
             logger.debug("Updates dialog should open since not skipped in " +

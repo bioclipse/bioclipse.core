@@ -243,14 +243,18 @@ IWorkbenchPreferencePage {
 
         //Sync with preference
 
-        boolean skipUpdate=Activator.getDefault().getDialogSettings().getBoolean( 
-              net.bioclipse.ui.dialogs.IDialogConstants.SKIP_UPDATE_ON_STARTUP );
+        boolean skipUpdate=prefsStore.getBoolean(
+                           IPreferenceConstants.SKIP_UPDATE_ON_STARTUP );
+//        boolean skipUpdate=Activator.getDefault().getDialogSettings().getBoolean( 
+//              net.bioclipse.ui.dialogs.IDialogConstants.SKIP_UPDATE_ON_STARTUP );
 
-        boolean skipDialog=Activator.getDefault().getDialogSettings().getBoolean( 
-      net.bioclipse.ui.dialogs.IDialogConstants.SKIP_UPDATE_DIALOG_ON_STARTUP );
+        boolean skipDialog=prefsStore.getBoolean( 
+                           IPreferenceConstants.SKIP_UPDATE_DIALOG_ON_STARTUP );
+//        boolean skipDialog=Activator.getDefault().getDialogSettings().getBoolean( 
+//                 net.bioclipse.ui.dialogs.IDialogConstants.SKIP_UPDATE_DIALOG_ON_STARTUP );
 
-        logger.debug("DialogSetting said SKIP_UPDATE_ON_STARTUP: " + skipUpdate);
-        logger.debug("DialogSetting said SKIP_UPDATE_DIALOG_ON_STARTUP: " + skipDialog);
+        logger.debug("Preference said SKIP_UPDATE_ON_STARTUP: " + skipUpdate);
+        logger.debug("Preference said SKIP_UPDATE_DIALOG_ON_STARTUP: " + skipDialog);
 
         //Meaning is inverted
         rememberButton.setSelection( !skipUpdate );
@@ -276,23 +280,28 @@ IWorkbenchPreferencePage {
         String value=convertToPreferenceString(appList);
         logger.debug("Update sites prefs to store: " + value);
         prefsStore.setValue(IPreferenceConstants.UPDATE_SITES,value);
-        Activator.getDefault().savePluginPreferences();
 
         //Save remember auto updates from checkbox
         boolean skipUpdate=rememberButton.getSelection();
-        Activator.getDefault().getDialogSettings().put(
-                                                       net.bioclipse.ui.dialogs.IDialogConstants.SKIP_UPDATE_ON_STARTUP,
-                                                       !skipUpdate );
-
+        prefsStore.setValue( IPreferenceConstants.SKIP_UPDATE_ON_STARTUP, !skipUpdate );
         logger.debug("Stored checkbox SKIP_UPDATE_ON_STARTUP=" + !skipUpdate);
 
         //Save remember OPEN DIALOG from checkbox
         boolean skipDialog=openDialogButton.getSelection();
-        Activator.getDefault().getDialogSettings().put(
-                                                       net.bioclipse.ui.dialogs.IDialogConstants.SKIP_UPDATE_DIALOG_ON_STARTUP,
-                                                       skipDialog );
-
+        prefsStore.setValue( IPreferenceConstants.SKIP_UPDATE_DIALOG_ON_STARTUP, skipDialog);
         logger.debug("Stored checkbox SKIP_UPDATE_DIALOG_ON_STARTUP=" + skipDialog);
+
+        //Save prefs as this must be done explicitly
+        Activator.getDefault().savePluginPreferences();
+
+        
+//        Activator.getDefault().getDialogSettings().put(
+//                                                       net.bioclipse.ui.dialogs.IDialogConstants.SKIP_UPDATE_ON_STARTUP,
+//                                                       !skipUpdate );
+
+//        Activator.getDefault().getDialogSettings().put(
+//                                                       net.bioclipse.ui.dialogs.IDialogConstants.SKIP_UPDATE_DIALOG_ON_STARTUP,
+//                                                       skipDialog );
 
         return true;
     }

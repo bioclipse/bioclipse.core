@@ -1,10 +1,12 @@
 package net.bioclipse.ui.dialogs;
 
 import net.bioclipse.ui.Activator;
+import net.bioclipse.ui.prefs.IPreferenceConstants;
 
+import org.apache.log4j.Logger;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -15,6 +17,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 public class UpdatesAvailableDialog extends TitleAreaDialog{
+
+    private static final Logger logger = Logger.getLogger(UpdatesAvailableDialog.class.toString());
 
     private String updateTitle    = "Online updates",
                    updatemessage  = "There are online updates available for "
@@ -68,19 +72,35 @@ public class UpdatesAvailableDialog extends TitleAreaDialog{
     protected void cancelPressed() {
 
         //Remember checkbox answers
-        Activator.getDefault().getDialogSettings().put(
-                net.bioclipse.ui.dialogs.IDialogConstants
-                    .SKIP_UPDATE_DIALOG_ON_STARTUP,
-                btnRemember.getSelection());
+        IPreferenceStore prefsStore=Activator.getDefault().getPreferenceStore();
+
+        //Save remember OPEN DIALOG from checkbox
+        prefsStore.setValue( IPreferenceConstants.SKIP_UPDATE_DIALOG_ON_STARTUP, btnRemember.getSelection());
+        logger.debug("Stored checkbox SKIP_UPDATE_DIALOG_ON_STARTUP=" + btnRemember.getSelection());
+
+//        Activator.getDefault().getDialogSettings().put(
+//                net.bioclipse.ui.dialogs.IDialogConstants
+//                    .SKIP_UPDATE_DIALOG_ON_STARTUP,
+//                btnRemember.getSelection());
+
 
         //Remember choice YES/NO if checked remember box
         if (btnRemember.getSelection()==true){
 
-            Activator.getDefault().getDialogSettings().put(
-                    net.bioclipse.ui.dialogs.IDialogConstants
-                        .SKIP_UPDATE_ON_STARTUP,
-                    true);
+//            Activator.getDefault().getDialogSettings().put(
+//                    net.bioclipse.ui.dialogs.IDialogConstants
+//                        .SKIP_UPDATE_ON_STARTUP,
+//                    true);
+            
+            //Save remember auto updates from checkbox
+            prefsStore.setValue( IPreferenceConstants.SKIP_UPDATE_ON_STARTUP, true );
+            logger.debug("Stored checkbox SKIP_UPDATE_ON_STARTUP=" + true);
+
         }
+        
+        //Save prefs as this must be done explicitly
+        Activator.getDefault().savePluginPreferences();
+
 
         super.cancelPressed();
     }
@@ -91,17 +111,26 @@ public class UpdatesAvailableDialog extends TitleAreaDialog{
     @Override
     protected void okPressed() {
 
+        IPreferenceStore prefsStore=Activator.getDefault().getPreferenceStore();
+
         //Remember checkbox answers
-        Activator.getDefault().getDialogSettings().put(
-                net.bioclipse.ui.dialogs.IDialogConstants
-                    .SKIP_UPDATE_DIALOG_ON_STARTUP,
-                btnRemember.getSelection());
+        prefsStore.setValue( IPreferenceConstants.SKIP_UPDATE_DIALOG_ON_STARTUP, btnRemember.getSelection());
+        logger.debug("Stored checkbox SKIP_UPDATE_DIALOG_ON_STARTUP=" + btnRemember.getSelection());
+//        Activator.getDefault().getDialogSettings().put(
+//                net.bioclipse.ui.dialogs.IDialogConstants
+//                    .SKIP_UPDATE_DIALOG_ON_STARTUP,
+//                btnRemember.getSelection());
 
         if (btnRemember.getSelection()) {
-            Activator.getDefault().getDialogSettings().put(
-                    net.bioclipse.ui.dialogs.IDialogConstants
-                        .SKIP_UPDATE_ON_STARTUP,
-                    false);
+//            Activator.getDefault().getDialogSettings().put(
+//                    net.bioclipse.ui.dialogs.IDialogConstants
+//                        .SKIP_UPDATE_ON_STARTUP,
+//                    false);
+            
+            //Save remember auto updates from checkbox
+            prefsStore.setValue( IPreferenceConstants.SKIP_UPDATE_ON_STARTUP, false );
+            logger.debug("Stored checkbox SKIP_UPDATE_ON_STARTUP=" + false);
+
         }
 
         super.okPressed();
@@ -117,12 +146,4 @@ public class UpdatesAvailableDialog extends TitleAreaDialog{
                      IDialogConstants.NO_LABEL, false);
     }
 
-    /**
-     * This stores the location and size of the dialog
-     */
-    @Override
-    protected IDialogSettings getDialogBoundsSettings() {
-        // TODO Auto-generated method stub
-        return Activator.getDefault().getDialogSettings();
-    }
 }
