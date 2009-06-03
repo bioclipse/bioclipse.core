@@ -105,31 +105,50 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
      * Initialize all paths and read model files into memory.
      * @throws DSException 
      */
-    private void initialize() throws DSException {
+    private void initialize(){
+
+        if (getTestErrorMessage().length()>1){
+            logger.error("Trying to initialize test: " + getName() + " while " +
+                "error message exists");
+            return;
+        }
 
         //Get signatures path depending on OS
-        signaturesPath=getNativeSignaturesPath();
-        logger.debug( "Signatures path is: " + signaturesPath );
+        try {
+            signaturesPath=getNativeSignaturesPath();
+            logger.debug( "Signatures path is: " + signaturesPath );
+        } catch ( DSException e ) {
+            setTestErrorMessage( "Initialization failed; Signatures native " +
+            		"path not found: " + e.getMessage() );
+           return;
+        }
 
         //Get model path depending on OS
-        String modelPath=getModelPath();
-        logger.debug( "Model file path is: " + modelPath );
+        String modelPath;
+        try {
+            modelPath = getModelPath();
+            logger.debug( "Model file path is: " + modelPath );
+        } catch ( DSException e ) {
+            setTestErrorMessage( "Initialization failed; Model file " +
+            		"path not found: " + e.getMessage() );
+           return;
+        }
         
-        //Read range files etc here
-        //TODO
-
         //So, load the model file into memory
         //===================================
         try {
             bursiModel = svm.svm_load_model(modelPath);
-//            bursiModel = svm.svm_load_model("/home/lc/workspace/cdkws2009/ModelSpecificFiles/bursiSignsXYZ_1.txt.model");
         } catch (IOException e) {
-            throw new DSException("Could not read model file '" + modelPath 
-                                  + "' due to: " + e.getMessage());
+            setTestErrorMessage( "Could not read model file '" + modelPath 
+                                  + "' due to: " + e.getMessage() );
+            return;
         }
         
+        //Verify that the signatures file is accessible
+        
+        
         // Add the reading of the range file and set up the related variables.
-
+        //TODO
     }
 
     
@@ -376,14 +395,18 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         //Check for cancellation
         if (monitor.isCanceled())
             return returnError( "Cancelled","");
-        
+
+        if (getTestErrorMessage().length()>1){
+            return returnError( "Test has error message and should not be run", "" );
+        }
+
         //If bursimodel is null it is not loaded, so initialize
         if (bursiModel==null)
-            try {
                 initialize();
-            } catch ( DSException e1 ) {
-                return returnError( e1.getMessage(), e1.getStackTrace().toString());
-            }
+
+        if (getTestErrorMessage().length()>1){
+            return returnError( "Test has error message and should not be run", "" );
+        }
 
         //Get the CDKManager that can carry out cheminfo stuff
         ICDKManager cdk = Activator.getDefault().getJavaCDKManager();
