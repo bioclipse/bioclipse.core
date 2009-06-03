@@ -61,11 +61,16 @@ public class ResourcePathTransformer implements IResourcePathTransformer {
     public IFile transform(String resourceString) {
 
         IFile result;
+        try {
         result = parseRelative(resourceString);
         if (result == null) result = parseURI(resourceString);
         if (result == null) result = parsePath(resourceString);
         if (result == null) throw new IllegalArgumentException(
                             "Could not handle " + resourceString );
+        }catch(URISyntaxException e) {
+            throw new IllegalArgumentException("Could not handle "
+                                            + resourceString,e);
+        }
         return result;
     }
 
@@ -77,17 +82,13 @@ public class ResourcePathTransformer implements IResourcePathTransformer {
      *
      * @param resourceString
      * @return IFile or null if no file was found
+     * @throws URISyntaxException
      */
-    private IFile parsePath( String resourceString ) {
+    private IFile parsePath( String resourceString ) throws URISyntaxException {
         URI uri;
         java.io.File localFile = new java.io.File(resourceString);
         if (!localFile.exists()) return null;
-        try{
-            uri = new URI("file",localFile.getAbsolutePath(),null);
-        }
-        catch (URISyntaxException e) {
-            return null;
-        }
+        uri = new URI("file",localFile.getAbsolutePath(),null);
         // Check if uri referes to a file in workspace if so return it
         IFile[] files = ResourcesPlugin.getWorkspace().getRoot()
         .findFilesForLocationURI( uri );
