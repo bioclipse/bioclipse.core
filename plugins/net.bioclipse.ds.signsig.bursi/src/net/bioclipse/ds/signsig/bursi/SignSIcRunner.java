@@ -272,7 +272,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         double extremeValue = 0;
         int significantSignatureNr = 1;
         for (int key : attributeValues.keySet()) {
-            logger.debug("Keys:" + key);
+//            logger.debug("Keys:" + key);
             highPointDecisionFuncValue = partialDerivative(key);
             if (maximum)
             {
@@ -290,7 +290,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
                     significantSignatureNr = key;
                 }
             }
-            logger.debug(highPointDecisionFuncValue);			
+//            logger.debug(highPointDecisionFuncValue);			
         }
         logger.debug("Extreme value: " + extremeValue);
         logger.debug("Keys: " + significantSignatureNr);
