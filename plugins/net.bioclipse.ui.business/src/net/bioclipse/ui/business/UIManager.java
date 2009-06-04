@@ -367,13 +367,13 @@ public class UIManager implements IBioclipseManager {
     }
     
     public void revealAndSelect(final IFile file) throws BioclipseException{
-        if (!file.exists())
-            throw new BioclipseException("The file: " + file.getName() + 
-                                         " does not exist.");
         
         //Get navigator view and reveal in UI thread
         Display.getDefault().asyncExec( new Runnable(){
             public void run() {
+                if (!file.exists())
+                    throw new RuntimeException("The file: " + file.getName() + 
+                                                 " does not exist.");
                 IViewPart view
                     = PlatformUI.getWorkbench()
                                 .getActiveWorkbenchWindow()
