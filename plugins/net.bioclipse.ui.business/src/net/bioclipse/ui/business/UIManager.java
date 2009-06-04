@@ -366,26 +366,22 @@ public class UIManager implements IBioclipseManager {
 
     }
     
-    public void revealAndSelect(final IFile file) throws BioclipseException{
+    public void revealAndSelect(final IFile file) throws BioclipseException {
         
         //Get navigator view and reveal in UI thread
-        Display.getDefault().asyncExec( new Runnable(){
-            public void run() {
-                if (!file.exists())
-                    throw new RuntimeException("The file: " + file.getName() + 
-                                                 " does not exist.");
-                IViewPart view
-                    = PlatformUI.getWorkbench()
-                                .getActiveWorkbenchWindow()
-                                .getActivePage()
-                                .findView( NAVIGATOR_ID );
-                CommonNavigator nav=(CommonNavigator)view;
-                nav.getCommonViewer().reveal( file );
-                nav.getCommonViewer().setSelection(
-                    new StructuredSelection(file)
-                );
-            }
-        } );
+        if (!file.exists())
+            throw new RuntimeException("The file: " + file.getName() + 
+                                         " does not exist.");
+        IViewPart view
+            = PlatformUI.getWorkbench()
+                        .getActiveWorkbenchWindow()
+                        .getActivePage()
+                        .findView( NAVIGATOR_ID );
+        CommonNavigator nav=(CommonNavigator)view;
+        nav.getCommonViewer().reveal( file );
+        nav.getCommonViewer().setSelection(
+            new StructuredSelection(file)
+        );
     }
 
     public void refresh(String path,IProgressMonitor monitor)

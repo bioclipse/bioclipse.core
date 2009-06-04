@@ -144,9 +144,11 @@ public interface IUIManager extends IBioclipseManager {
     public void closeEditor(IFile file);
 
     @Recorded
+    @GuiAction
     public void revealAndSelect( IFile file ) throws BioclipseException;
 
     @Recorded
+    @GuiAction
     @PublishedMethod( params="String path",
                       methodSummary="Reveals a file in Navigator" )
     public void revealAndSelect( String path ) throws BioclipseException;
