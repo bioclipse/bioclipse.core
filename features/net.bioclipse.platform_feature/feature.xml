@@ -38,24 +38,4 @@ is available at http://www.eclipse.org/legal/epl-v10.html
          id="net.bioclipse.core_feature"
          version="0.0.0"/>
 
-   <includes
-         id="net.bioclipse.metaprint2d_feature"
-         version="0.0.0"/>
-
-   <includes
-         id="net.bioclipse.qsar_feature"
-         version="0.0.0"/>
-
-   <includes
-         id="net.bioclipse.ds_feature"
-         version="0.0.0"/>
-
-   <includes
-         id="net.bioclipse.xws4j_feature"
-         version="0.0.0"/>
-
-   <includes
-         id="se.uu.farmbio.hivpred_feature"
-         version="0.0.0"/>
-
 </feature>
