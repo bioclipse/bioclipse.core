@@ -14,6 +14,9 @@
  *******************************************************************************/
 package net.bioclipse.ui.dialogs;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -41,7 +44,7 @@ import org.eclipse.ui.internal.ide.IDEInternalWorkbenchImages;
 import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
 import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.internal.ide.IIDEHelpContextIds;
-import org.eclipse.ui.internal.ide.misc.ResourceAndContainerGroup;
+import org.openscience.cdk.io.formats.IResourceFormat;
 
 /**
  * A standard "Save As" dialog which solicits a path from the user. The
@@ -59,8 +62,9 @@ public class SaveAsDialog extends TitleAreaDialog {
     private static final String DIALOG_SETTINGS_SECTION = "SaveAsDialogSettings"; //$NON-NLS-1$
     
     private IFile originalFile = null;
-
     private String originalName = null;
+
+    private List<IResourceFormat> formats;
 
     private IPath result;
 
@@ -79,8 +83,9 @@ public class SaveAsDialog extends TitleAreaDialog {
      *
      * @param parentShell the parent shell
      */
-    public SaveAsDialog(Shell parentShell) {
+    public SaveAsDialog(Shell parentShell, List<IResourceFormat> formats) {
         super(parentShell);
+        this.formats = formats;
     }
 
     /* (non-Javadoc)
@@ -158,9 +163,9 @@ public class SaveAsDialog extends TitleAreaDialog {
         };
 
         resourceGroup = new ResourceAndContainerGroup(
-                composite,
-                listener,
-                IDEWorkbenchMessages.SaveAsDialog_fileLabel, IDEWorkbenchMessages.SaveAsDialog_file);
+                composite, listener,
+                IDEWorkbenchMessages.SaveAsDialog_fileLabel,
+                formats);
         resourceGroup.setAllowExistingResources(true);
 
         return parentComposite;
@@ -339,4 +344,11 @@ public class SaveAsDialog extends TitleAreaDialog {
     protected boolean isResizable() {
         return true;
     }
+
+    public List<IResourceFormat> getResourceTypes() {
+        List<IResourceFormat> returnFormats = new ArrayList<IResourceFormat>();
+        returnFormats.addAll(formats);
+        return returnFormats;
+    }
+
 }

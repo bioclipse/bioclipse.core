@@ -14,6 +14,8 @@
  *******************************************************************************/
 package net.bioclipse.ui.dialogs;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
@@ -26,9 +28,12 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -36,6 +41,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.internal.ide.IDEWorkbenchMessages;
 import org.eclipse.ui.internal.ide.misc.ContainerSelectionGroup;
+import org.openscience.cdk.io.formats.IResourceFormat;
 
 /**
  * Workbench-level composite for resource and container specification by the
@@ -91,9 +97,6 @@ public class ResourceAndContainerGroup implements Listener {
     // whether to allow existing resources
     private boolean allowExistingResources = false;
 
-    // resource type (file, folder, project)
-    private String resourceType = IDEWorkbenchMessages.ResourceGroup_resource;
-
     // show closed projects in the tree, by default
     private boolean showClosedProjects = true;
 
@@ -106,14 +109,9 @@ public class ResourceAndContainerGroup implements Listener {
     private ContainerSelectionGroup containerGroup;
 
     private Text resourceNameField;
+    private Combo resourceTypeCombo;
 
-    /**
-     * The resource extension for the resource name field.
-     * 
-     * @see ResourceAndContainerGroup#setResourceExtension(String)
-     * @since 3.3
-     */
-    private String resourceExtension;
+    private List<IResourceFormat> formats;
 
     // constants
     private static final int SIZING_TEXT_FIELD_WIDTH = 250;
@@ -133,8 +131,8 @@ public class ResourceAndContainerGroup implements Listener {
      *            (file, folder, project)
      */
     public ResourceAndContainerGroup(Composite parent, Listener client,
-            String resourceFieldLabel, String resourceType) {
-        this(parent, client, resourceFieldLabel, resourceType, true);
+            String resourceFieldLabel, List<IResourceFormat> formats) {
+        this(parent, client, resourceFieldLabel, formats, true);
     }
 
     /**
@@ -154,9 +152,9 @@ public class ResourceAndContainerGroup implements Listener {
      *            whether or not to show closed projects
      */
     public ResourceAndContainerGroup(Composite parent, Listener client,
-            String resourceFieldLabel, String resourceType,
+            String resourceFieldLabel, List<IResourceFormat> formats,
             boolean showClosedProjects) {
-        this(parent, client, resourceFieldLabel, resourceType,
+        this(parent, client, resourceFieldLabel, formats,
                 showClosedProjects, SWT.DEFAULT);
     }
 
@@ -179,11 +177,11 @@ public class ResourceAndContainerGroup implements Listener {
      *            height hint for the container selection widget group
      */
     public ResourceAndContainerGroup(Composite parent, Listener client,
-            String resourceFieldLabel, String resourceType,
+            String resourceFieldLabel, List<IResourceFormat> formats,
             boolean showClosedProjects, int heightHint) {
         super();
-        this.resourceType = resourceType;
         this.showClosedProjects = showClosedProjects;
+        this.formats = formats;
         createContents(parent, resourceFieldLabel, heightHint);
         this.client = client;
     }
@@ -229,7 +227,7 @@ public class ResourceAndContainerGroup implements Listener {
                     SIZING_TEXT_FIELD_WIDTH);
         }
 
-        // resource name group
+        // resource group
         Composite nameGroup = new Composite(composite, SWT.NONE);
         layout = new GridLayout();
         layout.numColumns = 2;
@@ -248,7 +246,7 @@ public class ResourceAndContainerGroup implements Listener {
         resourceNameField.addListener(SWT.Modify, this);
         resourceNameField.addFocusListener(new FocusAdapter() {
             public void focusLost(FocusEvent e) {
-                handleResourceNameFocusLostEvent();
+                handleFileExtensionUpdate();
             }
         });
         GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL
@@ -256,6 +254,36 @@ public class ResourceAndContainerGroup implements Listener {
         data.widthHint = SIZING_TEXT_FIELD_WIDTH;
         resourceNameField.setLayoutData(data);
         resourceNameField.setFont(font);
+
+        // resource type label
+        label = new Label(nameGroup, SWT.NONE);
+        label.setText("File type:");
+        label.setFont(font);
+
+        // resource type entry field
+        resourceTypeCombo = new Combo(nameGroup, SWT.BORDER);
+        for (IResourceFormat format : this.formats) {
+            resourceTypeCombo.add(format.getFormatName());
+        }
+        // the first format is the default.
+        resourceTypeCombo.setText(formats.get(0).getFormatName());
+        resourceTypeCombo.addListener(SWT.Modify, this);
+        resourceTypeCombo.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                handleFileExtensionUpdate();
+            }
+        });
+        resourceTypeCombo.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent e) {
+                handleFileExtensionUpdate();
+            }
+        });
+        data = new GridData(GridData.HORIZONTAL_ALIGN_FILL
+                | GridData.GRAB_HORIZONTAL);
+        data.widthHint = SIZING_TEXT_FIELD_WIDTH;
+        resourceTypeCombo.setLayoutData(data);
+        resourceTypeCombo.setFont(font);
+
         validateControls();
     }
 
@@ -304,10 +332,18 @@ public class ResourceAndContainerGroup implements Listener {
      */
     public String getResource() {
         String resource = resourceNameField.getText();
+        IResourceFormat resourceFormat = getSelectedFormat();
         if (useResourceExtension()) {
-            return resource + '.' + resourceExtension;
+            return resource + '.' + resourceFormat.getPreferredNameExtension();
         }
         return resource;
+    }
+
+    private IResourceFormat getSelectedFormat() {
+        int selection = resourceTypeCombo.getSelectionIndex();
+        if (selection == -1) selection = 0;
+        IResourceFormat resourceFormat = formats.get(selection);
+        return resourceFormat;
     }
 
     /**
@@ -318,7 +354,7 @@ public class ResourceAndContainerGroup implements Listener {
      * @since 3.3
      */
     public String getResourceExtension() {
-        return resourceExtension;
+        return getSelectedFormat().getPreferredNameExtension();
     }
 
     /**
@@ -333,6 +369,7 @@ public class ResourceAndContainerGroup implements Listener {
      */
     private boolean useResourceExtension() {
         String resource = resourceNameField.getText();
+        String resourceExtension = getSelectedFormat().getPreferredNameExtension();
         if ((resourceExtension != null) && (resourceExtension.length() > 0)
                 && (resource.length() > 0)
                 && (resource.endsWith('.' + resourceExtension) == false)) {
@@ -341,18 +378,29 @@ public class ResourceAndContainerGroup implements Listener {
         return false;
     }
 
-    /**
-     * Handle the focus lost event from the resource name field. <br>
-     * Adds the resource extension to the resource name field when it loses
-     * focus (if the preconditions are met).
-     * 
-     * @see ResourceAndContainerGroup#setResourceExtension(String)
-     * @since 3.3
-     */
-    private void handleResourceNameFocusLostEvent() {
+    private void handleFileExtensionUpdate() {
         if (useResourceExtension()) {
-            setResource(resourceNameField.getText() + '.' + resourceExtension);
+            String fileName = resourceNameField.getText();
+            fileName = removeRecognizedExtension(fileName);
+            setResource(
+                fileName + '.' + getSelectedFormat().getPreferredNameExtension()
+            );
         }
+    }
+
+    private String removeRecognizedExtension(String resourceName) {
+        for (IResourceFormat format : formats) {
+            for (String extension : format.getNameExtensions()) {
+                String postfix = "." + extension;
+                if (resourceName.endsWith(postfix)) {
+                    resourceName = resourceName.substring(
+                        0, resourceName.length() - postfix.length()
+                    );
+                    return resourceName;
+                }
+            }
+        }
+        return resourceName;
     }
 
     /**
@@ -411,31 +459,6 @@ public class ResourceAndContainerGroup implements Listener {
      */
     public void setResource(String value) {
         resourceNameField.setText(value);
-        validateControls();
-    }
-
-    /**
-     * Set the only file extension allowed for the resource name field. <br>
-     * <br>
-     * If a resource extension is specified, then it will always be appended
-     * with a '.' to the text from the resource name field for validation when
-     * the following conditions are met: <br>
-     * <br>
-     * (1) Resource extension length is greater than 0 <br>
-     * (2) Resource name field text length is greater than 0 <br>
-     * (3) Resource name field text does not already end with a '.' and the
-     * resource extension specified (case sensitive) <br>
-     * <br>
-     * The resource extension will not be reflected in the actual resource name
-     * field until the resource name field loses focus.
-     * 
-     * @param value
-     *            The resource extension without the '.' prefix (e.g. 'java',
-     *            'xml')
-     * @since 3.3
-     */
-    public void setResourceExtension(String value) {
-        resourceExtension = value;
         validateControls();
     }
 
@@ -535,7 +558,7 @@ public class ResourceAndContainerGroup implements Listener {
 
     /**
      * Returns a <code>boolean</code> indicating whether the resource name
-     * rep- resents a valid resource name in the workbench. An error message is
+     * represents a valid resource name in the workbench. An error message is
      * stored for future reference if the name does not represent a valid
      * resource name.
      * 
@@ -547,7 +570,16 @@ public class ResourceAndContainerGroup implements Listener {
         if (resourceName.length() == 0) {
             problemType = PROBLEM_RESOURCE_EMPTY;
             problemMessage = NLS.bind(
-                    IDEWorkbenchMessages.ResourceGroup_emptyName, resourceType);
+                    IDEWorkbenchMessages.ResourceGroup_emptyName, "");
+            return false;
+        }
+
+        if (!hasProperFileExtension(resourceName)) {
+            problemType = PROBLEM_NAME_INVALID;
+            problemMessage = NLS.bind(
+                 IDEWorkbenchMessages.ResourceGroup_invalidFilename,
+                 resourceName
+            );
             return false;
         }
 
@@ -559,6 +591,25 @@ public class ResourceAndContainerGroup implements Listener {
             return false;
         }
         return true;
+    }
+
+    private boolean hasProperFileExtension( String resourceName ) {
+        IResourceFormat format = getSelectedFormat();
+        for (String extension : format.getNameExtensions()) {
+            if (resourceName.endsWith(extension))
+                return true;
+        }
+        return false;
+    }
+
+    private boolean hasRecognizedFileExtension( String resourceName ) {
+        for (IResourceFormat format : formats) {
+            for (String extension : format.getNameExtensions()) {
+                if (resourceName.endsWith(extension))
+                    return true;
+            }
+        }
+        return false;
     }
 
     /**
