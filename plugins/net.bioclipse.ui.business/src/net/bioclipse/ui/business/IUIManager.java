@@ -156,9 +156,6 @@ public interface IUIManager extends IBioclipseManager {
                       methodSummary = "Refresh resource given by path" )
     public void refresh(String path) throws BioclipseException;
 
-    public void refresh(String path, IProgressMonitor monitor) 
-                throws BioclipseException;
-
     @Recorded
     @PublishedMethod( params="String feature",
                       methodSummary="Assert a feature is installed." )
