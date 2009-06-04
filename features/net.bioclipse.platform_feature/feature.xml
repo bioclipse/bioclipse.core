@@ -5,16 +5,25 @@
       version="2.0.0.RC1"
       provider-name="The Bioclipse Team">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+   <description>
+      The Bioclipse Platform.
    </description>
 
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+   <copyright>
+      (C) 2005-2009 The Bioclipse Project contributors.
    </copyright>
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+   <license url="http://www.eclipse.org/org/documents/epl-v10.php">
+      This feature and the accompanying materials are made available
+under the terms of the Eclipse Public License v1.0 + exception,
+putting no constraints on choice of backend and/or license for
+creating plugins for Bioclipse; it is totally open for both open
+source plugins as well as commercial. The exception allows GPL
+plugins to be written and run in any combination with EPL licensed
+plugins, addressing incompatibility between the EPL and the GPL
+v.2.
+The Eclipse Public License accompanies this distribution, and
+is available at http://www.eclipse.org/legal/epl-v10.html
    </license>
 
    <includes
@@ -27,6 +36,26 @@
 
    <includes
          id="net.bioclipse.core_feature"
+         version="0.0.0"/>
+
+   <includes
+         id="net.bioclipse.metaprint2d_feature"
+         version="0.0.0"/>
+
+   <includes
+         id="net.bioclipse.qsar_feature"
+         version="0.0.0"/>
+
+   <includes
+         id="net.bioclipse.ds_feature"
+         version="0.0.0"/>
+
+   <includes
+         id="net.bioclipse.xws4j_feature"
+         version="0.0.0"/>
+
+   <includes
+         id="se.uu.farmbio.hivpred_feature"
          version="0.0.0"/>
 
 </feature>
