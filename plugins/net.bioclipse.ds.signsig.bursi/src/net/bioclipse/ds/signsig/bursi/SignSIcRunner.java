@@ -246,12 +246,14 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
     private void predict()
     {
         prediction = svm.svm_predict(bursiModel, xScaled);
+        
+        logger.debug("libsvm prediction: " + prediction);
 
         // Retrieve the decision function value.
         double lowPointDecisionFuncValue;
         double[] decValues = new double[1]; // We only have two classes so this should be one. Look in svm_predict_values for an explanation. 
         svm.svm_predict_values(bursiModel, xScaled, decValues);
-        logger.debug("Predicted decision function value: " + decValues[0]);
+        logger.debug("Decision function value: " + decValues[0]);
         lowPointDecisionFuncValue = decValues[0];
 
         // For a positive decision function we are looking for the largest positive component of the gradient.
