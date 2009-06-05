@@ -243,7 +243,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
     }
 
     
-    private void predict()
+    private void predict() throws DSException
     {
         prediction = svm.svm_predict(bursiModel, xScaled);
         
@@ -255,6 +255,12 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         svm.svm_predict_values(bursiModel, xScaled, decValues);
         logger.debug("Decision function value: " + decValues[0]);
         lowPointDecisionFuncValue = decValues[0];
+
+        //Confirm positive for libsvm prediction
+        if ((decValues[0] * prediction)>0){
+            throw new DSException("Ambiguous result.");
+        }
+
 
         // For a positive decision function we are looking for the largest positive component of the gradient.
         // For a negative, we are looking for the largest negative component.
@@ -318,7 +324,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
     }
 
 
-    private void predictAndComputeSignificance() {
+    private void predictAndComputeSignificance() throws DSException {
         logger.debug("Predicting and computing significance.");
 
         // The unscaled attributes. 
@@ -487,7 +493,11 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
             return returnError( "Cancelled","");
 
         //Predict using the signatureatoms and attributevalues
-        predictAndComputeSignificance();
+        try {
+            predictAndComputeSignificance();
+        } catch ( DSException e ) {
+            return returnError( e.getMessage(),"");
+        }
         
         //Remove the temp file
         tempfile.delete();
