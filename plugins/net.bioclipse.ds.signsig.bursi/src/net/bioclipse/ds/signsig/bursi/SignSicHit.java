@@ -34,9 +34,9 @@ public class SignSicHit extends SubStructureMatch{
     public java.awt.Color getHighlightingColor( IAtom atom ) {
         
         if (isPositive)
-            return java.awt.Color.GREEN;
-        else
             return java.awt.Color.RED;
+        else
+            return java.awt.Color.GREEN;
     }
     
 }
