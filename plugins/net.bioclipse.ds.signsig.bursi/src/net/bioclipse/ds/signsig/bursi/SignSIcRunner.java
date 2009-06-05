@@ -256,8 +256,8 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         logger.debug("Decision function value: " + decValues[0]);
         lowPointDecisionFuncValue = decValues[0];
 
-        //Confirm positive for libsvm prediction
-        if ((decValues[0] * prediction)>0){
+        //Confirm that the libsvm prediction and our prediction give the same result. 
+        if ((decValues[0] * prediction)<0){
             throw new DSException("Ambiguous result.");
         }
 
