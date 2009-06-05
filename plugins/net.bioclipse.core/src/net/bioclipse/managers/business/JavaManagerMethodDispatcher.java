@@ -12,6 +12,8 @@ import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
+import net.bioclipse.jobs.IReturner;
+import net.bioclipse.managers.business.AbstractManagerMethodDispatcher.ReturnCollector;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
@@ -66,6 +68,17 @@ public class JavaManagerMethodDispatcher
         
         
         List<Object> args = new ArrayList<Object>( Arrays.asList( arguments ) );
+        
+        boolean doingPartialReturns = false;
+        ReturnCollector returnCollector = new ReturnCollector();
+        //add partial returner
+        for ( Class<?> param : method.getParameterTypes() ) {
+            if ( param == IReturner.class ) {
+                doingPartialReturns = true;
+                args.add( returnCollector );
+            }
+        }
+        
         //Add a NullProgressMonitor if needed
         if ( Arrays.asList( method.getParameterTypes() )
                    .contains( IProgressMonitor.class ) &&
@@ -86,9 +99,18 @@ public class JavaManagerMethodDispatcher
         }
 
         arguments = args.toArray();
-        Object returnValue;
+        Object returnValue = null;
         try {
-            returnValue = method.invoke( manager, arguments );
+            if ( doingPartialReturns ) {
+                method.invoke( manager, arguments );
+                returnValue = returnCollector.getReturnValue();
+                if ( returnValue == null ) {
+                    returnValue = returnCollector.getReturnValues();
+                }
+            }
+            else {
+                returnValue = method.invoke( manager, arguments );
+            }
         } 
         catch ( Exception e ) {
             Throwable t = e;
