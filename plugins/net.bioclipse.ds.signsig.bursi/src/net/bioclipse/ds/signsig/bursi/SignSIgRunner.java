@@ -42,14 +42,15 @@ import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.ds.model.AbstractWarningTest;
 import net.bioclipse.ds.model.IDSTest;
 import net.bioclipse.ds.model.ITestResult;
+import net.bioclipse.ds.model.SimpleResult;
 import net.bioclipse.ds.model.SubStructureMatch;
 import net.bioclipse.ds.model.impl.DSException;
 
 
-public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
+public class SignSIgRunner extends AbstractWarningTest implements IDSTest{
 
     //The logger of the class
-    private static final Logger logger = Logger.getLogger(CDKManager.class);
+    private static final Logger logger = Logger.getLogger(SignSIgRunner.class);
 
     //The model file
     private static final String MODEL_FILE="/data/bursiSignsXYZ_1.txt.model";
@@ -96,7 +97,7 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
     /**
      * Default constructor
      */
-    public SignSIcRunner(){
+    public SignSIgRunner(){
         super();
     }
 
@@ -503,11 +504,12 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         tempfile.delete();
 
         //Create a new match with correct coloring
-        SignSicHit match=new SignSicHit();
+        SubStructureMatch match = new SubStructureMatch(significantSignature,ITestResult.INCONCLUSIVE);
+
         if (prediction>0)
-            match.setPositive( true );
+            match.setResultStatus( ITestResult.POSITIVE );
         else
-            match.setPositive( false );
+            match.setResultStatus( ITestResult.NEGATIVE );
             
         IAtomContainer significantAtomsContainer=cdkmol.getAtomContainer().getBuilder().newAtomContainer();
         for (int significantAtom : significantAtoms){
@@ -525,7 +527,6 @@ public class SignSIcRunner extends AbstractWarningTest implements IDSTest{
         //We want to set the color of the hilighting depending on the prediction. If the decision function > 0.0 the color should be red, otherwise it should be green.
         //we also want the filled circles to be larger so that they become visible for non carbons.
         match.setAtomContainer( significantAtomsContainer );
-        match.setName( significantSignature ); //Will appear in GUI
 
         //We can have multiple hits...
         List<ITestResult> results=new ArrayList<ITestResult>();
