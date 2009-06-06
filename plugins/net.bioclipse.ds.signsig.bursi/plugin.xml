@@ -4,11 +4,47 @@
    <extension
          point="net.bioclipse.ds.test">
       <test
-            class="net.bioclipse.ds.signsig.bursi.SignSIcRunner"
-            icon="icons/test.gif"
+            class="net.bioclipse.ds.signsig.bursi.SignSIgRunner"
+            icon="icons/form.gif"
             id="signsic.bursi"
-            name="Bursi SignSic QSAR">
+            name="Bursi Signature Significance">
       </test>
    </extension>
+   
+   
+       <extension
+       point="net.bioclipse.cdk.propertyCalculator">
+    <Calculator
+          class="net.bioclipse.ds.signsig.bursi.SignSigPropertyCalculator"
+          id="net.bioclipse.ds.signsig.bursi">
+    </Calculator>
+ </extension>
+ 
+ 	<extension
+  		point="org.eclipse.ui.menus">
+   <menuContribution
+        locationURI="popup:net.bioclipse.cdk.ui.sdfeditor.menu?after=additions">
+      <command
+           commandId="net.bioclipse.cdk.ui.sdfeditor.addProperty"
+           label="Compute Bursi Signature Significance"
+            icon="icons/form.gif"
+           style="push">
+        <parameter
+              name="net.bioclipse.cdk.ui.sdfeditor.calculatorId"
+              value="net.bioclipse.ds.signsig.bursi">
+        </parameter>
+        <visibleWhen
+              checkEnabled="false">
+           <with
+                 variable="activeEditor">
+              <instanceof
+                    value="net.bioclipse.cdk.ui.sdfeditor.editor.MultiPageMoleculesEditorPart">
+              </instanceof>
+           </with>
+        </visibleWhen>
+     </command>
+   </menuContribution>
+ </extension>
+   
 
 </plugin>
