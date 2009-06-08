@@ -46,215 +46,215 @@ import org.mozilla.javascript.ScriptableObject;
  *    Johannes Wagener - initial API and implementation
  */
 public class ScriptExecution {
-	
-  private static Logger logger = Logger.getLogger( ScriptExecution.class );
-    
-	/*
-	 * This is the only function required by the JsEditor Plug-in
-	 * The editor Plug-In passes
-	 * The script as a String
-	 * The filename of the script
-	 * A (derived) class/object of MessageConsole that must show
-	 * the stuff associated with the newly spawned js Context.
-	 */
-	public static void runRhinoScript(String scriptString,
-			String scriptDescription,
-			MessageConsole parent_console) {
-		
-		// The passed console is wrapped with a Thread Safe!! API, thus it is possible
-		// to use it from non GUI thread.
-		// Beside this the wrap supports simple methods to print with different colors
-		ThreadSafeConsoleWrap console = new ThreadSafeConsoleWrap(parent_console);
-		
-		// now run the script in a JOB
-		runRhinoScriptAsJob(scriptString, scriptDescription, console);
-	}
-	
-	/*
-	 * This function prepares a Job that harbors the script when running.
-	 * TODO: add the code to pass the monitor to spring that it can cancel the script on manager calls.
-	 */
-	
-	private static void runRhinoScriptAsJob(String scriptString,
-			String scriptDescription,
-			final ThreadSafeConsoleWrap console) {
-		
-		final String scriptStringFinal = scriptString;
-		final String title = "Javascript - " + scriptDescription;
 
-		
-		
-		// show progress window		
-		IWorkbench wb = PlatformUI.getWorkbench();
-		IWorkbenchPage wbPage = wb.getActiveWorkbenchWindow().getActivePage(); 
+    private static Logger logger = Logger.getLogger( ScriptExecution.class );
+
+    /*
+     * This is the only function required by the JsEditor Plug-in
+     * The editor Plug-In passes
+     * The script as a String
+     * The filename of the script
+     * A (derived) class/object of MessageConsole that must show
+     * the stuff associated with the newly spawned js Context.
+     */
+    public static void runRhinoScript(String scriptString,
+            String scriptDescription,
+            MessageConsole parent_console) {
+
+        // The passed console is wrapped with a Thread Safe!! API, thus it is possible
+        // to use it from non GUI thread.
+        // Beside this the wrap supports simple methods to print with different colors
+        ThreadSafeConsoleWrap console = new ThreadSafeConsoleWrap(parent_console);
+
+        // now run the script in a JOB
+        runRhinoScriptAsJob(scriptString, scriptDescription, console);
+    }
+
+    /*
+     * This function prepares a Job that harbors the script when running.
+     * TODO: add the code to pass the monitor to spring that it can cancel the script on manager calls.
+     */
+
+    private static void runRhinoScriptAsJob(String scriptString,
+            String scriptDescription,
+            final ThreadSafeConsoleWrap console) {
+
+        final String scriptStringFinal = scriptString;
+        final String title = "Javascript - " + scriptDescription;
+
+
+
+        // show progress window		
+        IWorkbench wb = PlatformUI.getWorkbench();
+        IWorkbenchPage wbPage = wb.getActiveWorkbenchWindow().getActivePage(); 
         if (wbPage != null) {
             IViewPart progressView = wbPage.findView("org.eclipse.ui.views.ProgressView");
             if (progressView == null)
-            	try {
-            		wbPage.showView("org.eclipse.ui.views.ProgressView");
-            	} catch (PartInitException e) {
-            		console.writeToConsole("PartInitException: " + e.getMessage());
-            	}
+                try {
+                    wbPage.showView("org.eclipse.ui.views.ProgressView");
+                } catch (PartInitException e) {
+                    console.writeToConsole("PartInitException: " + e.getMessage());
+                }
         }
         // define the job
-		Job job = new Job(title) {
-			private String scriptResult = "undefined";
-			protected IStatus run(IProgressMonitor monitor) {
-				boolean bSuccess = true;
-				// set a friendly icon and keep the job in list when it is finished
-				/*setProperty(IProgressConstants.ICON_PROPERTY,
+        Job job = new Job(title) {
+            private String scriptResult = "undefined";
+            protected IStatus run(IProgressMonitor monitor) {
+                boolean bSuccess = true;
+                // set a friendly icon and keep the job in list when it is finished
+                /*setProperty(IProgressConstants.ICON_PROPERTY,
 						Activator.getImageDescriptor("icons/png/jsfilerun.png"));*/
-				
-				MonitorContainer.getInstance().addMonitor( monitor );
-				
-				monitor.beginTask("Running Javascript...", 2);
-				try {
-					monitor.worked(1);
-					scriptResult =
-						runRhinoScript(scriptStringFinal, console, monitor);
-					monitor.done();
-				} catch (Exception e) {
-					monitor.setTaskName("Error: " + e.getMessage());
-					
-					//scriptResult = "test123";
-					scriptResult = e.getMessage();
-					String traced_e = getErrorMessage(e);
-					if (!scriptResult.equals(traced_e))
-						scriptResult = scriptResult + System.getProperty("line.separator") +
-						" " + traced_e;
-					bSuccess = false;
-				}
 
-				if (bSuccess == true)
-					monitor.setTaskName("Javascript done.");
+                MonitorContainer.getInstance().addMonitor( monitor );
 
-				if (bSuccess == false) {
-					// inform user about error.news
-					setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
-					setProperty(IProgressConstants.ACTION_PROPERTY, JobErrorAction());
-				} // ... and else, finish job imediately!
+                monitor.beginTask("Running Javascript...", 2);
+                try {
+                    monitor.worked(1);
+                    scriptResult =
+                        runRhinoScript(scriptStringFinal, console, monitor);
+                    monitor.done();
+                } catch (Exception e) {
+                    monitor.setTaskName("Error: " + e.getMessage());
 
-				Display.getDefault().syncExec(new Runnable() {
-					public void run() {
-						console.writeToConsole(scriptResult);
-						console.writeToConsoleBlue("Javascript done.");
-					}
-				});
-				return Status.OK_STATUS;
-			}
-			protected Action JobErrorAction() {
-				return new Action("Javacript done") {
-					public void run() {
-						MessageDialog.openError(
-								PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-								title,
-								"The Javascript returned an error:\n" + scriptResult);
-					}
-				};
-			}
-		};
-		job.setUser(true);
-		job.schedule();
-	}
+                    //scriptResult = "test123";
+                    scriptResult = e.getMessage();
+                    String traced_e = getErrorMessage(e);
+                    if (!scriptResult.equals(traced_e))
+                        scriptResult = scriptResult + System.getProperty("line.separator") +
+                        " " + traced_e;
+                    bSuccess = false;
+                }
 
-	/*
-	 * This is the method that actually runs the script. It collects the managers and pushes them
-	 * in the newly created js context. One context per script execution.
-	 * 
-	 * Beside this it creates another object in the context
-	 * that provides some helper functions located in
-	 * 
-	 * net.bioclipse.jsexecution.tools.ScriptingTools.java
-	 * 
-	 * used to pop up a message box, or to make a script sleep for some ms,
-	 * or to run a runnable in the GUI context.
-	 * 
-	 * There is also one helper function that can be used to load an external .jar into the IDE.
-	 * ( it uses net.bioclipse.jsexecution.tools.JarClasspathLoader.java )
-	 * 
-	 */
-	
-	@SuppressWarnings("unchecked")
-	private static String runRhinoScript(String scriptString,
-			ThreadSafeConsoleWrap console,
-			IProgressMonitor monitor) throws ScriptException {
-		String scriptResult = "Invalid result.";
-		// DO THE ACTUAL EXECUTION OF THE SCRIPT
+                if (bSuccess == true)
+                    monitor.setTaskName("Javascript done.");
 
-		if (!ContextFactory.hasExplicitGlobal()) {
-			ContextFactory.initGlobal(new ContextFactory());
-			// THIS IS VERY IMPORTANT!!!
-			ContextFactory.getGlobal().initApplicationClassLoader(
-					Activator.class.getClassLoader());
-		}
-		Context cx = ContextFactory.getGlobal().enterContext();
-		
-		if (cx == null) {
-			return "Could not create context.";
-		}
+                if (bSuccess == false) {
+                    // inform user about error.news
+                    setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
+                    setProperty(IProgressConstants.ACTION_PROPERTY, JobErrorAction());
+                } // ... and else, finish job imediately!
 
-		try {
-			// Initialize the standard objects (Object, Function, etc.)
-			// This must be done before scripts can be executed. Returns
-			// a scope object that we use in later calls.
-			Scriptable scope = cx.initStandardObjects();
+                Display.getDefault().syncExec(new Runnable() {
+                    public void run() {
+                        console.writeToConsole(scriptResult);
+                        console.writeToConsoleBlue("Javascript done.");
+                    }
+                });
+                return Status.OK_STATUS;
+            }
+            protected Action JobErrorAction() {
+                return new Action("Javacript done") {
+                    public void run() {
+                        MessageDialog.openError(
+                                PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                                title,
+                                "The Javascript returned an error:\n" + scriptResult);
+                    }
+                };
+            }
+        };
+        job.setUser(true);
+        job.schedule();
+    }
 
-			ScriptingTools tools;
-			tools = new ScriptingTools(console, monitor);
-			
-			Object wrappedOut = Context.javaToJS(tools, scope);
-			ScriptableObject.putProperty(scope, "jst", wrappedOut);
+    /*
+     * This is the method that actually runs the script. It collects the managers and pushes them
+     * in the newly created js context. One context per script execution.
+     * 
+     * Beside this it creates another object in the context
+     * that provides some helper functions located in
+     * 
+     * net.bioclipse.jsexecution.tools.ScriptingTools.java
+     * 
+     * used to pop up a message box, or to make a script sleep for some ms,
+     * or to run a runnable in the GUI context.
+     * 
+     * There is also one helper function that can be used to load an external .jar into the IDE.
+     * ( it uses net.bioclipse.jsexecution.tools.JarClasspathLoader.java )
+     * 
+     */
 
-			// also add all managers
-			List<Object> managers = Activator.getManagers();
-			if (managers != null && managers.size() > 0) {
-				Iterator<Object> it = managers.iterator();
-				while (it.hasNext() == true) {
-					Object object = it.next();
-					
-					Class managerclass = object.getClass();
-					// access the method in this ugly way however it is not protected...
-					Method method = managerclass.getDeclaredMethod("getManagerName", new Class[0]);
-					//method.setAccessible(true);
-					Object managerName = (String)method.invoke(object);
-					if (managerName instanceof String) {
-						wrappedOut = Context.javaToJS(object, scope);
-						ScriptableObject.putProperty(scope, (String)managerName, wrappedOut);
-					}
-				}
-			}
-			
-			// Now evaluate the string we've colected.
-			Object ev = cx.evaluateString(scope, scriptString, "line: ", 1, null);
+    @SuppressWarnings("unchecked")
+    private static String runRhinoScript(String scriptString,
+            ThreadSafeConsoleWrap console,
+            IProgressMonitor monitor) throws ScriptException {
+        String scriptResult = "Invalid result.";
+        // DO THE ACTUAL EXECUTION OF THE SCRIPT
 
-			// Convert the result to a string and print it.
-			scriptResult = Context.toString(ev);
-		} catch (Exception e){
-		    LogUtils.debugTrace( logger, e );
-			throw new ScriptException(e);
-		} finally {
-			// Exit from the context.
-			Context.exit();
-		}
+        if (!ContextFactory.hasExplicitGlobal()) {
+            ContextFactory.initGlobal(new ContextFactory());
+            // THIS IS VERY IMPORTANT!!!
+            ContextFactory.getGlobal().initApplicationClassLoader(
+                    Activator.class.getClassLoader());
+        }
+        Context cx = ContextFactory.getGlobal().enterContext();
 
-		return scriptResult;
-	}
-	
-	public static String getErrorMessage(Throwable t) {
-		if (t == null)
-			return "";
-		
+        if (cx == null) {
+            return "Could not create context.";
+        }
+
+        try {
+            // Initialize the standard objects (Object, Function, etc.)
+            // This must be done before scripts can be executed. Returns
+            // a scope object that we use in later calls.
+            Scriptable scope = cx.initStandardObjects();
+
+            ScriptingTools tools;
+            tools = new ScriptingTools(console, monitor);
+
+            Object wrappedOut = Context.javaToJS(tools, scope);
+            ScriptableObject.putProperty(scope, "jst", wrappedOut);
+
+            // also add all managers
+            List<Object> managers = Activator.getManagers();
+            if (managers != null && managers.size() > 0) {
+                Iterator<Object> it = managers.iterator();
+                while (it.hasNext() == true) {
+                    Object object = it.next();
+
+                    Class managerclass = object.getClass();
+                    // access the method in this ugly way however it is not protected...
+                    Method method = managerclass.getDeclaredMethod("getManagerName", new Class[0]);
+                    //method.setAccessible(true);
+                    Object managerName = (String)method.invoke(object);
+                    if (managerName instanceof String) {
+                        wrappedOut = Context.javaToJS(object, scope);
+                        ScriptableObject.putProperty(scope, (String)managerName, wrappedOut);
+                    }
+                }
+            }
+
+            // Now evaluate the string we've colected.
+            Object ev = cx.evaluateString(scope, scriptString, "line: ", 1, null);
+
+            // Convert the result to a string and print it.
+            scriptResult = Context.toString(ev);
+        } catch (Exception e){
+            LogUtils.debugTrace( logger, e );
+            throw new ScriptException(e);
+        } finally {
+            // Exit from the context.
+            Context.exit();
+        }
+
+        return scriptResult;
+    }
+
+    public static String getErrorMessage(Throwable t) {
+        if (t == null)
+            return "";
+
         while (!(t instanceof BioclipseException)
                 && t.getCause() != null)
             t = t.getCause();
-        
+
         String msg = t.getMessage();
         if (msg == null)
-        	msg = "";
+            msg = "";
 
         return (t instanceof BioclipseException
                 ? "" : t.getClass().getName() + ": ")
-               + msg.replaceAll( " end of file",
-                               " end of line" );
+                + msg.replaceAll( " end of file",
+                " end of line" );
     }
 }

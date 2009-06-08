@@ -30,7 +30,7 @@ public class ThreadSafeConsoleWrap {
     }
 
     private static void println(final MessageConsoleStream consolestream,
-                                final String message) {
+            final String message) {
         if (consolestream == null)
             return;
 
@@ -42,8 +42,8 @@ public class ThreadSafeConsoleWrap {
                     consolestream.print(message.substring(0, MAX_SIZE));
                     consolestream.println(" [...]");
                     consolestream.println(" A String was truncated: the String "
-                                          + "exceeded the maxiumum size of "
-                                          + MAX_SIZE);
+                            + "exceeded the maxiumum size of "
+                            + MAX_SIZE);
                 }
             };
             Display.getDefault().asyncExec(r);
@@ -97,7 +97,7 @@ public class ThreadSafeConsoleWrap {
     private MessageConsoleStream getConsoleStreamBlue() {
         if (out_blue == null) {
             Color color_blue = PlatformUI.getWorkbench().getDisplay()
-                                         .getSystemColor(SWT.COLOR_BLUE);
+            .getSystemColor(SWT.COLOR_BLUE);
             if (messageConsole == null)
                 return null;
             out_blue = messageConsole.newMessageStream();
@@ -109,7 +109,7 @@ public class ThreadSafeConsoleWrap {
     private MessageConsoleStream getConsoleStreamRed() {
         if (out_red == null) {
             Color color_red = PlatformUI.getWorkbench().getDisplay()
-                                        .getSystemColor(SWT.COLOR_RED);
+            .getSystemColor(SWT.COLOR_RED);
             if (messageConsole == null)
                 return null;
             out_red = messageConsole.newMessageStream();

@@ -13,18 +13,18 @@ package net.bioclipse.jsexecution.exceptions;
  *    Johannes Wagener - initial API and implementation
  */
 public class ScriptException extends Exception {
-	
-	private static final long serialVersionUID = -1536851006065532451L;
-	
-	public ScriptException() {
-		super();
-	}
 
-	public ScriptException(String message) {
-		super(message);
-	}
+    private static final long serialVersionUID = -1536851006065532451L;
 
-	public ScriptException(Throwable t) {
-		super(t);
-	}
+    public ScriptException() {
+        super();
+    }
+
+    public ScriptException(String message) {
+        super(message);
+    }
+
+    public ScriptException(Throwable t) {
+        super(t);
+    }
 }

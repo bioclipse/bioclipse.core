@@ -27,100 +27,100 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator extends AbstractUIPlugin {
 
-	// The plug-in ID
-	public static final String PLUGIN_ID = "net.bioclipse.jsexecution";
+    // The plug-in ID
+    public static final String PLUGIN_ID = "net.bioclipse.jsexecution";
 
-	// The shared instance
-	private static Activator plugin;
-	
-	private static List<Object> MANAGERS = null;
-	
-	/**
-	 * The constructor
-	 */
-	public Activator() {
-	}
+    // The shared instance
+    private static Activator plugin;
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-	 */
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-		plugin = this;
-	}
+    private static List<Object> MANAGERS = null;
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext context) throws Exception {
-		plugin = null;
-		super.stop(context);
-	}
+    /**
+     * The constructor
+     */
+    public Activator() {
+    }
 
-	/**
-	 * Returns the shared instance
-	 *
-	 * @return the shared instance
-	 */
-	public static Activator getDefault() {
-		return plugin;
-	}
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+     */
+    public void start(BundleContext context) throws Exception {
+        super.start(context);
+        plugin = this;
+    }
 
-	@SuppressWarnings("unchecked")
-	private static boolean isIBioclipseManager(Class theClass) {
-		/* this is a recursive hack */
-		Class[] interfaces = theClass.getInterfaces();
-		for (int i = 0; i < interfaces.length; i++) {
-			if (interfaces[i].getSimpleName().equals("IBioclipseManager"))
-				return true;
-			// and recursively discover the 'tree'...
-			if (isIBioclipseManager(interfaces[i]))
-				return true;
-		}
-		return false;
-	}
-	
-	@SuppressWarnings("unchecked")
-	private static List<Object> findPlatformManagers() {
-		List<Object> list = new ArrayList<Object>();
+    /*
+     * (non-Javadoc)
+     * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+     */
+    public void stop(BundleContext context) throws Exception {
+        plugin = null;
+        super.stop(context);
+    }
 
-		IExtensionRegistry registry = Platform.getExtensionRegistry();
+    /**
+     * Returns the shared instance
+     *
+     * @return the shared instance
+     */
+    public static Activator getDefault() {
+        return plugin;
+    }
 
-		if (registry != null) {
-			IExtensionPoint serviceObjectExtensionPoint =
-				registry.getExtensionPoint(
-					"net.bioclipse.scripting.contribution");
+    @SuppressWarnings("unchecked")
+    private static boolean isIBioclipseManager(Class theClass) {
+        /* this is a recursive hack */
+        Class[] interfaces = theClass.getInterfaces();
+        for (int i = 0; i < interfaces.length; i++) {
+            if (interfaces[i].getSimpleName().equals("IBioclipseManager"))
+                return true;
+            // and recursively discover the 'tree'...
+            if (isIBioclipseManager(interfaces[i]))
+                return true;
+        }
+        return false;
+    }
 
-			IExtension[] serviceObjectExtensions
-				= serviceObjectExtensionPoint.getExtensions();
-			
-			for (IExtension extension : serviceObjectExtensions) {
-				for(IConfigurationElement element
-						: extension.getConfigurationElements()) {
-					Object service = null;
-					try {
-						service = element.createExecutableExtension("service");
-					}
-					catch (CoreException e) {
-						PluginLogger.log("Failed to get a service: " + e.getMessage());
-					}
-					Class theClass = service.getClass();
-					if(service != null && isIBioclipseManager(theClass)) {
-						list.add(service);
-					}
-				}
-			}
-		}
-		return list;
-	}
-	
-	public static List<Object> getManagers() {
-		
-		if (MANAGERS == null)
-			MANAGERS = findPlatformManagers();
-		
-		return MANAGERS;
-	}
+    @SuppressWarnings("unchecked")
+    private static List<Object> findPlatformManagers() {
+        List<Object> list = new ArrayList<Object>();
+
+        IExtensionRegistry registry = Platform.getExtensionRegistry();
+
+        if (registry != null) {
+            IExtensionPoint serviceObjectExtensionPoint =
+                registry.getExtensionPoint(
+                "net.bioclipse.scripting.contribution");
+
+            IExtension[] serviceObjectExtensions
+            = serviceObjectExtensionPoint.getExtensions();
+
+            for (IExtension extension : serviceObjectExtensions) {
+                for(IConfigurationElement element
+                        : extension.getConfigurationElements()) {
+                    Object service = null;
+                    try {
+                        service = element.createExecutableExtension("service");
+                    }
+                    catch (CoreException e) {
+                        PluginLogger.log("Failed to get a service: " + e.getMessage());
+                    }
+                    Class theClass = service.getClass();
+                    if(service != null && isIBioclipseManager(theClass)) {
+                        list.add(service);
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<Object> getManagers() {
+
+        if (MANAGERS == null)
+            MANAGERS = findPlatformManagers();
+
+        return MANAGERS;
+    }
 }
