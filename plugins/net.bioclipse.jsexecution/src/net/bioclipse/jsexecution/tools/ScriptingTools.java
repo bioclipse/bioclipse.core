@@ -32,24 +32,27 @@ public class ScriptingTools {
      * Constructor for threaded scripts
      * @param monitor The monitor, used to cancel a script
      */
-    public ScriptingTools(ThreadSafeConsoleWrap console, IProgressMonitor monitor) {
+    public ScriptingTools(ThreadSafeConsoleWrap console,
+                          IProgressMonitor monitor) {
         this.console = console;
         this.monitor = monitor;
     }
 
     /**
      * Prints to the JsEditor Javascript Console.
-     * @return true if the threaded script was canceled by the user, false otherwise 
+     * @return true if the threaded script was canceled by the user,
+     *         false otherwise 
      */
     public void print(String text) {
         console.writeToConsole(text);
     }
 
     /**
-     * Checks if the threaded script was canceled by the user. This function is only
-     * useful for scripts that are run in separate threads. It uses the monitor that was
-     * passed to the constructor of threaded scripts.
-     * @return true if the threaded script was canceled by the user, false otherwise 
+     * Checks if the threaded script was canceled by the user. This function
+     * is only useful for scripts that are run in separate threads. It uses
+     * the monitor that was passed to the constructor of threaded scripts.
+     * @return true if the threaded script was canceled by the user,
+     *         false otherwise 
      */
     public boolean isCanceled() {
         if (monitor == null)	// always return false if not monitor is available
@@ -59,8 +62,8 @@ public class ScriptingTools {
     }
 
     /**
-     * Shows a message box. Please consider that this function requires special care when
-     * used in a threaded script.
+     * Shows a message box. Please consider that this function requires
+     * special care when used in a threaded script.
      * (Wraps: MessageDialog.openInformation(...);)
      * @param title The title of the message box window
      * @param message The message within the message box window
@@ -78,8 +81,8 @@ public class ScriptingTools {
     }
 
     /**
-     * Shows a message box. Please consider that this function requires special care when
-     * used in a threaded script.
+     * Shows a message box. Please consider that this function requires
+     * special care when used in a threaded script.
      * (Wraps: MessageDialog.openInformation(...);)
      * @param message The message within the message box window
      */
@@ -96,8 +99,8 @@ public class ScriptingTools {
     }
 
     /**
-     * Causes the script's thread to sleep for the specified amount of milliseconds.
-     * (Wraps: Thread.sleep(ms);)
+     * Causes the script's thread to sleep for the specified amount of
+     * milliseconds. (Wraps: Thread.sleep(ms);)
      * @param ms Milliseconds the thread should sleep
      */
     public void sleep(int ms) {
@@ -117,9 +120,10 @@ public class ScriptingTools {
     }
 
     /**
-     * Executes the specified Runnable within Bioclipse's main thread. This function is only
-     * useful for scripts that are run in separate threads. Please refer to the eclipse documentation
-     * to learn more about asyncExec() and asyncExec().
+     * Executes the specified Runnable within Bioclipse's main thread. This
+     * function is only useful for scripts that are run in separate threads.
+     * Please refer to the eclipse documentation to learn more about
+     * asyncExec() and asyncExec().
      * (Wraps: Display.getDefault().syncExec(runnable);)
      * @param runnable The runnable
      */
@@ -128,9 +132,10 @@ public class ScriptingTools {
     }
 
     /**
-     * Executes the specified Runnable within Bioclipse's main thread. This function is only
-     * useful for scripts that are run in separate threads. Please refer to the eclipse documentation
-     * to learn more about asyncExec() and asyncExec().
+     * Executes the specified Runnable within Bioclipse's main thread. This
+     * function is only useful for scripts that are run in separate threads.
+     * Please refer to the eclipse documentation to learn more about
+     * asyncExec() and asyncExec().
      * (Wraps: Display.getDefault().asyncExec(runnable);)
      * @param runnable The runnable
      */
@@ -171,9 +176,9 @@ public class ScriptingTools {
     }
 
     /**
-     * Loads the specified Java library to Bioclipse's classpath. The Java library can either
-     * be a java archive (.jar file) or a package directory that contains compiled java code 
-     * (.class files).
+     * Loads the specified Java library to Bioclipse's classpath. The Java
+     * library can either be a java archive (.jar file) or a package directory
+     * that contains compiled java code (.class files).
      * Example: c:\\theDirectory\\myArchive.jar
      * @param name The filename of the java archive or the package directory.
      */

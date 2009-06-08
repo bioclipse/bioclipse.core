@@ -34,7 +34,8 @@ public class JarClasspathLoader {
 
     public static boolean addFile(File file, ThreadSafeConsoleWrap console) {
         try {
-            addURL(file.toURI().toURL(), console);	// file:/c:/xws-aacodeconverter.jar
+            // file:/c:/xws-aacodeconverter.jar
+            addURL(file.toURI().toURL(), console);
         } catch (MalformedURLException e) {
             console.writeToConsoleRed("Error, could not convert File to URL.");
             return false;
@@ -48,7 +49,9 @@ public class JarClasspathLoader {
         ClassLoader sysloader = ClassLoader.getSystemClassLoader();
 
         if (!(sysloader instanceof URLClassLoader)) {
-            console.writeToConsoleRed("Error, system classloader is not instance of URLClassLoader.");
+            console.writeToConsoleRed(
+                "Error, system classloader is not instance of URLClassLoader."
+            );
             return false;
         }
 
@@ -60,10 +63,14 @@ public class JarClasspathLoader {
             method.setAccessible(true);
             method.invoke((URLClassLoader)sysloader, new Object[]{ url });
         } catch (Throwable t) {
-            console.writeToConsoleRed("Error, could not add URL to system's Classloader.");
+            console.writeToConsoleRed(
+                "Error, could not add URL to system's Classloader."
+            );
             return false;
         }
-        console.writeToConsoleBlue("Added " + url.toString() + " to system's Classloader.");
+        console.writeToConsoleBlue(
+            "Added " + url.toString() + " to system's Classloader."
+        );
         return true;
     }
 }

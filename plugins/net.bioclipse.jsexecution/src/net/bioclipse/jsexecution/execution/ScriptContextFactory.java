@@ -1,7 +1,8 @@
 package net.bioclipse.jsexecution.execution;
 /*
 
-TODO: This file should get a static function to request an object that wraps a Rhino context.
+TODO: This file should get a static function to request an object that wraps a
+      Rhino context.
 Example:
 
 public static ScriptContext getNewScriptContext() {
@@ -9,7 +10,7 @@ public static ScriptContext getNewScriptContext() {
 }
 
 
-This context can be used by the JsConsole to feed in a command, and to discover the api of objects
-in the context.
+This context can be used by the JsConsole to feed in a command, and to discover
+the API of objects in the context.
 
  */

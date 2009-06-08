@@ -61,10 +61,12 @@ public class ScriptExecution {
             String scriptDescription,
             MessageConsole parent_console) {
 
-        // The passed console is wrapped with a Thread Safe!! API, thus it is possible
-        // to use it from non GUI thread.
-        // Beside this the wrap supports simple methods to print with different colors
-        ThreadSafeConsoleWrap console = new ThreadSafeConsoleWrap(parent_console);
+        // The passed console is wrapped with a Thread Safe!! API, thus it is
+        // possible to use it from non GUI thread.
+        // Beside this the wrap supports simple methods to print with different
+        // colors
+        ThreadSafeConsoleWrap console
+          = new ThreadSafeConsoleWrap(parent_console);
 
         // now run the script in a JOB
         runRhinoScriptAsJob(scriptString, scriptDescription, console);
@@ -72,7 +74,8 @@ public class ScriptExecution {
 
     /*
      * This function prepares a Job that harbors the script when running.
-     * TODO: add the code to pass the monitor to spring that it can cancel the script on manager calls.
+     * TODO: add the code to pass the monitor to spring that it can cancel the
+     * script on manager calls.
      */
 
     private static void runRhinoScriptAsJob(String scriptString,
@@ -88,12 +91,14 @@ public class ScriptExecution {
         IWorkbench wb = PlatformUI.getWorkbench();
         IWorkbenchPage wbPage = wb.getActiveWorkbenchWindow().getActivePage(); 
         if (wbPage != null) {
-            IViewPart progressView = wbPage.findView("org.eclipse.ui.views.ProgressView");
+            IViewPart progressView
+              = wbPage.findView("org.eclipse.ui.views.ProgressView");
             if (progressView == null)
                 try {
                     wbPage.showView("org.eclipse.ui.views.ProgressView");
                 } catch (PartInitException e) {
-                    console.writeToConsole("PartInitException: " + e.getMessage());
+                    console.writeToConsole("PartInitException: "
+                                           + e.getMessage());
                 }
         }
         // define the job
@@ -101,7 +106,8 @@ public class ScriptExecution {
             private String scriptResult = "undefined";
             protected IStatus run(IProgressMonitor monitor) {
                 boolean bSuccess = true;
-                // set a friendly icon and keep the job in list when it is finished
+                // set a friendly icon and keep the job in list when
+                // it is finished
                 /*setProperty(IProgressConstants.ICON_PROPERTY,
 						Activator.getImageDescriptor("icons/png/jsfilerun.png"));*/
 
@@ -120,8 +126,9 @@ public class ScriptExecution {
                     scriptResult = e.getMessage();
                     String traced_e = getErrorMessage(e);
                     if (!scriptResult.equals(traced_e))
-                        scriptResult = scriptResult + System.getProperty("line.separator") +
-                        " " + traced_e;
+                        scriptResult = scriptResult
+                        + System.getProperty("line.separator")
+                        + " " + traced_e;
                     bSuccess = false;
                 }
 
@@ -131,7 +138,8 @@ public class ScriptExecution {
                 if (bSuccess == false) {
                     // inform user about error.news
                     setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
-                    setProperty(IProgressConstants.ACTION_PROPERTY, JobErrorAction());
+                    setProperty(IProgressConstants.ACTION_PROPERTY,
+                                JobErrorAction());
                 } // ... and else, finish job imediately!
 
                 Display.getDefault().syncExec(new Runnable() {
@@ -146,9 +154,12 @@ public class ScriptExecution {
                 return new Action("Javacript done") {
                     public void run() {
                         MessageDialog.openError(
-                                PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                                PlatformUI.getWorkbench()
+                                          .getActiveWorkbenchWindow()
+                                          .getShell(),
                                 title,
-                                "The Javascript returned an error:\n" + scriptResult);
+                                "The Javascript returned an error:\n"
+                                + scriptResult);
                     }
                 };
             }
@@ -158,8 +169,9 @@ public class ScriptExecution {
     }
 
     /*
-     * This is the method that actually runs the script. It collects the managers and pushes them
-     * in the newly created js context. One context per script execution.
+     * This is the method that actually runs the script. It collects the
+     * managers and pushes them in the newly created js context. One context
+     * per script execution.
      * 
      * Beside this it creates another object in the context
      * that provides some helper functions located in
@@ -169,7 +181,8 @@ public class ScriptExecution {
      * used to pop up a message box, or to make a script sleep for some ms,
      * or to run a runnable in the GUI context.
      * 
-     * There is also one helper function that can be used to load an external .jar into the IDE.
+     * There is also one helper function that can be used to load an external
+     * .jar into the IDE.
      * ( it uses net.bioclipse.jsexecution.tools.JarClasspathLoader.java )
      * 
      */
@@ -214,18 +227,23 @@ public class ScriptExecution {
 
                     Class managerclass = object.getClass();
                     // access the method in this ugly way however it is not protected...
-                    Method method = managerclass.getDeclaredMethod("getManagerName", new Class[0]);
+                    Method method
+                      = managerclass.getDeclaredMethod("getManagerName",
+                                                       new Class[0]);
                     //method.setAccessible(true);
                     Object managerName = (String)method.invoke(object);
                     if (managerName instanceof String) {
                         wrappedOut = Context.javaToJS(object, scope);
-                        ScriptableObject.putProperty(scope, (String)managerName, wrappedOut);
+                        ScriptableObject.putProperty(scope,
+                                                     (String)managerName,
+                                                     wrappedOut);
                     }
                 }
             }
 
             // Now evaluate the string we've colected.
-            Object ev = cx.evaluateString(scope, scriptString, "line: ", 1, null);
+            Object ev
+              = cx.evaluateString(scope, scriptString, "line: ", 1, null);
 
             // Convert the result to a string and print it.
             scriptResult = Context.toString(ev);

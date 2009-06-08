@@ -104,7 +104,8 @@ public class Activator extends AbstractUIPlugin {
                         service = element.createExecutableExtension("service");
                     }
                     catch (CoreException e) {
-                        PluginLogger.log("Failed to get a service: " + e.getMessage());
+                        PluginLogger.log("Failed to get a service: "
+                                         + e.getMessage());
                     }
                     Class theClass = service.getClass();
                     if(service != null && isIBioclipseManager(theClass)) {
