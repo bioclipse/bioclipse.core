@@ -310,28 +310,28 @@ public class BioclipseJob<T> extends Job {
         return methodCalled;
     }
 
-    private static class ReturnCollector implements IReturner {
+    private static class ReturnCollector<T> implements IReturner<T> {
 
-        private volatile Object returnValue;
-        private List<Object> returnValues = new ArrayList<Object>();
+        private volatile T returnValue;
+        private List<T> returnValues = new ArrayList<T>();
         
-        public void partialReturn( Object object ) {
+        public void partialReturn( T object ) {
             synchronized ( returnValues ) {
                 returnValues.add( object );
             }
         }
         
-        public List<Object> getReturnValues() {
+        public List<T> getReturnValues() {
             synchronized ( returnValues ) {
                 return returnValues;
             }
         }
 
-        public void completeReturn( Object object ) {
+        public void completeReturn( T object ) {
             returnValue=object;
         }
         
-        public Object getReturnValue() {
+        public T getReturnValue() {
             return returnValue;
         }    
     }

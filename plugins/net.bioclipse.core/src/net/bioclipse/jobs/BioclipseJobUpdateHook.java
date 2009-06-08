@@ -3,7 +3,7 @@ package net.bioclipse.jobs;
 /**
  * @author jonalv
  */
-public class BioclipseJobUpdateHook implements IReturner {
+public class BioclipseJobUpdateHook<T> implements IReturner<T> {
 
     private String jobName;
     
@@ -18,11 +18,11 @@ public class BioclipseJobUpdateHook implements IReturner {
     public void done() {
     }
 
-    public void partialReturn( Object chunk ) {
+    public void partialReturn( T chunk ) {
 
     }
 
-    public void completeReturn( Object object ) {
+    public void completeReturn( T object ) {
 
     }
 }

@@ -42,12 +42,12 @@ public abstract class AbstractManagerMethodDispatcher
     private final Logger logger 
         = Logger.getLogger( AbstractManagerMethodDispatcher.class );
     
-    protected static class ReturnCollector implements IReturner {
+    protected static class ReturnCollector<T> implements IReturner<T> {
 
-        private volatile Object returnValue = null;
-        private List<Object> returnValues = new ArrayList<Object>();
+        private volatile T returnValue = null;
+        private List<T> returnValues = new ArrayList<T>();
         
-        public void partialReturn( Object object ) {
+        public void partialReturn( T object ) {
             if ( returnValue != null ) {
                 throw new IllegalStateException(
                     "Method completeReturn already called. " +
@@ -58,13 +58,13 @@ public abstract class AbstractManagerMethodDispatcher
             }
         }
         
-        public List<Object> getReturnValues() {
+        public List<T> getReturnValues() {
             synchronized ( returnValues ) {
                 return returnValues;
             }
         }
 
-        public void completeReturn( Object object ) {
+        public void completeReturn( T object ) {
             if ( !returnValues.isEmpty() ) {
                 throw new IllegalStateException( 
                     "Partial returns detected. " +

@@ -15,10 +15,10 @@ package net.bioclipse.jobs;
  * @author jonalv
  *
  */
-public interface IReturner {
+public interface IReturner<T> {
 
-    public void partialReturn( Object object );
+    public void partialReturn( T object );
 
-    public void completeReturn( Object object );
+    public void completeReturn( T object );
 
 }
