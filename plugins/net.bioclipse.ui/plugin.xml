@@ -74,7 +74,7 @@
          </property>
           <property
             name="introTitle"
-            value="Welcome to Bioclipse 2.0 beta4"/>
+            value="Welcome to Bioclipse 2.0"/>
       <property
             name="introBrandingImage"
             value="product:bioclipse.png"/>
