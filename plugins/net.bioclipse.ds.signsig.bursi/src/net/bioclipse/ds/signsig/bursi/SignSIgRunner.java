@@ -106,7 +106,7 @@ public class SignSIgRunner extends AbstractDSTest implements IDSTest{
      * Initialize all paths and read model files into memory.
      * @throws DSException 
      */
-    private void initialize(){
+    public void initialize(IProgressMonitor monitor) throws DSException {
 
         if (getTestErrorMessage().length()>1){
             logger.error("Trying to initialize test: " + getName() + " while " +
@@ -115,38 +115,24 @@ public class SignSIgRunner extends AbstractDSTest implements IDSTest{
         }
 
         //Get signatures path depending on OS
-        try {
-            signaturesPath=getNativeSignaturesPath();
-            logger.debug( "Signatures path is: " + signaturesPath );
-        } catch ( DSException e ) {
-            setTestErrorMessage( "Initialization failed; Signatures native " +
-            		"path not found: " + e.getMessage() );
-           return;
-        }
+        signaturesPath=getNativeSignaturesPath();
+        logger.debug( "Signatures path is: " + signaturesPath );
 
         //Get model path depending on OS
-        String modelPath;
-        try {
-            modelPath = getModelPath();
-            logger.debug( "Model file path is: " + modelPath );
-        } catch ( DSException e ) {
-            setTestErrorMessage( "Initialization failed; Model file " +
-            		"path not found: " + e.getMessage() );
-           return;
-        }
+        String modelPath = getModelPath();
+        logger.debug( "Model file path is: " + modelPath );
         
         //So, load the model file into memory
         //===================================
         try {
             bursiModel = svm.svm_load_model(modelPath);
         } catch (IOException e) {
-            setTestErrorMessage( "Could not read model file '" + modelPath 
-                                  + "' due to: " + e.getMessage() );
-            return;
+            throw new DSException("Could not read model file '" + modelPath 
+                                  + "' due to: " + e.getMessage());
         }
         
         //Verify that the signatures file is accessible
-        
+        //TODO
         
         // Add the reading of the range file and set up the related variables.
         //TODO
@@ -410,9 +396,15 @@ public class SignSIgRunner extends AbstractDSTest implements IDSTest{
         }
 
         //If bursimodel is null it is not loaded, so initialize
-        if (bursiModel==null)
-                initialize();
-
+        if (bursiModel==null){
+            try {
+                initialize(monitor);
+            } catch ( DSException e1 ) {
+                logger.error( "Failed to initialize SinSigTest: " + e1.getMessage() );
+                setTestErrorMessage( "Failed to initialize: " + e1.getMessage() );
+            }
+        }
+        
         if (getTestErrorMessage().length()>1){
             return returnError( "Test has error message and should not be run", "" );
         }
