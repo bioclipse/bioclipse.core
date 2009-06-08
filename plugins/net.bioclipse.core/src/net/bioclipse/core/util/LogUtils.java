@@ -15,13 +15,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import net.bioclipse.core.business.BioclipseException;
+
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -86,26 +86,21 @@ public class LogUtils {
      * @param logger The logger to use.
      * @param pluginId The name of the plugin the exception occured in.
      */
-    public static void handleException( Exception ex, 
+    public static void handleException( Throwable t, 
                                         Logger logger, 
                                         String pluginId ) {
-        handleException( ex, 
+        Throwable root = findRootOrBioclipseException( t );
+        handleException( t, 
                          logger, 
                          pluginId, 
                          new Status( IStatus.ERROR, 
                                      pluginId == null ? "unknown" : pluginId, 
-                                     ex.getClass().getSimpleName() 
-                                       + ": " + ex.getMessage(),
-                                     ex ) );
+                                     root.getClass().getSimpleName() 
+                                       + ": " + root.getMessage(),
+                                     root ) );
     }
 
-    /**
-     * @param e
-     * @param logger
-     * @param string
-     * @param status
-     */
-    public static void handleException( final Exception ex, 
+    public static void handleException( final Throwable t, 
                                         Logger logger,
                                         String string, 
                                         final Status status ) {
@@ -113,34 +108,67 @@ public class LogUtils {
         if (logger != null ) {
             StringWriter strWr = new StringWriter();
             PrintWriter  prWr  = new PrintWriter(strWr);
-            ex.printStackTrace(prWr);
+            t.printStackTrace(prWr);
             logger.error( strWr.toString() );
         }
         else {
-            ex.printStackTrace();
+            t.printStackTrace();
         }
         
         Display.getDefault().asyncExec( new Runnable() {
     
             public void run() {
-                ErrorDialog.openError( 
-                    PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-                                             .getShell(), 
-                    "Unexpected error", 
+                
+                String title = "Unexpected error";
+                String message;
+                String mailAdress = "bioclipse-devel@lists.sourceforge.net";
+                
+                Throwable root = findRootOrBioclipseException( t );
+                if ( !(root instanceof BioclipseException) )
+                    message = 
                       "An unexpected error occured. Bioclipse has no idea " +
                       "how to handle this. If you would like to report this " +
                       "to the Bioclipse team a stack trace has been written " +
                       "to the log file ( " + 
                       net.bioclipse.logger.Activator.getActualLogFileName() +
-                      ") that you can include in an email to " +
-                      "bioclipse-devel@lists.sourceforge.net where you " +
+                      ") that you can include in an email to " + mailAdress +
+                      "where you " +
                       "explain what you where doing and what went wrong. The " +
                       "more information about the problem you write the " +
-                      "easier it is for the developer to fix your problem.", 
+                      "easier it is for the developer to fix your problem.";
+                else {
+                    message = ( (BioclipseException)t ).getMessage() + 
+                      " \n\n " + "If you would like to report this to the " +
+                      "Bioclipse team a stack trace has been written to the " +
+                      "log file ( " + 
+                      net.bioclipse.logger.Activator.getActualLogFileName() +
+                      " ) that you can include in an email to " + mailAdress + 
+                      "where you " +
+                      "explain what you where doing and what went wrong. The " +
+                      "more information about the problem you write the " +
+                      "easier it is for the developer to fix your problem.";
+                }
+                
+                ErrorDialog.openError( 
+                    PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+                                             .getShell(), 
+                    title, 
+                    message, 
                     status 
                 );
             }
         } );
         
+    }
+    
+    public static Throwable findRootOrBioclipseException( Throwable t ) {
+
+        assert( t != null );
+        
+        while (!(t instanceof BioclipseException)
+                    && t.getCause() != null)
+                t = t.getCause();
+
+        return t;
     }
 }
