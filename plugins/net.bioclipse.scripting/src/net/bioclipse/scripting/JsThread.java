@@ -20,6 +20,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
@@ -77,10 +79,12 @@ public class JsThread extends ScriptingThread {
                 Job job = new Job("JS-script") {
                     @SuppressWarnings("deprecation")
                     @Override
-                    protected IStatus run( IProgressMonitor m ) {
-
-                        m.beginTask( "Running Javascript", 
+                    protected IStatus run( IProgressMonitor pm ) {
+                        
+                        pm.beginTask( "Running Javascript", 
                                      IProgressMonitor.UNKNOWN );
+                        
+                        IProgressMonitor m = new SubProgressMonitor(pm, 1);
                         
                         monitor[0] = m;
                         
