@@ -237,7 +237,6 @@ public class UIManager implements IBioclipseManager {
                     = PlatformUI.getWorkbench().getEditorRegistry()
                                 .getDefaultEditor(file.getName(), contentType);
                 if (editor != null) {
-                    js.print( "Chosen editor: " + editor.getLabel());
                     open( bioObject, editor.getId() );
                     return;
                 }
