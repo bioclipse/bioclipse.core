@@ -3,6 +3,7 @@ package net.bioclipse.managers.tests;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IProgressMonitor;
 
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.jobs.BioclipseJob;
@@ -34,8 +35,12 @@ public interface ITestManager extends IBioclipseManager {
     public void getBioObjects( IFile file, 
                                BioclipseUIJob<List<IBioObject>> uiJob );
     
-    public void getBioObject( IFile file, 
+    public void getBioObject( IFile file,
                               BioclipseJobUpdateHook h  );
+
+    public void createBioObject(IFile file,BioclipseUIJob<IBioObject> uiJob);
+    public void createBioObject( IFile file,
+                                 BioclipseJobUpdateHook<IBioObject> h);
     
     @GuiAction
     public void guiAction();

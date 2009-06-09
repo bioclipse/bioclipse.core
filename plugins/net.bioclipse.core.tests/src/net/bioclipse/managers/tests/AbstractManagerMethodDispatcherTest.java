@@ -143,7 +143,50 @@ public abstract class AbstractManagerMethodDispatcherTest {
         
         assertMethodRun();
     }
-    
+
+    @Test
+    public void uiJobWithoutReturner() throws Throwable {
+        assertTrue( file.exists() );
+
+        dispatcher.invoke(
+             new MyInvocation(
+                     ITestManager.class.getMethod( "createBioObject",
+                                                   IFile.class,
+                                                   BioclipseUIJob.class),
+                     new Object[] { file,
+                                    new BioclipseUIJob<IBioObject>() {
+                                      @Override
+                                           public void runInUI() {}
+                                     }
+                                   },
+                     m ));
+        assertMethodRun();
+    }
+
+    @Test
+    public void completeReturnerInference() throws Throwable {
+        assertTrue( file.exists() );
+        final List<IBioObject> l = Collections.synchronizedList(
+                                                  new ArrayList<IBioObject>() );
+        BioclipseJob<?> job = (BioclipseJob<?>) dispatcher.invoke(
+             new MyInvocation(
+                     ITestManager.class.getMethod("createBioObject",
+                                                  IFile.class,
+                                                  BioclipseJobUpdateHook.class),
+                     new Object[] { file,
+                            new BioclipseJobUpdateHook<IBioObject>("") {
+                                @Override
+                               public void completeReturn( IBioObject object ) {
+                                       assertNotNull( object );
+                                       l.add( object );
+                               }
+                            }},
+                     m ));
+        job.join();
+        assertMethodRun();
+        assertSame( l.get( 0 ), job.getReturnValue() );
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void getListIFile() throws Throwable {
