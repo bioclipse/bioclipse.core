@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.bioclipse.core.ResourcePathTransformer;
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.managers.business.IBioclipseManager;
 
@@ -254,16 +255,23 @@ public class BioclipseJob<T> extends Job {
             if (e instanceof InvocationTargetException) {
                 returnValue = e.getCause();
             }
-            LogUtils.debugTrace( logger, e );
-            throw new RuntimeException( 
-                "Exception occured: " + e.getClass().getSimpleName() + " - " + 
-                  e.getMessage() + " when attempting to run "
-                  + bioclipseManager.getManagerName() + "." 
-                  + getMethod().getName() + " taking: " 
-                  + Arrays.deepToString( getMethod().getParameterTypes() )
-                  + ". It was called with: " 
-                  + Arrays.deepToString( arguments ),
-                e );
+            if ( LogUtils.findRootOrBioclipseException( e ) 
+                 instanceof BioclipseException ) {
+                LogUtils.handleException( e, logger, "net.bioclipse.managers" );
+            }
+            else {
+                LogUtils.debugTrace( logger, e );
+                
+                throw new RuntimeException( 
+                    "Exception occured: " + e.getClass().getSimpleName() 
+                      + " - " + e.getMessage() + " when attempting to run "
+                      + bioclipseManager.getManagerName() + "." 
+                      + getMethod().getName() + " taking: " 
+                      + Arrays.deepToString( getMethod().getParameterTypes() )
+                      + ". It was called with: " 
+                      + Arrays.deepToString( arguments ),
+                    e );
+            }
         }
         finally {
             monitor.done();

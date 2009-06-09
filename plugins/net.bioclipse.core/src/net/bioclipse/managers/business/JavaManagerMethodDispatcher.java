@@ -181,19 +181,20 @@ public class JavaManagerMethodDispatcher
                 try {
                     method.invoke( manager, arguments );
                 } catch ( Exception e ) {
+                    Throwable root = LogUtils.findRootOrBioclipseException( e ); 
                     LogUtils.handleException( 
-                        e, 
+                        root, 
                         logger, 
                         "net.bioclipse.managers",
                         new Status( IStatus.ERROR, 
                                     "net.bioclipse.managers", 
-                                    e.getClass().getSimpleName() + ": " 
-                                      + e.getMessage() + "\n"
+                                    root.getClass().getSimpleName() + ": " 
+                                      + root.getMessage() + "\n"
                                       + "Exception occured while running " 
                                       + "manager method: " 
                                       + manager.getManagerName() + "." 
                                       + method.getName(), 
-                                    e) );
+                                    root) );
                 }
             }
         });

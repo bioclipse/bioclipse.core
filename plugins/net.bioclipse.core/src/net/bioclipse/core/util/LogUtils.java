@@ -90,6 +90,7 @@ public class LogUtils {
                                         Logger logger, 
                                         String pluginId ) {
         Throwable root = findRootOrBioclipseException( t );
+        
         handleException( t, 
                          logger, 
                          pluginId, 
@@ -97,7 +98,7 @@ public class LogUtils {
                                      pluginId == null ? "unknown" : pluginId, 
                                      root.getClass().getSimpleName() 
                                        + ": " + root.getMessage(),
-                                     root ) );
+                                     t ) );
     }
 
     public static void handleException( final Throwable t, 
@@ -137,8 +138,8 @@ public class LogUtils {
                       "more information about the problem you write the " +
                       "easier it is for the developer to fix your problem.";
                 else {
-                    message = ( (BioclipseException)t ).getMessage() + 
-                      " \n\n " + "If you would like to report this to the " +
+                    message = ( (BioclipseException)root ).getMessage() + 
+                      " \n\n" + "If you would like to report this to the " +
                       "Bioclipse team a stack trace has been written to the " +
                       "log file ( " + 
                       net.bioclipse.logger.Activator.getActualLogFileName() +
@@ -149,7 +150,7 @@ public class LogUtils {
                       "easier it is for the developer to fix your problem.";
                 }
                 
-                ErrorDialog.openError( 
+                ExceptionDetailsErrorDialog.openError( 
                     PlatformUI.getWorkbench().getActiveWorkbenchWindow()
                                              .getShell(), 
                     title, 
