@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -41,6 +42,7 @@ public abstract class AbstractManagerMethodDispatcher
         = ResourcePathTransformer.getInstance();
     private final Logger logger 
         = Logger.getLogger( AbstractManagerMethodDispatcher.class );
+    private Map<String, Long> lastWarningTimes = new HashMap<String, Long>();
     
     protected static class ReturnCollector<T> implements IReturner<T> {
 
@@ -104,12 +106,23 @@ public abstract class AbstractManagerMethodDispatcher
             if ( Arrays.asList( m.getParameterTypes() )
                        .contains( IProgressMonitor.class) &&
                  !(this instanceof JavaScriptManagerMethodDispatcher) )  {
-                logger.warn( manager.getManagerName() + "." 
-                              + invocation.getMethod().getName() 
-                              + " is not void or returning a BioclipseJob."
-                              + " But implementation takes a progress monitor. "
-                              + " Can not run as Job. Running in same" 
-                              + " thread." );
+                
+                int timeout = 120;
+                String warning = manager.getManagerName() + "." 
+                                 + invocation.getMethod().getName() 
+                                 + " is not void or returning a BioclipseJob."
+                                 + " But implementation takes a progress " 
+                                 + "monitor. Can not run as Job. Running in " 
+                                 + "same thread. This message will not be " 
+                                 + "repeated withing the next " + timeout 
+                                 + "seconds";
+                if ( !lastWarningTimes.containsKey( warning ) || 
+                     System.currentTimeMillis()
+                         - lastWarningTimes.get( warning ) > 1000 * timeout ) {
+                    
+                    lastWarningTimes.put( warning, System.currentTimeMillis() );
+                    logger.warn( warning );
+                }
             }
             
             returnValue = doInvokeInSameThread( (IBioclipseManager)

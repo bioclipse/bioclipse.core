@@ -31,10 +31,12 @@ public class MonitorContainer {
     private static MonitorContainer _instance = new MonitorContainer();
     private static Logger logger = Logger.getLogger( MonitorContainer.class );
     
-    private Map<Thread, IProgressMonitor> monitors;
+    private volatile Map<Thread, IProgressMonitor> monitors;
+    private volatile Map<Thread, Long>             lastWarningTimes;
     
     private MonitorContainer() {
-        monitors = new WeakHashMap<Thread, IProgressMonitor>();
+        monitors         = new WeakHashMap<Thread, IProgressMonitor>();
+        lastWarningTimes = new WeakHashMap<Thread, Long>();
     }
 
     public static MonitorContainer getInstance() {
@@ -54,11 +56,22 @@ public class MonitorContainer {
      * @return monitor associated with the current thread
      */
     public synchronized IProgressMonitor getMonitor() {
-        IProgressMonitor m =  monitors.get( Thread.currentThread() );
+        Thread t = Thread.currentThread();
+        IProgressMonitor m =  monitors.get( t );
         if ( m == null ) {
-            logger.warn( "The MonitorContainer could not find a monitor " +
-            		         "connected to current thread so returning a " +
-            		         "NullProgressMonitor" );
+            
+            int timeout = 120;
+            if ( !lastWarningTimes.containsKey( t ) || 
+                    System.currentTimeMillis()
+                        - lastWarningTimes.get( t ) > 1000 * timeout ) {
+                   
+                lastWarningTimes.put( t, System.currentTimeMillis() );
+                logger.warn( "The MonitorContainer could not find a monitor " +
+                             "connected to current thread so returning a " +
+                             "NullProgressMonitor. This method will not be " +
+                             "repeated withing the comming " + timeout + 
+                             "seconds." );
+            }
             m = new NullProgressMonitor();
         }
         return m;
