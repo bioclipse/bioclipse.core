@@ -55,7 +55,6 @@ public class Activator extends Plugin {
     public void start(BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
-//         deleteVirtualProject();
         getVirtualProject();
         startBundleExtender();
     }
@@ -106,15 +105,6 @@ public class Activator extends Plugin {
             }
     	}
     	return project;
-    }
-    protected static void  deleteVirtualProject(){
-        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-        IProject project = root.getProject(VIRTUAL_PROJECT_NAME);
-        try {
-            project.delete(true, null);
-        } catch (CoreException e) {            
-            LogUtils.debugTrace( logger, e );
-        }
     }
     
     /* Attempts to start all resolved Spring Bundle Extender bundles.

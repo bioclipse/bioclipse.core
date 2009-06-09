@@ -1,5 +1,12 @@
 package net.bioclipse.ui.business;
 
+import net.bioclipse.core.util.LogUtils;
+
+import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
@@ -18,6 +25,11 @@ public class Activator extends AbstractUIPlugin {
   private ServiceTracker finderTracker;
   private ServiceTracker jsFinderTracker;
 	
+  // Virtual project
+  public static final String VIRTUAL_PROJECT_NAME = "Virtual";
+
+  private static final Logger logger = Logger.getLogger(Activator.class);
+
 	/**
 	 * The constructor
 	 */
@@ -37,6 +49,9 @@ public class Activator extends AbstractUIPlugin {
                                           IJSUIManager.class.getName(),
                                           null );
     jsFinderTracker.open();
+    
+  deleteVirtualProject();
+
 	}
 
 	public void stop(BundleContext context) throws Exception {
@@ -86,4 +101,15 @@ public class Activator extends AbstractUIPlugin {
       }
       return jsuiManager;
   }
+  
+  protected static void  deleteVirtualProject(){
+      IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+      IProject project = root.getProject(VIRTUAL_PROJECT_NAME);
+      try {
+          project.delete(true, null);
+      } catch (CoreException e) {            
+          LogUtils.debugTrace( logger, e );
+      }
+  }
+
 }
