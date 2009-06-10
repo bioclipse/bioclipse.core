@@ -233,7 +233,8 @@ public class JsConsoleView extends ScriptingConsoleView {
     }
 
     /**
-     * Returns a help string documenting a Manager or one of its methods.
+     * Returns a help string documenting a Manager or one of its methods 
+     * (or a special command).
      * These help strings are printed to the console in response to the
      * command "help x" (where x is a manager) or "help x.y" (where y is
      * a method).
@@ -251,7 +252,32 @@ public class JsConsoleView extends ScriptingConsoleView {
         StringBuilder result = new StringBuilder();
 
         command = command.trim();
-
+        
+        for ( String s : new String[] { "man man", "man help", 
+                                        "help man", "help help"} ) {
+            if ( s.matches( command ) ) {
+                return "The 'help' and 'man' commands give a description of " +
+                		   "the term written after it.";
+            }
+        }
+        
+        for ( String s : new String[] { "man man man",   "help help help", 
+                                        "man man help",  "help help man",
+                                        "man help help", "help man man", 
+                                        "man help man",  "help man help", } ) {
+          if ( s.matches( command ) ) {
+          return "You have reached the max depth of this help system. " +
+          		   "If you still have problem try asking a human being for help.";
+          }
+        }
+        
+        if ( "help doi".matches( command ) || "man doi".matches( command ) ) {
+            return " The doi command opens a web browser if the method for " +
+            		   "which the 'doi' command is called has an associated DOI. " +
+            		   "A DOI - digital object identifier identifies digital " +
+            		   "content, such as a for example a journal article";
+        }
+        
         if ( "help".equals(command) || "man".equals(command) ) {
             
             StringBuilder sb = new StringBuilder();
