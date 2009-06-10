@@ -597,8 +597,8 @@ public abstract class ScriptingConsoleView extends ViewPart {
         else if ( interestingVariables.size() > 1
                   && tabCompleter.secondTime() ) {
 
-            printMessage( tabCompleter.completions(interestingVariables)
-                          + NEWLINE );
+            printMessage( NEWLINE
+                          + tabCompleter.completions(interestingVariables) );
         }
         else {
             deleteBackwards(input.getCaretPosition() - startOfCompletedWord);
