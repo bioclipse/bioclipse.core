@@ -61,10 +61,10 @@ public class ScriptExecution {
             String scriptDescription,
             MessageConsole parent_console) {
 
-        // The passed console is wrapped with a Thread Safe!! API, thus it is
-        // possible to use it from non GUI thread.
-        // Beside this the wrap supports simple methods to print with different
-        // colors
+        // The passed console is wrapped with a thread safe API, to make it
+        // possible to use it from non-GUI thread.
+        // Besides this, the wrap supports simple methods to print with
+        // different colors.
         ThreadSafeConsoleWrap console
           = new ThreadSafeConsoleWrap(parent_console);
 
@@ -77,7 +77,6 @@ public class ScriptExecution {
      * TODO: add the code to pass the monitor to spring that it can cancel the
      * script on manager calls.
      */
-
     private static void runRhinoScriptAsJob(String scriptString,
             String scriptDescription,
             final ThreadSafeConsoleWrap console) {
@@ -85,21 +84,20 @@ public class ScriptExecution {
         final String scriptStringFinal = scriptString;
         final String title = "Javascript - " + scriptDescription;
 
-
-
         // show progress window		
         IWorkbench wb = PlatformUI.getWorkbench();
         IWorkbenchPage wbPage = wb.getActiveWorkbenchWindow().getActivePage(); 
         if (wbPage != null) {
             IViewPart progressView
               = wbPage.findView("org.eclipse.ui.views.ProgressView");
-            if (progressView == null)
+            if (progressView == null) {
                 try {
                     wbPage.showView("org.eclipse.ui.views.ProgressView");
                 } catch (PartInitException e) {
                     console.writeToConsole("PartInitException: "
                                            + e.getMessage());
                 }
+            }
         }
         // define the job
         Job job = new Job(title) {
@@ -173,10 +171,10 @@ public class ScriptExecution {
      * managers and pushes them in the newly created js context. One context
      * per script execution.
      * 
-     * Beside this it creates another object in the context
+     * Besides this, it creates another object in the context
      * that provides some helper functions located in
      * 
-     * net.bioclipse.jsexecution.tools.ScriptingTools.java
+     * <code>net.bioclipse.jsexecution.tools.ScriptingTools</code>
      * 
      * used to pop up a message box, or to make a script sleep for some ms,
      * or to run a runnable in the GUI context.
@@ -186,7 +184,6 @@ public class ScriptExecution {
      * ( it uses net.bioclipse.jsexecution.tools.JarClasspathLoader.java )
      * 
      */
-
     @SuppressWarnings("unchecked")
     private static String runRhinoScript(String scriptString,
             ThreadSafeConsoleWrap console,
