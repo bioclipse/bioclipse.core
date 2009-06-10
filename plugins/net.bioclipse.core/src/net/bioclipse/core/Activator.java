@@ -73,38 +73,38 @@ public class Activator extends Plugin {
         return plugin;
     }
     
-    protected static void createVirtualProject(IProject project){
+    protected static void createVirtualProject(IProject project) throws
+                            URISyntaxException,CoreException{
         
         IProjectDescription description = 
         		ResourcesPlugin.getWorkspace()
         		.newProjectDescription(VIRTUAL_PROJECT_NAME);
-        try{
             description.setLocationURI(new URI("memory:/Virtual"));
             project.create(description,null);
             project.refreshLocal( IResource.DEPTH_ZERO, null );
             project.open(null);
-        }catch(URISyntaxException use){
-            logger.debug(use.getMessage(),use);
-        }catch(CoreException x){
-            logger.warn("Failed to create virtual project: "+x.getMessage());
-        }
     }
     public static IProject getVirtualProject(){
-    	
-    	IWorkspaceRoot root=ResourcesPlugin.getWorkspace().getRoot();
-    	IProject project=root.getProject(VIRTUAL_PROJECT_NAME);
-    	if(!project.exists()){
-    	    logger.debug("Could not insert Virtual project in MemoryFilesystem");
-    		createVirtualProject(project);
-    	}
-    	if(!project.isOpen()) {
-    	    try {
-                project.open( null );
-            } catch ( CoreException e ) {
-                logger.debug( "Faild to open Virtual" );
+        IWorkspaceRoot root=ResourcesPlugin.getWorkspace().getRoot();
+        IProject project=root.getProject(VIRTUAL_PROJECT_NAME);
+        try {
+            if(!project.exists()){
+                logger.debug("Inserting "+VIRTUAL_PROJECT_NAME+" into workspace");
+                createVirtualProject(project);
             }
-    	}
-    	return project;
+            if(!project.isOpen()) {
+                try {
+                    project.open( null );
+                } catch ( CoreException e ) {
+                    logger.debug( "Faild to open Virtual" );
+                }
+            }
+        }catch( URISyntaxException e) {
+            logger.debug( "Failed to create "+ VIRTUAL_PROJECT_NAME,e );
+        } catch ( CoreException e ) {
+            logger.warn( "Failed to create "+ VIRTUAL_PROJECT_NAME ,e);
+        }
+        return project;
     }
     
     /* Attempts to start all resolved Spring Bundle Extender bundles.
