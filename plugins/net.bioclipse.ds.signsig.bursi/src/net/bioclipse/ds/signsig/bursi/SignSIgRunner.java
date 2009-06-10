@@ -510,14 +510,16 @@ public class SignSIgRunner extends AbstractDSTest implements IDSTest{
             
         IAtomContainer significantAtomsContainer=cdkmol.getAtomContainer().getBuilder().newAtomContainer();
         for (int significantAtom : significantAtoms){
-        	significantAtomsContainer.addAtom( cdkmol.getAtomContainer().getAtom( significantAtom-1 ));
-        	logger.debug("center atom: " + significantAtom);
-        	//Also add all atoms connected to significant atoms to list
-        	for (IAtom nbr : cdkmol.getAtomContainer().getConnectedAtomsList(cdkmol.getAtomContainer().getAtom( significantAtom-1 )) ){
-        		int nbrAtomNr = cdkmol.getAtomContainer().getAtomNumber(nbr) + 1;
-        		significantAtomsContainer.addAtom(cdkmol.getAtomContainer().getAtom(nbrAtomNr-1));
-        		logger.debug("nbr: " + nbrAtomNr);
-        	}
+
+            //We should add atoms from the input cdkmol, not the clone!
+            significantAtomsContainer.addAtom( cdkmol_in.getAtomContainer().getAtom( significantAtom-1 ));
+            logger.debug("center atom: " + significantAtom);
+            //Also add all atoms connected to significant atoms to list
+            for (IAtom nbr : cdkmol.getAtomContainer().getConnectedAtomsList(cdkmol.getAtomContainer().getAtom( significantAtom-1 )) ){
+                int nbrAtomNr = cdkmol.getAtomContainer().getAtomNumber(nbr) + 1;
+                significantAtomsContainer.addAtom(cdkmol_in.getAtomContainer().getAtom(nbrAtomNr-1));
+                logger.debug("nbr: " + nbrAtomNr);
+            }
         }
         logger.debug("Number of center atoms: " + significantAtoms.size());
         
