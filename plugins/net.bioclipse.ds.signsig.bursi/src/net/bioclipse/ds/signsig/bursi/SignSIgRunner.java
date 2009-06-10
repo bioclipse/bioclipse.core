@@ -414,8 +414,9 @@ public class SignSIgRunner extends AbstractDSTest implements IDSTest{
         ICDKManager cdk = Activator.getDefault().getJavaCDKManager();
         
         ICDKMolecule cdkmol=null;
+        ICDKMolecule cdkmol_in = null;
         try {
-            ICDKMolecule cdkmol_in = cdk.create( molecule );
+            cdkmol_in = cdk.create( molecule );
             cdkmol=new CDKMolecule((IAtomContainer)cdkmol_in.getAtomContainer().clone());
 //            cdkmol = cdk.create( molecule );
         } catch ( BioclipseException e ) {
