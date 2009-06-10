@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bioclipse Encryption
 Bundle-SymbolicName: net.bioclipse.encryption
-Bundle-Version: 2.0.0.RC1
+Bundle-Version: 2.0.0.RC2
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: net.bioclipse.encryption
 Require-Bundle: org.apache.commons.codec;bundle-version="1.3.0"
