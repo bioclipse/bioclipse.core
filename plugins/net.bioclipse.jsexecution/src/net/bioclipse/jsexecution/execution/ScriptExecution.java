@@ -103,11 +103,7 @@ public class ScriptExecution {
         Job job = new Job(title) {
             private String scriptResult = "undefined";
             protected IStatus run(IProgressMonitor monitor) {
-                boolean bSuccess = true;
-                // set a friendly icon and keep the job in list when
-                // it is finished
-                /*setProperty(IProgressConstants.ICON_PROPERTY,
-						Activator.getImageDescriptor("icons/png/jsfilerun.png"));*/
+                boolean done = true;
 
                 MonitorContainer.getInstance().addMonitor( monitor );
 
@@ -127,18 +123,18 @@ public class ScriptExecution {
                         scriptResult = scriptResult
                         + System.getProperty("line.separator")
                         + " " + traced_e;
-                    bSuccess = false;
+                    done = false;
                 }
 
-                if (bSuccess == true)
+                if (done == true)
                     monitor.setTaskName("Javascript done.");
 
-                if (bSuccess == false) {
+                if (done == false) {
                     // inform user about error.news
                     setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
                     setProperty(IProgressConstants.ACTION_PROPERTY,
                                 JobErrorAction());
-                } // ... and else, finish job imediately!
+                } // ... otherwise, finish job immediately!
 
                 Display.getDefault().syncExec(new Runnable() {
                     public void run() {
@@ -184,7 +180,6 @@ public class ScriptExecution {
      * ( it uses net.bioclipse.jsexecution.tools.JarClasspathLoader.java )
      * 
      */
-    @SuppressWarnings("unchecked")
     private static String runRhinoScript(String scriptString,
             ThreadSafeConsoleWrap console,
             IProgressMonitor monitor) throws ScriptException {
@@ -215,18 +210,15 @@ public class ScriptExecution {
             Object wrappedOut = Context.javaToJS(tools, scope);
             ScriptableObject.putProperty(scope, "jst", wrappedOut);
 
-            // also add all managers
             List<Object> managers = Activator.getManagers();
             if (managers != null && managers.size() > 0) {
                 Iterator<Object> it = managers.iterator();
                 while (it.hasNext() == true) {
                     Object object = it.next();
 
-                    Class managerclass = object.getClass();
-                    // access the method in this ugly way however it is not protected...
                     Method method
-                      = managerclass.getDeclaredMethod("getManagerName",
-                                                       new Class[0]);
+                      = object.getClass().getDeclaredMethod("getManagerName",
+                                                            new Class[0]);
                     //method.setAccessible(true);
                     Object managerName = (String)method.invoke(object);
                     if (managerName instanceof String) {
@@ -238,7 +230,6 @@ public class ScriptExecution {
                 }
             }
 
-            // Now evaluate the string we've colected.
             Object ev
               = cx.evaluateString(scope, scriptString, "line: ", 1, null);
 
