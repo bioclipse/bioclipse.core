@@ -1,0 +1,75 @@
+<list>
+<plugin id="bc_hivProteaseSuscept">
+<!-- ../bc_hivProteaseSuscept/plugin.xml -->
+</plugin>
+<plugin id="com.genettasoft.molopt.client">
+<!-- ../com.genettasoft.molopt.client/plugin.xml -->
+</plugin>
+<plugin id="com.genettasoft.molopt.model">
+<!-- ../com.genettasoft.molopt.model/plugin.xml -->
+</plugin>
+<plugin id="com.genettasoft.molopt.model.edit">
+<!-- ../com.genettasoft.molopt.model.edit/plugin.xml -->
+</plugin>
+<plugin id="com.genettasoft.warningsystem">
+<!-- ../com.genettasoft.warningsystem/plugin.xml -->
+</plugin>
+<plugin id="com.genettasoft.warningsystem.ui">
+<!-- ../com.genettasoft.warningsystem.ui/plugin.xml -->
+</plugin>
+<plugin id="com.hp.hpl.jena">
+<!-- ../com.hp.hpl.jena/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse">
+<!-- ../net.bioclipse/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.actionHistory">
+<!-- ../net.bioclipse.actionHistory/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.balloon.business">
+<!-- ../net.bioclipse.balloon.business/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.bibtexml">
+<!-- ../net.bioclipse.bibtexml/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.bibtexml.edit">
+<!-- ../net.bioclipse.bibtexml.edit/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.cdk.business">
+<!-- ../net.bioclipse.cdk.business/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.cdk.debug">
+<!-- ../net.bioclipse.cdk.debug/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.cdk.jchempaint">
+<!-- ../net.bioclipse.cdk.jchempaint/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.cdk.jchempaint.view">
+<!-- ../net.bioclipse.cdk.jchempaint.view/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.cdk.qsar">
+<!-- ../net.bioclipse.cdk.qsar/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.cdk.smartsmatching">
+<!-- ../net.bioclipse.cdk.smartsmatching/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.cdk.ui">
+<!-- ../net.bioclipse.cdk.ui/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.cdk.ui.bc1">
+<!-- ../net.bioclipse.cdk.ui.bc1/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.cdk.ui.sdfeditor">
+<!-- ../net.bioclipse.cdk.ui.sdfeditor/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.chart">
+<!-- ../net.bioclipse.chart/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.chemoinformatics">
+<!-- ../net.bioclipse.chemoinformatics/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.cml">
+<!-- ../net.bioclipse.cml/plugin.xml -->
+</plugin>
+<plugin id="net.bioclipse.core">
+<!-- ../net.bioclipse.core/plugin.xml -->
