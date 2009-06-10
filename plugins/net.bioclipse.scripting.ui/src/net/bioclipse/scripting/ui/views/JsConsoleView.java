@@ -16,10 +16,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
@@ -389,7 +391,14 @@ public class JsConsoleView extends ScriptingConsoleView {
                     theseMeths,  NEWLINE })
                 result.append(_);
 
-            for (Method method : findAllPublishedMethods(manager.getClass())) {
+            Method[] publishedMethods 
+                = findAllPublishedMethods(manager.getClass());
+            Arrays.sort( publishedMethods, new Comparator<Method>() {
+                public int compare( Method o1, Method o2 ) {
+                    return o1.getName().compareTo( o2.getName() );
+                }
+            });
+            for (Method method : publishedMethods ) {
                 if ( method.getAnnotation( PublishedMethod.class )
                            .params().length() == 0 ) {
                     result.append( method.getName() + "()" );
