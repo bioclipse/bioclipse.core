@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse.sampledata_feature"
       label="Sample Data Feature"
-      version="2.0.0.RC1"
+      version="2.0.0.RC2"
       provider-name="The Bioclipse Team"
       plugin="net.bioclipse.data.sampledata">
 
@@ -33,7 +33,7 @@ is available at http://www.eclipse.org/legal/epl-v10.html
    </url>
 
    <requires>
-      <import feature="net.bioclipse.core_feature" version="2.0.0.RC1" match="greaterOrEqual"/>
+      <import feature="net.bioclipse.core_feature" version="2.0.0.RC2" match="greaterOrEqual"/>
    </requires>
 
    <plugin
