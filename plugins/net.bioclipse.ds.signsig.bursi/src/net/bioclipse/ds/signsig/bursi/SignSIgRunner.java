@@ -35,6 +35,7 @@ import org.openscience.cdk.interfaces.IAtomContainer;
 import net.bioclipse.cdk.business.Activator;
 import net.bioclipse.cdk.business.CDKManager;
 import net.bioclipse.cdk.business.ICDKManager;
+import net.bioclipse.cdk.domain.CDKMolecule;
 import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IMolecule;
@@ -414,10 +415,13 @@ public class SignSIgRunner extends AbstractDSTest implements IDSTest{
         
         ICDKMolecule cdkmol=null;
         try {
-            cdkmol = cdk.create( molecule );
-        } catch ( BioclipseException e1 ) {
-            return returnError("Could not convert input molecule to " +
-            		"CDKMolecule" , e1.getMessage());
+            ICDKMolecule cdkmol_in = cdk.create( molecule );
+            cdkmol=new CDKMolecule((IAtomContainer)cdkmol_in.getAtomContainer().clone());
+//            cdkmol = cdk.create( molecule );
+        } catch ( BioclipseException e ) {
+            return returnError( "Could not create CDKMolecule", e.getMessage() );
+        } catch ( CloneNotSupportedException e ) {
+            return returnError( "Could not clone CDKMolecule", e.getMessage() );
         }
 
         //Check for cancellation
