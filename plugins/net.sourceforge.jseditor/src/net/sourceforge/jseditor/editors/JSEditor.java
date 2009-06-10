@@ -4,6 +4,9 @@
  * Copyright 2002
  * CH-1700 Fribourg, Switzerland
  * All rights reserved.
+ * This file belongs to the 'jseditor' project on SourceForge. It's licenced
+ * under Common Public License 1.0, available at
+ * <http://www.opensource.org/licenses/cpl1.0.php>
  *
  *========================================================================
  * Modifications history
