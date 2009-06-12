@@ -178,15 +178,20 @@ public class JsConsoleView extends ScriptingConsoleView {
 
         command = command.trim();
 
-        if ( !command.matches("doi \\w+\\.\\w+") )
+        if ( !command.matches("doi \\w+(\\.\\w+)?") )
             return usageMessage;
 
         String helpObject = command.substring(command.indexOf(' ') + 1);
 
-        String[] parts = helpObject.split("\\.");
-
-        String managerName = parts[0];
-        String methodName  = parts[1];
+        String managerName = null;
+        String methodName = null;
+        if (helpObject.contains(".")) {
+            String[] parts = helpObject.split("\\.");
+            managerName = parts[0];
+            methodName  = parts[1];
+        } else {
+            managerName = helpObject;
+        }
 
         IBioclipseManager manager
           = JsThread.js.getManagers().get(managerName);
@@ -195,20 +200,28 @@ public class JsConsoleView extends ScriptingConsoleView {
                    + NEWLINE + usageMessage;
 
         Set<String> uniqueDOIs = new LinkedHashSet<String>();
-        for (Method method : findAllPublishedMethods(manager.getClass())) {
-            if ( method.getName().equals(methodName) ) {
-                PublishedMethod publishedMethod
+        if (methodName == null) {
+            for (Class<?> clazz : findAllPublishedClasses(manager.getClass())) {
+                String[] dois = clazz.getAnnotation(PublishedClass.class).doi();
+                if (dois != null)
+                    uniqueDOIs.addAll(Arrays.asList(dois));
+            }
+        } else {
+            for (Method method : findAllPublishedMethods(manager.getClass())) {
+                if ( method.getName().equals(methodName) ) {
+                    PublishedMethod publishedMethod
                     = method.getAnnotation( PublishedMethod.class );
 
-                String[] dois = publishedMethod.doi();
-                if (dois == null)
-                    continue;
+                    String[] dois = publishedMethod.doi();
+                    if (dois == null)
+                        continue;
 
-                uniqueDOIs.addAll(Arrays.asList(dois));
+                    uniqueDOIs.addAll(Arrays.asList(dois));
+                }
             }
         }
         if (uniqueDOIs.size() == 0) {
-            return "Method(s) does not refer to any DOI." + NEWLINE;
+            return "There are no references to any DOI." + NEWLINE;
         } else {
             for (String doi : uniqueDOIs) {
                 IWorkbenchBrowserSupport browserSupport =
