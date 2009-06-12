@@ -44,12 +44,18 @@ public interface IMolecule extends IBioObject{
     public List<IMolecule> getConformers();
 
     /**
+     * Returns a SMILES serialization of this {@link IMolecule}. It is
+     * calculated when the method is called.
+     *
      * @return the SMILES string for this IMolecule
      * @throws BioclipseException is SMILES can not be returned
      */
     public String getSMILES() throws BioclipseException;
 
     /**
+     * Returns a Chemical Markup Language (CML) serialization of this
+     * {@link IMolecule}. It is calculated when the method is called.
+     *
      * @return the IMolecule serialized to CML
      * @throws BioclipseException if CML cannot be returned
      */
