@@ -42,7 +42,7 @@ public abstract class BioObject implements IBioObject {
     /**
      * The PropertySource available as adapter
      */
-    private IPropertySource propertySource;
+    protected IPropertySource propertySource;
     
     public BioObject() {
         
