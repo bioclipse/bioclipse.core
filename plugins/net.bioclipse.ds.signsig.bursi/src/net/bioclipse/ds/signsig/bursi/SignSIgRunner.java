@@ -173,7 +173,7 @@ public class SignSIgRunner extends AbstractDSTest implements IDSTest{
 
         String filepath="";
         if (System.getProperty("os.name").toLowerCase().startsWith( "windows" )){
-            throw new DSException("SignSic is currently not supported on windows.");
+            throw new DSException("SignSig is currently not supported on windows.");
         }
         else if (System.getProperty("os.name").toLowerCase().startsWith( "mac" )){
             filepath="/exec/signatures-macosx";
@@ -182,7 +182,7 @@ public class SignSIgRunner extends AbstractDSTest implements IDSTest{
             filepath="/exec/signatures-linux";
         }
         else{
-            throw new DSException("SignSic is currently not supported on " +
+            throw new DSException("SignSig is currently not supported on " +
                                "the platform:" + System.getProperty("os.name"));                                  
         }
         

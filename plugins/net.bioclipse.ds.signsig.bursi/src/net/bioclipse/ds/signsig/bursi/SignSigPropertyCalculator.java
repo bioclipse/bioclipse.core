@@ -16,7 +16,7 @@ public class SignSigPropertyCalculator extends BaseDSPropertyCalculator{
 
     @Override
     public String getTestID() {
-        return "signsic.bursi";
+        return "signsig.bursi";
     }
     
 }

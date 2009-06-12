@@ -22,7 +22,7 @@ public class Activator extends AbstractUIPlugin {
 	public static final String PLUGIN_ID = "net.bioclipse.ds.signsig.bursi";
 
 	 // The DStest ID, matches the one in plugin.xml
-  public static final String DS_TEST_ID = "signsic.bursi";
+  public static final String DS_TEST_ID = "signsig.bursi";
 
 	// The shared instance
 	private static Activator plugin;

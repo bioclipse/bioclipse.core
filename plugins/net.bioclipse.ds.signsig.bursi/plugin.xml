@@ -6,7 +6,8 @@
       <test
             class="net.bioclipse.ds.signsig.bursi.SignSIgRunner"
             icon="icons/form.gif"
-            id="signsic.bursi"
+            id="signsig.bursi"
+            reportmodel="net.bioclipse.ds.signsig.bursi.SignSigTestmodel"
             name="Bursi Signature Significance">
       </test>
    </extension>
