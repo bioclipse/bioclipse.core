@@ -7,31 +7,110 @@
 </head>
 
 <body>
-<h1>Guide to Scripting Bioclipse</h1>
-<p/>
-This is an introduction for how to use the scripting capabilities of Bioclipse.
-<p>
-Scripting in Bioclipse is based on Javascript. Bioclipse provides Managers that 
-add custom funtionality. For example, the CDK Manager contributes functionality 
-for working with cheminformatics using the Chemistry Development Kit (CDK).
-</p>
+<h1>Scripting Bioclipse</h1>
 
-<p>
-Managers are access like this:
-</p>
+<p>Bioclipse 2 contains scripting consoles, one for each supported scripting
+language. These consoles give the user access to data and plugins through a
+command-oriented environment.
 
-<p>
-&lt;manager name&gt;.&lt;manager method&gt;(Parameters)
-</p>
-<p>
-For example: cdk.fromSMILES("CCCO")
-</p>
-
-<p>
-For a complete listing of available manager and methods, see 
-<a href="index.html">Manager documentation</a>.
+</p><p>Currently supported scripting languages are JavaScript, R, Groovy and
+Ruby, although the latter two have been disabled for the 2.0 release.
 
 </p>
+
+<h2> Short Guide </h2>
+
+<p>The JavaScript console takes up the space directly below the editor. It's
+open by default in Bioclipse, but should it be closed for some reason, you can
+re-open it through <code>Window &gt; Show View &gt; Other... &gt; Scripting
+&gt; JavaScript Console".
+</p>
+
+<p>Try typing in</p>
+
+<pre>2 + 2</pre>
+
+<p>at the console. You should be getting this back:</p>
+
+<pre>&gt; 2 + 2
+4</pre>
+
+<p>Now, press the &lt;code&gt;Tab</code> key twice. A list of commands should appear. Try
+</p>
+
+<pre>help js</pre>
+
+<p>and you'll get a summary of the <code>js</code>:</p>
+
+<pre>&gt; help js
+--
+js
+--
+Controls access to the Javascript Console.
+
+ This manager has the following methods:
+clear()
+print( String message )
+delay( int seconds  )
+eval( String command )
+say( String message )
+executeFile( String filePath )
+</pre>
+
+<p>You can also write</p>
+
+<pre>help js.say</pre>
+
+<p>and get this description of the manager method <code>js.say</code>:</p>
+
+<pre>&gt; help js.say
+----------------------
+js.say(String message)
+----------------------
+Prints a message to the console, adding a trailing newline.
+
+</pre>
+
+<p>Now, try typing <code>cdk.fromSM</code>, and have the console complete the
+method name by hitting the Tab key. The result should be this:</p>
+
+<pre>cdk.fromSMILES(</pre>
+
+<p>You get an opening parenthesis, because this is a method call. If the method expected no parameters, you'd get a closing parenthesis too. But here, let's provide a SMILES string:
+</p>
+
+<pre>cdk.fromSMILES("CCCC")</pre>
+
+<p>The result is this:</p>
+
+<pre>&gt; cdk.fromSMILES("CCCC")
+CDKMolecule:C4H10
+</pre>
+
+<p>If you want to store the molecule for later, you can assign the result to a
+variable:</p>
+
+<pre>var butane = cdk.fromSMILES("CCCC")</pre>
+
+<h2> General idea of script support </h2>
+
+<p>Most functionality could be made available to input as scripting commands in
+a console. GUIs should merely collect data and call on one/many commands. This
+ensures clear separation between code, scripting, and the GUI. This also allows
+for recording of screen activities into a script to automate tasks.</p>
+
+<p>The idea is that you are able to work your way towards a final script by
+using the GUI. In real research, you don't know where you'll end up from the
+start. If you, for example, query a database for something unknown you have no
+idea what you expect as results or how many results you will get. If you adjust
+your filters iteratively until you get the subset of the results, you end up
+with a small sequence of scripting commands, that can serve as one step in your
+project/analysis. Then you can look at the problem from a different viewpoint,
+maybe a new database. After you find out what information you want from it, you
+copy those scripting commands to the script. Now you have data resources that
+you can integrate. The point is, with a work-flow system it would not have been
+feasible to construct such a work-flow, since it was developed iteratively with
+user curation at a number of steps.</p>
 
 </body>
 </html>
