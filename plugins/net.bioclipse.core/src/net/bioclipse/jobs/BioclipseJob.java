@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
@@ -139,14 +140,17 @@ public class BioclipseJob<T> extends Job {
             if (e instanceof InvocationTargetException) {
                 returnValue = e.getCause();
             }
-            
-            throw new RuntimeException( 
-                "Exception occured: " + e.getClass().getSimpleName() + " - " 
+            if (e instanceof OperationCanceledException) {
+                throw (OperationCanceledException)e;
+            }
+            LogUtils.handleException( 
+                new RuntimeException( 
+                    "Exception occured: " + e.getClass().getSimpleName() + " - " 
                     + e.getMessage() + " while attempting to run " 
                     + bioclipseManager.getManagerName() + "." 
                     + getMethod().getName() + " taking " 
                     + Arrays.deepToString( getMethod().getParameterTypes() ),
-                e );
+                    e ), logger, "net.bioclipse.managers" );
         }
         finally {
             monitor.done();
@@ -251,18 +255,26 @@ public class BioclipseJob<T> extends Job {
             }
         } 
         catch ( Exception e ) {
+            
             returnValue = e;
             if (e instanceof InvocationTargetException) {
                 returnValue = e.getCause();
             }
+
+            Throwable t = e;
+            while ( t != null ) {
+                if ( t instanceof OperationCanceledException ) {
+                    throw (OperationCanceledException)t;
+                }
+                t = t.getCause();
+            }
+            
             if ( LogUtils.findRootOrBioclipseException( e ) 
                  instanceof BioclipseException ) {
                 LogUtils.handleException( e, logger, "net.bioclipse.managers" );
             }
             else {
-                LogUtils.debugTrace( logger, e );
-                
-                throw new RuntimeException( 
+                LogUtils.handleException( new RuntimeException( 
                     "Exception occured: " + e.getClass().getSimpleName() 
                       + " - " + e.getMessage() + " when attempting to run "
                       + bioclipseManager.getManagerName() + "." 
@@ -270,7 +282,7 @@ public class BioclipseJob<T> extends Job {
                       + Arrays.deepToString( getMethod().getParameterTypes() )
                       + ". It was called with: " 
                       + Arrays.deepToString( arguments ),
-                    e );
+                    e ), logger, "net.bioclipse.managers" );
             }
         }
         finally {
