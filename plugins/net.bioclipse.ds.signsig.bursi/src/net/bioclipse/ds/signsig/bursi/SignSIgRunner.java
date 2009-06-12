@@ -504,9 +504,9 @@ public class SignSIgRunner extends AbstractDSTest implements IDSTest{
         SubStructureMatch match = new SubStructureMatch(significantSignature,ITestResult.INCONCLUSIVE);
 
         if (prediction>0)
-            match.setResultStatus( ITestResult.POSITIVE );
+            match.setClassification( ITestResult.POSITIVE );
         else
-            match.setResultStatus( ITestResult.NEGATIVE );
+            match.setClassification( ITestResult.NEGATIVE );
             
         IAtomContainer significantAtomsContainer=cdkmol.getAtomContainer().getBuilder().newAtomContainer();
         for (int significantAtom : significantAtoms){
