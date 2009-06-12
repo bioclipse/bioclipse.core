@@ -47,7 +47,7 @@ public interface IMolecule extends IBioObject{
      * @return the SMILES string for this IMolecule
      * @throws BioclipseException is SMILES can not be returned
      */
-    public String getSMILES(IMolecule.Property urgency) throws BioclipseException;
+    public String getSMILES() throws BioclipseException;
 
     /**
      * @return the IMolecule serialized to CML

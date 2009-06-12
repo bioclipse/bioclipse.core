@@ -33,7 +33,7 @@ public class SMILESMolecule extends BioObject implements IMolecule {
         this.smiles=smiles;
     }
 
-    public String getSMILES(IMolecule.Property urgency)
+    public String getSMILES()
         throws BioclipseException {
         return smiles;
     }
