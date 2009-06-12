@@ -134,6 +134,7 @@
 
    <features>
       <feature id="net.bioclipse.platform_feature" version="2.0.0.RC2"/>
+      <feature id="net.bioclipse.cdk_feature" version="2.0.0.RC2"/>
    </features>
 
 </product>
