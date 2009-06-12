@@ -193,14 +193,17 @@ public class JsConsoleView extends ScriptingConsoleView {
             managerName = helpObject;
         }
 
+        Set<String> uniqueDOIs = new LinkedHashSet<String>();
+
+        // aggregate the DOIs
         IBioclipseManager manager
           = JsThread.js.getManagers().get(managerName);
-        if (manager == null)
+        if ("bioclipse".equals(managerName))
+            uniqueDOIs.add("10.1186/1471-2105-8-59");
+        else if (manager == null)
             return "No such manager: " + managerName
                    + NEWLINE + usageMessage;
-
-        Set<String> uniqueDOIs = new LinkedHashSet<String>();
-        if (methodName == null) {
+        else if (methodName == null) {
             for (Class<?> clazz : findAllPublishedClasses(manager.getClass())) {
                 String[] dois = clazz.getAnnotation(PublishedClass.class).doi();
                 if (dois != null)
@@ -220,6 +223,8 @@ public class JsConsoleView extends ScriptingConsoleView {
                 }
             }
         }
+
+        // open browser windows for the DOIs
         if (uniqueDOIs.size() == 0) {
             return "There are no references to any DOI." + NEWLINE;
         } else {
