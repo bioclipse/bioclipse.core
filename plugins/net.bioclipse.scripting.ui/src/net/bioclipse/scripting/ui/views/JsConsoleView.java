@@ -230,8 +230,8 @@ public class JsConsoleView extends ScriptingConsoleView {
         } else {
             for (String doi : uniqueDOIs) {
                 IWorkbenchBrowserSupport browserSupport =
-                        getSite().getPage().getWorkbenchWindow().getWorkbench().
-                        getBrowserSupport();
+                        getSite().getPage().getWorkbenchWindow()
+                        .getWorkbench().getBrowserSupport();
                 IWebBrowser browser;
                 try {
                     browser = browserSupport.createBrowser(
@@ -281,10 +281,10 @@ public class JsConsoleView extends ScriptingConsoleView {
           return "ERROR: Maximum recursion depth exceeded.";
 
         if ( command.matches( synonyms + " doi" ) )
-            return " The doi command opens a web browser if the method for " +
-                   "which the 'doi' command is called has an associated DOI. " +
-                   "A DOI - digital object identifier identifies digital " +
-                   "content, such as a for example a journal article";
+            return " The doi command opens a web browser if the method for "
+                   + "which the 'doi' command is called has an associated DOI. "
+                   + "A DOI - digital object identifier identifies digital "
+                   + "content, such as a for example a journal article";
         
         if ( "help".equals(command) || "man".equals(command) ) {
             
