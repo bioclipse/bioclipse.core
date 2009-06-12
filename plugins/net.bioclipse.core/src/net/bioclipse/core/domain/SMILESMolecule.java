@@ -43,7 +43,7 @@ public class SMILESMolecule extends BioObject implements IMolecule {
      * always throws BioclipseException.
      * @throws BioclipseException 
      */ 
-    public String getCML() throws BioclipseException {
+    public String toCML() throws BioclipseException {
         throw new UnsupportedOperationException("SmilesMolecule can not " +
         		"return CML");
     }
