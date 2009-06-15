@@ -46,7 +46,15 @@ public class UIPreferenceInitializer extends AbstractPreferenceInitializer {
     + IPreferenceConstants.PREFERENCES_OBJECT_DELIMITER
     + "Bioclipse Experimental Update Site"
     + IPreferenceConstants.PREFERENCES_DELIMITER
-    + BioclipseConstants.BIOCLIPSE_EXPERIMENTAL_UPDATE_SITE;
+    + BioclipseConstants.BIOCLIPSE_EXPERIMENTAL_UPDATE_SITE
+    + IPreferenceConstants.PREFERENCES_OBJECT_DELIMITER
+    + "IPB Halle Update Site"
+    + IPreferenceConstants.PREFERENCES_DELIMITER
+    + BioclipseConstants.IPB_UPDATE_SITE
+    + IPreferenceConstants.PREFERENCES_OBJECT_DELIMITER
+    + "Eclipse 3.3 Update Site"
+    + IPreferenceConstants.PREFERENCES_DELIMITER
+    + BioclipseConstants.ECLIPSE_33_UPDATE_SITE;
 
 		IEclipsePreferences prefs = new DefaultScope().getNode(Activator.PLUGIN_ID);
 		prefs.put(
