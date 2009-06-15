@@ -11,7 +11,7 @@ public class SignSigPropertyCalculator extends BaseDSPropertyCalculator{
 
     @Override
     public String getPropertyName() {
-        return "net.bioclipse.ds.signsig.bursi";
+        return "Signature Significance";
     }
 
     @Override
