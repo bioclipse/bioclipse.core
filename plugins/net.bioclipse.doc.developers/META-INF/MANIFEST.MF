@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bioclipse Developers Documentation
 Bundle-SymbolicName: net.bioclipse.doc.developers;singleton:=true
-Bundle-Version: 2.0.0.RC2
+Bundle-Version: 2.0.0.RC1
 Bundle-Vendor: The Bioclipse Team
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.log4j
