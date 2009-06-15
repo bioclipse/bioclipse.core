@@ -354,8 +354,11 @@ public class JsConsoleView extends ScriptingConsoleView {
 
                     String[] dois = publishedMethod.doi();
                     if (dois.length > 0) {
-                        result.append("Further information (DOI): ")
-                              .append(NEWLINE);
+                        for (String _ : new String[] {
+                            "Further information (DOI, type 'doi ",
+                            managerName, ".", method.getName(),
+                            "'): ", NEWLINE })
+                            result.append(_);
                         for (String doi : dois) {
                             if (doi != null && doi.length() > 0) {
                                 result.append(doi).append(NEWLINE);
@@ -430,7 +433,8 @@ public class JsConsoleView extends ScriptingConsoleView {
                     for (String _ : new String[] {
                                                        NEWLINE,
                         line,                          NEWLINE,
-                        "Further information (DOI): ", NEWLINE })
+                        "Further information (DOI, type 'doi ",
+                        helpObject, "'): ",            NEWLINE })
                         result.append(_);
 
                     for (String doi : dois) {
