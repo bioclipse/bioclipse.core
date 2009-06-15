@@ -154,9 +154,12 @@ public class ResourcePathTransformer implements IResourcePathTransformer {
        IFile file = ResourcesPlugin.getWorkspace()
                                    .getRoot().getFile( path );
 
-       if ( file.getProject().exists() )
-           return file;
-        return null;
+       if(file.getProject().getName().equals(Activator.VIRTUAL_PROJECT_NAME )) {
+           IProject po = Activator.getVirtualProject();
+           if(po.exists())
+               return file;
+       }
+       return file;
     }
 
     private IFile parseURI( String resourceString ) {
