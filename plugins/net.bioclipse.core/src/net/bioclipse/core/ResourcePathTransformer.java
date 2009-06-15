@@ -159,7 +159,9 @@ public class ResourcePathTransformer implements IResourcePathTransformer {
            if(po.exists())
                return file;
        }
-       return file;
+       if(file.getProject().exists())
+           return file;
+       return null;
     }
 
     private IFile parseURI( String resourceString ) {
