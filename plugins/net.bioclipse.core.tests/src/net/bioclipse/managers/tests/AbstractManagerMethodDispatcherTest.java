@@ -173,18 +173,20 @@ public abstract class AbstractManagerMethodDispatcherTest {
                      ITestManager.class.getMethod("createBioObject",
                                                   IFile.class,
                                                   BioclipseJobUpdateHook.class),
-                     new Object[] { file,
-                            new BioclipseJobUpdateHook<IBioObject>("") {
-                                @Override
-                               public void completeReturn( IBioObject object ) {
-                                       assertNotNull( object );
-                                       l.add( object );
-                               }
-                            }},
-                     m ));
+                     new Object[] { 
+                         file,
+                         new BioclipseJobUpdateHook<IBioObject>("jobName") {
+                             @Override
+                             public void completeReturn( IBioObject object ) {
+                                 assertNotNull( object );
+                                 l.add( object );
+                             }
+                         }
+                     },
+                     m ) );
         job.join();
         assertMethodRun();
-        assertSame( l.get( 0 ), job.getReturnValue() );
+        assertSame( l.get(0), job.getReturnValue() );
     }
 
     @SuppressWarnings("unchecked")

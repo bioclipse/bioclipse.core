@@ -87,9 +87,9 @@ public class TestManager implements IBioclipseManager {
         }
     }
 
-    public IBioObject createBioObject(IFile file,IProgressMonitor monitor) {
+    public IBioObject createBioObject(IFile file, IProgressMonitor monitor) {
         assertNotNull( file );
-        assertNotNull( monitor);
+        assertNotNull( monitor );
         IBioObject o =  new BioObject() {};
         o.setResource( file );
         done();
