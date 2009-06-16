@@ -95,4 +95,10 @@ public class TestManager implements IBioclipseManager {
         done();
         return o;
     }
+    
+    public void voidJobMethod(IFile file, IProgressMonitor monitor) {
+        assertNotNull( file );
+        assertNotNull( monitor );
+        done();
+    }
 }

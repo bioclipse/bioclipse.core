@@ -47,4 +47,8 @@ public interface ITestManager extends IBioclipseManager {
     
     @GuiAction
     public void guiAction();
+    
+    public BioclipseJob<Void> voidJobMethod(String path);
+    
+    public BioclipseJob<Void> voidJobMethod(IFile file);
 }
