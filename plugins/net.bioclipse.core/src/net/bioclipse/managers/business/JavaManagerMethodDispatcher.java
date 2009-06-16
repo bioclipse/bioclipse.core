@@ -48,7 +48,8 @@ public class JavaManagerMethodDispatcher
 
         if ( Arrays.asList( method.getParameterTypes() )
                    .contains( IProgressMonitor.class ) &&
-             method.getReturnType() == void.class ) {
+             ( methodCalled.getReturnType() == void.class || 
+               methodCalled.getReturnType() == BioclipseJob.class ) ) {
             return runAsJob(manager, method, arguments);
         }
         return runInSameThread(manager, method, arguments);
@@ -66,16 +67,29 @@ public class JavaManagerMethodDispatcher
             }
         }
         
-        
         List<Object> args = new ArrayList<Object>( Arrays.asList( arguments ) );
         
         boolean doingPartialReturns = false;
         ReturnCollector returnCollector = new ReturnCollector();
-        //add partial returner
+        
+        //add partial returner if needed
         for ( Class<?> param : method.getParameterTypes() ) {
-            if ( param == IReturner.class ) {
+            if ( param.isAssignableFrom( IReturner.class ) ) {
                 doingPartialReturns = true;
                 args.add( returnCollector );
+            }
+        }
+        
+        //remove partial returner if needed
+        if ( !doingPartialReturns ) {
+            int toBeremoved = -1;
+            for ( int i = 0; i < arguments.length; i++ ) {
+                if ( args.get(i) instanceof IReturner ) {
+                    toBeremoved = i;
+                }
+            }
+            if ( toBeremoved != -1 ) {
+                args.remove( toBeremoved );
             }
         }
         

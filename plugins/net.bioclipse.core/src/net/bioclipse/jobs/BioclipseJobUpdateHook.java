@@ -15,14 +15,9 @@ public class BioclipseJobUpdateHook<T> implements IReturner<T> {
         return jobName;
     }
     
-    public void done() {
-    }
-
     public void partialReturn( T chunk ) {
-
     }
 
     public void completeReturn( T object ) {
-
     }
 }

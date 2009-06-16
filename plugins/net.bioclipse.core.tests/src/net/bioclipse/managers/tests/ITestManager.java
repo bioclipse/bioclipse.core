@@ -38,9 +38,12 @@ public interface ITestManager extends IBioclipseManager {
     public void getBioObject( IFile file,
                               BioclipseJobUpdateHook h  );
 
-    public void createBioObject(IFile file,BioclipseUIJob<IBioObject> uiJob);
     public void createBioObject( IFile file,
-                                 BioclipseJobUpdateHook<IBioObject> h);
+                                 BioclipseUIJob<IBioObject> uiJob );
+    
+    public BioclipseJob<IBioObject> 
+           createBioObject( IFile file,
+                            BioclipseJobUpdateHook<IBioObject> h );
     
     @GuiAction
     public void guiAction();

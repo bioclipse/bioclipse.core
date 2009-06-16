@@ -40,6 +40,8 @@ public class BioclipseJob<T> extends Job {
 
     private static Logger logger = Logger.getLogger( BioclipseJob.class );
     
+    private BioclipseJobUpdateHook<Object> hook = null;
+    
     public BioclipseJob( String name, 
                          Method methodToBeInvocated, 
                          MethodInvocation originalInvocation ) {
@@ -209,6 +211,22 @@ public class BioclipseJob<T> extends Job {
                 }
             }
             
+            //remove partial returner if needed
+            if ( !usingReturner ) {
+                int toBeremoved = -1;
+                for ( int i = 0; i < arguments.length; i++ ) {
+                    if ( newArguments.get(i) instanceof IReturner ) {
+                        toBeremoved = i;
+                    }
+                }
+                if ( toBeremoved != -1 ) {
+                    Object o = newArguments.remove( toBeremoved );
+                    if ( o instanceof BioclipseJobUpdateHook ) {
+                        hook = (BioclipseJobUpdateHook<Object>) o;
+                    }
+                }
+            }
+            
             int i = Arrays.asList( methodCalled.getParameterTypes() )
                           .indexOf( BioclipseUIJob.class );
     
@@ -237,6 +255,10 @@ public class BioclipseJob<T> extends Job {
 
             returnValue = methodToRun.invoke( bioclipseManager, 
                                               arguments );
+            
+            if (hook != null) {
+                hook.completeReturn( returnValue );
+            }
             
             if ( usingReturner ) {
                 returnValue = returnCollector.getReturnValue();
