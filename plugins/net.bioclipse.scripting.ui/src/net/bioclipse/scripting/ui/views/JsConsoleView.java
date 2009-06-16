@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
@@ -297,6 +298,12 @@ public class JsConsoleView extends ScriptingConsoleView {
                 Collections.sort( managerNames );
                 sb.append( NEWLINE + "Available managers:" + NEWLINE );
                 for ( String name : managerNames ) {
+                    sb.append( "  " );
+                    sb.append( name );
+                    sb.append( NEWLINE );
+                }
+                sb.append( NEWLINE + "Available special commands:" + NEWLINE );
+                for (String name : new TreeSet<String>(allSpecialCommands())) {
                     sb.append( "  " );
                     sb.append( name );
                     sb.append( NEWLINE );
