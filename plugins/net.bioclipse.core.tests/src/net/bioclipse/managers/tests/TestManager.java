@@ -92,6 +92,7 @@ public class TestManager implements IBioclipseManager {
         assertNotNull( monitor);
         IBioObject o =  new BioObject() {};
         o.setResource( file );
+        done();
         return o;
     }
 }
