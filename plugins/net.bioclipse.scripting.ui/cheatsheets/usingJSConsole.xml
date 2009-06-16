@@ -19,11 +19,11 @@
  <item
        title="Step 2: Explore tab completion">
     <description>
-       The JavaScript Console is equipped with tab completion. Simply click the tab key to reveal the core namespaces that are available.
+       The JavaScript Console is equipped with tab completion. Simply press the tab key to reveal the core namespaces that are available.
 <br/>
 <br/>
 
-A namespace is a grouping of functionality, for example does the <b>cdk</b> namespace group CDK functionality. Write &apos;cdk.&apos; ending with a dot, and click the tab key again. Now you will see the methods the cdk namespaces offer.
+A namespace is a grouping of functionality; for example, the <b>cdk</b> namespace groups CDK functionality. Write &apos;cdk.&apos; ending with a dot, and press the tab key again. Now you will see the methods the cdk namespace offers.
     </description>
  </item>
  <item
@@ -37,7 +37,7 @@ Try &apos;help cdk&apos;. This displays help about all methods in cdk, and what 
 <br/>
 <br/>
 
-Try &apos;help cdk.fromSMILES&apos;. This shows an explanation for what this method does, and how it is used.
+Try &apos;help cdk.fromSMILES&apos;. This shows an explanation for what this method does.
     </description>
  </item>
  <item
