@@ -68,7 +68,7 @@ public class MonitorContainer {
                 lastWarningTimes.put( t, System.currentTimeMillis() );
                 logger.warn( "The MonitorContainer could not find a monitor " +
                              "connected to current thread so returning a " +
-                             "NullProgressMonitor. This method will not be " +
+                             "NullProgressMonitor. This warning will not be " +
                              "repeated withing the comming " + timeout + 
                              "seconds." );
             }
