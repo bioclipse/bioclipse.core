@@ -30,9 +30,15 @@
       <linux icon="/net.bioclipse.ui/icons/molecule3D.xpm"/>
       <macosx icon="/net.bioclipse.ui/icons/logo/bioclipseIcon2.icns"/>
       <solaris/>
-      <win useIco="true">
+      <win useIco="false">
          <ico path="/net.bioclipse.ui/icons/logo/bioclipseIcon2.ico"/>
-         <bmp/>
+         <bmp
+            winSmallHigh="/net.bioclipse.ui/icon_16-32bit.bmp"
+            winSmallLow="/net.bioclipse.ui/icon_16-8bit.bmp"
+            winMediumHigh="/net.bioclipse.ui/icon_32-32bit.bmp"
+            winMediumLow="/net.bioclipse.ui/icon_32-8bit.bmp"
+            winLargeHigh="/net.bioclipse.ui/icon_48-32bit.bmp"
+            winLargeLow="/net.bioclipse.ui/icon_48-8bit.bmp"/>
       </win>
    </launcher>
 
