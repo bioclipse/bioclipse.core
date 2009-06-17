@@ -33,8 +33,18 @@ import net.bioclipse.core.business.BioclipseException;
 public interface IMolecule extends IBioObject{
 
     public enum Property {
+        
+        /**
+         * Use the cached value or null if no cashed value exists
+         */
         USE_CACHED,
+        /**
+         * Use the value or calculate a new one if no cashed value exists
+         */
         USE_CACHED_OR_CALCULATED,
+        /**
+         * Always calculate a new value
+         */
         USE_CALCULATED
     }
     
