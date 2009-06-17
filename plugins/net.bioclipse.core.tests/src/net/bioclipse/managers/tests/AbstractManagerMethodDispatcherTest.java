@@ -360,37 +360,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
         }
     }
     
-    @SuppressWarnings("unchecked")
-    @Test
-    public void voidJobString() throws Throwable {
-        assertTrue( file.exists() );
-        
-        BioclipseJob<Void> job 
-            = (BioclipseJob<Void>) dispatcher.invoke( 
-                  new MyInvocation(
-                      ITestManager.class.getMethod( "voidJobMethod", 
-                                                    String.class ),
-                  new Object[] { PATH + FILENAME },
-                  m ) );
-        job.join();
-        assertMethodRun();
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Test
-    public void voidJobIFile() throws Throwable {
-        assertTrue( file.exists() );
-        
-        BioclipseJob<Void> job 
-            = (BioclipseJob<Void>) dispatcher.invoke( 
-                  new MyInvocation(
-                      ITestManager.class.getMethod( "voidJobMethod", 
-                                                    IFile.class ),
-                      new Object[] { file },
-                      m ) );
-        job.join();
-        assertMethodRun();
-    }
+
     
     protected static class MyInvocation implements MethodInvocation {
 

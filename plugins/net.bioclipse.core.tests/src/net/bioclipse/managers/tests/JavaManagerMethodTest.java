@@ -10,9 +10,12 @@ import org.junit.Test;
 
 import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.managers.business.JavaManagerMethodDispatcher;
+import net.bioclipse.managers.tests.AbstractManagerMethodDispatcherTest.MyInvocation;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import net.bioclipse.jobs.IReturner;
 /**
@@ -108,5 +111,37 @@ public class JavaManagerMethodTest
             }
         }
         assertTrue( "Should be run in another thread", !sameThread );
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void voidJobString() throws Throwable {
+        assertTrue( file.exists() );
+        
+        BioclipseJob<Void> job 
+            = (BioclipseJob<Void>) dispatcher.invoke( 
+                  new MyInvocation(
+                      ITestManager.class.getMethod( "voidJobMethod", 
+                                                    String.class ),
+                  new Object[] { PATH + FILENAME },
+                  m ) );
+        job.join();
+        assertMethodRun();
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void voidJobIFile() throws Throwable {
+        assertTrue( file.exists() );
+        
+        BioclipseJob<Void> job 
+            = (BioclipseJob<Void>) dispatcher.invoke( 
+                  new MyInvocation(
+                      ITestManager.class.getMethod( "voidJobMethod", 
+                                                    IFile.class ),
+                      new Object[] { file },
+                      m ) );
+        job.join();
+        assertMethodRun();
     }
 }
