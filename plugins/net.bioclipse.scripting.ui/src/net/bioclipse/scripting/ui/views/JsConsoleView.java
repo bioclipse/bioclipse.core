@@ -15,6 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -49,8 +50,13 @@ public class JsConsoleView extends ScriptingConsoleView {
         if (command.matches("help( .*)?") || command.matches("man( .*)?")) {
             printMessage( helpString(command) );
             return "";
-        } else if (command. matches("doi( .*)?")) {
+        }
+        else if (command.matches("doi( .*)?")) {
             printMessage( openDOI(command) );
+            return "";
+        }
+        else if (command.matches("apropos( .*)?")) {
+            printMessage( aproposString(command) );
             return "";
         }
 
@@ -78,7 +84,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                                 if (unwrappedObject instanceof List) {
                                     List<?> list = (List<?>)unwrappedObject;
                                     StringBuilder sb
-                                      = listToString( list, "[", ", ", "]" );
+                                      = stringify( list, "[", ", ", "]" );
                               
                                     message[0] = sb.toString();
                                 }
@@ -129,8 +135,8 @@ public class JsConsoleView extends ScriptingConsoleView {
                  );
     }
 
-    private StringBuilder listToString( List<?> list, String opener,
-                                        String separator, String closer ) {
+    private StringBuilder stringify( Collection<?> list, String opener,
+                                     String separator, String closer ) {
 
         StringBuilder sb = new StringBuilder();
         
@@ -287,6 +293,10 @@ public class JsConsoleView extends ScriptingConsoleView {
                    + "A DOI - digital object identifier identifies digital "
                    + "content, such as a for example a journal article";
         
+        if ( command.matches( synonyms + " apropos" ) )
+            return "Does a search through all managers and their methods for"
+                   + " the given search string.";
+
         if ( "help".equals(command) || "man".equals(command) ) {
             
             StringBuilder sb = new StringBuilder();
@@ -456,6 +466,65 @@ public class JsConsoleView extends ScriptingConsoleView {
         return result.toString();
     }
 
+    /**
+     * Returns a string with a list of all managers and manager
+     * methods containing the provided search string.
+     * These help strings are printed to the console in response to the
+     * command "help x" (where x is a manager) or "help x.y" (where y is
+     * a method).
+     *
+     * @param command the complete command from the console input
+     * @return a string documenting a manager or one of its methods
+     */
+    private String aproposString(String command) {
+
+        if (command == null)
+            return "";
+
+        if ( command.trim().equals("apropos") )
+            return "Usage: apropos <string>";
+
+        String searchString
+          = command.substring(command.indexOf(' ') + 1).trim().toLowerCase();
+
+        Set<String> hits = new TreeSet<String>();
+
+        for ( String managerName : JsThread.js.getManagers().keySet() ) {
+
+            IBioclipseManager manager
+              = JsThread.js.getManagers().get(managerName);
+
+            for (Method method : findAllPublishedMethods(manager.getClass())) {
+                String fullName = managerName + "." + method.getName();
+                if (fullName.toLowerCase().contains(searchString)
+                    || method.getAnnotation(PublishedMethod.class)
+                             .methodSummary().toLowerCase()
+                                             .contains(searchString))
+                    hits.add(fullName);
+            }
+        }
+
+        for ( String managerName : JsThread.js.getManagers().keySet() ) {
+
+            IBioclipseManager manager
+              = JsThread.js.getManagers().get(managerName);
+
+            StringBuffer managerDescBuffer = new StringBuffer();
+            for (Class<?> clazz
+                    : findAllPublishedClasses(manager.getClass()))
+                managerDescBuffer.append(clazz.getAnnotation(
+                                       PublishedClass.class
+                                   ).value());
+            String managerDesc = managerDescBuffer.toString();
+
+            if ( managerName.toLowerCase().contains(searchString)
+                 || managerDesc.toLowerCase().contains(searchString) )
+                hits.add(managerName);
+        }
+
+        return stringify(hits, "", NEWLINE, "").toString();
+    }
+
     @SuppressWarnings("unchecked")
     protected List<String> allNamesIn(String object) {
 
@@ -547,6 +616,7 @@ public class JsConsoleView extends ScriptingConsoleView {
            add("help");
            add("man");
            add("doi");
+           add("apropos");
         }};
     }
 
