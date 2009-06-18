@@ -43,16 +43,23 @@ while ( my ($ep, $id) = each(%extensionPoints) ) {
     my $pluginID = $1;
     `echo "<plugin id=\\"$pluginID\\">" >> doc/ep.$ep.xml`;
     `echo "<!-- $plugin -->" >> doc/ep.$ep.xml`;
-    `xpath -q -e "\/\/extension[\@point=\'$id\']" $plugin >> doc/ep.$ep.xml`;
-    if ($? == -1) {
-      print "Execution of xpath failed; please check your xpath " +
+    my $xpath = "xpath -q -e \"\/\/extension[\@point=\'$id\']\" " .
+                "$plugin >> doc/ep.$ep.xml";
+    if (system($xpath) != 0) {
+      print "Execution of xpath failed; please check your xpath " .
             "installation.\n";
       exit -1;
     }
     `echo "<\/plugin>" >> doc/ep.$ep.xml`;
   }
   system('echo "</list>" >> doc/ep.'.$ep.'.xml');
-  system('xsltproc --stringparam epElement '.$ep.' ep2html.xslt doc/ep.'.$ep.'.xml > doc/ep.'.$ep.'.html');
+  my $xsltproc = "xsltproc --stringparam epElement $ep ep2html.xslt doc/ep." .
+                 $ep . ".xml > doc/ep." . $ep . ".html";
+  if (system($xsltproc) != 0) {
+    print "Execution of xsltproc failed; please check your xsltproc " .
+          "installation.\n";
+    exit -1;
+  }
   print $INDEX "</li>\n";
 }
 print $INDEX "</ul>\n";
