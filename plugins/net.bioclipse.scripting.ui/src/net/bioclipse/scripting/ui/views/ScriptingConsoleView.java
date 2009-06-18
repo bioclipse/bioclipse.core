@@ -184,8 +184,9 @@ public abstract class ScriptingConsoleView extends ViewPart {
                 }
                 // "Paste" forwarding.
                 // SWT.MOD1 is Ctrl or Command as appropriate based on the
-                // platform. That funny '&' is a bitop. Cf the JLS.
-                else if (Character.toLowerCase(e.character) == 'v'
+                // platform. That funny '&' is a bitop. See the JLS.
+                else if ((Character.toLowerCase(e.character) == 'v'
+                          || e.keyCode == 'v')
                          && (e.stateMask & SWT.MOD1) != 0) {
                     input.setFocus();
                     input.paste();
