@@ -23,7 +23,7 @@ import org.eclipse.ui.views.properties.IPropertySource2;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
-public class BioObjectPropertySource implements IPropertySource2{
+public class BioObjectPropertySource implements IPropertySource2 {
 
     protected static final String PROPERTY_ID = "ID";
     protected static final String PROPERTY_RESOURCE = "Resource";
@@ -31,27 +31,26 @@ public class BioObjectPropertySource implements IPropertySource2{
     private final Object PropertiesTable[][] =
     {
         { PROPERTY_ID,
-            new TextPropertyDescriptor(PROPERTY_ID,"ID")},
+            new TextPropertyDescriptor(PROPERTY_ID,"ID") },
 
         { PROPERTY_RESOURCE,
-            new TextPropertyDescriptor(PROPERTY_RESOURCE,"Resource")}
+            new TextPropertyDescriptor(PROPERTY_RESOURCE,"Resource") }
     };
 
     private IBioObject item;
     private List<IPropertyDescriptor> properties;
     private Map<String, Object> valueMap;
 
-
     /**
      * Constructor
      */
     public BioObjectPropertySource(IBioObject item) {
-        properties=new ArrayList<IPropertyDescriptor>();
-        valueMap=new HashMap<String, Object>();
-        this.item=item;
+        properties = new ArrayList<IPropertyDescriptor>();
+        valueMap = new HashMap<String, Object>();
+        this.item = item;
 
         //Build the arraylist of propertydescriptors
-        for (int i=0;i<PropertiesTable.length;i++) {
+        for (int i=0; i<PropertiesTable.length; i++) {
             // Add each property supported.
             PropertyDescriptor descriptor;
             descriptor = (PropertyDescriptor)PropertiesTable[i][1];
@@ -62,11 +61,10 @@ public class BioObjectPropertySource implements IPropertySource2{
         //Build the hashmap of property->value pair
         valueMap.put(PROPERTY_ID,item.getUID());
 
-        valueMap.put(PROPERTY_RESOURCE,item.getResource()!=null
-                ? item.getResource() : "N/A");
-
+        valueMap.put( PROPERTY_RESOURCE,
+                      item.getResource() != null ? item.getResource() 
+                                                 : "N/A" );
     }
-
 
     public boolean isPropertyResettable(Object id) {
         return false;
@@ -81,14 +79,14 @@ public class BioObjectPropertySource implements IPropertySource2{
     }
 
     public IPropertyDescriptor[] getPropertyDescriptors() {
-        // Create the property vector.
 
-        IPropertyDescriptor[] propertyDescriptors = new IPropertyDescriptor[properties.size()];
-        for (int i=0; i< properties.size();i++){
-            propertyDescriptors[i]=(IPropertyDescriptor) properties.get(i);
+        // Create the property vector.
+        IPropertyDescriptor[] propertyDescriptors 
+            = new IPropertyDescriptor[properties.size()];
+        for (int i=0; i< properties.size(); i++){
+            propertyDescriptors[i] = (IPropertyDescriptor) properties.get(i);
         }
 
-        // Return it.
         return propertyDescriptors;
     }
 
@@ -121,12 +119,11 @@ public class BioObjectPropertySource implements IPropertySource2{
         this.valueMap = valueMap;
     }
 
-
     public IBioObject getItem() {
         return item;
     }
+
     public void setItem(IBioObject item) {
         this.item = item;
     }
-
 }
