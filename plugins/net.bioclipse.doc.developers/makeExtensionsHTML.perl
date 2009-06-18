@@ -44,6 +44,11 @@ while ( my ($ep, $id) = each(%extensionPoints) ) {
     `echo "<plugin id=\\"$pluginID\\">" >> doc/ep.$ep.xml`;
     `echo "<!-- $plugin -->" >> doc/ep.$ep.xml`;
     `xpath -q -e "\/\/extension[\@point=\'$id\']" $plugin >> doc/ep.$ep.xml`;
+    if ($? == -1) {
+      print "Execution of xpath failed; please check your xpath " +
+            "installation.\n";
+      exit -1;
+    }
     `echo "<\/plugin>" >> doc/ep.$ep.xml`;
   }
   system('echo "</list>" >> doc/ep.'.$ep.'.xml');
