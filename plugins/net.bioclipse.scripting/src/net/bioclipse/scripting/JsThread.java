@@ -20,7 +20,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -97,11 +96,17 @@ public class JsThread extends ScriptingThread {
                                 try {
                                     jsRunning.wait(500);
                                     if (m.isCanceled()) {
+                                        jsRunning.wait(3000);
+                                        // This is the only way we've found out
+                                        // that actually stops the thread in
+                                        // its tracks. It's deprecated (and
+                                        // with good reason, at that), and
+                                        // there doesn't seem to be any better
+                                        // non-deprecated way to do it.
                                         JsThread.this.stop();
                                         jsRunning[0] = false;
-                                        if (firstTime) {
+                                        if (firstTime)
                                             popUpWarning();
-                                        }
                                         return Status.CANCEL_STATUS;
                                     }
                                 } 
