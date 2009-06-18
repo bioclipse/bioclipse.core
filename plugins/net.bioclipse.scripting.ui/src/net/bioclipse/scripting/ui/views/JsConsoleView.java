@@ -181,7 +181,8 @@ public class JsConsoleView extends ScriptingConsoleView {
         if (command == null)
             return "";
 
-        final String usageMessage = "Usage of doi: 'doi <manager>.<method>'";
+        final String usageMessage = "Usage of doi: 'doi <manager>.<method>' " +
+            "or 'doi <manager>'";
 
         command = command.trim();
 
@@ -288,10 +289,11 @@ public class JsConsoleView extends ScriptingConsoleView {
           return "ERROR: Maximum recursion depth exceeded.";
 
         if ( command.matches( synonyms + " doi" ) )
-            return " The doi command opens a web browser if the method for "
-                   + "which the 'doi' command is called has an associated DOI. "
-                   + "A DOI - digital object identifier identifies digital "
-                   + "content, such as a for example a journal article";
+            return " The doi command opens a web browser if the method or "
+                   + "manager for which the 'doi' command is called has an "
+                   + "associated DOI. A DOI - digital object identifier "
+                   + "identifies digital content, such as a for example a "
+                   + "journal article";
         
         if ( command.matches( synonyms + " apropos" ) )
             return "Does a search through all managers and their methods for"
