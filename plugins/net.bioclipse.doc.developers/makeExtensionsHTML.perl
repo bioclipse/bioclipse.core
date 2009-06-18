@@ -3,7 +3,8 @@
 #
 # License: Eclipse Public License
 #
-# Needs the command line utilities xpath and xsltproc. (Ubuntu: xsltproc, libxml-xpath-perl)
+# Needs the command line utilities xpath and xsltproc.
+# (Ubuntu: xsltproc, libxml-xpath-perl)
 #
 use diagnostics;
 use strict;
