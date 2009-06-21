@@ -524,7 +524,9 @@ public class JsConsoleView extends ScriptingConsoleView {
                 hits.add(managerName);
         }
 
-        return stringify(hits, "", NEWLINE, "").toString();
+        return hits.isEmpty()
+            ? "No apropos matches for '" + searchString + "'"
+            : stringify(hits, "", NEWLINE, "").toString();
     }
 
     @SuppressWarnings("unchecked")
