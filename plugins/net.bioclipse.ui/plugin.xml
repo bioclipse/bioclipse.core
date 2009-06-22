@@ -428,6 +428,10 @@
          id="net.bioclipse.ui.scripting"
          name="Scripting">
    </category>
+   <category
+         id="net.bioclipse.ui.download"
+         name="Download">
+   </category>
 </extension>
 
 </plugin>
