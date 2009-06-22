@@ -6,7 +6,7 @@
          point="org.eclipse.ui.newWizards">
       <wizard
             canFinishEarly="false"
-            category="net.bioclipse.cheminformatics"
+            category="net.bioclipse.ui.download"
             class="net.bioclipse.webservices.wizards.newwizards.EBIWSDbfetchWizard"
             hasPages="true"
             helpHref="http://wiki.bioclipse.net/index.php?title=Bc_webservices"
