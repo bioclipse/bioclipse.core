@@ -53,6 +53,7 @@ import org.eclipse.ui.IPersistableElement;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
@@ -387,16 +388,21 @@ public class UIManager implements IBioclipseManager {
         if (!folder.exists())
             throw new RuntimeException("The folder: " + folder.getName() + 
                                          " does not exist.");
-        IViewPart view
-            = PlatformUI.getWorkbench()
-                        .getActiveWorkbenchWindow()
-                        .getActivePage()
-                        .findView( NAVIGATOR_ID );
-        CommonNavigator nav=(CommonNavigator)view;
-        nav.getCommonViewer().reveal(folder);
-        nav.getCommonViewer().setSelection(
-            new StructuredSelection(folder)
-        );
+        IViewPart view = null;
+        IWorkbenchWindow[] pages = PlatformUI.getWorkbench().getWorkbenchWindows();
+        for(IWorkbenchWindow win:pages) {
+            IWorkbenchPage[] pgs = win.getPages();
+            for(IWorkbenchPage page : pgs) {
+                view = page.findView( NAVIGATOR_ID );
+                if(view!= null) break;
+            }
+            if(view != null) break;
+        }
+        if(view != null) {
+            CommonNavigator nav=(CommonNavigator)view;
+            nav.getCommonViewer().reveal(folder);
+            nav.getCommonViewer().setSelection(new StructuredSelection(folder));
+        }
     }
 
     public void refresh(String path,IProgressMonitor monitor)
