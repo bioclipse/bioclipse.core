@@ -30,11 +30,10 @@
 			<topic label="The Properties View" href="html/workbench/views/vi_properties.html"/> 
 			<topic label="The Progress View" href="html/workbench/views/vi_progress.html"/> 
 			<topic label="The Javascript Console" href="html/workbench/views/vi_jsconsole.html"/> 
-			<topic label="The Cheatsheet View" href="html/workbench/views/vi_cheatsheets.html"/> 
 		</topic>
 		<topic label="Preferences" href="html/workbench/wb_preferences.html"/> 
 		<topic label="Network settings" href="html/workbench/wb_nwsettings.html"/>
-		<topic label="The Help system" href="html/workbench/wb_help.html"/>
+		<topic label="About the Help system" href="html/workbench/wb_help.html"/>
 
    </topic>
 
