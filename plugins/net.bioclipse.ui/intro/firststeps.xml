@@ -3,7 +3,7 @@
 
   	  	<extensionContent id="net.bioclipse.intro.workbench.firststeps" style="css/intro.css" name="Bioclipse First Steps" path="firststeps/@">
 		<group style-id="content-group" id="firststep-group">
-			<link label="Bioclipse at a glance" url="http://org.eclipse.ui.intro/showHelpTopic?id=/net.bioclipse.ui/html/tutorials/glance.html" id="runitem" style-id="content-link">
+			<link label="Bioclipse at a glance" url="http://org.eclipse.ui.intro/showHelpTopic?id=/net.bioclipse.ui/html/glance.html" id="runitem" style-id="content-link">
           		<text>A one-minute introduction to Bioclipse</text>
        		</link>
  
