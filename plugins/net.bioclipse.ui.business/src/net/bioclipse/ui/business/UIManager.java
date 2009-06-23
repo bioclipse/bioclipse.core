@@ -20,7 +20,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.managers.business.IBioclipseManager;
@@ -30,6 +29,7 @@ import net.bioclipse.ui.business.describer.ExtensionPointHelper;
 import net.bioclipse.ui.business.describer.IBioObjectDescriber;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -379,6 +379,23 @@ public class UIManager implements IBioclipseManager {
         nav.getCommonViewer().reveal( file );
         nav.getCommonViewer().setSelection(
             new StructuredSelection(file)
+        );
+    }
+
+    public void revealAndSelect(final IFolder folder) throws BioclipseException{
+        //Get navigator view and reveal in UI thread
+        if (!folder.exists())
+            throw new RuntimeException("The folder: " + folder.getName() + 
+                                         " does not exist.");
+        IViewPart view
+            = PlatformUI.getWorkbench()
+                        .getActiveWorkbenchWindow()
+                        .getActivePage()
+                        .findView( NAVIGATOR_ID );
+        CommonNavigator nav=(CommonNavigator)view;
+        nav.getCommonViewer().reveal(folder);
+        nav.getCommonViewer().setSelection(
+            new StructuredSelection(folder)
         );
     }
 
