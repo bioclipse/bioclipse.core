@@ -10,6 +10,7 @@
  ******************************************************************************/
 package net.bioclipse.ds.signsig.bursi;
 
+import org.apache.log4j.Logger;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -17,6 +18,8 @@ import org.osgi.framework.BundleContext;
  * The activator class controls the plug-in life cycle
  */
 public class Activator extends AbstractUIPlugin {
+
+    private Logger logger = Logger.getLogger(Activator.class);
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "net.bioclipse.ds.signsig.bursi";
@@ -40,6 +43,23 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		
+		//Set LD path for RHL at AZ
+    logger.info("Signatures activator detected os name: " 
+                + System.getProperty("os.name"));
+    logger.info("Signatures activator detected os version: " 
+                + System.getProperty("os.version"));
+    logger.info("Signatures activator detected java lib path: " 
+                + System.getProperty("java.library.path"));
+		
+    if (System.getProperty("os.name").toLowerCase().startsWith( "linux" )){
+        System.setProperty("java.library.path",
+                           System.getProperty("java.library.path") 
+                           + ":/home/kcds733/Software/openbabel-2.1.1/lib");
+        logger.info( "Set java.library path to: " +  System.getProperty("java.library.path"));
+    }
+		
+		
 	}
 
 	/*
