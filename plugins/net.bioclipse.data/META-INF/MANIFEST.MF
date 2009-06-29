@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Small Sample data set
 Bundle-SymbolicName: net.bioclipse.data;singleton:=true
-Bundle-Version: 2.0.0.RC3
+Bundle-Version: 2.0.0.RC4
 Bundle-Activator: net.bioclipse.data.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
