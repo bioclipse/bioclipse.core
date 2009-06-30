@@ -48,11 +48,11 @@
       	description="Sample files in PDB format"
       	location="data/PDB"
       />
-      <folder 
+      <!--folder 
       	name="SMILES"
       	description="Sample files with multiple SMILES "
       	location="data/SMILES"
-      />
+      /-->
 </extension>
 
 
