@@ -80,9 +80,10 @@ while (my $line = <>) {
         }
 
         $_ = <>;
-        $_ = <> while m{^\s*$}
-                   or m{^\s*\@\w+\s*$}
-                   or m{^\s*\@\w+\(} .. m{\)\s*$};
+        $_ = <> while m{^\s*$}                    # empty lines
+                   or m{^\s*\@\w+\s*$}            # other annotations...
+                   or m{^\s*\@\w+\(} .. m{\)\s*$} # ...sometimes multi-line
+                   or m{^\s*public\s+\S+\s*$};    # 'public' + return type
         my $method_signature = $_;
 
         die 'Your format is silly: ', $method_signature
