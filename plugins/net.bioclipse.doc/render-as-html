@@ -63,13 +63,13 @@ for my $manager (@managers) {
                 my $vv = $plx->{$kk} || '';
                 # Used HTML::EscapeEvil, but the module truncated the text for
                 # some reason. Doing it manually instead.
-                $vv =~ s/&/\&amp;/;
-                $vv =~ s/</\&lt;/;
-                $vv =~ s/>/\&gt;/;
-                $vv =~ s/'/\&quot;/;
-                $vv =~ s/"/\&#34;/;
+                $vv =~ s/&/\&amp;/g;
+                $vv =~ s/</\&lt;/g;
+                $vv =~ s/>/\&gt;/g;
+                $vv =~ s/'/\&quot;/g;
+                $vv =~ s/"/\&#34;/g;
                 # Java newlines replaced by HTML newlines
-                $vv =~ s/\\n/<br>/;
+                $vv =~ s/\\n/<br>/g;
                 if ($vv) {
                     print "<dt>$kk</dt><dd>$vv</dd>\n"
                 }
