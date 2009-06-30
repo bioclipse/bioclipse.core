@@ -53,11 +53,13 @@ while (my $line = <>) {
         $description = $line;
         for ($description) {
             s{ ^ \s* \@PublishedClass \s* \( \s* }{}x;
-            s{ ^ value \s* = \s* }{}x;
+            s{ value \s* = \s* }{}x;
+            s{ doi   \s* = "  [^\}]+ ",? }{}x;
+            s{ doi   \s* = \{ [^\}]+ \},? }{}x;
             s{ " \s* \+ \s* " }{}xg;
             s{ \) \s* }{}x;
             s{ ^ \s* " }{}x;
-            s{ " \s* $ }{}x;
+            s{ " ,? \s* $ }{}x;
         }
     }
 
