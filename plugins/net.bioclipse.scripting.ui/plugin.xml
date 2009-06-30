@@ -68,7 +68,7 @@
             <cheatsheet
             category="net.bioclipse.cheatsheets.workbench"
             composite="false"
-            contentFile="cheatsheets/usingJSConsole.xml"
+            contentFile="cheatsheets/basicScripting.xml"
             id="net.bioclipse.cheatsheets.javascript"
             name="Using the Javscript Console"/>
           

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cheatsheet
+      title="Using the Javascript Console">
+   <intro
+         href="/net.bioclipse.doc/html/scriptingBioclipse.html">
+      <description>
+         This CheatSheet is a tutotial for using the Javascript Console in Bioclipse.
+      </description>
+   </intro>
+
+ 	<item
+        skip="false"
+        title="Step 1: Show the Javascript Console">
+		<description>
+		Bioclipse scripting is built on Javascript, so te be able to enter scripting commands we need to reveal the Javascript View.<br/><br/>
+To show available views, use the main menu option <b>Window &gt; Show View &gt; Other...</b>. In the opened Views dialog, select the Javscript View.
+		</description>
+   <command
+        required="false"
+        serialization="org.eclipse.ui.views.showView(org.eclipse.ui.views.showView.viewId=net.bioclipse.scripting.ui.views.JsConsoleView)"/>
+ 	</item>
+	 
+ <item
+       skip="false"
+       title="Step 2: Listing available Managers">
+    <description>
+       Managers are collection of functionality in a domain, contributed by a plugin. For example, the CDK Manager has functionality to load/save/manipulate chemical structures.
+       
+       To list available managers, enter <b>help</b> in the Javascript Console.
+    </description>
+    <action
+			pluginId="net.bioclipse.scripting.ui"
+			class="net.bioclipse.scripting.ui.actions.ScriptAction"
+	        required="false"
+			param1="help"/>
+ </item>
+
+ <item
+       skip="false"
+       title="Step 3: Getting help about a manager">
+    <description>
+       To get help for a manager, enter the command:<br/><br/>
+ <b>help &lt;manager&gt;</b><br/><br/>
+ Try to see the help for the CDK manager with: <b>help cdk</b>
+    </description>
+    <action
+			pluginId="net.bioclipse.scripting.ui"
+			class="net.bioclipse.scripting.ui.actions.ScriptAction"
+	        required="false"
+			param1="help cdk"/>
+ </item>
+
+ <item
+       title="Step 4: Explore tab completion">
+    <description>
+       The JavaScript Console is equipped with tab completion. Simply click the tab key to reveal the core namespaces that are available.
+<br/>
+<br/>
+
+A namespace is a grouping of functionality, for example does the <b>cdk</b> namespace group CDK functionality. Write &apos;cdk.&apos; ending with a dot, and click the tab key again. Now you will see the methods the cdk namespaces offer.
+    </description>
+ </item>
+
+
+ <item
+       title="Step 5: Some basic Javascript commands">
+    <description>
+       Try the following command, they are quite self-explanatory:<br/><br/>
+	<b>clear()</b><br/><br/>
+	<b>print(&quot;hello world&quot; + (12-4))</b><br/><br/>
+    </description>
+ </item>
+
+
+ <item
+       title="Step 6: More information">
+    <description>
+       For more information, see Bioclipse Help.
+    </description>
+    <command
+          required="false"
+          serialization="org.eclipse.ui.help.displayHelp(href=/net.bioclipse.doc/html/scriptingBioclipse.html)"/>
+ </item>
+</cheatsheet>
