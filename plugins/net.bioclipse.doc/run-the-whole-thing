@@ -13,6 +13,18 @@ else
 fi
 
 . find-published-classes |
-    xargs perl parse-file-for-annotations |
-    perl render-as-html |
-    tidy -i 2> /dev/null
+    xargs perl parse-file-for-annotations > stage1
+
+if [ $? != 0 ]; then
+    exit 1;
+fi
+
+perl render-as-html stage1 |
+    tidy -i 2> tidy_errors
+
+if [ $? != 0 ]; then
+    cat tidy_errors >&2;
+    exit 1;
+fi
+
+rm -f stage1 tidy_errors
