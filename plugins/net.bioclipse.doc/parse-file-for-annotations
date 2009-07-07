@@ -2,6 +2,7 @@
 use strict;
 
 use Data::Dumper;
+use XML::XPath;
 
 my $current_indentation = 0;
 sub say_indent {
@@ -16,6 +17,52 @@ sub do_indented {
     ++$current_indentation;
     $code->();
     --$current_indentation;
+}
+
+my @xmlfiles = `find .. -type d -name META-INF | perl -ne 'chomp; if (-d "\$_/spring") { for \$name (<\$_/spring/*.xml>) { print \$name, "\n" } }'`;
+
+my %class_of;
+my %namespace_of;
+
+for my $file (@xmlfiles) {
+    chomp $file;
+
+    my $xp = XML::XPath->new(filename => $file);
+
+    my $target = (($xp->find('//bean[@class="org.springframework.aop.framework.ProxyFactoryBean"]/property[@name="target"]/@ref')->get_nodelist)[0] or next)->getNodeValue();
+
+    my $manager = (($xp->find(qq[//bean[\@id="$target"]/\@class])->get_nodelist)[0] or next)->getNodeValue();
+
+    my $proxyinterface = ($xp->find('//bean[@class="org.springframework.aop.framework.ProxyFactoryBean"]/property[@name="proxyInterfaces"]/@value')->get_nodelist)[0]->getNodeValue;
+    my $file = pathToFile($proxyinterface);
+    my $interface_line = `grep extends $file`;
+    $interface_line =~ s/.*?extends //;
+    $interface_line =~ s/ \{//;
+    my @interfaces = grep { $_ && !/IBioclipse(JS)?Manager/ } split /,\s*/, $interface_line;
+    die 'Too many interfaces in ', $file if @interfaces > 1;
+    #die 'No interfaces in ', $file if !@interfaces;
+    next if !@interfaces;
+    my $interface = $interfaces[0];
+    chomp $interface;
+    $class_of{$interface} = $manager;
+    my $managerfile = pathToFile($manager);
+    my $pattern = 'public String \\(getNamespace\\|getManagerName\\)';
+    my ($namespace) =
+             grep { $_ }
+             map { m[return "([^"]*)"] && $1 }
+             `grep -A2 '$pattern' $managerfile`;
+    $namespace_of{$interface} = $namespace;
+}
+
+sub pathToFile {
+    my ($class) = @_;
+
+    $class =~ m[((?:\w+\.)+)(\w+)] or die;
+    my @hits = `find .. -name $2.java`;
+    die @hits if @hits != 1;
+    my $path = $hits[0];
+    chomp $path;
+    return $path;
 }
 
 say_indent('---');
@@ -39,12 +86,22 @@ while (my $line = <>) {
                    map { m[/(\w+)\.java$] && $1 }
                    @class_files;
 
+        if (exists $class_of{$interface}
+            && !grep { $class_of{$interface} } @classes) {
+            push @classes, $class_of{$interface};
+        }
+
         my $pattern = 'public String \\(getNamespace\\|getManagerName\\)';
         for my $class_file (@class_files) {
             push @namespaces,
                  grep { $_ }
                  map { m[return "([^"]*)"] && $1 }
                  `grep -A2 '$pattern' $class_file`
+        }
+
+        if (exists $namespace_of{$interface}
+            && !grep { $namespace_of{$interface} } @namespaces) {
+            push @namespaces, $namespace_of{$interface};
         }
     }
 
@@ -137,4 +194,3 @@ while (my $line = <>) {
     }
 }
 
-#say_indent('...');
