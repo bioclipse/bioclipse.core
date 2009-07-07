@@ -1,0 +1,932 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Extension Point 'org.eclipse.core.runtime.contentTypes' in Bioclipse</title>
+<style type="text/css">                                          
+     body { font:normal verdana,arial,helvetica; color:#000000; }
+     table { margin-left: 5%; }
+  </style>
+</head>
+<body>
+<h1>Extension Point 'org.eclipse.core.runtime.contentTypes' in Bioclipse</h1>
+<!--Found extension plugin...--><!--Looking for content-type elements...--><h2><a name="net.bioclipse.contenttypes.cif">Crystallographic Interchange Format</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.ioformats">net.bioclipse.ioformats</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>org.eclipse.core.runtime.text</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.cif</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.ioformats.CDKChemFileDescriber</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>format</i>: org.openscience.cdk.io.formats.CIFFormat</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.pubchem.xml.compounds">PubChem Compounds XML</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.ioformats">net.bioclipse.ioformats</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>org.eclipse.core.runtime.xml</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.pubchem.xml.compounds</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>org.eclipse.core.runtime.content.XMLRootElementContentDescriber2</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>element</i>: {http://www.ncbi.nlm.nih.gov}PC-Compounds</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>xml</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.pubchem.xml.compound">PubChem Compound XML</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.ioformats">net.bioclipse.ioformats</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>org.eclipse.core.runtime.xml</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.pubchem.xml.compound</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>org.eclipse.core.runtime.content.XMLRootElementContentDescriber2</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>element</i>: {http://www.ncbi.nlm.nih.gov}PC-Compound</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>xml</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.pubchem.xml.substances">PubChem Substances XML</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.ioformats">net.bioclipse.ioformats</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>org.eclipse.core.runtime.xml</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.pubchem.xml.substances</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>org.eclipse.core.runtime.content.XMLRootElementContentDescriber2</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>element</i>: {http://www.ncbi.nlm.nih.gov}PC-Substances</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>xml</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.pubchem.xml.substance">PubChem Substance XML</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.ioformats">net.bioclipse.ioformats</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>org.eclipse.core.runtime.xml</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.pubchem.xml.substance</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>org.eclipse.core.runtime.content.XMLRootElementContentDescriber2</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>element</i>: {http://www.ncbi.nlm.nih.gov}PC-Substance</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>xml</td>
+</tr>
+</table>
+<!--Found extension plugin...--><!--Looking for content-type elements...--><h2><a name="net.bioclipse.contenttypes.csv">Comma Separated Values</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.analysis">net.bioclipse.analysis</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>org.eclipse.core.runtime.text</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.csv</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>csv</td>
+</tr>
+</table>
+<!--Found extension plugin...--><!--Looking for content-type elements...--><h2><a name="net.bioclipse.contenttypes.jcampdx">JCAMP-DX</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.spectrum">net.bioclipse.spectrum</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td></td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.jcampdx</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>jx,dx,JX,DX,jdx</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.cml.singleSpectrum">CML (Single Spectrum)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.spectrum">net.bioclipse.spectrum</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>net.bioclipse.contenttypes.cml</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.cml.singleSpectrum</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.spectrum.contenttypes.CmlSpectrumFileDescriber</td>
+</tr>
+</table>
+<!--Found extension plugin...--><!--Looking for content-type elements...--><h2><a name="net.bioclipse.contenttypes.bibtex">Bibtex</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.bibtex">net.bioclipse.bibtex</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td></td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.bibtex</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>bib</td>
+</tr>
+</table>
+<!--Found extension plugin...--><!--Looking for content-type elements...--><h2><a name="net.bioclipse.contenttypes.mzml">Mass Spectrometry Data</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.mzml.model.editor">net.bioclipse.mzml.model.editor</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>org.eclipse.core.runtime.xml</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.mzml</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>org.eclipse.core.runtime.content.XMLRootElementContentDescriber2</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>element</i>: {http://psi.hupo.org/ms/mzml}*</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>mzml,mzML,xml</td>
+</tr>
+</table>
+<!--Found extension plugin...--><!--Looking for content-type elements...--><h2><a name="net.bioclipse.contenttypes.cml">Chemical Markup Language (CML)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.cml">net.bioclipse.cml</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>org.eclipse.core.runtime.xml</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.cml</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>org.eclipse.core.runtime.content.XMLRootElementContentDescriber2</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>element</i>: {http://www.xml-cml.org/schema}*</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>cml,xml</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.cml.singleMolecule0d">CML (Single 0D Molecule)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.cml">net.bioclipse.cml</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>net.bioclipse.contenttypes.cml</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.cml.singleMolecule0d</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.cml.contenttypes.CmlFileDescriber</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>dimension</i>: 0D</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>cardinality</i>: single</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>type</i>: molecule</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.cml.singleMolecule2d">CML (Single 2D Molecule)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.cml">net.bioclipse.cml</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>net.bioclipse.contenttypes.cml</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.cml.singleMolecule2d</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.cml.contenttypes.CmlFileDescriber</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>dimension</i>: 2D</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>cardinality</i>: single</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>type</i>: molecule</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.cml.multipleMolecule2d">CML (Multiple 2D Molecules)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.cml">net.bioclipse.cml</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>net.bioclipse.contenttypes.cml</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.cml.multipleMolecule2d</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.cml.contenttypes.CmlFileDescriber</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>dimension</i>: 2D</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>cardinality</i>: multiple</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>type</i>: molecule</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.cml.singleMolecule3d">CML (Single 3D Molecule)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.cml">net.bioclipse.cml</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>net.bioclipse.contenttypes.cml</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.cml.singleMolecule3d</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.cml.contenttypes.CmlFileDescriber</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>dimension</i>: 3D</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>cardinality</i>: single</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>type</i>: molecule</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.cml.multipleMolecule3d">CML (Multiple 3D Molecules)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.cml">net.bioclipse.cml</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>net.bioclipse.contenttypes.cml</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.cml.multipleMolecule3d</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.cml.contenttypes.CmlFileDescriber</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>dimension</i>: 3D</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>cardinality</i>: multiple</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>type</i>: molecule</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.cml.singleMolecule5d">CML (Single 2D+3D Molecule)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.cml">net.bioclipse.cml</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>net.bioclipse.contenttypes.cml</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.cml.singleMolecule5d</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.cml.contenttypes.CmlFileDescriber</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>dimension</i>: 5D</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>cardinality</i>: single</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>type</i>: molecule</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.cml.multipleMolecule5d">CML (Multiple 2D+3D Molecules)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.cml">net.bioclipse.cml</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>net.bioclipse.contenttypes.cml</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.cml.multipleMolecule5d</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.cml.contenttypes.CmlFileDescriber</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>dimension</i>: 5D</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>cardinality</i>: multiple</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>type</i>: molecule</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.cml.singleReaction">CML (Single Reaction)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.cml">net.bioclipse.cml</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>net.bioclipse.contenttypes.cml</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.cml.singleReaction</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.cml.contenttypes.CmlFileDescriber</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>cardinality</i>: single</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>type</i>: reaction</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.cml.multipleReactions">CML (Multiple Reaction)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.cml">net.bioclipse.cml</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>net.bioclipse.contenttypes.cml</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.cml.multipleReactions</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.cml.contenttypes.CmlFileDescriber</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>cardinality</i>: multiple</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>type</i>: reaction</td>
+</tr>
+</table>
+<!--Found extension plugin...--><!--Looking for content-type elements...--><h2><a name="net.bioclipse.contenttypes.smiles.singlemol">SMILES value (Single Molecule)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.chemoinformatics">net.bioclipse.chemoinformatics</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>org.eclipse.core.runtime.text</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.smiles.singlemol</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>smiles,smi</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.pdb">Protein Brookhaven Database File</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.chemoinformatics">net.bioclipse.chemoinformatics</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>org.eclipse.core.runtime.text</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.pdb</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>pdb</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.sdf">MDL SD file</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.chemoinformatics">net.bioclipse.chemoinformatics</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>org.eclipse.core.runtime.text</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.sdf</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>sdf</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.sdf0d">MDL SD file (0D)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.chemoinformatics">net.bioclipse.chemoinformatics</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>net.bioclipse.contenttypes.sdf</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.sdf0d</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.chemoinformatics.contenttypes.MdlMolFileCoordinatesDescriber</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>type</i>: 0D</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>sdf</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.sdf2d">MDL SD file (2D)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.chemoinformatics">net.bioclipse.chemoinformatics</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>net.bioclipse.contenttypes.sdf</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.sdf2d</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.chemoinformatics.contenttypes.MdlMolFileCoordinatesDescriber</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>type</i>: 2D</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>sdf</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.sdf3d">MDL SD file (3D)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.chemoinformatics">net.bioclipse.chemoinformatics</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>net.bioclipse.contenttypes.sdf</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.sdf3d</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.chemoinformatics.contenttypes.MdlMolFileCoordinatesDescriber</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>type</i>: 3D</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>sdf</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.smi">SMILES (Multiple Molecules)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.chemoinformatics">net.bioclipse.chemoinformatics</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>org.eclipse.core.runtime.text</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.smi</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>smi</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.mdlMolFile">MDL MolFile</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.chemoinformatics">net.bioclipse.chemoinformatics</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>org.eclipse.core.runtime.text</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.mdlMolFile</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.mdlMolFile0D">MDL Molfile (0D)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.chemoinformatics">net.bioclipse.chemoinformatics</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>net.bioclipse.contenttypes.mdlMolFile</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.mdlMolFile0D</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.chemoinformatics.contenttypes.MdlMolFileCoordinatesDescriber</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>type</i>: 0D</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>mdl,mol</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.mdlMolFile2D">MDL Molfile (2D)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.chemoinformatics">net.bioclipse.chemoinformatics</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>net.bioclipse.contenttypes.mdlMolFile</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.mdlMolFile2D</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.chemoinformatics.contenttypes.MdlMolFileCoordinatesDescriber</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>type</i>: 2D</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>mdl,mol</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.mdlMolFile3D">MDL molfile (3D)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.chemoinformatics">net.bioclipse.chemoinformatics</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>net.bioclipse.contenttypes.mdlMolFile</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.mdlMolFile3D</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.chemoinformatics.contenttypes.MdlMolFileCoordinatesDescriber</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<i>type</i>: 3D</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>mdl,mol</td>
+</tr>
+</table>
+<h2><a name="net.bioclipse.contenttypes.rxnFile">RXN reaction file</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.chemoinformatics">net.bioclipse.chemoinformatics</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>org.eclipse.core.runtime.text</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.rxnFile</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>rxn</td>
+</tr>
+</table>
+<!--Found extension plugin...--><!--Looking for content-type elements...--><h2><a name="net.bioclipse.contenttypes.cml.specmol">CML (SpecMol)</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.specmol">net.bioclipse.specmol</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>net.bioclipse.contenttypes.cml</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.cml.specmol</td>
+</tr>
+<tr>
+<td><b>describer</b></td>
+<td>net.bioclipse.specmol.contenttypes.CmlSpecmolFileDescriber</td>
+</tr>
+</table>
+<!--Found extension plugin...--><!--Looking for content-type elements...--><h2><a name="net.bioclipse.biojava.ui.sequenceType">sequence</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.biojava.ui">net.bioclipse.biojava.ui</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>org.eclipse.core.runtime.text</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.biojava.ui.sequenceType</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>gbk,fasta,embl,seq</td>
+</tr>
+</table>
+<!--Found extension plugin...--><!--Looking for content-type elements...--><h2><a name="net.bioclipse.cdk.ui.moleculeType">molecule</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.cdk.ui">net.bioclipse.cdk.ui</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>org.eclipse.core.runtime.text</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.cdk.ui.moleculeType</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>cml,xml,mol,mdl,xyz,pdb,sdf,sd,in,out,cif,log,hin,inchi,smi,rxn,mol2,res</td>
+</tr>
+</table>
+<!--Found extension plugin...--><!--Looking for content-type elements...--><h2><a name="net.bioclipse.contenttypes.csv">Comma Separated Values</a></h2>
+<table>
+<tr>
+<td><b>plugin</b></td>
+<td><a href="http://bioclipse.svn.sourceforge.net/viewvc/bioclipse/bioclipse2/trunk/plugins/net.bioclipse.statistics">net.bioclipse.statistics</a></td>
+</tr>
+<tr>
+<td><b>parent</b></td>
+<td>org.eclipse.core.runtime.text</td>
+</tr>
+<tr>
+<td><b>id</b></td>
+<td>net.bioclipse.contenttypes.csv</td>
+</tr>
+<tr>
+<td><b>extensions</b></td>
+<td>jam,csv</td>
+</tr>
+</table>
+</body>
+</html>
