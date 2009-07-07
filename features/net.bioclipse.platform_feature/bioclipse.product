@@ -140,8 +140,6 @@
 
    <features>
       <feature id="net.bioclipse.platform_feature" version="2.0.0.v20090707"/>
-      <feature id="net.bioclipse.ds.birt_feature" version="2.0.0.v20090707"/>
-      <feature id="net.bioclipse.ds_feature" version="2.0.0.v20090707"/>
    </features>
 
 </product>
