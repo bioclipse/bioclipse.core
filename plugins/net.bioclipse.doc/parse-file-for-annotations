@@ -39,11 +39,12 @@ while (my $line = <>) {
                    map { m[/(\w+)\.java$] && $1 }
                    @class_files;
 
+        my $pattern = 'public String \\(getNamespace\\|getManagerName\\)';
         for my $class_file (@class_files) {
             push @namespaces,
                  grep { $_ }
                  map { m[return "([^"]*)"] && $1 }
-                 `grep -A2 'public String getNamespace' $class_file`
+                 `grep -A2 '$pattern' $class_file`
         }
     }
 
