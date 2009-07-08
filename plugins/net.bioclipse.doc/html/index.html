@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta name="generator" content=
-  "HTML Tidy for Linux/x86 (vers 7 December 2008), see www.w3.org">
+  "HTML Tidy for Linux (vers 7 December 2008), see www.w3.org">
 
   <title>Manager documentation</title>
   <style type="text/css">
@@ -30,37 +30,21 @@
 
 <body>
   <ul>
-    <li><a href='#bibtex'>bibtex</a></li>
-
-    <li><a href='#biojava'>biojava</a></li>
+    <li><a href='#balloon'>balloon</a></li>
 
     <li><a href='#cdk'>cdk</a></li>
 
-    <li><a href='#cdx'>cdx</a></li>
+    <li><a href='#gist'>gist</a></li>
 
     <li><a href='#inchi'>inchi</a></li>
 
     <li><a href='#jcp'>jcp</a></li>
 
-    <li><a href='#jcpprop'>jcpprop</a></li>
+    <li><a href='#jcpglobal'>jcpglobal</a></li>
 
     <li><a href='#jmol'>jmol</a></li>
 
     <li><a href='#js'>js</a></li>
-
-    <li><a href='#molecule'>molecule</a></li>
-
-    <li><a href='#rdf'>rdf</a></li>
-
-    <li><a href='#seneca'>seneca</a></li>
-
-    <li><a href='#services'>services</a></li>
-
-    <li><a href='#specmol'>specmol</a></li>
-
-    <li><a href='#spectrum'>spectrum</a></li>
-
-    <li><a href='#structuredb'>structuredb</a></li>
 
     <li><a href='#ui'>ui</a></li>
 
@@ -69,180 +53,48 @@
     <li><a href='#webservices'>webservices</a></li>
   </ul>
 
-  <h2 id='bibtex'>bibtex</h2>
+  <h2 id='balloon'>balloon</h2>
 
-  <p class='description'>Contains Specmol related methods</p>
+  <p class='description'>Contains methods related to Balloon</p>
 
   <div class='method'>
-    <h3>loadBibliodata</h3>
+    <h3>generate3Dconformations</h3>
 
     <dl>
       <dt>summary</dt>
 
-      <dd>Loads a bibtex file using jabref.</dd>
+      <dd>Generated 3D conformations for all molecules in the
+      inputfile.<br>
+      Inputs: inputfile = path to inputfile, outputfile = path to
+      outputfile, numConformations = number of conformations to
+      generate per molecule.</dd>
 
       <dt>params</dt>
 
-      <dd>String path</dd>
-    </dl>
-  </div>
-
-  <h2 id='biojava'>biojava</h2>
-
-  <p class='description'>Provides bioinformatics services through
-  the BioJava project.</p>
-
-  <div class='method'>
-    <h3>DNAToProtein</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Converts a BiojavaDNASequence into a
-      BiojavaAASequence.</dd>
-
-      <dt>params</dt>
-
-      <dd>BiojavaDNASequence sequence</dd>
+      <dd>String inputfile, String outputfile, int
+      numConformations</dd>
     </dl>
   </div>
 
   <div class='method'>
-    <h3>DNAtoRNA</h3>
+    <h3>generate3Dcoordinates</h3>
 
     <dl>
       <dt>summary</dt>
 
-      <dd>Converts a DNA sequence into RNA (transcription.</dd>
+      <dd>Generate 3D coordinates for all molecules in a list of
+      inputfiles. Creates a default output file. Inputs: inputfiles
+      = list of Strings with paths to inputfiles</dd>
 
       <dt>params</dt>
 
-      <dd>BiojavaDNASequence sequence</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>RNAtoDNA</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Converts a RNA sequence into DNA (reverse
-      transcription.</dd>
-
-      <dt>params</dt>
-
-      <dd>BiojavaRNASequence rnaSeq</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>RNAtoProtein</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Convert a BiojavaRNASequence into a
-      BiojavaAASequence.</dd>
-
-      <dt>params</dt>
-
-      <dd>BiojavaRNASequence sequence</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>createSequence</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Creates sequence from a name and a plain sequence string
-      (content.</dd>
-
-      <dt>params</dt>
-
-      <dd>String name, String content</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>createSequenceFromFasta</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Creates sequence from a plain sequence string. Will set
-      name to empty.</dd>
-
-      <dt>params</dt>
-
-      <dd>String content</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>loadSequence</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Loads sequence from InputStream.</dd>
-
-      <dt>params</dt>
-
-      <dd>InputStream instream</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>loadSequences</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Loads sequenceCollection from InputStream.</dd>
-
-      <dt>params</dt>
-
-      <dd>String path</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>renderAs</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Converts a BiojavaSequence to a String representation in
-      a given format.</dd>
-
-      <dt>params</dt>
-
-      <dd>SequenceFormat format</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>saveSequence</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Saves a Biojava sequence to a given path using a given
-      format.</dd>
-
-      <dt>params</dt>
-
-      <dd>BiojavaSequence seq, String path, SequenceFormat
-      format</dd>
+      <dd>List&lt;String&gt; inputfiles</dd>
     </dl>
   </div>
 
   <h2 id='cdk'>cdk</h2>
 
-  <p class='description'>Contains CDK related methods</p>
+  <p class='description'>Provides CDK-derived functionality.</p>
 
   <div class='method'>
     <h3>addExplicitHydrogens</h3>
@@ -290,6 +142,20 @@
   </div>
 
   <div class='method'>
+    <h3>asCDKMolecule</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a cdk molecule from a molecule</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule m</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
     <h3>calculateMass</h3>
 
     <dl>
@@ -319,16 +185,33 @@
   </div>
 
   <div class='method'>
-    <h3>create</h3>
+    <h3>calculateTanimoto</h3>
 
     <dl>
       <dt>summary</dt>
 
-      <dd>Creates a cdk molecule from a molecule</dd>
+      <dd>Calculate tanimoto similarity of a list of molecules
+      (calculateForto another molecule (reference) via CDK
+      fingerprint.</dd>
 
       <dt>params</dt>
 
-      <dd>IMolecule m</dd>
+      <dd>BioList&lt;IMolecule&gt; calculateFor, IMolecule
+      reference, BioclipseUIJob&lt;List&lt;Float&gt;&gt; uiJob</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>clone</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Clones the CDK data model.</dd>
+
+      <dt>params</dt>
+
+      <dd>ICDKMolecule molecule</dd>
     </dl>
   </div>
 
@@ -373,21 +256,6 @@
   </div>
 
   <div class='method'>
-    <h3>createSDFIndex</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Creates a index of the molecules positons in a
-      SDFile</dd>
-
-      <dt>params</dt>
-
-      <dd>String file</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
     <h3>createSDFPropertyMap</h3>
 
     <dl>
@@ -399,20 +267,6 @@
       <dt>params</dt>
 
       <dd>String file, String property</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>createSDFile</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Creates an sd file from a number of molecules</dd>
-
-      <dt>params</dt>
-
-      <dd>String file, List&lt;IMolecule&gt; entries</dd>
     </dl>
   </div>
 
@@ -467,7 +321,7 @@
       <dt>summary</dt>
 
       <dd>Returns true if the fingerprint of the subStructure is a
-      subset of thefingerprint for the molecule</dd>
+      subset of the fingerprint for the molecule</dd>
 
       <dt>params</dt>
 
@@ -541,7 +395,8 @@
 
       <dt>params</dt>
 
-      <dd>IMolecule molecule</dd>
+      <dd>IMolecule molecule, BioclipseUIJob&lt;IMolecule&gt;
+      uiJob</dd>
     </dl>
   </div>
 
@@ -584,6 +439,20 @@
   </div>
 
   <div class='method'>
+    <h3>getMDLMolfileString</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns a MDL V2000 molfile serialization</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule molecule</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
     <h3>getNoMolecules</h3>
 
     <dl>
@@ -598,6 +467,21 @@
   </div>
 
   <div class='method'>
+    <h3>getProperty</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns the property value for the given property
+      name</dd>
+
+      <dt>params</dt>
+
+      <dd>ICDKMolecule molecule, Object propertyName</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
     <h3>getSmartsMatches</h3>
 
     <dl>
@@ -608,7 +492,22 @@
 
       <dt>params</dt>
 
-      <dd>IMolecule molecule: Molecule to query, String SMARTS</dd>
+      <dd>ICDKMolecule molecule, String SMARTS</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>getSubstructures</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns the substructure matches in the molecule forthe
+      given substructure</dd>
+
+      <dt>params</dt>
+
+      <dd>ICDKMolecule molecule, ICDKMolecule subStructure</dd>
     </dl>
   </div>
 
@@ -654,6 +553,22 @@
       <dt>params</dt>
 
       <dd>IMolecule mol</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>isConnected</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Returns true if the given atom container is fully
+      connected. Use parition directly if that is the antipicated
+      next action, to no repeat to same computation.</dd>
+
+      <dt>params</dt>
+
+      <dd>IMolecule molecule</dd>
     </dl>
   </div>
 
@@ -748,6 +663,16 @@
   </div>
 
   <div class='method'>
+    <h3>newMolecule</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates a cdk molecule from SMILES</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
     <h3>numberOfEntriesInSDF</h3>
 
     <dl>
@@ -795,6 +720,34 @@
   </div>
 
   <div class='method'>
+    <h3>removeExplicitHydrogens</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Removes explicit hydrogens</dd>
+
+      <dt>params</dt>
+
+      <dd>ICDKMolecule molecule</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>removeImplicitHydrogens</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Removes implicit hydrogens</dd>
+
+      <dt>params</dt>
+
+      <dd>ICDKMolecule molecule</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
     <h3>saveCML</h3>
 
     <dl>
@@ -835,12 +788,43 @@
       <dd>saves mol to a file (filename must be a relative to
       workspace root and folder must exist, filetype must be a
       IChemFormat. If overwrite=true then file will be overwritten
-      if exists.</dd>
+      if exists. Properties can be given to tune the output of the
+      writer.</dd>
 
       <dt>params</dt>
 
       <dd>IMolecule mol, String filename, IChemFormat filetype,
-      boolean overwrite</dd>
+      boolean overwrite, Properties writerProperties</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>saveSDFile</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Creates an sd file from a number of molecules</dd>
+
+      <dt>params</dt>
+
+      <dd>String file, List&lt;IMolecule&gt; entries</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>setProperty</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Sets the property value for the given property name.
+      Returns the old value, or null if it was yet unset.</dd>
+
+      <dt>params</dt>
+
+      <dd>ICDKMolecule molecule, Object propertyName, Object
+      propertyValue</dd>
     </dl>
   </div>
 
@@ -891,64 +875,23 @@
     </dl>
   </div>
 
-  <h2 id='cdx'>cdx</h2>
+  <h2 id='gist'>gist</h2>
 
-  <p class='description'>Contains CDK debug related methods</p>
+  <p class='description'>The gist manager is used for downloading
+  gists</p>
 
   <div class='method'>
-    <h3>debug</h3>
+    <h3>download</h3>
 
     <dl>
       <dt>summary</dt>
 
-      <dd>Returns a string representation of the data
-      structures.</dd>
+      <dd>Downloads the Gist with the given number to theproject
+      "Gists/" and returns the path</dd>
 
       <dt>params</dt>
 
-      <dd>ICDKMolecule mol</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>diff</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Returns the differences between the two molecules</dd>
-
-      <dt>params</dt>
-
-      <dd>ICDKMolecule mol, ICDKMolecule mol2</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>perceiveCDKAtomTypes</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Returns a list of CDK atom types.</dd>
-
-      <dt>params</dt>
-
-      <dd>IMolecule mol</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>perceiveSybylAtomTypes</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Returns a list of Sybyl atom types.</dd>
-
-      <dt>params</dt>
-
-      <dd>IMolecule mol</dd>
+      <dd>int gist</dd>
     </dl>
   </div>
 
@@ -963,21 +906,8 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>Generates the InChI for the given molecule.</dd>
-
-      <dt>params</dt>
-
-      <dd>IMolecule molecule</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>generateKey</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Generates the InChIKey for the given molecule.</dd>
+      <dd>Generates the InChI and InChIKey for the given
+      molecule.</dd>
 
       <dt>params</dt>
 
@@ -988,7 +918,7 @@
   <h2 id='jcp'>jcp</h2>
 
   <p class='description'>Manager for the JChemPaintEditor scripting
-  language."</p>
+  language.</p>
 
   <div class='method'>
     <h3>addAtom</h3>
@@ -1000,8 +930,7 @@
 
       <dt>params</dt>
 
-      <dd>String element symbol, IAtom atom to attach the new atom
-      too</dd>
+      <dd>String elementSymbol, IAtom atom</dd>
     </dl>
   </div>
 
@@ -1015,8 +944,18 @@
 
       <dt>params</dt>
 
-      <dd>IAtom first atom in the bond, IAtom second atom in the
-      bond</dd>
+      <dd>IAtom atom, int charge</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>addExplicitHydrogens</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Adds explicit hydrogens, given the current
+      connectivity.</dd>
     </dl>
   </div>
 
@@ -1030,7 +969,7 @@
 
       <dt>params</dt>
 
-      <dd>IBond bond to add the phenyl ring to</dd>
+      <dd>IBond bond</dd>
     </dl>
   </div>
 
@@ -1045,7 +984,7 @@
 
       <dt>params</dt>
 
-      <dd>IBond bond to add the ring to, int ring size</dd>
+      <dd>IBond bond, int size</dd>
     </dl>
   </div>
 
@@ -1066,7 +1005,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>get the radius of an atom symbol</dd>
+      <dd>Gets the radius of an atom symbol.</dd>
     </dl>
   </div>
 
@@ -1076,7 +1015,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>get distance between multiple bonds</dd>
+      <dd>Gets distance between multiple bonds.</dd>
     </dl>
   </div>
 
@@ -1086,7 +1025,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>get the standard bond length</dd>
+      <dd>Gets the standard bond length.</dd>
     </dl>
   </div>
 
@@ -1110,7 +1049,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>get the width of bonds</dd>
+      <dd>Gets the width of bonds.</dd>
     </dl>
   </div>
 
@@ -1120,11 +1059,12 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>Returns the IAtom closest to the world coordinate.</dd>
+      <dd>Returns the IAtom closest to the givenworld
+      coordinate.</dd>
 
       <dt>params</dt>
 
-      <dd>Point2d worldCoordinate</dd>
+      <dd>Point2d atomRadius</dd>
     </dl>
   </div>
 
@@ -1134,11 +1074,12 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>Returns the IBond closest to the world coordinate.</dd>
+      <dd>Returns the IBond closest to the given world
+      coordinate.</dd>
 
       <dt>params</dt>
 
-      <dd>Point2d worldCoordinate</dd>
+      <dd>Point2d worldCoord</dd>
     </dl>
   </div>
 
@@ -1148,7 +1089,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>showing atom numbers</dd>
+      <dd>Showing atom numbers.</dd>
     </dl>
   </div>
 
@@ -1158,7 +1099,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>get if the diagram fits the screen</dd>
+      <dd>Gets if the diagram fits the screen.</dd>
     </dl>
   </div>
 
@@ -1168,7 +1109,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>get the distance to highlight within</dd>
+      <dd>Gets the distance to highlight within.</dd>
     </dl>
   </div>
 
@@ -1178,7 +1119,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>get to true if atoms are to be compact</dd>
+      <dd>Gets to true if atoms are to be compact.</dd>
     </dl>
   </div>
 
@@ -1188,7 +1129,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>get the margin of the diagram</dd>
+      <dd>Gets the margin of the diagram.</dd>
     </dl>
   </div>
 
@@ -1198,7 +1139,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>Returns the ICDKMolecule of the active JChemPaint
+      <dd>Returns the ICDKMolecule of theactive JChemPaint
       editor.</dd>
     </dl>
   </div>
@@ -1209,7 +1150,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>get the position of inner-ring bonds</dd>
+      <dd>Gets the position of inner-ring bonds.</dd>
     </dl>
   </div>
 
@@ -1219,7 +1160,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>true if aromatic indicators on</dd>
+      <dd>True if aromatic indicators on.</dd>
     </dl>
   </div>
 
@@ -1229,7 +1170,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>true if CDK indicators are shown</dd>
+      <dd>True if CDK-style aromiticity is used.</dd>
     </dl>
   </div>
 
@@ -1239,7 +1180,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>true if showing explicit methyl groups</dd>
+      <dd>True if showing explicit methyl groups.</dd>
     </dl>
   </div>
 
@@ -1249,7 +1190,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>get to show hydrogens explicitly</dd>
+      <dd>True if explicit hydrogens are shown.</dd>
     </dl>
   </div>
 
@@ -1259,7 +1200,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>get to show hydrogens implicitly</dd>
+      <dd>True if implicit hydrogens are shown.</dd>
     </dl>
   </div>
 
@@ -1269,7 +1210,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>get the on-screen width of a wedge</dd>
+      <dd>Gets the on-screen width of a wedge.</dd>
     </dl>
   </div>
 
@@ -1279,7 +1220,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>get the zoom factor</dd>
+      <dd>Gets the zoom factor.</dd>
     </dl>
   </div>
 
@@ -1293,8 +1234,7 @@
 
       <dt>params</dt>
 
-      <dd>IBond bond to move, Point2d point to move the atom
-      to</dd>
+      <dd>IBond bond, Point2d point</dd>
     </dl>
   </div>
 
@@ -1308,7 +1248,7 @@
 
       <dt>params</dt>
 
-      <dd>double x coordinate, double y coordinate</dd>
+      <dd>double x, double y</dd>
     </dl>
   </div>
 
@@ -1322,7 +1262,7 @@
 
       <dt>params</dt>
 
-      <dd>IAtom atom to remove</dd>
+      <dd>IAtom atom</dd>
     </dl>
   </div>
 
@@ -1336,7 +1276,17 @@
 
       <dt>params</dt>
 
-      <dd>IBond bond to remove</dd>
+      <dd>IBond bond</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>removeExplicitHydrogens</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Removes all explicit hydrogens</dd>
     </dl>
   </div>
 
@@ -1346,11 +1296,11 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set the radius of an atom symbol</dd>
+      <dd>Sets the radius of an atom symbol.</dd>
 
       <dt>params</dt>
 
-      <dd>double radius of the atom symbol on screen</dd>
+      <dd>double atomRadius</dd>
     </dl>
   </div>
 
@@ -1360,11 +1310,11 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set distance between multiple bonds</dd>
+      <dd>Sets distance between lines in multiple bonds.</dd>
 
       <dt>params</dt>
 
-      <dd>double distance on screen between bonds</dd>
+      <dd>double bondDistance</dd>
     </dl>
   </div>
 
@@ -1374,11 +1324,11 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set the standard bond length</dd>
+      <dd>Sets the standard bond length.</dd>
 
       <dt>params</dt>
 
-      <dd>double length on screen of a typical bond</dd>
+      <dd>double bondLength</dd>
     </dl>
   </div>
 
@@ -1388,11 +1338,11 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set the width of bonds</dd>
+      <dd>Sets the width of bonds.</dd>
 
       <dt>params</dt>
 
-      <dd>double width of a bond</dd>
+      <dd>double bondWidth</dd>
     </dl>
   </div>
 
@@ -1406,7 +1356,7 @@
 
       <dt>params</dt>
 
-      <dd>IAtom atom to change, int new formal charge</dd>
+      <dd>IAtom atom, int charge</dd>
     </dl>
   </div>
 
@@ -1416,11 +1366,11 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set to show atom numbers</dd>
+      <dd>Sets to show atom numbers.</dd>
 
       <dt>params</dt>
 
-      <dd>boolean true if atom numbers shown</dd>
+      <dd>boolean setDrawNumbers</dd>
     </dl>
   </div>
 
@@ -1430,11 +1380,11 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set the diagram to fit the screen</dd>
+      <dd>Sets the diagram to fit the screen.</dd>
 
       <dt>params</dt>
 
-      <dd>boolean true if the diagram should fit screen</dd>
+      <dd>boolean fitToScreen</dd>
     </dl>
   </div>
 
@@ -1444,11 +1394,11 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set the distance to highlight within</dd>
+      <dd>Sets the distance to highlight within.</dd>
 
       <dt>params</dt>
 
-      <dd>double the highlight distance on screen</dd>
+      <dd>double highlightDistance</dd>
     </dl>
   </div>
 
@@ -1458,11 +1408,11 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set to true if atoms are to be compact</dd>
+      <dd>Sets to true if atoms are to be drawn compact.</dd>
 
       <dt>params</dt>
 
-      <dd>boolean atoms should be shown in compact form</dd>
+      <dd>boolean isCompact</dd>
     </dl>
   </div>
 
@@ -1472,11 +1422,11 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set the margin of the diagram</dd>
+      <dd>Sets the margin of the diagram.</dd>
 
       <dt>params</dt>
 
-      <dd>double the screen margin</dd>
+      <dd>double margin</dd>
     </dl>
   </div>
 
@@ -1490,7 +1440,7 @@
 
       <dt>params</dt>
 
-      <dd>IAtom atom to change, int new mass number</dd>
+      <dd>IAtom atom, int charge</dd>
     </dl>
   </div>
 
@@ -1515,7 +1465,7 @@
 
       <dt>params</dt>
 
-      <dd>IBond bond to change, IBond.Order new bond order</dd>
+      <dd>IBond bond, IBond.Order order</dd>
     </dl>
   </div>
 
@@ -1525,11 +1475,11 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set the position of inner-ring bonds</dd>
+      <dd>Sets the position of inner-ring bonds.</dd>
 
       <dt>params</dt>
 
-      <dd>double the fraction of ring diameter to use</dd>
+      <dd>double ringProportion</dd>
     </dl>
   </div>
 
@@ -1539,11 +1489,11 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set to true if aromatic indicators on</dd>
+      <dd>Sets to true if aromatic indicators on.</dd>
 
       <dt>params</dt>
 
-      <dd>boolean true if aromatic indicators shown</dd>
+      <dd>boolean showAromaticity</dd>
     </dl>
   </div>
 
@@ -1553,11 +1503,11 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set to true for CDK indicators</dd>
+      <dd>Sets to true for CDK indicators of aromaticity.</dd>
 
       <dt>params</dt>
 
-      <dd>boolean true if CDK aromatic indicators shown</dd>
+      <dd>boolean showAromaticityCDK</dd>
     </dl>
   </div>
 
@@ -1567,11 +1517,12 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set to show explicit methyl groups</dd>
+      <dd>Sets to show explicit methyl groups at the end of
+      chains.</dd>
 
       <dt>params</dt>
 
-      <dd>boolean true if methyl groups shown explicitly</dd>
+      <dd>boolean showEndCarbons</dd>
     </dl>
   </div>
 
@@ -1581,11 +1532,11 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set to show hydrogens explicitly</dd>
+      <dd>Sets to show the explicit hydrogens.</dd>
 
       <dt>params</dt>
 
-      <dd>boolean true if hydrogens shown explicitly</dd>
+      <dd>boolean explicitHydrogens</dd>
     </dl>
   </div>
 
@@ -1595,11 +1546,11 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set to show hydrogens implicitly</dd>
+      <dd>Sets to show implicit hydrogens.</dd>
 
       <dt>params</dt>
 
-      <dd>boolean true if hydrogens shown implicitly</dd>
+      <dd>boolean implicitHydrogens</dd>
     </dl>
   </div>
 
@@ -1613,7 +1564,7 @@
 
       <dt>params</dt>
 
-      <dd>IAtom atom to change, Symbol new element symbol</dd>
+      <dd>IAtom atom, String symbol</dd>
     </dl>
   </div>
 
@@ -1627,7 +1578,7 @@
 
       <dt>params</dt>
 
-      <dd>IBond bond to change, int new wedge type</dd>
+      <dd>IBond bond, int type</dd>
     </dl>
   </div>
 
@@ -1637,11 +1588,11 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set the on-screen width of a wedge</dd>
+      <dd>Sets the on-screen width of a wedge.</dd>
 
       <dt>params</dt>
 
-      <dd>double the width on screen of a wedge bond</dd>
+      <dd>double wedgeWidth</dd>
     </dl>
   </div>
 
@@ -1651,11 +1602,11 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set the zoom factor</dd>
+      <dd>Sets the zoom factor.</dd>
 
       <dt>params</dt>
 
-      <dd>double the zoom factor</dd>
+      <dd>double zoom</dd>
     </dl>
   </div>
 
@@ -1665,11 +1616,11 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>set the zoom factor</dd>
+      <dd>Takes a snapshot.</dd>
 
       <dt>params</dt>
 
-      <dd>double the zoom factor</dd>
+      <dd>String path</dd>
     </dl>
   </div>
 
@@ -1679,8 +1630,8 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>Updates the implicit hydrogen counts, given the given the
-      current connectivity.</dd>
+      <dd>Updates the implicit hydrogen counts, given the current
+      connectivity.</dd>
     </dl>
   </div>
 
@@ -1700,14 +1651,14 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>Deletes all atoms and bonds.</dd>
+      <dd>Deletes all atoms and bonds in the model.</dd>
     </dl>
   </div>
 
-  <h2 id='jcpprop'>jcpprop</h2>
+  <h2 id='jcpglobal'>jcpglobal</h2>
 
   <p class='description'>Manager for the JChemPaintEditor
-  Properties scripting language."</p>
+  Properties scripting language.</p>
 
   <div class='method'>
     <h3>applyGlobalProperties</h3>
@@ -2095,6 +2046,20 @@
   </div>
 
   <div class='method'>
+    <h3>delay</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Holds execution a number of seconds</dd>
+
+      <dt>params</dt>
+
+      <dd>int seconds</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
     <h3>eval</h3>
 
     <dl>
@@ -2151,655 +2116,23 @@
     </dl>
   </div>
 
-  <h2 id='molecule'>molecule</h2>
-
-  <p class='description'>Manages light weight molecules</p>
-
-  <div class='method'>
-    <h3>fromSmiles</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>creates a light weight molecule from smiles</dd>
-
-      <dt>params</dt>
-
-      <dd>String smiles</dd>
-    </dl>
-  </div>
-
-  <h2 id='rdf'>rdf</h2>
-
-  <p class='description'>Contains RDF related methods</p>
-
-  <div class='method'>
-    <h3>createStore</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Creates a new RDF store</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>dump</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Dumps the full model to the console</dd>
-
-      <dt>params</dt>
-
-      <dd>IRDFStore store to dump</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>importFile</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Loads an RDF/XML file</dd>
-
-      <dt>params</dt>
-
-      <dd>IRDFStore store to which loaded content is added,String
-      path of file to load, String format of the content to read
-      (\</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>importURL</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Loads a RDF/XML file</dd>
-
-      <dt>params</dt>
-
-      <dd>IRDFStore store to which loaded content is added,String
-      URL to load from</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>reason</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Returns the results matching the query</dd>
-
-      <dt>params</dt>
-
-      <dd>IRDFStore store to query,String SPARQL query</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>sparql</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Returns the results matching the query</dd>
-
-      <dt>params</dt>
-
-      <dd>IRDFStore store to query,String SPARQL query</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>validate</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Validates the consistency of the RDF model</dd>
-
-      <dt>params</dt>
-
-      <dd>IRDFStore store to validate</dd>
-    </dl>
-  </div>
-
-  <h2 id='seneca'>seneca</h2>
-
-  <p class='description'>Contains Seneca methods</p>
-
-  <div class='method'>
-    <h3>getJobSpecification</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Loads a job specification from a file.</dd>
-
-      <dt>params</dt>
-
-      <dd>IFile file</dd>
-    </dl>
-  </div>
-
-  <h2 id='services'>services</h2>
-
-  <p class='description'>Services are different implementations of
-  functionality that can have local or networked
-  implementations.</p>
-
-  <div class='method'>
-    <h3>run</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Runs the service with the given name provided with the
-      given input.</dd>
-
-      <dt>params</dt>
-
-      <dd>String serviceName, Object input</dd>
-    </dl>
-  </div>
-
-  <h2 id='specmol'>specmol</h2>
-
-  <p class='description'>Contains Specmol related methods</p>
-
-  <div class='method'>
-    <h3>create</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Creates a jubmo spectrum from a spectrum</dd>
-
-      <dt>params</dt>
-
-      <dd>ISpectrum m</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>fromCml</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Creates a jumbo specmol from a CML String</dd>
-
-      <dt>params</dt>
-
-      <dd>String cml</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>loadSpecmol</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Loads an assigned spectrum from file.</dd>
-
-      <dt>params</dt>
-
-      <dd>IFile file</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>saveSpecmol</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Saves a jubmo specmol to a file</dd>
-
-      <dt>params</dt>
-
-      <dd>JumboSpecmol spemol, IFile target</dd>
-    </dl>
-  </div>
-
-  <h2 id='spectrum'>spectrum</h2>
-
-  <p class='description'>Contains Spectrum related methods</p>
-
-  <div class='method'>
-    <h3>create</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Creates a jubmo spectrum from a spectrum</dd>
-
-      <dt>params</dt>
-
-      <dd>ISpectrum m</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>fromCml</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Creates a jumbo spectrum from a CML String</dd>
-
-      <dt>params</dt>
-
-      <dd>String cml</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>loadSpectrum</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Loads a spectrum from file.</dd>
-
-      <dt>params</dt>
-
-      <dd>IFile file</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>pickPeaks</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Does a peak picking on spectruminput and adds a peak
-      list(existing peaks are conserved</dd>
-
-      <dt>params</dt>
-
-      <dd>IJumboSpectrum spectruminput</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>saveSpectrum</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Saves a jubmo spectrum to a file</dd>
-
-      <dt>params</dt>
-
-      <dd>JumboSpectrum spectrum, IFile target, String
-      filetype</dd>
-    </dl>
-  </div>
-
-  <h2 id='structuredb'>structuredb</h2>
-
-  <p class='description'>Handles structure databases</p>
-
-  <div class='method'>
-    <h3>addMoleculesFromSDF</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Saves all molecules in a given sdf file in the database
-      with the given name. The molecules are annotated with
-      file_origin</dd>
-
-      <dt>params</dt>
-
-      <dd>String databaseName, String filePath</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>allAnnotations</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Fetches all annotations from a database with a given
-      name</dd>
-
-      <dt>params</dt>
-
-      <dd>String databaseName</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>allDatabaseNames</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Returns a list with the names of all structuredb database
-      instances.</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>allLabels</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Returns all labels in a database. That is: all
-      TextAnnotations with the corresponding Property being \</dd>
-
-      <dt>params</dt>
-
-      <dd>String databaseName</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>allMolecules</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Fetches all molecules from a database with a given
-      name</dd>
-
-      <dt>params</dt>
-
-      <dd>String databaseName</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>allMoleculesByName</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Fetches all structures by a given name from a database
-      with a given name</dd>
-
-      <dt>params</dt>
-
-      <dd>String databaseName, String name</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>allUsers</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Fetches all users from a database with a given name</dd>
-
-      <dt>params</dt>
-
-      <dd>String databaseName</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>createChoiceAnnotation</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Creates a ChoiceAnnotation with the given property (which
-      must be a ChoiceProperty, name and saves it in the database
-      with the given name</dd>
-
-      <dt>params</dt>
-
-      <dd>String databaseName, String propertyName, String
-      value</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>createDatabase</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Creates a local structure database with the given name if
-      no such database already exists.</dd>
-
-      <dt>params</dt>
-
-      <dd>String databaseName</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>createMolecule</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Creates a database molecule with the given name from the
-      given cdkmolecule and saves it in the database with the given
-      name</dd>
-
-      <dt>params</dt>
-
-      <dd>String databaseName, String moleculeName, ICDKMolecule
-      cdkMolecule</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>createRealNumberAnnotation</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Creates a RealNumberAnnotation with the given property
-      (which must be a RealNumberProperty, name and saves it in the
-      database with the given name</dd>
-
-      <dt>params</dt>
-
-      <dd>String databaseName, String propertyName, String
-      value</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>createTextAnnotation</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Creates a TextAnnotation with the given property (which
-      must be a TextProperty, name and saves it in the database
-      with the given name</dd>
-
-      <dt>params</dt>
-
-      <dd>String databaseName, String propertyName, String
-      value</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>createUser</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Creates a user with the given username and password and
-      with administrator rights if that variable is true</dd>
-
-      <dt>params</dt>
-
-      <dd>String databaseName, String username, String password,
-      boolean administrator</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>deleteAnnotation</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Deletes the given annotation from the given database</dd>
-
-      <dt>params</dt>
-
-      <dd>String database, Annotation annotation</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>deleteDatabase</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Removes a local database with the given name if such
-      exists, otherwise does nothing</dd>
-
-      <dt>params</dt>
-
-      <dd>String databaseName</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>deleteStructure</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Deletes the given molecule from the given database</dd>
-
-      <dt>params</dt>
-
-      <dd>String database, DBMolecule molecule</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>deleteWithMolecules</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Deletes the given annotation from the specified database
-      and all molecules annotated with that annotation</dd>
-
-      <dt>params</dt>
-
-      <dd>String name, Annotation annotation</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>save</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Saves changes on a annotation retrieved from the database
-      back to the database.</dd>
-
-      <dt>params</dt>
-
-      <dd>String database, Annotation annotation</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>smartsQuery</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Performs a SMARTS query returning a list of hitting
-      molecules in the database</dd>
-
-      <dt>params</dt>
-
-      <dd>String database, String smarts</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>smartsQueryIterator</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Performs a SMARTS query returning an iterator to the
-      hitting molecules in the database</dd>
-
-      <dt>params</dt>
-
-      <dd>String database, String smarts</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>subStructureSearch</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Returns a list of all molecules in the given database
-      that contains the given molecule</dd>
-
-      <dt>params</dt>
-
-      <dd>String databaseName, IMolecule molecule</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>subStructureSearchIterator</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Returns an iterator to all molecules in the given
-      database that contains the given molecule</dd>
-
-      <dt>params</dt>
-
-      <dd>String databaseName, IMolecule molecule</dd>
-    </dl>
-  </div>
-
-  <div class='method'>
-    <h3>userByName</h3>
-
-    <dl>
-      <dt>summary</dt>
-
-      <dd>Fetches a user with a given username from a database with
-      a given name</dd>
-
-      <dt>params</dt>
-
-      <dd>String databaseName, String username</dd>
-    </dl>
-  </div>
-
   <h2 id='ui'>ui</h2>
 
   <p class='description'>Controls access to Bioclipse UI.</p>
+
+  <div class='method'>
+    <h3>assertInstalled</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Assert a feature is installed.</dd>
+
+      <dt>params</dt>
+
+      <dd>String feature</dd>
+    </dl>
+  </div>
 
   <div class='method'>
     <h3>closeActiveEditor</h3>
@@ -2850,12 +2183,26 @@
   </div>
 
   <div class='method'>
+    <h3>getInstalledFeatures</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Get a list of the installed features.</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
     <h3>newFile</h3>
 
     <dl>
       <dt>summary</dt>
 
-      <dd>Creates an empty file with the specified name</dd>
+      <dd>Creates an empty file at the specified path</dd>
+
+      <dt>params</dt>
+
+      <dd>String path</dd>
     </dl>
   </div>
 
@@ -2874,6 +2221,20 @@
   </div>
 
   <div class='method'>
+    <h3>refresh</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Refresh resource given by path</dd>
+
+      <dt>params</dt>
+
+      <dd>String path</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
     <h3>remove</h3>
 
     <dl>
@@ -2884,6 +2245,20 @@
       <dt>params</dt>
 
       <dd>String filePath</dd>
+    </dl>
+  </div>
+
+  <div class='method'>
+    <h3>revealAndSelect</h3>
+
+    <dl>
+      <dt>summary</dt>
+
+      <dd>Reveals a file in Navigator</dd>
+
+      <dt>params</dt>
+
+      <dd>String path</dd>
     </dl>
   </div>
 
@@ -3191,7 +2566,7 @@
     <dl>
       <dt>summary</dt>
 
-      <dd>Fetches a PDB entry with ID="pdbid' from the EBI
+      <dd>Fetches a PDB entry with ID="pdbid" from the EBI
       databases and saves it under the specified filename</dd>
 
       <dt>params</dt>

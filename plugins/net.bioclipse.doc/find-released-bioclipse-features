@@ -1,0 +1,18 @@
+#!/usr/bin/perl -w
+use strict;
+
+my @features = `xpath -q -e "//includes/\@id" ../../features/net.bioclipse.platform_feature/feature.xml | cut -d'"' -f2`;
+
+my @allFeatures;
+
+# need some proper recursion here
+for my $feature (@features) {
+  push(@allFeatures, $feature) if ($feature =~ m/net.bioclipse/);
+  $feature =~ s/\n|\r//g;
+  my @subFeatures = `xpath -q -e "//includes/\@id" ../../features/$feature/feature.xml | cut -d'"' -f2`;
+  for my $subFeature (@subFeatures) {
+    push(@allFeatures, $subFeature) if ($subFeature =~ m/net.bioclipse/);
+  }
+}
+
+print @allFeatures;

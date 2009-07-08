@@ -1,2 +1,36 @@
-#!/bin/bash
-grep -Rl @PublishedClass .. | grep \\.java | grep -v \\.svn
+#!/usr/bin/perl -w
+use strict;
+
+my $cmd = "./find-released-bioclipse-features |";
+open (CMD, "$cmd");
+my @features;
+while (<CMD>) {
+  push(@features, $_);
+}
+
+my @allReleasedPlugins;
+
+for my $feature (@features) {
+  $cmd = "./list-feature-bioclipse-plugins $feature |";
+  open (CMD, "$cmd");
+  while (<CMD>) {
+    push(@allReleasedPlugins, $_);
+  }
+}
+
+my %uniquePlugins;
+@uniquePlugins{@allReleasedPlugins} = ();
+my @pluginsToSearch = sort keys %uniquePlugins;
+
+my @publishedClasses;
+
+for my $plugin (@pluginsToSearch) {
+  $plugin =~ s/\n|\r//g;
+  my $cmd = "grep -Rl \@PublishedClass ../$plugin | grep \\.java | grep -v \\.svn |";
+  open (CMD, "$cmd");
+  while (<CMD>) {
+    push(@publishedClasses, $_);
+  }
+}
+
+print @publishedClasses;

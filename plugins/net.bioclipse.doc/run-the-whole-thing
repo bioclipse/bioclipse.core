@@ -12,7 +12,7 @@ else
     exit;
 fi
 
-. find-published-classes |
+perl find-published-classes |
     xargs perl parse-file-for-annotations > stage1
 
 if [ $? != 0 ]; then

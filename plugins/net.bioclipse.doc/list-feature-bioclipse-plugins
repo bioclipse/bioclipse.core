@@ -1,0 +1,10 @@
+#!/usr/bin/perl -w
+use strict;
+
+my $feature = $ARGV[0];
+die "I will only do Bioclipse features!" if (!$feature || !($feature =~ m/net.bioclipse/));
+
+my @plugins = `xpath -q -e "//plugin/\@id" ../../features/$feature/feature.xml | cut -d'"' -f2`;
+for my $plugin (@plugins) {
+  print $plugin if ($plugin =~ m/net.bioclipse/);
+}
