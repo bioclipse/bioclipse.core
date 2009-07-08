@@ -39,7 +39,7 @@
   	<property name="target" 
   	          ref="uiManagerTarget" />
   	<property name="proxyInterfaces" 
-  	          value="net.bioclipse.ui.business.IUIManager" />
+  	          value="net.bioclipse.ui.business.IJavaUIManager" />
   	<property name="interceptorNames">
         <list>
 	        <value>recordingAdvisor</value>
