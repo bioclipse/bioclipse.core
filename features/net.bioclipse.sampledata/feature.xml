@@ -38,8 +38,8 @@ is available at http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="net.bioclipse.data.sampledata"
-         download-size="360"
-         install-size="0"
+         download-size="880"
+         install-size="6800"
          version="0.0.0"
          unpack="false"/>
 
