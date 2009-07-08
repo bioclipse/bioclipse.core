@@ -25,7 +25,7 @@ public class ExtendedSampleDataAction extends Action implements IIntroAction {
   private static final Logger logger = Logger.getLogger(ExtendedSampleDataAction.class);
 
 	private static final String SAMPLE_FEATURE_ID = "net.bioclipse.sampledata_feature";
-	private static final String SAMPLE_FEATURE_VERSION = "2.0.0.B20090124";
+	private static final String SAMPLE_FEATURE_VERSION = "2.0.0.v20090707";
 	private static final String UPDATE_SITE = "http://update2.bioclipse.net/";
 //	private static final String UPDATE_SITE = "file:///Users/ola/Workspaces/bioclipse2_1/bioclipse-updatesite/";
 
