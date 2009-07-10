@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CDK plugin
+Bundle-SymbolicName: org.openscience.cdk.ioformats;singleton:=true
+Bundle-Version: 1.2.2
+Bundle-Vendor: The Chemistry Development Kit Project
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.openscience.cdk.ioformats.Activator
+Bundle-ClassPath: .
+Require-Bundle: org.openscience.cdk.annotation,
+ org.eclipse.core.runtime
+Export-Package: org.openscience.cdk.io,
+ org.openscience.cdk.io.formats,
+ org.openscience.cdk.ioformats
