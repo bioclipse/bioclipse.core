@@ -11,6 +11,6 @@
  ******************************************************************************/
 package net.bioclipse.core.domain;
 
-public interface IRNASequence extends ISequence {
+public interface IRNA extends ISequence {
 
 }
