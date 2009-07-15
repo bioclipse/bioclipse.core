@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,14 +37,15 @@ import org.eclipse.ui.progress.WorkbenchJob;
 public abstract class AbstractManagerMethodDispatcher 
                 implements MethodInterceptor {
 
-    protected Object[] arguments;
-    protected Method methodCalled;
+    protected volatile Object[] arguments;
+    protected volatile Method methodCalled;
     protected IResourcePathTransformer transformer 
         = ResourcePathTransformer.getInstance();
     private final Logger logger 
         = Logger.getLogger( AbstractManagerMethodDispatcher.class );
-    private Map<String, Long> lastWarningTimes = new HashMap<String, Long>();
-    private IBioclipseManager manager;
+    private Map<String, Long> lastWarningTimes 
+        = Collections.synchronizedMap( new HashMap<String, Long>() );
+    private volatile IBioclipseManager manager;
     
     protected static class ReturnCollector<T> implements IReturner<T> {
 
@@ -84,9 +86,11 @@ public abstract class AbstractManagerMethodDispatcher
     
     public Object invoke( MethodInvocation invocation ) throws Throwable {
 
-        this.arguments = invocation.getArguments().clone();
-        this.methodCalled = invocation.getMethod();
-        this.manager = (IBioclipseManager) invocation.getThis();
+        synchronized ( invocation ) {
+            this.arguments = invocation.getArguments().clone();
+            this.methodCalled = invocation.getMethod();
+            this.manager = (IBioclipseManager) invocation.getThis();
+        }
                 
         Method m = findMethodToRun();
         if ( invocation.getMethod().getAnnotation( GuiAction.class ) != null ) {
