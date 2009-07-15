@@ -86,9 +86,8 @@ public abstract class AbstractManagerMethodDispatcher
         this.arguments = invocation.getArguments().clone();
         this.methodCalled = invocation.getMethod();
                 
-        Method m = findMethodToRun( invocation, 
-                                    (Class<? extends IBioclipseManager>) 
-                                        invocation.getThis().getClass() );
+        Method m = findMethodToRun( (Class<? extends IBioclipseManager>) 
+                                     invocation.getThis().getClass() );
         IBioclipseManager manager = (IBioclipseManager)invocation.getThis();
         if ( invocation.getMethod().getAnnotation( GuiAction.class ) != null ) {
             
@@ -258,16 +257,14 @@ public abstract class AbstractManagerMethodDispatcher
     }
     
     private Method findMethodToRun( 
-                       MethodInvocation invocation, 
-                       Class<? extends IBioclipseManager> manager ) {
+                             Class<? extends IBioclipseManager> manager ) {
         
         Method result;
         
         //If a method with the same signature exists use that one
         try {
-            result = manager.getMethod( invocation.getMethod().getName(), 
-                                        invocation.getMethod()
-                                                  .getParameterTypes() );
+            result = manager.getMethod( methodCalled.getName(), 
+                                        methodCalled.getParameterTypes() );
         } 
         catch ( SecurityException e ) {
             throw new RuntimeException("Failed to find the method to run", e);
@@ -282,7 +279,7 @@ public abstract class AbstractManagerMethodDispatcher
         //Look for "the JavaScript method" (taking String instead of IFile)
         METHODS:
         for ( Method m : manager.getMethods() ) {
-            Method refMethod = invocation.getMethod();
+            Method refMethod = methodCalled;
             int refLength = refMethod.getParameterTypes().length;
             int mLength   = m.getParameterTypes().length;
             if ( m.getName().equals( refMethod.getName() ) &&
@@ -296,13 +293,10 @@ public abstract class AbstractManagerMethodDispatcher
                     if ( currentParam == IReturner.class ) {
                         continue PARAMS;
                     }
-                    if ( invocation.getMethod()
-                                   .getParameterTypes().length >= j + 1 &&
-                         ( invocation.getMethod()
-                                     .getParameterTypes()[j] 
+                    if ( methodCalled.getParameterTypes().length >= j + 1 &&
+                         ( methodCalled.getParameterTypes()[j] 
                              == BioclipseUIJob.class  || 
-                           invocation.getMethod()
-                                     .getParameterTypes()[j] 
+                             methodCalled.getParameterTypes()[j] 
                              == BioclipseJobUpdateHook.class  ) ) {
                         j++;
                     }
@@ -312,12 +306,10 @@ public abstract class AbstractManagerMethodDispatcher
                          refMethod.getParameterTypes().length < j + 1 ) {
                         continue PARAMS;
                     }
-                    if ( invocation.getMethod()
-                                   .getParameterTypes().length <= j ) {
+                    if ( methodCalled.getParameterTypes().length <= j ) {
                         continue METHODS;
                     }
-                    Class<?> refParam = invocation.getMethod()
-                                                  .getParameterTypes()[j++];
+                    Class<?> refParam = methodCalled.getParameterTypes()[j++];
                     if ( currentParam == refParam ) {
                         continue PARAMS;
                     }
