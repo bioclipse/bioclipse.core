@@ -43,6 +43,7 @@ public abstract class AbstractManagerMethodDispatcher
     private final Logger logger 
         = Logger.getLogger( AbstractManagerMethodDispatcher.class );
     private Map<String, Long> lastWarningTimes = new HashMap<String, Long>();
+    private IBioclipseManager manager;
     
     protected static class ReturnCollector<T> implements IReturner<T> {
 
@@ -85,10 +86,9 @@ public abstract class AbstractManagerMethodDispatcher
 
         this.arguments = invocation.getArguments().clone();
         this.methodCalled = invocation.getMethod();
+        this.manager = (IBioclipseManager) invocation.getThis();
                 
-        Method m = findMethodToRun( (Class<? extends IBioclipseManager>) 
-                                     invocation.getThis().getClass() );
-        IBioclipseManager manager = (IBioclipseManager)invocation.getThis();
+        Method m = findMethodToRun();
         if ( invocation.getMethod().getAnnotation( GuiAction.class ) != null ) {
             
             logger.debug( manager.getManagerName() + "." 
@@ -256,14 +256,14 @@ public abstract class AbstractManagerMethodDispatcher
         return returnValue;
     }
     
-    private Method findMethodToRun( 
-                             Class<? extends IBioclipseManager> manager ) {
+    private Method findMethodToRun() {
         
         Method result;
         
         //If a method with the same signature exists use that one
         try {
-            result = manager.getMethod( methodCalled.getName(), 
+            result = manager.getClass()
+                            .getMethod( methodCalled.getName(), 
                                         methodCalled.getParameterTypes() );
         } 
         catch ( SecurityException e ) {
@@ -278,7 +278,7 @@ public abstract class AbstractManagerMethodDispatcher
 
         //Look for "the JavaScript method" (taking String instead of IFile)
         METHODS:
-        for ( Method m : manager.getMethods() ) {
+        for ( Method m : manager.getClass().getMethods() ) {
             Method refMethod = methodCalled;
             int refLength = refMethod.getParameterTypes().length;
             int mLength   = m.getParameterTypes().length;
@@ -323,6 +323,8 @@ public abstract class AbstractManagerMethodDispatcher
             }
         }
         
-        throw new RuntimeException("Failed to find the method to run");
+        throw new RuntimeException(
+            "Failed to find a method to run on " + manager.getClass() + 
+            " that could correspond to " + methodCalled );
     }
 }
