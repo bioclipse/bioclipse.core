@@ -13,6 +13,7 @@
 package net.bioclipse.recording;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.swt.widgets.Display;
@@ -27,8 +28,10 @@ public class History implements IHistory {
     private List<IHistoryListener> historyListeners;
     
     public History() {
-        records          = new ArrayList<IRecord>();
-        historyListeners = new ArrayList<IHistoryListener>();
+        records          = Collections.synchronizedList( 
+                                           new ArrayList<IRecord>() );
+        historyListeners = Collections.synchronizedList( 
+                                           new ArrayList<IHistoryListener>() );
     }
     
     /* (non-Javadoc)
