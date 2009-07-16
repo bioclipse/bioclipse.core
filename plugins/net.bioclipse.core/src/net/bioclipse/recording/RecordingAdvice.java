@@ -30,13 +30,12 @@ public class RecordingAdvice implements IRecordingAdvice {
 
     private History history;
     
-    private static final Logger logger = Logger.getLogger(RecordingAdvice.class);
-    
+    private static final Logger logger 
+        = Logger.getLogger(RecordingAdvice.class);
     
     public RecordingAdvice(History history) {
         this.history = history;
     }
-    
     
     public void afterReturning( Object returnValue, 
                                 Method method,
