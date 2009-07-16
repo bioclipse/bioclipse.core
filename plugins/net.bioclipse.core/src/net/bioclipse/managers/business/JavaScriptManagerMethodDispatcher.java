@@ -17,6 +17,7 @@ import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.jobs.IReturner;
 import net.bioclipse.managers.MonitorContainer;
 
+import org.aopalliance.intercept.MethodInvocation;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -38,12 +39,13 @@ public class JavaScriptManagerMethodDispatcher
     @Override
     protected Object doInvokeInGuiThread( final IBioclipseManager manager, 
                                           final Method method,
-                                          final Object[] arguments ) {
+                                          final Object[] arguments,
+                                          final MethodInvocation invocation ) {
 
         Display.getDefault().asyncExec( new Runnable() {
             public void run() {
                 try {
-                    doInvoke( manager, method, arguments );
+                    doInvoke( manager, method, arguments, invocation );
                 }
                 catch (Throwable t) {
                     printError(t);
@@ -80,8 +82,9 @@ public class JavaScriptManagerMethodDispatcher
     @Override
     protected Object doInvokeInSameThread( IBioclipseManager manager, 
                                            Method method,
-                                           Object[] arguments ) 
+                                           Object[] arguments,
+                                           MethodInvocation invocation ) 
                      throws BioclipseException {
-        return doInvoke( manager, method, arguments );
+        return doInvoke( manager, method, arguments, invocation );
     }
 }
