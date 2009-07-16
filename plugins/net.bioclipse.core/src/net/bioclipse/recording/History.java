@@ -14,6 +14,7 @@ package net.bioclipse.recording;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.swt.widgets.Display;
@@ -29,15 +30,18 @@ public class History implements IHistory {
     
     public History() {
         records          = Collections.synchronizedList( 
-                                           new ArrayList<IRecord>() );
+                                           new LinkedList<IRecord>() );
         historyListeners = Collections.synchronizedList( 
-                                           new ArrayList<IHistoryListener>() );
+                                           new LinkedList<IHistoryListener>() );
     }
     
     /* (non-Javadoc)
      * @see net.bioclipse.recording.IHistory#addRecord(net.bioclipse.recording.MethodRecord)
      */
     public void addRecord( IRecord record ) {
+        if ( records.size() >= 100 ) {
+            records.remove( 0 );
+        }
         records.add(record);
         Display.getDefault().asyncExec( new Runnable() {
             public void run() {
