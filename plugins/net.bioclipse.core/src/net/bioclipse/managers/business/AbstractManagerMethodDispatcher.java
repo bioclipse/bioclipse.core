@@ -37,15 +37,12 @@ import org.eclipse.ui.progress.WorkbenchJob;
 public abstract class AbstractManagerMethodDispatcher 
                 implements MethodInterceptor {
 
-    protected volatile Object[] arguments;
-    protected volatile Method methodCalled;
     protected IResourcePathTransformer transformer 
         = ResourcePathTransformer.getInstance();
     private final Logger logger 
         = Logger.getLogger( AbstractManagerMethodDispatcher.class );
     private Map<String, Long> lastWarningTimes 
         = Collections.synchronizedMap( new HashMap<String, Long>() );
-    private volatile IBioclipseManager manager;
     
     protected static class ReturnCollector<T> implements IReturner<T> {
 
@@ -86,13 +83,9 @@ public abstract class AbstractManagerMethodDispatcher
     
     public Object invoke( MethodInvocation invocation ) throws Throwable {
 
-        synchronized ( invocation ) {
-            this.arguments = invocation.getArguments().clone();
-            this.methodCalled = invocation.getMethod();
-            this.manager = (IBioclipseManager) invocation.getThis();
-        }
+       IBioclipseManager manager = (IBioclipseManager) invocation.getThis();
                 
-        Method m = findMethodToRun();
+        Method m = findMethodToRun(invocation);
         if ( invocation.getMethod().getAnnotation( GuiAction.class ) != null ) {
             
             logger.debug( manager.getManagerName() + "." 
@@ -100,7 +93,8 @@ public abstract class AbstractManagerMethodDispatcher
                           + " has @GuiAction - running in gui thread" );
             return doInvokeInGuiThread( (IBioclipseManager)invocation.getThis(),
                                         m,
-                                        invocation.getArguments() );
+                                        invocation.getArguments(),
+                                        invocation );
         }
         
         Object returnValue;
@@ -131,14 +125,16 @@ public abstract class AbstractManagerMethodDispatcher
             returnValue = doInvokeInSameThread( (IBioclipseManager)
                                             invocation.getThis(), 
                                             m, 
-                                            invocation.getArguments() );
+                                            invocation.getArguments(),
+                                            invocation );
         }
         else {
             logger.debug( "Creating job for " + manager.getManagerName() + "." 
                           + invocation.getMethod().getName() );
             returnValue = doInvoke( (IBioclipseManager)invocation.getThis(), 
                                     m, 
-                                    invocation.getArguments() );
+                                    invocation.getArguments(),
+                                    invocation );
         }
 
         if ( returnValue instanceof IFile && 
@@ -149,7 +145,7 @@ public abstract class AbstractManagerMethodDispatcher
         return returnValue;
     }
 
-    private BioclipseUIJob<Object> getBioclipseUIJob() {
+    private BioclipseUIJob<Object> getBioclipseUIJob(Object[] arguments) {
 
        for ( Object o : arguments ) {
            if ( o instanceof BioclipseUIJob) {
@@ -159,17 +155,24 @@ public abstract class AbstractManagerMethodDispatcher
        return null;
     }
 
-    protected abstract Object doInvokeInGuiThread( IBioclipseManager manager, 
-                                                   Method m,
-                                                   Object[] arguments );
+    protected abstract Object doInvokeInGuiThread( 
+                                  IBioclipseManager manager, 
+                                  Method m,
+                                  Object[] arguments,
+                                  MethodInvocation invocation );
 
-    protected abstract Object doInvokeInSameThread( IBioclipseManager manager, 
-                                                    Method m,
-                                                    Object[] arguments )
+    protected abstract Object doInvokeInSameThread( 
+                                  IBioclipseManager manager, 
+                                  Method m,
+                                  Object[] arguments,
+                                  MethodInvocation invocation )
                               throws BioclipseException;
     
-    public Object doInvoke( IBioclipseManager manager, Method method,
-                            Object[] arguments ) throws BioclipseException {
+    public Object doInvoke( IBioclipseManager manager, 
+                            Method method,
+                            Object[] arguments,
+                            MethodInvocation methodCalled ) 
+                  throws BioclipseException {
 
         List<Object> newArguments = new ArrayList<Object>();
         newArguments.addAll( Arrays.asList( arguments ) );
@@ -260,15 +263,17 @@ public abstract class AbstractManagerMethodDispatcher
         return returnValue;
     }
     
-    private Method findMethodToRun() {
+    private Method findMethodToRun(MethodInvocation invocation) {
         
         Method result;
         
         //If a method with the same signature exists use that one
         try {
-            result = manager.getClass()
-                            .getMethod( methodCalled.getName(), 
-                                        methodCalled.getParameterTypes() );
+            result = invocation.getThis().getClass()
+                               .getMethod( invocation.getMethod()
+                                                     .getName(), 
+                                           invocation.getMethod()
+                                                     .getParameterTypes() );
         } 
         catch ( SecurityException e ) {
             throw new RuntimeException("Failed to find the method to run", e);
@@ -282,8 +287,8 @@ public abstract class AbstractManagerMethodDispatcher
 
         //Look for "the JavaScript method" (taking String instead of IFile)
         METHODS:
-        for ( Method m : manager.getClass().getMethods() ) {
-            Method refMethod = methodCalled;
+        for ( Method m : invocation.getThis().getClass().getMethods() ) {
+            Method refMethod = invocation.getMethod();
             int refLength = refMethod.getParameterTypes().length;
             int mLength   = m.getParameterTypes().length;
             if ( m.getName().equals( refMethod.getName() ) &&
@@ -297,10 +302,11 @@ public abstract class AbstractManagerMethodDispatcher
                     if ( currentParam == IReturner.class ) {
                         continue PARAMS;
                     }
-                    if ( methodCalled.getParameterTypes().length >= j + 1 &&
-                         ( methodCalled.getParameterTypes()[j] 
+                    if ( invocation.getMethod()
+                                   .getParameterTypes().length >= j + 1 &&
+                         ( invocation.getMethod().getParameterTypes()[j] 
                              == BioclipseUIJob.class  || 
-                             methodCalled.getParameterTypes()[j] 
+                             invocation.getMethod().getParameterTypes()[j] 
                              == BioclipseJobUpdateHook.class  ) ) {
                         j++;
                     }
@@ -310,10 +316,12 @@ public abstract class AbstractManagerMethodDispatcher
                          refMethod.getParameterTypes().length < j + 1 ) {
                         continue PARAMS;
                     }
-                    if ( methodCalled.getParameterTypes().length <= j ) {
+                    if ( invocation.getMethod()
+                                   .getParameterTypes().length <= j ) {
                         continue METHODS;
                     }
-                    Class<?> refParam = methodCalled.getParameterTypes()[j++];
+                    Class<?> refParam = invocation.getMethod()
+                                                  .getParameterTypes()[j++];
                     if ( currentParam == refParam ) {
                         continue PARAMS;
                     }
@@ -328,7 +336,8 @@ public abstract class AbstractManagerMethodDispatcher
         }
         
         throw new RuntimeException(
-            "Failed to find a method to run on " + manager.getClass() + 
-            " that could correspond to " + methodCalled );
+            "Failed to find a method to run on " 
+            + invocation.getThis().getClass() + 
+            " that could correspond to " + invocation.getMethod() );
     }
 }

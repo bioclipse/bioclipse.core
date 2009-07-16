@@ -15,6 +15,7 @@ import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.jobs.IReturner;
 import net.bioclipse.managers.business.AbstractManagerMethodDispatcher.ReturnCollector;
 
+import org.aopalliance.intercept.MethodInvocation;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResourceRuleFactory;
@@ -44,14 +45,20 @@ public class JavaManagerMethodDispatcher
     @Override
     public Object doInvoke( IBioclipseManager manager, 
                             Method method,
-                            Object[] arguments ) throws BioclipseException {
+                            Object[] arguments,
+                            MethodInvocation invocation ) 
+                  throws BioclipseException {
 
         if ( Arrays.asList( method.getParameterTypes() )
                    .contains( IProgressMonitor.class ) &&
-             ( methodCalled.getReturnType() == void.class || 
-               methodCalled.getReturnType() == BioclipseJob.class ) ) {
-            return runAsJob(manager, method, arguments);
+             ( invocation.getMethod()
+                           .getReturnType() == void.class || 
+               invocation.getMethod()
+                           .getReturnType() == BioclipseJob.class ) ) {
+            
+            return runAsJob(manager, method, arguments, invocation);
         }
+        
         return runInSameThread(manager, method, arguments);
     }
 
@@ -152,7 +159,7 @@ public class JavaManagerMethodDispatcher
     }
 
     private Object runAsJob( IBioclipseManager manager, Method method,
-                             Object[] arguments ) {
+                             Object[] arguments, MethodInvocation invocation ) {
 
         //find update hook
         BioclipseJobUpdateHook hook = null;
@@ -169,7 +176,7 @@ public class JavaManagerMethodDispatcher
         
         job.setMethod( method );
         job.setArguments( arguments );
-        job.setMethodCalled( methodCalled );
+        job.setMethodCalled( invocation.getMethod() );
         job.setBioclipseManager( manager );
                
         job.setUser( false );
@@ -180,7 +187,8 @@ public class JavaManagerMethodDispatcher
     @Override
     protected Object doInvokeInGuiThread( final IBioclipseManager manager, 
                                           final Method method,
-                                          final Object[] arguments ) {
+                                          final Object[] arguments,
+                                          final MethodInvocation invocation ) {
 
         //translate String -> IFile
         for ( int i = 0; i < arguments.length; i++ ) {
@@ -218,9 +226,10 @@ public class JavaManagerMethodDispatcher
     @Override
     protected Object doInvokeInSameThread( IBioclipseManager manager, 
                                            Method method,
-                                           Object[] arguments )
+                                           Object[] arguments,
+                                           MethodInvocation invocation)
                      throws BioclipseException {
 
-        return super.doInvoke(manager, method, arguments);
+        return super.doInvoke(manager, method, arguments, invocation);
     }
 }
