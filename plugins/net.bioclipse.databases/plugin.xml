@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
+
     <extension point="org.eclipse.ui.views">
         <view name="Databases"
               category="net.bioclipse.ui.category"
               allowMultiple="false"
               icon="icons/db_16.gif"
-              class="org.eclipse.ui.navigator.CommonNavigator"
+              class="net.bioclipse.databases.DatabasesNavigator"
               id="net.bioclipse.databases.DatabaseView">
         </view>
+    </extension>
+
+    <extension
+          point="org.eclipse.ui.navigator.viewer">
+       <viewer
+             viewerId="net.bioclipse.databases.DatabaseView">
+       </viewer>
+       <viewerContentBinding
+             viewerId="net.bioclipse.databases.DatabaseView">
+          <includes>
+             <contentExtension
+                   isRoot="false"
+                   pattern="net.bioclipse.databases.content">
+             </contentExtension>
+          </includes>
+       </viewerContentBinding>
     </extension>
 </plugin>
