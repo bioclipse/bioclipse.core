@@ -11,6 +11,7 @@
 package net.bioclipse.databases;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.navigator.CommonNavigator;
 
 
@@ -31,6 +32,10 @@ public class DatabasesNavigator extends CommonNavigator
     }
 
     public void fireRefresh() {
-        getCommonViewer().refresh();
+        Display.getDefault().asyncExec( new Runnable() {
+            public void run() {
+                getCommonViewer().refresh();                
+            }
+        });
     }
 }
