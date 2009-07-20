@@ -14,6 +14,8 @@ public class Activator extends AbstractUIPlugin {
 	// The shared instance
 	private static Activator plugin;
 	
+	private BundleContext bundleContext;
+	
 	/**
 	 * The constructor
 	 */
@@ -27,6 +29,7 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		bundleContext = context;
 	}
 
 	/*
@@ -47,4 +50,9 @@ public class Activator extends AbstractUIPlugin {
 		return plugin;
 	}
 
+	public void publishDatabasesChangeEvent(IDatabasehangeListener l) {
+	    bundleContext.registerService( IDatabasehangeListener.class.getName(), 
+	                                   l, 
+	                                   null );
+	}
 }

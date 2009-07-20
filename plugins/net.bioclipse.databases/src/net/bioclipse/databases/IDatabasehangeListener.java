@@ -10,27 +10,12 @@
  ******************************************************************************/
 package net.bioclipse.databases;
 
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.ui.navigator.CommonNavigator;
-
 
 /**
  * @author jonalv
  *
  */
-public class DatabasesNavigator extends CommonNavigator 
-                                implements IDatabasehangeListener {
+public interface IDatabasehangeListener {
 
-    public DatabasesNavigator() {
-        Activator.getDefault().publishDatabasesChangeEvent( this );
-    }
-    
-    @Override
-    protected IAdaptable getInitialInput() {
-        return new DatabasesRoot();
-    }
-
-    public void fireRefresh() {
-        getCommonViewer().refresh();
-    }
+    public void fireRefresh();
 }
