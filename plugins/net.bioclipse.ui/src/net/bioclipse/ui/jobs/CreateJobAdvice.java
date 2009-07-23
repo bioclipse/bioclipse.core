@@ -173,7 +173,7 @@ public class CreateJobAdvice implements ICreateJobAdvice {
             if ( !currentParamTypes.contains( IProgressMonitor.class ) ) 
                 continue METHODS;
 
-            if ( currentParamTypes.size() + 1 != invocationParamTypes.size() &&
+            if ( currentParamTypes.size() != invocationParamTypes.size() + 1 &&
                  !( invocationParamTypes.contains( BioclipseUIJob.class ) &&
                    currentParamTypes.size() == invocationParamTypes.size() ) ){
                 continue METHODS;
@@ -183,10 +183,15 @@ public class CreateJobAdvice implements ICreateJobAdvice {
             for ( int i = 0; i < currentParamTypes.size(); i++ ) {
                  Object arg = currentParamTypes.get( i );
                  
-                 if ( arg.equals( invocationParamTypes.get( i ) ) ) {
+                 if ( invocationParamTypes.size() > i &&
+                      arg.equals( invocationParamTypes.get( i ) ) ) {
                      continue PARAMS;
                  }
                  else {
+                     if ( arg == IProgressMonitor.class &&
+                          invocationParamTypes.size() == i) {
+                         continue PARAMS;
+                     }
                      if ( (arg == IFile.class &&
                            invocationParamTypes.get( i ) == String.class) ) {
                          continue PARAMS;
