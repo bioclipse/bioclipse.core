@@ -166,4 +166,18 @@ public interface IUIManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod( methodSummary="Get a list of the installed features." )
     public List<String> getInstalledFeatures();
+    
+    
+    @Recorded
+    @PublishedMethod( params="String path",
+                      methodSummary="Reads a file line by line into a String" )
+    public String readFile(String path) throws BioclipseException;
+    public String readFile(IFile file) throws BioclipseException;
+
+    @Recorded
+    @PublishedMethod( params="String path",
+                      methodSummary="Reads a file line by line into a String[]" )
+    public String[] readFileIntoArray(String path) throws BioclipseException;
+    public String[] readFileIntoArray(IFile file) throws BioclipseException;
+
 }

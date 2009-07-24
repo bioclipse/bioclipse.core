@@ -12,9 +12,11 @@
  ******************************************************************************/
 package net.bioclipse.ui.business;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,12 +24,14 @@ import java.util.Map;
 
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.ui.Activator;
 import net.bioclipse.scripting.ui.business.IJsConsoleManager;
 import net.bioclipse.ui.business.describer.ExtensionPointHelper;
 import net.bioclipse.ui.business.describer.IBioObjectDescriber;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
@@ -71,6 +75,8 @@ import org.eclipse.update.configurator.IPlatformConfiguration.IFeatureEntry;
 public class UIManager implements IBioclipseManager {
 
     private static final String NAVIGATOR_ID = "net.bioclipse.navigator";
+
+    private static final Logger logger = Logger.getLogger(UIManager.class);
 
     public String getManagerName() {
         return "ui";
@@ -440,5 +446,57 @@ public class UIManager implements IBioclipseManager {
         }
         
         return installedFeatures;
+    }
+
+    /**
+     * Read a file line by line into memory.
+     * @param file IFile to read from
+     * @return String with contents
+     * @throws BioclipseException
+     */
+    public String readFile(IFile file) throws BioclipseException{
+        if (!file.exists()) throw new BioclipseException("File '" 
+                                         + file.getName() + "' does not exit."); 
+
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                                                           file.getContents()));
+            StringBuffer buffer=new StringBuffer();
+            String line=reader.readLine();
+            while ( line  != null ) {
+                buffer.append( line + "\n");
+                line=reader.readLine();
+            }
+            return buffer.toString();
+        } catch ( Exception e ) {
+            throw new BioclipseException("Error opening/reading file: " 
+                                         + file.getName(), e);
+        }
+    }
+    
+    /**
+     * Read a file line by line into memory.
+     * @param file IFile to read from
+     * @return String[] with one entry per line
+     * @throws BioclipseException
+     */
+    public String[] readFileIntoArray(IFile file) throws BioclipseException{
+        if (!file.exists()) throw new BioclipseException("File '" 
+                                         + file.getName() + "' does not exit."); 
+
+        List<String> lines=new ArrayList<String>();
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                                                           file.getContents()));
+            String line=reader.readLine();
+            while ( line  != null ) {
+                lines.add(line);
+                line=reader.readLine();
+            }
+            return lines.toArray(new String[0]);
+        } catch ( Exception e ) {
+            throw new BioclipseException("Error opening/reading file: " 
+                                         + file.getName(), e);
+        }
     }
 }
