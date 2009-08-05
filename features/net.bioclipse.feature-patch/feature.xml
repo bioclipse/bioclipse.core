@@ -29,12 +29,19 @@ http://www.eclipse.org/legal/epl-v10.html
    </license>
 
    <requires>
-      <import feature="net.bioclipse_feature" version="2.0.0.A20080808" patch="true"/>
+      <import feature="net.bioclipse.core_feature" version="2.0.0.v20090707" patch="true"/>
       <import feature="net.bioclipse.core_feature" version="2.0.0.v20090707" match="perfect"/>
    </requires>
 
    <plugin
          id="net.bioclipse.core"
+         download-size="0"
+         install-size="0"
+         version="2.0.1.v20090805"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.ui"
          download-size="0"
          install-size="0"
          version="2.0.1.v20090805"
