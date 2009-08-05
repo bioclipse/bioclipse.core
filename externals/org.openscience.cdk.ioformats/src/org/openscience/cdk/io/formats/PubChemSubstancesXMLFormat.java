@@ -26,7 +26,7 @@ import org.openscience.cdk.tools.DataFeatures;
 
 /**
  * @cdk.module ioformats
- * @cdk.svnrev  $Revision$
+ * @cdk.githash
  * @cdk.set     io-formats
  */
 @TestClass("org.openscience.cdk.io.formats.PubChemSubstancesXMLFormatTest")
@@ -85,7 +85,7 @@ public class PubChemSubstancesXMLFormat implements IChemFormatMatcher {
 	}
 
 	public boolean matches(int lineNumber, String line) {
-		if (lineNumber == 2 && line.startsWith("<PC-Substances")) return true;
+		if (line.contains("<PC-Substances")) return true;
 		return false;
 	}
 }
