@@ -6,11 +6,13 @@ import java.util.Collection;
 import java.util.List;
 
 import net.bioclipse.core.ResourcePathTransformer;
+import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -25,6 +27,7 @@ public class CreateJobAdvice implements ICreateJobAdvice {
 
     private IProgressMonitor nullProgressMonitor = new NullProgressMonitor();
     private IProgressMonitor monitor = nullProgressMonitor;
+    private Logger logger = Logger.getLogger( this.getClass() );
     
     public void setMonitor( IProgressMonitor monitor ) {
         this.monitor = monitor;
@@ -42,8 +45,13 @@ public class CreateJobAdvice implements ICreateJobAdvice {
         Method m = findMethodWithMonitor(invocation);
         if ( m == null ) {
             m = findMethodToRun(invocation);
+            try {
             return m.invoke( invocation.getThis(), 
                              tranformArgs(invocation, m) );
+            }
+            catch (Throwable t) {
+                LogUtils.handleException( t, logger, "net.bioclipse.core" );
+            }
         }
         if ( m != null) {
             methodToInvoke = m;
