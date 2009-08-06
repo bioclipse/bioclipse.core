@@ -149,8 +149,10 @@ public class BioclipseJob<T> extends Job {
                 new RuntimeException( 
                     "Exception occured: " + e.getClass().getSimpleName() + " - " 
                     + e.getMessage() + " while attempting to run " 
-                    + bioclipseManager.getManagerName() + "." 
-                    + getMethod().getName() + " taking " 
+                    + bioclipseManager != null 
+                      ? "<unknown>" 
+                      : bioclipseManager.getManagerName() 
+                    + "." + getMethod().getName() + " taking " 
                     + Arrays.deepToString( getMethod().getParameterTypes() ),
                     e ), logger, "net.bioclipse.managers" );
         }
