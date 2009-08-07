@@ -4,6 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import java.util.Properties;
 
+import net.bioclipse.ui.BioclipseConstants;
+
 import org.apache.log4j.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -26,7 +28,6 @@ public class ExtendedSampleDataAction extends Action implements IIntroAction {
 
 	private static final String SAMPLE_FEATURE_ID = "net.bioclipse.sampledata_feature";
 	private static final String SAMPLE_FEATURE_VERSION = "2.1.0.v20090807";
-	private static final String UPDATE_SITE = "http://update2.bioclipse.net/";
 //	private static final String UPDATE_SITE = "file:///Users/ola/Workspaces/bioclipse2_1/bioclipse-updatesite/";
 
 	/**
@@ -124,7 +125,10 @@ public class ExtendedSampleDataAction extends Action implements IIntroAction {
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 			public void run(IProgressMonitor monitor) throws InvocationTargetException {
 				try {
-					InstallCommand command = new InstallCommand(SAMPLE_FEATURE_ID, SAMPLE_FEATURE_VERSION, UPDATE_SITE, null, "false"); //$NON-NLS-1$
+					InstallCommand command = new InstallCommand(SAMPLE_FEATURE_ID, 
+					                                            SAMPLE_FEATURE_VERSION, 
+					                                            BioclipseConstants.UPDATE_SITE, 
+					                                            null, "false");
 					command.run(monitor);
 					command.applyChangesNow();
 				} catch (Exception e) {
