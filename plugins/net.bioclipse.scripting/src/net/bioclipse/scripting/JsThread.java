@@ -95,8 +95,12 @@ public class JsThread extends ScriptingThread {
                             while (jsRunning[0]) {
                                 try {
                                     jsRunning.wait(500);
-                                    if (m.isCanceled()) {
-                                        jsRunning.wait(3000);
+                                    if ( m.isCanceled() &&
+                                         jsRunning[0] ) {
+                                        jsRunning.wait(5000);
+                                        if (!jsRunning[0]) {
+                                            break;
+                                        }
                                         // This is the only way we've found out
                                         // that actually stops the thread in
                                         // its tracks. It's deprecated (and
