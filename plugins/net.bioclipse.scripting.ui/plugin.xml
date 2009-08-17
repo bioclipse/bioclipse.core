@@ -16,11 +16,11 @@
          id="net.bioclipse.ScriptingCategory">
       </category>
       <view
-         name="Javascript Console"
+         name="Groovy Console"
          icon="icons/source.gif"
          category="net.bioclipse.ScriptingCategory"
-         class="net.bioclipse.scripting.ui.views.JsConsoleView"
-         id="net.bioclipse.scripting.ui.views.JsConsoleView">
+         class="net.bioclipse.scripting.ui.views.GroovyConsoleView"
+         id="net.bioclipse.scripting.ui.views.GroovyConsoleView">
          <description>
             Javascript Console View
          </description>
