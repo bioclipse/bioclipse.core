@@ -261,6 +261,7 @@ public class ExceptionDetailsErrorDialog extends IconAndMessageDialog {
                 | GridData.GRAB_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL
                 | GridData.GRAB_VERTICAL);
 //        data.heightHint = text.getItemHeight() * LIST_ITEM_COUNT;
+        data.heightHint = 500;
         data.horizontalSpan = 2;
         text.setLayoutData(data);
         text.setFont(parent.getFont());

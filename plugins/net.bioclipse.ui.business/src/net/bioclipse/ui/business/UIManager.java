@@ -499,4 +499,12 @@ public class UIManager implements IBioclipseManager {
                                          + file.getName(), e);
         }
     }
+
+    public boolean isContentType(String type, IContentType contentType)
+        throws BioclipseException {
+        if (type == null || contentType == null) return false;
+
+        if (type.equals(contentType.getId())) return true;
+        return isContentType(type, contentType.getBaseType());
+    }
 }

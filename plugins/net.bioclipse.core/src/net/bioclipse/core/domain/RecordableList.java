@@ -15,6 +15,7 @@ package net.bioclipse.core.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -38,11 +39,11 @@ public class RecordableList<T extends IBioObject> extends BioObject
 
     //<bioList.id, list of bioObjects in that biolist>
     private static Map<String, List<String>> createdLists 
-         = new HashMap<String, List<String>>();
+         = Collections.synchronizedMap( new HashMap<String, List<String>>() );
     
     //<bioObject.id, bioList.id>
     private static Map<String, Stack<String>> listIdForObject 
-         = new HashMap<String, Stack<String>>();
+         = Collections.synchronizedMap( new HashMap<String, Stack<String>>() );
     
     public List<T> list = new ArrayList<T>();
     
@@ -112,9 +113,13 @@ public class RecordableList<T extends IBioObject> extends BioObject
     
     private void clearListIdForObject(String listId) {
         
-        for( String objectId : listIdForObject.keySet() )
-            if( listIdForObject.get(objectId).contains(listId) )
-                listIdForObject.get(objectId).remove(listId);
+        for( String objectId : listIdForObject.keySet() ) {
+            Stack<String> stack = listIdForObject.get(objectId);
+            synchronized ( stack ) {
+                if( stack.contains(listId) )
+                    stack.remove(listId);
+            }
+        }
     }
 
     @Recorded

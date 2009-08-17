@@ -22,12 +22,12 @@ import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.TestMethods;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IBioObject;
-import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.managers.business.GuiAction;
+import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.content.IContentType;
 
 /**
  * Controls programmatic access to the Bioclipse graphical user
@@ -179,5 +179,14 @@ public interface IUIManager extends IBioclipseManager {
                       methodSummary="Reads a file line by line into a String[]" )
     public String[] readFileIntoArray(String path) throws BioclipseException;
     public String[] readFileIntoArray(IFile file) throws BioclipseException;
+
+    @Recorded
+    @PublishedMethod(
+        params="String type, IContentType contentType",
+        methodSummary="Checks if the given content type is of the given type," +
+            " either as itself or as one of its base types."
+    )
+    public boolean isContentType(String type, IContentType contentType)
+        throws BioclipseException;
 
 }

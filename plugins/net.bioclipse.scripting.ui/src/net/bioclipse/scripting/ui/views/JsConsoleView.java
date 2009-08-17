@@ -69,23 +69,22 @@ public class JsConsoleView extends ScriptingConsoleView {
             Activator.getDefault().JS_THREAD = jsThread = new JsThread();
             jsThread.start();
         }
-        jsThread.enqueue(new JsAction(command,
-                                      new Hook() {
+        jsThread.enqueue(new JsAction(command, new Hook() {
             public void run(final Object result) {
                 final String[] message = new String[1];
                 Display.getDefault().asyncExec( new Runnable() {
                     public void run() {
                         if ( null != result ) {
                             if (result instanceof NativeJavaObject) {
-                          
+
                                 Object unwrappedObject
                                   = ((NativeJavaObject)result).unwrap();
-                          
+
                                 if (unwrappedObject instanceof List) {
                                     List<?> list = (List<?>)unwrappedObject;
                                     StringBuilder sb
                                       = stringify( list, "[", ", ", "]" );
-                              
+
                                     message[0] = sb.toString();
                                 }
                                 else {
@@ -361,7 +360,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                                            + publishedMethod.params().length()
                                            + 3),
                                           MAX_OUTPUT_LINE_LENGTH));
-    
+
                     for (String _ : new String[] {
                             line,                               NEWLINE,
                             managerName, ".", method.getName(),
@@ -555,7 +554,7 @@ public class JsConsoleView extends ScriptingConsoleView {
         }
 
         final List<String>[] variables = new List[1];
-        
+
         jsThread.enqueue(
             new JsAction( "zzz1 = new Array(); zzz2 = 0;"
                           + "for (var zzz3 in " + object
@@ -582,7 +581,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                           }
              )
         );
-        
+
         int attemptsLeft = 10;
         synchronized (variables) {
             while (variables[0] == null) {
@@ -631,7 +630,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                 new HashSet<String>()
         ).toArray(new Method[0]);
     }
-    
+
     private List<Method> findAllPublishedMethods(Class<?> interfaze,
                                                  List<Method> methods,
                                                  HashSet<String> visited) {
@@ -648,10 +647,10 @@ public class JsConsoleView extends ScriptingConsoleView {
                 methods.add( method );
             }
         }
-        
+
         for (Class<?> parent : interfaze.getInterfaces())
             findAllPublishedMethods(parent, methods, visited);
-            
+
         return methods;
     }
 
@@ -662,7 +661,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                 new HashSet<Class<?>>()
         ).toArray(new Class<?>[0]);
     }
-    
+
     private List<Class<?>> findAllPublishedClasses(Class<?> clazz,
                                                    List<Class<?>> classes,
                                                    HashSet<Class<?>> visited) {
@@ -690,13 +689,13 @@ public class JsConsoleView extends ScriptingConsoleView {
      * @return any extra characters to be output after the completed name
      */
     protected String tabCompletionHook( String parent, String completedName ) {
-        
+
         // if the user typed any of the special-cased commands, we don't want
         // to complete with anything.
         for ( String prefix : allSpecialCommands() )
             if ( currentCommand().startsWith( prefix + " " ) )
                 return "";
-        
+
         // however, an extra space doesn't hurt
         for ( String specialCmd : allSpecialCommands() )
             if ( currentCommand().equals( specialCmd ) )
@@ -707,7 +706,7 @@ public class JsConsoleView extends ScriptingConsoleView {
         if ( "".equals(parent)
              && JsThread.js.getManagers().containsKey( completedName ) )
             return ".";
-        
+
         // a top level command is really an aliased method, and should have
         // a '(' and possibly a ')' on it
         if ( "".equals(parent)
@@ -727,7 +726,7 @@ public class JsConsoleView extends ScriptingConsoleView {
 
                         return method.getParameterTypes().length == 0
                                ? "()" : "(";
-        
+
         // in all other cases, we add nothing
         return "";
     }

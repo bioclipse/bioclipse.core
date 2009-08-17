@@ -55,4 +55,24 @@ public class TimeCalculater {
         }
         return result.toString();
     }
+
+    /**
+     * Returns a String on the form: "Estimating about: xd xh xm xs remaining"
+     * 
+     * @param startTime
+     * @param currentElement
+     * @param numOfElements
+     * @return a String representation of estimated time remaining.
+     */
+    public static String generateTimeRemainEst( long startTime,
+                                                int currentElement,
+                                                int numOfElements ) {
+
+        long elapsed = System.currentTimeMillis() - startTime;
+        long timeForOneEntry = (elapsed) / currentElement;
+        long timeRemaining = timeForOneEntry * (numOfElements - currentElement);
+        return "Estimating about: " 
+               + TimeCalculater.millisecsToString(timeRemaining)
+               + " remaining";
+    }
 }
