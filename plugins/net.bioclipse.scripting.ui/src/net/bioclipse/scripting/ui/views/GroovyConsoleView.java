@@ -39,7 +39,9 @@ public class GroovyConsoleView extends ScriptingConsoleView {
      */
     @Override
     protected String executeCommand(String command) {
-        return groovy.eval(command);
+        String result = groovy.eval(command);
+        printMessage(result);
+        return result;
     }
 
     @Override
