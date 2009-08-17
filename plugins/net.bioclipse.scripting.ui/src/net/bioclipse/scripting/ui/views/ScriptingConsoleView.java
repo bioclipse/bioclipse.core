@@ -252,6 +252,11 @@ public abstract class ScriptingConsoleView extends ViewPart {
                 output.copy();
             }
         };
+        final Action clearAction = new Action("Clear") {
+            public void run() {
+                output.setText( "" );
+            }
+        };
 
         cutInputAction.setActionDefinitionId(
                 IWorkbenchActionDefinitionIds.CUT);
@@ -278,6 +283,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         outputMenuMgr.addMenuListener(new IMenuListener() {
             public void menuAboutToShow(IMenuManager mgr) {
                 outputMenuMgr.add( copyOutputAction );
+                outputMenuMgr.add( clearAction );
             }
         });
         output.setMenu( outputMenuMgr.createContextMenu( output ) );
