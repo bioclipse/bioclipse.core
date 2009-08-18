@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Bioclipse Birt
+Bundle-SymbolicName: net.bioclipse.birt;singleton:=true
+Bundle-Version: 0.1.1
+Bundle-Activator: net.bioclipse.birt.Activator
+Bundle-Vendor: The Bioclipse Team
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.birt.report.viewer;bundle-version="2.3.2",
+ org.eclipse.ui.browser;bundle-version="3.2.201",
+ org.eclipse.ui.editors;bundle-version="3.4.0",
+ org.eclipse.ui.ide;bundle-version="3.4.2",
+ org.eclipse.core.resources;bundle-version="3.4.2",
+ org.eclipse.birt.report.engine;bundle-version="2.3.2"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
