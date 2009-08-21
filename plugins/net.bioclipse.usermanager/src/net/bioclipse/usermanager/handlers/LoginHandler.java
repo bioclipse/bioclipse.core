@@ -2,6 +2,7 @@ package net.bioclipse.usermanager.handlers;
 
 import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
+import net.bioclipse.usermanager.business.IUserManager;
 import net.bioclipse.usermanager.dialogs.UserManagerLoginDialog;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -17,15 +18,15 @@ public class LoginHandler extends AbstractHandler {
 
     
     public Object execute( ExecutionEvent event ) throws ExecutionException {
+
+        IUserManager userManager = Activator.getDefault().getUserManager();
         
-//        String param=event.getParameter( "net.bioclipse.usermanager.loginParameter" );
+        if ( userManager.isLoggedIn() ) {
+            userManager.logOut();
+        }
         
-//        System.out.println("Param: " + param + " detected");
-        
-        UserContainer sandboxUserContainer = Activator
-        .getDefault()
-        .getUserManager()
-        .getSandBoxUserContainer();
+        UserContainer sandboxUserContainer 
+            = userManager.getSandBoxUserContainer();
 
         UserManagerLoginDialog loginDialog = 
             new UserManagerLoginDialog( PlatformUI
@@ -41,7 +42,6 @@ public class LoginHandler extends AbstractHandler {
                 .switchUserContainer(sandboxUserContainer);
             }
         }
-        
         fireHandlerChanged( new HandlerEvent(this,true,true));
 
         IEvaluationService es = (IEvaluationService)PlatformUI.getWorkbench().getService( IEvaluationService.class );

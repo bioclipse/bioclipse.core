@@ -13,6 +13,7 @@ package net.bioclipse.usermanager.preferences;
 
 import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
+import net.bioclipse.usermanager.business.IUserManager;
 import net.bioclipse.usermanager.dialogs.CreateUserDialog;
 import net.bioclipse.usermanager.dialogs.EditUserDialog;
 import net.bioclipse.usermanager.dialogs.PassWordPromptDialog;
@@ -200,10 +201,18 @@ public class UserManagerPreferencePage extends PreferencePage
     @Override
     public boolean performOk() {
 
-        Activator.getDefault()
-                 .getUserManager().switchUserContainer(sandBoxUserContainer);
-        Activator.getDefault().getUserManager().persist();
+        IUserManager userManager = Activator.getDefault().getUserManager();
+        userManager.switchUserContainer(sandBoxUserContainer);
+        userManager.persist();
+        userManager.logOut();
+        
         return super.performOk();
+    }
+    
+    @Override
+    public boolean performCancel() {
+        Activator.getDefault().getUserManager().logOut();
+        return super.performCancel();
     }
 
     public void init(IWorkbench workbench) {
