@@ -29,7 +29,7 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 /**
- * Javascript environment. Holds variables and evaluates expressions.
+ * JavaScript environment. Holds variables and evaluates expressions.
  *
  * @author masak
  *
@@ -46,7 +46,7 @@ public class JsEnvironment implements ScriptingEnvironment {
     }
 
     /**
-     * Initializes the Javascript environment for use.
+     * Initializes the JavaScript environment for use.
      */
     // TODO: Look into doing this the non-deprecated way.
     @SuppressWarnings("deprecation")
@@ -104,7 +104,7 @@ public class JsEnvironment implements ScriptingEnvironment {
                 managers.put(((IBioclipseManager)service).getManagerName(),
                              (IBioclipseManager)service);
                 logger.info( "Bioclipse manager: " + ( (IBioclipseManager)service )
-                             .getManagerName() + " added to Javascript " +
+                             .getManagerName() + " added to JavaScript " +
                              "environment." );
             }
         }
@@ -112,7 +112,7 @@ public class JsEnvironment implements ScriptingEnvironment {
     }
 
     /**
-     * Evaluates a given Javascript expression.
+     * Evaluates a given JavaScript expression.
      *
      * @param expression the expression to be evaluated
      * @return the result of the expression
@@ -217,14 +217,14 @@ public class JsEnvironment implements ScriptingEnvironment {
     }
 
     /**
-     * Evaluates a given Javascript expression.
+     * Evaluates a given JavaScript expression.
      *
      * @param expression the expression to be evaluated
      * @return the resulting object
      *
      * @throws RuntimeException when the evaluator couldn't parse
      *                          the expression
-     * @throws EcmaError when the Javascript runtime produced an
+     * @throws EcmaError when the JavaScript runtime produced an
      *                   error evaluating the expression
      */
     public Object evalToObject(String expression) {

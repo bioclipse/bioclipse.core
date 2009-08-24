@@ -29,7 +29,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * Contains general methods for interacting with the Javascript console.
+ * Contains general methods for interacting with the JavaScript console.
  * 
  * @author masak
  *

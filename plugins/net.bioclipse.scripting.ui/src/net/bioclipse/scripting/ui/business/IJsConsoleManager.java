@@ -22,12 +22,12 @@ import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.core.util.IJavaScriptConsolePrinterChannel;
 
 /**
- * Controls programmatic access to the Javascript Console.
+ * Controls programmatic access to the JavaScript Console.
  * 
  * @author masak
  *
  */
-@PublishedClass("Controls access to the Javascript Console.")
+@PublishedClass("Controls access to the JavaScript Console.")
 @TestClasses("net.bioclipse.scripting.ui.tests.JsConsoleManagerTest")
 public interface IJsConsoleManager extends IBioclipseManager, 
                                            IJavaScriptConsolePrinterChannel {

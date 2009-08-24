@@ -80,7 +80,7 @@ public class JsThread extends ScriptingThread {
                     @Override
                     protected IStatus run( IProgressMonitor pm ) {
                         
-                        pm.beginTask( "Running Javascript", 
+                        pm.beginTask( "Running JavaScript", 
                                      IProgressMonitor.UNKNOWN );
                         
                         IProgressMonitor m = new SubProgressMonitor(pm, 1);
@@ -196,7 +196,7 @@ public class JsThread extends ScriptingThread {
                   "Restart recommended after cancelling JavaScripts", 
                   "The cancelling of the running JavaScript script may have " +
                     "left your data in an inconsistent state, depending upon " +
-                    "what the Javascript execution was working on. " +
+                    "what the JavaScript execution was working on. " +
                     "You are recommended to restart Bioclipse." );
             }
         } );

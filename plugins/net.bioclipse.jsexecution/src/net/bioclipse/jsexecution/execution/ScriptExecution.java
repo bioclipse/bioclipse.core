@@ -82,7 +82,7 @@ public class ScriptExecution {
             final ThreadSafeConsoleWrap console) {
 
         final String scriptStringFinal = scriptString;
-        final String title = "Javascript - " + scriptDescription;
+        final String title = "JavaScript - " + scriptDescription;
 
         // show progress window		
         IWorkbench wb = PlatformUI.getWorkbench();
@@ -107,7 +107,7 @@ public class ScriptExecution {
 
                 MonitorContainer.getInstance().addMonitor( monitor );
 
-                monitor.beginTask("Running Javascript...", 2);
+                monitor.beginTask("Running JavaScript...", 2);
                 try {
                     monitor.worked(1);
                     scriptResult =
@@ -127,7 +127,7 @@ public class ScriptExecution {
                 }
 
                 if (done == true)
-                    monitor.setTaskName("Javascript done.");
+                    monitor.setTaskName("JavaScript done.");
 
                 if (done == false) {
                     // inform user about error.news
@@ -139,20 +139,20 @@ public class ScriptExecution {
                 Display.getDefault().syncExec(new Runnable() {
                     public void run() {
                         console.writeToConsole(scriptResult);
-                        console.writeToConsoleBlue("Javascript done.");
+                        console.writeToConsoleBlue("JavaScript done.");
                     }
                 });
                 return Status.OK_STATUS;
             }
             protected Action JobErrorAction() {
-                return new Action("Javacript done") {
+                return new Action("JavaScript done") {
                     public void run() {
                         MessageDialog.openError(
                                 PlatformUI.getWorkbench()
                                           .getActiveWorkbenchWindow()
                                           .getShell(),
                                 title,
-                                "The Javascript returned an error:\n"
+                                "The JavaScript script returned an error:\n"
                                 + scriptResult);
                     }
                 };

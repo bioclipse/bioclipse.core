@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 
 /*
- * This file is part of the Bioclipse Javascript Editor Plug-in.
+ * This file is part of the Bioclipse JavaScript Editor Plug-in.
  * 
  * Copyright (c) 2008 Johannes Wagener.
  * All rights reserved. This program and the accompanying materials
@@ -26,7 +26,7 @@ public class RunRhinoScriptActionPulldown extends Action
 	private IAction runAsJobAction = null;
 
 	public RunRhinoScriptActionPulldown() {
-		super("Run Javascript...", AS_DROP_DOWN_MENU);
+		super("Run JavaScript...", AS_DROP_DOWN_MENU);
 		// set an id to have it maximum once in a manager
 		this.setId(ACTION_ID);
 		
