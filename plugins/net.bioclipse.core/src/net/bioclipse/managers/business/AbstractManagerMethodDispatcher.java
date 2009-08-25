@@ -26,6 +26,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.progress.WorkbenchJob;
@@ -205,7 +206,9 @@ public abstract class AbstractManagerMethodDispatcher
             if ( m == null ) { 
                 m = new NullProgressMonitor(); 
             }
-            newArguments.add( m );
+            if ( newArguments.size() < method.getParameterTypes().length ) {
+                newArguments.add( m );
+            }
         }
         
         arguments = newArguments.toArray();
@@ -240,6 +243,9 @@ public abstract class AbstractManagerMethodDispatcher
             while ( t != null ) {
                 if ( t instanceof BioclipseException ) {
                     throw (BioclipseException)t;
+                }
+                if ( t instanceof OperationCanceledException ) {
+                    throw (OperationCanceledException)t;
                 }
                 t = t.getCause();
             }
