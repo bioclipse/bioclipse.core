@@ -8,7 +8,7 @@ import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 /*
- * This file is part of the Bioclipse Javascript Editor Plug-in.
+ * This file is part of the Bioclipse JavaScript Editor Plug-in.
  * 
  * Copyright (c) 2008 Johannes Wagener.
  * All rights reserved. This program and the accompanying materials

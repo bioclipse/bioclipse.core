@@ -10,12 +10,19 @@
  ******************************************************************************/
 package net.bioclipse.business;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.managers.business.IBioclipseManager;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
@@ -44,7 +51,53 @@ public class BioclipsePlatformManager implements IBioclipseManager {
 				e.getMessage(), e);
 		}
     }
-    	
+
+    public String download(String url, IProgressMonitor monitor) 
+    throws BioclipseException {
+        StringBuffer content = new StringBuffer();
+        URLConnection rawConn;
+        try {
+            rawConn = createURL(url).openConnection();
+            BufferedReader reader = new BufferedReader(
+                new InputStreamReader(rawConn.getInputStream())
+            );
+            String line = reader.readLine();
+            while (line != null) {
+                content.append(line).append('\n');
+                line = reader.readLine();
+            }
+        } catch (IOException exception) {
+            throw new BioclipseException(
+                "Error while downloading from URL.", exception
+            );
+        }
+        return content.toString();
+    }
+
+    public IFile downloadAsFile(String url, IFile target,
+                                IProgressMonitor monitor)
+    throws BioclipseException {
+        URLConnection rawConn;
+        try {
+            rawConn = createURL(url).openConnection();
+            if (target.exists()) {
+                target.setContents(rawConn.getInputStream(), true, false, null);
+            } else {
+                target.create(rawConn.getInputStream(), false, null);                
+            };
+        } catch (IOException exception) {
+            throw new BioclipseException(
+                "Error while downloading from URL.", exception
+            );
+        } catch (CoreException exception) {
+            throw new BioclipseException(
+                "Error while downloading from URL.", exception
+            );
+        }
+        return target;
+    }
+
+    
     private void openURL(URL url) throws BioclipseException {
     	IWorkbenchBrowserSupport browserSupport =
     		PlatformUI.getWorkbench().getBrowserSupport();
@@ -60,5 +113,14 @@ public class BioclipsePlatformManager implements IBioclipseManager {
     		throw new BioclipseException("Error while opening browser: " +
 				e.getMessage(), e);
     	}
+    }
+
+    private URL createURL(String url) throws BioclipseException {
+        try {
+            return new URL(url);
+        } catch (MalformedURLException e) {
+            throw new BioclipseException("Error while opening browser: " +
+                e.getMessage(), e);
+        }
     }
 }

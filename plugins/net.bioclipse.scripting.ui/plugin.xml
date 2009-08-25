@@ -22,17 +22,17 @@
          class="net.bioclipse.scripting.ui.views.GroovyConsoleView"
          id="net.bioclipse.scripting.ui.views.GroovyConsoleView">
          <description>
-            Javascript Console View
+            JavaScript Console View
          </description>
       </view>
       <view
-         name="Javascript Console"
+         name="JavaScript Console"
          icon="icons/source.gif"
          category="net.bioclipse.ScriptingCategory"
          class="net.bioclipse.scripting.ui.views.JsConsoleView"
          id="net.bioclipse.scripting.ui.views.JsConsoleView">
          <description>
-            Javascript Console View
+            JavaScript Console View
          </description>
       </view>
       <!-- Ruby and Groovy consoles used to reside here. See r6394. -->

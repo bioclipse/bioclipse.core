@@ -39,7 +39,7 @@ public class ScriptingTools {
     }
 
     /**
-     * Prints to the JsEditor Javascript Console.
+     * Prints to the JsEditor JavaScript Console.
      * @return true if the threaded script was canceled by the user,
      *         false otherwise 
      */
@@ -91,7 +91,7 @@ public class ScriptingTools {
             public void run() {
                 MessageDialog.openInformation(
                         getShell(),
-                        "Bioclipse Javascript",
+                        "Bioclipse JavaScript",
                         message);
             }
         };

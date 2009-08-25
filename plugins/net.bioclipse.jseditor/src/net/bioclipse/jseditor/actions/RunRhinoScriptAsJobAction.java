@@ -12,7 +12,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 
 /*
- * This file is part of the Bioclipse Javascript Editor Plug-in.
+ * This file is part of the Bioclipse JavaScript Editor Plug-in.
  * 
  * Copyright (c) 2008 Johannes Wagener.
  * All rights reserved. This program and the accompanying materials
@@ -39,7 +39,7 @@ public class RunRhinoScriptAsJobAction extends Action {
         IEditorPart ep = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
                                    .getActivePage().getActiveEditor();
         if (!(ep instanceof JsEditor)) {
-            PluginLogger.log("No Javascript Editor active");
+            PluginLogger.log("No JavaScript Editor active");
             return;
         }
 
@@ -51,7 +51,7 @@ public class RunRhinoScriptAsJobAction extends Action {
             RhinoConsole.writeToConsoleRed("Exception: " + e.getMessage());
         }
 
-        RhinoConsole.writeToConsoleBlue("Running Javascript...");
+        RhinoConsole.writeToConsoleBlue("Running JavaScript...");
 
         ScriptExecution.runRhinoScript(
                 scriptString,

@@ -25,7 +25,7 @@ public class RunScriptHandler extends AbstractHandler implements IHandler {
 		
         IEditorPart editor=HandlerUtil.getActiveEditor(event);
         if (!(editor instanceof JSEditor)) {
-            logger.error("The active editor must contain a Javascript file "
+            logger.error("The active editor must contain a JavaScript file "
                          + "for the action 'Run' to make sense.");
             return null;
         }

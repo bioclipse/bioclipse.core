@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cheatsheet
-      title="Using the Javascript Console">
+      title="Using the JavaScript Console">
    <intro
          href="/net.bioclipse.doc/html/scriptingBioclipse.html">
       <description>
@@ -8,7 +8,7 @@
       </description>
    </intro>
 
-	<item title="Step 1: Reveal the Javascript Console">
+	<item title="Step 1: Reveal the JavaScript Console">
 		<description>
 			If not visible, reveal the JavaScript Console from the menu <b>Window &amp;gt; Show View &amp;gt; Other...</b> and then under category <b>Scripting</b>, select <b>JavaScript Console</b>.
 		</description>
@@ -29,7 +29,7 @@ A namespace is a grouping of functionality; for example, the <b>cdk</b> namespac
  <item
        title="Step 3: Getting help for commands">
     <description>
-       In the Javascript Console, write &apos;<b>help</b>&apos;. This shows the same list of namespaces as pressing the tab key.
+       In the JavaScript Console, write &apos;<b>help</b>&apos;. This shows the same list of namespaces as pressing the tab key.
 <br/>
 <br/>
 
@@ -66,7 +66,7 @@ cdk.saveMolecule(mol2, &quot;/Virtual/mymol.cml&quot;)<br/>
 <br/>
 
 
-Note in the Bioclipse Navigator that this file is created. Now write: &apos;ui.open(&apos; and then drag this file and drop it onto the Javascript Console. This completes the command too look like:
+Note in the Bioclipse Navigator that this file is created. Now write: &apos;ui.open(&apos; and then drag this file and drop it onto the JavaScript Console. This completes the command too look like:
 <br/>
 <br/>
 

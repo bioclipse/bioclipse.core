@@ -14,7 +14,7 @@ import net.bioclipse.jseditor.actions.RunRhinoScriptActionPulldown;
 import net.bioclipse.jseditor.exceptions.EditorException;
 import net.bioclipse.jseditor.wizards.StringInput;
 /*
- * This file is part of the Bioclipse Javascript Editor Plug-in.
+ * This file is part of the Bioclipse JavaScript Editor Plug-in.
  * 
  * Copyright (c) 2008 Johannes Wagener.
  * All rights reserved. This program and the accompanying materials
@@ -82,7 +82,7 @@ public class JsEditor extends TextEditor {
 		super.createActions();
 		if (runRhinoScriptActionPulldown == null) {
 			runRhinoScriptActionPulldown = new RunRhinoScriptActionPulldown();
-			runRhinoScriptActionPulldown.setToolTipText("Run Javascript");
+			runRhinoScriptActionPulldown.setToolTipText("Run JavaScript");
 			runRhinoScriptActionPulldown.setImageDescriptor(Activator.getImageDescriptor("icons/png/jsfilerun.png"));
 		}
 	}
@@ -92,7 +92,7 @@ public class JsEditor extends TextEditor {
 		
 		if (isDirty()) {
 			boolean result = MessageDialog.openQuestion(getSite().getShell(),
-					"Javascript Editor", "The script was modifed. " +
+					"JavaScript Editor", "The script was modifed. " +
 							"Save changes before running the script?");
 			if (result) {
 				doSave(null);
@@ -117,7 +117,7 @@ public class JsEditor extends TextEditor {
 	private void showMessage(String message) {
 		MessageDialog.openInformation(
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
-				"Javascript Editor Plug-In",
+				"JavaScript Editor Plug-In",
 				message);
 	}
 }

@@ -10,7 +10,7 @@
             extensions="js"
             icon="icons/png/jsfile2.png"
             id="net.bioclipse.jseditor.editor"
-            name="Javascript Editor">
+            name="JavaScript Editor">
       </editor>
    </extension>
 

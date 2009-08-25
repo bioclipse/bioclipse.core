@@ -3,7 +3,7 @@ package net.bioclipse.jseditor;
 import org.apache.log4j.Logger;
 
 /*
- * This file is part of the Bioclipse Javascript Editor Plug-in.
+ * This file is part of the Bioclipse JavaScript Editor Plug-in.
  * 
  * Copyright (c) 2008 Johannes Wagener.
  * All rights reserved. This program and the accompanying materials
@@ -19,6 +19,6 @@ public class PluginLogger {
 	private static final Logger logger = Logger.getLogger(Activator.class);
 	
 	public static void log(String text) {
-		logger.warn("Javascript Editor Plug-in: " + text);
+		logger.warn("JavaScript Editor Plug-in: " + text);
 	}
 }

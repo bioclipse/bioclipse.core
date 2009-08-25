@@ -12,6 +12,7 @@ package net.bioclipse.business;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.managers.business.IBioclipseManager;
 
 @PublishedClass("The Bioclipse Platform manager is used for providing some " +
@@ -24,4 +25,17 @@ public interface IBioclipsePlatformManager extends IBioclipseManager {
 	@PublishedMethod(methodSummary="Opens the Bioclipse Bug Tracker.")
 	public void bugTracker();
 
+    @PublishedMethod(
+        params="String url",
+        methodSummary="Download the URL content as String."
+    )
+    public String download(String url)
+    throws BioclipseException;
+
+    @PublishedMethod(
+        params="String url, String filename",
+        methodSummary="Download the URL content into a file."
+    )
+    public String downloadAsFile(String url, String filename)
+    throws BioclipseException;
 }

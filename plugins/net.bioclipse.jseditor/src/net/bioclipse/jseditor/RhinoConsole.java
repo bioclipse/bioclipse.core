@@ -20,7 +20,7 @@ import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.console.IConsoleFactory;
 
 /*
- * This file is part of the Bioclipse Javascript Editor Plug-in.
+ * This file is part of the Bioclipse JavaScript Editor Plug-in.
  * 
  * Copyright (c) 2008 Johannes Wagener.
  * All rights reserved. This program and the accompanying materials
@@ -33,7 +33,7 @@ import org.eclipse.ui.console.IConsoleFactory;
  */
 public class RhinoConsole implements IConsoleFactory {
     private static MessageConsole messageConsole = null;
-    private static String consoleName = "Rhino Javascript Console";
+    private static String consoleName = "Rhino JavaScript Console";
     private static MessageConsoleStream out = null,
                                         out_blue = null,
                                         out_red = null;
