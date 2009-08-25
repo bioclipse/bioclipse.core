@@ -100,9 +100,7 @@ public abstract class AbstractManagerMethodDispatcher
         
         Object returnValue;
         if ( (invocation.getMethod().getReturnType() != BioclipseJob.class &&
-              invocation.getMethod().getReturnType() != ExtendedBioclipseJob
-                                                            .class &&
-              invocation.getMethod().getReturnType() != void.class)
+             invocation.getMethod().getReturnType() != void.class)
              || Arrays.asList( invocation.getMethod().getParameterTypes() )
                       .contains( IProgressMonitor.class ) ) {
             if ( Arrays.asList( m.getParameterTypes() )
