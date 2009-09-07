@@ -20,7 +20,10 @@ import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -188,57 +191,51 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
          * LOGIN
          */
         if (buttonId == IDialogConstants.OK_ID) {
-            try {
-                username = usernameText.getText();
-                password = passwordText.getText();
-                final String username = this.username;
-                final String password = this.password;
-                PlatformUI
-                .getWorkbench()
-                .getActiveWorkbenchWindow()
-                .run(true, false, new IRunnableWithProgress() {
-
-                    public void run(IProgressMonitor monitor) 
-                    throws InvocationTargetException, InterruptedException {
-                        try{
-                            int scale = 1000;
-                            monitor.beginTask("Signing in...", 2 * scale);
-                            Activator.getDefault().getUserManager()
-                            .signInWithProgressBar( username,
-                                                    password, 
-                                                    new SubProgressMonitor(
-                                                            monitor, 
-                                                            1 * scale) );
-                            monitor.worked(1);
-                        }
-                        catch( final Exception e ) {
-                            Display.getDefault().asyncExec(new Runnable() {
-
-                                public void run() {
-                                    MessageDialog.openInformation( 
-                                               PlatformUI
-                                               .getWorkbench()
-                                               .getActiveWorkbenchWindow()
-                                               .getShell(), 
-                                               "Could not sign in "
-                                               + usernameText.getText(), 
-                                               e.getMessage() );
-                                }
-                            });
-                        }
-                        finally {
-                            monitor.done();
-                        }
+            username = usernameText.getText();
+            password = passwordText.getText();
+            final String username = this.username;
+            final String password = this.password;
+            Job job = new Job("Signing in " + username) {
+                
+                @Override
+                protected IStatus run( IProgressMonitor monitor ) {
+            
+                    try {
+                        int scale = 1000;
+                        monitor.beginTask( "Signing in...", 
+                                           IProgressMonitor.UNKNOWN );
+                        Activator.getDefault().getUserManager()
+                                 .signInWithProgressBar( 
+                                      username,
+                                      password, 
+                                      new SubProgressMonitor(
+                                              monitor, 
+                                              1 * scale) );
                     }
-                });
-            } catch (InvocationTargetException e1) {
-                // TODO Auto-generated catch block
-                LogUtils.debugTrace(logger, e1);
-            } catch (InterruptedException e1) {
-                // TODO Auto-generated catch block
-                LogUtils.debugTrace(logger, e1);
-            }
-        }
+                    catch ( final Exception e ) {
+                        Display.getDefault().asyncExec(new Runnable() {
+
+                            public void run() {
+                                MessageDialog.openInformation( 
+                                           PlatformUI
+                                           .getWorkbench()
+                                           .getActiveWorkbenchWindow()
+                                           .getShell(), 
+                                           "Could not sign in "
+                                           + usernameText.getText(), 
+                                           e.getMessage() );
+                            }
+                        });
+                    }
+                    finally {
+                        monitor.done();
+                    }
+                    return Status.OK_STATUS;
+                }
+            };
+            job.setUser( true );
+            job.schedule();
+          }
         super.buttonPressed(buttonId);
     }
 
