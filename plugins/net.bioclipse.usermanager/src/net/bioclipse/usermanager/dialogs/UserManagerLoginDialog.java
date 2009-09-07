@@ -50,7 +50,8 @@ import org.eclipse.ui.PlatformUI;
  */
 public class UserManagerLoginDialog extends TitleAreaDialog {
     
-    private static final Logger logger = Logger.getLogger(UserManagerLoginDialog.class);
+    private static final Logger logger 
+        = Logger.getLogger(UserManagerLoginDialog.class);
 
     private Button         createNewKeyringButton;
     private Label          usernameLabel;
