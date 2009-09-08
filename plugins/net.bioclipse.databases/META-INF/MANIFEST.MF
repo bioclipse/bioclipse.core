@@ -6,7 +6,7 @@ Bundle-Version: 2.1.0.v20090807
 Bundle-Activator: net.bioclipse.databases.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.ui.navigator;bundle-version="3.3.102"
+ org.eclipse.ui.navigator
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: net.bioclipse.databases
