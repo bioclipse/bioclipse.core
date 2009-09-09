@@ -67,6 +67,9 @@ public class TimeCalculater {
     public static String generateTimeRemainEst( long startTime,
                                                 int currentElement,
                                                 int numOfElements ) {
+        if ( currentElement == 0 ) {
+            currentElement = 1;
+        }
 
         long elapsed = System.currentTimeMillis() - startTime;
         long timeForOneEntry = (elapsed) / currentElement;
