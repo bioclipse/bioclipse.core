@@ -18,7 +18,12 @@ import net.bioclipse.core.util.LogUtils;
 
 import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
+import net.bioclipse.usermanager.handlers.LoginHandler;
 
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.NotEnabledException;
+import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -44,6 +49,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.IHandlerService;
 
 /**
  * Dialog for logging in to the given UserContainer
@@ -222,8 +228,24 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
                                            .getActiveWorkbenchWindow()
                                            .getShell(), 
                                            "Could not sign in "
-                                           + usernameText.getText(), 
+                                           + username, 
                                            e.getMessage() );
+                                try {
+                                    ((IHandlerService) 
+                                    PlatformUI.getWorkbench()
+                                        .getActiveWorkbenchWindow()
+                                        .getService(IHandlerService.class) )
+                                        .executeCommand(
+                                            "net.bioclipse.usermanager" +
+                                                ".commands.login", 
+                                            null );
+                                }
+                                catch ( Exception e ) {
+                                    LogUtils.handleException( 
+                                         e, 
+                                         logger, 
+                                         "net.bioclipse.usermanager" );
+                                }
                             }
                         });
                     }
