@@ -141,6 +141,9 @@ public class BioclipseJob<T> extends Job {
             returnValue = e;
             if (e instanceof InvocationTargetException) {
                 returnValue = e.getCause();
+                if ( e.getCause() instanceof OperationCanceledException ) {
+                    throw (OperationCanceledException)e.getCause();
+                }
             }
             if (e instanceof OperationCanceledException) {
                 throw (OperationCanceledException)e;
