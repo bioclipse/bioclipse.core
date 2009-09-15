@@ -57,4 +57,28 @@ public class JavaScriptManagerMethodTest
     
         super.completeReturnerInference();
     }
+
+    @Override
+    @Test
+    @Ignore ( "Unsure how to handle this in JavaScript" )
+    public void testExtendedGetBioObjects() throws Throwable {
+    
+        super.testExtendedGetBioObjects();
+    }
+    
+    @Override
+    @Test
+    @Ignore ( "Unsure how to handle this in JavaScript" )
+    public void testExtendedVoidJobMethodIFile() throws Throwable {
+    
+        super.testExtendedVoidJobMethodIFile();
+    }
+    
+    @Override
+    @Test
+    @Ignore ( "Unsure how to handle this in JavaScript" )
+    public void testExtendedVoidJobMethodString() throws Throwable {
+    
+        super.testExtendedVoidJobMethodString();
+    }
 }

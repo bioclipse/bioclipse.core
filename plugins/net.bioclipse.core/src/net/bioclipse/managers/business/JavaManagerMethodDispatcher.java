@@ -12,6 +12,7 @@ import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
+import net.bioclipse.jobs.ExtendedBioclipseJob;
 import net.bioclipse.jobs.IReturner;
 import net.bioclipse.managers.business.AbstractManagerMethodDispatcher.ReturnCollector;
 
@@ -45,17 +46,20 @@ public class JavaManagerMethodDispatcher
     public Object doInvoke( IBioclipseManager manager, 
                             Method method,
                             Object[] arguments,
-                            MethodInvocation invocation ) 
+                            MethodInvocation invocation,
+                            boolean notExtended) 
                   throws BioclipseException {
 
         if ( Arrays.asList( method.getParameterTypes() )
                    .contains( IProgressMonitor.class ) &&
              ( invocation.getMethod()
-                           .getReturnType() == void.class || 
+                         .getReturnType() == void.class || 
                invocation.getMethod()
-                           .getReturnType() == BioclipseJob.class ) ) {
+                         .getReturnType() == BioclipseJob.class ||
+               invocation.getMethod()
+                         .getReturnType() == ExtendedBioclipseJob.class ) ) {
             
-            return runAsJob(manager, method, arguments, invocation);
+            return runAsJob(manager, method, arguments, invocation, notExtended);
         }
         
         return runInSameThread(manager, method, arguments);
@@ -157,8 +161,11 @@ public class JavaManagerMethodDispatcher
         return returnValue;
     }
 
-    private Object runAsJob( IBioclipseManager manager, Method method,
-                             Object[] arguments, MethodInvocation invocation ) {
+    private Object runAsJob( IBioclipseManager manager, 
+                             Method method,
+                             Object[] arguments, 
+                             MethodInvocation invocation, 
+                             boolean notExtended ) {
 
         //find update hook
         BioclipseJobUpdateHook hook = null;
@@ -167,11 +174,18 @@ public class JavaManagerMethodDispatcher
                 hook = (BioclipseJobUpdateHook) argument;
             }
         }
-
-        BioclipseJob<?> job 
-            = new BioclipseJob( hook != null ? hook.getJobName()
-                                             : manager.getManagerName() + "." 
-                                               + method.getName() );
+        BioclipseJob<?> job;
+        if ( notExtended ) {
+            job = new BioclipseJob( hook != null ? hook.getJobName()
+                                                 : manager.getManagerName() 
+                                                   + "." + method.getName() );
+        }
+        else {
+            job = new ExtendedBioclipseJob( 
+                          hook != null ? hook.getJobName()
+                                       : manager.getManagerName() + "." 
+                                         + method.getName() );
+        }
         
         job.setMethod( method );
         job.setArguments( arguments );
@@ -179,7 +193,9 @@ public class JavaManagerMethodDispatcher
         job.setBioclipseManager( manager );
                
         job.setUser( false );
-        job.schedule();
+        if ( notExtended ) {
+            job.schedule();
+        }
         return job;
     }
 
@@ -229,6 +245,6 @@ public class JavaManagerMethodDispatcher
                                            MethodInvocation invocation)
                      throws BioclipseException {
 
-        return super.doInvoke(manager, method, arguments, invocation);
+        return super.doInvoke(manager, method, arguments, invocation, true);
     }
 }

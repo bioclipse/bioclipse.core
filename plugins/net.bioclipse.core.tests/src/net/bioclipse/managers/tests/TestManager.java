@@ -115,4 +115,10 @@ public class TestManager implements IBioclipseManager {
         returner.partialReturn( new BioObject(){} );
         done();
     }
+    
+    public void extendedVoidJobMethod(IFile file, IProgressMonitor monitor) {
+        assertNotNull( file );
+        assertNotNull( monitor );
+        done();
+    }
 }

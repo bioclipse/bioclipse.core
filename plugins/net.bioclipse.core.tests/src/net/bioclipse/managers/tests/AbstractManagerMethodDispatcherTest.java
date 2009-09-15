@@ -371,7 +371,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
             = (ExtendedBioclipseJob<?>) 
               dispatcher.invoke( 
                   new MyInvocation(
-                      ITestManager.class.getMethod( "runAsJob", 
+                      ITestManager.class.getMethod( "extendedVoidJobMethod", 
                                                     String.class ),
                       new Object[] { PATH + FILENAME },
                       m ) );
@@ -387,7 +387,7 @@ public abstract class AbstractManagerMethodDispatcherTest {
             = (ExtendedBioclipseJob<?>) 
               dispatcher.invoke( 
                   new MyInvocation(
-                      ITestManager.class.getMethod( "runAsJob", 
+                      ITestManager.class.getMethod( "extendedVoidJobMethod", 
                                                     IFile.class ),
                       new Object[] { PATH + FILENAME },
                       m ) );

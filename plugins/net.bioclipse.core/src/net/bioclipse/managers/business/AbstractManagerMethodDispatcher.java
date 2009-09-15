@@ -15,6 +15,7 @@ import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
+import net.bioclipse.jobs.ExtendedBioclipseJob;
 import net.bioclipse.jobs.IReturner;
 import net.bioclipse.managers.MonitorContainer;
 
@@ -27,6 +28,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.ui.progress.WorkbenchJob;
 
 /**
@@ -98,7 +100,9 @@ public abstract class AbstractManagerMethodDispatcher
         
         Object returnValue;
         if ( (invocation.getMethod().getReturnType() != BioclipseJob.class &&
-             invocation.getMethod().getReturnType() != void.class)
+              invocation.getMethod().getReturnType() != ExtendedBioclipseJob
+                                                            .class &&
+              invocation.getMethod().getReturnType() != void.class)
              || Arrays.asList( invocation.getMethod().getParameterTypes() )
                       .contains( IProgressMonitor.class ) ) {
             if ( Arrays.asList( m.getParameterTypes() )
@@ -135,7 +139,10 @@ public abstract class AbstractManagerMethodDispatcher
             returnValue = doInvoke( (IBioclipseManager)invocation.getThis(), 
                                     m, 
                                     invocation.getArguments(),
-                                    invocation );
+                                    invocation,
+                                    invocation.getMethod()
+                                              .getReturnType() 
+                                        != ExtendedBioclipseJob.class );
         }
 
         if ( returnValue instanceof IFile && 
@@ -172,7 +179,8 @@ public abstract class AbstractManagerMethodDispatcher
     public Object doInvoke( IBioclipseManager manager, 
                             Method method,
                             Object[] arguments,
-                            MethodInvocation methodCalled ) 
+                            MethodInvocation methodCalled, 
+                            boolean notExtended ) 
                   throws BioclipseException {
 
         List<Object> newArguments = new ArrayList<Object>();
@@ -255,7 +263,7 @@ public abstract class AbstractManagerMethodDispatcher
         if ( uiJob != null ) {
             uiJob.setReturnValue( returnValue );
             final BioclipseUIJob finalUiJob = uiJob;
-            new WorkbenchJob("Refresh") {
+            Job j = new WorkbenchJob("Refresh") {
                 
                 @Override
                 public IStatus runInUIThread( 
@@ -264,7 +272,8 @@ public abstract class AbstractManagerMethodDispatcher
                     return Status.OK_STATUS;
                 }
                 
-            }.schedule();
+            };
+            j.schedule();
         }
         return returnValue;
     }

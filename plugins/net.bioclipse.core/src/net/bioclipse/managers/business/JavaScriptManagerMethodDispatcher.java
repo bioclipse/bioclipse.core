@@ -45,7 +45,7 @@ public class JavaScriptManagerMethodDispatcher
         Display.getDefault().asyncExec( new Runnable() {
             public void run() {
                 try {
-                    doInvoke( manager, method, arguments, invocation );
+                    doInvoke( manager, method, arguments, invocation, true );
                 }
                 catch (Throwable t) {
                     printError(t);
@@ -85,6 +85,6 @@ public class JavaScriptManagerMethodDispatcher
                                            Object[] arguments,
                                            MethodInvocation invocation ) 
                      throws BioclipseException {
-        return doInvoke( manager, method, arguments, invocation );
+        return doInvoke( manager, method, arguments, invocation, true );
     }
 }
