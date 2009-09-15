@@ -15,6 +15,7 @@ import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
+import net.bioclipse.jobs.ExtendedBioclipseJob;
 import net.bioclipse.managers.business.AbstractManagerMethodDispatcher;
 
 import org.aopalliance.intercept.MethodInterceptor;
@@ -30,6 +31,8 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.sun.tools.javac.tree.Tree.Throw;
 
 /**
  * This class primarily checks that a method is being called and no exceptions 
@@ -360,7 +363,59 @@ public abstract class AbstractManagerMethodDispatcherTest {
         }
     }
     
+    @Test
+    public void testExtendedVoidJobMethodString() throws Throwable {
+        assertTrue( file.exists() );
+        
+        ExtendedBioclipseJob<?> job
+            = (ExtendedBioclipseJob<?>) 
+              dispatcher.invoke( 
+                  new MyInvocation(
+                      ITestManager.class.getMethod( "runAsJob", 
+                                                    String.class ),
+                      new Object[] { PATH + FILENAME },
+                      m ) );
+        job.schedule();
+        assertMethodRun();
+    }
+    
+    @Test
+    public void testExtendedVoidJobMethodIFile() throws Throwable {
+        assertTrue( file.exists() );
+        
+        ExtendedBioclipseJob<?> job
+            = (ExtendedBioclipseJob<?>) 
+              dispatcher.invoke( 
+                  new MyInvocation(
+                      ITestManager.class.getMethod( "runAsJob", 
+                                                    IFile.class ),
+                      new Object[] { PATH + FILENAME },
+                      m ) );
+        job.schedule();
+        assertMethodRun();
+    }
 
+    @Test
+    public void testExtendedGetBioObjects() throws Throwable {
+        final int chunks[] = {0};
+        BioclipseJob<?> job = (BioclipseJob<?>) dispatcher.invoke( 
+            new MyInvocation(
+                ITestManager.class.getMethod( "extendedGetBioObjects", 
+                                              IFile.class, 
+                                              BioclipseJobUpdateHook.class),
+            new Object[] { file, 
+                           new BioclipseJobUpdateHook("") {
+                               @Override
+                               public void partialReturn( Object chunk ) {
+                                   assertNotNull( chunk );
+                                   chunks[0]++;
+                               }
+                           } }, 
+            m ) );
+        job.schedule();
+        job.join();
+        assertMethodRun();
+    }
     
     protected static class MyInvocation implements MethodInvocation {
 

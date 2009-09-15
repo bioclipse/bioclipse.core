@@ -101,4 +101,18 @@ public class TestManager implements IBioclipseManager {
         assertNotNull( monitor );
         done();
     }
+    
+    /*
+     * 
+     */
+    public void extendedGetBioObjects( IFile file, 
+                                       IReturner returner, 
+                                       IProgressMonitor monitor ) {
+
+        assertNotNull( file );
+        assertNotNull( monitor );
+        returner.partialReturn( new BioObject(){} );
+        returner.partialReturn( new BioObject(){} );
+        done();
+    }
 }

@@ -9,6 +9,7 @@ import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
+import net.bioclipse.jobs.ExtendedBioclipseJob;
 import net.bioclipse.managers.business.GuiAction;
 import net.bioclipse.managers.business.IBioclipseManager;
 
@@ -51,4 +52,17 @@ public interface ITestManager extends IBioclipseManager {
     public BioclipseJob<Void> voidJobMethod(String path);
     
     public BioclipseJob<Void> voidJobMethod(IFile file);
+    
+    /*
+     * ExtendedBioclipseJob
+     */
+    
+    public ExtendedBioclipseJob<Void> extendedVoidJobMethod(String path);
+    
+    public ExtendedBioclipseJob<Void> extendedVoidJobMethod(IFile file);
+
+    public ExtendedBioclipseJob<IBioObject> 
+               extendedGetBioObjects( IFile file, 
+                                      BioclipseJobUpdateHook h );
+
 }
