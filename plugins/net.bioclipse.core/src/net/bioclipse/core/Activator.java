@@ -13,6 +13,7 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 
+import net.bioclipse.core.util.FileUtil;
 import net.bioclipse.core.util.ListFuncs;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.core.util.Predicate;
@@ -60,6 +61,7 @@ public class Activator extends Plugin {
     }
     
     public void stop(BundleContext context) throws Exception {
+        FileUtil.deleteLinkedProject();
         plugin = null;
         super.stop(context);
     }
