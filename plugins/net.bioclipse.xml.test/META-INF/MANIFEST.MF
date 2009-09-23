@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Bioclipse XML Unit Test Plug-in
+Bundle-SymbolicName: net.bioclipse.xml.test; singleton:=true
+Bundle-Version: 2.1.0.v20090910
+Bundle-Activator: net.bioclipse.xml.test.Activator
+Bundle-Vendor: The Bioclipse Project
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ net.bioclipse.core,
+ net.bioclipse.core.tests,
+ net.bioclipse.scripting,
+ org.springframework.bundle.spring.aop,
+ net.sf.cglib,
+ org.springframework.osgi.aopalliance.osgi,
+ org.junit4,
+ net.bioclipse.xml,
+ net.bioclipse.ui.business;bundle-version="2.1.0"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Import-Package: org.apache.log4j
+Bundle-ActivationPolicy: lazy

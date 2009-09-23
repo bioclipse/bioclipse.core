@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:osgi="http://www.springframework.org/schema/osgi"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+  <osgi:service id="javaXmlManagerOSGI"
+                ref="javaXmlManager"
+                interface="net.bioclipse.xml.business.IJavaXmlManager" />
+
+  <osgi:service id="javaScriptXmlManagerOSGI"
+                ref="javaScriptXmlManager"
+                interface="net.bioclipse.xml.business.IJavaScriptXmlManager" />
+
+  <osgi:reference id="recordingAdvice"
+                  interface="net.bioclipse.recording.IRecordingAdvice" />
+
+  <osgi:reference id="javaManagerDispatcherAdvisor"
+                  interface="net.bioclipse.managers.business.IJavaManagerDispatcherAdvisor" />
+
+  <osgi:reference id="javaScriptManagerDispatcherAdvisor"
+                  interface="net.bioclipse.managers.business.IJavaScriptManagerDispatcherAdvisor" />
+
+  <osgi:reference id="wrapInProxyAdvice"
+                  interface="net.bioclipse.recording.IWrapInProxyAdvice" />
+
+  <bean id="recordingAdvisor"
+        class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice"  ref="recordingAdvice" />
+        <property name="pattern" value=".*" /> <!-- See also class implementation -->
+  </bean>
+
+  <bean id="XmlManagerTarget"
+        class="net.bioclipse.xml.business.XmlManager">
+  </bean>
+
+  <bean id="javaScriptXmlManager"
+        class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="target"
+              ref="XmlManagerTarget" />
+    <property name="proxyInterfaces"
+              value="net.bioclipse.xml.business.IJavaScriptXmlManager" />
+    <property name="interceptorNames" >
+        <list>
+            <value>recordingAdvisor</value>
+            <value>wrapInProxyAdvice</value>
+            <value>javaScriptManagerDispatcherAdvisor</value>
+        </list>
+    </property>
+  </bean>
+
+  <bean id="javaXmlManager"
+        class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="target"
+              ref="XmlManagerTarget" />
+    <property name="proxyInterfaces"
+              value="net.bioclipse.xml.business.IJavaXmlManager" />
+    <property name="interceptorNames" >
+        <list>
+                <value>recordingAdvisor</value>
+                <value>wrapInProxyAdvice</value>
+                <value>javaManagerDispatcherAdvisor</value>
+        </list>
+    </property>
+  </bean>
+</beans>
