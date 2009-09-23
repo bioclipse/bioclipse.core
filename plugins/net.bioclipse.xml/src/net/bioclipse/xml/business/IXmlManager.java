@@ -30,7 +30,7 @@ public interface IXmlManager extends IBioclipseManager {
         params="String filename"
     )
     @TestMethods("testIsWellFormed")
-    public Validation.Event isWellFormed(String filename);
+    public boolean isWellFormed(String filename);
 
     @PublishedMethod(
         methodSummary="Checks if the XML document is valid against the " +
@@ -38,7 +38,7 @@ public interface IXmlManager extends IBioclipseManager {
         params="String filename"
     )
     @TestMethods("testIsValid")
-    public Validation.Event isValid(String filename);
+    public boolean isValid(String filename);
 
     @PublishedMethod(
         methodSummary="Lists all namespaces used in the XML document.",
