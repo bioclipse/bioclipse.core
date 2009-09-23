@@ -17,6 +17,9 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.SchemaFactory;
 
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.managers.business.IBioclipseManager;
@@ -154,6 +157,61 @@ public class XmlManager implements IBioclipseManager {
         } catch (SAXException exception) {
             throw new BioclipseException(
                 "Error creating Xerces parser",
+                exception
+            );
+        }
+        return errors;
+    }
+
+    public List<XMLError> validateAgainstXMLSchema(
+        IFile file, IFile schema, IProgressMonitor monitor)
+    throws BioclipseException, CoreException {
+        List<XMLError> errors = new ArrayList<XMLError>();
+        logger.debug("Checking for validness");
+        try {
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            factory.setValidating(false);
+            factory.setNamespaceAware(true);
+
+            SchemaFactory schemaFactory = 
+                SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+            factory.setSchema(schemaFactory.newSchema(
+                new Source[] {new StreamSource(schema.getContents())})
+            );
+
+            SAXParser parser = factory.newSAXParser();
+            XMLReader reader = parser.getXMLReader();
+            SimpleErrorHandler errorHandler = new SimpleErrorHandler();
+            reader.setErrorHandler(errorHandler);
+            
+            Builder builder = new Builder(reader);
+            builder.build(file.getContents());
+            errors.addAll(errorHandler.getErrors());
+        } catch (ValidityException exception) {
+            int errorCount = exception.getErrorCount();
+            for (int i=0; i<errorCount; i++) {
+                errors.add(new XMLError(exception.getValidityError(i)));
+            }
+        } catch (ParsingException exception) {
+            errors.add(new XMLError(exception.getMessage()));
+        } catch (IOException exception) {
+            throw new BioclipseException(
+                    "Error while opening file",
+                    exception
+            );
+        } catch (CoreException exception) {
+            throw new BioclipseException(
+                    "Error while opening file",
+                    exception
+            );
+        } catch (SAXException exception) {
+            throw new BioclipseException(
+                "Error creating Xerces parser",
+                exception
+            );
+        } catch (ParserConfigurationException exception) {
+            throw new BioclipseException(
+                "Error while setting up validatin engine",
                 exception
             );
         }
