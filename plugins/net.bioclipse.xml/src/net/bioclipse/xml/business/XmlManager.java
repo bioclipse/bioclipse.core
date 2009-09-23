@@ -31,9 +31,16 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
+
+import com.thaiopensource.util.PropertyMapBuilder;
+import com.thaiopensource.validate.ValidateProperty;
+import com.thaiopensource.validate.ValidationDriver;
+import com.thaiopensource.validate.auto.AutoSchemaReader;
+import com.thaiopensource.validate.prop.rng.RngProperty;
 
 public class XmlManager implements IBioclipseManager {
 
@@ -218,4 +225,35 @@ public class XmlManager implements IBioclipseManager {
         return errors;
     }
 
+    public List<XMLError> validateAgainstRelaxNG(
+            IFile file, IFile schema, IProgressMonitor monitor)
+        throws BioclipseException, CoreException {
+            List<XMLError> errors = new ArrayList<XMLError>();
+            logger.debug("Checking for validness");
+            PropertyMapBuilder properties = new PropertyMapBuilder();
+            SimpleErrorHandler errorHandler = new SimpleErrorHandler();
+            properties.put(ValidateProperty.ERROR_HANDLER, errorHandler);      
+            RngProperty.CHECK_ID_IDREF.add(properties);              
+            ValidationDriver driver = new ValidationDriver(
+                properties.toPropertyMap(),
+                new AutoSchemaReader()
+            );
+            try {
+                driver.loadSchema(new InputSource(schema.getContents()));
+                errors.addAll(errorHandler.getErrors());
+                driver.validate(new InputSource(file.getContents()));
+                errors = errorHandler.getErrors();
+            } catch (IllegalStateException exception) {
+                // ignore this for now
+            } catch (SAXException exception) {
+                errors.add(new XMLError(exception.getMessage()));
+            } catch (IOException exception) {
+                throw new BioclipseException(
+                    "Error while reading input" + exception.getMessage(),
+                    exception
+                );
+            }
+
+            return errors;
+        }
 }
