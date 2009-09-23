@@ -11,6 +11,8 @@
 package net.bioclipse.xml.business;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.managers.business.IBioclipseManager;
@@ -94,8 +96,9 @@ public class XmlManager implements IBioclipseManager {
         return true;
     }
 
-    public Validation.Event validate(IFile file, IProgressMonitor monitor)
+    public List<XMLError> validate(IFile file, IProgressMonitor monitor)
     throws BioclipseException, CoreException {
+        List<XMLError> errors = new ArrayList<XMLError>();
         logger.debug("Checking for validness");
         try {
             XMLReader xerces = XMLReaderFactory.createXMLReader(
@@ -109,9 +112,12 @@ public class XmlManager implements IBioclipseManager {
             Builder parser = new Builder(xerces, true);
             parser.build(file.getContents());
         } catch (ValidityException exception) {
-            return Validation.Event.NOT_VALID;
+            int errorCount = exception.getErrorCount();
+            for (int i=0; i<errorCount; i++) {
+                errors.add(new XMLError(exception.getValidityError(i)));
+            }
         } catch (ParsingException exception) {
-            return Validation.Event.NOT_VALID;
+            errors.add(new XMLError(exception.getMessage()));
         } catch (IOException exception) {
             throw new BioclipseException(
                     "Error while opening file",
@@ -128,7 +134,7 @@ public class XmlManager implements IBioclipseManager {
                 exception
             );
         }
-        return Validation.Event.IS_VALID;
+        return errors;
     }
 
 }

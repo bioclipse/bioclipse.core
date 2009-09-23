@@ -38,7 +38,7 @@ public interface IXmlManager extends IBioclipseManager {
         params="String filename"
     )
     @TestMethods("testValidate")
-    public Validation.Event validate(String filename);
+    public List<XMLError> validate(String filename);
 
     @PublishedMethod(
         methodSummary="Checks if the XML document is valid against the " +
@@ -61,7 +61,7 @@ public interface IXmlManager extends IBioclipseManager {
         params="String filename, String schematronFilename"
     )
     @TestMethods("testValidateAgainstSchematron")
-    public Validation.Event validateAgainstSchematron(
+    public List<XMLError> validateAgainstSchematron(
         String filename,
         String schematronFilename
     );
@@ -72,7 +72,7 @@ public interface IXmlManager extends IBioclipseManager {
         params="String filename, String relaxngFilename"
     )
     @TestMethods("testValidateAgainstRelaxNG")
-    public Validation.Event validateAgainstRelaxNG(
+    public List<XMLError> validateAgainstRelaxNG(
         String filename,
         String relaxngFilename
     );
@@ -83,7 +83,7 @@ public interface IXmlManager extends IBioclipseManager {
         params="String filename, String xmlSchemaFilename"
     )
     @TestMethods("testValidateAgainstXMLSchema")
-    public Validation.Event validateAgainstXMLSchema(
+    public List<XMLError> validateAgainstXMLSchema(
         String filename,
         String xmlSchemaFilename
     );
