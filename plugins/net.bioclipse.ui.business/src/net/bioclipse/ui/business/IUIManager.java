@@ -133,6 +133,15 @@ public interface IUIManager extends IBioclipseManager {
     public void newFile( String path) throws CoreException, BioclipseException;
 
     @Recorded
+    @PublishedMethod(
+        params = "String path, String content",
+        methodSummary = "Creates a new file at the specified path, with the " +
+        		"given content."
+    )
+    public IFile newFile(String path, String content)
+    throws CoreException, BioclipseException;
+    
+    @Recorded
     @PublishedMethod(methodSummary = "Closes the active editor")
     public void closeActiveEditor();
 

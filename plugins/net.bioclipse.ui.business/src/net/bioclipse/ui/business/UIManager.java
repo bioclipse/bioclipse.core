@@ -317,16 +317,22 @@ public class UIManager implements IBioclipseManager {
 
     
     public void newFile( String path) throws CoreException, BioclipseException {
+        newFile(path, "");
+    }
+
+    public IFile newFile(String path, String content)
+        throws CoreException, BioclipseException {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         IWorkspaceRoot root = workspace.getRoot();
         IPath ipath=new Path(path);
         IFile file=root.getFile( ipath );
 
         if (!file.exists()){
-            byte[] bytes = "".getBytes();
+            byte[] bytes = content.getBytes();
             InputStream source = new ByteArrayInputStream(bytes);
             file.create(source, IResource.NONE, new NullProgressMonitor());
         }
+        return file;
     }
 
     public void closeActiveEditor() {
