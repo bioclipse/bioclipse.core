@@ -22,6 +22,9 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 public class XmlManager implements IBioclipseManager {
 
@@ -57,6 +60,75 @@ public class XmlManager implements IBioclipseManager {
             );
         }
         return true;
+    }
+
+    public boolean isValid(IFile file, IProgressMonitor monitor)
+    throws BioclipseException, CoreException {
+        logger.debug("Checking for validate");
+        try {
+            XMLReader xerces = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser"); 
+            xerces.setFeature("http://apache.org/xml/features/validation/schema", true);                         
+
+            Builder parser = new Builder(xerces, true);
+            parser.build(file.getContents());
+        } catch (ValidityException exception) {
+            return false;
+        } catch (ParsingException exception) {
+            return false;
+        } catch (IOException exception) {
+            throw new BioclipseException(
+                    "Error while opening file",
+                    exception
+            );
+        } catch (CoreException exception) {
+            throw new BioclipseException(
+                    "Error while opening file",
+                    exception
+            );
+        } catch (SAXException exception) {
+            throw new BioclipseException(
+                "Error creating Xerces parser",
+                exception
+            );
+        }
+        return true;
+    }
+
+    public Validation.Event validate(IFile file, IProgressMonitor monitor)
+    throws BioclipseException, CoreException {
+        logger.debug("Checking for validness");
+        try {
+            XMLReader xerces = XMLReaderFactory.createXMLReader(
+                "org.apache.xerces.parsers.SAXParser"
+            ); 
+            xerces.setFeature(
+                "http://apache.org/xml/features/validation/schema",
+                true
+            );                         
+
+            Builder parser = new Builder(xerces, true);
+            parser.build(file.getContents());
+        } catch (ValidityException exception) {
+            return Validation.Event.NOT_VALID;
+        } catch (ParsingException exception) {
+            return Validation.Event.NOT_VALID;
+        } catch (IOException exception) {
+            throw new BioclipseException(
+                    "Error while opening file",
+                    exception
+            );
+        } catch (CoreException exception) {
+            throw new BioclipseException(
+                    "Error while opening file",
+                    exception
+            );
+        } catch (SAXException exception) {
+            throw new BioclipseException(
+                "Error creating Xerces parser",
+                exception
+            );
+        }
+        return Validation.Event.IS_VALID;
     }
 
 }

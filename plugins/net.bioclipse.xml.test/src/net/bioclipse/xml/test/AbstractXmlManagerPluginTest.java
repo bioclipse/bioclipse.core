@@ -13,7 +13,6 @@ package net.bioclipse.xml.test;
 import junit.framework.Assert;
 import net.bioclipse.ui.business.UIManager;
 import net.bioclipse.xml.business.IXmlManager;
-import net.bioclipse.xml.business.Validation;
 
 import org.junit.Test;
 
@@ -32,8 +31,7 @@ public abstract class AbstractXmlManagerPluginTest {
         ui.newFile(filename,
             "<foo/>"
         );
-        Validation.Event event = managerNamespace.isWellFormed(filename);
-        Assert.assertEquals(Validation.Event.IS_WELL_FORMED, event);
+        Assert.assertTrue(managerNamespace.isWellFormed(filename));
     }
 
     @Test public void testIsNotWellFormed() throws Exception {
@@ -41,8 +39,7 @@ public abstract class AbstractXmlManagerPluginTest {
         ui.newFile(filename,
             "<foo>"
         );
-        Validation.Event event = managerNamespace.isWellFormed(filename);
-        Assert.assertEquals(Validation.Event.NOT_WELL_FORMED, event);
+        Assert.assertFalse(managerNamespace.isWellFormed(filename));
     }
 
     @Test public void testListNamespaces() {

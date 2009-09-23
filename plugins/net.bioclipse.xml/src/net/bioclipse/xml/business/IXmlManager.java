@@ -33,6 +33,14 @@ public interface IXmlManager extends IBioclipseManager {
     public boolean isWellFormed(String filename);
 
     @PublishedMethod(
+        methodSummary="Validates the XML document against the " +
+        "schemas defined in the document itself.",
+        params="String filename"
+    )
+    @TestMethods("testValidate")
+    public Validation.Event validate(String filename);
+
+    @PublishedMethod(
         methodSummary="Checks if the XML document is valid against the " +
         "schemas defined in the document itself.",
         params="String filename"

@@ -19,7 +19,9 @@ public class Validation {
     
     public enum Event {
         IS_WELL_FORMED("The document is well-formed.", EventType.OK),
-        NOT_WELL_FORMED("The document is not well-formed.", EventType.ERROR);
+        NOT_WELL_FORMED("The document is not well-formed.", EventType.ERROR),
+        IS_VALID("The document is valid.", EventType.OK),
+        NOT_VALID("The document is not valid.", EventType.ERROR);
 
         String message;
         EventType type;
