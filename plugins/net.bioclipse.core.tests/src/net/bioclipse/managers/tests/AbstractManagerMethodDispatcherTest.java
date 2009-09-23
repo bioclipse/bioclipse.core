@@ -32,8 +32,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.sun.tools.javac.tree.Tree.Throw;
-
 /**
  * This class primarily checks that a method is being called and no exceptions 
  * thrown. In some but not in all cases it also checks that a Job is 
