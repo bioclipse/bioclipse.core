@@ -10,9 +10,18 @@
  ******************************************************************************/
 package net.bioclipse.xml.business;
 
+import java.io.IOException;
+
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.managers.business.IBioclipseManager;
+import nu.xom.Builder;
+import nu.xom.ParsingException;
+import nu.xom.ValidityException;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 
 public class XmlManager implements IBioclipseManager {
 
@@ -25,4 +34,29 @@ public class XmlManager implements IBioclipseManager {
     public String getManagerName() {
         return "xml";
     }
+
+    public boolean isWellFormed(IFile file, IProgressMonitor monitor)
+        throws BioclipseException, CoreException {
+        logger.debug("Checking for well-formedness");
+        try {
+            Builder parser = new Builder(true);
+            parser.build(file.getContents());
+        } catch (ValidityException exception) {
+            return false;
+        } catch (ParsingException exception) {
+            return false;
+        } catch (IOException exception) {
+            throw new BioclipseException(
+                "Error while opening file",
+                exception
+            );
+        } catch (CoreException exception) {
+            throw new BioclipseException(
+                "Error while opening file",
+                exception
+            );
+        }
+        return true;
+    }
+
 }
