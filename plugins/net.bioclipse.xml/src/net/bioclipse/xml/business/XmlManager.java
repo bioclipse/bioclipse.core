@@ -14,6 +14,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.managers.business.IBioclipseManager;
 import nu.xom.Builder;
@@ -44,11 +48,25 @@ public class XmlManager implements IBioclipseManager {
         throws BioclipseException, CoreException {
         logger.debug("Checking for well-formedness");
         try {
-            Builder parser = new Builder(true);
-            parser.build(file.getContents());
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            factory.setValidating(false);
+            factory.setNamespaceAware(true);
+
+            SAXParser parser = factory.newSAXParser();
+
+            XMLReader reader = parser.getXMLReader();
+            reader.setErrorHandler(new DummyErrorHandler());
+
+            Builder builder = new Builder(reader);
+            builder.build(file.getContents());
         } catch (ValidityException exception) {
+            logger.debug(exception.getMessage());
             return false;
         } catch (ParsingException exception) {
+            logger.debug(exception.getMessage());
+            return false;
+        } catch (SAXException exception) {
+            logger.debug(exception.getMessage());
             return false;
         } catch (IOException exception) {
             throw new BioclipseException(
@@ -58,6 +76,11 @@ public class XmlManager implements IBioclipseManager {
         } catch (CoreException exception) {
             throw new BioclipseException(
                 "Error while opening file",
+                exception
+            );
+        } catch (ParserConfigurationException exception) {
+            throw new BioclipseException(
+                "Error while setting up validatin engine",
                 exception
             );
         }
