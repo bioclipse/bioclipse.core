@@ -10,18 +10,25 @@
  ******************************************************************************/
 package net.bioclipse.xml.test;
 
-import junit.framework.Assert;
+import net.bioclipse.core.tests.AbstractManagerTest;
+import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.ui.business.UIManager;
 import net.bioclipse.xml.business.IXmlManager;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-public abstract class AbstractXmlManagerPluginTest {
+public abstract class AbstractXmlManagerPluginTest extends AbstractManagerTest {
 
     protected static IXmlManager managerNamespace;
     
     private static UIManager ui = new UIManager();
-    
+
+    @Override
+    public IBioclipseManager getManager() {
+        return managerNamespace;
+    }
+
     @Test public void testIsValid() throws Exception {
         Assert.fail("Not implemented yet.");
     }
@@ -55,6 +62,10 @@ public abstract class AbstractXmlManagerPluginTest {
     }
 
     @Test public void testValidateAgainstXMLSchema() {
+        Assert.fail("Not implemented yet.");
+    }
+
+    @Test public void testValidate() {
         Assert.fail("Not implemented yet.");
     }
 
