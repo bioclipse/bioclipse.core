@@ -29,6 +29,11 @@ public abstract class AbstractXmlManagerPluginTest extends AbstractManagerTest {
         return managerNamespace;
     }
 
+    @Override
+    public Class<? extends IBioclipseManager> getManagerInterface() {
+        return IXmlManager.class;
+    }
+
     @Test public void testIsValid() throws Exception {
         Assert.fail("Not implemented yet.");
     }
