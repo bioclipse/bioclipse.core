@@ -22,7 +22,7 @@ import net.bioclipse.managers.business.IBioclipseManager;
     value="Manager to analyze and validate XML documents."
 )
 @TestClasses("net.bioclipse.xml.test.AllXmlManagerTests," +
-		     "net.bioclipse.xml.test.AllXmlManagerPluginTests")
+		     "net.bioclipse.xml.test.AbstractXmlManagerPluginTest")
 public interface IXmlManager extends IBioclipseManager {
 
     @PublishedMethod(
