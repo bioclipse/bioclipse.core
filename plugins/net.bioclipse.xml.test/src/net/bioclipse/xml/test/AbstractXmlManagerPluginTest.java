@@ -16,6 +16,7 @@ import net.bioclipse.ui.business.UIManager;
 import net.bioclipse.xml.business.IXmlManager;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public abstract class AbstractXmlManagerPluginTest extends AbstractManagerTest {
@@ -23,6 +24,11 @@ public abstract class AbstractXmlManagerPluginTest extends AbstractManagerTest {
     protected static IXmlManager managerNamespace;
     
     private static UIManager ui = new UIManager();
+
+    @BeforeClass
+    public static void setUpVirtualProject() {
+        net.bioclipse.core.Activator.getVirtualProject();
+    }
 
     @Override
     public IBioclipseManager getManager() {
