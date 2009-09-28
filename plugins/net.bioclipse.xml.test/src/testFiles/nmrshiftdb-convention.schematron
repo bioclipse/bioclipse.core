@@ -1,0 +1,82 @@
+<schema xml:lang="en" version="0.2"
+  xmlns="http://purl.oclc.org/dsdl/schematron">
+
+  <!-- Copyright (c) 2006 Stefan Kuhn, Egon Willighagen -->
+ 
+  <!-- Version 0.2 is the specification distributed along with the CMLSpec article. -->
+
+  <title>CML Convention for NMRShiftDB.org</title>
+
+  <ns prefix='cml' uri='http://www.xml-cml.org/schema'/>
+
+  <!-- TODO
+
+       * make 'phase' for submission (does not seem to work with xmllint :( )
+       * make a XSLT to create a nice HTML version of this
+
+  -->
+
+  <!-- convention stuff -->
+
+  <pattern name="Convention specification"> 
+    <rule id="conv1" context="/*"> 
+      <assert test="@convention and @convention='nmrshiftdb'">The root element must specify @convention="nmrshiftdb".</assert>
+    </rule>
+  </pattern>
+
+  <!-- hierarchy of elements -->
+
+  <pattern name="Element Hierarchy">
+    <rule id="hier1" context="/*"> 
+      <assert test="name()='cml' or name()='molecule' or name()='spectrum'">The root is not &lt;cml>, &lt;molecule> or &lt;spectrum>.</assert>
+    </rule>
+    <rule id="hier2" context="cml:cml">
+      <assert test="count(cml:molecule) &lt; 2">Only one &lt;molecule> element may be present.</assert>
+    </rule>
+    <rule context="cml:molecule"> 
+      <assert id="hier3" test="cml:atomArray">The &lt;molecule> element must contain a &lt;atomArray> element.</assert>
+      <assert id="hier4" test="cml:bondArray">The &lt;molecule> element must contain a &lt;bondArray> element.</assert>
+    </rule>
+    <rule context="cml:spectrum"> 
+      <assert id="hier5" test="cml:conditionList">The &lt;spectrum> element must contain a &lt;conditionList> element.</assert>
+      <assert id="hier6" test="cml:metadataList">The &lt;spectrum> element must contain a &lt;metadataList> element.</assert>
+      <assert id="hier7" test="cml:substanceList">The &lt;spectrum> element must contain a &lt;substanceList> element.</assert>
+      <assert id="hier8" test="cml:peakList">The &lt;spectrum> element must contain a &lt;peakList> element.</assert>
+    </rule>
+  </pattern>
+
+  <!-- element attributes -->
+
+  <pattern name="Required attributes">
+    <rule id="attr1" context="cml:atom">
+      <assert test="@id">The &lt;atom> element must have an @id attribute.</assert>
+    </rule>
+    <rule context="cml:spectrum">
+      <assert id="attr2" test="@moleculeRef">The &lt;spectrum> element must have an @moleculeRef attribute.</assert>
+      <assert id="attr3" test="@type">The &lt;spectrum> element must have an @type attribute.</assert>
+    </rule>
+    <rule context="cml:peak">
+      <assert id="attr4" test="@xValue">For each &lt;peak> the @xValue must be given.</assert>
+      <assert id="attr5" test="@xUnits">For each &lt;peak> the @xUnits must be given.</assert>
+      <report id="attr6" test="@yValue and not(@yUnits)">If @yValue is given for a &lt;peak>, then @yUnits must be given too.</report>
+      <assert id="attr7" test="@atomRefs">For each &lt;peak> the @atomRefs must be given.</assert>
+    </rule>
+  </pattern>
+
+  <!-- NMR details -->
+
+  <pattern name="Required NMR details">
+    <rule context="cml:metadataList"> 
+      <assert id="info1" test="cml:metadata[@name='nmr:assignmentMethod']">The &lt;metadataList> element must specify the assignment method using @name="nmr:assignmentMethod".</assert>
+      <assert id="info2" test="cml:metadata[@name='nmr:OBSERVENUCLEUS']">The &lt;metadataList> element must specify the NMR nucleus using @name="nmr:OBSERVENUCLEUS".</assert>
+    </rule>
+    <rule context="cml:conditionList">
+      <assert id="info3" test="cml:scalar[@dictRef='cml:field']">The &lt;metadataList> element must specify the NMR field strenght method using @dictRef="cml:field".</assert>
+      <assert id="info4" test="cml:scalar[@dictRef='cml:temp']">The &lt;metadataList> element must specify the temperature using @dictRef="cml:temp".</assert>
+    </rule>
+    <rule id="info5" context="cml:substanceList">
+      <assert test="cml:substance[@role='subst:solvent']">The &lt;substanceList> element must specify the solvent using @role="subst:solvent".</assert>
+    </rule>
+  </pattern>
+
+</schema>
