@@ -60,6 +60,14 @@ public abstract class AbstractXmlManagerPluginTest extends AbstractManagerTest {
             "/testFiles/dcmes-xml-dtd.dtd",
             "dcmes-xml-dtd.dtd"
         );
+        copyResourceIntoVirtual(
+            "/testFiles/example1.xml",
+            "example1.xml"
+        );
+        copyResourceIntoVirtual(
+            "/testFiles/nmrshiftdb-convention.schematron",
+            "nmrshiftdb-convention.schematron"
+        );
     }
 
     @Override
@@ -99,7 +107,12 @@ public abstract class AbstractXmlManagerPluginTest extends AbstractManagerTest {
     }
 
     @Test public void testValidateAgainstSchematron() {
-        Assert.fail("Not implemented yet.");
+        /* List<XMLError> errors = managerNamespace.validateAgainstSchematron(
+            "/Virtual/example1.xml",
+            "/Virtual/nmrshiftdb-convention.schematron"
+        );
+        Assert.assertEquals(0, errors.size()); */
+        Assert.fail("No implementation for ISO Schematron validation yet.");
     }
 
     private static IFile copyResourceIntoVirtual(
