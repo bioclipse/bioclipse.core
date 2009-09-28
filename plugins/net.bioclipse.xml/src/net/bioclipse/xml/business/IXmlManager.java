@@ -57,7 +57,7 @@ public interface IXmlManager extends IBioclipseManager {
 
     @PublishedMethod(
         methodSummary="Validates the XML document against the given " +
-        	"Schematron document.",
+        	"Schematron 1.5 document.",
         params="String filename, String schematronFilename"
     )
     @TestMethods("testValidateAgainstSchematron")

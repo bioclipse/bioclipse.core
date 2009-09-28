@@ -68,6 +68,10 @@ public abstract class AbstractXmlManagerPluginTest extends AbstractManagerTest {
             "/testFiles/nmrshiftdb-convention.schematron",
             "nmrshiftdb-convention.schematron"
         );
+        copyResourceIntoVirtual(
+            "/testFiles/schematron1-5.sch",
+            "schematron1-5.sch"
+        );
     }
 
     @Override
@@ -107,12 +111,19 @@ public abstract class AbstractXmlManagerPluginTest extends AbstractManagerTest {
     }
 
     @Test public void testValidateAgainstSchematron() {
-        /* List<XMLError> errors = managerNamespace.validateAgainstSchematron(
-            "/Virtual/example1.xml",
-            "/Virtual/nmrshiftdb-convention.schematron"
+        List<XMLError> errors = managerNamespace.validateAgainstSchematron(
+            "/Virtual/schematron1-5.sch",
+            "/Virtual/schematron1-5.sch"
         );
-        Assert.assertEquals(0, errors.size()); */
-        Assert.fail("No implementation for ISO Schematron validation yet.");
+        Assert.assertEquals(0, errors.size());
+    }
+
+    @Test public void testValidateAgainstSchematron_Invalid() {
+        List<XMLError> errors = managerNamespace.validateAgainstSchematron(
+            "/Virtual/example1.xml",
+            "/Virtual/schematron1-5.sch"
+        );
+        Assert.assertNotSame(0, errors.size());
     }
 
     private static IFile copyResourceIntoVirtual(
