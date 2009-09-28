@@ -10,12 +10,9 @@
  ******************************************************************************/
 package net.bioclipse.xml.test;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 
-import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.tests.AbstractManagerTest;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.ui.business.UIManager;
@@ -51,6 +48,18 @@ public abstract class AbstractXmlManagerPluginTest extends AbstractManagerTest {
             "/testFiles/datatype-sample.rng",
             "schema.rng"
         );
+        copyResourceIntoVirtual(
+            "/testFiles/validRDF.xml",
+            "validRDF.xml"
+        );
+        copyResourceIntoVirtual(
+            "/testFiles/rdfRDF.xml",
+            "rdfRDF.xml"
+        );
+        copyResourceIntoVirtual(
+            "/testFiles/dcmes-xml-dtd.dtd",
+            "dcmes-xml-dtd.dtd"
+        );
     }
 
     @Override
@@ -64,7 +73,9 @@ public abstract class AbstractXmlManagerPluginTest extends AbstractManagerTest {
     }
 
     @Test public void testIsValid() throws Exception {
-        Assert.fail("Not implemented yet.");
+        Assert.assertTrue(
+            managerNamespace.isValid("/Virtual/validRDF.xml")
+        );
     }
 
     @Test public void testIsWellFormed() throws Exception {
@@ -124,11 +135,18 @@ public abstract class AbstractXmlManagerPluginTest extends AbstractManagerTest {
     }
 
     @Test public void testValidateAgainstXMLSchema() {
-        Assert.fail("Not implemented yet.");
+        List<XMLError> errors = managerNamespace.validateAgainstXMLSchema(
+            "/Virtual/validRDF.xml",
+            "/Virtual/rdfRDF.xml"
+        );
+        Assert.assertNotSame(0, errors.size());
     }
 
     @Test public void testValidate() {
-        Assert.fail("Not implemented yet.");
+        List<XMLError> errors = managerNamespace.validate(
+            "/Virtual/validRDF.xml"
+        );
+        Assert.assertEquals(0, errors.size());
     }
 
 }
