@@ -35,15 +35,33 @@ public class SimpleErrorHandler implements ErrorHandler {
     }
 
     public void error(SAXParseException exception) throws SAXException {
-        errors.add(new XMLError(exception.getMessage()));
+        errors.add(
+            new XMLError(
+                exception.getMessage(),
+                exception.getLineNumber(),
+                exception.getColumnNumber()
+            )
+        );
     }
 
     public void fatalError(SAXParseException exception) throws SAXException {
-        errors.add(new XMLError(exception.getMessage()));
+        errors.add(
+            new XMLError(
+                exception.getMessage(),
+                exception.getLineNumber(),
+                exception.getColumnNumber()
+            )
+        );
     }
 
     public void warning(SAXParseException exception) throws SAXException {
-        errors.add(new XMLError(exception.getMessage()));
+        errors.add(
+            new XMLError(
+                exception.getMessage(),
+                exception.getLineNumber(),
+                exception.getColumnNumber()
+            )
+        );
     }
 
 }

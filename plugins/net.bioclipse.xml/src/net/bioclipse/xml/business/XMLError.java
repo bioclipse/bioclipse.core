@@ -12,13 +12,24 @@ package net.bioclipse.xml.business;
 
 public class XMLError {
 
+    private int lineNumber = -1;
+    private int columnNumber = -1;
     private String message;
 
     public XMLError(String message) {
         this.message = message;
     }
 
+    public XMLError(String message, int lineNumber, int columnNumber) {
+        this.message = message;
+        this.lineNumber = lineNumber;
+        this.columnNumber = columnNumber;
+    }
+
     public String toString() {
+        if (lineNumber != -1 && columnNumber != -1)
+            return "l" + lineNumber + ",c" + columnNumber 
+                   + ": " + message;
         return message;
     }
 
