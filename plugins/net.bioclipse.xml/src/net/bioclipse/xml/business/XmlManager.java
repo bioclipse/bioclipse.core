@@ -295,4 +295,22 @@ public class XmlManager implements IBioclipseManager {
 
             return errors;
         }
+
+    public List<String> listNamespaces(IFile file) throws BioclipseException {
+        try {
+            javax.xml.parsers.SAXParserFactory spf =
+                javax.xml.parsers.SAXParserFactory.newInstance();
+            spf.setNamespaceAware(true);
+            javax.xml.parsers.SAXParser saxParser = spf.newSAXParser();
+            XMLReader parser = saxParser.getXMLReader();
+            NamespaceAggregator nsAggr = new NamespaceAggregator();
+            parser.setContentHandler(nsAggr);
+            parser.parse(new InputSource(file.getContents()));
+            return nsAggr.getNamespaces();
+        } catch (Exception exc) {
+            throw new BioclipseException(
+                "Could not instantiate JAXP/SAX XML reader: ", exc
+            );
+        }
+    }
 }

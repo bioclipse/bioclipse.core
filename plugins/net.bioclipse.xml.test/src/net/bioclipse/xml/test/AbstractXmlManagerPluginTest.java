@@ -107,7 +107,17 @@ public abstract class AbstractXmlManagerPluginTest extends AbstractManagerTest {
     }
 
     @Test public void testListNamespaces() {
-        Assert.fail("Not implemented yet.");
+        List<String> namespaces = managerNamespace.listNamespaces(
+            "/Virtual/example1.xml"
+        );
+        Assert.assertEquals(10, namespaces.size());
+    }
+
+    @Test public void testListNamespaces2() {
+        List<String> namespaces = managerNamespace.listNamespaces(
+            "/Virtual/schematron1-5.sch"
+        );
+        Assert.assertEquals(2, namespaces.size());
     }
 
     @Test public void testValidateAgainstSchematron() {
