@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="net.bioclipse.birt_feature"
-      label="Birt_feature Feature"
-      version="0.1.1"
+      label="Bioclipse BIRT"
+      version="2.1.1.v20091002"
       provider-name="The Bioclipse Team"
       plugin="net.bioclipse.birt">
 
