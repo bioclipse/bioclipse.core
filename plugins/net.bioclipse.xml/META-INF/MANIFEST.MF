@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bioclipse XML Plug-in
 Bundle-SymbolicName: net.bioclipse.xml; singleton:=true
-Bundle-Version: 2.1.0.v20090910
+Bundle-Version: 2.1.1.v20091002
 Bundle-Activator: net.bioclipse.xml.Activator
 Bundle-Vendor: The Bioclipse Project
 Export-Package: net.bioclipse.xml, net.bioclipse.xml.business

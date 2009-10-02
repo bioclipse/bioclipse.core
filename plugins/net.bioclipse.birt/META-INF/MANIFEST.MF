@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bioclipse Birt
 Bundle-SymbolicName: net.bioclipse.birt;singleton:=true
-Bundle-Version: 0.1.1
+Bundle-Version: 2.1.1.v20091002
 Bundle-Activator: net.bioclipse.birt.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
