@@ -349,10 +349,13 @@ public class JsConsoleView extends ScriptingConsoleView {
                 return "No such manager: " + managerName
                        + NEWLINE + usageMessage;
 
+            boolean foundMethod = false;
             for (Method method : findAllPublishedMethods(manager.getClass())) {
                 if ( method.getName().equals(methodName) ) {
                     PublishedMethod publishedMethod
                         = method.getAnnotation( PublishedMethod.class );
+
+                    foundMethod = true;
 
                     String line
                         = dashes(Math.min((managerName.length()
@@ -386,6 +389,8 @@ public class JsConsoleView extends ScriptingConsoleView {
                     result.append(NEWLINE);
                 }
             }
+            result.append("No manager method with the name '" + methodName
+                          + "' exists in " + managerName + "." + NEWLINE);
         }
 
         //Doing plain manager help
