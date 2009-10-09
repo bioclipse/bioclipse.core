@@ -53,6 +53,9 @@ public class TimeCalculater {
             result.append( seconds );
             result.append( "s" );
         }
+        if ( timeleft < SECOND ) {
+            result.append( "< 1s" );
+        }
         return result.toString();
     }
 
