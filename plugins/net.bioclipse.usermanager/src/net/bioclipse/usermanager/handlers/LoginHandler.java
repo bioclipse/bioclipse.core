@@ -3,7 +3,7 @@ package net.bioclipse.usermanager.handlers;
 import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
 import net.bioclipse.usermanager.business.IUserManager;
-import net.bioclipse.usermanager.dialogs.UserManagerLoginDialog;
+import net.bioclipse.usermanager.dialogs.LoginDialog;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -28,8 +28,8 @@ public class LoginHandler extends AbstractHandler {
         UserContainer sandboxUserContainer 
             = userManager.getSandBoxUserContainer();
 
-        UserManagerLoginDialog loginDialog = 
-            new UserManagerLoginDialog( PlatformUI
+        LoginDialog loginDialog = 
+            new LoginDialog( PlatformUI
                                         .getWorkbench()
                                         .getActiveWorkbenchWindow()
                                         .getShell(),
