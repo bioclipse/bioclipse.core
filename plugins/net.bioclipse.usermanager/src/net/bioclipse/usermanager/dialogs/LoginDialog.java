@@ -49,10 +49,10 @@ import org.eclipse.ui.handlers.IHandlerService;
  * @author jonalv
  *
  */
-public class UserManagerLoginDialog extends TitleAreaDialog {
+public class LoginDialog extends TitleAreaDialog {
     
     private static final Logger logger 
-        = Logger.getLogger(UserManagerLoginDialog.class);
+        = Logger.getLogger(LoginDialog.class);
 
     private Button         createNewKeyringButton;
     private Label          usernameLabel;
@@ -68,7 +68,7 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
      * Create the dialog
      * @param parentShell
      */
-    public UserManagerLoginDialog( Shell parentShell, 
+    public LoginDialog( Shell parentShell, 
                                    UserContainer userContainer ) {
         super(parentShell);
         
