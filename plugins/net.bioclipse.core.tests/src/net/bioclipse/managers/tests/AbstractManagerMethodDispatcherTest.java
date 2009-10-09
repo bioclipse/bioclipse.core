@@ -1,6 +1,10 @@
 package net.bioclipse.managers.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.AccessibleObject;
@@ -9,14 +13,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.bioclipse.core.domain.RecordableList;
-import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.jobs.ExtendedBioclipseJob;
-import net.bioclipse.managers.business.AbstractManagerMethodDispatcher;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
