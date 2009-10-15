@@ -21,6 +21,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormAttachment;
 
 public class UpdateSitesEditDialog extends TitleAreaDialog{
 
@@ -29,8 +32,14 @@ public class UpdateSitesEditDialog extends TitleAreaDialog{
 	private Text txtUrl;
 	private String name;
 	private String url;
+	private FormData formData_1;
+	private FormData formData_2;
+	private FormData formData_3;
 
 
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public UpdateSitesEditDialog(Shell parentShell) {
 		this(parentShell,"","");
 	}
@@ -49,23 +58,46 @@ public class UpdateSitesEditDialog extends TitleAreaDialog{
 		
 		Composite area = (Composite) super.createDialogArea(parent);
 		Composite container = new Composite(area, SWT.NONE);
+		container.setLayout(new FormLayout());
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		txtName = new Text(container, SWT.BORDER);
-		txtName.setBounds(20, 30, 180, 30);
+		{
+		    formData_1 = new FormData();
+		    formData_1.right = new FormAttachment(100, -10);
+		    txtName.setLayoutData(formData_1);
+		}
 		txtName.setText(name);
 		
 		txtUrl = new Text(container, SWT.BORDER);
-		txtUrl.setBounds(235, 30, 350, 30);
+		{
+		    formData_2 = new FormData();
+		    formData_2.right = new FormAttachment(100, -10);
+		    txtUrl.setLayoutData(formData_2);
+		}
 		txtUrl.setText(url);
 		
 		final Label lblName = new Label(container, SWT.NONE);
-		lblName.setBounds(20, 10, 185, 20);
-		lblName.setText("Name");
+		formData_1.top = new FormAttachment(lblName, 0, SWT.TOP);
+		formData_1.left = new FormAttachment(lblName, 6);
+		{
+		    formData_3 = new FormData();
+		    formData_3.left = new FormAttachment(0, 10);
+		    formData_3.top = new FormAttachment(0, 10);
+		    lblName.setLayoutData(formData_3);
+		}
+		lblName.setText("Name:");
 
 		final Label lblFileExtension = new Label(container, SWT.NONE);
-		lblFileExtension.setBounds(235, 10, 220, 20);
-		lblFileExtension.setText("URL");
+		formData_2.left = new FormAttachment(lblFileExtension, 17);
+		formData_2.bottom = new FormAttachment(lblFileExtension, 0, SWT.BOTTOM);
+		{
+		    FormData formData = new FormData();
+		    formData.top = new FormAttachment(lblName, 14);
+		    formData.left = new FormAttachment(lblName, 0, SWT.LEFT);
+		    lblFileExtension.setLayoutData(formData);
+		}
+		lblFileExtension.setText("URL:");
 
 		return area;
 	}
@@ -128,4 +160,8 @@ public class UpdateSitesEditDialog extends TitleAreaDialog{
 		this.txtName.setText(name);
 	}
 
+	@Override
+	protected boolean isResizable() {
+	    return true;
+	}
 }
