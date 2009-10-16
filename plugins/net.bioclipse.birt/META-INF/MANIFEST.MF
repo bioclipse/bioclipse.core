@@ -7,11 +7,11 @@ Bundle-Activator: net.bioclipse.birt.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.birt.report.viewer;bundle-version="2.3.2",
- org.eclipse.ui.browser;bundle-version="3.2.201",
- org.eclipse.ui.editors;bundle-version="3.4.0",
- org.eclipse.ui.ide;bundle-version="3.4.2",
- org.eclipse.core.resources;bundle-version="3.4.2",
- org.eclipse.birt.report.engine;bundle-version="2.3.2"
+ org.eclipse.birt.report.viewer,
+ org.eclipse.ui.browser,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.ide,
+ org.eclipse.core.resources,
+ org.eclipse.birt.report.engine
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
