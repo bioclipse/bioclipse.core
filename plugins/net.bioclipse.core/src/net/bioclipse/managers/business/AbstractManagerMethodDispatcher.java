@@ -117,7 +117,7 @@ public abstract class AbstractManagerMethodDispatcher
                                  + "monitor. Can not run as Job. Running in " 
                                  + "same thread. This message will not be " 
                                  + "repeated withing the next " + timeout 
-                                 + "seconds";
+                                 + " seconds";
                 if ( !lastWarningTimes.containsKey( warning ) || 
                      System.currentTimeMillis()
                          - lastWarningTimes.get( warning ) > 1000 * timeout ) {
