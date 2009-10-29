@@ -11,19 +11,11 @@
 
 package net.bioclipse.usermanager.dialogs;
 
-import java.lang.reflect.InvocationTargetException;
-
-import org.apache.log4j.Logger;
-import net.bioclipse.core.util.LogUtils; 
-
+import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
-import net.bioclipse.usermanager.handlers.LoginHandler;
 
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.NotEnabledException;
-import org.eclipse.core.commands.NotHandledException;
-import org.eclipse.core.commands.common.NotDefinedException;
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -32,7 +24,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -57,10 +49,10 @@ import org.eclipse.ui.handlers.IHandlerService;
  * @author jonalv
  *
  */
-public class UserManagerLoginDialog extends TitleAreaDialog {
+public class LoginDialog extends TitleAreaDialog {
     
     private static final Logger logger 
-        = Logger.getLogger(UserManagerLoginDialog.class);
+        = Logger.getLogger(LoginDialog.class);
 
     private Button         createNewKeyringButton;
     private Label          usernameLabel;
@@ -76,7 +68,7 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
      * Create the dialog
      * @param parentShell
      */
-    public UserManagerLoginDialog( Shell parentShell, 
+    public LoginDialog( Shell parentShell, 
                                    UserContainer userContainer ) {
         super(parentShell);
         
@@ -136,7 +128,7 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
                                           .getShell(),
                                           userContainer );
                 createDialog.open();
-                if(createDialog.getReturnCode() == createDialog.OK) {
+                if(createDialog.getReturnCode() == Window.OK) {
                     close();
                     EditUserDialog dialog = 
                         new EditUserDialog( PlatformUI
@@ -145,11 +137,8 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
                                             .getShell(), 
                                             userContainer );
                     dialog.open();
-                    if(dialog.getReturnCode() == dialog.OK) {
+                    if(dialog.getReturnCode() == Window.OK) {
                         userContainerEdited = true;
-//                        Activator.getDefault()
-//                                 .getUserManager()
-//                                 .switchUserContainer( userContainer );
                     }
                 }
             }
@@ -205,7 +194,7 @@ public class UserManagerLoginDialog extends TitleAreaDialog {
                 
                 @Override
                 protected IStatus run( IProgressMonitor monitor ) {
-            
+
                     try {
                         int scale = 1000;
                         monitor.beginTask( "Signing in...", 
