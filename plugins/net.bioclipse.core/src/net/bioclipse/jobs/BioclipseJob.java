@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.bioclipse.core.ResourcePathTransformer;
+import net.bioclipse.core.SilentNotification;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.managers.business.IBioclipseManager;
@@ -19,7 +20,9 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.progress.IProgressConstants;
 import org.eclipse.ui.progress.WorkbenchJob;
 
 
@@ -274,11 +277,28 @@ public class BioclipseJob<T> extends Job {
             
             if ( uiJob != null ) {
                 uiJob.setReturnValue( returnValue );
-                Display.getDefault().asyncExec( new Runnable() {
-                    public void run() {
-                        uiJob.runInUI();
-                    }
-                });
+                SilentNotification a 
+                    = this.methodCalled
+                          .getAnnotation( SilentNotification.class );
+                if ( a != null ) {
+                    setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
+                   monitor.subTask( a.message() );
+                    
+                   setProperty( IProgressConstants.ACTION_PROPERTY, 
+                                 new Action( a.message() ) {
+                                    public void run() {
+                                        uiJob.runInUI();
+                                    }
+                                 }
+                    );
+                }
+                else {
+                    Display.getDefault().asyncExec( new Runnable() {
+                        public void run() {
+                            uiJob.runInUI();
+                        }
+                    });
+                }
             }
         } 
         catch ( Exception e ) {
