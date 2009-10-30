@@ -7,10 +7,12 @@ Bundle-Activator: net.bioclipse.webservices.Activator
 Bundle-Vendor: The Bioclipse Project
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- net.bioclipse.ui;bundle-version="2.0.0",
+ net.bioclipse.ui,
  org.eclipse.core.resources,
- net.bioclipse.core;bundle-version="2.0.0",
- net.bioclipse.cdk.business;bundle-version="2.0.0"
+ net.bioclipse.core,
+ org.springframework.bundle.spring.aop,
+ net.sf.cglib,
+ org.springframework.osgi.aopalliance.osgi
 Bundle-ClassPath: jars/axis-1_4/lib/axis.jar,
  jars/axis-1_4/lib/jaxrpc.jar,
  jars/axis-1_4/lib/saaj.jar,

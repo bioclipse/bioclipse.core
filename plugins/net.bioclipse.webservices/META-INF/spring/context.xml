@@ -1,16 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:osgi="http://www.springframework.org/schema/osgi"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
 
-  <!-- regular spring configuration file defining simple service
-       bean. We've kept the osgi definitions in a separate 
-       configuration file so that this file can easily be used
-       for testing outside of an OSGi environment -->
+  <osgi:service id="javaWebservicesManagerOSGI"
+                ref="javaWebservicesManager"
+                interface="net.bioclipse.webservices.business.IJavaWebservicesManager" />
 
-  <bean id="webservicesManagerTarget" 
+  <osgi:service id="javaScriptWebservicesManagerOSGI"
+                ref="javaScriptWebservicesManager"
+                interface="net.bioclipse.webservices.business.IJavaScriptWebservicesManager" />
+
+  <osgi:reference id="recordingAdvice"
+                  interface="net.bioclipse.recording.IRecordingAdvice" />
+
+  <osgi:reference id="javaManagerDispatcherAdvisor"
+                  interface="net.bioclipse.managers.business.IJavaManagerDispatcherAdvisor" />
+
+  <osgi:reference id="javaScriptManagerDispatcherAdvisor"
+                  interface="net.bioclipse.managers.business.IJavaScriptManagerDispatcherAdvisor" />
+
+  <osgi:reference id="wrapInProxyAdvice"
+                  interface="net.bioclipse.recording.IWrapInProxyAdvice" />
+
+  <bean id="recordingAdvisor"
+        class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice"  ref="recordingAdvice" />
+        <property name="pattern" value=".*" /> <!-- See also class implementation -->
+  </bean>
+
+  <bean id="WebservicesManagerTarget"
         class="net.bioclipse.webservices.business.WebservicesManager">
   </bean>
-  
+
+  <bean id="javaScriptWebservicesManager"
+        class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="target"
+              ref="WebservicesManagerTarget" />
+    <property name="proxyInterfaces"
+              value="net.bioclipse.webservices.business.IJavaScriptWebservicesManager" />
+    <property name="interceptorNames" >
+        <list>
+            <value>recordingAdvisor</value>
+            <value>wrapInProxyAdvice</value>
+            <value>javaScriptManagerDispatcherAdvisor</value>
+        </list>
+    </property>
+  </bean>
+
+  <bean id="javaWebservicesManager"
+        class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="target"
+              ref="WebservicesManagerTarget" />
+    <property name="proxyInterfaces"
+              value="net.bioclipse.webservices.business.IJavaWebservicesManager" />
+    <property name="interceptorNames" >
+        <list>
+                <value>recordingAdvisor</value>
+                <value>wrapInProxyAdvice</value>
+                <value>javaManagerDispatcherAdvisor</value>
+        </list>
+    </property>
+  </bean>
 </beans>

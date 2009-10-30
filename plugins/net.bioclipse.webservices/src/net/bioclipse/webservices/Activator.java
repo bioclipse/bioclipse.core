@@ -1,58 +1,58 @@
+/*******************************************************************************
+ * Copyright (c) 2009  Ola Spjuth <ola@bioclipse.net>
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contact: http://www.bioclipse.net/
+ ******************************************************************************/
 package net.bioclipse.webservices;
 
-/**
- * 
- * Wraps Webservices into an eclipse-plugin.
- * 
- * @author ola, edrin
- *
- */
-
-import net.bioclipse.core.util.LogUtils;
+import net.bioclipse.webservices.business.IJavaScriptWebservicesManager;
+import net.bioclipse.webservices.business.IJavaWebservicesManager;
 import net.bioclipse.webservices.business.IWebservicesManager;
 
 import org.apache.log4j.Logger;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
+/**
+ * The Activator class controls the plug-in life cycle
+ */
 public class Activator extends AbstractUIPlugin {
 
     private static final Logger logger = Logger.getLogger(Activator.class);
 
-    // The plug-in ID
-    private static final String PLUGIN_ID="net.bioclipse.webservices";
-
-    // The shared instance.
+    // The shared instance
     private static Activator plugin;
 
-    //For Spring
-    private ServiceTracker finderTracker;
+    // Trackers for getting the managers
+    private ServiceTracker javaFinderTracker;
+    private ServiceTracker jsFinderTracker;
 
-    /**
-     * The constructor.
-     */
     public Activator() {
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-     */
     public void start(BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
-        finderTracker = new ServiceTracker( context, 
-                                            IWebservicesManager.class.getName(), 
-                                            null );
+        javaFinderTracker
+            = new ServiceTracker( context,
+                                  IJavaWebservicesManager.class.getName(),
+                                  null );
 
-        finderTracker.open();	}
+        javaFinderTracker.open();
+        jsFinderTracker
+            = new ServiceTracker( context,
+                                  IJavaScriptWebservicesManager.class.getName(),
+                                  null );
 
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-     */
+        jsFinderTracker.open();
+    }
+
     public void stop(BundleContext context) throws Exception {
         plugin = null;
         super.stop(context);
@@ -67,26 +67,38 @@ public class Activator extends AbstractUIPlugin {
         return plugin;
     }
 
-    /**
-     * Returns an image descriptor for the image file at the given
-     * plug-in relative path.
-     *
-     * @param path the path
-     * @return the image descriptor
-     */
-    public static ImageDescriptor getImageDescriptor(String path) {
-        return imageDescriptorFromPlugin(PLUGIN_ID, path);
-    }
-
-    public IWebservicesManager getWebservicesManager() {
+    public IWebservicesManager getJavaWebservicesManager() {
         IWebservicesManager manager = null;
         try {
-            manager = (IWebservicesManager) finderTracker.waitForService(1000*10);
-        } catch (InterruptedException e) {
-            LogUtils.debugTrace(logger, e);
+            manager = (IWebservicesManager)
+                      javaFinderTracker.waitForService(1000*10);
         }
-        if(manager == null) {
-            throw new IllegalStateException("Could not get the webservices manager");
+        catch (InterruptedException e) {
+            throw new IllegalStateException(
+                          "Could not get the Java WebservicesManager",
+                          e );
+        }
+        if (manager == null) {
+            throw new IllegalStateException(
+                          "Could not get the Java WebservicesManager");
+        }
+        return manager;
+    }
+
+    public IJavaScriptWebservicesManager getJavaScriptWebservicesManager() {
+        IJavaScriptWebservicesManager manager = null;
+        try {
+            manager = (IJavaScriptWebservicesManager)
+                      jsFinderTracker.waitForService(1000*10);
+        }
+        catch (InterruptedException e) {
+            throw new IllegalStateException(
+                          "Could not get the JavaScript WebservicesManager",
+                          e );
+        }
+        if (manager == null) {
+            throw new IllegalStateException(
+                          "Could not get the JavaScript WebservicesManager");
         }
         return manager;
     }
