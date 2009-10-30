@@ -24,5 +24,5 @@ import java.lang.annotation.Target;
 public @interface SilentNotification {
 
     String message() default "Job completed, results available!";
-
+    long silentAfter() default 500;
 }

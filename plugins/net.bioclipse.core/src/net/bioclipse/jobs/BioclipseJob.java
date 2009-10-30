@@ -171,7 +171,8 @@ public class BioclipseJob<T> extends Job {
 
     @SuppressWarnings("unchecked")
     private IStatus runNewWay( IProgressMonitor monitor ) {
-
+        
+        long startTime = System.currentTimeMillis();
         try {
             final List<Object> newArguments = new ArrayList<Object>();
             newArguments.addAll( Arrays.asList( this.arguments ) );
@@ -280,7 +281,9 @@ public class BioclipseJob<T> extends Job {
                 SilentNotification a 
                     = this.methodCalled
                           .getAnnotation( SilentNotification.class );
-                if ( a != null ) {
+                if ( a != null &&
+                     System.currentTimeMillis() - startTime 
+                         > a.silentAfter() ) {
                     setProperty(IProgressConstants.KEEP_PROPERTY, Boolean.TRUE);
                    monitor.subTask( a.message() );
                     
