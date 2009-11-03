@@ -389,8 +389,10 @@ public class JsConsoleView extends ScriptingConsoleView {
                     result.append(NEWLINE);
                 }
             }
-            result.append("No manager method with the name '" + methodName
-                          + "' exists in " + managerName + "." + NEWLINE);
+            if (!foundMethod) {
+                result.append("No manager method with the name '" + methodName
+                              + "' exists in " + managerName + "." + NEWLINE);
+            }
         }
 
         //Doing plain manager help
