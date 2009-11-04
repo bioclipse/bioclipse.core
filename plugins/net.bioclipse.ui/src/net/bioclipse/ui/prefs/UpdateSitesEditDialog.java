@@ -61,46 +61,43 @@ public class UpdateSitesEditDialog extends TitleAreaDialog{
 		container.setLayout(new FormLayout());
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-    formData_1 = new FormData();
+		txtName = new Text(container, SWT.BORDER);
+		{
+		    formData_1 = new FormData();
+		    formData_1.right = new FormAttachment(100, -10);
+		    txtName.setLayoutData(formData_1);
+		}
+		txtName.setText(name);
 		
 		txtUrl = new Text(container, SWT.BORDER);
-		formData_1.bottom = new FormAttachment(txtUrl, -4);
 		{
 		    formData_2 = new FormData();
-		    formData_2.top = new FormAttachment(0, 33);
+		    formData_2.top = new FormAttachment(txtName, 4);
 		    formData_2.right = new FormAttachment(100, -10);
 		    txtUrl.setLayoutData(formData_2);
 		}
 		txtUrl.setText(url);
 		
 		final Label lblName = new Label(container, SWT.NONE);
+		formData_1.top = new FormAttachment(lblName, 0, SWT.TOP);
 		formData_1.left = new FormAttachment(lblName, 6);
 		{
 		    formData_3 = new FormData();
 		    formData_3.left = new FormAttachment(0, 10);
-		    formData_3.top = new FormAttachment(0, 20);
+		    formData_3.top = new FormAttachment(0, 10);
 		    lblName.setLayoutData(formData_3);
 		}
 		lblName.setText("Name:");
-		
-		txtName = new Text(container, SWT.BORDER);
-		formData_2.left = new FormAttachment(txtName, 0, SWT.LEFT);
-        {
-            formData_1.right = new FormAttachment(100, -10);
-            formData_1.left = new FormAttachment(lblName, 6);
-            formData_1.bottom = new FormAttachment(lblName, 0, SWT.BOTTOM);
-            txtName.setLayoutData(formData_1);
-        }
-        txtName.setText(name);
 
-		final Label lblURL = new Label(container, SWT.NONE);
+		final Label lblFileExtension = new Label(container, SWT.NONE);
+		formData_2.left = new FormAttachment(lblFileExtension, 17);
 		{
 		    FormData formData = new FormData();
 		    formData.bottom = new FormAttachment(txtUrl, 0, SWT.BOTTOM);
 		    formData.left = new FormAttachment(lblName, 0, SWT.LEFT);
-		    lblURL.setLayoutData(formData);
+		    lblFileExtension.setLayoutData(formData);
 		}
-		lblURL.setText("URL:");
+		lblFileExtension.setText("URL:");
 
 		return area;
 	}
