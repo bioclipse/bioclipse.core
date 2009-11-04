@@ -72,6 +72,7 @@ public class UpdateSitesEditDialog extends TitleAreaDialog{
 		txtUrl = new Text(container, SWT.BORDER);
 		{
 		    formData_2 = new FormData();
+		    formData_2.top = new FormAttachment(txtName, 4);
 		    formData_2.right = new FormAttachment(100, -10);
 		    txtUrl.setLayoutData(formData_2);
 		}
@@ -90,10 +91,9 @@ public class UpdateSitesEditDialog extends TitleAreaDialog{
 
 		final Label lblFileExtension = new Label(container, SWT.NONE);
 		formData_2.left = new FormAttachment(lblFileExtension, 17);
-		formData_2.bottom = new FormAttachment(lblFileExtension, 0, SWT.BOTTOM);
 		{
 		    FormData formData = new FormData();
-		    formData.top = new FormAttachment(lblName, 14);
+		    formData.bottom = new FormAttachment(txtUrl, 0, SWT.BOTTOM);
 		    formData.left = new FormAttachment(lblName, 0, SWT.LEFT);
 		    lblFileExtension.setLayoutData(formData);
 		}
