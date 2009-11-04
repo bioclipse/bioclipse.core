@@ -16,7 +16,7 @@
    <launcherArgs>
       <programArgs>-consolelog -data &quot;@nodefault&quot;</programArgs>
       <vmArgs>-ea  -Xmx512M -XX:MaxPermSize=128m</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts -d32</vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/net.bioclipse.ui/icons/logo/logo_16_trans.gif" i32="/net.bioclipse.ui/icons/logo/logo_32_trans.gif" i48="/net.bioclipse.ui/icons/logo/logo_48_trans.gif" i64="/net.bioclipse.ui/icons/logo/logo_64_trans.gif" i128="/net.bioclipse.ui/icons/logo/logo_128_trans.gif"/>
