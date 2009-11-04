@@ -61,7 +61,7 @@ public class UpdateSitesEditDialog extends TitleAreaDialog{
 		container.setLayout(new FormLayout());
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-
+    formData_1 = new FormData();
 		
 		txtUrl = new Text(container, SWT.BORDER);
 		formData_1.bottom = new FormAttachment(txtUrl, -4);
@@ -78,7 +78,7 @@ public class UpdateSitesEditDialog extends TitleAreaDialog{
 		{
 		    formData_3 = new FormData();
 		    formData_3.left = new FormAttachment(0, 10);
-		    formData_3.top = new FormAttachment(0, 10);
+		    formData_3.top = new FormAttachment(0, 20);
 		    lblName.setLayoutData(formData_3);
 		}
 		lblName.setText("Name:");
@@ -86,7 +86,6 @@ public class UpdateSitesEditDialog extends TitleAreaDialog{
 		txtName = new Text(container, SWT.BORDER);
 		formData_2.left = new FormAttachment(txtName, 0, SWT.LEFT);
         {
-            formData_1 = new FormData();
             formData_1.right = new FormAttachment(100, -10);
             formData_1.left = new FormAttachment(lblName, 6);
             formData_1.bottom = new FormAttachment(lblName, 0, SWT.BOTTOM);
