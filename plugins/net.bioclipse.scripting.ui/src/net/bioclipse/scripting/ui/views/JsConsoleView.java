@@ -82,10 +82,18 @@ public class JsConsoleView extends ScriptingConsoleView {
 
                                 if (unwrappedObject instanceof List) {
                                     List<?> list = (List<?>)unwrappedObject;
-                                    StringBuilder sb
-                                      = stringify( list, "[", ", ", "]" );
+                                    if (list.size() > 2) {
+                                        message[0]
+                                          = "List<"
+                                            + list.get(0).getClass().getName()
+                                            + "> of size " + list.size();
+                                    }
+                                    else {
+                                        StringBuilder sb
+                                           = stringify( list, "[", ", ", "]" );
 
-                                    message[0] = sb.toString();
+                                        message[0] = sb.toString();
+                                    }
                                 }
                                 else {
                                     message[0] = unwrappedObject.toString();
