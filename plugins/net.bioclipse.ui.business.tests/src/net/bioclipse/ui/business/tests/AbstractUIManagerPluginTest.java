@@ -12,8 +12,8 @@ package net.bioclipse.ui.business.tests;
 
 import java.io.ByteArrayInputStream;
 
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.ui.business.IUIManager;
-import net.bioclipse.ui.business.UIManager;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -102,4 +102,18 @@ public abstract class AbstractUIManagerPluginTest {
         Assert.assertFalse(ui.fileExists(removedFile));
     }
 
+    @Test public void testReadFileIntoArray_IFile() throws BioclipseException {
+        String filePath = "/Virtual/testFile734248911.txt";
+        ui.save(
+            filePath, new ByteArrayInputStream("test file".getBytes())
+        );
+        IFile savedFile = ResourcesPlugin.getWorkspace().getRoot().getFile(
+            new Path(filePath)
+        );
+        Assert.assertTrue(ui.fileExists(savedFile));
+        String[] contents = ui.readFileIntoArray(savedFile);
+        Assert.assertNotNull(contents);
+        Assert.assertEquals(1, contents.length);
+        Assert.assertEquals("test file", contents[0]);
+    }
 }
