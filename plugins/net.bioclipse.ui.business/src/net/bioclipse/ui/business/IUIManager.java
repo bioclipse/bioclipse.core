@@ -39,7 +39,7 @@ import org.eclipse.core.runtime.content.IContentType;
 @PublishedClass(value = "Controls access to Bioclipse UI.")
 @TestClasses(
     "net.bioclipse.ui.business.tests.UIManagerTest," +
-    "net.bioclipse.ui.business.tests.UIManagerPluginTest"
+    "net.bioclipse.ui.business.tests.AbstractUIManagerPluginTest"
 )
 public interface IUIManager extends IBioclipseManager {
 
