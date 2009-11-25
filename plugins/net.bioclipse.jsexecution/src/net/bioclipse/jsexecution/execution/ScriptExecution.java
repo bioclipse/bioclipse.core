@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -105,9 +106,12 @@ public class ScriptExecution {
             protected IStatus run(IProgressMonitor monitor) {
                 boolean done = true;
 
-                MonitorContainer.getInstance().addMonitor( monitor );
+                MonitorContainer.getInstance().addMonitor(
+                    SubMonitor.convert(monitor, 100)
+                );
 
-                monitor.beginTask("Running JavaScript...", 2);
+                monitor.beginTask( "Running JavaScript...",
+                                   IProgressMonitor.UNKNOWN );
                 try {
                     monitor.worked(1);
                     scriptResult =

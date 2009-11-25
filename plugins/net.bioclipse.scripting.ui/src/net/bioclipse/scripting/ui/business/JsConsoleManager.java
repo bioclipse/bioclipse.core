@@ -22,7 +22,9 @@ import net.bioclipse.scripting.ui.views.JsConsoleView;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PartInitException;
@@ -91,55 +93,57 @@ public class JsConsoleManager implements IBioclipseManager {
         return evalResult[0];
     }
 
-    public void executeFile( IFile file ) {
-        executeFile(file, new NullProgressMonitor());
-    }
+    public void executeFile( final IFile file ) {
+        Job job = new Job("JavaScript execution") {
+            @Override
+            protected IStatus run(final IProgressMonitor monitor) {
+                String contents;
 
-    public void executeFile( IFile file, final IProgressMonitor monitor ) {
-        String contents;
-        
-        monitor.beginTask( "read file", 1 );
-        try {
-            java.util.Scanner sc = new java.util.Scanner(file.getContents());
-            StringBuffer sb = new StringBuffer();
-            while ( sc.hasNextLine() ) {
-                sb.append( sc.nextLine() );
-                sb.append( "\r\n" ); // needed here because that seems to be
-                                     // what the js env is expecting
-            }
-            contents = sb.toString();
-        } 
-        catch ( CoreException ce ) {
-            throw new RuntimeException("Could not run the script "
-                                       + file.getName(), ce);
-        }
-        monitor.worked( 1 );
-        final JsThread jsThread = Activator.getDefault().JS_THREAD;
-        jsThread.enqueue(
-            new JsAction(contents, new Hook() {
-                public void run( Object result ) {
-                    monitor.done();
-                    if ( !"org.mozilla.javascript.Undefined".equals(
-                            result.getClass().getName() ) ) {
-                        message(jsThread.toJsString(result));
+                monitor.beginTask( "read file", 1 );
+                try {
+                    java.util.Scanner sc = new java.util.Scanner(file.getContents());
+                    StringBuffer sb = new StringBuffer();
+                    while ( sc.hasNextLine() ) {
+                        sb.append( sc.nextLine() );
+                        sb.append( "\r\n" ); // needed here because that seems
+                                             // to be what the js env expects
                     }
+                    contents = sb.toString();
                 }
-
-                private void message(final String text) {
-
-                    Display.getDefault().asyncExec( new Runnable() {
-                        public void run() {
-                            MessageDialog.openInformation( 
-                                 PlatformUI.getWorkbench()
-                                           .getActiveWorkbenchWindow()
-                                           .getShell(),
-                                 "Script finished",
-                                 text ); 
+                catch ( CoreException ce ) {
+                    throw new RuntimeException("Could not run the script "
+                                               + file.getName(), ce);
+                }
+                monitor.worked( 1 );
+                final JsThread jsThread = Activator.getDefault().JS_THREAD;
+                jsThread.enqueue(
+                    new JsAction(contents, new Hook() {
+                        public void run( Object result ) {
+                            monitor.done();
+                            if ( !"org.mozilla.javascript.Undefined".equals(
+                                    result.getClass().getName() ) ) {
+                                message(jsThread.toJsString(result));
+                            }
                         }
-                    } );
-                }
-            })
-        );
+
+                        private void message(final String text) {
+
+                            Display.getDefault().asyncExec( new Runnable() {
+                                public void run() {
+                                    MessageDialog.openInformation(
+                                         PlatformUI.getWorkbench()
+                                                   .getActiveWorkbenchWindow()
+                                                   .getShell(),
+                                         "Script finished",
+                                         text );
+                                }
+                            } );
+                        }
+                    })
+                );
+                return Status.OK_STATUS;
+            }
+        };
     }
 
     public void printError( Throwable t ) {

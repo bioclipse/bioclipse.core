@@ -57,9 +57,6 @@ public interface IJsConsoleManager extends IBioclipseManager,
     public void executeFile(IFile file);
 
     @Recorded
-    public void executeFile(IFile file, IProgressMonitor monitor);
-
-    @Recorded
     @PublishedMethod(params="String filePath",
                      methodSummary="Runs a js script file.")
     public void executeFile(String filePath);
