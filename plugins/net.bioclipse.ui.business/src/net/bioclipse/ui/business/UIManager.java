@@ -138,7 +138,7 @@ public class UIManager implements IBioclipseManager {
         final String editorID = getEditorID( editor );
         
         if (editorID==null){
-            Activator.getDefault().getJsConsoleManager().print(
+            Activator.getDefault().getJavaJsConsoleManager().print(
                     "No editor with ID: " + editor + " found"
             );
             return;
@@ -225,7 +225,7 @@ public class UIManager implements IBioclipseManager {
         //Strategy: Determine editor ID from IBioObject and open in this
 
         IJsConsoleManager js = net.bioclipse.scripting.ui.Activator
-        .getDefault().getJsConsoleManager();
+        .getDefault().getJavaJsConsoleManager();
 
         //If bioObject has a resource, 
         //use Content Type on this to determine editor
@@ -288,7 +288,7 @@ public class UIManager implements IBioclipseManager {
             retstr=retstr+alias + "\t\t" + aliasmap.get( alias ) +"\n";
         }
 
-        Activator.getDefault().getJsConsoleManager().print( retstr );
+        Activator.getDefault().getJavaJsConsoleManager().print( retstr );
     }
 
     /**

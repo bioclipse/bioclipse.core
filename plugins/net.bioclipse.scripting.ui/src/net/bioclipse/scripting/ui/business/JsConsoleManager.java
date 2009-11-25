@@ -12,7 +12,7 @@
  ******************************************************************************/
 package net.bioclipse.scripting.ui.business;
 
-import net.bioclipse.core.ResourcePathTransformer;
+import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.Activator;
 import net.bioclipse.scripting.Hook;
 import net.bioclipse.scripting.JsAction;
@@ -34,7 +34,7 @@ import org.eclipse.ui.PlatformUI;
  * @author masak
  *
  */
-public class JsConsoleManager implements IJsConsoleManager {
+public class JsConsoleManager implements IBioclipseManager {
 
     private JsConsoleView getJsConsoleView() {
         try {
@@ -93,12 +93,6 @@ public class JsConsoleManager implements IJsConsoleManager {
 
     public void executeFile( IFile file ) {
         executeFile(file, new NullProgressMonitor());
-    }
-
-    public void executeFile( String filePath ) {
-        executeFile(
-          ResourcePathTransformer.getInstance().transform( filePath )
-        );
     }
 
     public void executeFile( IFile file, final IProgressMonitor monitor ) {
