@@ -8,6 +8,8 @@
  *******************************************************************************/
 package net.bioclipse.scripting.ui;
 
+import net.bioclipse.scripting.ui.business.IJavaJsConsoleManager;
+import net.bioclipse.scripting.ui.business.IJavaScriptJsConsoleManager;
 import net.bioclipse.scripting.ui.business.IJsConsoleManager;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -21,14 +23,13 @@ import org.osgi.util.tracker.ServiceTracker;
  */
 public class Activator extends AbstractUIPlugin {
 
-    // The plug-in ID
-    public static final String PLUGIN_ID = "net.bioclipse.springBasedPrototypePlugin";
+    public static final String PLUGIN_ID
+      = "net.bioclipse.springBasedPrototypePlugin";
 
-    // The shared instance
     private static Activator plugin;
     
-    // tracks the js console manager
-    private ServiceTracker finderTracker;
+    private ServiceTracker javaFinderTracker;
+    private ServiceTracker jsFinderTracker;
     
     /**
      * The constructor
@@ -36,30 +37,44 @@ public class Activator extends AbstractUIPlugin {
     public Activator() {
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-     */
     public void start(BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
         
-        finderTracker = new ServiceTracker( context, 
-                                            IJsConsoleManager.class.getName(), 
-                                            null );
-        finderTracker.open();
+        javaFinderTracker = new ServiceTracker( context, 
+                IJavaJsConsoleManager.class.getName(), 
+                null );
+        javaFinderTracker.open();
+        jsFinderTracker = new ServiceTracker( context, 
+                IJavaScriptJsConsoleManager.class.getName(), 
+                null );
+        jsFinderTracker.open();
     }
 
-    /**
-     * Returns a reference to the example manager object
-     * 
-     * @return the exampleManager
-     */
-    public IJsConsoleManager getJsConsoleManager() {
-        IJsConsoleManager jsConsoleManager = null;
+    public IJsConsoleManager getJavaJsConsoleManager() {
+        IJavaJsConsoleManager jsConsoleManager = null;
         try {
             jsConsoleManager
-                = (IJsConsoleManager) finderTracker.waitForService(1000*30);
+                = (IJavaJsConsoleManager)
+                  javaFinderTracker.waitForService(1000*30);
+        }
+        catch (InterruptedException e) {
+            throw new IllegalStateException(
+                          "Could not get js console manager: ",
+                          e );
+        }
+        if (jsConsoleManager == null) {
+            throw new IllegalStateException("Could not get js console manager");
+        }
+        return jsConsoleManager;
+    }
+
+    public IJsConsoleManager getJavaScriptJsConsoleManager() {
+        IJavaScriptJsConsoleManager jsConsoleManager = null;
+        try {
+            jsConsoleManager
+                = (IJavaScriptJsConsoleManager)
+                  javaFinderTracker.waitForService(1000*30);
         }
         catch (InterruptedException e) {
             throw
@@ -71,10 +86,6 @@ public class Activator extends AbstractUIPlugin {
         return jsConsoleManager;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-     */
     public void stop(BundleContext context) throws Exception {
         plugin = null;
         super.stop(context);

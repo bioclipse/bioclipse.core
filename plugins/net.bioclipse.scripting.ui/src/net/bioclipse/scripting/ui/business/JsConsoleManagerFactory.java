@@ -32,7 +32,7 @@ public class JsConsoleManagerFactory implements IExecutableExtension,
                                        String propertyName, 
                                        Object data) throws CoreException {
     
-        jsConsoleManager = Activator.getDefault().getJsConsoleManager();
+        jsConsoleManager = Activator.getDefault().getJavaJsConsoleManager();
     }
     
     public Object create() throws CoreException {

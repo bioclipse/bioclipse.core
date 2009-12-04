@@ -19,7 +19,7 @@ import net.bioclipse.scripting.ui.business.JsConsoleManager;
 
 public class JsConsoleManagerTest extends AbstractManagerTest {
 
-    IJsConsoleManager console;
+    JsConsoleManager console;
 
     //Do not use SPRING OSGI for this manager
     //since we are only testing the implementations of the manager methods

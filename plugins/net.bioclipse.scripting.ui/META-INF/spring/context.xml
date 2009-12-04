@@ -7,15 +7,25 @@
                       http://www.springframework.org/schema/osgi 
                       http://www.springframework.org/schema/osgi/spring-osgi.xsd">
 
-  <!-- Gets the recording advice -->
+  <osgi:service id="javaJsConsoleManagerOSGI" 
+                ref="javaJsConsoleManager"
+                interface="net.bioclipse.scripting.ui.business.IJavaJsConsoleManager" />
+
+  <osgi:service id="javaScriptJsConsoleManagerOSGI" 
+                ref="javaScriptJsConsoleManager"
+                interface="net.bioclipse.scripting.ui.business.IJavaScriptJsConsoleManager" />
+
   <osgi:reference id="recordingAdvice" 
                   interface="net.bioclipse.recording.IRecordingAdvice" />
 
-  <osgi:reference id="createJobAdvice"
-                  interface="net.bioclipse.ui.jobs.ICreateJobAdvice" />
-  
-  <osgi:service id="guiActionAdviceOSGI" ref="guiActionAdvice"
-        interface="net.bioclipse.scripting.ui.business.IGuiActionAdvice" />
+  <osgi:reference id="javaManagerDispatcherAdvisor"
+                  interface="net.bioclipse.managers.business.IJavaManagerDispatcherAdvisor" />
+
+  <osgi:reference id="javaScriptManagerDispatcherAdvisor" 
+                  interface="net.bioclipse.managers.business.IJavaScriptManagerDispatcherAdvisor"/>
+
+  <osgi:reference id="wrapInProxyAdvice"
+                  interface="net.bioclipse.recording.IWrapInProxyAdvice" />
   
   <!--+ 
       | Point cut advisor that inserts the recording advice on all methods.
@@ -28,37 +38,37 @@
   		<property name="pattern" value=".*" />
   </bean>
 
-  <!-- The target that later on will be proxied. Our manager class. -->
   <bean id="jsConsoleManagerTarget" 
         class="net.bioclipse.scripting.ui.business.JsConsoleManager">
   </bean>
   
-  <bean id="guiActionAdvice" class="net.bioclipse.scripting.ui.business.GuiActionAdvice">
-    <property name="jsConsoleManager" 
-              ref="jsConsoleManager" />
-  </bean>
-  
-  <!--+ 
-      | The proxy puts together the managerTarget, the pointcut advisor
-      | and defines which interfaces to be proxied 
-      +-->
-  <bean id="jsConsoleManager"
-  		class="org.springframework.aop.framework.ProxyFactoryBean">
-  	<property name="target" 
-  	          ref="jsConsoleManagerTarget" />
-  	<property name="proxyInterfaces" 
-  	          value="net.bioclipse.scripting.ui.business.IJsConsoleManager" />
-  	<property name="interceptorNames">
+  <bean id="javaScriptJsConsoleManager"
+        class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="target" 
+              ref="jsConsoleManagerTarget" />
+    <property name="proxyInterfaces" 
+              value="net.bioclipse.scripting.ui.business.IJavaScriptJsConsoleManager" />
+    <property name="interceptorNames" >
         <list>
-           <value>recordingAdvisor</value>
-           <value>createJobAdvice</value>
+            <value>recordingAdvisor</value>
+            <value>wrapInProxyAdvice</value>
+            <value>javaScriptManagerDispatcherAdvisor</value>
         </list>
-    </property>
+    </property>    
   </bean>
 
-  <!-- publishes the final manager (the proxy) -->
-  <osgi:service
-    id="jsConsoleManagerOSGI" 
-    ref="jsConsoleManager"
-    interface="net.bioclipse.scripting.ui.business.IJsConsoleManager" />
+  <bean id="javaJsConsoleManager"
+        class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="target" 
+              ref="jsConsoleManagerTarget" />
+    <property name="proxyInterfaces" 
+              value="net.bioclipse.scripting.ui.business.IJavaJsConsoleManager" />
+    <property name="interceptorNames" >
+        <list>
+                <value>recordingAdvisor</value>
+                <value>wrapInProxyAdvice</value>
+                <value>javaManagerDispatcherAdvisor</value>
+        </list>
+    </property>    
+  </bean>
 </beans>

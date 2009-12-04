@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bioclipse Birt
 Bundle-SymbolicName: net.bioclipse.birt;singleton:=true
-Bundle-Version: 2.1.1.v20091002
+Bundle-Version: 2.2.0.RC2
 Bundle-Activator: net.bioclipse.birt.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
@@ -12,6 +12,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.editors,
  org.eclipse.ui.ide,
  org.eclipse.core.resources,
- org.eclipse.birt.report.engine
+ org.eclipse.birt.report.engine,
+ org.eclipse.birt.report.engine.script.javascript;bundle-version="2.5.1"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy

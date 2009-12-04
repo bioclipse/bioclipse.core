@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse.birt_feature"
       label="Bioclipse BIRT"
-      version="2.1.1.v20091016"
+      version="2.2.0.RC2"
       provider-name="The Bioclipse Team"
       plugin="net.bioclipse.birt">
 
@@ -547,6 +547,13 @@ is available at http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="org.eclipse.datatools.connectivity.oda.flatfile"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.script.javascript"
          download-size="0"
          install-size="0"
          version="0.0.0"

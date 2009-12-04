@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009  Jonathan Alvarsson <jonalv@users.sourceforge.net>
+ * Copyright (c) 2009  Egon Willighagen <egonw@users.sourceforge.net>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -14,17 +14,16 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-
 /**
- * Unit tests to be run as <b>plugin</b> JUnit tests. See also the normal tests
- * in {@link AllUiManagerTests}.
+ * Unit tests to be run as normal JUnit tests. See also the plugin tests
+ * in {@link AllUiManagerPluginTests}.
  *
- * @author jonalv
+ * @author egonw
  */
 @RunWith(value=Suite.class)
-@SuiteClasses(
-    { JavaScriptUiManagerPluginTest.class,
-      JavaUiManagerPluginTest.class } )
-public class AllUiManagerPluginTests {
+@SuiteClasses({
+    UIManagerTest.class,
+    CoverageTest.class } )
+public class AllUiManagerTests {
 
 }

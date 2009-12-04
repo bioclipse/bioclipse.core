@@ -40,7 +40,7 @@ public class RunScriptHandler extends AbstractHandler implements IHandler {
         IEditorInput input = jsEditor.getEditorInput();
         
         Activator.getDefault()
-                 .getJsConsoleManager()
+                 .getJavaJsConsoleManager()
                  .executeFile( (IFile)input.getAdapter( IFile.class ) );
         
         return null;

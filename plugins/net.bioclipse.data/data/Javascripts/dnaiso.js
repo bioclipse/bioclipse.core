@@ -1,6 +1,6 @@
 //Download PDB via Web service at EBI and open in Jmol
-res=webservices.downloadPDBAsFile("1d66")
-ui.open(res)
+mol=ws.queryPDB("1d66")
+ui.open(mol.get(0))
 
 //Execute some jmol script commands
 jmol.run("select all; spacefill 0; wireframe off; cartoon on;select none")
