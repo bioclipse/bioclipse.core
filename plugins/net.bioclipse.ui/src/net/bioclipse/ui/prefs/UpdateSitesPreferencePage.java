@@ -40,6 +40,9 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormAttachment;
 
 public class UpdateSitesPreferencePage extends PreferencePage implements
 IWorkbenchPreferencePage {
@@ -117,14 +120,17 @@ IWorkbenchPreferencePage {
         Composite container = new Composite(parent, SWT.NULL);
         setSize(new Point(600,420));
         container.setSize(600,420);
+        container.setLayout(new FormLayout());
 
         //		checkboxTableViewer = CheckboxTableViewer.newCheckList(container, SWT.BORDER);
         checkboxTableViewer = new TableViewer(container, SWT.BORDER | SWT.SINGLE);
         checkboxTableViewer.setContentProvider(new ApplicationsContentProvider());
         checkboxTableViewer.setLabelProvider(new ApplicationsLabelProvider());
         final Table table = checkboxTableViewer.getTable();
-
-        table.setBounds(10, 10, 450, 345);
+        FormData formData = new FormData();
+        formData.left = new FormAttachment(0, 11);
+        formData.top = new FormAttachment(0, 10);
+        table.setLayoutData(formData);
 
         table.setHeaderVisible(true);
         table.setLinesVisible(true);
@@ -142,7 +148,11 @@ IWorkbenchPreferencePage {
 
 
         final Button addButton = new Button(container, SWT.NONE);
-        addButton.setBounds(460, 25, 100, 35);
+        formData.right = new FormAttachment(100, -89);
+        FormData formData_1 = new FormData();
+        formData_1.right = new FormAttachment(100, -9);
+        formData_1.left = new FormAttachment(table, 6);
+        addButton.setLayoutData(formData_1);
         addButton.setText("Add");
         addButton.addMouseListener(new MouseAdapter() {
             public void mouseUp(MouseEvent e) {
@@ -159,7 +169,11 @@ IWorkbenchPreferencePage {
         });
 
         final Button editButton = new Button(container, SWT.NONE);
-        editButton.setBounds(460, 70, 100, 35);
+        FormData formData_2 = new FormData();
+        formData_2.top = new FormAttachment(table, 0, SWT.TOP);
+        formData_2.left = new FormAttachment(table, 6);
+        formData_2.right = new FormAttachment(100, -9);
+        editButton.setLayoutData(formData_2);
         editButton.setText("Edit");
         editButton.addMouseListener(new MouseAdapter() {
             public void mouseUp(MouseEvent e) {
@@ -206,7 +220,12 @@ IWorkbenchPreferencePage {
         });
 
         final Button removeButton = new Button(container, SWT.NONE);
-        removeButton.setBounds(460, 120, 100, 35);
+        formData_1.top = new FormAttachment(removeButton, 6);
+        FormData formData_3 = new FormData();
+        formData_3.right = new FormAttachment(100, -9);
+        formData_3.left = new FormAttachment(table, 6);
+        formData_3.top = new FormAttachment(0, 46);
+        removeButton.setLayoutData(formData_3);
         removeButton.setText("Remove");
         removeButton.addMouseListener(new MouseAdapter() {
             public void mouseUp(MouseEvent e) {
@@ -233,12 +252,19 @@ IWorkbenchPreferencePage {
 
         //Add remember button
         rememberButton = new Button(container, SWT.CHECK);
-        rememberButton.setBounds(10, 360, 300, 16);
+        formData.bottom = new FormAttachment(rememberButton, -6);
+        FormData formData_4 = new FormData();
+        formData_4.left = new FormAttachment(0, 10);
+        rememberButton.setLayoutData(formData_4);
         rememberButton.setText("Run automatic updates on startup");
 
         //Add remember button
         openDialogButton = new Button(container, SWT.CHECK);
-        openDialogButton.setBounds(10, 380, 300, 16);
+        formData_4.bottom = new FormAttachment(openDialogButton, -6);
+        FormData formData_5 = new FormData();
+        formData_5.bottom = new FormAttachment(100, -10);
+        formData_5.left = new FormAttachment(0, 10);
+        openDialogButton.setLayoutData(formData_5);
         openDialogButton.setText("Install automatic updates in background");
 
         //Sync with preference
@@ -264,6 +290,7 @@ IWorkbenchPreferencePage {
 
         if (table.getItemCount()>0)
             table.setSelection(0);
+        container.pack();
         return container;
     }
 
