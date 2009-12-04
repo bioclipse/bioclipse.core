@@ -64,16 +64,15 @@ public class UpdateSitesEditDialog extends TitleAreaDialog{
     formData_1 = new FormData();
 		
 		txtUrl = new Text(container, SWT.BORDER);
-		formData_1.bottom = new FormAttachment(txtUrl, -4);
 		{
 		    formData_2 = new FormData();
-		    formData_2.top = new FormAttachment(0, 33);
 		    formData_2.right = new FormAttachment(100, -10);
 		    txtUrl.setLayoutData(formData_2);
 		}
 		txtUrl.setText(url);
 		
 		final Label lblName = new Label(container, SWT.NONE);
+		formData_1.top = new FormAttachment(lblName, -2, SWT.TOP);
 		formData_1.left = new FormAttachment(lblName, 6);
 		{
 		    formData_3 = new FormData();
@@ -84,7 +83,7 @@ public class UpdateSitesEditDialog extends TitleAreaDialog{
 		lblName.setText("Name:");
 		
 		txtName = new Text(container, SWT.BORDER);
-		formData_2.left = new FormAttachment(txtName, 0, SWT.LEFT);
+		formData_2.top = new FormAttachment(txtName, 10);
         {
             formData_1.right = new FormAttachment(100, -10);
             formData_1.left = new FormAttachment(lblName, 6);
@@ -94,10 +93,11 @@ public class UpdateSitesEditDialog extends TitleAreaDialog{
         txtName.setText(name);
 
 		final Label lblURL = new Label(container, SWT.NONE);
+		formData_2.left = new FormAttachment(lblURL, 17);
 		{
 		    FormData formData = new FormData();
-		    formData.bottom = new FormAttachment(txtUrl, 0, SWT.BOTTOM);
-		    formData.left = new FormAttachment(lblName, 0, SWT.LEFT);
+		    formData.top = new FormAttachment(txtUrl, 2, SWT.TOP);
+		    formData.left = new FormAttachment(0, 10);
 		    lblURL.setLayoutData(formData);
 		}
 		lblURL.setText("URL:");
