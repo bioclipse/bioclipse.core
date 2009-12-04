@@ -1,6 +1,6 @@
 //Download PDB
-res=webservices.downloadPDBAsFile("1d66")
-ui.open(res)
+mol=ws.queryPDB("1d66")
+ui.open(mol.get(0))
  
 //Do some jmol visualization
 jmol.run("move 0 0 90 00 0 0 0 0 1;set selectionhalos off; select all; spacefill 0; cartoon on;")
