@@ -24,6 +24,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.GridLayout;
 
 public class UpdateSitesEditDialog extends TitleAreaDialog{
 
@@ -32,9 +33,6 @@ public class UpdateSitesEditDialog extends TitleAreaDialog{
 	private Text txtUrl;
 	private String name;
 	private String url;
-	private FormData formData_1;
-	private FormData formData_2;
-	private FormData formData_3;
 
 
 	/**
@@ -58,49 +56,28 @@ public class UpdateSitesEditDialog extends TitleAreaDialog{
 		
 		Composite area = (Composite) super.createDialogArea(parent);
 		Composite container = new Composite(area, SWT.NONE);
-		container.setLayout(new FormLayout());
+		container.setLayout(new GridLayout(2, false));
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
-
-    formData_1 = new FormData();
+				
+				final Label lblName = new Label(container, SWT.NONE);
+				lblName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+				lblName.setText("Name:");
+				
+				txtName = new Text(container, SWT.BORDER);
+				GridData gridData_1 = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+				gridData_1.widthHint = 482;
+				txtName.setLayoutData(gridData_1);
+				txtName.setText(name);
+		
+				final Label lblURL = new Label(container, SWT.NONE);
+				lblURL.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+				lblURL.setText("URL:");
 		
 		txtUrl = new Text(container, SWT.BORDER);
-		{
-		    formData_2 = new FormData();
-		    formData_2.right = new FormAttachment(100, -10);
-		    txtUrl.setLayoutData(formData_2);
-		}
+		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		gridData.widthHint = 460;
+		txtUrl.setLayoutData(gridData);
 		txtUrl.setText(url);
-		
-		final Label lblName = new Label(container, SWT.NONE);
-		formData_1.top = new FormAttachment(lblName, -2, SWT.TOP);
-		formData_1.left = new FormAttachment(lblName, 6);
-		{
-		    formData_3 = new FormData();
-		    formData_3.left = new FormAttachment(0, 10);
-		    formData_3.top = new FormAttachment(0, 20);
-		    lblName.setLayoutData(formData_3);
-		}
-		lblName.setText("Name:");
-		
-		txtName = new Text(container, SWT.BORDER);
-		formData_2.top = new FormAttachment(txtName, 10);
-        {
-            formData_1.right = new FormAttachment(100, -10);
-            formData_1.left = new FormAttachment(lblName, 6);
-            formData_1.bottom = new FormAttachment(lblName, 0, SWT.BOTTOM);
-            txtName.setLayoutData(formData_1);
-        }
-        txtName.setText(name);
-
-		final Label lblURL = new Label(container, SWT.NONE);
-		formData_2.left = new FormAttachment(lblURL, 17);
-		{
-		    FormData formData = new FormData();
-		    formData.top = new FormAttachment(txtUrl, 2, SWT.TOP);
-		    formData.left = new FormAttachment(0, 10);
-		    lblURL.setLayoutData(formData);
-		}
-		lblURL.setText("URL:");
 
 		return area;
 	}
