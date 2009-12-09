@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2009  Egon Willighagen <egonw@users.sf.net>
- *               2008  Ola Spjuth
+ *               2008-2009  Ola Spjuth
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0

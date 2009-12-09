@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008  The Bioclipse Project and others.
+ * Copyright (c) 2008-2009  The Bioclipse Project and others.
  *               2009  Egon Willighagen <egonw@users.sf.net>
  * 
  * All rights reserved. This program and the accompanying materials

@@ -169,6 +169,7 @@
    </extension>
    <extension
          point="org.eclipse.ui.navigator.viewer">
+         
       <viewer 
             viewerId="net.bioclipse.navigator">
          <popupMenu 
@@ -217,6 +218,12 @@
             </insertionPoint>
          </popupMenu>
       </viewer>
+      
+      <dragAssistant
+		class="org.eclipse.ui.navigator.resources.ResourceDragAdapterAssistant"
+		viewerId="net.bioclipse.navigator">
+	  </dragAssistant>
+      
       <viewerContentBinding
             viewerId="net.bioclipse.navigator">
          <includes>

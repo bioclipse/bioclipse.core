@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Bioclipse Project
+ * Copyright (c) 2008-2009 Bioclipse Project
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,7 +27,7 @@ public interface IPreferenceConstants {
 	public static final String PREFERENCES_DELIMITER = "%";
 	
 	//Delimiter within a preference
-	public static final String PREFERENCES_OBJECT_DELIMITER = "Â£";
+	public static final String PREFERENCES_OBJECT_DELIMITER = "££";
 	
 	public static final String PREFERENCES_EXTENSION_DELIMITER = ",";
 	
