@@ -27,7 +27,7 @@ public interface IPreferenceConstants {
 	public static final String PREFERENCES_DELIMITER = "%";
 	
 	//Delimiter within a preference
-	public static final String PREFERENCES_OBJECT_DELIMITER = "Â£";
+	public static final String PREFERENCES_OBJECT_DELIMITER = "££";
 	
 	public static final String PREFERENCES_EXTENSION_DELIMITER = ",";
 	
