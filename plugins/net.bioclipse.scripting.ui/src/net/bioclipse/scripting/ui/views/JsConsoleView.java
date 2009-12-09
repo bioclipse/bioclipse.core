@@ -88,6 +88,10 @@ public class JsConsoleView extends ScriptingConsoleView {
                                         name // strip namespace part of name
                                           = name.substring(name.lastIndexOf('.')
                                                            + 1);
+                                        if (name.contains("$"))
+                                            name = name.substring(
+                                                    0, name.indexOf('$')
+                                                   );
                                         message[0]
                                           = "List<" + name
                                             + "> of size " + list.size();
