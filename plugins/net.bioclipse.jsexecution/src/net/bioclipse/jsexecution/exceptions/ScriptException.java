@@ -3,7 +3,7 @@ package net.bioclipse.jsexecution.exceptions;
 /*
  * This file is part of the Bioclipse JsExecution Plug-in.
  * 
- * Copyright (c) 2008 Johannes Wagener.
+ * Copyright (c) 2008-2009 Johannes Wagener.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2007 IBM Corporation and others.
+ * Copyright (c) 2000, 2007-2009 IBM Corporation and others.
  *                     2009 Egon Willighagen <egonw@user.sf.net>
  * 
  * All rights reserved. This program and the accompanying materials
