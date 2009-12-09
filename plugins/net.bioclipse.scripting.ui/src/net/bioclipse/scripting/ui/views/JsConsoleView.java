@@ -80,12 +80,16 @@ public class JsConsoleView extends ScriptingConsoleView {
                                 Object unwrappedObject
                                   = ((NativeJavaObject)result).unwrap();
 
-                                if (unwrappedObject instanceof List) {
+                                if (unwrappedObject instanceof List<?>) {
                                     List<?> list = (List<?>)unwrappedObject;
                                     if (list.size() > 2) {
+                                        String name
+                                          = list.get(0).getClass().getName();
+                                        name // strip namespace part of name
+                                          = name.substring(name.lastIndexOf('.')
+                                                           + 1);
                                         message[0]
-                                          = "List<"
-                                            + list.get(0).getClass().getName()
+                                          = "List<" + name
                                             + "> of size " + list.size();
                                     }
                                     else {
