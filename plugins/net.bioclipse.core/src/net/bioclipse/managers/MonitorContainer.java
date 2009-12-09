@@ -70,7 +70,7 @@ public class MonitorContainer {
                              "connected to current thread so returning a " +
                              "NullProgressMonitor. This warning will not be " +
                              "repeated withing the comming " + timeout + 
-                             "seconds for thread with id: ." + t.getId() );
+                             " seconds for thread with id: ." + t.getId() );
             }
             m = new NullProgressMonitor();
         }
