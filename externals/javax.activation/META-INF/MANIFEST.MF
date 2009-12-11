@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %Bundle-Name.0
+Bundle-SymbolicName: javax.activation
+Bundle-Version: 1.1.0.qualifier
+Require-Bundle: system.bundle
+Export-Package: com.sun.activation.registries;x-internal:=true,
+ com.sun.activation.viewers;x-internal:=true,
+ javax.activation; version=1.1.0; vendor=sun
+Bundle-Vendor: %Bundle-Vendor.0
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
