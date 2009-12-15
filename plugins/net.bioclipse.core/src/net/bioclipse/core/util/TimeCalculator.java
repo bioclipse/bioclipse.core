@@ -17,7 +17,7 @@ package net.bioclipse.core.util;
  * @author jonalv
  *
  */
-public class TimeCalculater {
+public class TimeCalculator {
 
     public final static long SECOND = 1000;
     public final static long MINUTE = SECOND * 60;
@@ -78,7 +78,7 @@ public class TimeCalculater {
         long timeForOneEntry = (elapsed) / currentElement;
         long timeRemaining = timeForOneEntry * (numOfElements - currentElement);
         return "Estimating about: " 
-               + TimeCalculater.millisecsToString(timeRemaining)
+               + TimeCalculator.millisecsToString(timeRemaining)
                + " remaining";
     }
 }
