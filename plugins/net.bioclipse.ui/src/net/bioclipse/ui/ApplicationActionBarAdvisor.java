@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007-2008 The Bioclipse Project and others.
+ * Copyright (c) 2007-2009 The Bioclipse Project and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -354,44 +354,6 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 //			}
 //		}
 		
-//		
-		
-/*
-    	ActionSetRegistry reg = WorkbenchPlugin.getDefault().getActionSetRegistry();
-    	IActionSetDescriptor[] actionSets = reg.getActionSets();
-    	// removing annoying gotoLastPosition Message.
-    	String actionSetId = "org.eclipse.ui.edit.text.actionSet.navigation";
-    	for (int i = 0; i <actionSets.length; i++)
-    	{
-    		if (!actionSets[i].getId().equals(actionSetId))
-    			continue;
-    		IExtension ext = actionSets[i].getConfigurationElement()
-    		.getDeclaringExtension();
-    		reg.removeExtension(ext, new Object[] { actionSets[i] });
-    	}
-
-    	// Removing convert line delimiters menu.
-    	actionSetId = "org.eclipse.ui.edit.text.actionSet.convertLineDelimitersTo";
-    	for (int i = 0; i <actionSets.length; i++)
-    	{
-    		if (!actionSets[i].getId().equals(actionSetId))
-    			continue;
-    		IExtension ext = actionSets[i].getConfigurationElement()
-    		.getDeclaringExtension();
-    		reg.removeExtension(ext, new Object[] { actionSets[i] });
-    	}
-
-    	// Removing convert line delimiters menu.
-    	actionSetId = "org.eclipse.ui.actionSet.openFiles";
-    	for (int i = 0; i <actionSets.length; i++)
-    	{
-    		if (!actionSets[i].getId().equals(actionSetId))
-    			continue;
-    		IExtension ext = actionSets[i].getConfigurationElement()
-    		.getDeclaringExtension();
-    		reg.removeExtension(ext, new Object[] { actionSets[i] });
-    	}
-    	*/
     }
 	
 	private void removeActionByID(String actionSetID){

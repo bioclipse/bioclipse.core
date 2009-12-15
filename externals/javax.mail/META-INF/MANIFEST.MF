@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %Bundle-Name.0
+Bundle-SymbolicName: javax.mail
+Bundle-Version: 1.4.0.qualifier
+Export-Package:  javax.mail; version="1.4.0"; vendor=sun,
+ javax.mail.event; version="1.4.0"; vendor=sun,
+ javax.mail.internet; version="1.4.0"; vendor=sun,
+ javax.mail.search; version="1.4.0"; vendor=sun,
+ javax.mail.util; version="1.4.0"; vendor=sun,
+ com.sun.mail.handlers;x-internal:=true,
+ com.sun.mail.iap;x-internal:=true,
+ com.sun.mail.imap;x-internal:=true,
+ com.sun.mail.imap.protocol;x-internal:=true,
+ com.sun.mail.pop3;x-internal:=true,
+ com.sun.mail.smtp;x-internal:=true,
+ com.sun.mail.util;x-internal:=true
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-Localization: plugin
+Bundle-Vendor: %Bundle-Vendor.0
+Require-Bundle: system.bundle, 
+ javax.activation;bundle-version="1.1.0"
