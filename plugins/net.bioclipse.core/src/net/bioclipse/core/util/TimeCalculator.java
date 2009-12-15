@@ -45,7 +45,7 @@ public class TimeCalculator {
         if ( timeleft > MINUTE ) {
             long minutes = (timeleft / MINUTE);
             result.append( minutes );
-            result.append( "m " );
+            result.append( "min " );
             timeleft = timeleft - (minutes * MINUTE);
         }
         if ( timeleft > SECOND ) {
