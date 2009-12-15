@@ -30,6 +30,9 @@ public class TimeCalculator {
     public static String millisecsToString(long time) {
         StringBuilder result = new StringBuilder();
         long timeleft = time;
+        if ( timeleft < SECOND ) {
+            return "almost done";
+        }
         if ( timeleft > DAY ) {
             long days = (time / DAY);
             result.append( days );
@@ -53,9 +56,7 @@ public class TimeCalculator {
             result.append( seconds );
             result.append( "s" );
         }
-        if ( timeleft < SECOND ) {
-            result.append( "< 1s" );
-        }
+
         return result.toString();
     }
 
