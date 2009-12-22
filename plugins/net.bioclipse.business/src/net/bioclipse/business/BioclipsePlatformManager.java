@@ -52,12 +52,19 @@ public class BioclipsePlatformManager implements IBioclipseManager {
 		}
     }
 
-    public String download(String url, IProgressMonitor monitor) 
+    public String download(String url, IProgressMonitor monitor)
     throws BioclipseException {
+        return download(url, null, monitor);
+    }
+
+    public String download(String url, String mimeType,
+            IProgressMonitor monitor) throws BioclipseException {
         StringBuffer content = new StringBuffer();
         URLConnection rawConn;
         try {
             rawConn = createURL(url).openConnection();
+            if (mimeType != null)
+                rawConn.addRequestProperty("Accept", mimeType);
             BufferedReader reader = new BufferedReader(
                 new InputStreamReader(rawConn.getInputStream())
             );
@@ -75,11 +82,18 @@ public class BioclipsePlatformManager implements IBioclipseManager {
     }
 
     public IFile downloadAsFile(String url, IFile target,
+            IProgressMonitor monitor) throws BioclipseException {
+        return downloadAsFile(url, null, target, monitor);
+    }
+
+    public IFile downloadAsFile(String url, String mimeType, IFile target,
                                 IProgressMonitor monitor)
     throws BioclipseException {
         URLConnection rawConn;
         try {
             rawConn = createURL(url).openConnection();
+            if (mimeType != null)
+                rawConn.addRequestProperty("Accept", mimeType);
             if (target.exists()) {
                 target.setContents(rawConn.getInputStream(), true, false, null);
             } else {
