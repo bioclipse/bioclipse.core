@@ -22,4 +22,5 @@ public interface ISequence extends IBioObject {
     
     public String toFasta();
     public String getPlainSequence();
+    public Object getParsedResource();
 }
