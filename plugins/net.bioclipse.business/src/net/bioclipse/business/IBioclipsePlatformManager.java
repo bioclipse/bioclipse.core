@@ -38,4 +38,21 @@ public interface IBioclipsePlatformManager extends IBioclipseManager {
     )
     public String downloadAsFile(String url, String filename)
     throws BioclipseException;
+
+    @PublishedMethod(
+        params="String url, String mimeType",
+        methodSummary="Download the URL content as String while passing the " +
+        		"given MIME type as Accept: HTTP header."
+    )
+    public String download(String url, String mimeType)
+    throws BioclipseException;
+
+    @PublishedMethod(
+        params="String url, String mimeType, String filename",
+        methodSummary="Download the URL content into a file while passing " +
+        		"the given MIME type as Accept: HTTP header."
+    )
+    public String downloadAsFile(String url, String mimeType,
+            String filename)
+    throws BioclipseException;
 }

@@ -82,7 +82,7 @@ public class JsConsoleView extends ScriptingConsoleView {
 
                                 if (unwrappedObject instanceof List<?>) {
                                     List<?> list = (List<?>)unwrappedObject;
-                                    if (list.size() > 2) {
+                                    if (needsShortening(list)) {
                                         String name
                                           = list.get(0).getClass().getName();
                                         name // strip namespace part of name
@@ -117,6 +117,11 @@ public class JsConsoleView extends ScriptingConsoleView {
                             }
                             printMessage(message[0] + NEWLINE);
                         }
+                    }
+
+                    private boolean needsShortening(List<?> list) {
+                        return list.size() > 2
+                               && list.get(0).getClass() != String.class;
                     }
                 } );
             }
