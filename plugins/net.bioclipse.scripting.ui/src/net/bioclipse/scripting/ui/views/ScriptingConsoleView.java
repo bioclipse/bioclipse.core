@@ -529,14 +529,6 @@ public abstract class ScriptingConsoleView extends ViewPart {
     protected abstract String executeCommand(String command);
     
     /**
-     * Waits for a command to finish executing. Used especially for
-     * asynchronous scripting environments, where the environment goes off and
-     * executes the command in some other thread. Console views which don't
-     * do async can simply leave this method empty.
-     */
-    protected abstract void waitUntilCommandFinished();
-
-    /**
      * Returns all names of variables and methods contained in a certain
      * container object, or, if <code>""</code> or <code>null</code> is passed,
      * in the root container object. This method is meant to be overridden
@@ -680,26 +672,14 @@ public abstract class ScriptingConsoleView extends ViewPart {
      * 
      * @param command the command to be printed and executed
      */
-    private void carryOutCommand(String command){
+    public void carryOutCommand(String command){
         input.setText("");
         if ("".equals(command))
             return;
-        printMessage(NEWLINE + "> " + command + NEWLINE);
         commandHistory.remove( commandHistory.size() - 1 );
         commandHistory.add( command );
         commandHistory.add( "" );
         currentHistoryLine = commandHistory.size() - 1;
         executeCommand(command);
-    }
-
-    /**
-     * Calls <code>carryOutCommand</code> and then waits for the command to
-     * finish executing before returning control to the caller.
-     *
-     * @param command the command to be printed and executed
-     */
-    public void carryOutCommandAndWait(String command){
-        carryOutCommand(command);
-        waitUntilCommandFinished();
     }
 }
