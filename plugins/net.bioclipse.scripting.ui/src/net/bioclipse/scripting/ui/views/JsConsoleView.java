@@ -64,7 +64,7 @@ public class JsConsoleView extends ScriptingConsoleView {
         return "";
     }
 
-    private void executeJsCommand(String command) {
+    private void executeJsCommand(final String command) {
         if (!jsThread.isAlive()) {
             Activator.getDefault().JS_THREAD = jsThread = new JsThread();
             jsThread.start();
@@ -115,6 +115,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                                 message[0] = s.matches( JS_UNDEFINED_RE )
                                              ? "" : result.toString();
                             }
+                            printMessage(NEWLINE + "> " + command + NEWLINE);
                             printMessage(message[0] + NEWLINE);
                         }
                     }
@@ -126,17 +127,6 @@ public class JsConsoleView extends ScriptingConsoleView {
                 } );
             }
         }));
-    }
-
-    public void waitUntilCommandFinished() {
-        // If there is a nicer way to do this, please let me know. -- masak
-        while (JsThread.isBusy()) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                break;
-            }
-        }
     }
 
     public String getErrorMessage(Throwable t) {
