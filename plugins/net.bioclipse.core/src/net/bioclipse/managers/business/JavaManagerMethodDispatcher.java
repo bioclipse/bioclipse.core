@@ -197,6 +197,18 @@ public class JavaManagerMethodDispatcher
         job.setBioclipseManager( manager );
                
         job.setUser( false );
+
+        ISchedulingRule combinedRule = null;
+        IResourceRuleFactory ruleFactory =  ResourcesPlugin.getWorkspace()
+                                                           .getRuleFactory();
+        for ( Object o : arguments ) {
+            if ( o instanceof IFile ) {
+                ISchedulingRule rule = ruleFactory.createRule( (IFile)o );
+                combinedRule = MultiRule.combine( rule, combinedRule );
+            }
+        }
+        job.setRule( combinedRule );
+        
         if ( notExtended ) {
             job.schedule();
         }
