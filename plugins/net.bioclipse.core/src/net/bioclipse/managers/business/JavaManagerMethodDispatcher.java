@@ -59,7 +59,11 @@ public class JavaManagerMethodDispatcher
                invocation.getMethod()
                          .getReturnType() == ExtendedBioclipseJob.class ) ) {
             
-            return runAsJob(manager, method, arguments, invocation, notExtended);
+            return runAsJob( manager, 
+                             method, 
+                             arguments, 
+                             invocation, 
+                             notExtended );
         }
         
         return runInSameThread(manager, method, arguments);
