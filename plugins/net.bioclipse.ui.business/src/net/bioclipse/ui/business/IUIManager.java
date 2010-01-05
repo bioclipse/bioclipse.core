@@ -198,4 +198,12 @@ public interface IUIManager extends IBioclipseManager {
     public boolean isContentType(String type, IContentType contentType)
         throws BioclipseException;
 
+    @Recorded
+    @PublishedMethod(
+        params="String name",
+        methodSummary="Create a new project by name."
+    )
+    public String newProject(String name) 
+        throws CoreException, BioclipseException;
+
 }

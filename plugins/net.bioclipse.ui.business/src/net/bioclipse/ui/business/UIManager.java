@@ -34,6 +34,7 @@ import net.bioclipse.ui.business.describer.IBioObjectDescriber;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -313,6 +314,24 @@ public class UIManager implements IBioclipseManager {
 
         //Nothing found
         return null;
+    }
+
+    /**
+     * Create a new project.
+     * @param name Name of project to create
+     * @return
+     * @throws CoreException
+     * @throws BioclipseException
+     */
+    public String newProject(String name) throws CoreException, 
+                                                 BioclipseException {
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        IWorkspaceRoot root = workspace.getRoot();
+        IProject project = root.getProject( name );
+        if (project.exists()) return name;
+        project.create( new NullProgressMonitor() );
+        project.open( new NullProgressMonitor() );
+        return name;
     }
 
     
