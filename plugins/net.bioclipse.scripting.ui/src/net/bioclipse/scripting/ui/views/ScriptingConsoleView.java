@@ -467,6 +467,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
             // beginnings of lines, so we don't skip any space if they come
             // directly after a NEWLINE.
             if (currentPos < text.length() - 1
+                && currentPos >= NEWLINE.length()
                 && !NEWLINE.equals(text.substring(currentPos-NEWLINE.length(),
                                                   currentPos))
                 && " ".equals(text.substring(currentPos,
