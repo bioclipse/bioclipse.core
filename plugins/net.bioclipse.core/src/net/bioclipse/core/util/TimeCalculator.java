@@ -31,7 +31,7 @@ public class TimeCalculator {
         StringBuilder result = new StringBuilder();
         long timeleft = time;
         if ( timeleft < SECOND ) {
-            return "almost done";
+            return "less than a second";
         }
         if ( timeleft > DAY ) {
             long days = (time / DAY);
