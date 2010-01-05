@@ -43,11 +43,4 @@ public class GroovyConsoleView extends ScriptingConsoleView {
         printMessage(result);
         return result;
     }
-
-    @Override
-    protected void waitUntilCommandFinished() {
-        // TODO Auto-generated method stub
-        
-    }
-
 }
