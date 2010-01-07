@@ -23,8 +23,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
@@ -45,8 +43,6 @@ public class JsConsoleView extends ScriptingConsoleView {
 
     private static final String JS_UNDEFINED_RE
       = "org.mozilla.javascript.Undefined@.*";
-    private static final Pattern CLEAR_CONSOLE_RE
-      = Pattern.compile("\\s*(?:js\\s*\\.\\s*)?clear\\s*\\(\\s*\\)\\s*;?\\s*");
     private static JsThread jsThread = Activator.getDefault().JS_THREAD;
 
     @Override
@@ -76,63 +72,73 @@ public class JsConsoleView extends ScriptingConsoleView {
             Activator.getDefault().JS_THREAD = jsThread = new JsThread();
             jsThread.start();
         }
-        jsThread.enqueue(new JsAction(command, new Hook() {
-            public void run(final Object result) {
-                final String[] message = new String[1];
-                Display.getDefault().asyncExec( new Runnable() {
+        jsThread.enqueue(new JsAction(command,
+            new Hook() {
+               public void run(final Object result) {
+                   Display.getDefault().asyncExec(new Runnable() {
+                    @Override
                     public void run() {
-                        if ( null != result ) {
-                            if (result instanceof NativeJavaObject) {
+                        echoCommand(command);
+                    }});
+               }
+            },
+            new Hook() {
+               public void run(final Object result) {
+                   final String[] message = new String[1];
+                   Display.getDefault().asyncExec( new Runnable() {
+                       public void run() {
+                           if ( null != result ) {
+                               if (result instanceof NativeJavaObject) {
 
-                                Object unwrappedObject
-                                  = ((NativeJavaObject)result).unwrap();
+                                   Object unwrappedObject
+                                     = ((NativeJavaObject)result).unwrap();
 
-                                if (unwrappedObject instanceof List<?>) {
-                                    List<?> list = (List<?>)unwrappedObject;
-                                    if (needsShortening(list)) {
-                                        String name
-                                          = list.get(0).getClass().getName();
-                                        name // strip namespace part of name
-                                          = name.substring(name.lastIndexOf('.')
-                                                           + 1);
-                                        if (name.contains("$"))
-                                            name = name.substring(
-                                                    0, name.indexOf('$')
-                                                   );
-                                        message[0]
-                                          = "List<" + name
-                                            + "> of size " + list.size();
-                                    }
-                                    else {
-                                        StringBuilder sb
-                                           = stringify( list, "[", ", ", "]" );
+                                   if (unwrappedObject instanceof List<?>) {
+                                       List<?> list = (List<?>)unwrappedObject;
+                                       if (needsShortening(list)) {
+                                           String name
+                                             = list.get(0).getClass().getName();
+                                           name // strip namespace part of name
+                                             = name.substring(
+                                                     name.lastIndexOf('.') + 1);
+                                           if (name.contains("$"))
+                                               name = name.substring(
+                                                       0, name.indexOf('$')
+                                                      );
+                                           message[0]
+                                             = "List<" + name
+                                               + "> of size " + list.size();
+                                       }
+                                       else {
+                                           StringBuilder sb
+                                              = stringify(list, "[", ", ", "]");
 
-                                        message[0] = sb.toString();
-                                    }
-                                }
-                                else {
-                                    message[0] = unwrappedObject.toString();
-                                }
-                            }
-                            else if (result instanceof Exception) {
-                                message[0] = getErrorMessage((Exception)result);
-                            }
-                            else {
-                                String s = result.toString();
-                                message[0] = s.matches( JS_UNDEFINED_RE )
-                                             ? "" : result.toString();
-                            }
-                            echoCommand(command);
-                            printMessage(message[0] + NEWLINE);
-                        }
-                    }
+                                           message[0] = sb.toString();
+                                       }
+                                   }
+                                   else {
+                                       message[0] = unwrappedObject.toString();
+                                   }
+                               }
+                               else if (result instanceof Exception) {
+                                   message[0]
+                                       = getErrorMessage((Exception)result);
+                               }
+                               else {
+                                   String s = result.toString();
+                                   message[0] = s.matches( JS_UNDEFINED_RE )
+                                                ? "" : result.toString();
+                               }
+                               printMessage(message[0] + NEWLINE);
+                           }
+                       }
 
-                    private boolean needsShortening(List<?> list) {
-                        return list.size() > 2
-                               && list.get(0).getClass() != String.class;
-                    }
-                } );
-            }
+                       private boolean needsShortening(List<?> list) {
+                           return list.size() > 2
+                                  && list.get(0).getClass() != String.class;
+                       }
+                   } );
+               }
         }));
     }
 
@@ -757,12 +763,6 @@ public class JsConsoleView extends ScriptingConsoleView {
     }
 
     private void echoCommand(final String command) {
-        // Special-case 'clear'. A clear command shouldn't echo after clearing
-        // the console.
-        // http://pele.farmbio.uu.se/cgi-bin/bugzilla/show_bug.cgi?id=1805
-        if ( CLEAR_CONSOLE_RE.matcher(command).matches() )
-            return;
-
         printMessage(NEWLINE + "> " + command + NEWLINE);
     }
 }
