@@ -48,14 +48,17 @@ public class JsConsoleView extends ScriptingConsoleView {
     @Override
     protected String executeCommand( String command ) {
         if (command.matches("help( .*)?") || command.matches("man( .*)?")) {
+            echoCommand(command);
             printMessage( helpString(command) );
             return "";
         }
         else if (command.matches("doi( .*)?")) {
+            echoCommand(command);
             printMessage( openDOI(command) );
             return "";
         }
         else if (command.matches("apropos( .*)?")) {
+            echoCommand(command);
             printMessage( aproposString(command) );
             return "";
         }
@@ -115,7 +118,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                                 message[0] = s.matches( JS_UNDEFINED_RE )
                                              ? "" : result.toString();
                             }
-                            printMessage(NEWLINE + "> " + command + NEWLINE);
+                            echoCommand(command);
                             printMessage(message[0] + NEWLINE);
                         }
                     }
@@ -747,5 +750,9 @@ public class JsConsoleView extends ScriptingConsoleView {
 
         // in all other cases, we add nothing
         return "";
+    }
+
+    private void echoCommand(final String command) {
+        printMessage(NEWLINE + "> " + command + NEWLINE);
     }
 }
