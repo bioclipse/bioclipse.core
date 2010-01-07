@@ -23,6 +23,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
@@ -43,6 +45,8 @@ public class JsConsoleView extends ScriptingConsoleView {
 
     private static final String JS_UNDEFINED_RE
       = "org.mozilla.javascript.Undefined@.*";
+    private static final Pattern CLEAR_CONSOLE_RE
+      = Pattern.compile("\\s*(?:js\\s*\\.\\s*)?clear\\s*\\(\\s*\\)\\s*;?\\s*");
     private static JsThread jsThread = Activator.getDefault().JS_THREAD;
 
     @Override
@@ -753,6 +757,12 @@ public class JsConsoleView extends ScriptingConsoleView {
     }
 
     private void echoCommand(final String command) {
+        // Special-case 'clear'. A clear command shouldn't echo after clearing
+        // the console.
+        // http://pele.farmbio.uu.se/cgi-bin/bugzilla/show_bug.cgi?id=1805
+        if ( CLEAR_CONSOLE_RE.matcher(command).matches() )
+            return;
+
         printMessage(NEWLINE + "> " + command + NEWLINE);
     }
 }
