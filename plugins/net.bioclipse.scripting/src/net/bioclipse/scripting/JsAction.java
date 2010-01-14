@@ -10,11 +10,17 @@ package net.bioclipse.scripting;
 
 public class JsAction {
     private String command;
+    private Hook preCommandHook;
     private Hook postCommandHook;
     
     public JsAction(String command, Hook postCommandHook) {
-        
+        this(command, null, postCommandHook);
+    }
+
+    public JsAction(String command, Hook preCommandHook, Hook postCommandHook) {
+
         this.command = command;
+        this.preCommandHook  = preCommandHook;
         this.postCommandHook = postCommandHook;
     }
     
@@ -22,7 +28,15 @@ public class JsAction {
         return command;
     }
     
+    public void runPreCommandHook() {
+        if (preCommandHook == null)
+            return;
+        preCommandHook.run(null);
+    }
+
     public void runPostCommandHook(Object result) {
+        if (postCommandHook == null)
+            return;
         postCommandHook.run(result);
     }
 }
