@@ -76,7 +76,6 @@ public class JsConsoleView extends ScriptingConsoleView {
             new Hook() {
                public void run(final Object result) {
                    Display.getDefault().asyncExec(new Runnable() {
-                    @Override
                     public void run() {
                         echoCommand(command);
                     }});
