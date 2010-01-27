@@ -85,6 +85,10 @@
             name="aboutText"
             value="%productBlurb">
       </property>
+      <property
+          name="buildIdLocation"
+          value="413,10">
+      </property>
       </product>
    </extension>
    
