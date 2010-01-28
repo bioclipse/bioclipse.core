@@ -45,8 +45,6 @@
    <intro introId="net.bioclipse.ui.intro"/>
 
    <vm>
-      <linux>org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5</linux>
-      <macos>org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5</macos>
    </vm>
 
    <plugins>
