@@ -47,7 +47,7 @@ public interface IGistManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod(
         params = "int gist",
-        methodSummary = "Downloads the Gist with the given number to the" +
+        methodSummary = "Downloads the Gist with the given number to the " +
                         "project 'Gists/' and returns the path"
     )
     public String download(int gist);
