@@ -132,10 +132,11 @@ while (my $line = <>) {
         }
 
         my %method_desc = ();
-        if ( $method_desc =~ m{ params \s* = \s* " ([^"]*) " }x ) {
+        if ( $method_desc =~ m{ params \s* = \s* " ((?:\\.|[^"])*) " }x ) {
             $method_desc{params} = $1;
         }
-        if ( $method_desc =~ m{ methodSummary \s* = \s* " ([^"]*) " }x ) {
+        if ( $method_desc
+                =~ m{ methodSummary \s* = \s* " ((?:\\.|[^"])*) " }x ) {
             $method_desc{summary} = $1;
         }
 
