@@ -150,7 +150,9 @@ while (my $line = <>) {
           if $method_signature !~ m{\(};
 
         if ( $method_signature =~ m{ \s (\w+) \s* \( }x ) {
-            $methods{$1} = \%method_desc;
+            my $name = $1;
+            my $params = delete $method_desc{params};
+            $methods{"$name($params)"} = \%method_desc;
         }
         else {
             die 'Found no name to hang the method on: ', $method_signature;
