@@ -115,7 +115,7 @@ while (my $line = <>) {
             s{ doi   \s* = "  [^\}]+ ",? }{}x;
             s{ doi   \s* = \{ [^\}]+ \},? }{}x;
             s{ " \s* \+ \s* " }{}xg;
-            s{ \) \s* }{}x;
+            s{ \) \s* $ }{}x;
             s{ ^ \s* " }{}x;
             s{ " ,? \s* $ }{}x;
         }
@@ -128,7 +128,7 @@ while (my $line = <>) {
         for ($method_desc) {
             s{ ^ \s* \@PublishedMethod \s* \( \s* }{}x;
             s{ " \s* \+ \s* " }{}xg;
-            s{ \) \s* }{}x;
+            s{ \) \s* $ }{}x;
         }
 
         my %method_desc = ();
