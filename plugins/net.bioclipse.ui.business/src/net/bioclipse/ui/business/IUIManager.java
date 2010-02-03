@@ -104,7 +104,8 @@ public interface IUIManager extends IBioclipseManager {
     @Recorded
     @PublishedMethod(
         params = "String filePath",
-        methodSummary = "Determines if the given file exists in the workspace"
+        methodSummary = "Returns whether given file path point to a file " +
+        		        "that exists in the workspace"
     )
     @TestMethods("testExists_String")
     public boolean fileExists(String filePath);
@@ -159,7 +160,8 @@ public interface IUIManager extends IBioclipseManager {
     @Recorded
     @GuiAction
     @PublishedMethod( params="String path",
-                      methodSummary="Reveals a file in Navigator" )
+                      methodSummary = "Reveals a file in the Navigator and " +
+                      		          "selects it" )
     public void revealAndSelect( String path ) throws BioclipseException;
 
     @Recorded
@@ -173,7 +175,8 @@ public interface IUIManager extends IBioclipseManager {
     public void assertInstalled( String feature ) throws BioclipseException;
 
     @Recorded
-    @PublishedMethod( methodSummary="Get a list of the installed features." )
+    @PublishedMethod( methodSummary = "Returns a list of the installed " +
+    		                          "features." )
     public List<String> getInstalledFeatures();
     
     
