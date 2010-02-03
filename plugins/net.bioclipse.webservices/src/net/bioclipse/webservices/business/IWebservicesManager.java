@@ -27,8 +27,6 @@ import net.bioclipse.managers.business.IBioclipseManager;
 )
 public interface IWebservicesManager extends IBioclipseManager {
 
-
-
       /**
        * Retrieves an entry from a database with the WSDbfetch EBI Web service.
        * The result is dumped in the Webservice's result folder.
@@ -41,11 +39,13 @@ public interface IWebservicesManager extends IBioclipseManager {
        * @throws CoreException
        */
       @Recorded
-      @PublishedMethod( params = "String db, String query, String format, String filename", 
-                        methodSummary = "Fetches an entry from the EBI databases and saves it under the specified filename")
-      public String downloadDbEntryAsFile(String db, String query,
-          String format, String filename)
-      throws BioclipseException, CoreException;
+      @PublishedMethod( 
+          params = "String db, String query, String format, String filename", 
+          methodSummary = "Fetches an entry from the EBI databases and saves " +
+          		          "it under the specified filename" )
+      public String downloadDbEntryAsFile( String db, String query,
+                                           String format, String filename )
+                    throws BioclipseException, CoreException;
       
       /**
        * Retrieves an entry from a database with the WSDbfetch EBI Web service.
@@ -58,11 +58,13 @@ public interface IWebservicesManager extends IBioclipseManager {
        * @throws CoreException
        */
       @Recorded
-      @PublishedMethod( params = "String db, String query, String format", 
-                        methodSummary = "Fetches an entry from the EBI databases and saves it")
-      public String downloadDbEntryAsFile(String db, String query,
-          String format)
-      throws BioclipseException, CoreException;
+      @PublishedMethod( 
+          params = "String db, String query, String format", 
+          methodSummary = "Fetches an entry from the EBI databases and " +
+          		          "saves it")
+      public String downloadDbEntryAsFile( String db, String query,
+                                           String format )
+                    throws BioclipseException, CoreException;
       
       /**
        * Retrieves an entry from a database with the WSDbfetch EBI Web service. 
@@ -75,13 +77,11 @@ public interface IWebservicesManager extends IBioclipseManager {
        * @throws CoreException
        */
       @Recorded
-      @PublishedMethod( params = "String db, String query, String format", 
-                        methodSummary = "Fetches an entry from the EBI databases")
+      @PublishedMethod( 
+          params = "String db, String query, String format", 
+          methodSummary = "Fetches an entry from the EBI databases" )
       public String downloadDbEntry(String db, String query, String format)
-      throws BioclipseException, CoreException;
-
-      
-      
+                    throws BioclipseException, CoreException;
       
       /**
        * 
@@ -90,11 +90,12 @@ public interface IWebservicesManager extends IBioclipseManager {
        * @throws BioclipseException
        */
       @Recorded
-      @PublishedMethod(params="String pdbids",
-                       methodSummary="Query and retrieve PDB files using the" +
-                               "WSDbfetch service at EBI.")
+      @PublishedMethod(
+          params = "String pdbids",
+          methodSummary = "Query and retrieve PDB files using the" +
+                          "WSDbfetch service at EBI." )
       public List<String> queryPDB(String pdbids)
-      throws BioclipseException;
+                          throws BioclipseException;
       
       /**
        * 
@@ -104,11 +105,12 @@ public interface IWebservicesManager extends IBioclipseManager {
        * @throws BioclipseException
        */
       @Recorded
-      @PublishedMethod(params="String pdbids, String path ",
-                       methodSummary="Query and retrieve PDB files using the" +
-                               "WSDbfetch service at EBI to a specified folder.")
+      @PublishedMethod(
+          params = "String pdbids, String path ",
+          methodSummary = "Query and retrieve PDB files using the" +
+                          "WSDbfetch service at EBI to a specified folder.")
       public List<String> queryPDB( String pdbids, String path ) 
-      throws BioclipseException;
+                          throws BioclipseException;
 
       /**
        * 
@@ -119,7 +121,5 @@ public interface IWebservicesManager extends IBioclipseManager {
        * @throws BioclipseException
        */
       public List<String> queryPDB( String pdbids, IContainer container ) 
-      throws BioclipseException;
-
-      
+                          throws BioclipseException;
 }
