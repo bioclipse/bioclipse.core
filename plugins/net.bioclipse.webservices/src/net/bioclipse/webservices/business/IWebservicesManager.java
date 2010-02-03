@@ -61,7 +61,7 @@ public interface IWebservicesManager extends IBioclipseManager {
       @PublishedMethod( 
           params = "String db, String query, String format", 
           methodSummary = "Fetches an entry from the EBI databases and " +
-          		          "saves it")
+          		          "saves it in the Webservices result folder" )
       public String downloadDbEntryAsFile( String db, String query,
                                            String format )
                     throws BioclipseException, CoreException;
@@ -79,7 +79,8 @@ public interface IWebservicesManager extends IBioclipseManager {
       @Recorded
       @PublishedMethod( 
           params = "String db, String query, String format", 
-          methodSummary = "Fetches an entry from the EBI databases" )
+          methodSummary = "Fetches an entry from the EBI databases and " +
+          		          "saves it in the Virtual folder" )
       public String downloadDbEntry(String db, String query, String format)
                     throws BioclipseException, CoreException;
       
