@@ -134,8 +134,6 @@ public abstract class AbstractManagerMethodDispatcher
                                             invocation );
         }
         else {
-            logger.debug( "Creating job for " + manager.getManagerName() + "." 
-                          + invocation.getMethod().getName() );
             returnValue = doInvoke( (IBioclipseManager)invocation.getThis(), 
                                     m, 
                                     invocation.getArguments(),

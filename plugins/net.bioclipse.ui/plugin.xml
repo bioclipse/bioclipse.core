@@ -447,6 +447,12 @@
          id="net.bioclipse.ui.download"
          name="Download">
    </category>
+   <category
+        id="net.bioclipse.ui"
+        name="Bioclipse core" />
+   
 </extension>
+
+
 
 </plugin>

@@ -92,7 +92,7 @@ public interface IUserManager extends IBioclipseManager {
      * @return the name of the user currently logged in
      */
     @TestMethods("testGettingInfoWhenLoggedOut,testCreateMasterKeyAndLogin")
-    @PublishedMethod (methodSummary = "Gives the name of the currently " +
+    @PublishedMethod (methodSummary = "Returns the name of the currently " +
                                       "logged in user")
     public String getLoggedInUserName();
 
@@ -122,8 +122,8 @@ public interface IUserManager extends IBioclipseManager {
      */
     @TestMethods("testCreateAccount")
     @Recorded
-    @PublishedMethod (methodSummary = "Wether an account with a given " +
-                                      "account id exists", 
+    @PublishedMethod (methodSummary = "Returns whether an account with a " +
+    		                          "given account id exists", 
                       params = "String accountId")
     public boolean accountExists( String accountId );
 
@@ -139,9 +139,9 @@ public interface IUserManager extends IBioclipseManager {
     @TestMethods("testGetAccountProperties")
     @Recorded
     @PublishedMethod (params = "String accountId, String property",
-                      methodSummary = "Gives the value of the given property " +
-                                      "for the account with the given " +
-                                      "account id")
+                      methodSummary = "Returns the value of the given " +
+                      		          "property for the account with the " +
+                      		          "given account id")
     public String getProperty( String accountId, String propertyKey );
 
     /**
@@ -166,7 +166,7 @@ public interface IUserManager extends IBioclipseManager {
      */
     @TestMethods("testDeleteUser")
     @Recorded
-    @PublishedMethod (methodSummary = "Gives a list of all user names")
+    @PublishedMethod (methodSummary = "Returns a list of all user names")
     public List<String> getUserNames();
 
     /**
@@ -174,7 +174,7 @@ public interface IUserManager extends IBioclipseManager {
      */
     @TestMethods("")
     @Recorded
-    @PublishedMethod (methodSummary = "gives the logged in user")
+    @PublishedMethod (methodSummary = "Returns the logged in user")
     public User getLoggedInUser();
 
     /**
@@ -183,7 +183,7 @@ public interface IUserManager extends IBioclipseManager {
     @TestMethods("testDeleteUser")
     @Recorded
     @PublishedMethod (params = "String username",
-                      methodSummary = "deletes the user with " +
+                      methodSummary = "Deletes the user with " +
                                       "the given username")
     public void deleteUser( String user );
 
@@ -196,8 +196,8 @@ public interface IUserManager extends IBioclipseManager {
     @TestMethods("")
     @Recorded
     @PublishedMethod (params = "String accountId",
-                      methodSummary = "gives the names of the properties for" +
-                                      " an account with a given account id ")
+                      methodSummary = "Returns the names of the properties " +
+                      		          "for an account with a given account id ")
     public Collection<String> getPropertyKeys( String accountId );
 
     /**
@@ -227,7 +227,7 @@ public interface IUserManager extends IBioclipseManager {
      */
     @TestMethods("testCloningAndPersisting")
     @Recorded
-    @PublishedMethod (methodSummary = "Gives the account names of the " +
+    @PublishedMethod (methodSummary = "Returns the account names of the " +
                                       "logged in user ")
     public Collection<String> getLoggedInUsersAccountNames();
 
@@ -236,7 +236,7 @@ public interface IUserManager extends IBioclipseManager {
      */
     @TestMethods("")
     @Recorded
-    @PublishedMethod (methodSummary = "Gives the names of all available " +
+    @PublishedMethod (methodSummary = "Returns the names of all available " +
                                       "account types")
     public String[] getAvailableAccountTypeNames();
 
@@ -245,7 +245,7 @@ public interface IUserManager extends IBioclipseManager {
      */
     @TestMethods("")
     @Recorded
-    @PublishedMethod (methodSummary = "Gives all available account types")
+    @PublishedMethod (methodSummary = "Returns all available account types")
     public AccountType[] getAvailableAccountTypes();
 
     /**
@@ -258,8 +258,8 @@ public interface IUserManager extends IBioclipseManager {
     @TestMethods("testPersistingAccountType")
     @Recorded
     @PublishedMethod (params = "String accountID",
-                      methodSummary = "Gives the accounttype for account " +
-                                      "with given account id")
+                      methodSummary = "Returns the accounttype for the " +
+                      		          "account with given account id")
     public AccountType getAccountType(String accountId);
 
     /**
