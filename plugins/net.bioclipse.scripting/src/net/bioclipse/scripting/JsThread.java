@@ -87,6 +87,7 @@ public class JsThread extends ScriptingThread {
                         
                         monitor[0] = m;
                         
+                        nextAction.runPreCommandHook();
                         synchronized ( monitorIsSet ) {
                             monitorIsSet[0] = true;
                             monitorIsSet.notifyAll();

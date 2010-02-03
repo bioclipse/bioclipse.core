@@ -48,14 +48,17 @@ public class JsConsoleView extends ScriptingConsoleView {
     @Override
     protected String executeCommand( String command ) {
         if (command.matches("help( .*)?") || command.matches("man( .*)?")) {
+            echoCommand(command);
             printMessage( helpString(command) );
             return "";
         }
         else if (command.matches("doi( .*)?")) {
+            echoCommand(command);
             printMessage( openDOI(command) );
             return "";
         }
         else if (command.matches("apropos( .*)?")) {
+            echoCommand(command);
             printMessage( aproposString(command) );
             return "";
         }
@@ -69,63 +72,72 @@ public class JsConsoleView extends ScriptingConsoleView {
             Activator.getDefault().JS_THREAD = jsThread = new JsThread();
             jsThread.start();
         }
-        jsThread.enqueue(new JsAction(command, new Hook() {
-            public void run(final Object result) {
-                final String[] message = new String[1];
-                Display.getDefault().asyncExec( new Runnable() {
+        jsThread.enqueue(new JsAction(command,
+            new Hook() {
+               public void run(final Object result) {
+                   Display.getDefault().asyncExec(new Runnable() {
                     public void run() {
-                        if ( null != result ) {
-                            if (result instanceof NativeJavaObject) {
+                        echoCommand(command);
+                    }});
+               }
+            },
+            new Hook() {
+               public void run(final Object result) {
+                   final String[] message = new String[1];
+                   Display.getDefault().asyncExec( new Runnable() {
+                       public void run() {
+                           if ( null != result ) {
+                               if (result instanceof NativeJavaObject) {
 
-                                Object unwrappedObject
-                                  = ((NativeJavaObject)result).unwrap();
+                                   Object unwrappedObject
+                                     = ((NativeJavaObject)result).unwrap();
 
-                                if (unwrappedObject instanceof List<?>) {
-                                    List<?> list = (List<?>)unwrappedObject;
-                                    if (needsShortening(list)) {
-                                        String name
-                                          = list.get(0).getClass().getName();
-                                        name // strip namespace part of name
-                                          = name.substring(name.lastIndexOf('.')
-                                                           + 1);
-                                        if (name.contains("$"))
-                                            name = name.substring(
-                                                    0, name.indexOf('$')
-                                                   );
-                                        message[0]
-                                          = "List<" + name
-                                            + "> of size " + list.size();
-                                    }
-                                    else {
-                                        StringBuilder sb
-                                           = stringify( list, "[", ", ", "]" );
+                                   if (unwrappedObject instanceof List<?>) {
+                                       List<?> list = (List<?>)unwrappedObject;
+                                       if (needsShortening(list)) {
+                                           String name
+                                             = list.get(0).getClass().getName();
+                                           name // strip namespace part of name
+                                             = name.substring(
+                                                     name.lastIndexOf('.') + 1);
+                                           if (name.contains("$"))
+                                               name = name.substring(
+                                                       0, name.indexOf('$')
+                                                      );
+                                           message[0]
+                                             = "List<" + name
+                                               + "> of size " + list.size();
+                                       }
+                                       else {
+                                           StringBuilder sb
+                                              = stringify(list, "[", ", ", "]");
 
-                                        message[0] = sb.toString();
-                                    }
-                                }
-                                else {
-                                    message[0] = unwrappedObject.toString();
-                                }
-                            }
-                            else if (result instanceof Exception) {
-                                message[0] = getErrorMessage((Exception)result);
-                            }
-                            else {
-                                String s = result.toString();
-                                message[0] = s.matches( JS_UNDEFINED_RE )
-                                             ? "" : result.toString();
-                            }
-                            printMessage(NEWLINE + "> " + command + NEWLINE);
-                            printMessage(message[0] + NEWLINE);
-                        }
-                    }
+                                           message[0] = sb.toString();
+                                       }
+                                   }
+                                   else {
+                                       message[0] = unwrappedObject.toString();
+                                   }
+                               }
+                               else if (result instanceof Exception) {
+                                   message[0]
+                                       = getErrorMessage((Exception)result);
+                               }
+                               else {
+                                   String s = result.toString();
+                                   message[0] = s.matches( JS_UNDEFINED_RE )
+                                                ? "" : result.toString();
+                               }
+                               printMessage(message[0] + NEWLINE);
+                           }
+                       }
 
-                    private boolean needsShortening(List<?> list) {
-                        return list.size() > 2
-                               && list.get(0).getClass() != String.class;
-                    }
-                } );
-            }
+                       private boolean needsShortening(List<?> list) {
+                           return list.size() > 2
+                                  && list.get(0).getClass() != String.class;
+                       }
+                   } );
+               }
         }));
     }
 
@@ -747,5 +759,9 @@ public class JsConsoleView extends ScriptingConsoleView {
 
         // in all other cases, we add nothing
         return "";
+    }
+
+    private void echoCommand(final String command) {
+        printMessage(NEWLINE + "> " + command + NEWLINE);
     }
 }
