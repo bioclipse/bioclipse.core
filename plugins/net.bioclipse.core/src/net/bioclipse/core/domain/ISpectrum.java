@@ -13,10 +13,19 @@ package net.bioclipse.core.domain;
 
 import net.bioclipse.core.business.BioclipseException;
 
+/**
+ * Object to contains 1D spectra, like 1D NMR spectra, 
+ * and mass spectral data.
+ *
+ * @author egonw
+ */
 public interface ISpectrum extends IBioObject{
 
 	    /**
-	     * @return the IMolecule serialized to CML
+	     * Returns an Chemical Markup Language serialization of this
+	     * {@link ISpectrum} object.
+	     *
+	     * @return the {@link ISpectrum} serialized to CML
 	     * @throws BioclipseException if CML cannot be returned
 	     */
 	    public String getCML() throws BioclipseException;

@@ -13,11 +13,19 @@ package net.bioclipse.core.domain;
 
 import net.bioclipse.core.business.BioclipseException;
 
+/**
+ * Object to hold bibliographic information, like an article or book
+ * reference.
+ *
+ * @author egonw
+ */
 public interface IBibliodata extends IBioObject{
 
 		    /**
-		     * @return the IMolecule serialized to CML
-		     * @throws BioclipseException if CML cannot be returned
+		     * Returns a BibTeXML serialization of this object.
+		     *
+		     * @return the {@link IBibliodata} serialized to BibTeXML
+		     * @throws BioclipseException if BibTeXML cannot be returned
 		     */
 		    public String getBibtexML() throws BioclipseException;
 }
