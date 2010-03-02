@@ -108,6 +108,11 @@ public abstract class ScriptingConsoleView extends ViewPart {
                 carryOutCommand(input.getText().trim());
             }
         });
+        put( new Integer(SWT.KEYPAD_CR), new KeyAction() {
+            public void receiveKey(KeyEvent e) {
+                carryOutCommand(input.getText().trim());
+            }
+        });
         put( new Integer(SWT.ARROW_UP), new KeyAction() {
             public void receiveKey(KeyEvent e) {
                 if (currentHistoryLine == commandHistory.size() - 1)
