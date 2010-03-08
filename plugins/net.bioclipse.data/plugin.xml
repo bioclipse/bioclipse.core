@@ -63,5 +63,22 @@
     	        configId="org.eclipse.ui.intro.universalConfig">
 	      </configExtension>
       </extension>
+      
+    <extension
+        point="org.eclipse.ui.commands">
+		<command
+		        defaultHandler="net.bioclipse.data.actions.OpenWizard"
+	            id="net.bioclipse.data.openWizard"
+	            name="Install Sample Data">
+		</command>
+      </extension>
+
+	<extension point="org.eclipse.ui.menus">
+      <menuContribution 
+           locationURI="menu:help?after=additions">
+        <command
+              commandId="net.bioclipse.data.openWizard" />
+	</menuContribution>
+</extension>
 
 </plugin>
