@@ -47,6 +47,7 @@ public class JsThread extends ScriptingThread {
         }};
 
     private static void initJs() {
+        busy = true;
         js = new JsEnvironment();
 
         for (Map.Entry<String, String[]> e : topLevelCommands.entrySet())
@@ -59,6 +60,7 @@ public class JsThread extends ScriptingThread {
         initJs();
 
         synchronized (actions) {
+            busy = false;
             while (true) {
                 try {
                     while ( actions.isEmpty() )
