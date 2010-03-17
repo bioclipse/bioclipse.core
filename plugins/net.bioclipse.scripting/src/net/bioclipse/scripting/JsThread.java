@@ -29,6 +29,8 @@ import org.mozilla.javascript.EvaluatorException;
 
 @SuppressWarnings("serial")
 public class JsThread extends ScriptingThread {
+
+    private final static Object semaphore = new Object();
     
     private static volatile boolean firstTime = true;
 
@@ -163,6 +165,7 @@ public class JsThread extends ScriptingThread {
                     e.printStackTrace();
                 }
                 busy = false;
+                semaphore.notifyAll();
                 
                 nextAction.runPostCommandHook(result[0]);
             }
@@ -203,5 +206,17 @@ public class JsThread extends ScriptingThread {
                     "You are recommended to restart Bioclipse." );
             }
         } );
+    }
+
+    public static void waitUntilNotBusy() {
+        while (busy) {
+            try {
+                synchronized ( semaphore ) {
+                    semaphore.wait(30*1000);
+                }
+            } catch ( InterruptedException e ) {
+                e.printStackTrace();
+            }
+        }
     }
 }
