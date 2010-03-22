@@ -165,8 +165,9 @@ public class JsThread extends ScriptingThread {
                     e.printStackTrace();
                 }
                 busy = false;
-                semaphore.notifyAll();
-                
+                synchronized ( semaphore ) {
+                    semaphore.notifyAll();
+                }
                 nextAction.runPostCommandHook(result[0]);
             }
         }
