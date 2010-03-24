@@ -1,4 +1,4 @@
-/*******************************************************************************
+/* *****************************************************************************
  * Copyright (c) 2009 Ola Spjuth <ola.spjuth@farmbio.uu.se>
  *
  * All rights reserved. This program and the accompanying materials

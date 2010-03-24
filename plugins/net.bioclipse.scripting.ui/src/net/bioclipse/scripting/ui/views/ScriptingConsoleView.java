@@ -1,4 +1,4 @@
-/*******************************************************************************
+/* *****************************************************************************
  * Copyright (c) 2008-2009 Carl Masak <carl.masak@farmbio.uu.se>
  *
  * All rights reserved. This program and the accompanying materials

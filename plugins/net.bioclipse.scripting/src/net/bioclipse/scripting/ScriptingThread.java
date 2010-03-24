@@ -1,4 +1,4 @@
-/*******************************************************************************
+/* *****************************************************************************
  * Copyright (c) 2009 Jonathan Alvarsson <jonathan.alvarsson@farmbio.uu.se>
  *
  * All rights reserved. This program and the accompanying materials

@@ -1,4 +1,4 @@
-/*******************************************************************************
+/* *****************************************************************************
  * Copyright (c) 2009  Ola Spjuth <ospjuth@users.sourceforge.net>
  *
  * All rights reserved. This program and the accompanying materials

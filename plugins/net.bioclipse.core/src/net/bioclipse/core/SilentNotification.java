@@ -1,4 +1,4 @@
-/*******************************************************************************
+/* *****************************************************************************
  * Copyright (c) 2009  Jonathan Alvarsson <jonalv@users.sourceforge.net>
  *
  * All rights reserved. This program and the accompanying materials

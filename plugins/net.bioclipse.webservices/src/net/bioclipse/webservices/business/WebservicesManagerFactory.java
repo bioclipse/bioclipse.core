@@ -1,4 +1,4 @@
-/*******************************************************************************
+/* *****************************************************************************
  * Copyright (c) 2009  Ola Spjuth <ola@bioclipse.net>
  *
  * All rights reserved. This program and the accompanying materials
