@@ -42,4 +42,8 @@ is available at http://www.eclipse.org/legal/epl-v10.html
          id="net.bioclipse.statistics_feature"
          version="0.0.0"/>
 
+   <includes
+         id="nu.psnet.quickimage"
+         version="0.0.0"/>
+
 </feature>

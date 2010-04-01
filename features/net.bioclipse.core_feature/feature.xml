@@ -844,12 +844,6 @@ The Eclipse Public License accompanies this distribution, and is available at ht
          unpack="false"/>
 
    <plugin
-         id="nu.psnet.quickimage"
-         download-size="0"
-         install-size="0"
-         version="1.0.3.2"/>
-
-   <plugin
          id="net.bioclipse.ui.business"
          download-size="0"
          install-size="0"
