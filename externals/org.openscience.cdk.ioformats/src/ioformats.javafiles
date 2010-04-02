@@ -74,6 +74,7 @@ org/openscience/cdk/io/formats/TinkerMM2Format.java
 org/openscience/cdk/io/formats/DaltonFormat.java
 org/openscience/cdk/io/formats/MDLRXNV3000Format.java
 org/openscience/cdk/io/formats/TinkerXYZFormat.java
+org/openscience/cdk/io/formats/RGroupQueryFormat.java
 org/openscience/cdk/io/formats/SMILESFormat.java
 org/openscience/cdk/io/formats/Gaussian94Format.java
 org/openscience/cdk/io/formats/Mol2Format.java

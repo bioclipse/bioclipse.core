@@ -71,6 +71,7 @@ org.openscience.cdk.io.formats.TinkerMM2Format
 org.openscience.cdk.io.formats.DaltonFormat
 org.openscience.cdk.io.formats.MDLRXNV3000Format
 org.openscience.cdk.io.formats.TinkerXYZFormat
+org.openscience.cdk.io.formats.RGroupQueryFormat
 org.openscience.cdk.io.formats.SMILESFormat
 org.openscience.cdk.io.formats.Gaussian94Format
 org.openscience.cdk.io.formats.Mol2Format
