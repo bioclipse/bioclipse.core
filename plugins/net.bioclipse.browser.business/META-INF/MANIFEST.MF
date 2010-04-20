@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Bioclipse Browser Business
+Bundle-SymbolicName: net.bioclipse.browser.business; singleton:=true
+Bundle-Version: 0.1.0
+Bundle-Activator: net.bioclipse.browser.business.Activator
+Bundle-Vendor: The Bioclipse Team
+Export-Package: net.bioclipse.browser.business,
+ net.bioclipse.browser.business.business,
+ net.bioclipse.browser.scraper
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ net.bioclipse.core,
+ net.bioclipse.scripting,
+ org.springframework.bundle.spring.aop,
+ net.sf.cglib,
+ org.springframework.osgi.aopalliance.osgi
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Import-Package: org.apache.log4j
+Bundle-ActivationPolicy: lazy
