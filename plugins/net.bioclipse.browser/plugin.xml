@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+      	 extensions="html"
+         class="net.bioclipse.browser.editors.RichBrowserEditor"
+         icon="icons/bioclipse-browser.png"
+         id="net.bioclipse.browser.richbrowser"
+         name="Rich Browser"/>
+  </extension>
+   <extension
+         point="org.eclipse.ui.views">
+         <view
+               class="net.bioclipse.browser.views.ExtractsView"
+               id="net.bioclipse.browser.views.ExtractsView"
+               name="Extracts"
+               category="net.bioclipse.ui.category"
+               icon="icons/bioclipse-browser.png"
+               allowMultiple="false"
+               restorable="true">
+         </view>
+   </extension>
+   
+     <extension
+        point="org.eclipse.ui.commands">
+        <category
+              id="net.bioclipse.browser.category"
+              name="Browser">
+        </category>
+     <command
+           id="net.bioclipse.browser.command.openRichBrowser"
+           categoryId="net.bioclipse.browser.category"
+           defaultHandler="net.bioclipse.browser.handlers.openRichBrowser"
+           name="Rich Browser"/>
+  </extension>
+  
+  <extension 
+	  point="org.eclipse.ui.menus">
+	 <menuContribution
+	    locationURI= "toolbar:org.eclipse.ui.main.toolbar?after=additions">
+	 <toolbar
+        id="net.bioclipse.browser.toolbar">
+	    <command
+	       commandId="net.bioclipse.browser.command.openRichBrowser"
+	       icon= "icons/bioclipse-browser.png"
+	       id= "net.bioclipse.browser.menu.openRichBrowser"
+	       label= "Open Rich Browser">
+	    </command>
+	 </toolbar>
+	 
+	 </menuContribution>
+	</extension>
+  <extension
+        point="org.eclipse.ui.perspectives">
+     <perspective
+           class="net.bioclipse.browser.BrowserPerspectiveFactory"
+           fixed="false"
+           icon="icons/bioclipse-browser.png"
+           id="net.bioclipse.browser.perspective"
+           name="Rich Browsing">
+     </perspective>
+  </extension>
+  
+   
+
+</plugin>
