@@ -4,6 +4,10 @@ import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineFactory;
+import javax.script.ScriptEngineManager;
+
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jsexecution.Activator;
@@ -189,30 +193,31 @@ public class ScriptExecution {
             IProgressMonitor monitor) throws ScriptException {
         String scriptResult = "Invalid result.";
         // DO THE ACTUAL EXECUTION OF THE SCRIPT
-
         if (!ContextFactory.hasExplicitGlobal()) {
             ContextFactory.initGlobal(new ContextFactory());
             // THIS IS VERY IMPORTANT!!!
             ContextFactory.getGlobal().initApplicationClassLoader(
                     Activator.class.getClassLoader());
         }
-        Context cx = ContextFactory.getGlobal().enterContext();
+        
+        ScriptEngine engine = new ScriptEngineManager( 
+                                 Activator.class.getClassLoader() )
+                                .getEngineByName( "JavaScript" );
+        
 
-        if (cx == null) {
-            return "Could not create context.";
+        if (engine == null) {
+            return "Could not create engine.";
         }
 
         try {
             // Initialize the standard objects (Object, Function, etc.)
             // This must be done before scripts can be executed. Returns
             // a scope object that we use in later calls.
-            Scriptable scope = cx.initStandardObjects();
 
             ScriptingTools tools;
             tools = new ScriptingTools(console, monitor);
 
-            Object wrappedOut = Context.javaToJS(tools, scope);
-            ScriptableObject.putProperty(scope, "jst", wrappedOut);
+            engine.put( "jst", tools );
 
             List<Object> managers = Activator.getManagers();
             if (managers != null && managers.size() > 0) {
@@ -226,27 +231,20 @@ public class ScriptExecution {
                     //method.setAccessible(true);
                     Object managerName = (String)method.invoke(object);
                     if (managerName instanceof String) {
-                        wrappedOut = Context.javaToJS(object, scope);
-                        ScriptableObject.putProperty(scope,
-                                                     (String)managerName,
-                                                     wrappedOut);
+                        engine.put( (String) managerName, object );
                     }
                 }
             }
 
-            Object ev
-              = cx.evaluateString(scope, scriptString, "line: ", 1, null);
+            
+            Object ev = engine.eval( scriptString );
 
             // Convert the result to a string and print it.
-            scriptResult = Context.toString(ev);
+            scriptResult = ev.toString(); //TODO Context.toString(ev);
         } catch (Exception e){
             LogUtils.debugTrace( logger, e );
             throw new ScriptException(e);
-        } finally {
-            // Exit from the context.
-            Context.exit();
         }
-
         return scriptResult;
     }
 
