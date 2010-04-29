@@ -25,7 +25,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
-import org.mozilla.javascript.EvaluatorException;
 
 @SuppressWarnings("serial")
 public class JsThread extends ScriptingThread {
@@ -149,11 +148,11 @@ public class JsThread extends ScriptingThread {
                                 + " error message has been written to the"
                                 + " logs.";
                     }
-                }
-                catch (EvaluatorException e) {
+                } finally {}
+                /*catch (EvaluatorException e) {
                     LogUtils.debugTrace(logger, e);
                     result[0] = e;
-                }
+                }*/
                 synchronized ( jsRunning ) {
                     jsRunning[0] = false;
                     jsRunning.notifyAll();
