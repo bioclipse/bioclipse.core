@@ -37,7 +37,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
-import org.mozilla.javascript.NativeJavaObject;
 
 public class JsConsoleView extends ScriptingConsoleView {
 
@@ -86,7 +85,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                    final String[] message = new String[1];
                    Display.getDefault().asyncExec( new Runnable() {
                        public void run() {
-                           if ( null != result ) {
+                           /*if ( null != result ) {
                                if (result instanceof NativeJavaObject) {
 
                                    Object unwrappedObject
@@ -129,7 +128,10 @@ public class JsConsoleView extends ScriptingConsoleView {
                                                 ? "" : result.toString();
                                }
                                printMessage(message[0] + NEWLINE);
-                           }
+                           }*/
+                           // TODO Fix messages
+                           if(result!=null) message[0]= result.toString();
+                           else message[0] = "NULL";
                        }
 
                        private boolean needsShortening(List<?> list) {

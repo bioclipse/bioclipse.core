@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.script.ScriptEngine;
-import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 
 import net.bioclipse.core.business.BioclipseException;
@@ -32,11 +31,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.progress.IProgressConstants;
-
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 
 /*
  * This file is part of the Bioclipse JsExecution Plug-in.
@@ -193,12 +187,12 @@ public class ScriptExecution {
             IProgressMonitor monitor) throws ScriptException {
         String scriptResult = "Invalid result.";
         // DO THE ACTUAL EXECUTION OF THE SCRIPT
-        if (!ContextFactory.hasExplicitGlobal()) {
+       /* if (!ContextFactory.hasExplicitGlobal()) {
             ContextFactory.initGlobal(new ContextFactory());
             // THIS IS VERY IMPORTANT!!!
             ContextFactory.getGlobal().initApplicationClassLoader(
                     Activator.class.getClassLoader());
-        }
+        }*///TODO removed old rhino code
         
         ScriptEngine engine = new ScriptEngineManager( 
                                  Activator.class.getClassLoader() )
