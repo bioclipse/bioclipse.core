@@ -16,7 +16,6 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import net.bioclipse.core.PublishedMethod;
-import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.apache.log4j.Logger;
@@ -48,7 +47,7 @@ public class JsEnvironment implements ScriptingEnvironment {
      */
     // TODO: Look into doing this the non-deprecated way.
     public final void reset() {
-        ScriptEngineManager mgr = new ScriptEngineManager();
+        ScriptEngineManager mgr = new ScriptEngineManager(JsEnvironment.class.getClassLoader());
         engine = mgr.getEngineByName("JavaScript");
 
         managers = new HashMap<String, IBioclipseManager>();
@@ -91,10 +90,11 @@ public class JsEnvironment implements ScriptingEnvironment {
                                                + "does not implement "
                                                + "IBioclipseManager" );
                 }
-                String serviceName = ( (IBioclipseManager)service ).getManagerName();
-                engine.put( serviceName, service );
-                managers.put( serviceName, (IBioclipseManager)service);
-                logger.info( "Bioclipse manager: " + serviceName + 
+                IBioclipseManager manager = (IBioclipseManager) service;
+                String managerName = manager.getManagerName();
+                engine.put( managerName, manager );
+                managers.put( managerName, manager);
+                logger.info( "Bioclipse manager: " + managerName + 
                              " added to JavaScript " +
                              "environment." );
             }
@@ -116,8 +116,7 @@ public class JsEnvironment implements ScriptingEnvironment {
            String message = e.getMessage();
            if( !message.startsWith( "Can't find method " ))
                throw new RuntimeException(e);
-           return explanationAboutParameters( expression, message ); 
-                   
+           return explanationAboutParameters( expression, message );
         }
     }
 
