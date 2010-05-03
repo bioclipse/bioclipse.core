@@ -148,11 +148,11 @@ public class JsThread extends ScriptingThread {
                                 + " error message has been written to the"
                                 + " logs.";
                     }
-                } finally {}
-                /*catch (EvaluatorException e) {
+                } 
+                catch (Exception e) {
                     LogUtils.debugTrace(logger, e);
                     result[0] = e;
-                }*/
+                }
                 synchronized ( jsRunning ) {
                     jsRunning[0] = false;
                     jsRunning.notifyAll();

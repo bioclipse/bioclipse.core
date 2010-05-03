@@ -85,14 +85,14 @@ public class JsConsoleView extends ScriptingConsoleView {
                    final String[] message = new String[1];
                    Display.getDefault().asyncExec( new Runnable() {
                        public void run() {
-                           /*if ( null != result ) {
-                               if (result instanceof NativeJavaObject) {
-
-                                   Object unwrappedObject
-                                     = ((NativeJavaObject)result).unwrap();
-
-                                   if (unwrappedObject instanceof List<?>) {
-                                       List<?> list = (List<?>)unwrappedObject;
+                           if ( null != result ) {
+                               if (result instanceof Object) {
+                                   if (result instanceof Exception) {
+                                       message[0]
+                                           = getErrorMessage((Exception)result);
+                                   }
+                                   else if (result instanceof List<?>) {
+                                       List<?> list = (List<?>)result;
                                        if (needsShortening(list)) {
                                            String name
                                              = list.get(0).getClass().getName();
@@ -115,23 +115,17 @@ public class JsConsoleView extends ScriptingConsoleView {
                                        }
                                    }
                                    else {
-                                       message[0] = unwrappedObject.toString();
+                                       message[0] = result.toString();
                                    }
                                }
-                               else if (result instanceof Exception) {
-                                   message[0]
-                                       = getErrorMessage((Exception)result);
-                               }
+                               
                                else {
                                    String s = result.toString();
                                    message[0] = s.matches( JS_UNDEFINED_RE )
                                                 ? "" : result.toString();
                                }
                                printMessage(message[0] + NEWLINE);
-                           }*/
-                           // TODO Fix messages
-                           if(result!=null) message[0]= result.toString();
-                           else message[0] = "NULL";
+                           }
                        }
 
                        private boolean needsShortening(List<?> list) {
