@@ -188,10 +188,6 @@ public class JsThread extends ScriptingThread {
                                new Hook() { public void run(Object s) {} } ) );
     }
 
-    public String toJsString( Object o ) {
-        return js.toJsString(o);
-    }
-
     private void popUpWarning() {
         firstTime = false;
         Display.getDefault().asyncExec( new Runnable() {
