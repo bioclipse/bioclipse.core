@@ -605,9 +605,9 @@ public class JsConsoleView extends ScriptingConsoleView {
         final List<String>[] variables = new List[1];
 
         jsThread.enqueue(
-            new JsAction( "zzz1 = new Array(); zzz2 = 0;"
+            new JsAction( "zzz1 = new java.util.ArrayList();"
                           + "for (var zzz3 in " + object
-                          + ") { zzz1[zzz2++] = zzz3 } zzz1",
+                          + ") { zzz1.add(zzz3) } zzz1",
                           new Hook() {
                               public void run(Object o) {
                                   synchronized (variables) {
@@ -619,11 +619,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                                           variables.notifyAll();
                                           return;
                                       }
-                                      String array = jsThread.toJsString(o);
-                                      variables[0]
-                                          = new ArrayList<String>(
-                                                  Arrays.asList(
-                                                      array.split( "," )));
+                                      variables[0] = (List<String>) o;
                                       variables.notifyAll();
                                   }
                               }

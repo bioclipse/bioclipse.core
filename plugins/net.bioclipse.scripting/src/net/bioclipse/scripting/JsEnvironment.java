@@ -26,6 +26,8 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
+import sun.org.mozilla.javascript.internal.NativeArray;
+
 /**
  * JavaScript environment. Holds variables and evaluates expressions.
  *
@@ -220,10 +222,5 @@ public class JsEnvironment implements ScriptingEnvironment {
         catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public String toJsString( Object o ) {
-        // TODO replace return Context.toString(o)
-        return o.toString();
     }
 }
