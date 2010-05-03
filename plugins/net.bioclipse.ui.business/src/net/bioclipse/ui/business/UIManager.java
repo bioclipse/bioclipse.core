@@ -272,8 +272,9 @@ public class UIManager implements IBioclipseManager {
                 }
             }
         }
-        throw new IllegalArgumentException(
-            "No editor found for object: " + bioObject
+        throw new BioclipseException(
+            "The object could not be opened. "
+            + "No suitable editor could be found for object: " + bioObject
         );
     }
 
