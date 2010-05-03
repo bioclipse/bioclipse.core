@@ -13,11 +13,13 @@ import net.bioclipse.core.domain.RecordableList;
 import net.bioclipse.core.domain.BioObject;
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.core.util.IJavaScriptConsolePrinterChannel;
+import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.jobs.IReturner;
 import net.bioclipse.managers.MonitorContainer;
 
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -36,6 +38,9 @@ import org.eclipse.swt.widgets.Display;
 public class JavaScriptManagerMethodDispatcher 
        extends AbstractManagerMethodDispatcher {
 
+    private static Logger logger 
+        = Logger.getLogger( JavaScriptManagerMethodDispatcher.class );
+    
     @Override
     protected Object doInvokeInGuiThread( final IBioclipseManager manager, 
                                           final Method method,
@@ -48,6 +53,7 @@ public class JavaScriptManagerMethodDispatcher
                     doInvoke( manager, method, arguments, invocation, true );
                 }
                 catch (Throwable t) {
+                    LogUtils.debugTrace( logger, t );
                     printError(t);
                 }
             }
@@ -74,7 +80,10 @@ public class JavaScriptManagerMethodDispatcher
                 catch (CoreException e) {
                     throw new RuntimeException(e);
                 }
-                ( (IJavaScriptConsolePrinterChannel) service ).printError(t);
+                if ( service instanceof IJavaScriptConsolePrinterChannel) {
+                    ( (IJavaScriptConsolePrinterChannel) service )
+                        .printError(t);
+                }
             }
         }
     }
