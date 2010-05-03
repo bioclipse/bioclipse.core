@@ -114,7 +114,7 @@ public class JsEnvironment implements ScriptingEnvironment {
             return o;
         } catch ( ScriptException e ) {
            String message = e.getMessage();
-           if( !message.startsWith( "Can't find method " ))
+           if( !message.contains( "Can't find method " ))
                throw new RuntimeException(e);
            return explanationAboutParameters( expression, message );
         }
@@ -123,8 +123,10 @@ public class JsEnvironment implements ScriptingEnvironment {
     private String explanationAboutParameters( String expression,
                                                String message ) {
 
-        int iPeriod = message.indexOf( '.' ),
-             iParen = message.indexOf( '(' );
+        int iPeriod = message.indexOf( '.', 
+                                       message.indexOf( "Can't find method" ) ),
+             iParen = message.indexOf( '(', 
+                                       message.indexOf( "Can't find method" ) );
         
         String calledMethod = message.substring( iPeriod + 1, iParen );
         
