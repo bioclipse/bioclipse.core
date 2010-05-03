@@ -23,6 +23,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
@@ -43,6 +45,8 @@ public class JsConsoleView extends ScriptingConsoleView {
     private static final String JS_UNDEFINED_RE
       = "org.mozilla.javascript.Undefined@.*";
     private static JsThread jsThread = Activator.getDefault().JS_THREAD;
+    private static Pattern p
+        = Pattern.compile( " Wrapped (\\S+): (.*?) \\(<Unknown source>#" );
 
     @Override
     protected String executeCommand( String command ) {
@@ -141,16 +145,35 @@ public class JsConsoleView extends ScriptingConsoleView {
         if (t == null)
             return "";
 
-        while (!(t instanceof BioclipseException)
-                && t.getCause() != null)
-            t = t.getCause();
+        String message = t.getMessage();
 
-        return (t instanceof BioclipseException
-                ? "" : t.getClass().getName() + ": ")
-               + (t.getMessage() == null
-                  ? ""
-                  : t.getMessage() .replaceAll(" end of file", " end of line")
-                 );
+        if (message.contains( " Wrapped " ) ) {
+
+            Matcher m = p.matcher(message);
+            if ( m.find() ) {
+                String exceptionType = m.group( 1 );
+                String causeMessage  = m.group( 2 );
+                if ( "net.bioclipse.core.business.BioclipseException"
+                                .equals( exceptionType ) ) {
+                    return causeMessage;
+                }
+                return exceptionType + ": " + causeMessage;
+            }
+        }
+        return t.getMessage();
+
+//  This used to work back in the days, if you think back in the days are
+// really a long time a go please remove it...
+//        while (!(t instanceof BioclipseException)
+//                && t.getCause() != null)
+//            t = t.getCause();
+//
+//        return (t instanceof BioclipseException
+//                ? "" : t.getClass().getName() + ": ")
+//               + (t.getMessage() == null
+//                  ? ""
+//                  : t.getMessage() .replaceAll(" end of file", " end of line")
+//                 );
     }
 
     private StringBuilder stringify( Collection<?> list, String opener,
