@@ -12,6 +12,7 @@
 package net.bioclipse.core.util;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -20,7 +21,6 @@ import net.bioclipse.core.business.BioclipseException;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
@@ -101,6 +101,13 @@ public class LogUtils {
                                      t ) );
     }
 
+    public static String getLogFileLocation() {
+        return System.getProperty( "user.home" )
+        + File.pathSeparator
+        + System.getProperty( "bioclipse.defaultLogDir","" )
+        + "bioclipse.log";
+    }
+
     public static void handleException( final Throwable t, 
                                         Logger logger,
                                         String string, 
@@ -130,8 +137,7 @@ public class LogUtils {
                       "An unexpected error occured. Bioclipse has no idea " +
                       "how to handle this. If you would like to report this " +
                       "to the Bioclipse team a stack trace has been written " +
-                      "to the log file ( " + 
-                      net.bioclipse.logger.Activator.getActualLogFileName() +
+                      "to the log file ( " + getLogFileLocation() +
                       ") that you can include in an email to " + mailAdress +
                       "where you " +
                       "explain what you where doing and what went wrong. The " +
@@ -142,7 +148,7 @@ public class LogUtils {
                       " \n\n" + "If you would like to report this to the " +
                       "Bioclipse team a stack trace has been written to the " +
                       "log file ( " + 
-                      net.bioclipse.logger.Activator.getActualLogFileName() +
+                      getLogFileLocation() +
                       " ) that you can include in an email to " + mailAdress + 
                       "where you " +
                       "explain what you where doing and what went wrong. The " +
