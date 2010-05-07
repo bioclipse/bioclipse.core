@@ -35,28 +35,14 @@ The Eclipse Public License accompanies this distribution, and is available at ht
          id="com.ibm.icu"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="jcl104.over.slf4j"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
+         version="4.0.1.v20090822"
          unpack="false"/>
 
    <plugin
          id="net.bioclipse.core"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="net.bioclipse.logger"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
+         version="2.2.0.v20100127"
          unpack="false"/>
 
    <plugin
@@ -397,32 +383,10 @@ The Eclipse Public License accompanies this distribution, and is available at ht
          unpack="false"/>
 
    <plugin
-         id="org.springframework.osgi.log4j.osgi"
-         download-size="0"
-         install-size="0"
-         version="1.2.13"
-         unpack="false"/>
-
-   <plugin
-         id="slf4j.api"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="slf4j.log4j12"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.ui.navigator.resources"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="3.4.1.M20090826-0800"
          unpack="false"/>
 
    <plugin
@@ -1054,6 +1018,41 @@ The Eclipse Public License accompanies this distribution, and is available at ht
 
    <plugin
          id="javax.mail"
+         download-size="0"
+         install-size="0"
+         version="1.4.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="ch.qos.logback.classic"
+         download-size="0"
+         install-size="0"
+         version="0.9.20"
+         unpack="false"/>
+
+   <plugin
+         id="ch.qos.logback.core"
+         download-size="0"
+         install-size="0"
+         version="0.9.20"
+         unpack="false"/>
+
+   <plugin
+         id="jcl.over.slf4j"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="log4j.over.slf4j"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="slf4j.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
