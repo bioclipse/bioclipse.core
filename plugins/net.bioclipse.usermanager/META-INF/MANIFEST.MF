@@ -13,7 +13,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.runtime.compatibility.auth,
  net.sf.cglib,
- net.bioclipse.logger,
  net.bioclipse.encryption;bundle-version="0.1.0",
  org.eclipse.core.expressions
 Bundle-ActivationPolicy: lazy
@@ -25,3 +24,4 @@ Export-Package: net.bioclipse.usermanager,
  net.bioclipse.usermanager.dialogs,
  net.bioclipse.usermanager.handlers,
  net.bioclipse.usermanager.preferences
+Import-Package: org.apache.log4j
