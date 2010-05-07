@@ -35,14 +35,14 @@ The Eclipse Public License accompanies this distribution, and is available at ht
          id="com.ibm.icu"
          download-size="0"
          install-size="0"
-         version="4.0.1.v20090822"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="net.bioclipse.core"
          download-size="0"
          install-size="0"
-         version="2.2.0.v20100127"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
@@ -224,16 +224,6 @@ The Eclipse Public License accompanies this distribution, and is available at ht
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.swt.carbon.macosx"
-         os="macosx"
-         ws="carbon"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.text"
          download-size="0"
          install-size="0"
@@ -252,15 +242,6 @@ The Eclipse Public License accompanies this distribution, and is available at ht
          download-size="0"
          install-size="0"
          version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.ui.carbon"
-         ws="carbon"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
          unpack="false"/>
 
    <plugin
@@ -379,14 +360,14 @@ The Eclipse Public License accompanies this distribution, and is available at ht
          id="org.springframework.osgi.aopalliance.osgi"
          download-size="0"
          install-size="0"
-         version="1.0.0.SNAPSHOT"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.ui.navigator.resources"
          download-size="0"
          install-size="0"
-         version="3.4.1.M20090826-0800"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
@@ -458,105 +439,6 @@ The Eclipse Public License accompanies this distribution, and is available at ht
    <plugin
          id="org.eclipse.core.resources.win32.x86"
          os="win32"
-         arch="x86"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.swt.gtk.linux.ppc"
-         os="linux"
-         ws="gtk"
-         arch="ppc"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.swt.gtk.linux.x86"
-         os="linux"
-         ws="gtk"
-         arch="x86"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.swt.gtk.linux.x86_64"
-         os="linux"
-         ws="gtk"
-         arch="x86_64"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.swt.gtk.solaris.sparc"
-         os="solaris"
-         ws="gtk"
-         arch="sparc"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.swt.motif.aix.ppc"
-         os="aix"
-         ws="motif"
-         arch="ppc"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.swt.motif.hpux.ia64_32"
-         os="hpux"
-         ws="motif"
-         arch="ia64_32"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.swt.win32.win32.x86"
-         os="win32"
-         ws="win32"
-         arch="x86"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.swt.win32.win32.x86_64"
-         os="win32"
-         ws="win32"
-         arch="x86_64"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.swt.wpf.win32.x86"
-         os="win32"
-         ws="wpf"
          arch="x86"
          download-size="0"
          install-size="0"
@@ -797,7 +679,7 @@ The Eclipse Public License accompanies this distribution, and is available at ht
          id="org.springframework.osgi.backport-util-concurrent.osgi"
          download-size="0"
          install-size="0"
-         version="3.1.0.SNAPSHOT"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
@@ -1013,21 +895,21 @@ The Eclipse Public License accompanies this distribution, and is available at ht
          id="javax.mail"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="ch.qos.logback.classic"
          download-size="0"
          install-size="0"
-         version="0.9.20"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="ch.qos.logback.core"
          download-size="0"
          install-size="0"
-         version="0.9.20"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
