@@ -3,9 +3,6 @@
 
 <target name="Spring-osgi-1.0.2">
 <locations>
-<location path="${project_loc}/spring-osgi-1.0.2/dist" type="Directory"/>
-<location path="${project_loc}/libs" type="Directory"/>
-<location path="${project_loc}/spring-osgi-1.0.2/lib" type="Directory"/>
 <location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
 <unit id="org.eclipse.zest.feature.group" version="1.1.2.v20100111-1352-6618yD6DH8G6N59OM53B2A"/>
 <repository location="http://download.eclipse.org/tools/gef/updates/releases/"/>
@@ -34,5 +31,9 @@
 <unit id="nu.psnet.quickimage.feature.group" version="1.0.3.2"/>
 <repository location="http://psnet.nu/eclipse/updates"/>
 </location>
+<location path="${project_loc:net.bioclipse.target.platform}/libs" type="Directory"/>
+<location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/dist" type="Directory"/>
+<location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/lib" type="Directory"/>
+<location path="${project_loc:/net.bioclipse.target.platform}/logging" type="Directory"/>
 </locations>
 </target>

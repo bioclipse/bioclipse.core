@@ -23,6 +23,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
@@ -37,13 +39,14 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
-import org.mozilla.javascript.NativeJavaObject;
 
 public class JsConsoleView extends ScriptingConsoleView {
 
     private static final String JS_UNDEFINED_RE
       = "org.mozilla.javascript.Undefined@.*";
     private static JsThread jsThread = Activator.getDefault().JS_THREAD;
+    private static Pattern p
+        = Pattern.compile( " Wrapped (\\S+): (.*?) \\(<Unknown source>#" );
 
     @Override
     protected String executeCommand( String command ) {
@@ -87,13 +90,13 @@ public class JsConsoleView extends ScriptingConsoleView {
                    Display.getDefault().asyncExec( new Runnable() {
                        public void run() {
                            if ( null != result ) {
-                               if (result instanceof NativeJavaObject) {
-
-                                   Object unwrappedObject
-                                     = ((NativeJavaObject)result).unwrap();
-
-                                   if (unwrappedObject instanceof List<?>) {
-                                       List<?> list = (List<?>)unwrappedObject;
+                               if (result instanceof Object) {
+                                   if (result instanceof Exception) {
+                                       message[0]
+                                           = getErrorMessage((Exception)result);
+                                   }
+                                   else if (result instanceof List<?>) {
+                                       List<?> list = (List<?>)result;
                                        if (needsShortening(list)) {
                                            String name
                                              = list.get(0).getClass().getName();
@@ -116,13 +119,10 @@ public class JsConsoleView extends ScriptingConsoleView {
                                        }
                                    }
                                    else {
-                                       message[0] = unwrappedObject.toString();
+                                       message[0] = result.toString();
                                    }
                                }
-                               else if (result instanceof Exception) {
-                                   message[0]
-                                       = getErrorMessage((Exception)result);
-                               }
+
                                else {
                                    String s = result.toString();
                                    message[0] = s.matches( JS_UNDEFINED_RE )
@@ -145,25 +145,44 @@ public class JsConsoleView extends ScriptingConsoleView {
         if (t == null)
             return "";
 
-        while (!(t instanceof BioclipseException)
-                && t.getCause() != null)
-            t = t.getCause();
+        String message = t.getMessage();
 
-        return (t instanceof BioclipseException
-                ? "" : t.getClass().getName() + ": ")
-               + (t.getMessage() == null
-                  ? ""
-                  : t.getMessage() .replaceAll(" end of file", " end of line")
-                 );
+        if (message.contains( " Wrapped " ) ) {
+
+            Matcher m = p.matcher(message);
+            if ( m.find() ) {
+                String exceptionType = m.group( 1 );
+                String causeMessage  = m.group( 2 );
+                if ( "net.bioclipse.core.business.BioclipseException"
+                                .equals( exceptionType ) ) {
+                    return causeMessage;
+                }
+                return exceptionType + ": " + causeMessage;
+            }
+        }
+        return t.getMessage();
+
+//  This used to work back in the days, if you think back in the days are
+// really a long time a go please remove it...
+//        while (!(t instanceof BioclipseException)
+//                && t.getCause() != null)
+//            t = t.getCause();
+//
+//        return (t instanceof BioclipseException
+//                ? "" : t.getClass().getName() + ": ")
+//               + (t.getMessage() == null
+//                  ? ""
+//                  : t.getMessage() .replaceAll(" end of file", " end of line")
+//                 );
     }
 
     private StringBuilder stringify( Collection<?> list, String opener,
                                      String separator, String closer ) {
 
         StringBuilder sb = new StringBuilder();
-        
+
         sb.append( opener );
-        
+
         int index = 0;
         for ( Object item : list ) {
             if ( index++ > 0 )
@@ -171,13 +190,13 @@ public class JsConsoleView extends ScriptingConsoleView {
 
             sb.append( item.toString() );
         }
-        
+
         sb.append( closer );
         return sb;
     }
 
     /** Returns the specified amount of dashes.
-     * 
+     *
      * @param length
      * @return
      */
@@ -190,7 +209,7 @@ public class JsConsoleView extends ScriptingConsoleView {
 
         return result.toString();
     }
-    
+
     /**
      * Opens a web browser if the method for which the 'doi' command is
      * called has an associated DOI.
@@ -282,7 +301,7 @@ public class JsConsoleView extends ScriptingConsoleView {
     }
 
     /**
-     * Returns a help string documenting a Manager or one of its methods 
+     * Returns a help string documenting a Manager or one of its methods
      * (or a special command).
      * These help strings are printed to the console in response to the
      * command "help x" (where x is a manager) or "help x.y" (where y is
@@ -316,15 +335,15 @@ public class JsConsoleView extends ScriptingConsoleView {
                    + "associated DOI. A DOI - digital object identifier "
                    + "identifies digital content, such as a for example a "
                    + "journal article";
-        
+
         if ( command.matches( synonyms + " apropos" ) )
             return "Does a search through all managers and their methods for"
                    + " the given search string.";
 
         if ( "help".equals(command) || "man".equals(command) ) {
-            
+
             StringBuilder sb = new StringBuilder();
-            
+
             sb.append(usageMessage);
             List<String> managerNames
               = new ArrayList<String>( JsThread.js.getManagers().keySet() );
@@ -343,10 +362,10 @@ public class JsConsoleView extends ScriptingConsoleView {
                     sb.append( NEWLINE );
                 }
             }
-            
+
             return sb.toString();
         }
-        
+
         String helpObject = command.substring(command.indexOf(' ') + 1);
 
         if ( JsThread.topLevelCommands.containsKey(helpObject) )
@@ -355,7 +374,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                    + " is a shortcut for "
                    + JsThread.topLevelCommands.get(helpObject)[1] + NEWLINE;
 
-        //Doing manager method 
+        //Doing manager method
         if ( helpObject.contains(".") ) {
 
             String[] parts = helpObject.split("\\.");
@@ -435,7 +454,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                                    ).value());
             String managerDesc = managerDescBuffer.toString();
 
-            String line = dashes( Math.min(helpObject.length(), 
+            String line = dashes( Math.min(helpObject.length(),
                                   MAX_OUTPUT_LINE_LENGTH) );
             String theseMeths = " This manager has the following methods:";
 
@@ -448,7 +467,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                     theseMeths,  NEWLINE })
                 result.append(_);
 
-            Method[] publishedMethods 
+            Method[] publishedMethods
                 = findAllPublishedMethods(manager.getClass());
             Arrays.sort( publishedMethods, new Comparator<Method>() {
                 public int compare( Method o1, Method o2 ) {
@@ -567,8 +586,8 @@ public class JsConsoleView extends ScriptingConsoleView {
         if ( JsThread.isBusy() ) {
             beep();
             return new ArrayList<String>();
-        }        
-        
+        }
+
         if (object == null || "".equals(object))
             object = "this";
 
@@ -586,9 +605,9 @@ public class JsConsoleView extends ScriptingConsoleView {
         final List<String>[] variables = new List[1];
 
         jsThread.enqueue(
-            new JsAction( "zzz1 = new Array(); zzz2 = 0;"
+            new JsAction( "zzz1 = new java.util.ArrayList();"
                           + "for (var zzz3 in " + object
-                          + ") { zzz1[zzz2++] = zzz3 } zzz1",
+                          + ") { zzz1.add(zzz3) } zzz1",
                           new Hook() {
                               public void run(Object o) {
                                   synchronized (variables) {
@@ -600,11 +619,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                                           variables.notifyAll();
                                           return;
                                       }
-                                      String array = jsThread.toJsString(o);
-                                      variables[0]
-                                          = new ArrayList<String>(
-                                                  Arrays.asList(
-                                                      array.split( "," )));
+                                      variables[0] = (List<String>) o;
                                       variables.notifyAll();
                                   }
                               }
@@ -619,7 +634,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                     Thread.sleep( 50 );
                     if (--attemptsLeft <= 0) // js is probably busy then
                         return Collections.EMPTY_LIST;
-                    
+
                     variables.wait();
                 } catch ( InterruptedException e ) {
                     return Collections.EMPTY_LIST;
@@ -673,7 +688,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                 String signature = method.getName() + publishedMethod.params();
                 if (visited.contains( signature ))
                     continue;
-                visited.add( signature ); 
+                visited.add( signature );
                 methods.add( method );
             }
         }
@@ -713,7 +728,7 @@ public class JsConsoleView extends ScriptingConsoleView {
      * For managers, this could be a period ("."), because that's what the
      * user will write herself anyway. For methods, it could be "(", or "()"
      * if the method has no parameters.
-     * 
+     *
      * @param object the thing written before the dot (if any) when completing
      * @param completedVariable the variable that was just tab-completed
      * @return any extra characters to be output after the completed name

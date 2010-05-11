@@ -25,18 +25,17 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
-import org.mozilla.javascript.EvaluatorException;
 
 @SuppressWarnings("serial")
 public class JsThread extends ScriptingThread {
 
     private final static Object semaphore = new Object();
-    
+
     private static volatile boolean firstTime = true;
 
     public static JsEnvironment js;
     private LinkedList<JsAction> actions= new LinkedList<JsAction>();
-    
+
     private static final Logger logger = Logger.getLogger(JsEnvironment.class);
     private static boolean busy;
 
@@ -76,21 +75,21 @@ public class JsThread extends ScriptingThread {
                 busy = true;
                 final Boolean[] jsRunning = { true };
                 final Boolean[] monitorIsSet = { false };
-                final IProgressMonitor[] monitor 
+                final IProgressMonitor[] monitor
                     = { new NullProgressMonitor() };
-                
+
                 Job job = new Job("JS-script") {
                     @SuppressWarnings("deprecation")
                     @Override
                     protected IStatus run( IProgressMonitor pm ) {
-                        
-                        pm.beginTask( "Running JavaScript", 
+
+                        pm.beginTask( "Running JavaScript",
                                      IProgressMonitor.UNKNOWN );
-                        
+
                         IProgressMonitor m = new SubProgressMonitor(pm, 1);
-                        
+
                         monitor[0] = m;
-                        
+
                         nextAction.runPreCommandHook();
                         synchronized ( monitorIsSet ) {
                             monitorIsSet[0] = true;
@@ -118,7 +117,7 @@ public class JsThread extends ScriptingThread {
                                             popUpWarning();
                                         return Status.CANCEL_STATUS;
                                     }
-                                } 
+                                }
                                 catch ( InterruptedException e ) {
                                     break;
                                 }
@@ -150,7 +149,7 @@ public class JsThread extends ScriptingThread {
                                 + " logs.";
                     }
                 }
-                catch (EvaluatorException e) {
+                catch (Exception e) {
                     LogUtils.debugTrace(logger, e);
                     result[0] = e;
                 }
@@ -160,7 +159,7 @@ public class JsThread extends ScriptingThread {
                 }
                 try {
                     job.join();
-                } 
+                }
                 catch ( InterruptedException e ) {
                     e.printStackTrace();
                 }
@@ -172,35 +171,31 @@ public class JsThread extends ScriptingThread {
             }
         }
     }
-    
+
     public synchronized void enqueue(JsAction action) {
         synchronized (actions) {
             actions.addLast( action );
             actions.notifyAll();
         }
     }
-    
+
     public static synchronized boolean isBusy() {
         return busy;
     }
-    
+
     public void enqueue(String command) {
         enqueue( new JsAction( command,
                                new Hook() { public void run(Object s) {} } ) );
     }
 
-    public String toJsString( Object o ) {
-        return js.toJsString(o);
-    }
-    
     private void popUpWarning() {
         firstTime = false;
         Display.getDefault().asyncExec( new Runnable() {
             public void run() {
-                MessageDialog.openWarning( 
+                MessageDialog.openWarning(
                   PlatformUI.getWorkbench()
-                            .getActiveWorkbenchWindow().getShell(), 
-                  "Restart recommended after cancelling JavaScripts", 
+                            .getActiveWorkbenchWindow().getShell(),
+                  "Restart recommended after cancelling JavaScripts",
                   "The cancelling of the running JavaScript script may have " +
                     "left your data in an inconsistent state, depending upon " +
                     "what the JavaScript execution was working on. " +

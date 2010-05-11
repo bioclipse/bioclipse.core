@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" >
+	<!--      <property file="./variables.properties" /> -->
+	<property name="destination" value="${user.home}/${bioclipse.defaultLogDir:-}" />
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{HH:mm:ss.SSS} %-5level [%logger{40}] %msg%n</Pattern>
+		</layout>
+	</appender>
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${destination}/bioclipse.log</file>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n
+			</Pattern>
+		</layout>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<maxIndex>5</maxIndex>
+			<FileNamePattern>${destination}/bioclipse.log.%i</FileNamePattern>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>3MB</maxFileSize>
+		</triggeringPolicy>
+	</appender>
+	<logger name="org.eclipse" level="WARN" />
+	<logger name="org.springframework" level="ERROR" />
+	<logger name="net.bioclipse" level="DEBUG" />
+
+	<root>
+		<level value="DEBUG" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>

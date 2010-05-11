@@ -104,7 +104,7 @@ public class UIManager implements IBioclipseManager {
                                         .getActivePage();
         try {
             IDE.openEditor(page, file);
-        } 
+        }
         catch (PartInitException e) {
             throw new RuntimeException(e);
         }
@@ -114,16 +114,16 @@ public class UIManager implements IBioclipseManager {
 
         //Determine editorID from putative alias
         final String editorID = getEditorID( editor );
-        
+
         if (editorID==null){
-            throw new BioclipseException( "No editor with ID: " 
+            throw new BioclipseException( "No editor with ID: "
                                           + editor + " found" );
         }
-        
+
         IWorkbenchPage page = PlatformUI.getWorkbench()
                                         .getActiveWorkbenchWindow()
                                         .getActivePage();
-        
+
         try {
             IDE.openEditor( page, file, editorID);
         }
@@ -131,24 +131,24 @@ public class UIManager implements IBioclipseManager {
             throw new RuntimeException(e);
         }
     }
-    
+
     public void open( final IBioObject bioObject, final String editor)
         throws BioclipseException {
-        
+
         //Determine editorID from putative alias
         final String editorID = getEditorID( editor );
-        
+
         if (editorID==null){
             Activator.getDefault().getJavaJsConsoleManager().print(
                     "No editor with ID: " + editor + " found"
             );
             return;
         }
-        
-        
+
+
         IWorkbenchPage page = PlatformUI.getWorkbench()
-        .getActiveWorkbenchWindow()
-        .getActivePage();
+                                        .getActiveWorkbenchWindow()
+                                        .getActivePage();
         try {
             IEditorInput input = new IEditorInput() {
 
@@ -182,14 +182,14 @@ public class UIManager implements IBioclipseManager {
             throw new RuntimeException(e);
         }
     }
-    
-    public void save( IFile target, 
-                      InputStream toWrite, 
+
+    public void save( IFile target,
+                      InputStream toWrite,
                       IProgressMonitor monitor ) {
        save ( target, toWrite, null, monitor);
     }
 
-    public void save( final IFile target, 
+    public void save( final IFile target,
                       InputStream toWrite,
                       Runnable callbackFunction,
                       IProgressMonitor monitor ) {
@@ -205,7 +205,7 @@ public class UIManager implements IBioclipseManager {
             monitor.worked(ticks);
         } catch (Exception exception) {
             throw new RuntimeException(
-                                       "Error while saving to IFile", exception
+                          "Error while saving to IFile", exception
             );
         } finally {
             monitor.done();
@@ -219,29 +219,29 @@ public class UIManager implements IBioclipseManager {
         return file.exists();
     }
 
-    public void open(IBioObject bioObject) throws BioclipseException, 
-    CoreException, 
-    IOException {
+    public void open(IBioObject bioObject) throws BioclipseException,
+                                                  CoreException,
+                                                  IOException {
 
         //Strategy: Determine editor ID from IBioObject and open in this
 
         IJsConsoleManager js = net.bioclipse.scripting.ui.Activator
-        .getDefault().getJavaJsConsoleManager();
+                                  .getDefault().getJavaJsConsoleManager();
 
-        //If bioObject has a resource, 
+        //If bioObject has a resource,
         //use Content Type on this to determine editor
         if (bioObject.getResource()!=null) {
             if ( bioObject.getResource() instanceof IFile ) {
                 IFile file = (IFile) bioObject.getResource();
 
-                IContentTypeManager contentTypeManager 
+                IContentTypeManager contentTypeManager
                     = Platform.getContentTypeManager();
                 InputStream stream = file.getContents();
-                IContentType contentType 
-                    = contentTypeManager.findContentTypeFor( stream, 
+                IContentType contentType
+                    = contentTypeManager.findContentTypeFor( stream,
                                                              file.getName() );
 
-                IEditorDescriptor editor 
+                IEditorDescriptor editor
                     = PlatformUI.getWorkbench().getEditorRegistry()
                                 .getDefaultEditor(file.getName(), contentType);
                 if (editor != null) {
@@ -251,20 +251,20 @@ public class UIManager implements IBioclipseManager {
             }
         }
 
-        //Ok, either we had a file but could not get an editor for it, 
+        //Ok, either we had a file but could not get an editor for it,
         //or we don't have a resource for the IBioObject
 
         //Get all describers that are valid for this bioObject
-        List<IBioObjectDescriber> describers 
-        = ExtensionPointHelper.getAvailableDescribersFromEP();
+        List<IBioObjectDescriber> describers
+            = ExtensionPointHelper.getAvailableDescribersFromEP();
 
         for (IBioObjectDescriber describer : describers) {
             String editorId=describer.getPreferredEditorID( bioObject );
             //For now, just grab the first that comes.
             //TODO: implement some sort of hierarchy here if multiple matches
             if (editorId != null) {
-                IEditorDescriptor editor 
-                = PlatformUI.getWorkbench().getEditorRegistry()
+                IEditorDescriptor editor
+                    = PlatformUI.getWorkbench().getEditorRegistry()
                 .findEditor( editorId );
                 if (editor != null) {
                     open( bioObject, editor.getId() );
@@ -272,8 +272,9 @@ public class UIManager implements IBioclipseManager {
                 }
             }
         }
-        throw new IllegalArgumentException(
-            "No editor found for object: " + bioObject
+        throw new BioclipseException(
+            "The object could not be opened. "
+            + "No suitable editor could be found for object: " + bioObject
         );
     }
 
@@ -323,7 +324,7 @@ public class UIManager implements IBioclipseManager {
      * @throws CoreException
      * @throws BioclipseException
      */
-    public String newProject(String name) throws CoreException, 
+    public String newProject(String name) throws CoreException,
                                                  BioclipseException {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         IWorkspaceRoot root = workspace.getRoot();
@@ -334,7 +335,7 @@ public class UIManager implements IBioclipseManager {
         return name;
     }
 
-    
+
     public void newFile( String path) throws CoreException, BioclipseException {
         newFile(path, "");
     }
@@ -395,12 +396,12 @@ public class UIManager implements IBioclipseManager {
         });
 
     }
-    
+
     public void revealAndSelect(final IFile file) throws BioclipseException {
-        
+
         //Get navigator view and reveal in UI thread
         if (!file.exists())
-            throw new RuntimeException("The file: " + file.getName() + 
+            throw new RuntimeException("The file: " + file.getName() +
                                          " does not exist.");
         IViewPart view
             = PlatformUI.getWorkbench()
@@ -414,13 +415,15 @@ public class UIManager implements IBioclipseManager {
         );
     }
 
-    public void revealAndSelect(final IFolder folder) throws BioclipseException{
+    public void revealAndSelect(final IFolder folder)
+                throws BioclipseException {
         //Get navigator view and reveal in UI thread
         if (!folder.exists())
-            throw new RuntimeException("The folder: " + folder.getName() + 
+            throw new RuntimeException("The folder: " + folder.getName() +
                                          " does not exist.");
         IViewPart view = null;
-        IWorkbenchWindow[] pages = PlatformUI.getWorkbench().getWorkbenchWindows();
+        IWorkbenchWindow[] pages = PlatformUI.getWorkbench()
+                                             .getWorkbenchWindows();
         for(IWorkbenchWindow win:pages) {
             IWorkbenchPage[] pgs = win.getPages();
             for(IWorkbenchPage page : pgs) {
@@ -448,16 +451,16 @@ public class UIManager implements IBioclipseManager {
                                    + resource.getLocation().toPortableString());
         }
     }
-    
+
     public void assertInstalled(String feature) throws BioclipseException{
 
         if (getInstalledFeatures().contains( feature ))
             return;
         else
-            throw new BioclipseException("The feature: " + feature + 
+            throw new BioclipseException("The feature: " + feature +
                                          " is not installed.");
     }
-    
+
     public List<String> getInstalledFeatures() {
         List<String> installedFeatures=new ArrayList<String>();
         for (IFeatureEntry en
@@ -469,7 +472,7 @@ public class UIManager implements IBioclipseManager {
                 installedFeatures.add( en.getFeatureIdentifier());
             }
         }
-        
+
         return installedFeatures;
     }
 
@@ -480,8 +483,8 @@ public class UIManager implements IBioclipseManager {
      * @throws BioclipseException
      */
     public String readFile(IFile file) throws BioclipseException{
-        if (!file.exists()) throw new BioclipseException("File '" 
-                                         + file.getName() + "' does not exit."); 
+        if (!file.exists()) throw new BioclipseException("File '"
+                                         + file.getName() + "' does not exit.");
 
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -494,11 +497,11 @@ public class UIManager implements IBioclipseManager {
             }
             return buffer.toString();
         } catch ( Exception e ) {
-            throw new BioclipseException("Error opening/reading file: " 
+            throw new BioclipseException("Error opening/reading file: "
                                          + file.getName(), e);
         }
     }
-    
+
     /**
      * Read a file line by line into memory.
      * @param file IFile to read from
@@ -506,8 +509,8 @@ public class UIManager implements IBioclipseManager {
      * @throws BioclipseException
      */
     public String[] readFileIntoArray(IFile file) throws BioclipseException{
-        if (!file.exists()) throw new BioclipseException("File '" 
-                                         + file.getName() + "' does not exit."); 
+        if (!file.exists()) throw new BioclipseException("File '"
+                                         + file.getName() + "' does not exit.");
 
         List<String> lines=new ArrayList<String>();
         try {
@@ -520,7 +523,7 @@ public class UIManager implements IBioclipseManager {
             }
             return lines.toArray(new String[0]);
         } catch ( Exception e ) {
-            throw new BioclipseException("Error opening/reading file: " 
+            throw new BioclipseException("Error opening/reading file: "
                                          + file.getName(), e);
         }
     }

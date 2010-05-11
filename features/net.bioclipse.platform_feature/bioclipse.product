@@ -16,7 +16,7 @@
    <launcherArgs>
       <programArgs>-data &quot;@nodefault&quot; -noupdate -consolelog</programArgs>
       <vmArgs>-ea  -Xmx512M -XX:MaxPermSize=128m -Declipse.buildId=&quot;2.3.0&quot;</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts -d32</vmArgsMac>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts -Dbioclipse.defaultLogDir=&quot;Library/Logs/Bioclipse/&quot;</vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/net.bioclipse.ui/icons/logo/logo_16_trans.gif" i32="/net.bioclipse.ui/icons/logo/logo_32_trans.gif" i48="/net.bioclipse.ui/icons/logo/logo_48_trans.gif" i64="/net.bioclipse.ui/icons/logo/logo_64_trans.gif" i128="/net.bioclipse.ui/icons/logo/logo_128_trans.gif"/>

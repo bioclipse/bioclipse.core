@@ -86,7 +86,7 @@ public class JsConsoleManager implements IBioclipseManager {
         jsThread.enqueue(
             new JsAction(command, new Hook() {
                 public void run( Object result ) {
-                    evalResult[0] = jsThread.toJsString( result );
+                    evalResult[0] = result.toString();
                 }
             })
         );
@@ -122,7 +122,7 @@ public class JsConsoleManager implements IBioclipseManager {
                             monitor.done();
                             if ( !"org.mozilla.javascript.Undefined".equals(
                                     result.getClass().getName() ) ) {
-                                message(jsThread.toJsString(result));
+                                message(result.toString());
                             }
                         }
 

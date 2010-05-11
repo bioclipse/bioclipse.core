@@ -11,8 +11,11 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 import net.bioclipse.core.PublishedMethod;
-import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.apache.log4j.Logger;
@@ -22,11 +25,8 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.EcmaError;
-import org.mozilla.javascript.EvaluatorException;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
+
+import sun.org.mozilla.javascript.internal.NativeArray;
 
 /**
  * JavaScript environment. Holds variables and evaluates expressions.
@@ -36,8 +36,7 @@ import org.mozilla.javascript.ScriptableObject;
  */
 public class JsEnvironment implements ScriptingEnvironment {
 
-    private Context context;
-    private Scriptable scope;
+    ScriptEngine engine;
     private Map<String, IBioclipseManager> managers;
     private static final Logger logger = Logger.getLogger(JsEnvironment.class);
 
@@ -49,13 +48,10 @@ public class JsEnvironment implements ScriptingEnvironment {
      * Initializes the JavaScript environment for use.
      */
     // TODO: Look into doing this the non-deprecated way.
-    @SuppressWarnings("deprecation")
     public final void reset() {
-        if (context != null)
-            Context.exit();
+        ScriptEngineManager mgr = new ScriptEngineManager(JsEnvironment.class.getClassLoader());
+        engine = mgr.getEngineByName("JavaScript");
 
-        context = Context.enter();
-        scope = context.initStandardObjects();
         managers = new HashMap<String, IBioclipseManager>();
 
         installJsTools();
@@ -96,15 +92,12 @@ public class JsEnvironment implements ScriptingEnvironment {
                                                + "does not implement "
                                                + "IBioclipseManager" );
                 }
-                Object jsObject = Context.javaToJS(service, scope);
-                ScriptableObject.putProperty( scope,
-                                              ( (IBioclipseManager)service )
-                                                .getManagerName(),
-                                              jsObject );
-                managers.put(((IBioclipseManager)service).getManagerName(),
-                             (IBioclipseManager)service);
-                logger.info( "Bioclipse manager: " + ( (IBioclipseManager)service )
-                             .getManagerName() + " added to JavaScript " +
+                IBioclipseManager manager = (IBioclipseManager) service;
+                String managerName = manager.getManagerName();
+                engine.put( managerName, manager );
+                managers.put( managerName, manager);
+                logger.info( "Bioclipse manager: " + managerName + 
+                             " added to JavaScript " +
                              "environment." );
             }
         }
@@ -119,28 +112,23 @@ public class JsEnvironment implements ScriptingEnvironment {
      */
     public Object eval(String expression) {
         try {
-            Object o = context.evaluateString(scope, expression,
-                                              null, 0, null);
+            Object o = engine.eval(expression);
             return o;
-        }
-        catch (EvaluatorException e) {
-            String message = e.getMessage();
-            if (!message.startsWith( "Can't find method " ))
-                throw e;
-            
-            return explanationAboutParameters( expression, message );
-        }
-        catch (EcmaError e) {
-            LogUtils.debugTrace(logger, e);
-            return e;
+        } catch ( ScriptException e ) {
+           String message = e.getMessage();
+           if( !message.contains( "Can't find method " ))
+               throw new RuntimeException(e);
+           return explanationAboutParameters( expression, message );
         }
     }
 
     private String explanationAboutParameters( String expression,
                                                String message ) {
 
-        int iPeriod = message.indexOf( '.' ),
-             iParen = message.indexOf( '(' );
+        int iPeriod = message.indexOf( '.', 
+                                       message.indexOf( "Can't find method" ) ),
+             iParen = message.indexOf( '(', 
+                                       message.indexOf( "Can't find method" ) );
         
         String calledMethod = message.substring( iPeriod + 1, iParen );
         
@@ -229,20 +217,10 @@ public class JsEnvironment implements ScriptingEnvironment {
      */
     public Object evalToObject(String expression) {
         try{
-            return context.evaluateString(scope, expression, null, 0, null);
-        }
-        catch(EvaluatorException e){
-            throw new RuntimeException(e);
-        }
-        catch (EcmaError e) {
-            throw new RuntimeException(e);
+            return engine.eval(expression);
         }
         catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public String toJsString( Object o ) {
-        return Context.toString(o);
     }
 }
