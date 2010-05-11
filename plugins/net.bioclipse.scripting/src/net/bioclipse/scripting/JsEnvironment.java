@@ -26,8 +26,6 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
-import sun.org.mozilla.javascript.internal.NativeArray;
-
 /**
  * JavaScript environment. Holds variables and evaluates expressions.
  *
