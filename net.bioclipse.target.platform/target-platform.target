@@ -1,21 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?pde version="3.2"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.5"?>
 
 <target name="Spring-osgi-1.0.2">
-
-   <location useDefault="true"/>
-
-   <content useAllPlugins="true">
-      <plugins>
-      </plugins>
-      <features>
-      </features>
-      <extraLocations>
-         <location path="${project_loc}/spring-osgi-1.0.2/dist"/>
-         <location path="${project_loc}/libs"/>
-         <location path="${project_loc}/spring-osgi-1.0.2/lib"/>
-         <location path="${eclipse_home}/plugins"/>
-      </extraLocations>
-   </content>
-
+<locations>
+<location path="${eclipse_home}" type="Profile"/>
+<location path="${project_loc}/spring-osgi-1.0.2/dist" type="Directory"/>
+<location path="${project_loc}/libs" type="Directory"/>
+<location path="${project_loc}/spring-osgi-1.0.2/lib" type="Directory"/>
+<location path="${eclipse_home}/plugins" type="Directory"/>
+<location path="${project_loc}/logging" type="Directory"/>
+</locations>
 </target>
