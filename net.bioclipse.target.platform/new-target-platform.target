@@ -9,7 +9,16 @@
 </location>
 <location id="org.eclipse.mylyn_feature" path="${eclipse_home}" type="Feature"/>
 <location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
+<unit id="nu.psnet.quickimage.feature.group" version="1.0.3.2"/>
+<repository location="http://psnet.nu/eclipse/updates"/>
+</location>
+<location path="${project_loc:net.bioclipse.target.platform}/libs" type="Directory"/>
+<location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/dist" type="Directory"/>
+<location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/lib" type="Directory"/>
+<location path="${project_loc:/net.bioclipse.target.platform}/logging" type="Directory"/>
+<location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
 <unit id="org.eclipse.birt.osgi.runtime.sdk.feature.group" version="2.5.2.v20090925-579385tF0KMS-Eb6SPBIO0qaQNgB"/>
+<unit id="org.eclipse.datatools.connectivity.feature.feature.group" version="1.7.2.v200909251450-7B7OANEn1Xi4gycmhPC6njFVDz0q"/>
 <unit id="org.eclipse.platform.sdk" version="3.5.2.M20100211-1343"/>
 <unit id="org.eclipse.sdk.feature.group" version="3.5.2.R35x_v20100119-7Q7bARBPWUHM_CSjz-8bF1f7_n8rLSyWHoiKoyxBQSGT4"/>
 <unit id="org.eclipse.rcp.sdk.id" version="3.5.2.M20100211-1343"/>
@@ -27,13 +36,5 @@
 <unit id="org.eclipse.wst.xml_userdoc.feature.feature.group" version="3.1.1.v200906020459-50FR7AkF77f7MESDKEF"/>
 <repository location="http://download.eclipse.org/releases/galileo"/>
 </location>
-<location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
-<unit id="nu.psnet.quickimage.feature.group" version="1.0.3.2"/>
-<repository location="http://psnet.nu/eclipse/updates"/>
-</location>
-<location path="${project_loc:net.bioclipse.target.platform}/libs" type="Directory"/>
-<location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/dist" type="Directory"/>
-<location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/lib" type="Directory"/>
-<location path="${project_loc:/net.bioclipse.target.platform}/logging" type="Directory"/>
 </locations>
 </target>
