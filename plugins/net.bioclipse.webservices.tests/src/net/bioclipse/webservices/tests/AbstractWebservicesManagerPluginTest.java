@@ -1,5 +1,5 @@
 /* *****************************************************************************
- * Copyright (c) 2009  Ola Spjuth <ola@bioclipse.net>
+ * Copyright (c) 2009-2010  Ola Spjuth <ola@bioclipse.net>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -11,14 +11,10 @@
 package net.bioclipse.webservices.tests;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.List;
 
-import net.bioclipse.cdk.business.Activator;
-import net.bioclipse.cdk.domain.ICDKMolecule;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.webservices.business.IWebservicesManager;
 
@@ -28,6 +24,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.junit.Test;
 
+/**
+ * 
+ * @author ola
+ *
+ */
 public abstract class AbstractWebservicesManagerPluginTest {
 
     protected static IWebservicesManager managerNamespace;
