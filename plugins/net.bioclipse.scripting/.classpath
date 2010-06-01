@@ -10,6 +10,6 @@
 	<classpathentry exported="true" kind="lib" path="libs/backport-util-concurrent.jar" sourcepath="net.bioclipse.scriptingsrc.zip"/>
 	<classpathentry exported="true" kind="lib" path="libs/bsf.jar" sourcepath="net.bioclipse.scriptingsrc.zip"/>
 	<classpathentry exported="true" kind="lib" path="libs/jline-0.9.91.jar" sourcepath="net.bioclipse.scriptingsrc.zip"/>
-	<classpathentry exported="true" kind="lib" path="libs/groovy-1.0.jar"/>
+	<classpathentry kind="lib" path="libs/groovy-all-1.7.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -23,9 +23,7 @@ public class Activator extends Plugin {
     private static Activator plugin;
     
     public JsThread JS_THREAD = new JsThread();
-    
-    public final GroovyEnvironment GROOVY_SESSION = new GroovyEnvironment();
-    // Ruby environment removed after r6413.
+    public GroovyThread GROOVY_THREAD = new GroovyThread();
     
     /**
      * The constructor
