@@ -291,6 +291,7 @@ IWorkbenchPreferencePage {
         if (table.getItemCount()>0)
             table.setSelection(0);
         container.pack();
+        parent.pack();
         return container;
     }
 
