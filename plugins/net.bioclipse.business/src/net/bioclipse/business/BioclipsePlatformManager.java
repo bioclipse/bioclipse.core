@@ -137,4 +137,21 @@ public class BioclipsePlatformManager implements IBioclipseManager {
                 e.getMessage(), e);
         }
     }
+
+    public boolean isOnline() {
+    	// if both fail, we do not have internet
+    	String[] sites = new String[]{
+    		"http://google.com/",
+    		"http://slashdot.org/"
+    	};
+    	for (String site : sites) {
+    		try {
+    		    URL url = new URL(site);
+    		    URLConnection conn = url.openConnection();
+    		    conn.connect();
+    		    return true;
+    		} catch (Exception exception) {}
+    	}
+    	return false;
+    }
 }

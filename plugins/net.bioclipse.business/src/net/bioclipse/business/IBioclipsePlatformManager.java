@@ -55,4 +55,9 @@ public interface IBioclipsePlatformManager extends IBioclipseManager {
     public String downloadAsFile(String url, String mimeType,
             String filename)
     throws BioclipseException;
+
+    @PublishedMethod(
+        methodSummary="Returns true if Bioclipse is connected to the internet."
+    )
+    public boolean isOnline();
 }
