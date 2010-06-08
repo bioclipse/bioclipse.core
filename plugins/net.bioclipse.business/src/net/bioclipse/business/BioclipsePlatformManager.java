@@ -33,7 +33,7 @@ public class BioclipsePlatformManager implements IBioclipseManager {
     public String getManagerName() {
         return "bioclipse";
     }
-    
+
     public void planet() throws BioclipseException {
     	try {
 			openURL(new URL("http://planet.bioclipse.net"));
@@ -42,7 +42,7 @@ public class BioclipsePlatformManager implements IBioclipseManager {
 				e.getMessage(), e);
 		}
     }
-    	
+
     public void bugTracker() throws BioclipseException {
     	try {
 			openURL(new URL("http://bugs.bioclipse.net"));
@@ -97,7 +97,7 @@ public class BioclipsePlatformManager implements IBioclipseManager {
             if (target.exists()) {
                 target.setContents(rawConn.getInputStream(), true, false, null);
             } else {
-                target.create(rawConn.getInputStream(), false, null);                
+                target.create(rawConn.getInputStream(), false, null);
             };
         } catch (IOException exception) {
             throw new BioclipseException(
@@ -111,7 +111,7 @@ public class BioclipsePlatformManager implements IBioclipseManager {
         return target;
     }
 
-    
+
     private void openURL(URL url) throws BioclipseException {
     	IWorkbenchBrowserSupport browserSupport =
     		PlatformUI.getWorkbench().getBrowserSupport();
