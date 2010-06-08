@@ -154,4 +154,8 @@ public class BioclipsePlatformManager implements IBioclipseManager {
     	}
     	return false;
     }
+
+    public String version() {
+        return System.getProperty( "eclipse.buildId" );
+    }
 }

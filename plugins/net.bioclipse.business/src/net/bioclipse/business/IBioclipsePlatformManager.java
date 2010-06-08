@@ -60,4 +60,9 @@ public interface IBioclipsePlatformManager extends IBioclipseManager {
         methodSummary="Returns true if Bioclipse is connected to the internet."
     )
     public boolean isOnline();
+
+    @PublishedMethod(
+        methodSummary="Returns a string representation of the current " +
+        		      "Bioclipse version")
+    public String version();
 }
