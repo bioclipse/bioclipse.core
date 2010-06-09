@@ -241,9 +241,9 @@ public abstract class AbstractManagerMethodDispatcher
                 returnValue = method.invoke( manager, arguments );
             }
         } catch ( IllegalArgumentException e ) {
-            throw new RuntimeException("Failed to run method", e);
+            throw new RuntimeException("Failed to run method (Message was: "+e.getMessage()+")", e);
         } catch ( IllegalAccessException e ) {
-            throw new RuntimeException("Failed to run method", e);
+        	throw new RuntimeException("Failed to run method (Message was: "+e.getMessage()+")", e);
         } catch ( InvocationTargetException e ) {
             Throwable t = e.getCause();
             while ( t != null ) {
@@ -255,7 +255,7 @@ public abstract class AbstractManagerMethodDispatcher
                 }
                 t = t.getCause();
             }
-            throw new RuntimeException("Failed to run method", e);
+            throw new RuntimeException("Failed to run method (Message was: "+e.getMessage()+")", e);
         }
         
         if ( uiJob != null ) {
