@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse.platform_feature"
       label="Bioclipse Platform"
-      version="2.4.0.RC1"
+      version="2.4.0.RC2"
       provider-name="The Bioclipse Team">
 
    <description>
