@@ -28,7 +28,7 @@
 	<logger name="net.bioclipse" level="DEBUG" />
 
 	<root>
-		<level value="DEBUG" />
+		<level value="INFO" />
 		<appender-ref ref="FILE" />
 		<appender-ref ref="STDOUT" />
 	</root>
