@@ -45,7 +45,6 @@ public class JsEnvironment implements ScriptingEnvironment {
     /**
      * Initializes the JavaScript environment for use.
      */
-    // TODO: Look into doing this the non-deprecated way.
     public final void reset() {
         ScriptEngineManager mgr = new ScriptEngineManager(JsEnvironment.class.getClassLoader());
         engine = mgr.getEngineByName("JavaScript");
