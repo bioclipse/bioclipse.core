@@ -16,7 +16,14 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.managers.business.IBioclipseManager;
 
@@ -157,5 +164,103 @@ public class BioclipsePlatformManager implements IBioclipseManager {
 
     public String version() {
         return System.getProperty( "eclipse.buildId" );
+    }
+
+    public static class VersionNumberComparator implements Comparator<String> {
+
+        private static Pattern p
+            = Pattern.compile( "(\\d+)\\.(\\d+)(?:\\.(\\d+)(?:\\.(\\S+))?)?" );
+
+        private static final int QUALIFER_POSITION = 4;
+
+        private VersionNumberComparator() {
+        }
+
+        public static final VersionNumberComparator INSTANCE
+            = new VersionNumberComparator();
+
+        @Override
+        public int compare( String o1, String o2 ) {
+            Matcher m1 = p.matcher( o1 );
+            Matcher m2 = p.matcher( o2 );
+            if ( !m1.matches() || !m2.matches() ) {
+                // Build error message
+                String s = null;
+                if ( !m1.matches() ) {
+                    s = o1;
+                }
+                else if ( !m2.matches() ) {
+                    s = o2;
+                }
+                throw new IllegalArgumentException(
+                    "Could not identify the String: \"" + s + "\" as a " +
+                    "version number. Version numbers looks like these: " +
+                    "\"2.2\", \"2.2.0\", or \"2.2.0.RC1");
+            }
+            else {
+                int groups = Math.max( m1.groupCount(), m2.groupCount() );
+                for ( int i = 0 ; i < groups ; i++ ) {
+
+                    if ( i+1 == QUALIFER_POSITION ) {
+                        String g1 = m1.group(i+1) != null ? m1.group(i+1)
+                                                          : "";
+                        String g2 = m2.group(i+1) != null ? m2.group(i+1)
+                                                        : "";
+                        return g1.compareTo( g2 );
+                    }
+                    String g1 = m1.group(i+1) != null ? m1.group(i+1)
+                                                      : "0";
+                    String g2 = m2.group(i+1) != null ? m2.group(i+1)
+                                                      : "0";
+                    Integer i1 = Integer.parseInt( g1 );
+                    Integer i2 = Integer.parseInt( g2 );
+                    if ( i1 < i2 ) {
+                        return -1;
+                    }
+                    if ( i1 > i2 ) {
+                        return +1;
+                    }
+                }
+                return 0;
+            }
+        }
+    }
+
+    public void requireVersion( String version ) throws BioclipseException {
+        try {
+            if (!(VersionNumberComparator.INSTANCE
+                                         .compare( version, version() ) <= 0)) {
+                throw new BioclipseException(
+                              "You are running Bioclipse version: " + version()
+                              + "but require: " + version );
+            }
+        } catch(Exception e) {
+            throw new BioclipseException(e.getMessage(), e);
+        }
+    }
+
+    public void requireVersion( String lowerVersionBound,
+                                String upperVersionBound )
+                   throws BioclipseException {
+        try {
+            String version = version();
+            List<String> versions = new ArrayList<String>();
+            versions.add( lowerVersionBound );
+            versions.add( version );
+            versions.add( upperVersionBound );
+            Collections.sort( versions, VersionNumberComparator.INSTANCE );
+            if (!( version == versions.get( 1 ) &&
+                   VersionNumberComparator.INSTANCE
+                                          .compare(version,
+                                                   versions.get( 2 ) ) == -1)) {
+                throw new BioclipseException(
+                     "You are running Bioclipse version: " + version() +
+                     " but require ["+lowerVersionBound +  ", "
+                     + upperVersionBound + ")");
+            }
+        }
+        catch (Exception e) {
+            throw new BioclipseException(e.getMessage(), e);
+        }
     }
 }
