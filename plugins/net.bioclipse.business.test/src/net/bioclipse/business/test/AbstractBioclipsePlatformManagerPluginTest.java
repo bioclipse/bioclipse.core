@@ -15,6 +15,7 @@ import net.bioclipse.business.IBioclipsePlatformManager;
 import net.bioclipse.core.business.BioclipseException;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public abstract class AbstractBioclipsePlatformManagerPluginTest {
@@ -34,141 +35,103 @@ public abstract class AbstractBioclipsePlatformManagerPluginTest {
         );
     }
 
-    @Test public void testRequireVersion() throws Exception {
-
+    @BeforeClass
+    public static void setVersion() {
         System.setProperty( "eclipse.buildId", "2.2.0.testRunning" );
+    }
 
+    @Test
+    public void handleTwoThreeAndFourVersionsNumbers() throws Exception {
         bioclipse.requireVersion("2.2");
         bioclipse.requireVersion("2.2.0");
         bioclipse.requireVersion("2.2.0.testRunning");
-
-        try {
-            bioclipse.requireVersion("999.999");
-            fail("Should throw exception");
-        }
-        catch ( BioclipseException e ) {
-            // This is what we want
-        }
-
-        try {
-            bioclipse.requireVersion("2.4.1.testRunning");
-            fail("Should throw exception");
-        }
-        catch (BioclipseException e) {
-            // This is what we want
-        }
-
-        try {
-            bioclipse.requireVersion("999.999.999.b");
-            fail("Should throw exception");
-        }
-        catch(BioclipseException e) {
-            // This is what we want
-        }
-
-        try {
-            bioclipse.requireVersion("999.999.999");
-            fail("Should throw exception");
-        }
-        catch(BioclipseException e) {
-            // This is what we want
-        }
-
-        try {
-            bioclipse.requireVersion("2.4.1");
-            fail("Should throw exception");
-        }
-        catch(BioclipseException e) {
-            // This is what we want
-        }
-
-        try {
-            bioclipse.requireVersion( "2" );
-            fail("Expected BioclipseException");
-        }
-        catch ( BioclipseException e ) {
-            // This is what we want
-        }
-
-        try {
-            bioclipse.requireVersion( "a.b.c" );
-            fail("Expected BioclipseException");
-        }
-        catch ( BioclipseException e ) {
-            // This is what we want
-        }
     }
 
-    @Test public void testRequireVersionTwoParamaters() throws Exception {
+    @Test ( expected = BioclipseException.class )
+    public void throwExceptionIfTooLargeVersion() throws BioclipseException {
+        bioclipse.requireVersion("999.999");
+    }
 
-        System.setProperty( "eclipse.buildId", "2.2.0.testRunning" );
+    @Test ( expected = BioclipseException.class )
+    public void throwExceptionIfTooLargeVersion2() throws BioclipseException {
+        bioclipse.requireVersion("2.4.1.testRunning");
+    }
 
-        bioclipse.requireVersion("2.2", "2.3");
-        try {
-            bioclipse.requireVersion("998.999", "999.999");
-            fail("Should throw exception");
-        }
-        catch(BioclipseException e) {
-            // This is what we want
-        }
+    @Test ( expected = BioclipseException.class )
+    public void throwExceptionIfTooLargeVersion3() throws BioclipseException {
+        bioclipse.requireVersion("999.999.999.b");
+    }
+
+    @Test ( expected = BioclipseException.class )
+    public void throwExceptionIfTooLargeVersion4() throws BioclipseException {
+        bioclipse.requireVersion("999.999.999");
+    }
+
+    @Test ( expected = BioclipseException.class )
+    public void throwExceptionIfTooLargeVersion5() throws BioclipseException {
+        bioclipse.requireVersion("2.4.1");
+    }
+
+    @Test ( expected = BioclipseException.class )
+    public void requireMoreThanOneDigitInVersionNumber()
+                throws BioclipseException {
+        bioclipse.requireVersion( "2" );
+    }
+
+    @Test ( expected = BioclipseException.class )
+    public void throwExceptionOnNonDigits() throws BioclipseException {
+        bioclipse.requireVersion( "a.b.c" );
+    }
+
+    @Test
+    public void testSpanCoveringCurrentVersionThreeDigits() throws Exception {
         bioclipse.requireVersion("2.2.0", "2.2.1");
-        try {
-            bioclipse.requireVersion("2.4.1", "2.5.1");
-            fail("Expected BioclipseException");
-        }
-        catch(BioclipseException e) {
-            // This is what we want
-        }
-        try {
-            bioclipse.requireVersion("998.999.999", "999.999.999");
-            fail("Expected BioclipseException");
-        }
-        catch(BioclipseException e) {
-            // This is what we want
-        }
-        try {
-            bioclipse.requireVersion("999.99.99.a", "999.99.99.b");
-            fail("Expected BioclipseException");
-        }
-        catch(BioclipseException e) {
-            // This is what we want
-        }
-        try {
-            bioclipse.requireVersion("2.1.0.testRunning", "2.2.0.testRunning");
-            fail("Expected BioclipseException");
-        }
-        catch (BioclipseException e) {
-            // This is what we want
-        }
-        try {
-            bioclipse.requireVersion( "2.2.0.testRunning",
-                                      "2.2.0.testRunning" );
-            fail("Expected BioclipseException");
-        }
-        catch(BioclipseException e) {
-            // This is what we want
-        }
-        try {
-            bioclipse.requireVersion( "2.4.0.testRunning",
-                                      "2.4.1.testRunning" );
-            fail("Expected BioclipseException");
-        }
-        catch(BioclipseException e) {
-            // This is what we want
-        }
-        try {
-            bioclipse.requireVersion( "2", "3" );
-            fail("Expected BioclipseException");
-        }
-        catch ( BioclipseException e ) {
-            // This is what we want
-        }
-        try {
-            bioclipse.requireVersion( "a.b.c", "c.d.e" );
-            fail("Expected BioclipseException");
-        }
-        catch ( BioclipseException e ) {
-            // This is what we want
-        }
+    }
+
+    @Test
+    public void testSpanCoveringCurrentVersionTwoDigits() throws Exception {
+        bioclipse.requireVersion("2.2", "2.3");
+    }
+
+    @Test ( expected = BioclipseException.class )
+    public void tooHighSpanTwoDigits() throws BioclipseException {
+        bioclipse.requireVersion("998.999", "999.999");
+    }
+
+    @Test ( expected = BioclipseException.class )
+    public void tooHighSpanThreeDigits() throws BioclipseException {
+        bioclipse.requireVersion("2.4.1", "2.5.1");
+    }
+
+    @Test ( expected = BioclipseException.class )
+    public void tooHighSpanThreeDigitsAndspecifier() throws BioclipseException {
+        bioclipse.requireVersion("999.99.99.a", "999.99.99.b");
+    }
+
+    @Test ( expected = BioclipseException.class )
+    public void rightVersionWrongSpecifier() throws BioclipseException {
+        bioclipse.requireVersion("2.1.0.testRunning", "2.2.0.testRunning");
+    }
+
+    @Test ( expected = BioclipseException.class )
+    public void emptySpan() throws BioclipseException {
+        bioclipse.requireVersion( "2.2.0.testRunning",
+                                  "2.2.0.testRunning" );
+    }
+
+    @Test ( expected = BioclipseException.class )
+    public void spanTooHighThirdDigit() throws BioclipseException {
+        bioclipse.requireVersion( "2.4.0.testRunning",
+                                  "2.4.1.testRunning" );
+    }
+
+    @Test ( expected = BioclipseException.class )
+    public void demandMoreThanOneDigit() throws BioclipseException {
+        bioclipse.requireVersion( "2", "3" );
+    }
+
+    @Test ( expected = BioclipseException.class )
+    public void noNonDigits() throws BioclipseException {
+        bioclipse.requireVersion( "a.b.c", "c.d.e" );
     }
 }
