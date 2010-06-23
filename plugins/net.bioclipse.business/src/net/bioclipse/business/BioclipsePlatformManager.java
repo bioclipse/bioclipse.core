@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.managers.business.IBioclipseManager;
 
@@ -237,6 +236,13 @@ public class BioclipsePlatformManager implements IBioclipseManager {
         } catch(Exception e) {
             throw new BioclipseException(e.getMessage(), e);
         }
+    }
+
+    public void assumeOnline() throws BioclipseException {
+    	if (!isOnline())
+    		throw new BioclipseException(
+    			"Bioclipse does not have internet access."
+    		);
     }
 
     public void requireVersion( String lowerVersionBound,

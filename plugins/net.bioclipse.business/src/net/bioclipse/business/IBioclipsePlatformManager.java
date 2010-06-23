@@ -62,6 +62,12 @@ public interface IBioclipsePlatformManager extends IBioclipseManager {
     public boolean isOnline();
 
     @PublishedMethod(
+        methodSummary=
+        	"Throws an exception if Bioclipse does not have internet access."
+    )
+    public void assumeOnline() throws BioclipseException;
+
+    @PublishedMethod(
         methodSummary="Returns a string representation of the current " +
         		      "Bioclipse version")
     public String version();
