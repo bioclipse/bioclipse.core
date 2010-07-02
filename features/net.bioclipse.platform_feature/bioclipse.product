@@ -51,7 +51,7 @@
    </plugins>
 
    <features>
-      <feature id="net.bioclipse.core_feature" version="2.4.0.RC2"/>
+      <feature id="net.bioclipse.platform_feature" version="2.4.0.RC2_1"/>
    </features>
 
 
