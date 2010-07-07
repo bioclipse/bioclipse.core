@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Logback Fragment
 Bundle-SymbolicName: net.bioclipse.logback;singleton:=true
-Bundle-Version: 2.4.0.RC3
+Bundle-Version: 2.4.0.20100709
 Bundle-ClassPath: .,src/
 Fragment-Host: ch.qos.logback.classic;bundle-version="0.9.20"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5,

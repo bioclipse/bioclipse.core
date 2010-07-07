@@ -5,5 +5,5 @@ Require-Bundle: net.bioclipse.core,
  org.junit4,
  net.bioclipse.scripting
 Bundle-SymbolicName: net.bioclipse.scripting.tests
-Bundle-Version: 2.4.0.RC3
+Bundle-Version: 2.4.0.20100709
 Export-Package: net.bioclipse.scripting

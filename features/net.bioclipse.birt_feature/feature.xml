@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse.birt_feature"
       label="Bioclipse BIRT"
-      version="2.4.0.RC3"
+      version="2.4.0.20100709"
       provider-name="The Bioclipse Team"
       plugin="net.bioclipse.birt">
 
