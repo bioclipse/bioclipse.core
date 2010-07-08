@@ -3,21 +3,7 @@ use strict;
 
 use Data::Dumper;
 use XML::XPath;
-
-my $current_indentation = 0;
-sub say_indent {
-    my $text = join '', @_, '';
-
-    print ' ' x (4 * $current_indentation), $text, "\n";
-}
-
-sub do_indented {
-    my ($code) = @_;
-
-    ++$current_indentation;
-    $code->();
-    --$current_indentation;
-}
+use YAML;
 
 my @xmlfiles = `find .. -type d -name META-INF | perl -ne 'chomp; if (-d "\$_/spring") { for \$name (<\$_/spring/*.xml>) { print \$name, "\n" } }'`;
 
@@ -40,7 +26,6 @@ for my $file (@xmlfiles) {
     $interface_line =~ s/ \{//;
     my @interfaces = grep { $_ && !/IBioclipse(JS)?Manager/ } split /,\s*/, $interface_line;
     die 'Too many interfaces in ', $file if @interfaces > 1;
-    #die 'No interfaces in ', $file if !@interfaces;
     next if !@interfaces;
     my $interface = $interfaces[0];
     chomp $interface;
@@ -64,8 +49,6 @@ sub pathToFile {
     chomp $path;
     return $path;
 }
-
-say_indent('---');
 
 my $interface;
 my @classes;
@@ -153,6 +136,7 @@ while (my $line = <>) {
         if ( $method_signature =~ m{ \s (\w+) \s* \( }x ) {
             my $name = $1;
             my $params = delete $method_desc{params};
+            $params ||= '';
             $methods{"$name($params)"} = \%method_desc;
         }
         else {
@@ -161,33 +145,20 @@ while (my $line = <>) {
     }
 
     if ( $line =~ /^}\s*$/ && defined $interface && defined $description ) {
-        say_indent( $interface, ':' );
-        do_indented sub {
-            say_indent( 'Classes: ' );
-            do_indented sub {
-                say_indent( '- ', $_ ) for @classes;
-            };
-            say_indent( 'Namespaces: ' );
-            do_indented sub {
-                say_indent( '- ', $_ ) for @namespaces;
-            };
-            say_indent( 'Description: ', $description );
-            say_indent( 'Methods:' );
-
-            do_indented sub {
-                for my $name ( sort keys %methods ) {
-                    say_indent( '- ',  $name, ':' );
-
-                    do_indented sub {   
-                        for my $prop ( reverse sort keys %{$methods{$name}} ) {
-                            say_indent( '- ', $prop,
-                                        ': ', $methods{$name}{$prop} );
-                        }
-                    };
-                }
-            };
+        my %methods = map {
+            my $name = $_;
+            my %props = map { my $prop = $_; $_ => $methods{$name}{$prop} }
+                            reverse sort keys %{$methods{$name}};
+            $name => \%props
+        } sort keys %methods;
+        my $interface_contents = {
+            Classes => \@classes,
+            Namespaces => \@namespaces,
+            Description => $description,
+            Methods => \%methods,
         };
-        say_indent();
+        my $yaml = { $interface => $interface_contents };
+        print Dump($yaml), "\n";
 
         undef $interface;
         undef $description;
