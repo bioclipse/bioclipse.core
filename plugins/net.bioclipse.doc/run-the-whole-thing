@@ -26,6 +26,7 @@ perl render-as-html stage1 |
 
 if [ $? != 0 ]; then
     cat tidy_errors >&2;
+    rm -f stage1 tidy_errors
     exit 1;
 fi
 
