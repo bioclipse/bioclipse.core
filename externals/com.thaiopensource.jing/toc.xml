@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="Jing Library plugin">
-	<topic label="About Jing"  href="html/maintopic.html"> 
-	</topic>
+<toc link_to="../net.bioclipse.doc/toc-external.xml#ContributedLibraries" label="Jing">
+	<topic label="Jing Library" href="html/maintopic.html" /> 
 </toc>
