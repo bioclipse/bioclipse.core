@@ -53,29 +53,32 @@ for my $manager (@managers) {
     print "<h2 id='$first_ns'>$namespaces</h2>\n";
     print "<p class='description'>", $h->{$manager}{Description}, "</p>\n";
 
-    for my $m (@{$h->{$manager}{Methods}}) {
+    for my $k (keys %{$h->{$manager}{Methods}}) {
         print "<div class='method'>\n";
-        my $k = (keys(%$m))[0];
-        print "<h3>$k</h3>\n<dl>\n";
-        for my $kk (qw<summary params>) {
-            my @a = @{$m->{$k}};
-            for my $plx (@a) {
-                my $vv = $plx->{$kk} || '';
-                # Used HTML::EscapeEvil, but the module truncated the text for
-                # some reason. Doing it manually instead.
-                $vv =~ s/&/\&amp;/g;
-                $vv =~ s/</\&lt;/g;
-                $vv =~ s/>/\&gt;/g;
-                $vv =~ s/'/\&quot;/g;
-                $vv =~ s/"/\&#34;/g;
-                # Java newlines replaced by HTML newlines
-                $vv =~ s/\\n/<br>/g;
-                if ($vv) {
-                    print "<dt>$kk</dt><dd>$vv</dd>\n"
-                }
+        print "<h3>", sanitize($k), "</h3>\n<dl>\n";
+        for my $kk (qw<summary>) {
+            my $value = $h->{$manager}{Methods}{$k}{$kk};
+            if ($value) {
+                print "<dt>$kk</dt><dd>", sanitize($value), "</dd>\n"
             }
         }
         print "</dl>\n</div>\n"
     }
 }
 print "</body>\n</html>\n";
+
+sub sanitize {
+    my ($orig) = @_;
+
+    my $vv = $orig || '';
+    # Used HTML::EscapeEvil, but the module truncated the text for
+    # some reason. Doing it manually instead.
+    $vv =~ s/&/\&amp;/g;
+    $vv =~ s/</\&lt;/g;
+    $vv =~ s/>/\&gt;/g;
+    $vv =~ s/'/\&quot;/g;
+    $vv =~ s/"/\&#34;/g;
+    # Java newlines replaced by HTML newlines
+    $vv =~ s/\\n/<br>/g;
+    return $vv;
+}
