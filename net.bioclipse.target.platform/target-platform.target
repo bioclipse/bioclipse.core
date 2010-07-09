@@ -1,21 +1,42 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?pde version="3.2"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.5"?>
 
 <target name="Spring-osgi-1.0.2">
-
-   <location useDefault="true"/>
-
-   <content useAllPlugins="true">
-      <plugins>
-      </plugins>
-      <features>
-      </features>
-      <extraLocations>
-         <location path="${project_loc}/spring-osgi-1.0.2/dist"/>
-         <location path="${project_loc}/libs"/>
-         <location path="${project_loc}/spring-osgi-1.0.2/lib"/>
-         <location path="${eclipse_home}/plugins"/>
-      </extraLocations>
-   </content>
-
+<locations>
+<location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
+<unit id="org.eclipse.zest.feature.group" version="1.1.2.v20100111-1352-6618yD6DH8G6N59OM53B2A"/>
+<repository location="http://download.eclipse.org/tools/gef/updates/releases/"/>
+</location>
+<location id="org.eclipse.mylyn_feature" path="${eclipse_home}" type="Feature"/>
+<location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
+<unit id="nu.psnet.quickimage.feature.group" version="1.0.3.2"/>
+<repository location="http://psnet.nu/eclipse/updates"/>
+</location>
+<location path="${project_loc:net.bioclipse.target.platform}/libs" type="Directory"/>
+<location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/dist" type="Directory"/>
+<location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/lib" type="Directory"/>
+<location path="${project_loc:/net.bioclipse.target.platform}/logging" type="Directory"/>
+<location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
+<unit id="org.eclipse.birt.osgi.runtime.sdk.feature.group" version="2.5.2.v20090925-579385tF0KMS-Eb6SPBIO0qaQNgB"/>
+<unit id="org.eclipse.birt.feature.group" version="2.5.2.v20090925-9dE-9CGJexwJPcfpfqGkK_4lg9Ti"/>
+<unit id="org.eclipse.datatools.connectivity.feature.feature.group" version="1.7.2.v200909251450-7B7OANEn1Xi4gycmhPC6njFVDz0q"/>
+<unit id="org.eclipse.platform.sdk" version="3.5.2.M20100211-1343"/>
+<unit id="org.eclipse.sdk.feature.group" version="3.5.2.R35x_v20100119-7Q7bARBPWUHM_CSjz-8bF1f7_n8rLSyWHoiKoyxBQSGT4"/>
+<unit id="org.eclipse.rcp.sdk.id" version="3.5.2.M20100211-1343"/>
+<unit id="org.eclipse.emf.ecoretools.sdk.feature.group" version="0.9.0.v200906221231"/>
+<unit id="org.eclipse.emf.sdk.feature.group" version="2.5.0.v200906151043"/>
+<unit id="org.eclipse.equinox.compendium.sdk.feature.group" version="3.5.2.R35x_v20100105-7V7JFUTFIYmj9hlMIrg9Qrf"/>
+<unit id="org.eclipse.equinox.core.sdk.feature.group" version="3.5.2.R35x_v20100105-7sF9-FRLFP5J9Hvo7iPXMK6J3BB7"/>
+<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.5.1.R35x_v20090811-8q7BGE-G13DHKOBciHlrWmr7PD93"/>
+<unit id="org.eclipse.equinox.sdk.feature.group" version="3.5.2.r352_v20100209-7G7MAD7lQiEeG_QL5AOoAHLYaYBg"/>
+<unit id="org.eclipse.equinox.serverside.sdk.feature.group" version="3.5.0.v20090505-7o7FFYLFKYWwesZ_FKz-WnOk"/>
+<unit id="org.eclipse.draw2d.sdk.feature.group" version="3.5.2.v20100111-1352-7A7E38yD6E88B9I5AELD4H8D8x42"/>
+<unit id="org.eclipse.gef.feature.group" version="3.5.2.v20100111-1352-777928194B66D5D476C33B2A"/>
+<unit id="org.eclipse.zest.sdk.feature.group" version="1.1.2.v20100111-1352-6658CNDT4R8WTQUMhLVdgPbPObOX"/>
+<unit id="org.eclipse.mylyn.sdk_feature.feature.group" version="3.2.3.v20100217-0100-e3x"/>
+<unit id="org.eclipse.wst.xml_core.feature.feature.group" version="3.1.1.v200907161031-7C7OFPiF7RZHKFHgU1LkY6"/>
+<unit id="org.eclipse.wst.xml_userdoc.feature.feature.group" version="3.1.1.v200906020459-50FR7AkF77f7MESDKEF"/>
+<repository location="http://download.eclipse.org/releases/galileo"/>
+</location>
+</locations>
 </target>

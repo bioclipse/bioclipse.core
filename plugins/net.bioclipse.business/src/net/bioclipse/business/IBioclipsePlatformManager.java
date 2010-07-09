@@ -55,4 +55,36 @@ public interface IBioclipsePlatformManager extends IBioclipseManager {
     public String downloadAsFile(String url, String mimeType,
             String filename)
     throws BioclipseException;
+
+    @PublishedMethod(
+        methodSummary="Returns true if Bioclipse is connected to the internet."
+    )
+    public boolean isOnline();
+
+    @PublishedMethod(
+        methodSummary=
+        	"Throws an exception if Bioclipse does not have internet access."
+    )
+    public void assumeOnline() throws BioclipseException;
+
+    @PublishedMethod(
+        methodSummary="Returns a string representation of the current " +
+        		      "Bioclipse version")
+    public String version();
+
+    @PublishedMethod(
+        methodSummary="Returns true if the given version is lower than " +
+        		      "the current Bioclipse version",
+        params="String version" )
+    public void requireVersion( String version ) throws BioclipseException;
+
+    @PublishedMethod(
+        methodSummary="Returns true if the current Bioclipse version is in " +
+        		      "between the given (including) lower version bound and " +
+        		      "the given (excluding) upper version bound \n"+
+        		      "So bioclipse.requireVersion will ",
+        params="String lowerVersionBound, String upperVersionBound " )
+    public void requireVersion( String lowerVersionBound,
+                                   String upperVersionBound )
+                   throws BioclipseException;
 }

@@ -26,8 +26,6 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
-import sun.org.mozilla.javascript.internal.NativeArray;
-
 /**
  * JavaScript environment. Holds variables and evaluates expressions.
  *
@@ -47,9 +45,9 @@ public class JsEnvironment implements ScriptingEnvironment {
     /**
      * Initializes the JavaScript environment for use.
      */
-    // TODO: Look into doing this the non-deprecated way.
     public final void reset() {
-        ScriptEngineManager mgr = new ScriptEngineManager(JsEnvironment.class.getClassLoader());
+        ScriptEngineManager mgr
+            = new ScriptEngineManager(JsEnvironment.class.getClassLoader());
         engine = mgr.getEngineByName("JavaScript");
 
         managers = new HashMap<String, IBioclipseManager>();
@@ -82,7 +80,8 @@ public class JsEnvironment implements ScriptingEnvironment {
                     service = element.createExecutableExtension("service");
                 }
                 catch (CoreException e) {
-                    logger.error("Failed to get a service: " + e.getMessage(), e);
+                    logger.error( "Failed to get a service: " + e.getMessage(),
+                                  e );
                     continue;
                 }
                 if( service != null &&
@@ -96,7 +95,7 @@ public class JsEnvironment implements ScriptingEnvironment {
                 String managerName = manager.getManagerName();
                 engine.put( managerName, manager );
                 managers.put( managerName, manager);
-                logger.info( "Bioclipse manager: " + managerName + 
+                logger.info( "Bioclipse manager: " + managerName +
                              " added to JavaScript " +
                              "environment." );
             }
@@ -125,26 +124,26 @@ public class JsEnvironment implements ScriptingEnvironment {
     private String explanationAboutParameters( String expression,
                                                String message ) {
 
-        int iPeriod = message.indexOf( '.', 
+        int iPeriod = message.indexOf( '.',
                                        message.indexOf( "Can't find method" ) ),
-             iParen = message.indexOf( '(', 
+             iParen = message.indexOf( '(',
                                        message.indexOf( "Can't find method" ) );
-        
+
         String calledMethod = message.substring( iPeriod + 1, iParen );
-        
+
         if (expression.contains( "." + calledMethod + "(" )) {
-            
+
             int iService
                 = expression.indexOf( "." + calledMethod + "(" ) - 1;
             while ( iService > 0 && Character.isJavaIdentifierPart(
                        expression.charAt( iService - 1 )) )
                 --iService;
-            
+
             String managerName
                 = expression.substring( iService,
                                         expression.indexOf(
                                            '.', iService ) );
-            
+
               IBioclipseManager manager = getManagers().get(managerName);
 
               String params = null;
@@ -154,27 +153,27 @@ public class JsEnvironment implements ScriptingEnvironment {
                   for ( Class<?> interfaze :
                           manager.getClass().getInterfaces() ) {
                       for ( Method method : interfaze.getMethods() ) {
- 
+
                           if ( method.getName().equals(calledMethod) &&
                                method.isAnnotationPresent(
                                    PublishedMethod.class) ) {
- 
+
                               PublishedMethod publishedMethod
                                   = method.getAnnotation(
                                       PublishedMethod.class);
- 
+
                               params = publishedMethod.params();
                               requiredParams
                                   = numberOfSuchCharactersIn(
                                         params, ',' ) + 1;
-                            
+
                             if ( "".equals(publishedMethod.params()
                                            .trim()) )
                                 requiredParams = 0;
                         }
                     }
                 }
-            
+
                 int calledParams
                     = numberOfSuchCharactersIn(message, ',') + 1;
                 if ( message.substring( iParen + 1,
@@ -191,7 +190,7 @@ public class JsEnvironment implements ScriptingEnvironment {
                          + '(' + params + ")";
             }
         }
-        
+
         return message;
     }
 

@@ -32,11 +32,17 @@ public class PasteAsNewTester extends PropertyTester {
             if (!(expectedValue instanceof Boolean)) return false;
 
             boolean expected = (Boolean)expectedValue;
-            Clipboard clipBoard 
-                = new Clipboard( PlatformUI.getWorkbench()
-                                           .getActiveWorkbenchWindow()
-                                           .getShell()
-                                           .getDisplay() );
+            Clipboard clipBoard;
+            try {
+                clipBoard = new Clipboard( PlatformUI.getWorkbench()
+                                                     .getActiveWorkbenchWindow()
+                                                     .getShell()
+                                                     .getDisplay() );
+            }
+            catch (NullPointerException e) {
+                return false;
+            }
+
             TextTransfer transfer = TextTransfer.getInstance();
             final String data = (String)clipBoard.getContents(transfer);
             boolean actual = (data != null );

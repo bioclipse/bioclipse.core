@@ -2,7 +2,9 @@
 
 # This file is meant to be run like this:
 #
-# ./run-the-whole-thing > html/index.html
+# ./run-the-whole-thing
+
+OUTFILE=html/index.html
 
 if (which tidy > /dev/null); then
     # we have tidy -- do a null command to make bash happy
@@ -12,7 +14,7 @@ else
     exit;
 fi
 
-perl find-published-classes |
+. find-published-classes |
     xargs perl parse-file-for-annotations > stage1
 
 if [ $? != 0 ]; then
@@ -20,10 +22,11 @@ if [ $? != 0 ]; then
 fi
 
 perl render-as-html stage1 |
-    tidy -i 2> tidy_errors
+    tidy -i > $OUTFILE 2> tidy_errors
 
 if [ $? != 0 ]; then
     cat tidy_errors >&2;
+    rm -f stage1 tidy_errors
     exit 1;
 fi
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Bioclipse" uid="net.bioclipse.product" id="net.bioclipse.ui.product" application="net.bioclipse.ui.application" version="2.2.0.v20100127" useFeatures="true" includeLaunchers="true">
+<product name="Bioclipse" uid="net.bioclipse.product" id="net.bioclipse.ui.product" application="net.bioclipse.ui.application" version="2.4.0.20100709" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/net.bioclipse.ui/icons/logo/abot_img.gif"/>
@@ -15,7 +15,7 @@
 
    <launcherArgs>
       <programArgs>-data &quot;@nodefault&quot; -noupdate -consolelog</programArgs>
-      <vmArgs>-ea  -Xmx512M -XX:MaxPermSize=128m -Declipse.buildId=&quot;2.3.0&quot;</vmArgs>
+      <vmArgs>-ea  -Xmx512M -XX:MaxPermSize=128m -Declipse.buildId=&quot;2.4.0&quot;</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts -Dbioclipse.defaultLogDir=&quot;Library/Logs/Bioclipse/&quot;</vmArgsMac>
    </launcherArgs>
 
@@ -51,7 +51,7 @@
    </plugins>
 
    <features>
-      <feature id="net.bioclipse.platform_feature" version="2.2.0.v20100127"/>
+      <feature id="net.bioclipse.platform_feature" version="2.4.0.20100709"/>
    </features>
 
 

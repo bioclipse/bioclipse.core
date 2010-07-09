@@ -234,7 +234,7 @@ public class ScriptExecution {
             Object ev = engine.eval( scriptString );
 
             // Convert the result to a string and print it.
-            scriptResult = ev.toString(); //TODO Context.toString(ev);
+            scriptResult = ev==null?"null":ev.toString();
         } catch (Exception e){
             LogUtils.debugTrace( logger, e );
             throw new ScriptException(e);

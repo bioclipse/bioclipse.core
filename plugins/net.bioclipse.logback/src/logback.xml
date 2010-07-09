@@ -22,12 +22,13 @@
 			<maxFileSize>3MB</maxFileSize>
 		</triggeringPolicy>
 	</appender>
+	<logger name="org.mortbay" level="WARN" />
 	<logger name="org.eclipse" level="WARN" />
 	<logger name="org.springframework" level="ERROR" />
 	<logger name="net.bioclipse" level="DEBUG" />
 
 	<root>
-		<level value="DEBUG" />
+		<level value="INFO" />
 		<appender-ref ref="FILE" />
 		<appender-ref ref="STDOUT" />
 	</root>
