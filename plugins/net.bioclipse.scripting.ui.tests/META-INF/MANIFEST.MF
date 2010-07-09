@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Scripting UI Tests
 Bundle-SymbolicName: net.bioclipse.scripting.ui.tests
-Bundle-Version: 2.4.0.RC3
+Bundle-Version: 2.4.0.20100709
 Bundle-Activator: net.bioclipse.scripting.ui.tests.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
