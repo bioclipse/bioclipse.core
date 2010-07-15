@@ -10,7 +10,12 @@
  ******************************************************************************/
 package net.bioclipse.core.util;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Random;
+
+import net.bioclipse.core.business.BioclipseException;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -18,9 +23,11 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 
 /**
  * Utility methods to manipulate files in Bioclipse
@@ -87,4 +94,29 @@ public class FileUtil {
             project.delete( true, new NullProgressMonitor() );
     }
     
+    /**
+     * Get the absolute path from a file with plugin-relative path
+     * @return absolute path to file.
+     * @throws IOException 
+     */
+    public static String getFilePath(String pluginRelativePath, String pluginID) 
+    	throws IllegalArgumentException, IOException {
+    	
+    	if (pluginRelativePath==null || pluginRelativePath.isEmpty()) 
+    		throw new IllegalArgumentException("pluginRelativePath must " +
+    				"not be empty");
+
+    	if (pluginID==null || pluginID.isEmpty()) 
+    		throw new IllegalArgumentException("pluginID must " +
+    				"not be empty");
+
+    	URL url = FileLocator.toFileURL(Platform.getBundle(pluginID)
+    			.getEntry(pluginRelativePath));
+    	File file=new File(url.getFile());
+    	if (!file.exists())
+    		throw new IOException("File: " + pluginRelativePath 
+    				+ " does not exist in plugin: " + pluginID);
+
+    	return url.getFile();
+    }
 }
