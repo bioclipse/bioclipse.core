@@ -52,7 +52,6 @@
 
    <features>
       <feature id="net.bioclipse.platform_feature" version="2.4.0.20100709"/>
-      <feature id="net.bioclipse.ds_feature" version="2.4.0.20100709"/>
    </features>
 
 
