@@ -335,7 +335,7 @@ public class ReportEditor extends EditorPart implements ISelectionProvider{
 			reportViewer.setDocument(jp);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			throw new BioclipseException(e.getMessage());
+			throw new BioclipseException(e.getMessage(), e);
 		} 
 
 	}
