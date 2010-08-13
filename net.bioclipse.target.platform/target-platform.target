@@ -16,8 +16,6 @@
 <location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/lib" type="Directory"/>
 <location path="${project_loc:/net.bioclipse.target.platform}/logging" type="Directory"/>
 <location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
-<unit id="org.eclipse.birt.osgi.runtime.sdk.feature.group" version="2.5.2.v20090925-579385tF0KMS-Eb6SPBIO0qaQNgB"/>
-<unit id="org.eclipse.birt.feature.group" version="2.5.2.v20090925-9dE-9CGJexwJPcfpfqGkK_4lg9Ti"/>
 <unit id="org.eclipse.datatools.connectivity.feature.feature.group" version="1.7.2.v200909251450-7B7OANEn1Xi4gycmhPC6njFVDz0q"/>
 <unit id="org.eclipse.platform.sdk" version="3.5.2.M20100211-1343"/>
 <unit id="org.eclipse.sdk.feature.group" version="3.5.2.R35x_v20100119-7Q7bARBPWUHM_CSjz-8bF1f7_n8rLSyWHoiKoyxBQSGT4"/>
