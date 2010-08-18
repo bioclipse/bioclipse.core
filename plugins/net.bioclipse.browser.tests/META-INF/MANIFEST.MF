@@ -15,8 +15,7 @@ Require-Bundle: org.eclipse.ui,
  net.sf.cglib,
  org.springframework.osgi.aopalliance.osgi,
  org.junit4,
- net.bioclipse.browser.business,
- net.bioclipse.pubchem;bundle-version="2.2.0"
+ net.bioclipse.browser.business
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: org.apache.log4j
 Bundle-ActivationPolicy: lazy
