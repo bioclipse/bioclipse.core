@@ -10,6 +10,7 @@
 package net.bioclipse.jasper.charCustomizers;
 
 import java.awt.Font;
+import java.awt.geom.Ellipse2D;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.LogarithmicAxis;
@@ -44,5 +45,8 @@ public class DoseResponseChartCustomizer implements JRChartCustomizer {
         chart.getXYPlot().setDomainAxis( domainAxis );
         chart.getXYPlot().setRangeAxis(  rangeAxis  );
         chart.getXYPlot().setDomainGridlinesVisible( false );
+        chart.getXYPlot()
+             .getRenderer()
+             .setSeriesShape( 0, new Ellipse2D.Double(-1, -1, 2, 2) );
     }
 }
