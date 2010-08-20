@@ -5,15 +5,15 @@ Bundle-SymbolicName: net.bioclipse.core.tests
 Bundle-Version: 2.4.0.20100709
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- net.bioclipse.core,
- org.junit4,
  org.eclipse.core.resources,
- net.bioclipse.ui;bundle-version="2.0.0",
- org.springframework.osgi.aopalliance.osgi;bundle-version="1.0.0"
-Eclipse-LazyStart: true
+ org.springframework.osgi.aopalliance.osgi;bundle-version="1.0.0",
+ net.bioclipse.core,
+ net.bioclipse.ui,
+ org.eclipse.jdt.junit4.runtime;bundle-version="1.1.0",
+ org.junit4;bundle-version="4.5.0"
+Bundle-ActivationPolicy: lazy
 Bundle-Vendor: The Bioclipse project
-Bundle-ClassPath: junit.jar,
- .
+Bundle-ClassPath: .
 Export-Package: net.bioclipse,
  net.bioclipse.core,
  net.bioclipse.core.domain,
@@ -23,3 +23,4 @@ Export-Package: net.bioclipse,
  net.bioclipse.recording
 Import-Package: nu.xom;version="1.1.0",
  org.apache.log4j
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
