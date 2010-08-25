@@ -34,4 +34,4 @@ Bundle-Activator: net.bioclipse.core.Activator
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.log4j
 Bundle-Vendor: The Bioclipse Team
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

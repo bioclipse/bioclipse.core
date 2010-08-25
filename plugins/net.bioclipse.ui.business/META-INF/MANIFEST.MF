@@ -16,7 +16,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.update.configurator,
  org.eclipse.core.expressions
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: net.bioclipse.core,
  net.bioclipse.core.business,
  org.apache.log4j,

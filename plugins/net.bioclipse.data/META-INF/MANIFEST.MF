@@ -18,6 +18,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.update.core;bundle-version="3.2.201"
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: net.bioclipse.data,
  net.bioclipse.data.wizards

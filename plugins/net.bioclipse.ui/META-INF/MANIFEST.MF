@@ -42,5 +42,5 @@ Export-Package: net.bioclipse.ui,
  net.bioclipse.ui.prefs,
  net.bioclipse.ui.views
 Import-Package: org.apache.log4j
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .

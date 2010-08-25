@@ -17,6 +17,6 @@ Require-Bundle: org.eclipse.ui,
  org.junit4,
  net.bioclipse.xml,
  net.bioclipse.ui.business;bundle-version="2.1.0"
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.apache.log4j
 Bundle-ActivationPolicy: lazy
