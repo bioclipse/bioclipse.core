@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Jasper Reports for Bioclipse
 Bundle-SymbolicName: net.bioclipse.jasper;singleton:=true
-Bundle-Version: 1.2.0
+Bundle-Version: 2.4.1.v20100830
 Bundle-Activator: net.bioclipse.jasper.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
