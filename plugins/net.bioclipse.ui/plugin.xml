@@ -87,7 +87,7 @@
       </property>
       <property
           name="buildIdLocation"
-          value="413,10">
+          value="10,10">
       </property>
       </product>
    </extension>

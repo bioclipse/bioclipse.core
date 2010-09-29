@@ -119,6 +119,8 @@ public class Activator extends BioclipseActivator {
         checkJVMVersion();  
         handleStartupArgs();
         
+        System.setProperty( "eclipse.buildId", 
+                            context.getBundle().getVersion().toString() );
 //        initBioclipseCache();
         
     }
