@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.ui.dialogs.PickWorkspaceDialog;
 import net.bioclipse.ui.dialogs.UpdatesAvailableDialog;
 import net.bioclipse.ui.prefs.IPreferenceConstants;
@@ -38,6 +39,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.window.Window;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
@@ -119,6 +121,18 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
     public void postStartup() {
 
         abort=false;
+        
+        //TODO Perhaps allow Bioclpse to be started without the Navigator 
+        // (Right now Bioclipse refuses to start if the Navigator 
+        //  view has been closed)
+        try {
+            PlatformUI.getWorkbench()
+                      .getActiveWorkbenchWindow()
+                      .getActivePage().showView( "net.bioclipse.navigator" );
+        }
+        catch ( PartInitException e1 ) {
+            LogUtils.handleException( e1, logger );
+        }
         
         CommonNavigator nav = (CommonNavigator) PlatformUI.getWorkbench()
                                      .getActiveWorkbenchWindow().getActivePage()
