@@ -34,6 +34,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.junit.Assert;
 import org.junit.Test;
 
 
@@ -125,6 +126,7 @@ public class ResourcePathTransformerTest {
         (separator=System.getProperty("file.separator"))+
         this.getClass().getName().replaceAll("\\.",separator)+".java";
         
+        try {
         IFile file = ResourcePathTransformer.getInstance()
                                             .transform( aPath );
         assertNotNull( file );
@@ -139,6 +141,10 @@ public class ResourcePathTransformerTest {
             assertEquals( i, j );
         }
         while (i != -1 && j != -1);
+
+        } catch (IllegalArgumentException e) {
+            Assert.fail(e.getMessage());
+        }
     }
     
     @Test
