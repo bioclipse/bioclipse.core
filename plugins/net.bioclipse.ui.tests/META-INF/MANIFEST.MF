@@ -12,6 +12,5 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.ui,
  org.eclipse.core.resources,
  net.bioclipse.core.tests;bundle-version="0.1.0"
-Eclipse-LazyStart: true
-Export-Package: net.bioclipse.ui.tests,
- net.bioclipse.ui.views
+Bundle-ActivationPolicy: lazy
+Export-Package: net.bioclipse.ui.tests
