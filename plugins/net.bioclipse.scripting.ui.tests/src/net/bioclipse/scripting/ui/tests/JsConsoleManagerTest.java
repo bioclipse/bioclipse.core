@@ -31,4 +31,9 @@ public class JsConsoleManagerTest extends AbstractManagerTest {
         return console;
     }
 
+    @Override
+    public Class<? extends IBioclipseManager> getManagerInterface() {
+        return IJsConsoleManager.class;
+    }
+
 }

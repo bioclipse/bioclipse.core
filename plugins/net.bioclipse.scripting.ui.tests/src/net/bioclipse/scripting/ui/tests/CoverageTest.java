@@ -12,6 +12,7 @@ package net.bioclipse.scripting.ui.tests;
 
 import net.bioclipse.core.tests.coverage.AbstractCoverageTest;
 import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.scripting.ui.business.IJsConsoleManager;
 import net.bioclipse.scripting.ui.business.JsConsoleManager;
 
 /**
@@ -25,6 +26,11 @@ public class CoverageTest extends AbstractCoverageTest {
 
     public IBioclipseManager getManager() {
         return manager;
+    }
+
+    @Override
+    public Class<? extends IBioclipseManager> getManagerInterface() {
+        return IJsConsoleManager.class;
     }
 
 }
