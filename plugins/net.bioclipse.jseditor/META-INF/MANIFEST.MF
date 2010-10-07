@@ -18,3 +18,8 @@ Bundle-ActivationPolicy: lazy
 Import-Package: net.bioclipse.jsexecution.execution,
  org.apache.log4j
 Bundle-ClassPath: .
+Export-Package: net.bioclipse.jseditor,
+ net.bioclipse.jseditor.actions,
+ net.bioclipse.jseditor.editors,
+ net.bioclipse.jseditor.exceptions,
+ net.bioclipse.jseditor.wizards
