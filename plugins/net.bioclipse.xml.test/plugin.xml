@@ -5,7 +5,7 @@
    <extension
          point="net.bioclipse.scripting.contribution">
       <scriptContribution
-            service="net.bioclipse.xml.test.business.XmlManagerFactory"
+            service="net.bioclipse.xml.business.XmlManagerFactory"
             id="net.bioclipse.xml.test.business.XmlManager">
       </scriptContribution>
    </extension>
