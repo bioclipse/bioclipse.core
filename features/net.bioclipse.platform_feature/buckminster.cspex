@@ -2,7 +2,9 @@
 <cspecExtension
 	xmlns:com="http://www.eclipse.org/buckminster/Common-1.0"
 	xmlns="http://www.eclipse.org/buckminster/CSpec-1.0">
-
+    <dependencies>
+        <dependency name=" org.eclipse.equinox.executable" componentType="eclipse.feature" />
+    </dependencies>
 	<actions>
 		<public name="create.product" actor="ant">
             <actorProperties>
