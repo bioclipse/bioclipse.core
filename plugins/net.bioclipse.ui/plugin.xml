@@ -33,7 +33,7 @@
       <perspective
             name="Default"
             class="net.bioclipse.ui.DefaultPerspective"
-            icon="icons/logo/logo_16_trans.gif"
+            icon="icons/logo_16_trans.gif"
             id="net.bioclipse.ui.Perspective">
       </perspective>
    </extension>
@@ -166,7 +166,7 @@
             name="Bioclipse Navigator"
             category="net.bioclipse.ui.category"
             allowMultiple="false"
-            icon="icons/logo/logo_16_trans.gif"
+            icon="icons/logo_16_trans.gif"
             class="org.eclipse.ui.navigator.CommonNavigator"
             id="net.bioclipse.navigator">
       </view>
@@ -257,7 +257,7 @@
             class="net.bioclipse.ui.editors.XMLEditor"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             extensions="xml,cml"
-            icon="icons/logo/logo_16_trans.gif"
+            icon="icons/logo_16_trans.gif"
             id="net.bioclipse.ui.editors.XMLEditor"
             default="false"
             name="XML-Lite Editor">
