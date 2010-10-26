@@ -19,7 +19,7 @@
 				<attribute name="site.p2"/>
 			</prerequisites>
             <products alias="destination" base="${buckminster.output}">
-            	<path path="Bioclipse.2.5.0.${target.os}.${target.ws}.${target.arch}"/>
+            	<path path="Bioclipse.2.5.0.${target.os}.${target.ws}.${target.arch}/"/>
             </products>
 		</public>
 		<public name="create.product.zip" actor="ant">
