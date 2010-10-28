@@ -14,10 +14,10 @@ package net.bioclipse.recording;
 
 import java.lang.reflect.Method;
 
-import net.bioclipse.core.Recorded;
-import net.bioclipse.core.domain.BioObject;
-import net.bioclipse.core.domain.IBioObject;
-import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.core.api.Recorded;
+import net.bioclipse.core.api.domain.BioObject;
+import net.bioclipse.core.api.domain.IBioObject;
+import net.bioclipse.core.api.managers.IBioclipseManager;
 
 import org.apache.log4j.Logger;
 

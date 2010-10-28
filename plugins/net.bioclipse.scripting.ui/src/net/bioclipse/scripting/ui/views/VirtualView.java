@@ -12,7 +12,9 @@
 package net.bioclipse.scripting.ui.views;
 import java.util.ArrayList;
 import java.util.List;
-import net.bioclipse.core.domain.IBioObject;
+
+import net.bioclipse.core.api.domain.IBioObject;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
 import org.eclipse.jface.viewers.*;

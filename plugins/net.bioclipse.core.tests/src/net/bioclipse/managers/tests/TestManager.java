@@ -7,11 +7,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 
-import net.bioclipse.core.domain.BioObject;
-import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.core.api.domain.BioObject;
+import net.bioclipse.core.api.domain.IBioObject;
+import net.bioclipse.core.api.jobs.IReturner;
+import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.jobs.BioclipseJob;
-import net.bioclipse.jobs.IReturner;
-import net.bioclipse.managers.business.IBioclipseManager;
 
 import static org.junit.Assert.*;
 

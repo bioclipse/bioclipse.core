@@ -5,13 +5,14 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.core.api.domain.IBioObject;
+import net.bioclipse.core.api.jobs.IBioclipseJob;
+import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.jobs.ExtendedBioclipseJob;
 import net.bioclipse.managers.business.GuiAction;
-import net.bioclipse.managers.business.IBioclipseManager;
 
 public interface ITestManager extends IBioclipseManager {
 
@@ -49,9 +50,9 @@ public interface ITestManager extends IBioclipseManager {
     @GuiAction
     public void guiAction();
     
-    public BioclipseJob<Void> voidJobMethod(String path);
+    public IBioclipseJob<Void> voidJobMethod(String path);
     
-    public BioclipseJob<Void> voidJobMethod(IFile file);
+    public IBioclipseJob<Void> voidJobMethod(IFile file);
     
     /*
      * ExtendedBioclipseJob

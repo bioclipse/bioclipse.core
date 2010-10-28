@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.SilentNotification;
-import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.api.BioclipseException;
+import net.bioclipse.core.api.ResourcePathTransformer;
+import net.bioclipse.core.api.jobs.IBioclipseJob;
+import net.bioclipse.core.api.jobs.IReturner;
+import net.bioclipse.core.api.managers.IBioclipseManager;
+import net.bioclipse.core.api.managers.IBioclipseUIJob;
 import net.bioclipse.core.util.LogUtils;
-import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.log4j.Logger;
@@ -30,7 +33,7 @@ import org.eclipse.ui.progress.WorkbenchJob;
  * @author jonalv
  *
  */
-public class BioclipseJob<T> extends Job {
+public class BioclipseJob<T> extends Job implements IBioclipseJob<T> {
 
     private volatile Method methodToRun;
     private volatile Method methodCalled;
@@ -59,8 +62,6 @@ public class BioclipseJob<T> extends Job {
         newWay = true;
     }
 
-    public static final Object NULLVALUE = new Object();
-    
     protected IStatus run( IProgressMonitor monitor ) {
 
         if ( newWay ) {
@@ -75,7 +76,7 @@ public class BioclipseJob<T> extends Job {
                  */
                 boolean hasUIJob = false;
                 for ( Object o : getInvocation().getArguments() ) {
-                    if ( o instanceof BioclipseUIJob ) {
+                    if ( o instanceof IBioclipseUIJob ) {
                         hasUIJob = true;
                         break;
                     }
@@ -118,10 +119,10 @@ public class BioclipseJob<T> extends Job {
                                                   .getParameterTypes() )
                           .indexOf( BioclipseUIJob.class );
 
-            final BioclipseUIJob uiJob ;
+            final IBioclipseUIJob uiJob ;
             
             if ( i != -1 )
-                uiJob = ( (BioclipseUIJob)getInvocation().getArguments()[i] );
+                uiJob = ( (IBioclipseUIJob)getInvocation().getArguments()[i] );
             else {
                 uiJob = null;
             }
@@ -342,6 +343,10 @@ public class BioclipseJob<T> extends Job {
         return Status.OK_STATUS;
     }
 
+    /* (non-Javadoc)
+     * @see net.bioclipse.jobs.IBioclipseJob#getReturnValue()
+     */
+    @Override
     @SuppressWarnings("unchecked")
     public synchronized T getReturnValue() {
         if ( returnValue == NULLVALUE ) {
@@ -350,31 +355,59 @@ public class BioclipseJob<T> extends Job {
         return (T)returnValue;
     }
 
+    /* (non-Javadoc)
+     * @see net.bioclipse.jobs.IBioclipseJob#setMethod(java.lang.reflect.Method)
+     */
+    @Override
     public void setMethod( Method method ) {
         this.methodToRun = method;
     }
 
+    /* (non-Javadoc)
+     * @see net.bioclipse.jobs.IBioclipseJob#getMethod()
+     */
+    @Override
     public Method getMethod() {
         return methodToRun;
     }
 
+    /* (non-Javadoc)
+     * @see net.bioclipse.jobs.IBioclipseJob#setArguments(java.lang.Object[])
+     */
+    @Override
     public void setArguments(Object[] arguemtns) {
         this.arguments = arguemtns;
     }
 
+    /* (non-Javadoc)
+     * @see net.bioclipse.jobs.IBioclipseJob#getInvocation()
+     */
+    @Override
     public MethodInvocation getInvocation() {
         return invocation;
     }
 
+    /* (non-Javadoc)
+     * @see net.bioclipse.jobs.IBioclipseJob#setBioclipseManager(net.bioclipse.managers.business.IBioclipseManager)
+     */
+    @Override
     public void setBioclipseManager( IBioclipseManager manager ) {
         this.bioclipseManager = manager;
     }
     
+    /* (non-Javadoc)
+     * @see net.bioclipse.jobs.IBioclipseJob#setMethodCalled(java.lang.reflect.Method)
+     */
+    @Override
     public void setMethodCalled( Method methodCalled ) {
 
         this.methodCalled = methodCalled;
     }
 
+    /* (non-Javadoc)
+     * @see net.bioclipse.jobs.IBioclipseJob#getMethodCalled()
+     */
+    @Override
     public Method getMethodCalled() {
 
         return methodCalled;

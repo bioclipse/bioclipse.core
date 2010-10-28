@@ -14,11 +14,11 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.bioclipse.core.PublishedMethod;
-import net.bioclipse.core.TestClasses;
-import net.bioclipse.core.TestMethods;
+import net.bioclipse.core.api.managers.IBioclipseManager;
+import net.bioclipse.core.api.managers.PublishedMethod;
+import net.bioclipse.core.api.managers.TestClasses;
+import net.bioclipse.core.api.managers.TestMethods;
 import net.bioclipse.core.tests.AbstractManagerTest;
-import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -10,10 +10,10 @@
  ******************************************************************************/
 package net.bioclipse.gist.test;
 
+import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.core.tests.AbstractManagerTest;
 import net.bioclipse.gist.business.GistManager;
 import net.bioclipse.gist.business.IGistManager;
-import net.bioclipse.managers.business.IBioclipseManager;
 
 public class APITest extends AbstractManagerTest {
 

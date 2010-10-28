@@ -10,8 +10,8 @@
  ******************************************************************************/
 package net.bioclipse.webservices.tests;
 
+import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.core.tests.coverage.AbstractCoverageTest;
-import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.webservices.business.IWebservicesManager;
 import net.bioclipse.webservices.business.WebservicesManager;
 

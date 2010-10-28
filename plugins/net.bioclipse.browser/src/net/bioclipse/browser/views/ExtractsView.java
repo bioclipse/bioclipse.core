@@ -10,10 +10,10 @@ import net.bioclipse.browser.Activator;
 import net.bioclipse.browser.ScrapingModel;
 import net.bioclipse.browser.ScrapingPage;
 import net.bioclipse.browser.business.IScrapingModelChangedListener;
-import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.api.BioclipseException;
+import net.bioclipse.core.api.domain.IBioObject;
+import net.bioclipse.core.api.domain.IMolecule;
 import net.bioclipse.core.dnd.MoleculeTransfer;
-import net.bioclipse.core.domain.IBioObject;
-import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.ui.business.IUIManager;
 

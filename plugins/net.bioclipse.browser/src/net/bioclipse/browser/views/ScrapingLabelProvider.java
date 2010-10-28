@@ -2,7 +2,7 @@ package net.bioclipse.browser.views;
 
 import net.bioclipse.browser.Activator;
 import net.bioclipse.browser.ScrapingPage;
-import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.core.api.domain.IBioObject;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ILabelProvider;

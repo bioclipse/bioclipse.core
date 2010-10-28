@@ -12,7 +12,7 @@ package net.bioclipse.browser.scraper;
 
 import java.util.List;
 
-import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.core.api.domain.IBioObject;
 
 /**
  * 

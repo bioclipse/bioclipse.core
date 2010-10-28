@@ -8,16 +8,16 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.junit.Test;
 
-import net.bioclipse.core.domain.BioObject;
-import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.core.api.domain.BioObject;
+import net.bioclipse.core.api.domain.IBioObject;
+import net.bioclipse.core.api.jobs.IReturner;
+import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseUIJob;
-import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.managers.business.JavaManagerMethodDispatcher;
 import net.bioclipse.managers.tests.AbstractManagerMethodDispatcherTest.MyInvocation;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import net.bioclipse.jobs.IReturner;
 /**
  * @author jonalv
  *

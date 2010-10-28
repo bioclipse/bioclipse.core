@@ -10,8 +10,8 @@
  ******************************************************************************/
 package net.bioclipse.ui.business.tests;
 
+import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.core.tests.coverage.AbstractCoverageTest;
-import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.ui.business.IUIManager;
 import net.bioclipse.ui.business.UIManager;
 

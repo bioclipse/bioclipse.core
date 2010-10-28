@@ -10,7 +10,7 @@
  ******************************************************************************/
 package net.bioclipse.ui.business;
 
-import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.core.api.domain.IBioObject;
 
 
 /**

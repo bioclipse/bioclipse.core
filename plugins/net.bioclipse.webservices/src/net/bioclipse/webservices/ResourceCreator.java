@@ -12,7 +12,8 @@ package net.bioclipse.webservices;
 
 import java.io.ByteArrayInputStream;
 
-import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.api.BioclipseException;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;

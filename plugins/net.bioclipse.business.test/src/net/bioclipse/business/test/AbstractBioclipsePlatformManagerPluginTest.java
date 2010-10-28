@@ -12,7 +12,7 @@ package net.bioclipse.business.test;
 
 import static org.junit.Assert.*;
 import net.bioclipse.business.IBioclipsePlatformManager;
-import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.api.BioclipseException;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;

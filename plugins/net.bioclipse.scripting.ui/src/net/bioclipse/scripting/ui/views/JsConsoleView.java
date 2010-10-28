@@ -27,10 +27,10 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.bioclipse.core.PublishedClass;
-import net.bioclipse.core.PublishedMethod;
-import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.core.api.BioclipseException;
+import net.bioclipse.core.api.managers.IBioclipseManager;
+import net.bioclipse.core.api.managers.PublishedClass;
+import net.bioclipse.core.api.managers.PublishedMethod;
 import net.bioclipse.scripting.Activator;
 import net.bioclipse.scripting.Hook;
 import net.bioclipse.scripting.JsAction;

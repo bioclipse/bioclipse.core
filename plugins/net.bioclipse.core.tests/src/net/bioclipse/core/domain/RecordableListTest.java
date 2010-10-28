@@ -14,6 +14,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import net.bioclipse.core.api.domain.BioObject;
+import net.bioclipse.core.api.domain.IBioObject;
+import net.bioclipse.core.api.domain.RecordableList;
+
 import org.junit.Test;
 
 public class RecordableListTest {

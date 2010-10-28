@@ -17,7 +17,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import net.bioclipse.core.domain.RecordableList;
+import net.bioclipse.core.api.domain.RecordableList;
 import net.bioclipse.recording.MethodRecord.BioObjectParameter;
 import net.bioclipse.recording.MethodRecord.NonBioObjectParameter;
 import net.bioclipse.recording.MethodRecord.Parameter;

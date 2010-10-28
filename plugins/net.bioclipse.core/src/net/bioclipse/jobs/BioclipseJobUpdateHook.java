@@ -1,5 +1,7 @@
 package net.bioclipse.jobs;
 
+import net.bioclipse.core.api.jobs.IReturner;
+
 /**
  * @author jonalv
  */

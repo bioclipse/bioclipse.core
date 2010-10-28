@@ -14,7 +14,7 @@ package net.bioclipse.core.domain.props;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.core.api.domain.IBioObject;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource2;

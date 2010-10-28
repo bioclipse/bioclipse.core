@@ -4,9 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.core.domain.CMLMolecule;
-import net.bioclipse.core.domain.IMolecule;
+import net.bioclipse.core.api.BioclipseException;
+import net.bioclipse.core.api.domain.CMLMolecule;
+import net.bioclipse.core.api.domain.IMolecule;
 
 import org.apache.log4j.Logger;
 import org.eclipse.swt.dnd.ByteArrayTransfer;

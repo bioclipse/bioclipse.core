@@ -39,8 +39,7 @@ public class Activator extends Plugin {
     // The plug-in ID
     public static final String PLUGIN_ID = "net.bioclipse.core";
 
-    // Virtual project
-    public static final String VIRTUAL_PROJECT_NAME = "Virtual";
+    
     
     private static final String EXTENDER_BUNDLE_NAME = 
         "org.springframework.bundle.osgi.extender";
@@ -77,36 +76,12 @@ public class Activator extends Plugin {
     
     protected static void createVirtualProject(IProject project) throws
                             URISyntaxException,CoreException{
+        net.bioclipse.core.api.Activator.createVirtualProject( project );
         
-        IProjectDescription description = 
-        		ResourcesPlugin.getWorkspace()
-        		.newProjectDescription(VIRTUAL_PROJECT_NAME);
-            description.setLocationURI(new URI("memory:/Virtual"));
-            project.create(description,null);
-            project.refreshLocal( IResource.DEPTH_ZERO, null );
-            project.open(null);
     }
+    
     public static IProject getVirtualProject(){
-        IWorkspaceRoot root=ResourcesPlugin.getWorkspace().getRoot();
-        IProject project=root.getProject(VIRTUAL_PROJECT_NAME);
-        try {
-            if(!project.exists()){
-                logger.debug("Inserting "+VIRTUAL_PROJECT_NAME+" into workspace");
-                createVirtualProject(project);
-            }
-            if(!project.isOpen()) {
-                try {
-                    project.open( null );
-                } catch ( CoreException e ) {
-                    logger.debug( "Faild to open Virtual" );
-                }
-            }
-        }catch( URISyntaxException e) {
-            logger.debug( "Failed to create "+ VIRTUAL_PROJECT_NAME,e );
-        } catch ( CoreException e ) {
-            logger.warn( "Failed to create "+ VIRTUAL_PROJECT_NAME ,e);
-        }
-        return project;
+        return net.bioclipse.core.api.Activator.getVirtualProject();
     }
     
     /* Attempts to start all resolved Spring Bundle Extender bundles.

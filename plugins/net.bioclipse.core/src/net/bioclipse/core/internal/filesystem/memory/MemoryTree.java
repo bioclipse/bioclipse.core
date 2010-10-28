@@ -172,7 +172,8 @@ public class MemoryTree {
 		// TREE singleton should be used rather than direct instantiation
 	    try{
 	        IPath path;
-	        mkdir(path=new Path("/"+Activator.VIRTUAL_PROJECT_NAME),true);
+	        mkdir( path = new Path("/"+net.bioclipse.core.api.Activator
+	                                      .VIRTUAL_PROJECT_NAME ), true );
 	        
 	        PrintWriter pw=new PrintWriter(openOutputStream(
 	                                   path.append(".project"),EFS.NONE));

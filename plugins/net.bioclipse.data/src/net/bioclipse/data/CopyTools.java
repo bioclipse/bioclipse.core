@@ -10,7 +10,7 @@ package net.bioclipse.data;
 
 import java.io.IOException;
 
-import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.api.BioclipseException;
 
 
 

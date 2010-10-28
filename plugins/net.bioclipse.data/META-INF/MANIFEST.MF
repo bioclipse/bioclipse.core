@@ -14,6 +14,7 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.ui,
  org.eclipse.ui.intro,
  org.eclipse.ui.intro.universal
+ net.bioclipse.core.api
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.core.api.BioclipseException;
+import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.webservices.ResourceCreator;
 import net.bioclipse.webservices.services.WSDbfetch;
 

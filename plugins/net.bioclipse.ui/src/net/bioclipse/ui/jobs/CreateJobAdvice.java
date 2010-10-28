@@ -5,11 +5,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import net.bioclipse.core.ResourcePathTransformer;
+import net.bioclipse.core.api.ResourcePathTransformer;
+import net.bioclipse.core.api.managers.IBioclipseManager;
+import net.bioclipse.core.api.managers.IBioclipseUIJob;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseUIJob;
-import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.log4j.Logger;
@@ -65,7 +66,7 @@ public class CreateJobAdvice implements ICreateJobAdvice {
                                              methodToInvoke, 
                                              invocation );
         
-        final BioclipseUIJob uiJob = findUIJob(invocation);
+        final IBioclipseUIJob uiJob = findUIJob(invocation);
         
         // If uiJob parameter is null business as usual...
         if ( uiJob != null ) {
@@ -137,12 +138,12 @@ public class CreateJobAdvice implements ICreateJobAdvice {
         return null;
     }
 
-    private BioclipseUIJob findUIJob( MethodInvocation invocation ) {
+    private IBioclipseUIJob findUIJob( MethodInvocation invocation ) {
 
         int i = Arrays.asList( invocation.getMethod().getParameterTypes() )
                       .indexOf( BioclipseUIJob.class );
         if ( i != -1 )
-            return ( (BioclipseUIJob)invocation.getArguments()[i] );
+            return ( (IBioclipseUIJob)invocation.getArguments()[i] );
         return null;
     }
 

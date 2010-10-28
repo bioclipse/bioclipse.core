@@ -15,12 +15,12 @@ package net.bioclipse.scripting.ui.business;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import net.bioclipse.core.PublishedClass;
-import net.bioclipse.core.PublishedMethod;
-import net.bioclipse.core.Recorded;
-import net.bioclipse.core.TestClasses;
-import net.bioclipse.core.TestMethods;
-import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.core.api.Recorded;
+import net.bioclipse.core.api.managers.IBioclipseManager;
+import net.bioclipse.core.api.managers.PublishedClass;
+import net.bioclipse.core.api.managers.PublishedMethod;
+import net.bioclipse.core.api.managers.TestClasses;
+import net.bioclipse.core.api.managers.TestMethods;
 import net.bioclipse.core.util.IJavaScriptConsolePrinterChannel;
 
 /**

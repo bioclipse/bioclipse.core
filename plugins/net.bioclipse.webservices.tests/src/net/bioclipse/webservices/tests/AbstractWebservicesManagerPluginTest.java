@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.List;
 
-import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.api.BioclipseException;
 import net.bioclipse.webservices.business.IWebservicesManager;
 
 import org.eclipse.core.resources.IProject;

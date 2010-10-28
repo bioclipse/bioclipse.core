@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
-import net.bioclipse.core.ResourcePathTransformer;
+import net.bioclipse.core.api.ResourcePathTransformer;
 import net.bioclipse.managers.MonitorContainer;
 
 import org.aopalliance.intercept.MethodInvocation;

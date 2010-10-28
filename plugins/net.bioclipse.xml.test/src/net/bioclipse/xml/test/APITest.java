@@ -10,8 +10,8 @@
  ******************************************************************************/
 package net.bioclipse.xml.test;
 
+import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.core.tests.AbstractManagerTest;
-import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.xml.business.IXmlManager;
 import net.bioclipse.xml.business.XmlManager;
 

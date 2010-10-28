@@ -15,9 +15,9 @@ import java.lang.reflect.Method;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.bioclipse.core.PublishedMethod;
-import net.bioclipse.core.Recorded;
-import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.core.api.Recorded;
+import net.bioclipse.core.api.managers.IBioclipseManager;
+import net.bioclipse.core.api.managers.PublishedMethod;
 
 import org.junit.Assert;
 import org.junit.Test;

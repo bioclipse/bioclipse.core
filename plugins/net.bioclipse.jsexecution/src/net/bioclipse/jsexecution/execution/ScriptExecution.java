@@ -7,7 +7,7 @@ import java.util.List;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.api.BioclipseException;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jsexecution.Activator;
 import net.bioclipse.jsexecution.exceptions.ScriptException;

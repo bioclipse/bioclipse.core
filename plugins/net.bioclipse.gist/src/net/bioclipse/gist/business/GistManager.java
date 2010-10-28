@@ -20,9 +20,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import net.bioclipse.core.ResourcePathTransformer;
-import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.core.api.BioclipseException;
+import net.bioclipse.core.api.ResourcePathTransformer;
+import net.bioclipse.core.api.managers.IBioclipseManager;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;

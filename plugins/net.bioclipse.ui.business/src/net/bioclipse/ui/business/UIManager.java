@@ -22,9 +22,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.core.domain.IBioObject;
-import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.core.api.BioclipseException;
+import net.bioclipse.core.api.domain.IBioObject;
+import net.bioclipse.core.api.managers.IBioclipseManager;
+import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.scripting.ui.Activator;
 import net.bioclipse.scripting.ui.business.IJsConsoleManager;
 import net.bioclipse.ui.business.describer.ExtensionPointHelper;

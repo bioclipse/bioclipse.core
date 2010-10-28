@@ -10,10 +10,10 @@
  ******************************************************************************/
 package net.bioclipse.business;
 
-import net.bioclipse.core.PublishedClass;
-import net.bioclipse.core.PublishedMethod;
-import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.core.api.BioclipseException;
+import net.bioclipse.core.api.managers.IBioclipseManager;
+import net.bioclipse.core.api.managers.PublishedClass;
+import net.bioclipse.core.api.managers.PublishedMethod;
 
 @PublishedClass("The Bioclipse Platform manager is used for providing some " +
 		"textual information on the Bioclipse platform.")

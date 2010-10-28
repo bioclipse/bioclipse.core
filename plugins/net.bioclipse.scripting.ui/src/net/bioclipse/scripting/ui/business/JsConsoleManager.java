@@ -12,7 +12,7 @@
  ******************************************************************************/
 package net.bioclipse.scripting.ui.business;
 
-import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.scripting.Activator;
 import net.bioclipse.scripting.Hook;
 import net.bioclipse.scripting.JsAction;

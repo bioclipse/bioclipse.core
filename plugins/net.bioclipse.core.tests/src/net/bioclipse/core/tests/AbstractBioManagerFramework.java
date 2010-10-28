@@ -10,7 +10,7 @@
  ******************************************************************************/
 package net.bioclipse.core.tests;
 
-import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.core.api.managers.IBioclipseManager;
 
 /**
  * Framework defining methods stable manager plugin tests should implement

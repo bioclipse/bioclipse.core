@@ -12,11 +12,11 @@ package net.bioclipse.xml.business;
 
 import java.util.List;
 
-import net.bioclipse.core.PublishedClass;
-import net.bioclipse.core.PublishedMethod;
-import net.bioclipse.core.TestClasses;
-import net.bioclipse.core.TestMethods;
-import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.core.api.managers.IBioclipseManager;
+import net.bioclipse.core.api.managers.PublishedClass;
+import net.bioclipse.core.api.managers.PublishedMethod;
+import net.bioclipse.core.api.managers.TestClasses;
+import net.bioclipse.core.api.managers.TestMethods;
 
 @PublishedClass(
     value="Manager to analyze and validate XML documents."

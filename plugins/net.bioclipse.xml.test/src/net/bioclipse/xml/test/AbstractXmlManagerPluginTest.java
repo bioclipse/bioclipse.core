@@ -13,8 +13,8 @@ package net.bioclipse.xml.test;
 import java.net.URL;
 import java.util.List;
 
+import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.core.tests.AbstractManagerTest;
-import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.ui.business.UIManager;
 import net.bioclipse.xml.business.IXmlManager;
 import net.bioclipse.xml.business.XMLError;

@@ -9,14 +9,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.bioclipse.core.IResourcePathTransformer;
-import net.bioclipse.core.ResourcePathTransformer;
-import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.api.BioclipseException;
+import net.bioclipse.core.api.IResourcePathTransformer;
+import net.bioclipse.core.api.ResourcePathTransformer;
+import net.bioclipse.core.api.jobs.IReturner;
+import net.bioclipse.core.api.managers.IBioclipseManager;
+import net.bioclipse.core.api.managers.IBioclipseUIJob;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.jobs.ExtendedBioclipseJob;
-import net.bioclipse.jobs.IReturner;
 import net.bioclipse.managers.MonitorContainer;
 
 import org.aopalliance.intercept.MethodInterceptor;
@@ -151,11 +153,11 @@ public abstract class AbstractManagerMethodDispatcher
         return returnValue;
     }
 
-    private BioclipseUIJob<Object> getBioclipseUIJob(Object[] arguments) {
+    private IBioclipseUIJob<Object> getBioclipseUIJob(Object[] arguments) {
 
        for ( Object o : arguments ) {
-           if ( o instanceof BioclipseUIJob) {
-               return (BioclipseUIJob<Object>) o;
+           if ( o instanceof IBioclipseUIJob) {
+               return (IBioclipseUIJob<Object>) o;
            }
        }
        return null;
@@ -197,7 +199,7 @@ public abstract class AbstractManagerMethodDispatcher
         //remove any BioclipseUIJob
         BioclipseUIJob uiJob = null;
         for ( Object o : newArguments ) {
-            if ( o instanceof BioclipseUIJob) {
+            if ( o instanceof IBioclipseUIJob) {
                 uiJob = (BioclipseUIJob) o;
             }
         }
@@ -260,7 +262,7 @@ public abstract class AbstractManagerMethodDispatcher
         
         if ( uiJob != null ) {
             uiJob.setReturnValue( returnValue );
-            final BioclipseUIJob finalUiJob = uiJob;
+            final IBioclipseUIJob finalUiJob = uiJob;
             Job j = new WorkbenchJob("Refresh") {
                 
                 @Override

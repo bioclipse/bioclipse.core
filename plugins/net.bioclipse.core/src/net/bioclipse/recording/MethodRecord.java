@@ -16,8 +16,8 @@ package net.bioclipse.recording;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.bioclipse.core.domain.RecordableList;
-import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.core.api.domain.IBioObject;
+import net.bioclipse.core.api.domain.RecordableList;
 
 /**
  * @author jonalv, masak, ola

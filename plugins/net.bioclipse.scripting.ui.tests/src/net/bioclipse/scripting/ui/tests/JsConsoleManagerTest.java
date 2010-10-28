@@ -18,8 +18,8 @@ import org.eclipse.core.resources.IFile;
 import org.junit.Test;
 
 import net.bioclipse.core.MockIFile;
+import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.core.tests.AbstractManagerTest;
-import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.ui.business.IJsConsoleManager;
 import net.bioclipse.scripting.ui.business.JsConsoleManager;
 

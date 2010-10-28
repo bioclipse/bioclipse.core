@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.api.BioclipseException;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IStatus;

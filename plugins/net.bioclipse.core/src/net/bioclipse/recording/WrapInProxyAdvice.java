@@ -9,7 +9,7 @@
 package net.bioclipse.recording;
 
 import net.bioclipse.recording.Activator;
-import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.core.api.domain.IBioObject;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.aop.framework.ProxyFactory;

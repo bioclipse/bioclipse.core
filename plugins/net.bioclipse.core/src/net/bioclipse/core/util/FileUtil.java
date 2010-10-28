@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 
-import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.api.BioclipseException;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;

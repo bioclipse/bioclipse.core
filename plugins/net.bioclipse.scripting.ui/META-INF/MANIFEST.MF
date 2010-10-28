@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.ui,
  org.springframework.osgi.aopalliance.osgi,
  org.eclipse.ui.cheatsheets,
  org.eclipse.help,
- org.eclipse.ui.browser
+ org.eclipse.ui.browser,
+ net.bioclipse.core.api;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Import-Package: net.bioclipse.scripting,
  org.apache.log4j,

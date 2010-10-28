@@ -21,10 +21,10 @@ import java.util.List;
 import net.bioclipse.browser.business.Activator;
 import net.bioclipse.browser.business.ScraperUtils;
 import net.bioclipse.browser.scraper.IBrowserScraper;
-import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.core.domain.IBioObject;
-import net.bioclipse.jobs.IReturner;
-import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.core.api.BioclipseException;
+import net.bioclipse.core.api.domain.IBioObject;
+import net.bioclipse.core.api.jobs.IReturner;
+import net.bioclipse.core.api.managers.IBioclipseManager;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;

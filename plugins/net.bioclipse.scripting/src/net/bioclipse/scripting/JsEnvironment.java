@@ -15,8 +15,8 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import net.bioclipse.core.PublishedMethod;
-import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.core.api.managers.IBioclipseManager;
+import net.bioclipse.core.api.managers.PublishedMethod;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;

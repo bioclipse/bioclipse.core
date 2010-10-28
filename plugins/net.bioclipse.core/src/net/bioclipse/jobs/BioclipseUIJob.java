@@ -1,5 +1,7 @@
 package net.bioclipse.jobs;
 
+import net.bioclipse.core.api.managers.IBioclipseUIJob;
+
 
 /**
  * Class to be extended when updating gui after a long running manager call. 
@@ -9,31 +11,36 @@ package net.bioclipse.jobs;
  *
  * @param <T> type of return value
  */
-public abstract class BioclipseUIJob<T> {
+public abstract class BioclipseUIJob<T> implements IBioclipseUIJob<T> {
 
     private T returnValue;
     
+    /* (non-Javadoc)
+     * @see net.bioclipse.jobs.IBioclipseUIJob#setReturnValue(T)
+     */
+    @Override
     public void setReturnValue(T returnValue) {
         this.returnValue = returnValue;
     }
     
+    /* (non-Javadoc)
+     * @see net.bioclipse.jobs.IBioclipseUIJob#getReturnValue()
+     */
+    @Override
     public T getReturnValue() {
         return returnValue;
     }
     
-    /**
-     * Method that will be run using the UI thread. 
-     * The return value van be reached by calling getReturnValue.
+    /* (non-Javadoc)
+     * @see net.bioclipse.jobs.IBioclipseUIJob#runInUI()
      */
+    @Override
     public abstract void runInUI();
     
-    /**
-     * Whether the manager job is run in background job. The default is not as
-     * as background job but as user job. Implementors should override this 
-     * method if not happy with default value.
-     * 
-     * @return whether the manager job is run as a background job
+    /* (non-Javadoc)
+     * @see net.bioclipse.jobs.IBioclipseUIJob#runInBackground()
      */
+    @Override
     public boolean runInBackground() {
         return false;
     }

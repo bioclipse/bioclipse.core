@@ -12,7 +12,7 @@ package net.bioclipse.ui.business.tests;
 
 import java.io.ByteArrayInputStream;
 
-import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.api.BioclipseException;
 import net.bioclipse.ui.business.IUIManager;
 
 import org.eclipse.core.resources.IFile;

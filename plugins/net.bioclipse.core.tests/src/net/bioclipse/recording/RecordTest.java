@@ -11,7 +11,7 @@ package net.bioclipse.recording;
 
 import static org.junit.Assert.*;
 
-import net.bioclipse.core.domain.BioObject;
+import net.bioclipse.core.api.domain.BioObject;
 
 import org.junit.Test;
 

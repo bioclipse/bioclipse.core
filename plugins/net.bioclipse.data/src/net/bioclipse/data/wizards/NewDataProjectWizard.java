@@ -17,7 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.api.BioclipseException;
 import net.bioclipse.data.Activator;
 import net.bioclipse.data.CopyTools;
 import net.bioclipse.data.DummyProgressMonitor;

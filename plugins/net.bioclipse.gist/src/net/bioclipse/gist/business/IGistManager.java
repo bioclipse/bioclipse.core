@@ -10,16 +10,16 @@
  ******************************************************************************/
 package net.bioclipse.gist.business;
 
-import net.bioclipse.core.PublishedClass;
-import net.bioclipse.core.PublishedMethod;
-import net.bioclipse.core.Recorded;
-import net.bioclipse.core.TestClasses;
+import net.bioclipse.core.api.Recorded;
+import net.bioclipse.core.api.jobs.IBioclipseJob;
+import net.bioclipse.core.api.managers.IBioclipseManager;
+import net.bioclipse.core.api.managers.PublishedClass;
+import net.bioclipse.core.api.managers.PublishedMethod;
+import net.bioclipse.core.api.managers.TestClasses;
 
 import org.eclipse.core.resources.IFile;
 
-import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
-import net.bioclipse.managers.business.IBioclipseManager;
 
 @PublishedClass("The gist manager is used for downloading gists")
 @TestClasses(
@@ -40,7 +40,7 @@ public interface IGistManager extends IBioclipseManager {
     public IFile download( int gist, 
                            IFile target );
     
-    public BioclipseJob<IFile> download( int gist, 
+    public IBioclipseJob<IFile> download( int gist, 
                                          IFile target, 
                                          BioclipseJobUpdateHook hook );
     
@@ -52,6 +52,6 @@ public interface IGistManager extends IBioclipseManager {
     )
     public String download(int gist);
 
-    public BioclipseJob<IFile> download( int gist, 
+    public IBioclipseJob<IFile> download( int gist, 
                                          BioclipseJobUpdateHook hook );
 }

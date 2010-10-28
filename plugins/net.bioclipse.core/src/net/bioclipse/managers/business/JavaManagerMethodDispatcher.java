@@ -5,15 +5,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import net.bioclipse.core.IResourcePathTransformer;
-import net.bioclipse.core.ResourcePathTransformer;
-import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.api.BioclipseException;
+import net.bioclipse.core.api.IResourcePathTransformer;
+import net.bioclipse.core.api.ResourcePathTransformer;
+import net.bioclipse.core.api.jobs.IReturner;
+import net.bioclipse.core.api.managers.IBioclipseManager;
+import net.bioclipse.core.api.managers.IBioclipseUIJob;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.jobs.ExtendedBioclipseJob;
-import net.bioclipse.jobs.IReturner;
 import net.bioclipse.managers.business.AbstractManagerMethodDispatcher.ReturnCollector;
 
 import org.aopalliance.intercept.MethodInvocation;
@@ -114,7 +116,7 @@ public class JavaManagerMethodDispatcher
         //Remove BioclipseUiJob if there
         BioclipseUIJob<Object> uiJob = null;
         for ( Object o : args ) {
-            if ( o instanceof BioclipseUIJob ) {
+            if ( o instanceof IBioclipseUIJob ) {
                 uiJob = (BioclipseUIJob<Object>) o;
             }
         }
@@ -150,7 +152,7 @@ public class JavaManagerMethodDispatcher
                 e);
         }
         if ( uiJob != null ) {
-            final BioclipseUIJob<Object> finalUiJob = uiJob;
+            final IBioclipseUIJob<Object> finalUiJob = uiJob;
             finalUiJob.setReturnValue( returnValue );
             Display.getDefault().asyncExec( new Runnable() {
                 public void run() {

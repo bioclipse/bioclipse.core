@@ -13,7 +13,7 @@ package net.bioclipse.webservices.wizards.newwizards;
 import java.lang.reflect.InvocationTargetException;
 
 import net.bioclipse.core.Activator;
-import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.api.BioclipseException;
 import net.bioclipse.webservices.business.IWebservicesManager;
 
 import org.apache.log4j.Logger;

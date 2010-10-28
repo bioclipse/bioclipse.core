@@ -22,6 +22,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.bioclipse.core.Activator;
+import net.bioclipse.core.api.IResourcePathTransformer;
+import net.bioclipse.core.api.ResourcePathTransformer;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;

@@ -26,7 +26,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import net.bioclipse.core.util.LogUtils;
 
-import net.bioclipse.core.domain.BioObject;
+import net.bioclipse.core.api.domain.BioObject;
 import net.bioclipse.encryption.EncryptedPassword;
 import net.bioclipse.encryption.Encrypter;
 

@@ -15,9 +15,9 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.bioclipse.core.domain.BioObject;
-import net.bioclipse.core.domain.RecordableList;
-import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.core.api.domain.BioObject;
+import net.bioclipse.core.api.domain.IBioObject;
+import net.bioclipse.core.api.domain.RecordableList;
 
 import org.junit.Test;
 

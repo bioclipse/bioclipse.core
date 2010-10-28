@@ -10,8 +10,8 @@
  ******************************************************************************/
 package net.bioclipse.browser.tests;
 
+import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.core.tests.AbstractManagerTest;
-import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.browser.business.business.IBrowserManager;
 import net.bioclipse.browser.business.business.BrowserManager;
 
