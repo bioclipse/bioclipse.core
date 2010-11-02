@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Bioclispe core Api
+Bundle-SymbolicName: net.bioclipse.core.api
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: net.bioclipse.core.api.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources;bundle-version="3.5.2",
+ org.springframework.osgi.aopalliance.osgi;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: net.bioclipse.core.api,
+ net.bioclipse.core.api.domain,
+ net.bioclipse.core.api.jobs,
+ net.bioclipse.core.api.managers
+Import-Package: org.apache.log4j
