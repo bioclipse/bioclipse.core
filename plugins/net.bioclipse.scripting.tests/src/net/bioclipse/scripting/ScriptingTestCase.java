@@ -26,6 +26,6 @@ public class ScriptingTestCase {
         assertEquals( "the scripting class can be called and returns the"
                       + " right answer",
                       env.eval("2+2"),
-                      "4" );
+                      4.0d );
     }
 }
