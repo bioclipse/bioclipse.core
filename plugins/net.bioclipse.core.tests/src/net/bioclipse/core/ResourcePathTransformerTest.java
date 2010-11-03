@@ -19,17 +19,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.bioclipse.core.Activator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -69,6 +65,15 @@ public class ResourcePathTransformerTest {
            file.create(source, IResource.NONE, null);
         }
         return file;
+    }
+
+    private File findAnExistingFile() {
+        File f=new File(".");
+        for(File tmp:f.listFiles()) {
+            if(tmp.isFile() && tmp.exists())
+                return tmp;
+        }
+        throw new RuntimeException("Could not find a file in directory "+f.getAbsolutePath());
     }
 
     private void doWorkSpaceRelativeTesting( IFile file ) {
@@ -119,13 +124,10 @@ public class ResourcePathTransformerTest {
     public void testAbsolutePathToExistingFile() 
                 throws IOException, CoreException {
         
-        
-        File f=new File(".");
-        String separator;
-        String aPath=f.getAbsolutePath().replaceAll("\\.$", "")+"src"+
-        (separator=System.getProperty("file.separator"))+
-        this.getClass().getName().replaceAll("\\.",separator)+".java";
-        
+        File input = findAnExistingFile();
+        assertTrue("Input file does not exist", input.exists());
+        assertTrue("Input is not a file", input.isFile());
+        String aPath=input.getAbsolutePath();
         try {
         IFile file = ResourcePathTransformer.getInstance()
                                             .transform( aPath );
@@ -148,29 +150,20 @@ public class ResourcePathTransformerTest {
     }
     
     @Test
-    public void testAbsolutePathToNonExisitingFile() throws CoreException {
-        final IFile file = createVirtualProjectWithFile();
-        URL url = this.getClass().getClassLoader().getResource( "." );
+    public void testAbsolutePathToNonExisitingFile() throws CoreException{
+
+        File dir = findAnExistingFile().getParentFile();
+        File input = new File(dir,"IDontExistToo.txt");
         try {
             ResourcePathTransformer.getInstance().transform( 
-                url.getPath() + "IDontExist.txt" );
+                                            input.getAbsolutePath());
+            Assert.fail("the method should have thrown exception");
             throw new RuntimeException( "the method should have " +
             		                        "thrown exception" );
         }
         catch (IllegalArgumentException e) {
             //this is what we want
         }
-        IProject project = Activator.getVirtualProject();
-        IResourceVisitor visitor = new IResourceVisitor() {
-            public boolean visit( IResource resource ) throws CoreException {
-                if( resource instanceof IFile &&
-                   !resource.getName().equals( ".project" ) && !resource.getName().equals("ResourcePathTransformerTest.java")) {
-                    assertEquals ( file, resource );
-                }
-                return true;
-            }
-        };
-        project.accept( visitor );
     }
 
     @Test
