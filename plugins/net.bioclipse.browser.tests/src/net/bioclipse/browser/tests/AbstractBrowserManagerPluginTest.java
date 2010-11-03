@@ -28,13 +28,13 @@ import org.junit.Test;
  *
  */
 public abstract class AbstractBrowserManagerPluginTest {
-    
-    private final static String pubchem_omeprazole_page = 
+
+    protected final static String pubchem_omeprazole_page =
        "http://www.ncbi.nlm.nih.gov/sites/entrez?db=pccompound&term=omeprazole";
 
     protected static IBrowserManager browser;
 
-//    @Test 
+    @Test
     public void testScrapePubchemPageSync() throws BioclipseException {
 
         List<? extends IBioObject> mols = browser.scrapeWebpage(
@@ -44,25 +44,4 @@ public abstract class AbstractBrowserManagerPluginTest {
         //We don't know how many it is, could vary over time
         assertTrue( mols.size()>3 );
     }
-
-    @Test public void testScrapePubchemPagePartialJob() 
-    throws BioclipseException, InterruptedException {
-
-        BioclipseJob<List<? extends IBioObject>> job = 
-                                 browser.scrapeWebpage( pubchem_omeprazole_page,  
-                                 new BioclipseJobUpdateHook<
-                                 List<? extends IBioObject>>("Scraping"){
-                                     
-                  public void partialReturn( List<? extends IBioObject> mols ) {
-
-                      System.out.println("New scrape of size: " + mols.size());
-                      //I guess we should assert something here..
-                      int a=0; a++;
-                  }
-        });
-        
-        job.join();
-
-    }
-
 }
