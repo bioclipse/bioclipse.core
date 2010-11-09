@@ -13,7 +13,6 @@ package net.bioclipse.ui;
 
 
 import net.bioclipse.ui.actions.ActionSwitchWorkspace;
-import net.bioclipse.ui.actions.SoftwareUpdatesAction;
 
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.jface.action.GroupMarker;
@@ -194,9 +193,6 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         dynamicHelpAction = ActionFactory.DYNAMIC_HELP.create(window);
         register(dynamicHelpAction);
 
-        softwareUpdatesAction = new SoftwareUpdatesAction(window);
-        register(softwareUpdatesAction);
-
         aboutAction = ActionFactory.ABOUT.create(window);
         register(aboutAction);
 
@@ -298,7 +294,6 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         helpMenu.add(new Separator());
         helpMenu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
         helpMenu.add(new Separator());
-        helpMenu.add(softwareUpdatesAction);
 
         // About should always be at the bottom
         helpMenu.add(new Separator());

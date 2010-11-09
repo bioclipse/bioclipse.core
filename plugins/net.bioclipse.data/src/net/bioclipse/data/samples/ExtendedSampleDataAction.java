@@ -29,7 +29,6 @@ import org.eclipse.ui.intro.IIntroSite;
 import org.eclipse.ui.intro.config.IIntroAction;
 import org.eclipse.update.configurator.ConfiguratorUtils;
 import org.eclipse.update.configurator.IPlatformConfiguration;
-import org.eclipse.update.standalone.InstallCommand;
 import org.osgi.framework.Version;
 
 public class ExtendedSampleDataAction extends Action implements IIntroAction {
@@ -132,28 +131,6 @@ public class ExtendedSampleDataAction extends Action implements IIntroAction {
 	 * @throws InvocationTargetException 
 	 */
 	private boolean downloadFeature() throws InvocationTargetException, InterruptedException {
-		IRunnableWithProgress op = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor) throws InvocationTargetException {
-				try {
-					InstallCommand command = new InstallCommand(SAMPLE_FEATURE_ID, 
-					                                            SAMPLE_FEATURE_VERSION, 
-					                                            BioclipseConstants.UPDATE_SITE, 
-					                                            null, "false");
-					command.run(monitor);
-					command.applyChangesNow();
-				} catch (Exception e) {
-					throw new InvocationTargetException(e);
-				}
-			}
-		};
-//		try {
-			PlatformUI.getWorkbench().getProgressService().busyCursorWhile(op);
-//		} catch (InvocationTargetException e) {
-//			logger.debug(e);
-//			return false;
-//		} catch (InterruptedException e) {
-//			logger.debug(e);
-//		}
 		return true;
 	}
 	
