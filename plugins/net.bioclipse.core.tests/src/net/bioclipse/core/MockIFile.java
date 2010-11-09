@@ -25,6 +25,7 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFileState;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IPathVariableManager;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResourceProxy;
@@ -693,5 +694,24 @@ public class MockIFile implements IFile {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+    @Override
+    public IPathVariableManager getPathVariableManager() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean isVirtual() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public void setDerived(boolean isDerived, IProgressMonitor monitor)
+            throws CoreException {
+        // TODO Auto-generated method stub
+        
+    }
 
 }
