@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
+  <rm:locator pattern="^net\.bioclipse\.target\.platform$" searchPathRef="platform"/>
+  <rm:searchPath name="platform">
+    <rm:provider componentTypes="buckminster" readerType="local">
+      <rm:uri format="file:{0}/{1}">
+        <bc:propertyRef key="workspace.root"/>
+        <bc:propertyRef key="buckminster.component"/>
+      </rm:uri>
+    </rm:provider>
+  </rm:searchPath>
+</rm:rmap>
