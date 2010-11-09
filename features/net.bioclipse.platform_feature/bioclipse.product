@@ -27,7 +27,7 @@
       startupForegroundColor="C7E1E6" />
    <launcher name="bioclipse">
       <linux icon="/icons/molecule3D.xpm"/>
-      <macosx icon="/icons/logo/bioclipseIcon2.icns"/>
+      <macosx icon="/net.bioclipse.platform_feature/icons/logo/bioclipseIcon.icns"/>
       <solaris/>
       <win useIco="false">
          <ico path="/icons/logo/bioclipseIcon2.ico"/>
