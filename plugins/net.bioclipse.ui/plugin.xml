@@ -470,6 +470,18 @@
            </menu>
      </menuContribution>
 </extension>
+<extension point="org.eclipse.ui.menus">
+    <menuContribution locationURI="menu:help">
+        <command
+              commandId="org.eclipse.equinox.p2.ui.sdk.update"
+              label="Check for Updates"
+              style="push"/>
+        <command
+              commandId="org.eclipse.equinox.p2.ui.sdk.install"
+              label="Install New Software..."
+              style="push"/>
+    </menuContribution>
+</extension>
 
 
 
