@@ -14,7 +14,6 @@ Require-Bundle: org.eclipse.ui,
  net.sf.cglib,
  org.springframework.osgi.aopalliance.osgi,
  org.eclipse.core.resources,
- org.apache.xerces;bundle-version="2.9.0",
  com.thaiopensource.jing;bundle-version="0.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: nu.xom;version="1.1.0",
