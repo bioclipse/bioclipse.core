@@ -13,7 +13,7 @@
             </actorProperties>
             <properties>
                 <property key="profile" value="Bioclipse"/>
-                <property key="iu" value="net.bioclipse.product, net.bioclipse.core_feature"/>
+                <property key="iu" value="net.bioclipse.product"/>
             </properties>
 			<prerequisites alias="repository">
 				<attribute name="site.p2"/>
