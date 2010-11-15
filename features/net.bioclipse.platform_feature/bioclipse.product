@@ -49,9 +49,5 @@
    <plugins>
    </plugins>
 
-   <features>
-      <feature id="net.bioclipse.platform_feature" version="2.4.0.20100709"/>
-   </features>
-
 
 </product>
