@@ -22,6 +22,7 @@
    <windowImages i16="/icons/logo/logo_16_trans.gif" i32="/icons/logo/logo_32_trans.gif" i48="/icons/logo/logo_48_trans.gif" i64="/icons/logo/logo_64_trans.gif" i128="/icons/logo/logo_128_trans.gif"/>
 
    <splash
+      location="net.bioclipse.ui"
       startupProgressRect="5,290,445,15"
       startupMessageRect="7,252,445,20"
       startupForegroundColor="C7E1E6" />
