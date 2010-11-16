@@ -8,9 +8,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  net.bioclipse.core,
  net.bioclipse.ui,
- net.bioclipse.scripting;bundle-version="1.0.0",
- org.springframework.osgi.aopalliance.osgi;bundle-version="1.0.0",
- org.eclipse.ui.cheatsheets;bundle-version="3.3.101",
+ net.bioclipse.scripting,
+ org.springframework.osgi.aopalliance.osgi,
+ org.eclipse.ui.cheatsheets,
  org.eclipse.help,
  org.eclipse.ui.browser
 Bundle-ActivationPolicy: lazy

@@ -23,10 +23,10 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.cheatsheets,
  org.springframework.osgi.aopalliance.osgi,
  org.eclipse.ui.intro.universal,
- org.springframework.bundle.osgi.extender;bundle-version="1.0.2",
+ org.springframework.bundle.osgi.extender,
  org.openscience.cdk.ioformats,
- org.eclipse.equinox.p2.ui;bundle-version="2.0.0",
- org.eclipse.equinox.p2.ui.sdk;bundle-version="1.0.100"
+ org.eclipse.equinox.p2.ui,
+ org.eclipse.equinox.p2.ui.sdk
 Bundle-ActivationPolicy: lazy
 Export-Package: net.bioclipse.ui,
  net.bioclipse.ui.actions,
