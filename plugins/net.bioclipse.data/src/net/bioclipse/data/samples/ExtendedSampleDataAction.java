@@ -11,25 +11,15 @@
 package net.bioclipse.data.samples;
 
 import java.lang.reflect.InvocationTargetException;
-
 import java.util.Properties;
 
-import net.bioclipse.ui.BioclipseConstants;
-
 import org.apache.log4j.Logger;
-
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.intro.IIntroSite;
 import org.eclipse.ui.intro.config.IIntroAction;
-import org.eclipse.update.configurator.ConfiguratorUtils;
-import org.eclipse.update.configurator.IPlatformConfiguration;
-import org.osgi.framework.Version;
 
 public class ExtendedSampleDataAction extends Action implements IIntroAction {
 	
@@ -109,18 +99,19 @@ public class ExtendedSampleDataAction extends Action implements IIntroAction {
 	 * @return true if installed
 	 */
 	private boolean checkFeature() {
-		IPlatformConfiguration config = ConfiguratorUtils.getCurrentPlatformConfiguration();
-		IPlatformConfiguration.IFeatureEntry[] features = config.getConfiguredFeatureEntries();
-//		Version sampleVersion = new Version(SAMPLE_FEATURE_VERSION);
-		for (int i = 0; i < features.length; i++) {
-			String id = features[i].getFeatureIdentifier();
-			if (SAMPLE_FEATURE_ID.equals(id)) {
-				String version = features[i].getFeatureVersion();
-				Version fversion = Version.parseVersion(version);
-				System.out.println("Existing version of sampledata installed: " + fversion);
-				return true;
-			}
-		}
+	    // TODO Implement p2 check
+//		IPlatformConfiguration config = ConfiguratorUtils.getCurrentPlatformConfiguration();
+//		IPlatformConfiguration.IFeatureEntry[] features = config.getConfiguredFeatureEntries();
+////		Version sampleVersion = new Version(SAMPLE_FEATURE_VERSION);
+//		for (int i = 0; i < features.length; i++) {
+//			String id = features[i].getFeatureIdentifier();
+//			if (SAMPLE_FEATURE_ID.equals(id)) {
+//				String version = features[i].getFeatureVersion();
+//				Version fversion = Version.parseVersion(version);
+//				System.out.println("Existing version of sampledata installed: " + fversion);
+//				return true;
+//			}
+//		}
 		return false;
 	}
 
@@ -131,7 +122,8 @@ public class ExtendedSampleDataAction extends Action implements IIntroAction {
 	 * @throws InvocationTargetException 
 	 */
 	private boolean downloadFeature() throws InvocationTargetException, InterruptedException {
-		return true;
+	    // TODO Implement p2 download
+		return false;
 	}
 	
     private void showMessage(String message) {

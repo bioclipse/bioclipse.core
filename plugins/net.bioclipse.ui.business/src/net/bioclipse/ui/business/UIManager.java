@@ -24,7 +24,6 @@ import java.util.Map;
 
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IBioObject;
-import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.ui.Activator;
 import net.bioclipse.scripting.ui.business.IJsConsoleManager;
@@ -47,6 +46,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
+import org.eclipse.equinox.p2.core.IProvisioningAgent;
+import org.eclipse.equinox.p2.engine.IProfile;
+import org.eclipse.equinox.p2.engine.IProfileRegistry;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Display;
@@ -64,8 +66,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.eclipse.ui.part.FileEditorInput;
-import org.eclipse.update.configurator.ConfiguratorUtils;
-import org.eclipse.update.configurator.IPlatformConfiguration.IFeatureEntry;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 
 /**
  * Contains general methods for interacting with the Bioclipse graphical
@@ -463,15 +465,23 @@ public class UIManager implements IBioclipseManager {
 
     public List<String> getInstalledFeatures() {
         List<String> installedFeatures=new ArrayList<String>();
-        for (IFeatureEntry en
-                : ConfiguratorUtils.getCurrentPlatformConfiguration()
-                                   .getConfiguredFeatureEntries()) {
-            //Omit Eclipse features
-            if (!en.getFeatureIdentifier().startsWith( "org.eclipse" )){
-                System.out.println(en.getFeatureIdentifier());
-                installedFeatures.add( en.getFeatureIdentifier());
-            }
-        }
+        BundleContext context = net.bioclipse.ui.business.Activator
+                            .getDefault().getBundle().getBundleContext();
+        ServiceReference serviceRef = context
+                    .getServiceReference(IProvisioningAgent.class.getName());
+        IProvisioningAgent agent = (IProvisioningAgent) context.getService(serviceRef);
+        IProfileRegistry reg = (IProfileRegistry) agent.getService(IProfileRegistry.SERVICE_NAME);
+        IProfile profile = reg.getProfile(IProfileRegistry.SELF);
+        //TODO change to p2
+//        for (IFeatureEntry en
+//                : ConfiguratorUtils.getCurrentPlatformConfiguration()
+//                                   .getConfiguredFeatureEntries()) {
+//            //Omit Eclipse features
+//            if (!en.getFeatureIdentifier().startsWith( "org.eclipse" )){
+//                System.out.println(en.getFeatureIdentifier());
+//                installedFeatures.add( en.getFeatureIdentifier());
+//            }
+//        }
 
         return installedFeatures;
     }
