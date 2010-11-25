@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aggregator:Aggregator xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:aggregator="http://www.eclipse.org/b3/2010/aggregator/1.0.0" description="Collections of sites used for the development of bioclipse" label="Bioclipse">
+  <configurations/>
+  <configurations operatingSystem="linux" windowSystem="gtk"/>
+  <configurations operatingSystem="macosx" windowSystem="cocoa" architecture="x86_64"/>
+  <contributions label="Eclipse and Bioclipse sites">
+    <repositories location="http://download.eclipse.org/eclipse/updates/3.6"/>
+    <repositories location="http://download.eclipse.org/releases/helios">
+      <features name="org.eclipse.wst.xml_core.feature.feature.group"/>
+      <features name="org.eclipse.mylyn.sdk_feature.feature.group"/>
+    </repositories>
+    <repositories location="file:/Users/arvid/Documents/Dev/p2/bioclipse-2.5.target"/>
+    <repositories location="file:/Users/arvid/.hudson/jobs/Bioclipse.core/lastSuccessful/archive/tmp/bioclipse/net.bioclipse.core_site_1.0.0-eclipse.feature/site.p2/"/>
+  </contributions>
+</aggregator:Aggregator>
