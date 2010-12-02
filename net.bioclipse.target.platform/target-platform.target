@@ -1,39 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.5"?>
+<?pde version="3.6"?>
 
 <target name="Spring-osgi-1.0.2">
 <locations>
-<location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
-<unit id="org.eclipse.zest.feature.group" version="1.1.2.v20100111-1352-6618yD6DH8G6N59OM53B2A"/>
-<repository location="http://download.eclipse.org/tools/gef/updates/releases/"/>
-</location>
+<location path="${project_loc:/net.bioclipse.target.platform}/logging" type="Directory"/>
+<location path="${project_loc:net.bioclipse.target.platform}/libs" type="Directory"/>
 <location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
 <unit id="nu.psnet.quickimage.feature.group" version="1.0.3.2"/>
 <repository location="http://psnet.nu/eclipse/updates"/>
 </location>
-<location path="${project_loc:net.bioclipse.target.platform}/libs" type="Directory"/>
 <location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/dist" type="Directory"/>
 <location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/lib" type="Directory"/>
-<location path="${project_loc:/net.bioclipse.target.platform}/logging" type="Directory"/>
 <location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
-<unit id="org.eclipse.datatools.connectivity.feature.feature.group" version="1.7.2.v200909251450-7B7OANEn1Xi4gycmhPC6njFVDz0q"/>
-<unit id="org.eclipse.platform.sdk" version="3.5.2.M20100211-1343"/>
-<unit id="org.eclipse.sdk.feature.group" version="3.5.2.R35x_v20100119-7Q7bARBPWUHM_CSjz-8bF1f7_n8rLSyWHoiKoyxBQSGT4"/>
-<unit id="org.eclipse.rcp.sdk.id" version="3.5.2.M20100211-1343"/>
-<unit id="org.eclipse.emf.ecoretools.sdk.feature.group" version="0.9.0.v200906221231"/>
-<unit id="org.eclipse.emf.sdk.feature.group" version="2.5.0.v200906151043"/>
-<unit id="org.eclipse.equinox.compendium.sdk.feature.group" version="3.5.2.R35x_v20100105-7V7JFUTFIYmj9hlMIrg9Qrf"/>
-<unit id="org.eclipse.equinox.core.sdk.feature.group" version="3.5.2.R35x_v20100105-7sF9-FRLFP5J9Hvo7iPXMK6J3BB7"/>
-<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.5.1.R35x_v20090811-8q7BGE-G13DHKOBciHlrWmr7PD93"/>
-<unit id="org.eclipse.equinox.sdk.feature.group" version="3.5.2.r352_v20100209-7G7MAD7lQiEeG_QL5AOoAHLYaYBg"/>
-<unit id="org.eclipse.equinox.serverside.sdk.feature.group" version="3.5.0.v20090505-7o7FFYLFKYWwesZ_FKz-WnOk"/>
-<unit id="org.eclipse.draw2d.sdk.feature.group" version="3.5.2.v20100111-1352-7A7E38yD6E88B9I5AELD4H8D8x42"/>
-<unit id="org.eclipse.gef.feature.group" version="3.5.2.v20100111-1352-777928194B66D5D476C33B2A"/>
-<unit id="org.eclipse.zest.sdk.feature.group" version="1.1.2.v20100111-1352-6658CNDT4R8WTQUMhLVdgPbPObOX"/>
-<unit id="org.eclipse.mylyn.sdk_feature.feature.group" version="3.2.3.v20100217-0100-e3x"/>
-<unit id="org.eclipse.wst.xml_core.feature.feature.group" version="3.1.1.v200907161031-7C7OFPiF7RZHKFHgU1LkY6"/>
-<unit id="org.eclipse.wst.xml_userdoc.feature.feature.group" version="3.1.1.v200906020459-50FR7AkF77f7MESDKEF"/>
-<repository location="http://download.eclipse.org/releases/galileo"/>
+<unit id="org.eclipse.platform.ide" version="3.6.1.M20100909-0800"/>
+<unit id="org.eclipse.platform.sdk" version="3.6.1.M20100909-0800"/>
+<unit id="org.eclipse.rcp.feature.group" version="3.6.1.r361_v20100827-9OArFLdFjY-ThSQXmKvKz0_T"/>
+<unit id="org.eclipse.rcp.source.feature.group" version="3.6.1.r361_v20100827-9OArFLdFjY-ThSQXmKvKz0_T"/>
+<repository location="http://download.eclipse.org/eclipse/updates/3.6"/>
+</location>
+<location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
+<unit id="org.eclipse.pde.junit.runtime.addon.feature.group" version="1.0.0.v20100831"/>
+<unit id="org.eclipse.pde.junit.runtime.standalone.feature.group" version="1.0.0.v20100831"/>
+<repository location="http://download.eclipse.org/releases/helios"/>
+</location>
+<location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
+<unit id="org.junit4" version="4.8.1.v20100525"/>
+<unit id="org.eclipse.wst.xml.core" version="1.1.502.v201009010342"/>
+<unit id="org.eclipse.wst.xml_core.feature.feature.group" version="3.2.2.v201008170029-7C7OFXYF7RZHQHI5PyJwPT"/>
+<unit id="org.eclipse.wst.xml_ui.feature.feature.group" version="3.2.2.v201008170029-7H7AFUQDxumQGOpBqffOY2f1qxDZ"/>
+<unit id="org.eclipse.zest.feature.group" version="1.2.0.v20100519-2050-67808yE5F-8HAH4HECF4242"/>
+<unit id="org.eclipse.zest.sdk.feature.group" version="1.2.0.v20100519-2050-67908COKMFAKPYIEUdUVWhXYN8VN"/>
+<unit id="org.eclipse.emf.edit.feature.group" version="2.6.0.v20100914-1218"/>
+<unit id="org.eclipse.emf.ecore.edit.feature.group" version="2.6.0.v20100914-1218"/>
+<unit id="org.eclipse.emf.ecore.edit.source.feature.group" version="2.6.0.v20100914-1218"/>
+<unit id="org.eclipse.emf.ecore.editor.source.feature.group" version="2.6.0.v20100914-1218"/>
+<unit id="org.eclipse.emf.ecore.editor.feature.group" version="2.6.0.v20100914-1218"/>
+<unit id="org.eclipse.emf.ecore.feature.group" version="2.6.1.v20100914-1218"/>
+<unit id="org.eclipse.emf.databinding.feature.group" version="1.2.0.v20100914-1218"/>
+<unit id="org.eclipse.emf.databinding.source.feature.group" version="1.2.0.v20100914-1218"/>
+<unit id="org.eclipse.emf.databinding.edit.source.feature.group" version="1.2.0.v20100914-1218"/>
+<unit id="org.eclipse.emf.databinding.edit.feature.group" version="1.2.0.v20100914-1218"/>
+<unit id="org.eclipse.emf.edit.ui.feature.group" version="2.6.0.v20100914-1218"/>
+<unit id="org.eclipse.emf.edit.ui.source.feature.group" version="2.6.0.v20100914-1218"/>
+<unit id="org.eclipse.emf.common.source.feature.group" version="2.6.0.v20100914-1218"/>
+<unit id="org.eclipse.emf.common.feature.group" version="2.6.0.v20100914-1218"/>
+<unit id="org.eclipse.emf.common.ui.feature.group" version="2.6.0.v20100914-1218"/>
+<unit id="org.eclipse.emf.common.ui.source.feature.group" version="2.6.0.v20100914-1218"/>
+<repository location="http://download.eclipse.org/releases/helios"/>
 </location>
 </locations>
 </target>
