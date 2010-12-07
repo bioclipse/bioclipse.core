@@ -26,7 +26,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.springframework.bundle.osgi.extender,
  org.openscience.cdk.ioformats,
  org.eclipse.equinox.p2.ui,
- org.eclipse.equinox.p2.ui.sdk
+ org.eclipse.equinox.p2.ui.sdk,
  net.bioclipse.core.api
 Bundle-ActivationPolicy: lazy
 Export-Package: net.bioclipse.ui,

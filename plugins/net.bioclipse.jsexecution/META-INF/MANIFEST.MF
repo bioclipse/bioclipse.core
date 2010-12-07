@@ -9,7 +9,7 @@ DynamicImport-Package: *
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.console,
- net.bioclipse.core
+ net.bioclipse.core,
  net.bioclipse.core.api
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.core,
  net.bioclipse.ui,
  org.eclipse.ui.intro,
- org.eclipse.ui.intro.universal
+ org.eclipse.ui.intro.universal,
  net.bioclipse.core.api
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.log4j
