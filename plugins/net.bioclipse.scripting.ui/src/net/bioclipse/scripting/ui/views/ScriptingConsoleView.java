@@ -169,7 +169,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         
         output = new Text(
             parent,
-            SWT.READ_ONLY | SWT.MULTI | SWT.V_SCROLL | SWT.BORDER
+            SWT.READ_ONLY | SWT.MULTI | SWT.V_SCROLL | SWT.BORDER | SWT.WRAP
         );
         output.setFont(JFaceResources.getTextFont());
         GridData outputData = new GridData(GridData.FILL_BOTH);
