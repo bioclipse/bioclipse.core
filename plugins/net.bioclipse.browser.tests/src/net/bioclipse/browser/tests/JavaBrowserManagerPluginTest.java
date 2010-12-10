@@ -12,8 +12,8 @@ package net.bioclipse.browser.tests;
 
 import java.util.List;
 
-import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.core.api.BioclipseException;
+import net.bioclipse.core.api.domain.IBioObject;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 
