@@ -12,7 +12,7 @@
 		interface="net.bioclipse.recording.IHistory" />
 
 	<osgi:service id="recordingAdviceOSGI" ref="recordingAdvice"
-		interface="net.bioclipse.recording.IRecordingAdvice" />
+		interface="net.bioclipse.core.api.recording.IRecordingAdvice" />
 
 	<osgi:service id="wrapInProxyAdviceOSGI" ref="wrapInProxyAdvice"
 		interface="net.bioclipse.recording.IWrapInProxyAdvice" />

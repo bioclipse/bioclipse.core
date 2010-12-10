@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import net.bioclipse.core.api.ResourcePathTransformer;
+import net.bioclipse.core.api.jobs.ICreateJobAdvice;
 import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.core.api.managers.IBioclipseUIJob;
 import net.bioclipse.core.util.LogUtils;

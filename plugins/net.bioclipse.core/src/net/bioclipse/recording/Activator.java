@@ -8,6 +8,7 @@
  *******************************************************************************/
 package net.bioclipse.recording;
 
+import net.bioclipse.core.api.recording.IRecordingAdvice;
 import net.bioclipse.core.util.LogUtils;
 
 import org.apache.log4j.Logger;

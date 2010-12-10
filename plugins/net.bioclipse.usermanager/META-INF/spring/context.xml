@@ -11,10 +11,10 @@
                 interface="net.bioclipse.usermanager.business.IUserManager" />
 
   <osgi:reference id="recordingAdvice" 
-                  interface="net.bioclipse.recording.IRecordingAdvice" />
+                  interface="net.bioclipse.core.api.recording.IRecordingAdvice" />
 
   <osgi:reference id="createJobAdvice"
-                  interface="net.bioclipse.ui.jobs.ICreateJobAdvice" />
+                  interface="net.bioclipse.core.api.jobs.ICreateJobAdvice" />
 
   <osgi:reference id="wrapInProxyAdvice"
                   interface="net.bioclipse.recording.IWrapInProxyAdvice" />

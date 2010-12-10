@@ -18,6 +18,7 @@ import net.bioclipse.core.api.Recorded;
 import net.bioclipse.core.api.domain.BioObject;
 import net.bioclipse.core.api.domain.IBioObject;
 import net.bioclipse.core.api.managers.IBioclipseManager;
+import net.bioclipse.core.api.recording.IRecordingAdvice;
 
 import org.apache.log4j.Logger;
 

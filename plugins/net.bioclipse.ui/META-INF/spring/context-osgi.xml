@@ -9,5 +9,5 @@
        config file in this case) as an OSGi service -->
 
   <osgi:service id="createJobAdviceOSGI" ref="createJobAdvice"
-                interface="net.bioclipse.ui.jobs.ICreateJobAdvice" />
+                interface="net.bioclipse.core.api.jobs.ICreateJobAdvice" />
 </beans>
