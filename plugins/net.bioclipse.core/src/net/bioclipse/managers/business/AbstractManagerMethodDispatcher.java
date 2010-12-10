@@ -13,13 +13,13 @@ import net.bioclipse.core.api.BioclipseException;
 import net.bioclipse.core.api.IResourcePathTransformer;
 import net.bioclipse.core.api.ResourcePathTransformer;
 import net.bioclipse.core.api.jobs.IReturner;
+import net.bioclipse.core.api.jobs.MonitorContainer;
 import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.core.api.managers.IBioclipseUIJob;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.jobs.ExtendedBioclipseJob;
-import net.bioclipse.managers.MonitorContainer;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;

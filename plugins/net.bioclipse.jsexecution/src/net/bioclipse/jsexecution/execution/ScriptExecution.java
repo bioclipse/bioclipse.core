@@ -8,12 +8,12 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 import net.bioclipse.core.api.BioclipseException;
+import net.bioclipse.core.api.jobs.MonitorContainer;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jsexecution.Activator;
 import net.bioclipse.jsexecution.exceptions.ScriptException;
 import net.bioclipse.jsexecution.execution.helper.ThreadSafeConsoleWrap;
 import net.bioclipse.jsexecution.tools.ScriptingTools;
-import net.bioclipse.managers.MonitorContainer;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;

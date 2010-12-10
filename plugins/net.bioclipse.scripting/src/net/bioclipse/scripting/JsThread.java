@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import net.bioclipse.core.api.jobs.MonitorContainer;
 import net.bioclipse.core.util.IJavaScriptConsolePrinterChannel;
 import net.bioclipse.core.util.LogUtils;
-import net.bioclipse.managers.MonitorContainer;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;

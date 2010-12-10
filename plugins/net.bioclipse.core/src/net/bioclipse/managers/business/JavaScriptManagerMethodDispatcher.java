@@ -13,11 +13,11 @@ import net.bioclipse.core.api.domain.BioObject;
 import net.bioclipse.core.api.domain.IBioObject;
 import net.bioclipse.core.api.domain.RecordableList;
 import net.bioclipse.core.api.jobs.IReturner;
+import net.bioclipse.core.api.jobs.MonitorContainer;
 import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.core.util.IJavaScriptConsolePrinterChannel;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jobs.BioclipseUIJob;
-import net.bioclipse.managers.MonitorContainer;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.log4j.Logger;
