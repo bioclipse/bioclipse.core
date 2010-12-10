@@ -13,9 +13,9 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import net.bioclipse.core.api.jobs.MonitorContainer;
-import net.bioclipse.core.util.IJavaScriptConsolePrinterChannel;
-import net.bioclipse.core.util.LogUtils;
+import net.bioclipse.core.api.util.IJavaScriptConsolePrinterChannel;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -154,7 +154,7 @@ public class JsThread extends ScriptingThread {
                     }
                 }
                 catch (Exception e) {
-                    LogUtils.debugTrace(logger, e);
+                    logger.log( Level.DEBUG, e );
                     result[0] = e;
                 }
                 synchronized ( jsRunning ) {

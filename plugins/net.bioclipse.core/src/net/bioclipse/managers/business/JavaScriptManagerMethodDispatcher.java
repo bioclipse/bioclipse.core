@@ -1,34 +1,19 @@
 package net.bioclipse.managers.business;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import net.bioclipse.core.api.BioclipseException;
-import net.bioclipse.core.api.IResourcePathTransformer;
-import net.bioclipse.core.api.ResourcePathTransformer;
-import net.bioclipse.core.api.domain.BioObject;
-import net.bioclipse.core.api.domain.IBioObject;
-import net.bioclipse.core.api.domain.RecordableList;
-import net.bioclipse.core.api.jobs.IReturner;
-import net.bioclipse.core.api.jobs.MonitorContainer;
 import net.bioclipse.core.api.managers.IBioclipseManager;
-import net.bioclipse.core.util.IJavaScriptConsolePrinterChannel;
+import net.bioclipse.core.api.util.IJavaScriptConsolePrinterChannel;
 import net.bioclipse.core.util.LogUtils;
-import net.bioclipse.jobs.BioclipseUIJob;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.log4j.Logger;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.widgets.Display;
 

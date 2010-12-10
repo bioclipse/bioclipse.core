@@ -9,8 +9,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.springframework.bundle.spring.aop;bundle-version="2.5.1",
  org.eclipse.core.resources,
  net.bioclipse.jsexecution;bundle-version="2.2.0",
- net.bioclipse.core.api;bundle-version="1.0.0",
- net.bioclipse.core;bundle-version="2.4.0"
+ net.bioclipse.core.api;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: libs/antlr-2.7.5.jar,
  .,
