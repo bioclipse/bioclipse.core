@@ -62,7 +62,7 @@ public class JavaScriptManagerMethodDispatcher
         return null;
     }
     
-    private void printError( Throwable t ) {
+    public static void printError( Throwable t ) {
 
         IExtensionRegistry registry = Platform.getExtensionRegistry();
         IExtensionPoint serviceObjectExtensionPoint 
