@@ -12,19 +12,23 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import net.bioclipse.core.util.IJavaScriptConsolePrinterChannel;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.managers.MonitorContainer;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.PlatformUI;
 
 @SuppressWarnings("serial")
 public class JsThread extends ScriptingThread {
@@ -190,18 +194,40 @@ public class JsThread extends ScriptingThread {
 
     private void popUpWarning() {
         firstTime = false;
-        Display.getDefault().asyncExec( new Runnable() {
-            public void run() {
-                MessageDialog.openWarning(
-                  PlatformUI.getWorkbench()
-                            .getActiveWorkbenchWindow().getShell(),
-                  "Restart recommended after cancelling JavaScripts",
-                  "The cancelling of the running JavaScript script may have " +
-                    "left your data in an inconsistent state, depending upon " +
-                    "what the JavaScript execution was working on. " +
-                    "You are recommended to restart Bioclipse." );
+        IExtensionRegistry registry = Platform.getExtensionRegistry();
+        IExtensionPoint serviceObjectExtensionPoint 
+            = registry.getExtensionPoint(
+                  "net.bioclipse.scripting.contribution" );
+
+        IExtension[] serviceObjectExtensions
+            = serviceObjectExtensionPoint.getExtensions();
+        for ( IExtension extension : serviceObjectExtensions) {
+            for ( IConfigurationElement element 
+                    : extension.getConfigurationElements() ) {
+                Object service = null;
+                try {
+                    service = element.createExecutableExtension("service");
+                }
+                catch (CoreException e) {
+                    throw new RuntimeException(e);
+                }
+                if ( service instanceof IJavaScriptConsolePrinterChannel) {
+                    IJavaScriptConsolePrinterChannel p = 
+                        ( (IJavaScriptConsolePrinterChannel) service );
+                    p.print( "\n" );
+                    p.print( "== Restart recommended after " +
+                    		     "cancelling scripts ==" );
+                    p.print( "\n" );
+                    p.print( 
+                        "The cancelling of the running JavaScript script may " +
+                        "have left your data in an inconsistent state, " +
+                        "depending upon what the JavaScript execution was " +
+                        "working on. You are recommended to restart " +
+                        "Bioclipse." );
+                    p.print( "\n\n" );
+                }
             }
-        } );
+        }
     }
 
     public static void waitUntilNotBusy() {
