@@ -400,22 +400,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         message = message.replaceAll("\n", NEWLINE);
         
         synchronized (output) {
-            int nLines     = message.split(NEWLINE, -1).length,
-                curLineNum = 0;
-            for (String line : message.split(NEWLINE, -1)) {
-                if (line.length() > MAX_OUTPUT_LINE_LENGTH) {
-                    for (String splitLine
-                         : splitIntoSeveralLines(line,
-                                                 MAX_OUTPUT_LINE_LENGTH))
-                        output.append(splitLine);
-                }
-                else {
-                    output.append(line);
-                }
-                // Output newlines on all lines but the last (or only) one.
-                if (curLineNum++ < nLines - 1)
-                    output.append(NEWLINE);
-            }
+            output.append(message);
             output.redraw();
         }
     }
@@ -423,103 +408,6 @@ public abstract class ScriptingConsoleView extends ViewPart {
     /** Makes a system notification sound. */
     protected void beep() {
         Display.getCurrent().beep();
-    }
-
-    /**
-     * Splits text into several lines, each not longer than the proposed line
-     * length. The text returned has newline characters inserted, in
-     * such a way that the distance between two consecutive such characters is
-     * never longer than proposed line length.
-     * 
-     * @param text the text to be split up
-     * @param maxLineLength the proposed line length
-     * @return the same text but with line breaks
-     */
-    protected String[] splitIntoSeveralLines( String text,
-                                              int maxLineLength ) {
-        
-        if (text == null || text.length() == 0)
-            return new String[] { "" };
-        
-        if (maxLineLength <= 0 || text.length() <= maxLineLength )
-            return new String[] { text };
-
-        List<String> result = new ArrayList<String>();
-        int currentPos = 0;
-        while ( currentPos < text.length() ) {
-            
-            int toPos
-                    = convenientLineBreakPoint(text, currentPos, maxLineLength); 
-
-            String line = text.substring(currentPos, toPos);
-
-            currentPos = toPos;
-
-            // Line breaks only between lines, and only in the absence of
-            // natural ones.
-            if (currentPos < text.length()
-                && currentPos >= NEWLINE.length()
-                && !text.substring(currentPos-NEWLINE.length(),
-                                   currentPos).equals(NEWLINE))
-                line += NEWLINE;
-
-            result.add( line );
-
-            // The following condition is necessary to prevent infinite looping
-            // when breaking on spaces. We skip over the space that just
-            // contributed in the line breaking. On the other hand, often
-            // it's important to keep spaces used for indentation in the
-            // beginnings of lines, so we don't skip any space if they come
-            // directly after a NEWLINE.
-            if (currentPos < text.length() - 1
-                && currentPos >= NEWLINE.length()
-                && !NEWLINE.equals(text.substring(currentPos-NEWLINE.length(),
-                                                  currentPos))
-                && " ".equals(text.substring(currentPos,
-                                             currentPos + 1)))
-                currentPos++;
-        }
-        
-        return result.toArray(new String[0]);
-    }
-
-    /**
-     * Finds a good place to break a long line into several lines. Prefers not
-     * breaking (if the line is shorter than the maximal allowed line length),
-     * or breaking at a space (if there is one). Otherwise, breaks at the last
-     * possible point.
-     * 
-     * Note that with the current implementation, tab characters will freak
-     * this method out in ugly but non-dangerous ways. 
-     * 
-     * @param text the text to be broken up
-     * @param currentPos the starting point of the breaking up. It's cheaper to
-     *                   pass around indexes like this than to split strings
-     *                   repeatedly
-     * @param maxLineLength the length of the largest possible line
-     * 
-     * @return the index where the breaking should be made
-     */
-    private int convenientLineBreakPoint( String text,
-                                          int currentPos,
-                                          int maxLineLength ) {
-
-        // Prefer not to break at all...
-        if ( currentPos + maxLineLength >= text.length() )
-            return text.length();
-        
-        // ...or to break where there is already a break...
-        if ( text.substring(currentPos,
-                            currentPos + maxLineLength).contains(NEWLINE) )
-            return text.indexOf(NEWLINE, currentPos) + NEWLINE.length();
-        
-        // ...or at the last possible space...
-        if ( text.substring(currentPos,
-                            currentPos + maxLineLength).contains(" ") )
-            return text.lastIndexOf(' ', currentPos + maxLineLength);
-        
-        // ...or just break at the last possible moment, no matter what.
-        return currentPos + maxLineLength;
     }
 
     @Override
