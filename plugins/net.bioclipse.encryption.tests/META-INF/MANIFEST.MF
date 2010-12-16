@@ -4,6 +4,8 @@ Bundle-Name: Tests Plug-in
 Bundle-SymbolicName: net.bioclipse.encryption.tests
 Bundle-Version: 2.4.0.20100709
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.junit4,
- net.bioclipse.encryption
+Require-Bundle: net.bioclipse.encryption
 Export-Package: net.bioclipse.encryption
+Import-Package: org.junit,
+ org.junit.runner,
+ org.junit.runners

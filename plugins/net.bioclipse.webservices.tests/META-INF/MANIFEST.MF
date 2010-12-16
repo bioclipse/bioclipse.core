@@ -10,10 +10,11 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.core;bundle-version="2.0.0",
  net.bioclipse.core.tests;bundle-version="0.1.0",
  net.bioclipse.webservices;bundle-version="2.0.0",
- org.junit4;bundle-version="4.3.1",
  org.eclipse.core.resources
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.commons.logging,
- org.apache.log4j
+ org.apache.log4j, org.junit,
+ org.junit.runner,
+ org.junit.runners
 Export-Package: net.bioclipse.webservices.tests

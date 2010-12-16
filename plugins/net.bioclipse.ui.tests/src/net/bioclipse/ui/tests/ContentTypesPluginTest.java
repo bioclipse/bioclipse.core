@@ -16,7 +16,6 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 
-import junit.framework.Assert;
 import net.bioclipse.core.MockIFile;
 
 import org.eclipse.core.resources.IFile;
@@ -24,6 +23,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
+import org.junit.Assert;
 import org.junit.Test;
 
 

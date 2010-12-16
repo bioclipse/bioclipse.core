@@ -7,7 +7,6 @@ Bundle-Activator: net.bioclipse.gist.test.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.junit4,
  net.bioclipse.core,
  org.eclipse.core.resources,
  net.bioclipse.core.tests,
@@ -15,3 +14,6 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.ui
 Bundle-ActivationPolicy: lazy
 Export-Package: net.bioclipse.gist.test
+Import-Package: org.junit,
+ org.junit.runner,
+ org.junit.runners

@@ -2,8 +2,10 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests Plug-in
 Require-Bundle: net.bioclipse.core,
- org.junit4,
  net.bioclipse.scripting
 Bundle-SymbolicName: net.bioclipse.scripting.tests
 Bundle-Version: 2.4.0.20100709
 Export-Package: net.bioclipse.scripting
+Import-Package: org.junit,
+ org.junit.runner,
+ org.junit.runners
