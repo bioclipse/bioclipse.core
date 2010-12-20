@@ -18,7 +18,7 @@
 		interface="net.bioclipse.recording.IWrapInProxyAdvice" />
 
 	<osgi:reference id="createJobAdvice"
-		interface="net.bioclipse.ui.jobs.ICreateJobAdvice" />
+		interface="net.bioclipse.core.api.jobs.ICreateJobAdvice" />
 
 	<bean id="recordingAdvisor"
 		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
