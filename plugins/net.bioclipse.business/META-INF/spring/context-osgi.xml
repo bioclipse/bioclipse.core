@@ -14,10 +14,10 @@
 		interface="net.bioclipse.core.api.recording.IRecordingAdvice" />
 
 	<osgi:reference id="javaManagerDispatcherAdvisor"
-		interface="net.bioclipse.managers.business.IJavaManagerDispatcherAdvisor" />
+		interface="net.bioclipse.core.api.managers.IJavaManagerDispatcherAdvisor" />
 
 	<osgi:reference id="javaScriptManagerDispatcherAdvisor"
-		interface="net.bioclipse.managers.business.IJavaScriptManagerDispatcherAdvisor" />
+		interface="net.bioclipse.core.api.managers.IJavaScriptManagerDispatcherAdvisor" />
 
 	<osgi:reference id="wrapInProxyAdvice"
 		interface="net.bioclipse.recording.IWrapInProxyAdvice" />

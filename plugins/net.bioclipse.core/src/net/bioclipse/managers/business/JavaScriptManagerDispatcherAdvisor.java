@@ -1,5 +1,7 @@
 package net.bioclipse.managers.business;
 
+import net.bioclipse.core.api.managers.IJavaScriptManagerDispatcherAdvisor;
+
 import org.springframework.aop.support.RegexpMethodPointcutAdvisor;
 
 

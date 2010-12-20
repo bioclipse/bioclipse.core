@@ -7,11 +7,11 @@
 
     <osgi:service id="javaManagerDispatcherAdvisorOSGI" 
                   ref="javaManagerDispatcherAdvisor"
-                  interface="net.bioclipse.managers.business.IJavaManagerDispatcherAdvisor" />
+                  interface="net.bioclipse.core.api.managers.IJavaManagerDispatcherAdvisor" />
 
     <osgi:service id="javaScriptManagerDispatcherAdvisorOSGI" 
                   ref="javaScriptManagerDispatcherAdvisor"
-                  interface="net.bioclipse.managers.business.IJavaScriptManagerDispatcherAdvisor" />
+                  interface="net.bioclipse.core.api.managers.IJavaScriptManagerDispatcherAdvisor" />
 
     <bean id="javaManagerMethodDispatcher"
           class="net.bioclipse.managers.business.JavaManagerMethodDispatcher" >
