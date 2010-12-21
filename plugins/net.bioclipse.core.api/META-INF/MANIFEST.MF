@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bioclispe core Api
-Bundle-SymbolicName: net.bioclipse.core.api
+Bundle-SymbolicName: net.bioclipse.core.api;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: net.bioclipse.core.api.Activator
 Require-Bundle: org.eclipse.core.runtime,
@@ -12,5 +12,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: net.bioclipse.core.api,
  net.bioclipse.core.api.domain,
  net.bioclipse.core.api.jobs,
- net.bioclipse.core.api.managers
-Import-Package: org.apache.log4j
+ net.bioclipse.core.api.managers,
+ net.bioclipse.core.api.recording,
+ net.bioclipse.core.api.util
+Import-Package: org.apache.log4j,
+ org.springframework.aop
