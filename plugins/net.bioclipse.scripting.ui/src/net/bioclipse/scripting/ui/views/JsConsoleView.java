@@ -40,7 +40,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
-import sun.org.mozilla.javascript.internal.NativeArray;
+//import sun.org.mozilla.javascript.internal.NativeArray;
 
 public class JsConsoleView extends ScriptingConsoleView {
 
@@ -122,19 +122,19 @@ public class JsConsoleView extends ScriptingConsoleView {
                                    }
 
                                 // Handle JavaScript Arrays.
-                                   else if (result instanceof NativeArray) {
-                                       StringBuilder sb = new StringBuilder();
-                                       NativeArray  arr = (NativeArray)result;
-                                       sb.append("[");
-                                       for(int i=0; i < arr.getLength(); i++){
-                                           if (i > 0) {
-                                               sb.append(", ");
-                                           }
-                                           sb.append(arr.get(i,arr));
-                                       }
-                                       sb.append("]");
-                                       message[0] = sb.toString();
-                                   }
+//                                   else if (result instanceof NativeArray) {
+//                                       StringBuilder sb = new StringBuilder();
+//                                       NativeArray  arr = (NativeArray)result;
+//                                       sb.append("[");
+//                                       for(int i=0; i < arr.getLength(); i++){
+//                                           if (i > 0) {
+//                                               sb.append(", ");
+//                                           }
+//                                           sb.append(arr.get(i,arr));
+//                                       }
+//                                       sb.append("]");
+//                                       message[0] = sb.toString();
+//                                   }
                                    else {
                                        message[0] = result.toString();
                                    }
