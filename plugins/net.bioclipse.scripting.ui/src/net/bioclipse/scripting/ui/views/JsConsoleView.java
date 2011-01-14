@@ -10,6 +10,7 @@
  ******************************************************************************/
 package net.bioclipse.scripting.ui.views;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -117,6 +118,45 @@ public class JsConsoleView extends ScriptingConsoleView {
 
                                            message[0] = sb.toString();
                                        }
+                                   }
+
+                                // Handle JavaScript Arrays.
+                                   else if (result.getClass().getSimpleName().equals("NativeArray")) {
+                                       StringBuilder sb = new StringBuilder();
+                                       Method get = null;
+                                       Method getLength = null;
+                                       final Class<?> cl = result.getClass();
+                                       Class<?> Scriptable = null;
+                                       try{
+                                           Scriptable = Class.forName(cl.getPackage().getName()+".Scriptable");
+                                           getLength = result.getClass().getMethod("getLength");
+                                           get = cl.getMethod("get", int.class, Scriptable);
+
+                                           if(get== null || getLength == null ) throw new NoSuchMethodException("Could not find array metoth on class");
+                                           long length = (Long)getLength.invoke(result);
+                                           sb.append("[");
+                                           for(int i=0; i < length; i++){
+                                               if (i > 0) {
+                                                   sb.append(", ");
+                                               }
+                                               sb.append(get.invoke(result,Integer.valueOf(i),result).toString());
+                                           }
+                                           sb.append("]");
+                                           message[0] = sb.toString();
+                                       } catch( NoSuchMethodException ex) {
+                                           message[0] = result.toString();
+                                       } catch (SecurityException e) {
+                                           message[0] = result.toString();
+                                       } catch (ClassNotFoundException e) {
+                                           message[0] = result.toString();
+                                       } catch (IllegalArgumentException e) {
+                                           message[0] = result.toString();
+                                       } catch (IllegalAccessException e) {
+                                           message[0] = result.toString();
+                                       } catch (InvocationTargetException e) {
+                                           message[0] = result.toString();
+                                       }
+
                                    }
                                    else {
                                        message[0] = result.toString();
