@@ -20,6 +20,7 @@ import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.browser.business.business.IBrowserManager;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -35,6 +36,8 @@ public abstract class AbstractBrowserManagerPluginTest {
     protected static IBrowserManager browser;
 
     @Test
+    @Ignore("Doesn't test in an independent way. Depends on the state of a " +
+    		"webpage ouf of our control")
     public void testScrapePubchemPageSync() throws BioclipseException {
 
         List<? extends IBioObject> mols = browser.scrapeWebpage(
