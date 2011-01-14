@@ -42,6 +42,6 @@ public abstract class AbstractBrowserManagerPluginTest {
 
         System.out.println("Scraped " + mols.size() + " mols from page.");
         //We don't know how many it is, could vary over time
-        assertTrue( mols.size()>3 );
+        assertTrue( "Expected > 3, was: " + mols.size(), mols.size()>3 );
     }
 }
