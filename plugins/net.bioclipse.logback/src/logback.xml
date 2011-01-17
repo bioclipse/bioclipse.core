@@ -24,7 +24,7 @@
 	</appender>
 	<logger name="org.mortbay" level="WARN" />
 	<logger name="org.eclipse" level="WARN" />
-	<logger name="org.springframework" level="ERROR" />
+	<logger name="org.springframework" level="INFO" />
 	<logger name="org.hibernate" level="ERROR" />
 	<logger name="net.bioclipse" level="DEBUG" />
 
