@@ -11,6 +11,7 @@
 package net.bioclipse.gist.business;
 
 import net.bioclipse.core.api.Recorded;
+import net.bioclipse.core.api.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.core.api.jobs.IBioclipseJob;
 import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.core.api.managers.PublishedClass;
@@ -19,7 +20,6 @@ import net.bioclipse.core.api.managers.TestClasses;
 
 import org.eclipse.core.resources.IFile;
 
-import net.bioclipse.jobs.BioclipseJobUpdateHook;
 
 @PublishedClass("The gist manager is used for downloading gists")
 @TestClasses(

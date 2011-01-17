@@ -15,8 +15,8 @@ import java.util.List;
 import net.bioclipse.browser.business.Activator;
 import net.bioclipse.core.api.BioclipseException;
 import net.bioclipse.core.api.domain.IBioObject;
+import net.bioclipse.core.api.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseJob;
-import net.bioclipse.jobs.BioclipseJobUpdateHook;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;

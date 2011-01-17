@@ -14,8 +14,8 @@ import java.util.List;
 
 import net.bioclipse.core.api.BioclipseException;
 import net.bioclipse.core.api.domain.IBioObject;
+import net.bioclipse.core.api.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseJob;
-import net.bioclipse.jobs.BioclipseJobUpdateHook;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

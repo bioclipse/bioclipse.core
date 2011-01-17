@@ -6,13 +6,13 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import net.bioclipse.core.api.domain.IBioObject;
+import net.bioclipse.core.api.jobs.BioclipseJobUpdateHook;
+import net.bioclipse.core.api.jobs.GuiAction;
 import net.bioclipse.core.api.jobs.IBioclipseJob;
+import net.bioclipse.core.api.jobs.IExtendedBioclipseJob;
 import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.jobs.BioclipseJob;
-import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
-import net.bioclipse.jobs.ExtendedBioclipseJob;
-import net.bioclipse.managers.business.GuiAction;
 
 public interface ITestManager extends IBioclipseManager {
 
@@ -58,11 +58,11 @@ public interface ITestManager extends IBioclipseManager {
      * ExtendedBioclipseJob
      */
     
-    public ExtendedBioclipseJob<Void> extendedVoidJobMethod(String path);
+    public IExtendedBioclipseJob<Void> extendedVoidJobMethod(String path);
     
-    public ExtendedBioclipseJob<Void> extendedVoidJobMethod(IFile file);
+    public IExtendedBioclipseJob<Void> extendedVoidJobMethod(IFile file);
 
-    public ExtendedBioclipseJob<IBioObject> 
+    public IExtendedBioclipseJob<IBioObject> 
                extendedGetBioObjects( IFile file, 
                                       BioclipseJobUpdateHook h );
 

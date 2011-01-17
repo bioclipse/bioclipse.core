@@ -18,12 +18,12 @@ import java.util.List;
 import net.bioclipse.core.api.BioclipseException;
 import net.bioclipse.core.api.Recorded;
 import net.bioclipse.core.api.domain.IBioObject;
+import net.bioclipse.core.api.jobs.GuiAction;
 import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.core.api.managers.PublishedClass;
 import net.bioclipse.core.api.managers.PublishedMethod;
 import net.bioclipse.core.api.managers.TestClasses;
 import net.bioclipse.core.api.managers.TestMethods;
-import net.bioclipse.managers.business.GuiAction;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;

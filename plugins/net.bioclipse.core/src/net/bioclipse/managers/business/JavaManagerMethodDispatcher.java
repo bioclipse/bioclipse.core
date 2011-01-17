@@ -8,15 +8,16 @@ import java.util.List;
 import net.bioclipse.core.api.BioclipseException;
 import net.bioclipse.core.api.IResourcePathTransformer;
 import net.bioclipse.core.api.ResourcePathTransformer;
+import net.bioclipse.core.api.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.core.api.jobs.IReturner;
+import net.bioclipse.core.api.managers.AbstractManagerMethodDispatcher;
 import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.core.api.managers.IBioclipseUIJob;
+import net.bioclipse.core.api.managers.AbstractManagerMethodDispatcher.ReturnCollector;
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jobs.BioclipseJob;
-import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.jobs.ExtendedBioclipseJob;
-import net.bioclipse.managers.business.AbstractManagerMethodDispatcher.ReturnCollector;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.log4j.Logger;
@@ -28,9 +29,11 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.MultiRule;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.progress.WorkbenchJob;
 
 /**
  * @author jonalv
@@ -247,6 +250,28 @@ public class JavaManagerMethodDispatcher
                                            MethodInvocation invocation)
                      throws BioclipseException {
 
-        return super.doInvoke(manager, method, arguments, invocation, true);
+        Object returnValue =  super.doInvoke(manager, method, arguments, invocation, true);
+        IBioclipseUIJob uiJob = null;
+        for ( Object o : arguments ) {
+            if ( o instanceof IBioclipseUIJob) {
+                uiJob = (IBioclipseUIJob) o;
+            }
+        }
+        if ( uiJob != null ) {
+            uiJob.setReturnValue( returnValue );
+            final IBioclipseUIJob finalUiJob = uiJob;
+            Job j = new WorkbenchJob("Refresh") {
+                
+                @Override
+                public IStatus runInUIThread( 
+                        IProgressMonitor monitor ) {
+                    finalUiJob.runInUI();
+                    return Status.OK_STATUS;
+                }
+                
+            };
+            j.schedule();
+        }
+        return returnValue;
     }
 }

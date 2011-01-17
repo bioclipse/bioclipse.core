@@ -20,7 +20,7 @@
 		interface="net.bioclipse.core.api.managers.IJavaScriptManagerDispatcherAdvisor" />
 
 	<osgi:reference id="wrapInProxyAdvice"
-		interface="net.bioclipse.recording.IWrapInProxyAdvice" />
+		interface="net.bioclipse.core.api.recording.IWrapInProxyAdvice" />
 
 	<bean id="recordingAdvisor"
 		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">

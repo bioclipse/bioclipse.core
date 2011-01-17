@@ -9,6 +9,7 @@ import java.util.List;
 import net.bioclipse.core.SilentNotification;
 import net.bioclipse.core.api.BioclipseException;
 import net.bioclipse.core.api.ResourcePathTransformer;
+import net.bioclipse.core.api.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.core.api.jobs.IBioclipseJob;
 import net.bioclipse.core.api.jobs.IReturner;
 import net.bioclipse.core.api.managers.IBioclipseManager;

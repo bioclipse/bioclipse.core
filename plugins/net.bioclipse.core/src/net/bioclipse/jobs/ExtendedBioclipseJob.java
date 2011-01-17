@@ -10,6 +10,9 @@
  ******************************************************************************/
 package net.bioclipse.jobs;
 
+import net.bioclipse.core.api.jobs.IExtendedBioclipseJob;
+
+
 
 /**
  * Extended version of the BioclipseJob class which is not automagicly scheduled
@@ -18,7 +21,8 @@ package net.bioclipse.jobs;
  * @author jonalv
  *
  */
-public class ExtendedBioclipseJob<T> extends BioclipseJob<T> {
+public class ExtendedBioclipseJob<T> extends BioclipseJob<T> 
+                                     implements IExtendedBioclipseJob<T> {
 
     /**
      * @param name

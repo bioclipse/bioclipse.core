@@ -15,11 +15,11 @@ import java.util.List;
 import net.bioclipse.core.api.BioclipseException;
 import net.bioclipse.core.api.Recorded;
 import net.bioclipse.core.api.domain.IBioObject;
+import net.bioclipse.core.api.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.core.api.managers.IBioclipseManager;
 import net.bioclipse.core.api.managers.PublishedClass;
 import net.bioclipse.core.api.managers.PublishedMethod;
 import net.bioclipse.jobs.BioclipseJob;
-import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
 
 @PublishedClass(

@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import net.bioclipse.managers.business.JavaScriptManagerMethodDispatcher;
+import net.bioclipse.core.api.managers.JavaScriptManagerMethodDispatcher;
 import net.bioclipse.managers.tests.AbstractManagerMethodDispatcherTest.MyInvocation;
 
 /**

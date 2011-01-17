@@ -11,7 +11,7 @@
 package net.bioclipse.scripting.ui.business;
 
 import net.bioclipse.core.api.Recorded;
-import net.bioclipse.managers.business.GuiAction;
+import net.bioclipse.core.api.jobs.GuiAction;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.eclipse.swt.widgets.Display;
