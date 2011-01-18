@@ -85,9 +85,9 @@ public abstract class AbstractManagerMethodDispatcher
 
         IBioclipseManager manager = (IBioclipseManager) invocation.getThis();
         Method invokMethod = invocation.getMethod();
-       
+
         Method m = findMethodToRun(invocation);
-        
+
         if ( invokMethod.getAnnotation( GuiAction.class ) != null ) {
 
             logger.debug( manager.getManagerName() + "."
