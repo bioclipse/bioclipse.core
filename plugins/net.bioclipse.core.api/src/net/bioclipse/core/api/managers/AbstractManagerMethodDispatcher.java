@@ -265,12 +265,13 @@ public abstract class AbstractManagerMethodDispatcher
         Method result;
         
         //If a method with the same signature exists use that one
+        Class<?>[] parameterTypes = invocation.getMethod()
+                                              .getParameterTypes();
         try {
             result = invocation.getThis().getClass()
                                .getMethod( invocation.getMethod()
                                                      .getName(), 
-                                           invocation.getMethod()
-                                                     .getParameterTypes() );
+                                           parameterTypes );
         } 
         catch ( SecurityException e ) {
             throw new RuntimeException("Failed to find the method to run", e);
@@ -299,12 +300,11 @@ public abstract class AbstractManagerMethodDispatcher
                     if ( currentParam == IReturner.class ) {
                         continue PARAMS;
                     }
-                    if ( invocation.getMethod()
-                                   .getParameterTypes().length >= j + 1 &&
-                         ( invocation.getMethod().getParameterTypes()[j] 
-                             == IBioclipseUIJob.class  || 
-                             invocation.getMethod().getParameterTypes()[j] 
-                             == BioclipseJobUpdateHook.class  ) ) {
+                    if ( parameterTypes.length >= j + 1 &&
+                         ( IBioclipseUIJob.class.isAssignableFrom( 
+                                                       parameterTypes[j] ) || 
+                           BioclipseJobUpdateHook.class.isAssignableFrom( 
+                                                       parameterTypes[j] ) ) ) {
                         j++;
                     }
                     if ( currentParam == IProgressMonitor.class &&
@@ -313,12 +313,10 @@ public abstract class AbstractManagerMethodDispatcher
                          refMethod.getParameterTypes().length < j + 1 ) {
                         continue PARAMS;
                     }
-                    if ( invocation.getMethod()
-                                   .getParameterTypes().length <= j ) {
+                    if ( parameterTypes.length <= j ) {
                         continue METHODS;
                     }
-                    Class<?> refParam = invocation.getMethod()
-                                                  .getParameterTypes()[j++];
+                    Class<?> refParam = parameterTypes[j++];
                     if ( currentParam == refParam ) {
                         continue PARAMS;
                     }
