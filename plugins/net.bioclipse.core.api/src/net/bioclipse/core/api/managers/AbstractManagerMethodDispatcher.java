@@ -83,13 +83,15 @@ public abstract class AbstractManagerMethodDispatcher
 
     public Object invoke( MethodInvocation invocation ) throws Throwable {
 
-       IBioclipseManager manager = (IBioclipseManager) invocation.getThis();
-
+        IBioclipseManager manager = (IBioclipseManager) invocation.getThis();
+        Method invokMethod = invocation.getMethod();
+       
         Method m = findMethodToRun(invocation);
-        if ( invocation.getMethod().getAnnotation( GuiAction.class ) != null ) {
+        
+        if ( invokMethod.getAnnotation( GuiAction.class ) != null ) {
 
             logger.debug( manager.getManagerName() + "."
-                          + invocation.getMethod().getName()
+                          + invokMethod.getName()
                           + " has @GuiAction - running in gui thread" );
             return doInvokeInGuiThread( (IBioclipseManager)invocation.getThis(),
                                         m,
@@ -98,11 +100,8 @@ public abstract class AbstractManagerMethodDispatcher
         }
 
         Object returnValue;
-        if ( ( !IBioclipseJob.class
-                            .isAssignableFrom( invocation.getMethod()
-                                                         .getReturnType() )
-               && invocation.getMethod().getReturnType() != void.class )
-             || Arrays.asList( invocation.getMethod().getParameterTypes() )
+        if ( isReturningNonjobMethod( invokMethod )
+             || Arrays.asList( invokMethod.getParameterTypes() )
                       .contains( IProgressMonitor.class ) ) {
             if ( Arrays.asList( m.getParameterTypes() )
                        .contains( IProgressMonitor.class) &&
@@ -110,7 +109,7 @@ public abstract class AbstractManagerMethodDispatcher
 
                 int timeout = 120;
                 String warning = manager.getManagerName() + "."
-                                 + invocation.getMethod().getName()
+                                 + invokMethod.getName()
                                  + " is not void or returning a BioclipseJob."
                                  + " But implementation takes a progress "
                                  + "monitor. Can not run as Job. Running in "
@@ -137,17 +136,26 @@ public abstract class AbstractManagerMethodDispatcher
                                     m,
                                     invocation.getArguments(),
                                     invocation,
-                                    invocation.getMethod()
+                                    invokMethod
                                               .getReturnType()
                                         != IExtendedBioclipseJob.class );
         }
 
         if ( returnValue instanceof IFile &&
-             invocation.getMethod().getReturnType() == String.class ) {
+             invokMethod.getReturnType() == String.class ) {
             returnValue = ( (IFile) returnValue ).getLocationURI()
                                                  .getPath();
         }
         return returnValue;
+    }
+
+    /**
+     * @param method
+     * @return
+     */
+    private boolean isReturningNonjobMethod( Method method ) {
+        return !IBioclipseJob.class.isAssignableFrom( method.getReturnType() )
+               && method.getReturnType() != void.class;
     }
 
     private IBioclipseUIJob<Object> getBioclipseUIJob(Object[] arguments) {
