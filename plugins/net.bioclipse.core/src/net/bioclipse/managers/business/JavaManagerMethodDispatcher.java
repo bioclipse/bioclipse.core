@@ -9,6 +9,7 @@ import net.bioclipse.core.api.BioclipseException;
 import net.bioclipse.core.api.IResourcePathTransformer;
 import net.bioclipse.core.api.ResourcePathTransformer;
 import net.bioclipse.core.api.jobs.BioclipseJobUpdateHook;
+import net.bioclipse.core.api.jobs.IBioclipseJob;
 import net.bioclipse.core.api.jobs.IReturner;
 import net.bioclipse.core.api.managers.AbstractManagerMethodDispatcher;
 import net.bioclipse.core.api.managers.IBioclipseManager;
@@ -39,39 +40,37 @@ import org.eclipse.ui.progress.WorkbenchJob;
  * @author jonalv
  *
  */
-public class JavaManagerMethodDispatcher 
+public class JavaManagerMethodDispatcher
        extends AbstractManagerMethodDispatcher {
 
-    IResourcePathTransformer transformer 
+    IResourcePathTransformer transformer
         = ResourcePathTransformer.getInstance();
-    private Logger logger 
+    private Logger logger
         = Logger.getLogger( JavaManagerMethodDispatcher.class );
-    
+
     @Override
-    public Object doInvoke( IBioclipseManager manager, 
+    public Object doInvoke( IBioclipseManager manager,
                             Method method,
                             Object[] arguments,
                             MethodInvocation invocation,
-                            boolean notExtended) 
+                            boolean notExtended)
                   throws BioclipseException {
 
+        Class<?> invokReturnType = invocation.getMethod().getReturnType();
         if ( Arrays.asList( method.getParameterTypes() )
                    .contains( IProgressMonitor.class ) &&
-             ( invocation.getMethod()
-                         .getReturnType() == void.class || 
-               invocation.getMethod()
-                         .getReturnType() == BioclipseJob.class ||
-               invocation.getMethod()
-                         .getReturnType() == ExtendedBioclipseJob.class ) ) {
-            
+             ( invokReturnType == void.class ||
+               IBioclipseJob.class.isAssignableFrom( invokReturnType ) ||
+               invokReturnType == ExtendedBioclipseJob.class ) ) {
+
             return runAsJob(manager, method, arguments, invocation, notExtended);
         }
-        
+
         return runInSameThread(manager, method, arguments);
     }
 
     private Object runInSameThread( IBioclipseManager manager, Method method,
-                                    Object[] arguments ) 
+                                    Object[] arguments )
                    throws BioclipseException {
 
         //translate String -> IFile
@@ -81,12 +80,12 @@ public class JavaManagerMethodDispatcher
                 arguments[i] = transformer.transform( (String)arguments[i] );
             }
         }
-        
+
         List<Object> args = new ArrayList<Object>( Arrays.asList( arguments ) );
-        
+
         boolean doingPartialReturns = false;
         ReturnCollector returnCollector = new ReturnCollector();
-        
+
         //add partial returner if needed
         for ( Class<?> param : method.getParameterTypes() ) {
             if ( param.isAssignableFrom( IReturner.class ) ) {
@@ -94,7 +93,7 @@ public class JavaManagerMethodDispatcher
                 args.add( returnCollector );
             }
         }
-        
+
         //remove partial returner if needed
         if ( !doingPartialReturns ) {
             int toBeremoved = -1;
@@ -107,15 +106,15 @@ public class JavaManagerMethodDispatcher
                 args.remove( toBeremoved );
             }
         }
-        
+
         //Add a NullProgressMonitor if needed
         if ( Arrays.asList( method.getParameterTypes() )
                    .contains( IProgressMonitor.class ) &&
              !Arrays.asList( arguments ).contains( IProgressMonitor.class ) ) {
-            
+
             args.add( new NullProgressMonitor() );
         }
-        
+
         //Remove BioclipseUiJob if there
         BioclipseUIJob<Object> uiJob = null;
         for ( Object o : args ) {
@@ -140,7 +139,7 @@ public class JavaManagerMethodDispatcher
             else {
                 returnValue = method.invoke( manager, arguments );
             }
-        } 
+        }
         catch ( Exception e ) {
             Throwable t = e;
             while ( t.getCause() != null ) {
@@ -150,8 +149,8 @@ public class JavaManagerMethodDispatcher
                 t = t.getCause();
             }
             throw new RuntimeException (
-                "Failed to run method " + manager.getManagerName() 
-                + "." + method.getName(), 
+                "Failed to run method " + manager.getManagerName()
+                + "." + method.getName(),
                 e);
         }
         if ( uiJob != null ) {
@@ -166,10 +165,10 @@ public class JavaManagerMethodDispatcher
         return returnValue;
     }
 
-    private Object runAsJob( IBioclipseManager manager, 
+    private Object runAsJob( IBioclipseManager manager,
                              Method method,
-                             Object[] arguments, 
-                             MethodInvocation invocation, 
+                             Object[] arguments,
+                             MethodInvocation invocation,
                              boolean notExtended ) {
 
         //find update hook
@@ -182,21 +181,21 @@ public class JavaManagerMethodDispatcher
         BioclipseJob<?> job;
         if ( notExtended ) {
             job = new BioclipseJob( hook != null ? hook.getJobName()
-                                                 : manager.getManagerName() 
+                                                 : manager.getManagerName()
                                                    + "." + method.getName() );
         }
         else {
-            job = new ExtendedBioclipseJob( 
+            job = new ExtendedBioclipseJob(
                           hook != null ? hook.getJobName()
-                                       : manager.getManagerName() + "." 
+                                       : manager.getManagerName() + "."
                                          + method.getName() );
         }
-        
+
         job.setMethod( method );
         job.setArguments( arguments );
         job.setMethodCalled( invocation.getMethod() );
         job.setBioclipseManager( manager );
-               
+
         job.setUser( false );
         if ( notExtended ) {
             job.schedule();
@@ -205,7 +204,7 @@ public class JavaManagerMethodDispatcher
     }
 
     @Override
-    protected Object doInvokeInGuiThread( final IBioclipseManager manager, 
+    protected Object doInvokeInGuiThread( final IBioclipseManager manager,
                                           final Method method,
                                           final Object[] arguments,
                                           final MethodInvocation invocation ) {
@@ -223,19 +222,19 @@ public class JavaManagerMethodDispatcher
                 try {
                     method.invoke( manager, arguments );
                 } catch ( Exception e ) {
-                    Throwable root = LogUtils.findRootOrBioclipseException( e ); 
-                    LogUtils.handleException( 
-                        root, 
-                        logger, 
+                    Throwable root = LogUtils.findRootOrBioclipseException( e );
+                    LogUtils.handleException(
+                        root,
+                        logger,
                         "net.bioclipse.managers",
-                        new Status( IStatus.ERROR, 
-                                    "net.bioclipse.managers", 
-                                    root.getClass().getSimpleName() + ": " 
+                        new Status( IStatus.ERROR,
+                                    "net.bioclipse.managers",
+                                    root.getClass().getSimpleName() + ": "
                                       + root.getMessage() + "\n"
-                                      + "Exception occured while running " 
-                                      + "manager method: " 
-                                      + manager.getManagerName() + "." 
-                                      + method.getName(), 
+                                      + "Exception occured while running "
+                                      + "manager method: "
+                                      + manager.getManagerName() + "."
+                                      + method.getName(),
                                     root) );
                 }
             }
@@ -244,7 +243,7 @@ public class JavaManagerMethodDispatcher
     }
 
     @Override
-    protected Object doInvokeInSameThread( IBioclipseManager manager, 
+    protected Object doInvokeInSameThread( IBioclipseManager manager,
                                            Method method,
                                            Object[] arguments,
                                            MethodInvocation invocation)
@@ -261,14 +260,14 @@ public class JavaManagerMethodDispatcher
             uiJob.setReturnValue( returnValue );
             final IBioclipseUIJob finalUiJob = uiJob;
             Job j = new WorkbenchJob("Refresh") {
-                
+
                 @Override
-                public IStatus runInUIThread( 
+                public IStatus runInUIThread(
                         IProgressMonitor monitor ) {
                     finalUiJob.runInUI();
                     return Status.OK_STATUS;
                 }
-                
+
             };
             j.schedule();
         }
