@@ -12,6 +12,6 @@ package net.bioclipse.core.api.jobs;
  *
  * @param <T>
  */
-public interface IExtendedBioclipseJob<T> {
+public interface IExtendedBioclipseJob<T> extends IBioclipseJob<T> {
 
 }
