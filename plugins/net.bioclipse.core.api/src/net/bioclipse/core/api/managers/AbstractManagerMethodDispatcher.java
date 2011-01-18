@@ -34,21 +34,21 @@ import org.eclipse.core.runtime.jobs.Job;
  * @author jonalv
  *
  */
-public abstract class AbstractManagerMethodDispatcher 
+public abstract class AbstractManagerMethodDispatcher
                 implements MethodInterceptor {
 
-    protected IResourcePathTransformer transformer 
+    protected IResourcePathTransformer transformer
         = ResourcePathTransformer.getInstance();
-    private final Logger logger 
+    private final Logger logger
         = Logger.getLogger( AbstractManagerMethodDispatcher.class );
-    private Map<String, Long> lastWarningTimes 
+    private Map<String, Long> lastWarningTimes
         = Collections.synchronizedMap( new HashMap<String, Long>() );
-    
+
     public static class ReturnCollector<T> implements IReturner<T> {
 
         private volatile T returnValue = null;
         private List<T> returnValues = new ArrayList<T>();
-        
+
         public void partialReturn( T object ) {
             if ( returnValue != null ) {
                 throw new IllegalStateException(
@@ -59,7 +59,7 @@ public abstract class AbstractManagerMethodDispatcher
                 returnValues.add( object );
             }
         }
-        
+
         public List<T> getReturnValues() {
             synchronized ( returnValues ) {
                 return returnValues;
@@ -68,81 +68,81 @@ public abstract class AbstractManagerMethodDispatcher
 
         public void completeReturn( T object ) {
             if ( !returnValues.isEmpty() ) {
-                throw new IllegalStateException( 
+                throw new IllegalStateException(
                     "Partial returns detected. " +
                     "Can't do a complete return after partial " +
                     "returning commenced" );
             }
             returnValue = object;
         }
-        
+
         public Object getReturnValue() {
             return returnValue;
         }
     }
-    
+
     public Object invoke( MethodInvocation invocation ) throws Throwable {
 
        IBioclipseManager manager = (IBioclipseManager) invocation.getThis();
-                
+
         Method m = findMethodToRun(invocation);
         if ( invocation.getMethod().getAnnotation( GuiAction.class ) != null ) {
-            
-            logger.debug( manager.getManagerName() + "." 
-                          + invocation.getMethod().getName() 
+
+            logger.debug( manager.getManagerName() + "."
+                          + invocation.getMethod().getName()
                           + " has @GuiAction - running in gui thread" );
             return doInvokeInGuiThread( (IBioclipseManager)invocation.getThis(),
                                         m,
                                         invocation.getArguments(),
                                         invocation );
         }
-        
+
         Object returnValue;
         if ( ( !IBioclipseJob.class
                             .isAssignableFrom( invocation.getMethod()
-                                                         .getReturnType() ) 
+                                                         .getReturnType() )
                && invocation.getMethod().getReturnType() != void.class )
              || Arrays.asList( invocation.getMethod().getParameterTypes() )
                       .contains( IProgressMonitor.class ) ) {
             if ( Arrays.asList( m.getParameterTypes() )
                        .contains( IProgressMonitor.class) &&
                  !(this instanceof JavaScriptManagerMethodDispatcher) )  {
-                
+
                 int timeout = 120;
-                String warning = manager.getManagerName() + "." 
-                                 + invocation.getMethod().getName() 
+                String warning = manager.getManagerName() + "."
+                                 + invocation.getMethod().getName()
                                  + " is not void or returning a BioclipseJob."
-                                 + " But implementation takes a progress " 
-                                 + "monitor. Can not run as Job. Running in " 
-                                 + "same thread. This message will not be " 
-                                 + "repeated withing the next " + timeout 
+                                 + " But implementation takes a progress "
+                                 + "monitor. Can not run as Job. Running in "
+                                 + "same thread. This message will not be "
+                                 + "repeated withing the next " + timeout
                                  + " seconds";
-                if ( !lastWarningTimes.containsKey( warning ) || 
+                if ( !lastWarningTimes.containsKey( warning ) ||
                      System.currentTimeMillis()
                          - lastWarningTimes.get( warning ) > 1000 * timeout ) {
-                    
+
                     lastWarningTimes.put( warning, System.currentTimeMillis() );
                     logger.warn( warning );
                 }
             }
-            
+
             returnValue = doInvokeInSameThread( (IBioclipseManager)
-                                            invocation.getThis(), 
-                                            m, 
+                                            invocation.getThis(),
+                                            m,
                                             invocation.getArguments(),
                                             invocation );
         }
         else {
-            returnValue = doInvoke( (IBioclipseManager)invocation.getThis(), 
-                                    m, 
+            returnValue = doInvoke( (IBioclipseManager)invocation.getThis(),
+                                    m,
                                     invocation.getArguments(),
                                     invocation,
                                     invocation.getMethod()
-                                              .getReturnType() 
+                                              .getReturnType()
                                         != IExtendedBioclipseJob.class );
         }
 
-        if ( returnValue instanceof IFile && 
+        if ( returnValue instanceof IFile &&
              invocation.getMethod().getReturnType() == String.class ) {
             returnValue = ( (IFile) returnValue ).getLocationURI()
                                                  .getPath();
@@ -160,29 +160,29 @@ public abstract class AbstractManagerMethodDispatcher
        return null;
     }
 
-    protected abstract Object doInvokeInGuiThread( 
-                                  IBioclipseManager manager, 
+    protected abstract Object doInvokeInGuiThread(
+                                  IBioclipseManager manager,
                                   Method m,
                                   Object[] arguments,
                                   MethodInvocation invocation );
 
-    protected abstract Object doInvokeInSameThread( 
-                                  IBioclipseManager manager, 
+    protected abstract Object doInvokeInSameThread(
+                                  IBioclipseManager manager,
                                   Method m,
                                   Object[] arguments,
                                   MethodInvocation invocation )
                               throws BioclipseException;
-    
-    public Object doInvoke( IBioclipseManager manager, 
+
+    public Object doInvoke( IBioclipseManager manager,
                             Method method,
                             Object[] arguments,
-                            MethodInvocation methodCalled, 
-                            boolean notExtended ) 
+                            MethodInvocation methodCalled,
+                            boolean notExtended )
                   throws BioclipseException {
 
         List<Object> newArguments = new ArrayList<Object>();
         newArguments.addAll( Arrays.asList( arguments ) );
-        
+
         boolean doingPartialReturns = false;
         ReturnCollector returnCollector = new ReturnCollector();
         //add partial returner
@@ -192,7 +192,7 @@ public abstract class AbstractManagerMethodDispatcher
                 newArguments.add( returnCollector );
             }
         }
-        
+
         //remove any BioclipseUIJob
         IBioclipseUIJob uiJob = null;
         for ( Object o : newArguments ) {
@@ -203,30 +203,30 @@ public abstract class AbstractManagerMethodDispatcher
         if ( uiJob != null ) {
             newArguments.remove( uiJob );
         }
-        
+
         if ( Arrays.asList( method.getParameterTypes() )
-                   .contains( IProgressMonitor.class ) 
+                   .contains( IProgressMonitor.class )
              ) {
             IProgressMonitor m = MonitorContainer.getInstance().getMonitor();
-            if ( m == null ) { 
-                m = new NullProgressMonitor(); 
+            if ( m == null ) {
+                m = new NullProgressMonitor();
             }
             if ( newArguments.size() < method.getParameterTypes().length ) {
                 newArguments.add( m );
             }
         }
-        
+
         arguments = newArguments.toArray();
 
         //translate String -> IFile
         for ( int i = 0; i < arguments.length; i++ ) {
             if ( arguments[i] instanceof String &&
                  method.getParameterTypes()[i] == IFile.class ) {
-                arguments[i] 
+                arguments[i]
                     = transformer.transform( (String)arguments[i] );
             }
         }
-        
+
         Object returnValue = null;
         try {
             if ( doingPartialReturns ) {
@@ -256,26 +256,26 @@ public abstract class AbstractManagerMethodDispatcher
             }
             throw new RuntimeException("Failed to run method (Message was: "+e.getMessage()+")", e);
         }
-        
+
         return returnValue;
     }
-    
+
     private Method findMethodToRun(MethodInvocation invocation) {
-        
+
         Method result;
-        
+
         //If a method with the same signature exists use that one
         Class<?>[] parameterTypes = invocation.getMethod()
                                               .getParameterTypes();
         try {
             result = invocation.getThis().getClass()
                                .getMethod( invocation.getMethod()
-                                                     .getName(), 
+                                                     .getName(),
                                            parameterTypes );
-        } 
+        }
         catch ( SecurityException e ) {
             throw new RuntimeException("Failed to find the method to run", e);
-        } 
+        }
         catch ( NoSuchMethodException e ) {
             result = null;
         }
@@ -290,25 +290,25 @@ public abstract class AbstractManagerMethodDispatcher
             int refLength = refMethod.getParameterTypes().length;
             int mLength   = m.getParameterTypes().length;
             if ( m.getName().equals( refMethod.getName() ) &&
-                  mLength >= refLength && 
+                  mLength >= refLength &&
                   mLength <= refLength + 2 ) {
                 PARAMS:
-                for ( int i = 0, j = 0; 
-                      i < m.getParameterTypes().length; 
+                for ( int i = 0, j = 0;
+                      i < m.getParameterTypes().length;
                       i++ ) {
                     Class<?> currentParam = m.getParameterTypes()[i];
                     if ( currentParam == IReturner.class ) {
                         continue PARAMS;
                     }
                     if ( parameterTypes.length >= j + 1 &&
-                         ( IBioclipseUIJob.class.isAssignableFrom( 
-                                                       parameterTypes[j] ) || 
-                           BioclipseJobUpdateHook.class.isAssignableFrom( 
+                         ( IBioclipseUIJob.class.isAssignableFrom(
+                                                       parameterTypes[j] ) ||
+                           BioclipseJobUpdateHook.class.isAssignableFrom(
                                                        parameterTypes[j] ) ) ) {
                         j++;
                     }
                     if ( currentParam == IProgressMonitor.class &&
-                         // can only skip if there is nothing 
+                         // can only skip if there is nothing
                          // corresponding in the refMethods parameter types.
                          refMethod.getParameterTypes().length < j + 1 ) {
                         continue PARAMS;
@@ -320,7 +320,7 @@ public abstract class AbstractManagerMethodDispatcher
                     if ( currentParam == refParam ) {
                         continue PARAMS;
                     }
-                    if ( currentParam == IFile.class && 
+                    if ( currentParam == IFile.class &&
                          refParam == String.class ) {
                         continue PARAMS;
                     }
@@ -329,10 +329,10 @@ public abstract class AbstractManagerMethodDispatcher
                 return m;
             }
         }
-        
+
         throw new RuntimeException(
-            "Failed to find a method to run on " 
-            + invocation.getThis().getClass() + 
+            "Failed to find a method to run on "
+            + invocation.getThis().getClass() +
             " that could correspond to " + invocation.getMethod() );
     }
 }
