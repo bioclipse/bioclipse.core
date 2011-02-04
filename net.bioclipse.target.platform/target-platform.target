@@ -23,5 +23,9 @@
 <unit id="org.eclipse.platform.source.feature.group" version="3.6.1.r361_v20100909-9gF78GrkFqw7GrsZnvz0JWNTeb6fue6896L" />
 <repository location="http://download.eclipse.org/releases/helios"/>
 </location>
+<location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
+<unit id="com.google.guava.runtime.feature.feature.group" version="8.0.0"/>
+<repository location="http://guava-osgi.googlecode.com/svn/trunk/repository/"/>
+</location>
 </locations>
 </target>
