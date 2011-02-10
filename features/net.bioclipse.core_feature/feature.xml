@@ -856,13 +856,6 @@ The Eclipse Public License accompanies this distribution, and is available at ht
          unpack="false"/>
 
    <plugin
-         id="javax.mail"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="ch.qos.logback.classic"
          download-size="0"
          install-size="0"
@@ -970,6 +963,13 @@ The Eclipse Public License accompanies this distribution, and is available at ht
 
    <plugin
          id="org.eclipse.update.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="javax.mail.glassfish"
          download-size="0"
          install-size="0"
          version="0.0.0"
