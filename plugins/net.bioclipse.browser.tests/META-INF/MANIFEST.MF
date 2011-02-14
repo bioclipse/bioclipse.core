@@ -16,9 +16,9 @@ Require-Bundle: org.eclipse.ui,
  org.springframework.osgi.aopalliance.osgi,
  net.bioclipse.browser.business
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: org.apache.log4j
 Bundle-ActivationPolicy: lazy
 Export-Package: net.bioclipse.browser.tests
-Import-Package: org.junit,
+Import-Package: org.apache.log4j,
+ org.junit,
  org.junit.runner,
  org.junit.runners
