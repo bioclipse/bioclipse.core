@@ -23,9 +23,9 @@ public class ScriptingTestCase {
 
     @Test
     public void scriptingWorks() {
-        assertEquals( "the scripting class can be called and returns the"
-                      + " right answer",
-                      env.eval("2+2"),
-                      4.0d );
+        assertEquals(
+        	"the scripting class can be called and returns the right answer",
+            4, env.eval("2+2")
+        );
     }
 }
