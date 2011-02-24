@@ -10,16 +10,13 @@
 <location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
 <unit id="org.junit" version="4.8.1.v4_8_1_v20100427-1100"/>
 <unit id="javax.mail.glassfish" version="1.4.1.v201005082020"/>
+<unit id="org.hamcrest" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.core" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.generator" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.integration" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.library" version="1.1.0.v20090501071000"/>
+<unit id="org.hamcrest.text" version="1.1.0.v20090501071000"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20100519200754/repository"/>
-</location>
-<location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
-<unit id="org.eclipse.platform.feature.group" version="3.6.1.r361_v20100909-9gF78GrkFqw7GrsZnvz0JWNTeb6fue6896L"/>
-<unit id="org.eclipse.platform.source.feature.group" version="3.6.1.r361_v20100909-9gF78GrkFqw7GrsZnvz0JWNTeb6fue6896L"/>
-<unit id="org.eclipse.emf.sdk.feature.group" version="2.6.1.v20100914-1218"/>
-<unit id="org.eclipse.zest.sdk.feature.group" version="1.2.0.v20100519-2050-67908COKMFAKPYIEUdUVWhXYN8VN"/>
-<unit id="org.eclipse.wst.web_core.feature.feature.group" version="3.2.2.v201008100100-7E7AFHwAJrn5PM15pUYBwJLkSG8j"/>
-<unit id="org.eclipse.wst.xml_core.feature.feature.group" version="3.2.2.v201008170029-7C7OFXYF7RZHQHI5PyJwPT"/>
-<repository location="http://download.eclipse.org/releases/helios"/>
 </location>
 <location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
 <unit id="com.google.guava.runtime.feature.feature.group" version="8.0.0"/>
@@ -28,6 +25,17 @@
 <location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
 <unit id="nu.psnet.quickimage.feature.group" version="1.0.3.2"/>
 <repository location="http://psnet.nu/eclipse/updates"/>
+</location>
+<location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
+<unit id="org.eclipse.platform.feature.group" version="3.6.1.r361_v20100909-9gF78GrkFqw7GrsZnvz0JWNTeb6fue6896L"/>
+<unit id="org.eclipse.platform.source.feature.group" version="3.6.1.r361_v20100909-9gF78GrkFqw7GrsZnvz0JWNTeb6fue6896L"/>
+<unit id="org.eclipse.emf.sdk.feature.group" version="2.6.1.v20100914-1218"/>
+<unit id="org.eclipse.equinox.p2.discovery.feature.feature.group" version="1.0.0.v20100510-4--9oB5855K7P"/>
+<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.6.0.v20100503-9I7VGAeG8tz-BY6jz0w2HLRYr"/>
+<unit id="org.eclipse.zest.sdk.feature.group" version="1.2.0.v20100519-2050-67908COKMFAKPYIEUdUVWhXYN8VN"/>
+<unit id="org.eclipse.wst.web_core.feature.feature.group" version="3.2.2.v201008100100-7E7AFHwAJrn5PM15pUYBwJLkSG8j"/>
+<unit id="org.eclipse.wst.xml_core.feature.feature.group" version="3.2.2.v201008170029-7C7OFXYF7RZHQHI5PyJwPT"/>
+<repository location="http://download.eclipse.org/releases/helios"/>
 </location>
 </locations>
 </target>
