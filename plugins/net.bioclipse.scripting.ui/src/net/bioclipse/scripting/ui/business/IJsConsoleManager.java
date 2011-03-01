@@ -21,7 +21,7 @@ import net.bioclipse.core.api.managers.PublishedClass;
 import net.bioclipse.core.api.managers.PublishedMethod;
 import net.bioclipse.core.api.managers.TestClasses;
 import net.bioclipse.core.api.managers.TestMethods;
-import net.bioclipse.core.util.IJavaScriptConsolePrinterChannel;
+import net.bioclipse.core.api.util.IJavaScriptConsolePrinterChannel;
 
 /**
  * Controls programmatic access to the JavaScript Console.
