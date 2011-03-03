@@ -21,4 +21,5 @@ Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.log4j,
  org.junit,
  org.junit.runner,
- org.junit.runners
+ org.junit.runners,
+ net.bioclipse.core.api
