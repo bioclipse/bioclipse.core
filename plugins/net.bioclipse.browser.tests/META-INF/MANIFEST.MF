@@ -15,7 +15,7 @@ Require-Bundle: org.eclipse.ui,
  net.sf.cglib,
  org.springframework.osgi.aopalliance.osgi,
  net.bioclipse.browser.business,
- net.bioclipse.core.api;bundle-version="1.0.0"
+ net.bioclipse.core.api
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: net.bioclipse.browser.tests
