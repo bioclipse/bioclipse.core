@@ -14,9 +14,13 @@ Require-Bundle: org.eclipse.ui,
  net.sf.cglib,
  org.springframework.osgi.aopalliance.osgi,
  org.eclipse.core.resources,
- com.thaiopensource.jing,
  net.bioclipse.core.api
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: nu.xom;version="1.1.0",
+Import-Package: com.thaiopensource.util,
+ com.thaiopensource.validate,
+ com.thaiopensource.validate.auto,
+ com.thaiopensource.validate.prop.rng,
+ com.thaiopensource.validate.prop.schematron,
+ nu.xom;version="1.1.0",
  org.apache.log4j
 Bundle-ActivationPolicy: lazy
