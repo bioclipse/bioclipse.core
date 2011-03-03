@@ -116,7 +116,7 @@ public interface IUIManager extends IBioclipseManager {
         params = "IBioObject bioObject",
         methodSummary = "Opens the IBioObject in its preferred editor"
     )
-    void open( IBioObject bioObject ) 
+    public void open( IBioObject bioObject ) 
          throws BioclipseException, CoreException, IOException;
 
     @Recorded
