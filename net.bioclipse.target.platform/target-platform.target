@@ -22,10 +22,6 @@
 <repository location="http://download.eclipse.org/releases/helios"/>
 </location>
 <location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
-<unit id="com.google.guava.runtime.feature.feature.group" version="8.0.0"/>
-<repository location="http://guava-osgi.googlecode.com/svn/trunk/repository/"/>
-</location>
-<location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
 <unit id="nu.psnet.quickimage.feature.group" version="1.0.3.2"/>
 <repository location="http://psnet.nu/eclipse/updates"/>
 </location>
