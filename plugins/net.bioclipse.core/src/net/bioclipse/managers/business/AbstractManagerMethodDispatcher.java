@@ -245,17 +245,17 @@ public abstract class AbstractManagerMethodDispatcher
         } catch ( IllegalAccessException e ) {
         	throw new RuntimeException("Failed to run method (Message was: "+e.getMessage()+")", e);
         } catch ( InvocationTargetException e ) {
-            Throwable t = e.getCause();
-            while ( t != null ) {
+            Throwable t = e;
+            while ( t.getCause() != null ) {
+                t = t.getCause();
                 if ( t instanceof BioclipseException ) {
                     throw (BioclipseException)t;
                 }
                 if ( t instanceof OperationCanceledException ) {
                     throw (OperationCanceledException)t;
                 }
-                t = t.getCause();
             }
-            throw new RuntimeException("Failed to run method (Message was: "+e.getMessage()+")", e);
+            throw new RuntimeException("Failed to run method (Message was: "+t.getMessage()+")", t);
         }
         
         if ( uiJob != null ) {
