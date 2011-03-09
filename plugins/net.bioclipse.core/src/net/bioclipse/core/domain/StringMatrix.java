@@ -200,5 +200,21 @@ public class StringMatrix implements IStringMatrix {
 		buffer.append('\n');
 		return buffer.toString();
 	}
+
+	@Override
+	public List<String> getColumnNames() {
+		List<String> names = new ArrayList<String>(getColumnCount());
+		for (int i=1; i<=getColumnCount(); i++)
+			names.add(getColumnName(i));
+		return names;
+	}
+
+	@Override
+	public List<String> getRowNames() {
+		List<String> names = new ArrayList<String>(getRowCount());
+		for (int i=1; i<=getRowCount(); i++)
+			names.add(getRowName(i));
+		return names;
+	}
 	
 }

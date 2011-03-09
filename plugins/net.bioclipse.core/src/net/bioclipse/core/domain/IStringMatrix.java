@@ -38,6 +38,10 @@ public interface IStringMatrix {
 
     public abstract String getRowName(int index);
 
+    public abstract List<String> getColumnNames();
+
+    public abstract List<String> getRowNames();
+
     public abstract void setColumnName(int index, String name);
 
     public abstract void setRowName(int index, String name);
