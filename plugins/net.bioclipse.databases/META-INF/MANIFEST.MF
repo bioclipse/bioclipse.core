@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Databases Plug-in
 Bundle-SymbolicName: net.bioclipse.databases;singleton:=true
-Bundle-Version: 2.4.0.20100709
+Bundle-Version: 2.5.0.qualifier
 Bundle-Activator: net.bioclipse.databases.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

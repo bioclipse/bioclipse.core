@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Testsuite
 Bundle-SymbolicName: net.bioclipse.core.testsuite
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 2.5.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: net.bioclipse.browser.tests;bundle-version="0.1.0",
  net.bioclipse.core.tests;bundle-version="2.4.0",
