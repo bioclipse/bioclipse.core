@@ -26,8 +26,4 @@ The Eclipse Public License accompanies this distribution, and
 is available at http://www.eclipse.org/legal/epl-v10.html
    </license>
 
-   <includes
-         id="net.bioclipse.core_feature"
-         version="0.0.0"/>
-
 </feature>
