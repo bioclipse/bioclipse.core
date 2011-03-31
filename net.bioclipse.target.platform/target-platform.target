@@ -27,11 +27,11 @@
 <repository location="http://psnet.nu/eclipse/updates"/>
 </location>
 <location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
-<unit id="org.eclipse.platform.feature.group" version="3.6.1.r361_v20100909-9gF78GrkFqw7GrsZnvz0JWNTeb6fue6896L"/>
-<unit id="org.eclipse.platform.source.feature.group" version="3.6.1.r361_v20100909-9gF78GrkFqw7GrsZnvz0JWNTeb6fue6896L"/>
+<unit id="org.eclipse.platform.feature.group" version="3.6.2.r362_v20110210-9gF78Gs1FrIGnHDHWkEcopoN8AmxeZflGDGKQi"/>
+<unit id="org.eclipse.platform.source.feature.group" version="3.6.2.r362_v20110210-9gF78Gs1FrIGnHDHWkEcopoN8AmxeZflGDGKQi"/>
 <unit id="org.eclipse.emf.sdk.feature.group" version="2.6.1.v20100914-1218"/>
-<unit id="org.eclipse.equinox.p2.discovery.feature.feature.group" version="1.0.0.v20100510-4--9oB5855K7P"/>
-<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.6.0.v20100503-9I7VGAeG8tz-BY6jz0w2HLRYr"/>
+<unit id="org.eclipse.equinox.p2.discovery.feature.feature.group" version="1.0.1.R36x_v20110210-4-09oB5865H6L02434"/>
+<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.6.2.R36x_v20110120-9I7VGEAG438GhnfSLuLz0FXP9NYJ"/>
 <unit id="org.eclipse.zest.sdk.feature.group" version="1.2.0.v20100519-2050-67908COKMFAKPYIEUdUVWhXYN8VN"/>
 <unit id="org.eclipse.wst.web_core.feature.feature.group" version="3.2.2.v201008100100-7E7AFHwAJrn5PM15pUYBwJLkSG8j"/>
 <unit id="org.eclipse.wst.xml_core.feature.feature.group" version="3.2.2.v201008170029-7C7OFXYF7RZHQHI5PyJwPT"/>
