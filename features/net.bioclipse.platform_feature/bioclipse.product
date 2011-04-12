@@ -4,7 +4,7 @@
 <product name="Bioclipse" uid="net.bioclipse.product" id="net.bioclipse.ui.product" application="net.bioclipse.ui.application" version="2.5.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
-      <image path="/net.bioclipse.ui/branding/icons/logo/abot_img.gif"/>
+      <image path="/branding/icons/logo/abot_img.gif"/>
       <text>
          %productBlurb
       </text>
@@ -19,7 +19,7 @@
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts -Dbioclipse.defaultLogDir=&quot;Library/Logs/Bioclipse/&quot;</vmArgsMac>
    </launcherArgs>
 
-   <windowImages i16="/net.bioclipse.ui/branding/icons/logo/logo_16_trans.gif" i32="/net.bioclipse.ui/branding/icons/logo/logo_32_trans.gif" i48="/net.bioclipse.ui/branding/icons/logo/logo_48_trans.gif" i64="/net.bioclipse.ui/branding/icons/logo/logo_64_trans.gif" i128="/net.bioclipse.ui/branding/icons/logo/logo_128_trans.gif"/>
+   <windowImages i16="/branding/icons/logo/logo_16_trans.gif" i32="/branding/icons/logo/logo_32_trans.gif" i48="/branding/icons/logo/logo_48_trans.gif" i64="/branding/icons/logo/logo_64_trans.gif" i128="/branding/icons/logo/logo_128_trans.gif"/>
 
    <splash
       location="net.bioclipse.ui"
@@ -27,18 +27,18 @@
       startupMessageRect="7,252,445,20"
       startupForegroundColor="C7E1E6" />
    <launcher name="bioclipse">
-      <linux icon="platform:/net.bioclipse.ui/branding/icons/molecule3D.xpm"/>
-      <macosx icon="/net.bioclipse.ui/branding/icons/logo/bioclipse.icns"/>
+      <linux icon="/branding/icons/molecule3D.xpm"/>
+      <macosx icon="/branding/icons/logo/bioclipse.icns"/>
       <solaris/>
       <win useIco="false">
          <ico path="/net.bioclipse.ui/branding/icons/logo/bioclipseIcon2.ico"/>
          <bmp
-            winSmallHigh="/net.bioclipse.ui/branding/icons/icon_16-32bit.bmp"
-            winSmallLow="/net.bioclipse.ui/branding/icons/icon_16-8bit.bmp"
-            winMediumHigh="/net.bioclipse.ui/branding/icons/icon_32-32bit.bmp"
-            winMediumLow="/net.bioclipse.ui/branding/icons/icon_32-8bit.bmp"
-            winLargeHigh="/net.bioclipse.ui/branding/icons/icon_48-32bit.bmp"
-            winLargeLow="/net.bioclipse.ui/branding/icons/icon_48-8bit.bmp"/>
+            winSmallHigh="/branding/icons/icon_16-32bit.bmp"
+            winSmallLow="/branding/icons/icon_16-8bit.bmp"
+            winMediumHigh="/branding/icons/icon_32-32bit.bmp"
+            winMediumLow="/branding/icons/icon_32-8bit.bmp"
+            winLargeHigh="/branding/icons/icon_48-32bit.bmp"
+            winLargeLow="/branding/icons/icon_48-8bit.bmp"/>
       </win>
    </launcher>
 
