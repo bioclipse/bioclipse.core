@@ -47,11 +47,12 @@
    <vm>
    </vm>
 
+
    <plugins>
    </plugins>
 
    <features>
-      <feature id="net.bioclipse.core_feature"/>
+      <feature id="net.bioclipse.platform_feature" version="2.5.0.qualifier"/>
    </features>
 
 

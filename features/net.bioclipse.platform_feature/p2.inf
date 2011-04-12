@@ -1,3 +1,2 @@
-nstructions.configure=\
-     addRepository(type:0,location:http${#58}//www.eclipse.org/equinox/p2/testing/updateSite);\
-     addRepository(type:1,location:http${#58}//www.eclipse.org/equinox/p2/testing/updateSite);
+instructions.configure=\
+     addRepository(type:0,location:http${#58}//pele.farmbio.uu.se/buckminster-web/p2/LastSuccessfulBuild);\
