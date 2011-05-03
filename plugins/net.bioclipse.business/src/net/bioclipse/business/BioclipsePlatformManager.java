@@ -118,6 +118,10 @@ public class BioclipsePlatformManager implements IBioclipseManager {
                 target.create(rawConn.getInputStream(), false, null);
             };
         } catch (IOException exception) {
+        	if (exception.getMessage().contains("403"))
+        		throw new BioclipseException(
+                    "No access.", exception
+                );
             throw new BioclipseException(
                 "Error while downloading from URL.", exception
             );
