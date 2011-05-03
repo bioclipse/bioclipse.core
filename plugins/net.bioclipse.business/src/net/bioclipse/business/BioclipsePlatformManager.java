@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -93,11 +94,22 @@ public class BioclipsePlatformManager implements IBioclipseManager {
     }
 
     public IFile downloadAsFile(String url, String mimeType, IFile target,
-                                IProgressMonitor monitor)
+        IProgressMonitor monitor)
+    throws BioclipseException {
+    	return downloadAsFile(url, mimeType, target, null, monitor);
+    }
+
+    public IFile downloadAsFile(String url, String mimeType, IFile target,
+        Map<String,String> extraHeaders, IProgressMonitor monitor)
     throws BioclipseException {
         URLConnection rawConn;
         try {
             rawConn = createURL(url).openConnection();
+            if (extraHeaders != null) {
+            	for (String header : extraHeaders.keySet()) {
+            		rawConn.addRequestProperty(header, extraHeaders.get(header));
+            	}
+            }
             if (mimeType != null)
                 rawConn.addRequestProperty("Accept", mimeType);
             if (target.exists()) {
