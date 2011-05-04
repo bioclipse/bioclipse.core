@@ -50,6 +50,15 @@ public class BioclipsePlatformManager implements IBioclipseManager {
 		}
     }
 
+    public void wiki() throws BioclipseException {
+    	try {
+			openURL(new URL("http://wiki.bioclipse.net"));
+		} catch (MalformedURLException e) {
+			throw new BioclipseException("Error while opening browser: " +
+				e.getMessage(), e);
+		}
+    }
+
     public void bugTracker() throws BioclipseException {
     	try {
 			openURL(new URL("http://bugs.bioclipse.net"));

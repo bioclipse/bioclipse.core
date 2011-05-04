@@ -22,6 +22,9 @@ public interface IBioclipsePlatformManager extends IBioclipseManager {
 	@PublishedMethod(methodSummary="Opens Planet Bioclipse.")
 	public void planet();
 
+	@PublishedMethod(methodSummary="Opens the Bioclipse Wiki.")
+	public void wiki();
+
 	@PublishedMethod(methodSummary="Opens the Bioclipse Bug Tracker.")
 	public void bugTracker();
 
