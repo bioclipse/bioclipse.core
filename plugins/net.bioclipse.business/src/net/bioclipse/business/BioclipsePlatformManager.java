@@ -118,7 +118,7 @@ public class BioclipsePlatformManager implements IBioclipseManager {
     }
 
 
-    private void openURL(URL url) throws BioclipseException {
+    public void openURL(URL url) throws BioclipseException {
     	IWorkbenchBrowserSupport browserSupport =
     		PlatformUI.getWorkbench().getBrowserSupport();
     	IWebBrowser browser;
