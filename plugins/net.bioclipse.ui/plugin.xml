@@ -46,7 +46,7 @@
             application="net.bioclipse.ui.application">
          <property
                name="windowImages"
-               value="/icons/logo/logo_16_trans.gif,/icons/logo/logo_32_trans.gif,/icons/logo/logo_48_trans.gif,/icons/logo/logo_64_trans.gif,/icons/logo/logo_128_trans.gif">
+               value="branding/icons/logo/logo_16_trans.gif,branding/icons/logo/logo_32_trans.gif,branding/icons/logo/logo_48_trans.gif,branding/icons/logo/logo_64_trans.gif,branding/icons/logo/logo_128_trans.gif">
          </property>
          <property
                name="appName"
@@ -70,7 +70,7 @@
          </property>
          <property
                name="aboutImage"
-               value="/icons/logo/abot_img.gif">
+               value="branding/icons/logo/abot_img.gif">
          </property>
           <property
             name="introTitle"

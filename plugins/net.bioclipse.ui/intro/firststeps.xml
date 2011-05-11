@@ -14,7 +14,7 @@
 	         </link>
        		
       		<link label="Bioclipse Help" url="http://org.eclipse.ui.intro/showHelp" id="helpitem">
-            <text>Go to the Bioclispe help system</text>
+            <text>Go to the Bioclipse help system</text>
          </link>
        	</group>
   	</extensionContent>

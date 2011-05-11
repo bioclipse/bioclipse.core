@@ -12,6 +12,12 @@
  ******************************************************************************/
 package net.bioclipse.scripting.ui.tests;
 
+import java.io.ByteArrayInputStream;
+
+import org.eclipse.core.resources.IFile;
+import org.junit.Test;
+
+import net.bioclipse.core.MockIFile;
 import net.bioclipse.core.tests.AbstractManagerTest;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.ui.business.IJsConsoleManager;
@@ -36,4 +42,36 @@ public class JsConsoleManagerTest extends AbstractManagerTest {
         return IJsConsoleManager.class;
     }
 
+    @Test
+    public void testClear() {
+    	console.clear();
+    }
+    
+    @Test
+    public void testDelay() {
+    	console.delay(5);
+    }
+    
+    @Test
+    public void testEval() {
+    	console.eval("i = 5;");
+    }
+
+    @Test
+    public void testPrint() {
+    	console.print("Hello world!");
+    }
+
+    @Test
+    public void testSay() {
+    	console.say("Hello world!");
+    }
+
+    @Test
+    public void testExecuteFile() {
+    	IFile file = new MockIFile(
+            new ByteArrayInputStream("i = 5;".getBytes())
+        ).extension( "js" );
+    	console.executeFile(file);
+    }
 }

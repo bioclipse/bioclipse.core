@@ -1,0 +1,2 @@
+instructions.configure=\
+     org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(type:0,location:http${#58}//pele.farmbio.uu.se/buckminster-web/p2/LastSuccessfulBuild);\

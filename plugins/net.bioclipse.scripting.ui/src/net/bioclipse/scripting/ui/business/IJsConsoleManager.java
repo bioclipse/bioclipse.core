@@ -19,6 +19,7 @@ import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.TestClasses;
+import net.bioclipse.core.TestMethods;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.core.util.IJavaScriptConsolePrinterChannel;
 
@@ -35,30 +36,36 @@ public interface IJsConsoleManager extends IBioclipseManager,
 
     @Recorded
     @PublishedMethod(methodSummary="Clears the console.")
+    @TestMethods("testClear")
     public void clear();
 
     @Recorded
     @PublishedMethod(params="String message",
                      methodSummary="Prints a message to the console.")
+    @TestMethods("testPrint")
     public void print(String message);
 
     @Recorded
     @PublishedMethod(params="String message",
                      methodSummary="Prints a message to the console, adding a "
                                    + "trailing newline.")
+    @TestMethods("testSay")
     public void say(String message);
 
     @Recorded
     @PublishedMethod(params="String command",
                      methodSummary="Evaluates a script.")
+    @TestMethods("testEval")
     public String eval(String command);
 
     @Recorded
+    @TestMethods("testExecuteFile")
     public void executeFile(IFile file);
 
     @Recorded
     @PublishedMethod(params="String filePath",
                      methodSummary="Runs a js script file.")
+    @TestMethods("testExecuteFile")
     public void executeFile(String filePath);
 
     public void printError( Throwable t );
@@ -66,5 +73,6 @@ public interface IJsConsoleManager extends IBioclipseManager,
     @Recorded
     @PublishedMethod(params="int seconds ",
                      methodSummary="Holds execution a number of seconds")
+    @TestMethods("testDelay")
     void delay( int seconds );
 }
