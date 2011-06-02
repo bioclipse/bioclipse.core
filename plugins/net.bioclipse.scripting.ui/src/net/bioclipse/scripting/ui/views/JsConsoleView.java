@@ -29,7 +29,6 @@ import java.util.regex.Pattern;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
-import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.Activator;
 import net.bioclipse.scripting.Hook;
@@ -515,6 +514,7 @@ public class JsConsoleView extends ScriptingConsoleView {
                 }
             });
             for (Method method : publishedMethods ) {
+            	result.append(helpObject).append('.');
                 if ( method.getAnnotation( PublishedMethod.class )
                            .params().length() == 0 ) {
                     result.append( method.getName() + "()" );
