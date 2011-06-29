@@ -13,7 +13,7 @@ import java.util.List;
 import net.bioclipse.core.business.BioclipseException;
 
 /**
- * A leightweight implementation of IMolecule that only consists of a CML
+ * A lightweight implementation of IMolecule that only consists of a CML
  * string.
  * @author olas
  *
