@@ -27,14 +27,19 @@
 <repository location="http://psnet.nu/eclipse/updates"/>
 </location>
 <location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
-<unit id="org.eclipse.platform.feature.group" version="3.6.2.r362_v20110210-9gF78Gs1FrIGnHDHWkEcopoN8AmxeZflGDGKQi"/>
-<unit id="org.eclipse.platform.source.feature.group" version="3.6.2.r362_v20110210-9gF78Gs1FrIGnHDHWkEcopoN8AmxeZflGDGKQi"/>
-<unit id="org.eclipse.emf.sdk.feature.group" version="2.6.1.v20100914-1218"/>
-<unit id="org.eclipse.equinox.p2.discovery.feature.feature.group" version="1.0.1.R36x_v20110210-4-09oB5865H6L02434"/>
+<unit id="org.eclipse.rcp.sdk.id" version="3.6.0.M20110210-1200"/>
+<unit id="org.eclipse.sdk.ide" version="3.6.2.M20110210-1200"/>
+<unit id="org.eclipse.equinox.core.sdk.feature.group" version="3.6.1.r36x_v20110210-7sF99FsNFS-Ci4TSP4RDFHLIA5B3"/>
 <unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.6.2.R36x_v20110120-9I7VGEAG438GhnfSLuLz0FXP9NYJ"/>
-<unit id="org.eclipse.zest.sdk.feature.group" version="1.2.0.v20100519-2050-67908COKMFAKPYIEUdUVWhXYN8VN"/>
-<unit id="org.eclipse.wst.web_core.feature.feature.group" version="3.2.2.v201008100100-7E7AFHwAJrn5PM15pUYBwJLkSG8j"/>
-<unit id="org.eclipse.wst.xml_core.feature.feature.group" version="3.2.2.v201008170029-7C7OFXYF7RZHQHI5PyJwPT"/>
+<repository location="http://download.eclipse.org/eclipse/updates/3.6"/>
+</location>
+<location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
+<unit id="net.bioclipse.r.walware_feature.feature.group" version="0.5.5.201107051101"/>
+<repository location="http://pele.farmbio.uu.se/jenkins/job/net.bioclipse.r.walware/lastSuccessfulBuild/artifact/buckminster.output/net.bioclipse.r.walware_feature_0.5.5-eclipse.feature/site.p2/"/>
+</location>
+<location includeAllPlatforms="true" includeMode="slicer" type="InstallableUnit">
+<unit id="org.eclipse.emf.sdk.feature.group" version="2.6.1.v20100914-1218"/>
+<unit id="org.eclipse.wst.web_core.feature.feature.group" version="3.2.3.v201102160541-7E7AFI3AJrn5TN32vSJ8nRIWLD7_"/>
 <repository location="http://download.eclipse.org/releases/helios"/>
 </location>
 </locations>
