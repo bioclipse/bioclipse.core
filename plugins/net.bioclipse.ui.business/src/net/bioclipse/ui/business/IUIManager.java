@@ -131,7 +131,7 @@ public interface IUIManager extends IBioclipseManager {
         params = "String path",
         methodSummary = "Creates an empty file at the specified path"
     )
-    public void newFile( String path) throws CoreException, BioclipseException;
+    public IFile newFile( String path) throws CoreException, BioclipseException;
 
     @Recorded
     @PublishedMethod(
