@@ -52,5 +52,12 @@ public class SMILESMolecule extends BioObject implements IMolecule {
         throw new UnsupportedOperationException("SmilesMolecule can not " +
         "return conformers");
     }
+
+	@Override
+	public String toString() {
+		return "SMILESMolecule [smiles=" + smiles + "]";
+	}
+    
+    
     
 }
