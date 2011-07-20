@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.6"?>
 
-<target name="Spring-osgi-1.0.2" sequenceNumber="3">
+<target name="Spring-osgi-1.0.2" sequenceNumber="4">
 <locations>
-<location includeAllPlatforms="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.rcp.sdk.id" version="3.6.0.M20110210-1200"/>
 <unit id="org.eclipse.sdk.ide" version="3.6.2.M20110210-1200"/>
 <unit id="org.eclipse.equinox.core.sdk.feature.group" version="3.6.1.r36x_v20110210-7sF99FsNFS-Ci4TSP4RDFHLIA5B3"/>
@@ -11,7 +11,7 @@
 <repository location="http://download.eclipse.org/eclipse/updates/3.6"/>
 </location>
 <location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/dist" type="Directory"/>
-<location includeAllPlatforms="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.junit" version="4.8.1.v4_8_1_v20100427-1100"/>
 <unit id="javax.mail.glassfish" version="1.4.1.v201005082020"/>
 <unit id="org.hamcrest" version="1.1.0.v20090501071000"/>
@@ -22,24 +22,29 @@
 <unit id="org.hamcrest.text" version="1.1.0.v20090501071000"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20100519200754/repository"/>
 </location>
-<location includeAllPlatforms="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="nu.psnet.quickimage.feature.group" version="1.0.3.2"/>
 <repository location="http://psnet.nu/eclipse/updates"/>
 </location>
 <location path="${project_loc:net.bioclipse.target.platform}/libs" type="Directory"/>
 <location path="${project_loc:/net.bioclipse.target.platform}/logging" type="Directory"/>
 <location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/lib" type="Directory"/>
-<location includeAllPlatforms="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="com.google.guava.runtime.feature.feature.group" version="8.0.0"/>
 <repository location="http://guava-osgi.googlecode.com/svn/trunk/repository/"/>
 </location>
-<location includeAllPlatforms="true" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.emf.ecoretools.sdk.feature.group" version="0.10.0.v20100615-1639"/>
 <unit id="org.eclipse.emf.sdk.feature.group" version="2.6.1.v20100914-1218"/>
 <unit id="org.eclipse.zest.feature.group" version="1.2.0.v20100519-2050-67818yE6F-AA7P4B8I52322"/>
 <unit id="org.eclipse.zest.source.feature.group" version="1.2.0.v20100519-2050-67818yE6F-AA7P4B8I52322"/>
 <unit id="org.eclipse.wst.web_core.feature.feature.group" version="3.2.3.v201102160541-7E7AFI3AJrn5TN32vSJ8nRIWLD7_"/>
 <repository location="http://download.eclipse.org/releases/helios"/>
+</location>
+<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="net.bioclipse.r.walware_feature.source.feature.group" version="0.5.5.201107201453"/>
+<unit id="net.bioclipse.r.walware_feature.feature.group" version="0.5.5.201107201453"/>
+<repository location="http://pele.farmbio.uu.se/jenkins/view/Release/job/Bioclipse.statistics/lastSuccessfulBuild/artifact/buckminster.output/net.bioclipse.statistics_site_1.0.0-eclipse.feature/site.p2/"/>
 </location>
 </locations>
 </target>
