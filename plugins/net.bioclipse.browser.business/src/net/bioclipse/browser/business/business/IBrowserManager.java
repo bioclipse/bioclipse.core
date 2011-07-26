@@ -29,9 +29,9 @@ public interface IBrowserManager extends IBioclipseManager {
 
     @Recorded
     @PublishedMethod(
-      params="String url, String content",
+      params="String url",
         methodSummary=
-            "Scrapes a web URL by content"
+            "Scrapes a web URL by content and returns a List of IBioObjects"
     )
     public List<? extends IBioObject> scrapeWebpage(String url)
     throws BioclipseException;
