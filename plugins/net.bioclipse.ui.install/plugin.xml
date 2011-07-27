@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="openInstallDialog"
+            name="Install Feature">
+         <defaultHandler
+               class="net.bioclipse.ui.install.handler.OpenDiscoveryDialog">
+            <parameter
+                  name="net.bioclipse.ui.install.parameter1"
+                  value="net.bioclipse.ui.install.parameter1">
+            </parameter>
+         </defaultHandler>
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:help?after=net.bioclipse.data.openWizard">
+         <command
+               commandId="openInstallDialog"
+               label="Install Feature"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+<extension
+        point="org.eclipse.epp.mpc.ui.catalog">
+     <catalog
+           description="Discover modular features for Bioclipse"
+           icon="icon_16-32bit.bmp"
+           label="Bioclipse Discovery"
+           url="http://localhost:8080/marketplace_0.4/">
+     </catalog>
+  </extension>
+</plugin>
