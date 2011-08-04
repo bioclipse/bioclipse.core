@@ -272,7 +272,7 @@ public abstract class AbstractManagerTest extends AbstractBioManagerFramework {
                         String name = matcher.group(2);
                         Assert.assertTrue(
                             "The help for parameter " + i + " of the " +
-                            method.getName() + " method does not" +
+                            method.getName() + " method does not " +
                             "adhere to the expected syntax \"Type " +
                             "name\", but is: " + param,
                             method.getParameterTypes()[i]
