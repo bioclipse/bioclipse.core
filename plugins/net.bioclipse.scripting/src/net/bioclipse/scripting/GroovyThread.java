@@ -8,6 +8,7 @@
  *******************************************************************************/
 package net.bioclipse.scripting;
 
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -36,6 +37,8 @@ public class GroovyThread extends ScriptingThread {
     public static GroovyEnvironment groovy;
     private LinkedList<GroovyAction> actions= new LinkedList<GroovyAction>();
 
+	private static Writer outputWriter;
+
     private static final Logger logger = Logger.getLogger(GroovyEnvironment.class);
     private static boolean busy;
 
@@ -50,6 +53,10 @@ public class GroovyThread extends ScriptingThread {
     private static void initJs() {
         busy = true;
         groovy = new GroovyEnvironment();
+        if (outputWriter != null) {
+        	// if we already have an output writer, set it
+        	groovy.setOutputWriter(outputWriter);
+        }
 
 //        for (Map.Entry<String, String[]> e : topLevelCommands.entrySet())
 //            js.eval( "function " + e.getKey()
@@ -57,6 +64,19 @@ public class GroovyThread extends ScriptingThread {
 //                     + " { " + e.getValue()[1] + " }" );
     }
 
+    /**
+     * Overwrites the Writer of the {@link ScriptContext}.
+     * 
+     * @param outputWriter write to which script context output is written
+     */
+    public void setOutputWriter(Writer outputWriter) {
+    	GroovyThread.outputWriter = outputWriter;
+    	if (groovy != null) {
+    		// if we already have a groovy environment, set the output writer
+    		groovy.setOutputWriter(outputWriter);
+    	}
+    }
+    
     public void run() {
         initJs();
 

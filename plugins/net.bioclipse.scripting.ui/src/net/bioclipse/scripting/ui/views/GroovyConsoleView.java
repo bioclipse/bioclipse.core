@@ -8,6 +8,8 @@
  *******************************************************************************/
 package net.bioclipse.scripting.ui.views;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -53,6 +55,38 @@ public class GroovyConsoleView extends ScriptingConsoleView {
   private static Pattern p
       = Pattern.compile( " Wrapped (\\S+): (.*?) \\(<Unknown source>#" );
 
+  @Override
+  public void createPartControl(org.eclipse.swt.widgets.Composite parent) {
+	  super.createPartControl(parent);
+	  groovyThread.setOutputWriter(
+	      new Writer() {
+	    	  @Override
+	    	  public void write(char[] cbuf, int off, int len) throws IOException {
+	    		  final String message = new String(cbuf, off, len);
+	    		  Display.getDefault().asyncExec( new Runnable() {
+	                  public void run() {
+	                	  Display.getDefault().asyncExec(new Runnable() {
+							public void run() {
+	                			  printMessage(message);
+	                		  }
+	                      });
+	                  }
+	              });
+	    	  }
+
+	    	  @Override
+	    	  public void flush() throws IOException {
+	    		  // ignore
+	    	  }
+
+	    	  @Override
+	    	  public void close() throws IOException {
+	    		  // ignore
+	    	  }
+	      }
+	  );
+  };
+  
   @Override
   protected String executeCommand( String command ) {
       if (command.matches("help( .*)?") || command.matches("man( .*)?")) {

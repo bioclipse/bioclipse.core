@@ -8,10 +8,12 @@
  *******************************************************************************/
 package net.bioclipse.scripting;
 
+import java.io.Writer;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -56,6 +58,16 @@ public class GroovyEnvironment implements ScriptingEnvironment {
         installJsTools();
     }
 
+    /**
+     * Overwrites the Writer of the {@link ScriptContext}.
+     * 
+     * @param outputWriter write to which script context output is written
+     */
+    public void setOutputWriter(Writer outputWriter) {
+    	ScriptContext context = engine.getContext();
+    	context.setWriter(outputWriter);
+    }
+    
     public Map<String, IBioclipseManager> getManagers() {
         return new HashMap<String, IBioclipseManager>(managers);
     }
