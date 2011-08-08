@@ -24,6 +24,7 @@ import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.managers.business.IBioclipseManager;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -40,6 +41,8 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 public class GistManager implements IBioclipseManager {
+
+	private static final Logger logger = Logger.getLogger(GistManager.class);
 
     public final static String GIST_PROJECT = "Gists";
     
@@ -103,10 +106,10 @@ public class GistManager implements IBioclipseManager {
 
         try {                
             monitor.subTask("Determining Gist revision");
-            URL gistURL = new URL("http://gist.github.com/" + gist);
+            URL gistURL = new URL("https://gist.github.com/" + gist);
             URLConnection gistConn = gistURL.openConnection();
             
-            String rawURLPattern = "\"/raw/" + gist + "/([0-9[a-f]]+)";
+            String rawURLPattern = "\"/raw/" + gist + "/([0-9[a-f]]+)/gistfile1.txt";
             Pattern p = Pattern.compile(rawURLPattern);
             
             BufferedReader reader = new BufferedReader(new InputStreamReader(gistConn.getInputStream()));
@@ -116,6 +119,7 @@ public class GistManager implements IBioclipseManager {
                 Matcher m = p.matcher(line);
                 if (m.find()) {
                     rev = m.group(1);
+                	logger.debug("Found revision: " + rev);
                     reader.close();
                     break;
                 }
@@ -129,7 +133,11 @@ public class GistManager implements IBioclipseManager {
 
             if (rev != null) {
                 monitor.subTask("Downloading Gist revision: " + rev);
-                URL rawURL = new URL("http://gist.github.com/raw/" + gist + "/" + rev);
+                URL rawURL = new URL(
+                	"https://gist.github.com/raw/" + gist + "/" +
+                	rev + "/gistfile1.txt"
+                );
+                logger.debug("Downloading Gist as raw from URL: " + rawURL.toString());
                 URLConnection rawConn = rawURL.openConnection();
                 if (target.exists()) {
                     target.setContents(rawConn.getInputStream(), true, false, null);
@@ -157,8 +165,10 @@ public class GistManager implements IBioclipseManager {
             exception.printStackTrace();
             throw new BioclipseException("Invalid URL.", exception);
         } catch ( IOException e ) {
+        	logger.error("Failed to download the gist", e);
             throw new BioclipseException("Failed to download the gist", e);
         } catch ( CoreException e ) {
+        	logger.error("Failed to save the gist", e);
             throw new BioclipseException("Failed during saving of gist", e);
         }
         finally {
