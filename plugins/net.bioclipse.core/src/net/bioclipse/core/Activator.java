@@ -24,9 +24,14 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
@@ -75,37 +80,46 @@ public class Activator extends Plugin {
         return plugin;
     }
     
-    protected static void createVirtualProject(IProject project) throws
-                            URISyntaxException,CoreException{
-        
-        IProjectDescription description = 
-        		ResourcesPlugin.getWorkspace()
-        		.newProjectDescription(VIRTUAL_PROJECT_NAME);
-            description.setLocationURI(new URI("memory:/Virtual"));
-            project.create(description,null);
-            project.refreshLocal( IResource.DEPTH_ZERO, null );
-            project.open(null);
+    protected static void createVirtualProject(IProject project,IProgressMonitor monitor) throws CoreException {
+
+    	try {
+		IProjectDescription description = ResourcesPlugin.getWorkspace()
+				.newProjectDescription(VIRTUAL_PROJECT_NAME);
+			description.setLocationURI(new URI("memory:/Virtual"));
+		project.create(description, monitor);
+		project.refreshLocal(IResource.DEPTH_ZERO, monitor);
+		project.open(monitor);
+    	} catch (URISyntaxException e) {
+    		logger.error("Failed to create Virtual project",e);
+    	}
     }
     public static IProject getVirtualProject(){
-        IWorkspaceRoot root=ResourcesPlugin.getWorkspace().getRoot();
-        IProject project=root.getProject(VIRTUAL_PROJECT_NAME);
-        try {
-            if(!project.exists()){
-                logger.debug("Inserting "+VIRTUAL_PROJECT_NAME+" into workspace");
-                createVirtualProject(project);
-            }
-            if(!project.isOpen()) {
-                try {
-                    project.open( null );
-                } catch ( CoreException e ) {
-                    logger.debug( "Faild to open Virtual" );
-                }
-            }
-        }catch( URISyntaxException e) {
-            logger.debug( "Failed to create "+ VIRTUAL_PROJECT_NAME,e );
-        } catch ( CoreException e ) {
-            logger.warn( "Failed to create "+ VIRTUAL_PROJECT_NAME ,e);
-        }
+    	IWorkspaceRoot root=ResourcesPlugin.getWorkspace().getRoot();
+        final IProject project=root.getProject(VIRTUAL_PROJECT_NAME);
+        
+    	Job job = new WorkspaceJob("Check for TempProject") {
+			@Override
+			public IStatus runInWorkspace(IProgressMonitor monitor)
+					throws CoreException {
+				
+		        if( ! project.exists()) {
+		        	createVirtualProject(project,monitor);
+		        }
+		        if(!project.isOpen()) {
+		        	project.open(monitor);
+		        }
+				// TODO Auto-generated method stub
+				return Status.OK_STATUS;
+			}
+		};
+		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
+	    job.schedule();
+	    try {
+			job.join();
+		} catch (InterruptedException e) {
+			logger.error("Create virtual job interuppted");
+			throw new RuntimeException("Failed to get virtual project");
+		}
         return project;
     }
     
