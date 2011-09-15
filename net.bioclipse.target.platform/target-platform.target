@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.6"?>
 
-<target name="Spring-osgi-1.0.2" sequenceNumber="4">
+<target name="Spring-osgi-1.0.2" sequenceNumber="5">
 <locations>
 <location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.rcp.sdk.id" version="3.6.0.M20110210-1200"/>
@@ -42,8 +42,7 @@
 <repository location="http://download.eclipse.org/releases/helios"/>
 </location>
 <location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="net.bioclipse.r.walware_feature.source.feature.group" version="0.5.5.201107201453"/>
-<unit id="net.bioclipse.r.walware_feature.feature.group" version="0.5.5.201107201453"/>
+<unit id="net.bioclipse.r.walware_feature.feature.group" version="0.5.5.201107191712"/>
 <repository location="http://pele.farmbio.uu.se/jenkins/view/Release/job/Bioclipse.statistics/lastSuccessfulBuild/artifact/buckminster.output/net.bioclipse.statistics_site_1.0.0-eclipse.feature/site.p2/"/>
 </location>
 </locations>
