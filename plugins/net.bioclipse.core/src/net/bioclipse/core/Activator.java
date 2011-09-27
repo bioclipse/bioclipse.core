@@ -8,8 +8,6 @@
  *******************************************************************************/
 package net.bioclipse.core;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -80,46 +78,47 @@ public class Activator extends Plugin {
         return plugin;
     }
     
-    protected static void createVirtualProject(IProject project,IProgressMonitor monitor) throws CoreException {
+    protected static void createVirtualProject() throws CoreException {
+        final IProject project = getTempProject();
+        //if(project.exists() && !project.isHidden()) return;
+        Job job = new WorkspaceJob( "Check for TempProject" ) {
 
-    	try {
-		IProjectDescription description = ResourcesPlugin.getWorkspace()
-				.newProjectDescription(VIRTUAL_PROJECT_NAME);
-			description.setLocationURI(new URI("memory:/Virtual"));
-		project.create(description, monitor);
-		project.refreshLocal(IResource.DEPTH_ZERO, monitor);
-		project.open(monitor);
-    	} catch (URISyntaxException e) {
-    		logger.error("Failed to create Virtual project",e);
-    	}
+            @Override
+            public IStatus runInWorkspace( IProgressMonitor monitor )
+                                                          throws CoreException {
+                if(project.exists()) return Status.OK_STATUS;
+                IProjectDescription description = ResourcesPlugin
+                             .getWorkspace()
+                             .newProjectDescription( VIRTUAL_PROJECT_NAME );
+                project.create( description, monitor );
+                project.refreshLocal( IResource.DEPTH_ZERO, monitor );
+                project.open( monitor );
+                project.setHidden( false );
+                project.getWorkspace().getRoot()
+                .refreshLocal( IResource.DEPTH_INFINITE, monitor );
+                return Status.OK_STATUS;
+            }
+        };
+        job.setRule( project.getWorkspace().getRoot() );
+        job.schedule();
+    }
+    protected static IProject getTempProject() {
+        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        return root.getProject( VIRTUAL_PROJECT_NAME );
     }
     public static IProject getVirtualProject(){
-    	IWorkspaceRoot root=ResourcesPlugin.getWorkspace().getRoot();
-        final IProject project=root.getProject(VIRTUAL_PROJECT_NAME);
-        
-    	Job job = new WorkspaceJob("Check for TempProject") {
-			@Override
-			public IStatus runInWorkspace(IProgressMonitor monitor)
-					throws CoreException {
-				
+        IProject project = getTempProject();
+        try {
 		        if( ! project.exists()) {
-		        	createVirtualProject(project,monitor);
+                        createVirtualProject();
 		        }
-		        if(!project.isOpen()) {
-		        	project.open(monitor);
+		        if(project.exists() && !project.isOpen()) {
+		        	project.open(null);
 		        }
-				// TODO Auto-generated method stub
-				return Status.OK_STATUS;
-			}
-		};
-		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
-	    job.schedule();
-	    try {
-			job.join();
-		} catch (InterruptedException e) {
-			logger.error("Create virtual job interuppted");
-			throw new RuntimeException("Failed to get virtual project");
-		}
+		
+        } catch ( CoreException e ) {
+            logger.error( "Failed to retrive a working temp project",e );
+        }
         return project;
     }
     
