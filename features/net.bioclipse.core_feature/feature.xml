@@ -24,10 +24,6 @@ The Eclipse Public License accompanies this distribution, and is available at ht
    </url>
 
    <includes
-         id="org.eclipse.rcp"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.equinox.p2.user.ui"
          version="0.0.0"/>
 
