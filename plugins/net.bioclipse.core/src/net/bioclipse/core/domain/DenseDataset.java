@@ -78,6 +78,16 @@ public class DenseDataset implements IDataset{
 		this.responseValues=responseValues;
 	}
 
+	@Override
+	public String getFileExtension() {
+		return "csv";
+	}
+
+	@Override
+	public String getFileContents() {
+		return asCSV();
+	}
+	
 	public String asCSV() {
 		return asCSV(CSV_SEPARATOR);
 	}
@@ -90,7 +100,7 @@ public class DenseDataset implements IDataset{
 		if (responseProperty!=null)
 			 rowstring = rowstring + responseProperty;
 
-		buf.append(" " + separator + rowstring + "\n");
+		buf.append("Molceulce" + separator + rowstring + "\n");
 
 		int c=0;
 		for (List<Float> row : values){
@@ -116,5 +126,6 @@ public class DenseDataset implements IDataset{
 		}
 		return b.toString();
 	}
+
 	
 }

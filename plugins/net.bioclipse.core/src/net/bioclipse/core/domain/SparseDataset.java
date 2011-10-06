@@ -27,6 +27,7 @@ import java.util.TreeMap;
  */
 public class SparseDataset implements IDataset{
 
+	private static final String DEFAULT_SEPARATOR = " ";
 	protected List<String> colHeaders;
 	protected List<String> rowHeaders;
 	protected String responseProperty;
@@ -69,9 +70,6 @@ public class SparseDataset implements IDataset{
 		super();
 	}
 
-
-
-
 	public SparseDataset(List<String> colHeaders, List<String> rowHeaders,
 			LinkedHashMap<Point, Integer> values) {
 		super();
@@ -108,6 +106,15 @@ public class SparseDataset implements IDataset{
 //	2:-1.897589 3:1.779386 4:-1.093372 
 
 	
+	@Override
+	public String getFileExtension() {
+		return "csr";
+	}
+
+	@Override
+	public String getFileContents() {
+		return toSparseString(DEFAULT_SEPARATOR);
+	}
 
 
 	public String toSparseString(String separator) {
@@ -133,13 +140,15 @@ public class SparseDataset implements IDataset{
 		return buf.toString();
 	}
 
-	private String getCSVString(List<?> entries, String separator) {
-		
-		StringBuffer b = new StringBuffer();
-		for (Object s : entries){
-			b.append(s + separator);
-		}
-		return b.toString();
+	/**
+	 * Convenience method to just return the response values.
+	 * Remove leading and trailing '[' and ']'.
+	 * 
+	 * @return
+	 */
+	public String getResponseValuesRaw() {
+		return responseValues.toString().substring(1, responseValues.toString().length()-1)+"\n";
 	}
+
 	
 }
