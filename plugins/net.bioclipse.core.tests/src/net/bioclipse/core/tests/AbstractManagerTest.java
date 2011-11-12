@@ -262,23 +262,23 @@ public abstract class AbstractManagerTest extends AbstractBioManagerFramework {
                     method.getName(),
                     method.getParameterTypes().length, parameters.length
                 );
-                Pattern pattern = Pattern.compile("(\\w+)\\s+(\\w+)");
+                Pattern pattern = Pattern.compile("(\\w+)(<.*>)?\\s+(\\w+)");
                 for (int i=0; i<parameters.length; i++) {
                     // assume each parameter has the syntax "Type name"
-                    String param = parameters[i];
+                    String param = parameters[i].trim();
                     Matcher matcher = pattern.matcher(param);
                     if (matcher.find()) {
                         String type = matcher.group(1);
-                        String name = matcher.group(2);
+                        String expectedType = method.getParameterTypes()[i].getSimpleName();
                         Assert.assertTrue(
                             "The help for parameter " + i + " of the " +
                             method.getName() + " method does not " +
-                            "adhere to the expected syntax \"Type " +
-                            "name\", but is: " + param,
-                            method.getParameterTypes()[i]
-                                .getName().endsWith(type)
+                            "adhere to the expected syntax \"" + 
+                            expectedType +
+                            " name\", but is: " + param,
+                            expectedType.endsWith(type)
                         );
-                    }
+                    } 
                 }
             }
         }
