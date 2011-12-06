@@ -338,8 +338,8 @@ public class UIManager implements IBioclipseManager {
     }
 
 
-    public void newFile( String path) throws CoreException, BioclipseException {
-        newFile(path, "");
+    public IFile newFile( String path) throws CoreException, BioclipseException {
+    	return newFile(path, "");
     }
 
     public IFile newFile(String path, String content)

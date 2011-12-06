@@ -19,9 +19,7 @@ import java.util.List;
  * @author ola
  *
  */
-public class Dataset {
-
-	public static final String CSV_SEPARATOR = "\t";
+public class DenseDataset implements IDataset{
 
 	protected List<String> colHeaders;
 	protected List<String> rowHeaders;
@@ -61,10 +59,10 @@ public class Dataset {
 		this.values = values;
 	}
 	
-	public Dataset() {
+	public DenseDataset() {
 		super();
 	}
-	public Dataset(List<String> colHeaders, List<String> rowHeaders,
+	public DenseDataset(List<String> colHeaders, List<String> rowHeaders,
 			List<List<Float>> values) {
 		super();
 		this.colHeaders = colHeaders;
@@ -72,7 +70,7 @@ public class Dataset {
 		this.values = values;
 	}
 
-	public Dataset(List<String> colHeaders, List<String> rowHeaders,
+	public DenseDataset(List<String> colHeaders, List<String> rowHeaders,
 			List<List<Float>> values, String responseProperty,
 			List<String> responseValues) {
 		this(colHeaders, rowHeaders, values);
@@ -80,6 +78,16 @@ public class Dataset {
 		this.responseValues=responseValues;
 	}
 
+	@Override
+	public String getFileExtension() {
+		return "csv";
+	}
+
+	@Override
+	public String getFileContents() {
+		return asCSV();
+	}
+	
 	public String asCSV() {
 		return asCSV(CSV_SEPARATOR);
 	}
@@ -92,7 +100,7 @@ public class Dataset {
 		if (responseProperty!=null)
 			 rowstring = rowstring + responseProperty;
 
-		buf.append(" " + separator + rowstring + "\n");
+		buf.append("Molceulce" + separator + rowstring + "\n");
 
 		int c=0;
 		for (List<Float> row : values){
@@ -118,5 +126,6 @@ public class Dataset {
 		}
 		return b.toString();
 	}
+
 	
 }

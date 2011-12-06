@@ -278,7 +278,7 @@ public abstract class AbstractManagerTest extends AbstractBioManagerFramework {
                             " name\", but is: " + param,
                             expectedType.endsWith(type)
                         );
-                    } 
+                    }
                 }
             }
         }
