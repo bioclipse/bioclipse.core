@@ -215,10 +215,10 @@ public class GroovyThread extends ScriptingThread {
                 MessageDialog.openWarning(
                   PlatformUI.getWorkbench()
                             .getActiveWorkbenchWindow().getShell(),
-                  "Restart recommended after cancelling JavaScripts",
-                  "The cancelling of the running JavaScript script may have " +
+                  "Restart recommended after cancelling Groovy script",
+                  "The cancelling of the running Groovy script may have " +
                     "left your data in an inconsistent state, depending upon " +
-                    "what the JavaScript execution was working on. " +
+                    "what the Groovy script execution was working on. " +
                     "You are recommended to restart Bioclipse." );
             }
         } );
