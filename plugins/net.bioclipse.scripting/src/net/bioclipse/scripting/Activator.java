@@ -39,6 +39,7 @@ public class Activator extends Plugin {
         super.start(context);
         plugin = this;
         JS_THREAD.start();
+        GROOVY_THREAD.start();
     }
 
     /*
