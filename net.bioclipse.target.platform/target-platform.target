@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.6"?>
 
-<target name="Spring-osgi-1.0.2" sequenceNumber="8">
+<target name="Spring-osgi-1.0.2" sequenceNumber="9">
 <locations>
 <location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.rcp.sdk.id" version="3.6.0.M20110210-1200"/>
@@ -46,11 +46,15 @@
 <repository location="http://pele.farmbio.uu.se/jenkins/view/Release/job/Bioclipse.statistics/lastSuccessfulBuild/artifact/buckminster.output/net.bioclipse.statistics_site_1.0.0-eclipse.feature/site.p2/"/>
 </location>
 <location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.epp.mpc.feature.group" version="1.0.1.v20100826-2143"/>
+<unit id="org.eclipse.epp.mpc.source.feature.group" version="1.0.1.v20100826-2143"/>
+<repository location="http://download.eclipse.org/mpc/helios/"/>
+</location>
+<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="cmlxom" version="1.0.0"/>
 <unit id="org.jama" version="1.0.0"/>
 <unit id="jena" version="1.0.0"/>
 <unit id="org.3pq.jgrapht" version="1.0.0"/>
-<unit id="net.sf.jniinchi" version="1.0.0"/>
 <unit id="org.openscience.cdk.annotation" version="1.4.6.1_cdk-jchempaint-24-81"/>
 <unit id="org.openscience.cdk.annotation.source" version="1.4.6.1_cdk-jchempaint-24-81"/>
 <unit id="org.openscience.cdk.atomtype" version="1.4.6.1_cdk-jchempaint-24-81"/>
@@ -177,11 +181,6 @@
 <unit id="xom" version="1.0.0"/>
 <unit id="org.xmlpull.xpp3" version="1.0.0"/>
 <repository location="http://pele.farmbio.uu.se/bioclipse/cdk"/>
-</location>
-<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.epp.mpc.feature.group" version="1.0.1.v20100826-2143"/>
-<unit id="org.eclipse.epp.mpc.source.feature.group" version="1.0.1.v20100826-2143"/>
-<repository location="http://download.eclipse.org/mpc/helios/"/>
 </location>
 </locations>
 </target>
