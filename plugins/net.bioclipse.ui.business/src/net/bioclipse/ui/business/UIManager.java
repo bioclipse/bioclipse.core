@@ -191,6 +191,12 @@ public class UIManager implements IBioclipseManager {
        save ( target, toWrite, null, monitor);
     }
 
+    public void save( IFile target,
+            String toWrite,
+            IProgressMonitor monitor ) {
+    	save ( target, new ByteArrayInputStream(toWrite.getBytes()), null, monitor);
+    }
+
     public void save( final IFile target,
                       InputStream toWrite,
                       Runnable callbackFunction,

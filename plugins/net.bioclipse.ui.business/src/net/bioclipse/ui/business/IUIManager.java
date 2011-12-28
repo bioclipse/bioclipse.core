@@ -92,6 +92,14 @@ public interface IUIManager extends IBioclipseManager {
     public void save(String filePath, InputStream toWrite);
 
     @Recorded
+    @PublishedMethod(
+        params = "String filePath, String content",
+        methodSummary = "Save the content of the String to the given path."
+    )
+    public void save(String filePath, String toWrite);
+
+    
+    @Recorded
     @TestMethods("testSaveAndRemove_IFile")
     public void save( IFile file, 
                       InputStream toWrite,
