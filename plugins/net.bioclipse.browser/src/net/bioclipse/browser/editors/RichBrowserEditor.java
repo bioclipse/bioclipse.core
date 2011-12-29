@@ -30,6 +30,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
+import org.eclipse.ui.part.FileEditorInput;
 
 /**
  * 
@@ -71,12 +72,16 @@ public class RichBrowserEditor extends EditorPart implements IBrowserViewerConta
     @Override
     public void createPartControl( Composite parent ) {
         
-        System.out.println("weee");
-
         int style = BrowserViewer.LOCATION_BAR;
         style += BrowserViewer.BUTTON_BAR;
 
         webBrowser = new BrowserViewer(parent, style);
+        
+        if (getEditorInput() instanceof FileEditorInput) {
+        	FileEditorInput finput = (FileEditorInput) getEditorInput();
+            webBrowser.setURL(finput.getFile().getLocation().toString());
+            setPartName(finput.getFile().getName());
+		}
         
         webBrowser.getBrowser().addProgressListener(new ProgressListener() {
 
