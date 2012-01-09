@@ -53,7 +53,7 @@
    <features>
       <feature id="net.bioclipse.core_feature" version="2.5.0.qualifier"/>
       <feature id="org.eclipse.rcp"/>
-      <feature id="org.eclipse.epp.mpc"/>
+      <feature id="org.eclipse.equinox.executable" version="3.5.0.v20110530-7P7NFUFFLWUl76mart"/>
    </features>
 
 
