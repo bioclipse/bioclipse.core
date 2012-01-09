@@ -2,38 +2,19 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.eclipse.ui.commands">
-      <command
-            id="openInstallDialog"
-            name="Install Feature">
-         <defaultHandler
-               class="net.bioclipse.ui.install.handler.OpenDiscoveryDialog">
-            <parameter
-                  name="net.bioclipse.ui.install.parameter1"
-                  value="net.bioclipse.ui.install.parameter1">
-            </parameter>
-         </defaultHandler>
-      </command>
-   </extension>
-   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
             locationURI="menu:help?after=net.bioclipse.data.openWizard">
          <command
-               commandId="openInstallDialog"
-               label="Install Feature"
+               commandId="org.eclipse.equinox.p2.ui.discovery.commands.ShowRepositoryCatalog"
+               label="Install New Bioclipse Feature"
                style="push">
+            <parameter
+                  name="org.eclipse.equinox.p2.ui.discovery.commands.RepositoryParameter"
+                  value="http://pele.farmbio.uu.se/bioclipse/2.5/nightly">
+            </parameter>
          </command>
       </menuContribution>
    </extension>
-<extension
-        point="org.eclipse.epp.mpc.ui.catalog">
-     <catalog
-           description="Discover modular features for Bioclipse"
-           icon="icon_16-32bit.bmp"
-           label="Bioclipse Discovery"
-           url="http://localhost:8080/marketplace_0.4/">
-     </catalog>
-  </extension>
 </plugin>
