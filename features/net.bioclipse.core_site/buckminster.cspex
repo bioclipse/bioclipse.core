@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cspecExtension
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0"
+	xmlns="http://www.eclipse.org/buckminster/CSpec-1.0">
+	<dependencies>
+		<dependency name="log4j.over.slf4j" componentType="osgi.bundle"/>
+		<dependency name="jcl.over.slf4j" componentType="osgi.bundle"/>
+		<dependency name="slf4j.api" componentType="osgi.bundle"/>
+	</dependencies>
+	<generators>
+		<!-- Place your Generators here -->
+	</generators>
+	<artifacts>
+		<!-- Place your Artifacts here -->
+	</artifacts>
+	<actions>
+		<!-- Place your Actions here -->
+	</actions>
+	<groups>
+		<!-- Place your Groups here -->
+	</groups>
+	<alterDependencies>
+		<!-- Place your Dependency alterations here -->
+	</alterDependencies>
+	<alterArtifacts>
+		<!-- Place your Artifact alterations here -->
+	</alterArtifacts>
+	<alterActions>
+		<!-- Place your Action alterations here -->
+	</alterActions>
+	<alterGroups>
+		<!-- Place your Group alterations here -->
+	</alterGroups>
+</cspecExtension>
