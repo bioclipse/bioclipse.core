@@ -684,9 +684,7 @@ public class GroovyConsoleView extends ScriptingConsoleView {
       final List<String>[] variables = new List[1];
 
       groovyThread.enqueue(
-          new GroovyAction( "zzz1 = new java.util.ArrayList();"
-                        + "for (var zzz3 in " + object
-                        + ") { zzz1.add(zzz3) } zzz1",
+          new GroovyAction( "zzz1 = new java.util.ArrayList();",
                         new Hook() {
                             public void run(Object o) {
                                 synchronized (variables) {
