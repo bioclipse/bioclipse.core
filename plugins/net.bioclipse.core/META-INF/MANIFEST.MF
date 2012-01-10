@@ -16,7 +16,7 @@ Export-Package: net.bioclipse.core,
  net.bioclipse.recording
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
- org.eclipse.core.resources;bundle-version="3.6.1",
+ org.eclipse.core.resources;bundle-version="[3.6.1,4.0.0)",
  org.eclipse.ui.ide,
  org.springframework.bundle.spring.aop;bundle-version="2.5.1",
  org.springframework.osgi.aopalliance.osgi;bundle-version="1.0.0",
