@@ -45,9 +45,9 @@ public class GroovyThread extends ScriptingThread {
     public static Map<String, String[]> topLevelCommands
         = new HashMap<String, String[]>() {{
             // { "fn name" => [ "parameters", "fn body" ] }
-            put("clear", new String[] { "",        "js.clear()"        } );
-            put("print", new String[] { "message", "js.print(message)" } );
-            put("say",   new String[] { "message", "js.say(message)"   } );
+            // put("clear", new String[] { "",        "js.clear()"        } );
+            // put("print", new String[] { "message", "js.print(message)" } );
+            // put("say",   new String[] { "message", "js.say(message)"   } );
         }};
 
     private static void initJs() {
