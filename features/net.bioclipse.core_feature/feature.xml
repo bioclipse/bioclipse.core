@@ -29,6 +29,9 @@ The Eclipse Public License accompanies this distribution, and is available at ht
 
    <requires>
       <import feature="org.eclipse.rcp" version="3.7.1" match="greaterOrEqual"/>
+      <import plugin="jcl.over.slf4j"/>
+      <import plugin="log4j.over.slf4j"/>
+      <import plugin="slf4j.api"/>
    </requires>
 
    <plugin
@@ -738,27 +741,6 @@ The Eclipse Public License accompanies this distribution, and is available at ht
 
    <plugin
          id="ch.qos.logback.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="jcl.over.slf4j"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="log4j.over.slf4j"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="slf4j.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
