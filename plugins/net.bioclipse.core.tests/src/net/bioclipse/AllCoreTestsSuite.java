@@ -10,6 +10,7 @@
 package net.bioclipse;
 
 import net.bioclipse.core.domain.RecordableListTest;
+import net.bioclipse.core.domain.SparseDatasetTest;
 import net.bioclipse.recording.AllRecordingTests;
 
 import org.junit.runner.RunWith;
@@ -19,7 +20,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(value=Suite.class)
 @SuiteClasses( { RecordableListTest.class,
-                 AllRecordingTests.class } )
+                 AllRecordingTests.class,
+                 SparseDatasetTest.class } )
 public class AllCoreTestsSuite {
 
 }
