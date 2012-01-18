@@ -16,23 +16,20 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.jobs.IReturner;
 import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.SWT;
@@ -45,61 +42,20 @@ public class GistManager implements IBioclipseManager {
 	private static final Logger logger = Logger.getLogger(GistManager.class);
 
     public final static String GIST_PROJECT = "Gists";
-    
-    private static String findUnusedFileName( IFolder currentFolder,
-                                              String prefix, 
-                                              String suffix ) {
-        String fileName = prefix + suffix;
-        IPath path = currentFolder.getFullPath();
-        path = path.append( fileName );
-        IFile file = currentFolder.getFile( path );
-        int i=0;
-        while(file.exists()) {
-            i++;
-            path = path.removeLastSegments( 1 );
-            path = path.append( prefix+i+suffix );
-            IPath copy = path.removeFirstSegments( 1 );
-            file = currentFolder.getProject().getFile( copy );
-        }
-        fileName = path.lastSegment();
-        return fileName;
+
+    private class GistFile {
+    	String rev;
+    	String filename;
+    	GistFile(String rev, String filename) {
+    		this.rev = rev;
+    		this.filename = filename;
+    	}
     }
 
-    private IFolder getProjectDirectory(IProgressMonitor monitor)
-                    throws CoreException {
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        IWorkspaceRoot root = workspace.getRoot();
-        IProject project = root.getProject(GIST_PROJECT);
-        if (!project.exists()) project.create(monitor);
-        if (!project.isOpen()) project.open(monitor);
-
-        return project.getFolder(GIST_PROJECT);
-    }
-
-    public IFile download(int gist, IProgressMonitor monitor)
-                  throws BioclipseException {
-        IFolder project;
-        try {
-            project = getProjectDirectory(monitor);
-        } 
-        catch ( CoreException e ) {
-            throw new BioclipseException( "Could not find a project " +
-            		                          "to save the gist in." );
-        }
-        String tName = findUnusedFileName(project, gist + ".0", ".js");
-        tName = project.getFullPath().toString() + tName;
-        IFile target = ResourcePathTransformer.getInstance().transform(tName);
-        return download(gist, target, monitor);
-    }
-
-    public IFile download(int gist, IFile target, IProgressMonitor monitor)
+    public void download(int gist, IReturner<IFile> returner, IProgressMonitor monitor)
                   throws BioclipseException {
         if (monitor == null) {
             monitor = new NullProgressMonitor();
-        }
-        
-        if (target == null) {
-            throw new BioclipseException("Cannot save to a NULL file.");
         }
         
         monitor.beginTask("Downloading Gist...", 2);
@@ -109,54 +65,63 @@ public class GistManager implements IBioclipseManager {
             URL gistURL = new URL("https://gist.github.com/" + gist);
             URLConnection gistConn = gistURL.openConnection();
             
-            String rawURLPattern = "\"/raw/" + gist + "/([0-9[a-f]]+)/gistfile1.txt";
+            String rawURLPattern = "\"/raw/" + gist + "/([0-9[a-f]]+)/([^\"]+)";
             Pattern p = Pattern.compile(rawURLPattern);
-            
+
+            // parse the HTML and extract the links to the raw files
+            List<GistFile> files = new ArrayList<GistFile>();
             BufferedReader reader = new BufferedReader(new InputStreamReader(gistConn.getInputStream()));
             String line = reader.readLine();
-            String rev = null;
             while (line != null) {
                 Matcher m = p.matcher(line);
                 if (m.find()) {
-                    rev = m.group(1);
-                	logger.debug("Found revision: " + rev);
-                    reader.close();
-                    break;
+                	String rev = m.group(1);
+                	String filename = m.group(2);
+                	logger.debug("Found file: " + filename);
+                	System.out.println("Found file: " + filename);
+                	files.add(new GistFile(rev, filename));
                 }
                 line = reader.readLine();
             }
             monitor.worked(1);
             
-            if (monitor.isCanceled()) {
-                return null;
-            }
+            if (monitor.isCanceled()) return;
 
-            if (rev != null) {
-                monitor.subTask("Downloading Gist revision: " + rev);
-                URL rawURL = new URL(
-                	"https://gist.github.com/raw/" + gist + "/" +
-                	rev + "/gistfile1.txt"
-                );
-                logger.debug("Downloading Gist as raw from URL: " + rawURL.toString());
-                URLConnection rawConn = rawURL.openConnection();
-                if (target.exists()) {
-                    target.setContents(rawConn.getInputStream(), true, false, null);
-                } else {
-                    target.create(rawConn.getInputStream(), false, null);                
-                }
-                monitor.worked(1);
+            // download 
+            if (files.size() > 0) {
+            	for (GistFile file : files) {
+                	String link = "https://gist.github.com/raw/" + gist + "/" + file.rev + "/" + file.filename;
+            		monitor.subTask("Downloading Gist revision: " + link);
+            		URL rawURL = new URL(link);
+            		logger.debug("Downloading Gist as raw from URL: " + rawURL.toString());
+            		System.out.println("Downloading Gist as raw from URL: " + link);
+            		System.out.println("Downloading Gist as raw from URL: " + rawURL.toString());
+            		URLConnection rawConn = rawURL.openConnection();
+                    
+                    IFile targetFile = ResourcePathTransformer.getInstance().transform(
+                    	GIST_PROJECT + "/" + gist + "_" + file.filename
+                    );
+            		if (targetFile.exists()) {
+            			targetFile.setContents(rawConn.getInputStream(), true, false, null);
+            		} else {
+            			targetFile.create(rawConn.getInputStream(), false, null);                
+            		}
+            		returner.partialReturn(targetFile);
+            		if (monitor.isCanceled()) return;
+            	}
+            	monitor.worked(1);
             } else {
                 Display.getDefault().syncExec(
                     new Runnable() {
                         public void run(){
                             MessageBox mb = new MessageBox(new Shell(), SWT.OK);
                             mb.setText("Gist Download Error");
-                            mb.setMessage("Could not find Gist");
+                            mb.setMessage("Could not find the gist");
                             mb.open();
                         }
                     });
                 monitor.done();
-                return null;
+                return;
             }
         } catch (PatternSyntaxException exception) {
             exception.printStackTrace();
@@ -174,7 +139,7 @@ public class GistManager implements IBioclipseManager {
         finally {
             monitor.done();
         }
-        return target;
+        return;
     }
 
     public String getManagerName() {

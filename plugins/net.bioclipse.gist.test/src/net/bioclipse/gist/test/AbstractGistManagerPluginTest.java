@@ -10,6 +10,8 @@
  ******************************************************************************/
 package net.bioclipse.gist.test;
 
+import java.util.List;
+
 import net.bioclipse.gist.business.IGistManager;
 
 import org.eclipse.core.resources.IFile;
@@ -28,25 +30,11 @@ public abstract class AbstractGistManagerPluginTest {
     
     protected static IFile file 
     = net.bioclipse.core.Activator.getVirtualProject()
-         .getFile( new Path(FILENAME) );
+         .getFile( new Path(PATH) );
     
     @BeforeClass
     public static void startUIPlugin() {
         net.bioclipse.ui.Activator.getDefault();
-    }
-    
-    @Test 
-    public void downloadIntString() throws Exception {
-        String target = PATH + FILENAME;
-        String foo = gist.download(GIST_NUM, target);
-        Assert.assertEquals(target, foo);
-    }
-    
-    @Test
-    public void downloadIntIfile() {
-        String target = PATH + FILENAME;
-        IFile foo = gist.download(GIST_NUM, file);
-        Assert.assertEquals( target, foo.getLocationURI().getPath() );        
     }
     
     @Test
@@ -56,9 +44,9 @@ public abstract class AbstractGistManagerPluginTest {
     
     @Test
     public void downloadInt() {
-        String foo = gist.download(GIST_NUM);
-        Assert.assertNotNull( foo );
-        Assert.assertFalse( "".equals( foo ) );
+        List<IFile> foo = gist.download(GIST_NUM);
+        Assert.assertNotNull(foo);
+        Assert.assertNotSame(0, foo.size());
     }
     
     @Test
