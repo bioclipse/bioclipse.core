@@ -157,6 +157,7 @@ public class UserManager implements IUserManager {
     public void switchUserContainer(UserContainer userContainer) {
         this.userContainer = userContainer;
         fireUpdate();
+        persist();
     }
     
     /**
