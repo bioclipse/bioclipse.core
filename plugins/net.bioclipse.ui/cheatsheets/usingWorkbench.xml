@@ -23,7 +23,7 @@
  <item
        title="Step 2: Create a folder">
     <description>
-       Right-click on the newly created Project and select <b>New &gt; Folder</b>. Name the folder &apos;MyFolder&apos;-
+       Right-click on the newly created Project and select <b>New &gt; Folder</b>. Name the folder &apos;My folder&apos;-
     </description>
     <command
           required="false"
@@ -41,7 +41,7 @@
  <item
        title="Step 4: Open, edit, and save the text file.">
     <description>
-       Double-click to open the created text file in a text editor. Try editing text, and try undo/redo, cut and paste, and Save As... to save file to another filename.
+       If the created text file didn't opened in a text editor, just double-click it to open it. Try editing text, and try undo/redo, cut and paste, and Save As... to save file to another filename.
     </description>
  </item>
 
