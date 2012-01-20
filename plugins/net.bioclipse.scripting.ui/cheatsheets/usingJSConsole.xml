@@ -46,7 +46,7 @@ Try &apos;help cdk.fromSMILES&apos;. This shows an explanation for what this met
        Try the following commands, they are quite self-explanatory:
 <br/>
 <br/>
-	print(&quot;hello world &quot; + (12-4))
+	js.say(&quot;hello world &quot; + (12-4))
 <br/>
 <br/>
 clear()
