@@ -1,2 +1,2 @@
 instructions.configure=\
-     org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(type:0,location:http${#58}//pele.farmbio.uu.se/bioclipse/2.5/nightly);\
+     org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(type:0,location:http${#58}//pele.farmbio.uu.se/bioclipse/release/2.5);\
