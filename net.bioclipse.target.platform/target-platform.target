@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.6"?>
 
-<target name="Spring-osgi-1.0.2" sequenceNumber="18">
+<target name="Spring-osgi-1.0.2" sequenceNumber="19">
 <locations>
 <location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/lib" type="Directory"/>
 <location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
@@ -151,10 +151,6 @@
 <repository location="http://download.eclipse.org/releases/indigo"/>
 </location>
 <location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="net.bioclipse.r.walware_feature.feature.group" version="0.5.5.201107191712"/>
-<repository location="http://pele.farmbio.uu.se/jenkins/view/Release/job/Bioclipse.statistics/lastSuccessfulBuild/artifact/buckminster.output/net.bioclipse.statistics_site_1.0.0-eclipse.feature/site.p2/"/>
-</location>
-<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.platform.sdk" version="3.7.1.M20110909-1335"/>
 <unit id="org.eclipse.sdk.feature.group" version="3.7.1.r37x_v20110728-7Q7xAEDDePtVvBAYYD3z-il0ox7CoGe6mz-B8FDdVn0YR"/>
 <unit id="org.eclipse.rcp.sdk.id" version="3.7.1.M20110909-1335"/>
@@ -168,7 +164,7 @@
 <location path="${project_loc:net.bioclipse.target.platform}/libs" type="Directory"/>
 <location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/dist" type="Directory"/>
 <location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.apache.xerces" version="2.9.0.v201005080400"/>
+<unit id="org.apache.xerces" version="2.9.0.v201101211617"/>
 <unit id="org.hamcrest.core" version="1.1.0.v20090501071000"/>
 <unit id="org.hamcrest.core.source" version="1.1.0.v20090501071000"/>
 <unit id="org.hamcrest.integration.source" version="1.1.0.v20090501071000"/>
@@ -184,11 +180,15 @@
 <unit id="javax.mail.glassfish.source" version="1.4.1.v201005082020"/>
 <unit id="org.junit" version="4.8.1.v4_8_1_v20100427-1100"/>
 <unit id="org.junit.source" version="4.8.1.v4_8_1_v20100427-1100"/>
-<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20100519200754/repository"/>
+<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20110523182458/repository/"/>
 </location>
 <location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.equinox.executable.feature.group" version="3.5.0.v20110530-7P7NFUFFLWUl76mart"/>
 <repository location="http://download.eclipse.org/eclipse/updates/3.7"/>
+</location>
+<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="net.bioclipse.r.walware_feature.feature.group" version="1.0.0"/>
+<repository location="http://pele.farmbio.uu.se/bioclipse/2.5/walware"/>
 </location>
 </locations>
 </target>
