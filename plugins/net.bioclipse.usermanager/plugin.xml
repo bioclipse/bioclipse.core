@@ -143,6 +143,21 @@
 	       </command>
 		</menuContribution>
 </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+         <wizard
+               id="net.bioclipse.usermanager.newAccountWizard"
+               class="net.bioclipse.usermanager.NewAccountWizard"
+               name="Account"
+               hasPages="true">
+         </wizard>
+   </extension>
+   <extension
+         point="net.bioclipse.usermanager.accountType">
+      <AccountType
+            name="net.bioclipse.usermanager.AccountType5">
+      </AccountType>
+   </extension>
    
    
 </plugin>
