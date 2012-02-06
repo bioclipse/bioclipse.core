@@ -1,3 +1,14 @@
+/* *****************************************************************************
+ * Copyright (c) 2007-2009 Bioclipse Project
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     
+ ******************************************************************************/
+
 package net.bioclipse.usermanager;
 
 import java.util.ArrayList;
@@ -18,9 +29,16 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
+/**
+ * The wizard page that handles the different parts accounts. 
+ * 
+ * @author Klas Jšnsson
+ *
+ */
 public class NewAccountWizardPage extends WizardPage implements Listener{
 	// This is the ID from the extension point
-	private static final String IACCOUNTS_ID = "accountlogin.accounts";
+	private static final String IACCOUNTS_ID = 
+			"net.bioclipse.usermanager.accounts";
 		
 	private ArrayList<Composite> accountComposites = new ArrayList<Composite>();
 	private Combo accountTypeCombo;
@@ -63,8 +81,10 @@ public class NewAccountWizardPage extends WizardPage implements Listener{
 		accountSettings.setLayout(accountStack);
 		
 		getAccountDetails(accountSettings);
-		accountStack.topControl = accountComposites.get(0);
-		accountTypeCombo.select(0);
+		if (accountComposites.size() > 0) {
+			accountStack.topControl = accountComposites.get(0);
+			accountTypeCombo.select(0);
+		}
 		setControl(container);
 	}
 	
@@ -84,10 +104,11 @@ public class NewAccountWizardPage extends WizardPage implements Listener{
 			try {
 				for (int i=0;i<config.length;i++) {
 					plugins[i] = config[i].createExecutableExtension("class");
-
+					
 					final Object o = plugins[i];
 					if (o instanceof IAccounts) {
 						ISafeRunnable runnable = new ISafeRunnable() {
+							Composite temp;
 							@Override
 							public void handleException(Throwable exception) {
 								System.out.println("Exception in client");
@@ -95,6 +116,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener{
 
 							@Override
 							public void run() throws Exception {
+								temp = ((IAccounts) o).createComposite(cont);
 								accountComposites.add(
 										((IAccounts) o).createComposite(cont));
 								accountTypeCombo.add(((IAccounts) o).getName());
@@ -179,4 +201,6 @@ public class NewAccountWizardPage extends WizardPage implements Listener{
 				
 		return emptyComposite;
 	}
+	
+	
 }
