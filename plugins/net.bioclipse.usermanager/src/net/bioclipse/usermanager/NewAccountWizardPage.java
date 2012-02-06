@@ -45,6 +45,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener{
 	private Composite accountSettings;
 	private StackLayout accountStack;
 	private Object[] plugins;
+	private ArrayList<Object> addedAccounts = new ArrayList<Object>();
 	
 	protected NewAccountWizardPage(String pageName) {
 		super(pageName);
@@ -84,6 +85,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener{
 		if (accountComposites.size() > 0) {
 			accountStack.topControl = accountComposites.get(0);
 			accountTypeCombo.select(0);
+			giveFocus();
 		}
 		setControl(container);
 	}
@@ -108,7 +110,6 @@ public class NewAccountWizardPage extends WizardPage implements Listener{
 					final Object o = plugins[i];
 					if (o instanceof IAccounts) {
 						ISafeRunnable runnable = new ISafeRunnable() {
-							Composite temp;
 							@Override
 							public void handleException(Throwable exception) {
 								System.out.println("Exception in client");
@@ -116,11 +117,10 @@ public class NewAccountWizardPage extends WizardPage implements Listener{
 
 							@Override
 							public void run() throws Exception {
-								temp = ((IAccounts) o).createComposite(cont);
 								accountComposites.add(
 										((IAccounts) o).createComposite(cont));
 								accountTypeCombo.add(((IAccounts) o).getName());
-
+								addedAccounts.add(o);
 							}
 						};
 						SafeRunner.run(runnable);
@@ -155,29 +155,12 @@ public class NewAccountWizardPage extends WizardPage implements Listener{
 	}
 	
 	/**
-	 * This method tell the selected plug-in to create an account.
+	 * This method gives focus to the component of the account composite that is 
+	 * chosen by the accounts focus method.
 	 */
 	private void giveFocus() {
-		try {
-			final Object o = plugins[accountTypeCombo.getSelectionIndex()];
-			if (o instanceof IAccounts) {
-				ISafeRunnable runnable = new ISafeRunnable() {
-					@Override
-					public void handleException(Throwable exception) {
-						System.out.println("Exception in client");
-					}
-
-					@Override
-					public void run() throws Exception {
-						((IAccounts) o).setFocus();				
-					}
-				};
-				SafeRunner.run(runnable);			
-			}
-			
-		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
-		}
+		Object account = addedAccounts.get(accountTypeCombo.getSelectionIndex());
+		((IAccounts) account).setFocus();
 	}
 	
 	/**
@@ -202,5 +185,11 @@ public class NewAccountWizardPage extends WizardPage implements Listener{
 		return emptyComposite;
 	}
 	
-	
+	/**
+	 * This method tell the selected plug-in to create an account.
+	 */
+	protected Boolean createAccount(){
+		Object account = addedAccounts.get(accountTypeCombo.getSelectionIndex());
+		return ((IAccounts) account).createAccount();
+	}
 }

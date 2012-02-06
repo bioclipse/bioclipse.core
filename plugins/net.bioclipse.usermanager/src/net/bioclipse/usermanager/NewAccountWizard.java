@@ -49,7 +49,8 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	@Override
 	public boolean performFinish() {
 		// TODO Add logic for creating account
-		return false;
+		//Boolean succeed = mainPage.createAccount();
+		return mainPage.createAccount();
 	}
 
 }

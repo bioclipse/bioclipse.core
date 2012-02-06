@@ -23,9 +23,10 @@ public interface IAccounts {
 	  * This is the method that creates the account. The idea is that it it 
 	  * should bee hailed just before the dialog is deposed.
 	  * The components that holds the information needed to create an account
-	  * has to be instance variables.
+	  * has to be instance variables and returns true if the account was 
+	  * successfully created, else false.
 	  */
-	 public void createAccount();
+	 public Boolean createAccount();
 	 
 	 /**
 	  * This method is is to be used to set one of the components in the 
