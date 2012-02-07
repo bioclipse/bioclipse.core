@@ -142,6 +142,7 @@ public class AccountType implements Serializable {
         private static final long serialVersionUID = -5736389052147326378L;
         String  name;
         boolean required;
+        boolean secret;
 
         /**
          * @param name the property's name
@@ -151,6 +152,14 @@ public class AccountType implements Serializable {
             super();
             this.name = name;
             this.required = required;
+            this.secret = false;
+        }
+        
+        public Property(String name, boolean required, boolean secret) {
+            super();
+            this.name = name;
+            this.required = required;
+            this.secret = secret;
         }
         
         /**
@@ -164,6 +173,7 @@ public class AccountType implements Serializable {
             super();
             this.name     = p.name;
             this.required = p.required;
+            this.secret = p.secret;
         }
 
         /**
@@ -194,6 +204,23 @@ public class AccountType implements Serializable {
             this.required = required;
         }
 
+        /**
+         * @return whether the property shouldn't be clearly visibly or not
+         */
+        public boolean isSecret() {
+        	return secret;
+        }
+        
+        /**
+         * To set if the property shouldn't be clearly visibly in e.g. a 
+         * text-field for some reason (e.g. if it's password).
+         * 
+         * @param secret true if it shouldn't be clearly visibly
+         */
+        public void setSecret(boolean secret) {
+        	this.secret = secret;
+        }
+        
         @Override
         public int hashCode() {
             final int PRIME = 31;

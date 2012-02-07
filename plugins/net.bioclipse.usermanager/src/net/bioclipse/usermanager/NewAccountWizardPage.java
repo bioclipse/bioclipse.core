@@ -12,6 +12,10 @@
 package net.bioclipse.usermanager;
 
 import java.util.ArrayList;
+import java.util.Collection;
+
+import net.bioclipse.usermanager.AccountType.Property;
+import net.bioclipse.usermanager.business.IUserManager;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -28,6 +32,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * The wizard page that handles the different parts accounts. 
@@ -35,7 +40,7 @@ import org.eclipse.swt.widgets.Listener;
  * @author Klas Jšnsson
  *
  */
-public class NewAccountWizardPage extends WizardPage implements Listener{
+public class NewAccountWizardPage extends WizardPage implements Listener {
 	// This is the ID from the extension point
 	private static final String IACCOUNTS_ID = 
 			"net.bioclipse.usermanager.accounts";
@@ -45,7 +50,10 @@ public class NewAccountWizardPage extends WizardPage implements Listener{
 	private Composite accountSettings;
 	private StackLayout accountStack;
 	private Object[] plugins;
-	private ArrayList<Object> addedAccounts = new ArrayList<Object>();
+	private ArrayList<AccountPropertiesPage> addedAccounts = 
+			new ArrayList<AccountPropertiesPage>();
+	//private ArrayList<Object> addedAccounts = new ArrayList<Object>();
+	private IUserManager usermanager = Activator.getDefault().getUserManager();
 	
 	protected NewAccountWizardPage(String pageName) {
 		super(pageName);
@@ -81,11 +89,23 @@ public class NewAccountWizardPage extends WizardPage implements Listener{
 		accountStack = new StackLayout();
 		accountSettings.setLayout(accountStack);
 		
-		getAccountDetails(accountSettings);
+		// Adding the availably account-types to the combobox and a composite 
+		// with the account specific fields to the array list of account 
+		// composites.
+		AccountType[] accountTypes = usermanager.getAvailableAccountTypes();
+		for (int i = 0; i < accountTypes.length; i++) {
+			accountTypeCombo.add(accountTypes[i].getName());
+			addedAccounts.add(new AccountPropertiesPage(accountSettings, accountTypes[i]));
+			accountComposites.add(addedAccounts.get(i).getAccountPropertiesPage());
+//			accountComposites.add(accountProperties(accountSettings, 
+//					accountTypes[i] ));
+		}
+				
+		//getAccountDetails(accountSettings);
 		if (accountComposites.size() > 0) {
 			accountStack.topControl = accountComposites.get(0);
 			accountTypeCombo.select(0);
-			giveFocus();
+			//giveFocus();
 		}
 		setControl(container);
 	}
@@ -105,8 +125,9 @@ public class NewAccountWizardPage extends WizardPage implements Listener{
 			plugins = new Object[config.length];
 			try {
 				for (int i=0;i<config.length;i++) {
+
 					plugins[i] = config[i].createExecutableExtension("class");
-					
+
 					final Object o = plugins[i];
 					if (o instanceof IAccounts) {
 						ISafeRunnable runnable = new ISafeRunnable() {
@@ -120,7 +141,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener{
 								accountComposites.add(
 										((IAccounts) o).createComposite(cont));
 								accountTypeCombo.add(((IAccounts) o).getName());
-								addedAccounts.add(o);
+//								addedAccounts.add(o);
 							}
 						};
 						SafeRunner.run(runnable);
@@ -149,7 +170,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener{
 				accountStack.topControl = accountComposites.get(
 						accountTypeCombo.getSelectionIndex());
 				accountSettings.layout();
-				giveFocus();
+				//giveFocus();
 			}
 		}	
 	}
@@ -183,6 +204,30 @@ public class NewAccountWizardPage extends WizardPage implements Listener{
 		new Label(emptyComposite, SWT.CENTER).setText("Cant find any accounts");
 				
 		return emptyComposite;
+	}
+	
+	
+	private Composite accountProperties(Composite parent, 
+			AccountType accountType) {
+		Composite accountComposite = new Composite(parent, SWT.NONE); 
+		GridData gd_ac = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_ac.widthHint = 430;
+		gd_ac.heightHint = 160;
+		accountComposite.setLayoutData(gd_ac);
+		accountComposite.setLayout(new GridLayout(2, false));
+
+		Object[] properties = accountType.getProperties().toArray();
+		Label[] accountLabels = new Label[properties.length];
+		Text[] accountTxt = new Text[properties.length];
+		for (int i = 0; i < properties.length; i++){
+			accountLabels[i] = new Label(accountComposite, SWT.NONE);
+			accountLabels[i].setText(((AccountType.Property) 
+					properties[i]).getName());
+			accountTxt[i] = new Text(accountComposite, SWT.NONE);
+			accountTxt[i].setSize(200, 20);
+		}
+		
+		return accountComposite;
 	}
 	
 	/**
