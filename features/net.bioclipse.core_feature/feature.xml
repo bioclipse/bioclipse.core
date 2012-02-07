@@ -47,7 +47,7 @@ The Eclipse Public License accompanies this distribution, and is available at ht
       <import plugin="org.springframework.bundle.osgi.extender"/>
       <import plugin="org.openscience.cdk.ioformats"/>
       <import plugin="org.eclipse.equinox.p2.ui"/>
-      <import plugin="org.eclipse.equinox.p2.ui.sdk"/>
+      <import plugin="org.eclipse.equinox.p2.ui.sdk" version="1.0.200" match="greaterOrEqual"/>
       <import plugin="org.eclipse.help"/>
       <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.eclipse.equinox.p2.core" version="2.0.2" match="greaterOrEqual"/>
@@ -66,7 +66,6 @@ The Eclipse Public License accompanies this distribution, and is available at ht
       <import plugin="ch.qos.logback.classic" version="0.9.20" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.filebuffers"/>
       <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.springframework.bundle.spring.beans"/>
    </requires>
 
    <plugin
