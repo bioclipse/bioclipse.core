@@ -52,7 +52,6 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	private Object[] plugins;
 	private ArrayList<AccountPropertiesPage> addedAccounts = 
 			new ArrayList<AccountPropertiesPage>();
-	//private ArrayList<Object> addedAccounts = new ArrayList<Object>();
 	private IUserManager usermanager = Activator.getDefault().getUserManager();
 	
 	protected NewAccountWizardPage(String pageName) {
@@ -97,65 +96,17 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 			accountTypeCombo.add(accountTypes[i].getName());
 			addedAccounts.add(new AccountPropertiesPage(accountSettings, accountTypes[i]));
 			accountComposites.add(addedAccounts.get(i).getAccountPropertiesPage());
-//			accountComposites.add(accountProperties(accountSettings, 
-//					accountTypes[i] ));
 		}
 				
-		//getAccountDetails(accountSettings);
 		if (accountComposites.size() > 0) {
 			accountStack.topControl = accountComposites.get(0);
 			accountTypeCombo.select(0);
-			//giveFocus();
+			giveFocus();
 		}
 		setControl(container);
 	}
 	
-	/**
-	 * Add the account types (i.e. the IAccounts plug-ins)  name to the 
-	 * combo-box and there contains to the array-list that handles them (i.e.
-	 *  acconutComposites).
-	 *  
-	 * @param container The container to put the account types items in.
-	 */
-	private void getAccountDetails(Composite container) {
-		IConfigurationElement[] config = Platform.getExtensionRegistry()
-				.getConfigurationElementsFor(IACCOUNTS_ID);
-		if (config.length > 0) {
-			final Composite cont = container;	
-			plugins = new Object[config.length];
-			try {
-				for (int i=0;i<config.length;i++) {
-
-					plugins[i] = config[i].createExecutableExtension("class");
-
-					final Object o = plugins[i];
-					if (o instanceof IAccounts) {
-						ISafeRunnable runnable = new ISafeRunnable() {
-							@Override
-							public void handleException(Throwable exception) {
-								System.out.println("Exception in client");
-							}
-
-							@Override
-							public void run() throws Exception {
-								accountComposites.add(
-										((IAccounts) o).createComposite(cont));
-								accountTypeCombo.add(((IAccounts) o).getName());
-//								addedAccounts.add(o);
-							}
-						};
-						SafeRunner.run(runnable);
-					}
-				}
-
-			} catch (CoreException ex) {
-				System.out.println(ex.getMessage());
-			}
-		} else {
-			accountComposites.add(empty(container));
-		}
-	}
-	
+		
 	/**
 	 * This method handles the combobox, i.e. it shows the selected account's
 	 * composite below the combobox.
@@ -170,7 +121,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 				accountStack.topControl = accountComposites.get(
 						accountTypeCombo.getSelectionIndex());
 				accountSettings.layout();
-				//giveFocus();
+				giveFocus();
 			}
 		}	
 	}
@@ -180,8 +131,9 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	 * chosen by the accounts focus method.
 	 */
 	private void giveFocus() {
-		Object account = addedAccounts.get(accountTypeCombo.getSelectionIndex());
-		((IAccounts) account).setFocus();
+		//Object account = 
+		addedAccounts.get(accountTypeCombo.getSelectionIndex()).giveFocus();
+		//((IAccounts) account).setFocus();
 	}
 	
 	/**
@@ -206,35 +158,12 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		return emptyComposite;
 	}
 	
-	
-	private Composite accountProperties(Composite parent, 
-			AccountType accountType) {
-		Composite accountComposite = new Composite(parent, SWT.NONE); 
-		GridData gd_ac = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_ac.widthHint = 430;
-		gd_ac.heightHint = 160;
-		accountComposite.setLayoutData(gd_ac);
-		accountComposite.setLayout(new GridLayout(2, false));
-
-		Object[] properties = accountType.getProperties().toArray();
-		Label[] accountLabels = new Label[properties.length];
-		Text[] accountTxt = new Text[properties.length];
-		for (int i = 0; i < properties.length; i++){
-			accountLabels[i] = new Label(accountComposite, SWT.NONE);
-			accountLabels[i].setText(((AccountType.Property) 
-					properties[i]).getName());
-			accountTxt[i] = new Text(accountComposite, SWT.NONE);
-			accountTxt[i].setSize(200, 20);
-		}
-		
-		return accountComposite;
-	}
-	
 	/**
 	 * This method tell the selected plug-in to create an account.
 	 */
 	protected Boolean createAccount(){
-		Object account = addedAccounts.get(accountTypeCombo.getSelectionIndex());
-		return ((IAccounts) account).createAccount();
+		//Object account = addedAccounts.get(accountTypeCombo.getSelectionIndex());
+		addedAccounts.get(accountTypeCombo.getSelectionIndex()).createAccount();
+		return true;
 	}
 }
