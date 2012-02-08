@@ -10,18 +10,8 @@
  ******************************************************************************/
 
 package net.bioclipse.usermanager;
-
 import java.util.ArrayList;
-import java.util.Collection;
-
-import net.bioclipse.usermanager.AccountType.Property;
 import net.bioclipse.usermanager.business.IUserManager;
-
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.ISafeRunnable;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -32,24 +22,19 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Text;
 
 /**
  * The wizard page that handles the different parts accounts. 
  * 
  * @author Klas Jšnsson
- *
+ * TODO Make sure the created SWT-components are removed
  */
 public class NewAccountWizardPage extends WizardPage implements Listener {
-	// This is the ID from the extension point
-	private static final String IACCOUNTS_ID = 
-			"net.bioclipse.usermanager.accounts";
 		
 	private ArrayList<Composite> accountComposites = new ArrayList<Composite>();
 	private Combo accountTypeCombo;
 	private Composite accountSettings;
 	private StackLayout accountStack;
-	private Object[] plugins;
 	private ArrayList<AccountPropertiesPage> addedAccounts = 
 			new ArrayList<AccountPropertiesPage>();
 	private IUserManager usermanager = Activator.getDefault().getUserManager();
@@ -94,8 +79,10 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		AccountType[] accountTypes = usermanager.getAvailableAccountTypes();
 		for (int i = 0; i < accountTypes.length; i++) {
 			accountTypeCombo.add(accountTypes[i].getName());
-			addedAccounts.add(new AccountPropertiesPage(accountSettings, accountTypes[i]));
-			accountComposites.add(addedAccounts.get(i).getAccountPropertiesPage());
+			addedAccounts.add(new AccountPropertiesPage(accountSettings, 
+					accountTypes[i]));
+			accountComposites.add(addedAccounts.get(i)
+					.getAccountPropertiesPage());
 		}
 				
 		if (accountComposites.size() > 0) {
@@ -166,8 +153,10 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 			account.createAccount();
 			return true;
 		} else {
+			// TODO If the error-messages gets to large it is cut of.
 			String errorMessage = "Please fill in the following field";
-			ArrayList<String> unfilledFields = account.getRequiredPropertiesLeft();
+			ArrayList<String> unfilledFields = account
+					.getRequiredPropertiesLeft();
 			if (unfilledFields.size()==1)
 				errorMessage += ": " + unfilledFields.get(0);
 			else if(unfilledFields.size() > 1) {
@@ -180,6 +169,14 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		} 
 	}
 	
+	/**
+	 * An recursive method that to get the names of the required fields that 
+	 * aren't filled in yet.
+	 * 
+	 * @param unfilledFields An ArrayList containing the names of the un-filled 
+	 * 			fields.
+	 * @return the names of the un-filled (required) fields
+	 */
 	private String createErrorMessage(ArrayList<String> unfilledFields) {
 		if (unfilledFields.size() == 2) 
 			return unfilledFields.get(0) + " and " + unfilledFields.get(1);
