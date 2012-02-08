@@ -37,6 +37,8 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	
     public void addPages() {
         super.addPages();
+        // TODO add the Bioclipse create-account and log-in dialogs as pages
+        // are the any more to be added?
         mainPage = new NewAccountWizardPage("mainPage");
         mainPage.setTitle("New Account");
         mainPage.setDescription("Add an third-part account to Bioclipse");
