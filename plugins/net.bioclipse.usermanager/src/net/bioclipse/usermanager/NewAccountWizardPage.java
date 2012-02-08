@@ -131,9 +131,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	 * chosen by the accounts focus method.
 	 */
 	private void giveFocus() {
-		//Object account = 
 		addedAccounts.get(accountTypeCombo.getSelectionIndex()).giveFocus();
-		//((IAccounts) account).setFocus();
 	}
 	
 	/**
@@ -162,8 +160,33 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	 * This method tell the selected plug-in to create an account.
 	 */
 	protected Boolean createAccount(){
-		//Object account = addedAccounts.get(accountTypeCombo.getSelectionIndex());
-		addedAccounts.get(accountTypeCombo.getSelectionIndex()).createAccount();
-		return true;
+		AccountPropertiesPage account = 
+				addedAccounts.get(accountTypeCombo.getSelectionIndex());
+		if (account.isAllRequierdPropertiesFilledIn()) {
+			account.createAccount();
+			return true;
+		} else {
+			String errorMessage = "Please fill in the following field";
+			ArrayList<String> unfilledFields = account.getRequiredPropertiesLeft();
+			if (unfilledFields.size()==1)
+				errorMessage += ": " + unfilledFields.get(0);
+			else if(unfilledFields.size() > 1) {
+				errorMessage += "s:\n" + createErrorMessage(unfilledFields);
+			} else
+				errorMessage = "WTF? All requierd fileds aren't filled in...";
+			
+			setErrorMessage(errorMessage);
+			return false;
+		} 
+	}
+	
+	private String createErrorMessage(ArrayList<String> unfilledFields) {
+		if (unfilledFields.size() == 2) 
+			return unfilledFields.get(0) + " and " + unfilledFields.get(1);
+		else {
+			String field = unfilledFields.get(0);
+			unfilledFields.remove(0);
+			return field + ", " + createErrorMessage(unfilledFields);
+		}			
 	}
 }
