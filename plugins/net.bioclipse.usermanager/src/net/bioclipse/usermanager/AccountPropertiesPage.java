@@ -74,12 +74,17 @@ public class AccountPropertiesPage {
 		gd_ac.widthHint = 430;
 		gd_ac.heightHint = contentMinHight;
 		accountComposite.setLayoutData(gd_ac);
-		accountComposite.setLayout(new GridLayout(2, false)); 
-		// TODO Add a icon for the account using an icon provided by it self.
+		accountComposite.setLayout(new GridLayout(2, false));
 		
 		accountLabels = new Label[noOfFields];
 		accountTxt = new Text[noOfFields];
 		
+		if (accountType.hasLogo()) {
+			new Label(accountComposite, SWT.NONE);
+			Label logo = new Label(accountComposite, SWT.NONE);
+			logo.setImage(accountType.getLogo());
+		}
+			
 		propertyIter = properties.iterator();
 		while (propertyIter.hasNext()) {
 			temp = propertyIter.next();
