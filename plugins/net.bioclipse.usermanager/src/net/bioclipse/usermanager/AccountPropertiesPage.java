@@ -20,6 +20,10 @@ import net.bioclipse.usermanager.business.IUserManager;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -30,7 +34,7 @@ import org.eclipse.swt.widgets.Text;
 /**
  * 
  * @author Klas Jšnsson (aka "konditorn")
- *	TODO Make sure the created SWT-components are removed
+ *	
  */
 public class AccountPropertiesPage {
 
@@ -42,50 +46,93 @@ public class AccountPropertiesPage {
 	private Image reqImage = FieldDecorationRegistry.getDefault()
 			.getFieldDecoration(FieldDecorationRegistry.DEC_REQUIRED)
 			.getImage();
+	private Image errImage = FieldDecorationRegistry.getDefault()
+			.getFieldDecoration(FieldDecorationRegistry.DEC_ERROR)
+			.getImage();
 	private AccountType accountType;
+	private Boolean errorFlag = false;
 	
 	public AccountPropertiesPage(Composite parent, 
 			AccountType accountType) {
-		int noOfFields = 0, noOfSecretFields = 0, i = 0;
+		int noOfFields = 0, noOfSecretFields = 0, i = 0, contentMinHight;
+		int rowSpace = 25;
 		Iterator<Property> propertyIter;
 		Property temp;
-		this.accountType = accountType;
+		GridData txtData= new GridData(GridData.FILL_HORIZONTAL);
 		
-		accountComposite = new Composite(parent, SWT.NONE); 
-		GridData gd_ac = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_ac.widthHint = 430;
-		gd_ac.heightHint = 160;
-		accountComposite.setLayoutData(gd_ac);
-		accountComposite.setLayout(new GridLayout(2, false));
-		// TODO Add a icon for the account using an icon provided by it self.
+		this.accountType = accountType;
 		properties = accountType.getProperties();
 		for (propertyIter = properties.iterator(); propertyIter.hasNext(); ) {
 			if (propertyIter.next().isSecret())
 				noOfSecretFields++;
 		}
-			
 		noOfFields = properties.size() + noOfSecretFields;
+		contentMinHight = noOfFields * rowSpace;
+		
+		accountComposite = new Composite(parent, SWT.NONE); 
+		GridData gd_ac = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_ac.widthHint = 430;
+		gd_ac.heightHint = contentMinHight;
+		accountComposite.setLayoutData(gd_ac);
+		accountComposite.setLayout(new GridLayout(2, false)); 
+		// TODO Add a icon for the account using an icon provided by it self.
+		
 		accountLabels = new Label[noOfFields];
 		accountTxt = new Text[noOfFields];
 		
 		propertyIter = properties.iterator();
 		while (propertyIter.hasNext()) {
-			temp = propertyIter.next();		
+			temp = propertyIter.next();
 			if (temp.isSecret()) {
 				accountLabels[i] = new Label(accountComposite, SWT.NONE);
-				accountLabels[i].setText(temp.getName()+":");
+				accountLabels[i].setText(temp.getName() + ":");
 				accountTxt[i] = new Text(accountComposite, 
 					SWT.BORDER | SWT.PASSWORD);
 				accountTxt[i].setToolTipText(accountLabels[i].getText());
+				accountTxt[i].setLayoutData(txtData);
 				if (temp.isRequired()) {
 					setReqDeco(accountLabels[i]);
 					requiredFields.add(accountTxt[i]);
 				}
-				accountLabels[i++] = new Label(accountComposite, SWT.NONE);
-				accountLabels[i].setText("Repeat "+temp.getName()+":");
+				i++;
+				accountLabels[i] = new Label(accountComposite, SWT.NONE);
+				accountLabels[i].setText("Repeat " + temp.getName() + ":");
 				accountTxt[i] = new Text(accountComposite, 
 						SWT.BORDER | SWT.PASSWORD);
+				accountTxt[i].setLayoutData(txtData);
 				accountTxt[i].setToolTipText(accountLabels[i].getText());
+				final int my_i = i;
+				final ControlDecoration deco = new ControlDecoration(
+								accountTxt[my_i], SWT.TOP | SWT.RIGHT);
+				deco.setDescriptionText("The value has to be the same as " +
+						"the value above");
+				deco.setImage(errImage);
+				deco.setShowOnlyOnFocus(false);
+				deco.hide();
+				accountTxt[i].addKeyListener(new KeyListener() {
+					
+					@Override
+					public void keyReleased(KeyEvent e) {
+						if (!(accountTxt[my_i-1].getText().equals(
+								accountTxt[my_i].getText()))) {							
+							deco.show();
+							errorFlag = true;
+						} else {
+							deco.hide();
+							errorFlag = false;
+						}
+//						accountTxt[my_i].getParent().getAccessible().sendEvent(SWT.Selection, null);
+//						accountComposite.getParent().getAccessible()
+//						.sendEvent(SWT.Activate, null);
+					}
+					
+					@Override
+					public void keyPressed(KeyEvent e) {	
+//						accountComposite.getParent().getAccessible()
+//						.sendEvent(SWT.Activate, null);
+					}
+				});
+				
 				if (temp.isRequired()) {
 					setReqDeco(accountLabels[i]);
 					requiredFields.add(accountTxt[i]);
@@ -95,6 +142,7 @@ public class AccountPropertiesPage {
 				accountLabels[i].setText(temp.getName());
 				accountTxt[i] = new Text(accountComposite, SWT.BORDER);
 				accountTxt[i].setToolTipText(accountLabels[i].getText());
+				accountTxt[i].setLayoutData(txtData);
 				if (temp.isRequired()) {
 					setReqDeco(accountLabels[i]);
 					requiredFields.add(accountTxt[i]);
@@ -171,7 +219,7 @@ public class AccountPropertiesPage {
 	 */
 	public Boolean isAllRequierdPropertiesFilledIn() {
 		Iterator<Text> itr = requiredFields.iterator();
-		while (itr.hasNext()){
+		while (itr.hasNext()) {
 			if (itr.next().getText().isEmpty())
 				return false;
 		}
@@ -187,7 +235,7 @@ public class AccountPropertiesPage {
 	public ArrayList<String> getRequiredPropertiesLeft() {
 		Iterator<Text> itr = requiredFields.iterator();
 		ArrayList<String> requiredPropertiesLeft = new ArrayList<String>();
-		while (itr.hasNext()){
+		while (itr.hasNext()) {
 			Text temp = itr.next();
 			if (temp.getText().isEmpty())
 				requiredPropertiesLeft.add(temp.getToolTipText());
@@ -195,5 +243,17 @@ public class AccountPropertiesPage {
 		
 		return requiredPropertiesLeft;
 	}
+	
+	/**
+	 * A method to check that all the fields are valid.
+	 * 
+	 * @return True if everything is ok 
+	 */
+	public Boolean isFieldsProperlyFilled() {		
+		return !errorFlag;
+	}
 
+	public void dispose() {
+		dispose();
+	}
 }

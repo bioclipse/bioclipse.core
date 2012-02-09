@@ -11,10 +11,14 @@
 
 package net.bioclipse.usermanager;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import net.bioclipse.usermanager.business.IUserManager;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.GestureEvent;
+import org.eclipse.swt.events.GestureListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
@@ -27,7 +31,7 @@ import org.eclipse.swt.widgets.Listener;
  * The wizard page that handles the different parts accounts. 
  * 
  * @author Klas Jönsson
- * TODO Make sure the created SWT-components are removed
+ * 
  */
 public class NewAccountWizardPage extends WizardPage implements Listener {
 		
@@ -72,7 +76,6 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		accountType.setLayoutData(gd_accountSettings);
 		accountStack = new StackLayout();
 		accountSettings.setLayout(accountStack);
-		
 		// Adding the availably account-types to the combobox and a composite 
 		// with the account specific fields to the array list of account 
 		// composites.
@@ -81,8 +84,19 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 			accountTypeCombo.add(accountTypes[i].getName());
 			addedAccounts.add(new AccountPropertiesPage(accountSettings, 
 					accountTypes[i]));
+			
 			accountComposites.add(addedAccounts.get(i)
 					.getAccountPropertiesPage());
+//			accountComposites.get(i).addListener(SWT.Selection, this);
+			
+//			.addGestureListener(new GestureListener() {
+//				
+//				@Override
+//				public void gesture(GestureEvent e) {
+//					// TODO Auto-generated method stub
+//					System.out.println("Something happend! =)");
+//				}
+//			});
 		}
 				
 		if (accountComposites.size() > 0) {
@@ -100,6 +114,8 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	 */
 	@Override
 	public void handleEvent(Event event) {
+		isPageComplete();
+//		System.out.println("Something happend:\n" + event.toString());
 		if (event.widget == accountTypeCombo) {
 			if (accountTypeCombo.getSelectionIndex() == -1){
 				System.out.println("Please select an account-type");
@@ -110,7 +126,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 				accountSettings.layout();
 				giveFocus();
 			}
-		}	
+		}
 	}
 	
 	/**
@@ -149,24 +165,43 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	protected Boolean createAccount(){
 		AccountPropertiesPage account = 
 				addedAccounts.get(accountTypeCombo.getSelectionIndex());
-		if (account.isAllRequierdPropertiesFilledIn()) {
+		if (account.isAllRequierdPropertiesFilledIn() && 
+				account.isFieldsProperlyFilled()) {
+			setErrorMessage(null);
 			account.createAccount();
+			// TODO Do I need this for-loop or is the dispose below enough to 
+			// remove the subpages SWT-components? 
+//			for (Iterator<AccountPropertiesPage> itr = addedAccounts.iterator(); 
+//					itr.hasNext();) {
+//				itr.next().dispose();
+//			}
+			dispose();
 			return true;
 		} else {
-			// TODO If the error-messages gets to large it is cut of.
-			String errorMessage = "Please fill in the following field";
-			ArrayList<String> unfilledFields = account
-					.getRequiredPropertiesLeft();
-			if (unfilledFields.size()==1)
-				errorMessage += ": " + unfilledFields.get(0);
-			else if(unfilledFields.size() > 1) {
-				errorMessage += "s:\n" + createErrorMessage(unfilledFields);
-			} else
-				errorMessage = "WTF? All requierd fileds aren't filled in...";
-			
-			setErrorMessage(errorMessage);
+			createErrorMessage(account);
 			return false;
 		} 
+	}
+	
+	/**
+	 * If there's some error this method shows an error message in the header.
+	 * 
+	 * @param account The active subpage
+	 */
+	private void createErrorMessage(AccountPropertiesPage account) {
+		// TODO If the error-messages gets to large it's cut of.
+		String errorMessage = "Please fill in the following field";
+		ArrayList<String> unfilledFields = account
+				.getRequiredPropertiesLeft();
+		if (unfilledFields.size()==1)
+			errorMessage += ": " + unfilledFields.get(0);
+		else if(unfilledFields.size() > 1) {
+			errorMessage += "s:\n" + createErrorMessage(unfilledFields);
+		} else if (!account.isFieldsProperlyFilled())
+			errorMessage = "Gör om, gör rätt";
+		else
+			errorMessage = "WTF?";
+		setErrorMessage(errorMessage);
 	}
 	
 	/**
@@ -186,4 +221,18 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 			return field + ", " + createErrorMessage(unfilledFields);
 		}			
 	}
+	
+//	@Override
+//	public boolean isPageComplete() {
+//		AccountPropertiesPage account = 
+//				addedAccounts.get(accountTypeCombo.getSelectionIndex());
+//		if (account.isAllRequierdPropertiesFilledIn() && 
+//				account.isFieldsProperlyFilled()){
+//			setErrorMessage(null);
+//			return true;
+//		} else {
+//			createErrorMessage(account);
+//			return false;
+//		}
+//	}
 }

@@ -152,7 +152,7 @@ public class AccountType implements Serializable {
             super();
             this.name = name;
             this.required = required;
-            this.secret = false;
+            this.secret = true;
         }
         
         public Property(String name, boolean required, boolean secret) {
