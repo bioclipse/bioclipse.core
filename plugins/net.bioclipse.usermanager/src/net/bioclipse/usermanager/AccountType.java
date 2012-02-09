@@ -38,6 +38,7 @@ public class AccountType implements Serializable {
     public AccountType() {
         properties = new ArrayList<Property>();
         this.name  = "";
+        this.myLogo = null;
     }
     
     /**
@@ -48,8 +49,21 @@ public class AccountType implements Serializable {
     public AccountType(String name) {
         properties = new ArrayList<Property>();
         this.name = name;
+        this.myLogo = null;
     }
-
+    
+    /**
+     * Constructor 
+     * 
+     * @param name the name of the account type 
+     * @param logo the logo of the account type 
+     */
+    public AccountType(String name, Image logo) {
+        properties = new ArrayList<Property>();
+        this.name = name;
+        this.myLogo = logo;
+    }
+    
     /**
      * Constructor creating a new deep copy of the 
      * given account type
@@ -159,8 +173,8 @@ public class AccountType implements Serializable {
      *  
      * @return True if there's a logo associated with this account
      */
-    public boolean hasLogo() {    	
-    	return !(myLogo.equals(null));
+    public boolean hasLogo() {
+    		return (myLogo != null);
     }
     
     /**
