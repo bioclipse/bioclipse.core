@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.swt.graphics.Image;
+
 /**
  * @author jonalv
  *
@@ -27,6 +29,8 @@ public class AccountType implements Serializable {
     private List<Property> properties; 
     
     private String name;
+    
+    private Image myLogo;
     
     /**
      * Standard Constructor
@@ -129,6 +133,34 @@ public class AccountType implements Serializable {
     
     public String toString() {
         return name;
+    }
+    
+    /**
+     * A set-method to give the account type a logo.
+     * 
+     * @param logo The image that contains the logo
+     */
+    public void setLogo(Image logo) {
+    	this.myLogo = logo;
+    }
+    
+    /**
+     * A get-method to get the account types logo.
+     * 
+     * @return The image that contains the logo
+     */
+    public Image getLogo() {
+    	return myLogo;
+    }
+    
+    /**
+     * A method to check whether there's a logo associated with this account
+     *  type.
+     *  
+     * @return True if there's a logo associated with this account
+     */
+    public boolean hasLogo() {    	
+    	return !(myLogo.equals(null));
     }
     
     /**
