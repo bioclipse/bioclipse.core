@@ -20,7 +20,7 @@ import org.eclipse.ui.IWorkbench;
  * A wizard for handling the users third parts accounts
  *   
  * @author Klas Jšnsson (aka "konditorn")
- * TODO Make sure the created SWT-components are removed
+ * 
  */
 public class NewAccountWizard extends Wizard implements INewWizard {
 
@@ -32,7 +32,7 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
         setWindowTitle("Add an account to Bioclipse");
-        setNeedsProgressMonitor(false);
+        setNeedsProgressMonitor(true);
 	}
 	
     public void addPages() {
@@ -46,12 +46,21 @@ public class NewAccountWizard extends Wizard implements INewWizard {
         // TODO Decide which icon to use
         setDefaultPageImageDescriptor(ImageDescriptor
         		.createFromFile(this.getClass(),
-        				"BioclipseAccountLogo1_medium.png"));
+        				"BioclipseAccountLogo3_medium.png"));
     }
-
+    
 	@Override
 	public boolean performFinish() {
-		return mainPage.createAccount();
+		if (mainPage.createAccount()) {
+			dispose();
+			return true;
+		} else
+			return false;
 	}
+	
+//	@Override
+//	public boolean canFinish() {
+//		return mainPage.isPageComplete();
+//	}
 
 }
