@@ -10,6 +10,7 @@
  ******************************************************************************/
 
 package net.bioclipse.usermanager;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -19,8 +20,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.GestureEvent;
 import org.eclipse.swt.events.GestureListener;
+import org.eclipse.swt.internal.cocoa.NSColor;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -51,14 +54,11 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	@Override
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
-		container.setLayout(new GridLayout());
+		RowLayout containerLayout = new RowLayout();
+		containerLayout.type = SWT.VERTICAL;
+		container.setLayout(containerLayout);
 		
 		Composite accountType = new Composite(container, SWT.NONE);
-		GridData gd_accountType = new GridData(SWT.LEFT, SWT.CENTER,
-				false, false, 1, 1);
-		gd_accountType.widthHint = 430;
-		gd_accountType.heightHint = 40;
-		accountType.setLayoutData(gd_accountType);
 				
 		Label accountTypeTxt = new Label(accountType, SWT.NONE);
 		accountTypeTxt.setBounds(10, 10, 120, 14);
@@ -69,13 +69,10 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		accountTypeCombo.addListener(SWT.Selection, this);
 		
 		accountSettings = new Composite(container, SWT.NONE);
-		GridData gd_accountSettings = new GridData(GridData.FILL_BOTH);
-		gd_accountSettings.grabExcessVerticalSpace = false;
-		gd_accountSettings.verticalAlignment = SWT.TOP;
-		gd_accountSettings.heightHint = 48;
-		accountType.setLayoutData(gd_accountSettings);
 		accountStack = new StackLayout();
+		accountStack.marginWidth = 25;
 		accountSettings.setLayout(accountStack);
+
 		// Adding the availably account-types to the combobox and a composite 
 		// with the account specific fields to the array list of account 
 		// composites.
@@ -87,7 +84,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 			
 			accountComposites.add(addedAccounts.get(i)
 					.getAccountPropertiesPage());
-//			accountComposites.get(i).addListener(SWT.Selection, this);
+			accountComposites.get(i).addListener(SWT.Activate, this);
 			
 //			.addGestureListener(new GestureListener() {
 //				
@@ -115,7 +112,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	@Override
 	public void handleEvent(Event event) {
 		isPageComplete();
-//		System.out.println("Something happend:\n" + event.toString());
+		System.out.println("Something happend:\n" + event.toString());
 		if (event.widget == accountTypeCombo) {
 			if (accountTypeCombo.getSelectionIndex() == -1){
 				System.out.println("Please select an account-type");
