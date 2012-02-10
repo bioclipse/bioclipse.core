@@ -64,14 +64,14 @@ public class UserContainerTest {
     @Before
     public void addMockAccountType() {
         
-        ACCOUNTTYPE.addProperty(  REQUIREDPROPERTYKEY,    true  );
-        ACCOUNTTYPE.addProperty(  NOTREQUIREDPROPERTYKEY, false );
-        ACCOUNTTYPE.addProperty( "username",              true  );
-        ACCOUNTTYPE.addProperty( "password",              true  );
-        ACCOUNTTYPE2.addProperty( "username",             true  );
-        ACCOUNTTYPE2.addProperty( "password",             true  );
-        ACCOUNTTYPE2.addProperty( REQUIREDPROPERTYKEY,    true  );
-        ACCOUNTTYPE2.addProperty( NOTREQUIREDPROPERTYKEY, false );
+        ACCOUNTTYPE.addProperty(  REQUIREDPROPERTYKEY,    true, false  );
+        ACCOUNTTYPE.addProperty(  NOTREQUIREDPROPERTYKEY, false, false );
+        ACCOUNTTYPE.addProperty( "username",              true, false  );
+        ACCOUNTTYPE.addProperty( "password",              true, true  );
+        ACCOUNTTYPE2.addProperty( "username",             true, false  );
+        ACCOUNTTYPE2.addProperty( "password",             true, true  );
+        ACCOUNTTYPE2.addProperty( REQUIREDPROPERTYKEY,    true, false  );
+        ACCOUNTTYPE2.addProperty( NOTREQUIREDPROPERTYKEY, false, false );
         userContainer.availableAccountTypes.add( ACCOUNTTYPE  );
         userContainer.availableAccountTypes.add( ACCOUNTTYPE2 );
     }
@@ -273,7 +273,7 @@ public class UserContainerTest {
         
         final String testAccountId = "testAccountId";
         AccountType testAccountType = new AccountType("unavailableAcccount");
-        testAccountType.addProperty( NOTREQUIREDPROPERTYKEY, false );
+        testAccountType.addProperty( NOTREQUIREDPROPERTYKEY, false, false );
         
         try {
             userContainer.createAccount( "other" + testAccountId,
