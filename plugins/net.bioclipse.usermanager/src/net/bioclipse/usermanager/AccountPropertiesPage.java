@@ -194,13 +194,13 @@ public class AccountPropertiesPage {
 	public void createAccount() {
 		// TODO un-comment so it acutely do what it's supposed to do and remove
 		// the printing...
-		String accountId = "Account0";
+		String accountId = accountType.getName() + "_0";
 //		IUserManager usermanager = Activator.getDefault().getUserManager();
 //		HashMap<String, String> properties = new HashMap<String, String>();
 		int i = 0;
 //		while (usermanager.accountExists(accountId)){
 //			i++;
-//			accountId = "Account" + i;
+//			accountId = accountType.getName() + "_" + i;
 //		}
 		
 		System.out.println("Account type: " + accountType.getName());
