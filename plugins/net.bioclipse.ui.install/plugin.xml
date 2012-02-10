@@ -12,7 +12,7 @@
                style="push">
             <parameter
                   name="org.eclipse.equinox.p2.ui.discovery.commands.RepositoryParameter"
-                  value="http://pele.farmbio.uu.se/bioclipse/2.5/nightly">
+                  value="http://pele.farmbio.uu.se/bioclipse/releases/2.5">
             </parameter>
          </command>
       </menuContribution>
