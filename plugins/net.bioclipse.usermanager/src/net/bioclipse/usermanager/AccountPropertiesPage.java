@@ -126,8 +126,16 @@ public class AccountPropertiesPage {
 							deco.hide();
 							errorFlag = false;
 						}
+//						if (accountTxt[my_i].getParent().isListening(SWT.Activate)) 
+//							System.out.println("Text-boxs parent is listen"); 
+//						if (accountTxt[my_i].getParent().getParent().isListening(SWT.Activate)) 
+//							System.out.println("Text-boxs grandparent is listen");
+//						if (accountTxt[my_i].getParent().getParent().getParent().isListening(SWT.Activate)) 
+//							System.out.println("Text-boxs greatgrandparent is listen"); 
+						System.out.println("Text-boxs parent: "+accountTxt[my_i].getParent().getSize());
+						System.out.println("Text-boxs grandparent: "+accountTxt[my_i].getParent().getParent().getSize());
 //						accountTxt[my_i].getParent().getAccessible().sendEvent(SWT.Selection, null);
-//						accountComposite.getParent().getAccessible()
+//						accountComposite.getParent().notifyListeners(SWT.KeyUp, null);//.getAccessible()
 //						.sendEvent(SWT.Activate, null);
 					}
 					

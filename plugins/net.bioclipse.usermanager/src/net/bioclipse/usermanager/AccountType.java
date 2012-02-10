@@ -85,8 +85,8 @@ public class AccountType implements Serializable {
      * @param name the name of the property
      * @param required whether the property is required
      */
-    public void addProperty( String name, boolean required) {
-        properties.add( new Property(name, required) );
+    public void addProperty( String name, boolean required, boolean secret) {
+        properties.add( new Property(name, required, secret) );
     }
     
     /**
@@ -198,9 +198,16 @@ public class AccountType implements Serializable {
             super();
             this.name = name;
             this.required = required;
-            this.secret = true;
+            this.secret = false;
         }
         
+        /**
+         * 
+         * @param name the property's name
+         * @param required whether the property is required
+         * @param secret whether the property should be visible when entering 
+         * 		it in a text-field, e.g. is a password 
+         */
         public Property(String name, boolean required, boolean secret) {
             super();
             this.name = name;

@@ -107,13 +107,16 @@ public class UserContainer extends BioObject {
                 = extension.getConfigurationElements();
             for (IConfigurationElement element : configelements) {
                 AccountType accountType
-                    = new AccountType(element.getAttribute("name"));
+                = new AccountType(element.getAttribute("name"));
                 for ( IConfigurationElement subElement 
-                         : element.getChildren() ) {
-                    accountType.addProperty( subElement.getAttribute("name"),
-                                             Boolean.parseBoolean(
-                                                     subElement.getAttribute(
-                                                             "required" ) ) );
+                		: element.getChildren() ) {
+                	accountType.addProperty( subElement.getAttribute("name"),
+                			Boolean.parseBoolean(
+                					subElement.getAttribute(
+                							"required" ) ),
+                							Boolean.parseBoolean(
+                									subElement.getAttribute(
+                											"secret" ) ));
                 }
                 availableAccountTypes.add(accountType);
             }
