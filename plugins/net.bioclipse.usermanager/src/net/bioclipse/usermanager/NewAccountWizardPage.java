@@ -10,17 +10,12 @@
  ******************************************************************************/
 
 package net.bioclipse.usermanager;
-import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import net.bioclipse.usermanager.business.IUserManager;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
-import org.eclipse.swt.events.GestureEvent;
-import org.eclipse.swt.events.GestureListener;
-import org.eclipse.swt.internal.cocoa.NSColor;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -45,6 +40,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	private ArrayList<AccountPropertiesPage> addedAccounts = 
 			new ArrayList<AccountPropertiesPage>();
 	private IUserManager usermanager = Activator.getDefault().getUserManager();
+	//private final IFieldErrorMessageHandler errorMessageHandler;
 	
 	protected NewAccountWizardPage(String pageName) {
 		super(pageName);
