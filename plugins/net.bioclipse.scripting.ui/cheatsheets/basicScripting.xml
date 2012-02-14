@@ -13,7 +13,7 @@
         title="Step 1: Show the JavaScript Console">
 		<description>
 		Bioclipse scripting is built on JavaScript, so to be able to enter scripting commands we need to reveal the JavaScript View.<br/><br/>
-To show available views, use the main menu option <b>Window &gt; Show View &gt; Other...</b>. In the opened Views dialog, select the Javscript View.
+To show available views, use the main menu option <b>Window &gt; Show View &gt; Other...</b>. In the opened Views dialog, select the JavaScript View.
 		</description>
    <command
         required="false"
@@ -26,7 +26,9 @@ To show available views, use the main menu option <b>Window &gt; Show View &gt; 
     <description>
        Managers are collection of functionality in a domain, contributed by a plugin. For example, the CDK Manager has functionality to load/save/manipulate chemical structures.
        
-       To list available managers, enter <b>help</b> in the JavaScript Console.
+       To list available managers, enter <b>help</b> in the JavaScript Console.<br/><br/>
+       
+       Hint: You type the commands in the small window at the bottom of the JavaScript View, and the results are shown in the window above.
     </description>
     <action
 			pluginId="net.bioclipse.scripting.ui"
