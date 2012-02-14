@@ -49,11 +49,13 @@ public class AccountPropertiesPage {
 			.getImage();
 	private AccountType accountType;
 	private Boolean errorFlag = false;
+	private NewAccountWizardPage mainPage;
 	
 	public AccountPropertiesPage(Composite parent, 
-			AccountType accountType) {
+			AccountType accountType, NewAccountWizardPage nawp) {
 		int noOfFields = 0, noOfSecretFields = 0, i = 0, contentMinHight;
 		int rowSpace = 25;
+		mainPage = nawp;
 		Iterator<Property> propertyIter;
 		Property temp;
 		GridData txtData= new GridData(GridData.FILL_HORIZONTAL);
@@ -120,27 +122,24 @@ public class AccountPropertiesPage {
 								accountTxt[my_i].getText()))) {							
 							deco.show();
 							errorFlag = true;
+							mainPage.setErrorMessage("The value has to be " +
+									"the same as the value above");
 						} else {
 							deco.hide();
-							errorFlag = false;
+							if (isAllRequierdPropertiesFilledIn()) {
+								mainPage.setErrorMessage(null);
+								errorFlag = false;
+							} else {
+								errorFlag = true;
+								createMissingFieldsError();
+							}
+							
 						}
-//						if (accountTxt[my_i].getParent().isListening(SWT.Activate)) 
-//							System.out.println("Text-boxs parent is listen"); 
-//						if (accountTxt[my_i].getParent().getParent().isListening(SWT.Activate)) 
-//							System.out.println("Text-boxs grandparent is listen");
-//						if (accountTxt[my_i].getParent().getParent().getParent().isListening(SWT.Activate)) 
-//							System.out.println("Text-boxs greatgrandparent is listen"); 
-						System.out.println("Text-boxs parent: "+accountTxt[my_i].getParent().getSize());
-						System.out.println("Text-boxs grandparent: "+accountTxt[my_i].getParent().getParent().getSize());
-//						accountTxt[my_i].getParent().getAccessible().sendEvent(SWT.Selection, null);
-//						accountComposite.getParent().notifyListeners(SWT.KeyUp, null);//.getAccessible()
-//						.sendEvent(SWT.Activate, null);
+
 					}
 					
 					@Override
 					public void keyPressed(KeyEvent e) {	
-//						accountComposite.getParent().getAccessible()
-//						.sendEvent(SWT.Activate, null);
 					}
 				});
 				
@@ -161,6 +160,42 @@ public class AccountPropertiesPage {
 			}
 			i++;
 		}
+	}
+	
+	/**
+	 * This method create an error-message to let the user know which of the 
+	 * required fields that isn't fill in.
+	 */
+	public void createMissingFieldsError() {
+		String errorMessage = "Please fill in the following field";
+		ArrayList<String> unfilledFields = getRequiredPropertiesLeft();
+		if (unfilledFields.size()==1)
+			errorMessage += ": " + unfilledFields.get(0);
+		else if(unfilledFields.size() > 1) {
+			errorMessage += "s:\n" + createErrorMessage(unfilledFields);
+		} else if (!isFieldsProperlyFilled())
+			errorMessage = "Now you're way of...";
+		else
+			errorMessage = "WTF?";
+		mainPage.setErrorMessage(errorMessage);
+	}
+	
+	/**
+	 * An recursive method that to get the names of the required fields that 
+	 * aren't filled in yet.
+	 * 
+	 * @param unfilledFields An ArrayList containing the names of the un-filled 
+	 * 			fields.
+	 * @return the names of the un-filled (required) fields
+	 */
+	private String createErrorMessage(ArrayList<String> unfilledFields) {
+		if (unfilledFields.size() == 2) 
+			return unfilledFields.get(0) + " and " + unfilledFields.get(1);
+		else {
+			String field = unfilledFields.get(0);
+			unfilledFields.remove(0);
+			return field + ", " + createErrorMessage(unfilledFields);
+		}			
 	}
 	
 	/**

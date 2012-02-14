@@ -40,7 +40,6 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	private ArrayList<AccountPropertiesPage> addedAccounts = 
 			new ArrayList<AccountPropertiesPage>();
 	private IUserManager usermanager = Activator.getDefault().getUserManager();
-	//private final IFieldErrorMessageHandler errorMessageHandler;
 	
 	protected NewAccountWizardPage(String pageName) {
 		super(pageName);
@@ -73,23 +72,13 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		// with the account specific fields to the array list of account 
 		// composites.
 		AccountType[] accountTypes = usermanager.getAvailableAccountTypes();
+		System.out.println("Found "+ accountTypes.length+" account(s)");
 		for (int i = 0; i < accountTypes.length; i++) {
 			accountTypeCombo.add(accountTypes[i].getName());
 			addedAccounts.add(new AccountPropertiesPage(accountSettings, 
-					accountTypes[i]));
-			
+					accountTypes[i], this));
 			accountComposites.add(addedAccounts.get(i)
 					.getAccountPropertiesPage());
-			accountComposites.get(i).addListener(SWT.Activate, this);
-			
-//			.addGestureListener(new GestureListener() {
-//				
-//				@Override
-//				public void gesture(GestureEvent e) {
-//					// TODO Auto-generated method stub
-//					System.out.println("Something happend! =)");
-//				}
-//			});
 		}
 				
 		if (accountComposites.size() > 0) {
@@ -108,7 +97,6 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	@Override
 	public void handleEvent(Event event) {
 		isPageComplete();
-		System.out.println("Something happend:\n" + event.toString());
 		if (event.widget == accountTypeCombo) {
 			if (accountTypeCombo.getSelectionIndex() == -1){
 				System.out.println("Please select an account-type");
@@ -215,17 +203,10 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		}			
 	}
 	
-//	@Override
-//	public boolean isPageComplete() {
-//		AccountPropertiesPage account = 
-//				addedAccounts.get(accountTypeCombo.getSelectionIndex());
-//		if (account.isAllRequierdPropertiesFilledIn() && 
-//				account.isFieldsProperlyFilled()){
-//			setErrorMessage(null);
-//			return true;
-//		} else {
-//			createErrorMessage(account);
-//			return false;
-//		}
-//	}
+	@Override
+	public boolean isPageComplete() {
+		AccountPropertiesPage account = 
+				addedAccounts.get(accountTypeCombo.getSelectionIndex());
+		return account.isFieldsProperlyFilled();
+	}
 }

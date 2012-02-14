@@ -41,9 +41,8 @@ public class NewAccountWizard extends Wizard implements INewWizard {
         // are the any more to be added?
         mainPage = new NewAccountWizardPage("mainPage");
         mainPage.setTitle("New Account");
-        mainPage.setDescription("Add an third-part account to Bioclipse");
+        mainPage.setDescription("Add a third-part account to Bioclipse");
         addPage(mainPage);
-        // TODO Decide which icon to use
         setDefaultPageImageDescriptor(ImageDescriptor
         		.createFromFile(this.getClass(),
         				"BioclipseAccountLogo3_medium.png"));
