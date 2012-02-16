@@ -8,8 +8,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 
 @RunWith(value=Suite.class)
-@SuiteClasses( value = { ContentTypesPluginTest.class,
-                         FeatureTest.class} )
+@SuiteClasses( value = { FeatureTest.class} )
 public class AllUIPluginTestSuite {
 
 }
