@@ -16,6 +16,10 @@
       [Enter License Description here.]
    </license>
 
+   <includes
+         id="net.bioclipse.platform_feature"
+         version="0.0.0"/>
+
    <plugin
          id="net.bioclipse.browser.tests"
          download-size="0"
