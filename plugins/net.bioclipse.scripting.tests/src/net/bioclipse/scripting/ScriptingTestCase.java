@@ -25,7 +25,7 @@ public class ScriptingTestCase {
     public void scriptingWorks() {
         assertEquals(
         	"the scripting class can be called and returns the right answer",
-            4.0, env.eval("2+2")
+            4.0, Double.parseDouble( env.eval("2+2").toString()) , .01d
         );
     }
 }
