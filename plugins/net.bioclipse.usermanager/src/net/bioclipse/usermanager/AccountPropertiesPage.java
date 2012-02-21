@@ -7,7 +7,8 @@
  *
  * Contributors:
  *     
- ******************************************************************************/package net.bioclipse.usermanager;
+ ******************************************************************************/
+package net.bioclipse.usermanager;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -72,7 +73,7 @@ public class AccountPropertiesPage {
 		accountTxt = new Text[noOfFields];
 		
 		if (accountType.hasLogo()) {
-			accountComposite.setLayout(new GridLayout(3, true));
+			accountComposite.setLayout(new GridLayout(3, false));
 			new Label(accountComposite, SWT.NONE);
 			new Label(accountComposite, SWT.NONE);
 			Label logo = new Label(accountComposite, SWT.TRAIL);
@@ -146,13 +147,15 @@ public class AccountPropertiesPage {
 	 */
 	private void addComponents(int index, int style, boolean required, 
 			String labelTxt) {
-		GridData txtData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		GridData txtData = new GridData(SWT.FILL, SWT.NONE, true, true);
+		txtData.widthHint = 220;
 		accountLabels[index] = new Label(accountComposite, SWT.NONE);
 		accountLabels[index].setText(labelTxt + ":");
 		accountTxt[index] = new Text(accountComposite, style);
 		accountTxt[index].setToolTipText(accountLabels[index].getText()
 				.substring(0, (accountLabels[index].getText().length()-1)
 						));
+
 		accountTxt[index].setLayoutData(txtData);
 		if (required) {
 			setReqDeco(accountLabels[index]);

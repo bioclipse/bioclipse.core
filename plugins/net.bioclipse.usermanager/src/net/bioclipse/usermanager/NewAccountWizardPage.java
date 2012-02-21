@@ -49,8 +49,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	@Override
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
-		RowLayout containerLayout = new RowLayout();
-		containerLayout.type = SWT.VERTICAL;
+		GridLayout containerLayout = new GridLayout(1, false);
 		container.setLayout(containerLayout);
 		
 		Composite accountType = new Composite(container, SWT.NONE);
@@ -66,6 +65,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		accountSettings = new Composite(container, SWT.NONE);
 		accountStack = new StackLayout();
 		accountStack.marginWidth = 25;
+		accountSettings.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		accountSettings.setLayout(accountStack);
 
 		// Adding the availably account-types to the combobox and a composite 
@@ -115,7 +115,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	}
 	
 	/**
-	 * This method gives focus to the component of the account composite that is 
+	 * This method gives focus to the component of the account composite that's 
 	 * chosen by the accounts focus method.
 	 */
 	private void giveFocus() {
@@ -183,7 +183,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		else if(unfilledFields.size() > 1) {
 			errorMessage += "s:\n" + createErrorMessage(unfilledFields);
 		} else if (!account.isFieldsProperlyFilled())
-			errorMessage = "Gör om, gör rätt";
+			errorMessage = "There is something missing.";
 		else
 			errorMessage = "WTF?";
 		setErrorMessage(errorMessage);

@@ -13,15 +13,10 @@ package net.bioclipse.usermanager;
 
 import java.io.Serializable;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
 
 /**
  * @author jonalv
@@ -74,7 +69,6 @@ public class AccountType implements Serializable {
      * @param accountType account type to copy
      */
     public AccountType(AccountType accountType) {
-
         name = accountType.name;
         properties = new ArrayList<Property>();
         for(Property p : accountType.properties) {
