@@ -249,11 +249,16 @@ public class AccountPropertiesPage {
 		System.out.println("Account properties:");
 		
 		for (i = 0; i<accountLabels.length;i++) {
-//			properties.put(accountLabels[i].getText(), accountTxt[i].getText());
-		
-			System.out.println(accountLabels[i].getText() +"\t" + 
-			accountTxt[i].getText());
-		
+			// This if-statement make sure that repeated fields (e.g. 
+			// "Repeat password") don't end up as a property of the new account.
+			if (!(accountLabels[i].getText().startsWith("Repeat ")) ) {
+//				properties.put(accountLabels[i].getText().substring(0, 
+//				accountLabels[i].getText().length()-1), 
+//				accountTxt[i].getText());		
+				System.out.println(accountLabels[i].getText().substring(0, 
+						accountLabels[i].getText().length()-1) +"\t" + 
+						accountTxt[i].getText());
+			} 
 		}
 //		usermanager.createAccount(accountId, properties, accountType);
 	}
