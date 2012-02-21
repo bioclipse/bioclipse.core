@@ -55,11 +55,9 @@ public class AccountPropertiesPage {
 	public AccountPropertiesPage(Composite parent, 
 			AccountType accountType, NewAccountWizardPage nawp) {
 		int noOfFields = 0, noOfSecretFields = 0, i = 0;
-//		int rowSpace = 25;
 		mainPage = nawp;
 		Iterator<Property> propertyIter;
 		Property temp;
-		GridData txtData= new GridData(SWT.FILL, SWT.FILL, true, true);
 		
 		this.accountType = accountType;
 		properties = accountType.getProperties();
@@ -69,17 +67,15 @@ public class AccountPropertiesPage {
 		}
 		noOfFields = properties.size() + noOfSecretFields;
 
-		accountComposite = new Composite(parent, SWT.NONE);
-		
-		
+		accountComposite = new Composite(parent, SWT.NONE);			
 		accountLabels = new Label[noOfFields];
 		accountTxt = new Text[noOfFields];
 		
 		if (accountType.hasLogo()) {
-			accountComposite.setLayout(new GridLayout(3, false));
+			accountComposite.setLayout(new GridLayout(3, true));
 			new Label(accountComposite, SWT.NONE);
 			new Label(accountComposite, SWT.NONE);
-			Label logo = new Label(accountComposite, SWT.NONE);
+			Label logo = new Label(accountComposite, SWT.TRAIL);
 			ImageDescriptor imDesc = ImageDescriptor
 					.createFromURL(accountType.getLogoPath());
 			Image im = imDesc.createImage();
@@ -91,31 +87,11 @@ public class AccountPropertiesPage {
 		while (propertyIter.hasNext()) {
 			temp = propertyIter.next();
 			if (temp.isSecret()) {
-				addComponents(i, SWT.BORDER | SWT.PASSWORD, temp.isRequired(), temp.getName());
-//				accountLabels[i] = new Label(accountComposite, SWT.NONE);
-//				accountLabels[i].setText(temp.getName() + ":");
-//				accountTxt[i] = new Text(accountComposite, 
-//					SWT.BORDER | SWT.PASSWORD);
-//				accountTxt[i].setToolTipText(accountLabels[i].getText()
-//						.substring(0, (accountLabels[i].getText().length()-1) 
-//								));
-//				accountTxt[i].setLayoutData(txtData);
-//				if (temp.isRequired()) {
-//					setReqDeco(accountLabels[i]);
-//					requiredFields.add(accountTxt[i]);	
-//				}
-//				if (accountType.hasLogo())
-//					new Label(accountComposite, SWT.NONE);
+				addComponents(i, SWT.BORDER | SWT.PASSWORD, temp.isRequired(),
+						temp.getName());
 				i++;
-				addComponents(i, SWT.BORDER | SWT.PASSWORD, temp.isRequired(), "Repeat " + temp.getName());
-//				accountLabels[i] = new Label(accountComposite, SWT.NONE);
-//				accountLabels[i].setText("Repeat " + temp.getName() + ":");
-//				accountTxt[i] = new Text(accountComposite, 
-//						SWT.BORDER | SWT.PASSWORD);
-//				accountTxt[i].setLayoutData(txtData);
-//				accountTxt[i].setToolTipText(accountLabels[i].getText()
-//						.substring(0, (accountLabels[i].getText().length()-1)
-//								));
+				addComponents(i, SWT.BORDER | SWT.PASSWORD, temp.isRequired(),
+						"Repeat " + temp.getName());
 				final int my_i = i;
 				final ControlDecoration deco = new ControlDecoration(
 								accountTxt[my_i], SWT.TOP | SWT.RIGHT);
@@ -152,38 +128,28 @@ public class AccountPropertiesPage {
 					public void keyPressed(KeyEvent e) {	
 					}
 				});
-				
-//				if (temp.isRequired()) {
-//					setReqDeco(accountLabels[i]);
-//					requiredFields.add(accountTxt[i]);
-//				}
-//				if (accountType.hasLogo())
-//					new Label(accountComposite, SWT.NONE);
 			} else {
 				addComponents(i, SWT.BORDER, temp.isRequired(), temp.getName());
-//				accountLabels[i] = new Label(accountComposite, SWT.NONE);
-//				accountLabels[i].setText(temp.getName() + ":");
-//				accountTxt[i] = new Text(accountComposite, SWT.BORDER);
-//				accountTxt[i].setToolTipText(accountLabels[i].getText()
-//						.substring(0, (accountLabels[i].getText().length()-1)
-//								));
-//				accountTxt[i].setLayoutData(txtData);
-//				if (temp.isRequired()) {
-//					setReqDeco(accountLabels[i]);
-//					requiredFields.add(accountTxt[i]);
-//				}
-//				if (accountType.hasLogo())
-//					new Label(accountComposite, SWT.NONE);
 			}
 			i++;
 		}
 	}
 	
-	private void addComponents(int index, int style, boolean required, String labelTxt) {
+	/**
+	 * A help method to reuse code instead of writing it several times.
+	 * 
+	 * @param index The index of accountLabels and acccountTxt arrays
+	 * @param style The style of the text-field, e.g. SWT.PASSWORD
+	 * @param required A boolean to set i true if the field is required to be 
+	 * 		filled in
+	 * @param labelTxt The text shown by the label in front of the text-field
+	 */
+	private void addComponents(int index, int style, boolean required, 
+			String labelTxt) {
 		GridData txtData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		accountLabels[index] = new Label(accountComposite, SWT.NONE);
 		accountLabels[index].setText(labelTxt + ":");
-		accountTxt[index] = new Text(accountComposite, SWT.BORDER);
+		accountTxt[index] = new Text(accountComposite, style);
 		accountTxt[index].setToolTipText(accountLabels[index].getText()
 				.substring(0, (accountLabels[index].getText().length()-1)
 						));
