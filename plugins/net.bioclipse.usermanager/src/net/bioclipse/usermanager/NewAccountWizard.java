@@ -57,9 +57,9 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 			return false;
 	}
 	
-//	@Override
-//	public boolean canFinish() {
-//		return mainPage.isPageComplete();
-//	}
+	@Override
+	public boolean canFinish() {
+		return mainPage.isPageComplete();
+	}
 
 }

@@ -49,6 +49,16 @@
                </appinfo>
             </annotation>
          </attribute>
+         <attribute name="logoPath" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="resource"/>
+               </appinfo>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

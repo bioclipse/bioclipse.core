@@ -117,6 +117,8 @@ public class UserContainer extends BioObject {
                 							Boolean.parseBoolean(
                 									subElement.getAttribute(
                 											"secret" ) ));
+                	accountType.setLogoPath( element.getAttribute("logoPath"));
+         
                 }
                 availableAccountTypes.add(accountType);
             }

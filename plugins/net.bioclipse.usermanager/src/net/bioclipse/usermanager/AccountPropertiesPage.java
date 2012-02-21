@@ -19,6 +19,7 @@ import net.bioclipse.usermanager.business.IUserManager;
 
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -53,12 +54,12 @@ public class AccountPropertiesPage {
 	
 	public AccountPropertiesPage(Composite parent, 
 			AccountType accountType, NewAccountWizardPage nawp) {
-		int noOfFields = 0, noOfSecretFields = 0, i = 0, contentMinHight;
-		int rowSpace = 25;
+		int noOfFields = 0, noOfSecretFields = 0, i = 0;
+//		int rowSpace = 25;
 		mainPage = nawp;
 		Iterator<Property> propertyIter;
 		Property temp;
-		GridData txtData= new GridData(GridData.FILL_HORIZONTAL);
+		GridData txtData= new GridData(SWT.FILL, SWT.FILL, true, true);
 		
 		this.accountType = accountType;
 		properties = accountType.getProperties();
@@ -67,45 +68,54 @@ public class AccountPropertiesPage {
 				noOfSecretFields++;
 		}
 		noOfFields = properties.size() + noOfSecretFields;
-		contentMinHight = noOfFields * rowSpace;
+
+		accountComposite = new Composite(parent, SWT.NONE);
 		
-		accountComposite = new Composite(parent, SWT.NONE); 
-		GridData gd_ac = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_ac.widthHint = 430;
-		gd_ac.heightHint = contentMinHight;
-		accountComposite.setLayoutData(gd_ac);
-		accountComposite.setLayout(new GridLayout(2, false));
 		
 		accountLabels = new Label[noOfFields];
 		accountTxt = new Text[noOfFields];
 		
 		if (accountType.hasLogo()) {
+			accountComposite.setLayout(new GridLayout(3, false));
+			new Label(accountComposite, SWT.NONE);
 			new Label(accountComposite, SWT.NONE);
 			Label logo = new Label(accountComposite, SWT.NONE);
-			logo.setImage(accountType.getLogo());
-		}
+			ImageDescriptor imDesc = ImageDescriptor
+					.createFromURL(accountType.getLogoPath());
+			Image im = imDesc.createImage();
+			logo.setImage(im);
+		} else
+			accountComposite.setLayout(new GridLayout(2, false));
 			
 		propertyIter = properties.iterator();
 		while (propertyIter.hasNext()) {
 			temp = propertyIter.next();
 			if (temp.isSecret()) {
-				accountLabels[i] = new Label(accountComposite, SWT.NONE);
-				accountLabels[i].setText(temp.getName() + ":");
-				accountTxt[i] = new Text(accountComposite, 
-					SWT.BORDER | SWT.PASSWORD);
-				accountTxt[i].setToolTipText(accountLabels[i].getText());
-				accountTxt[i].setLayoutData(txtData);
-				if (temp.isRequired()) {
-					setReqDeco(accountLabels[i]);
-					requiredFields.add(accountTxt[i]);
-				}
+				addComponents(i, SWT.BORDER | SWT.PASSWORD, temp.isRequired(), temp.getName());
+//				accountLabels[i] = new Label(accountComposite, SWT.NONE);
+//				accountLabels[i].setText(temp.getName() + ":");
+//				accountTxt[i] = new Text(accountComposite, 
+//					SWT.BORDER | SWT.PASSWORD);
+//				accountTxt[i].setToolTipText(accountLabels[i].getText()
+//						.substring(0, (accountLabels[i].getText().length()-1) 
+//								));
+//				accountTxt[i].setLayoutData(txtData);
+//				if (temp.isRequired()) {
+//					setReqDeco(accountLabels[i]);
+//					requiredFields.add(accountTxt[i]);	
+//				}
+//				if (accountType.hasLogo())
+//					new Label(accountComposite, SWT.NONE);
 				i++;
-				accountLabels[i] = new Label(accountComposite, SWT.NONE);
-				accountLabels[i].setText("Repeat " + temp.getName() + ":");
-				accountTxt[i] = new Text(accountComposite, 
-						SWT.BORDER | SWT.PASSWORD);
-				accountTxt[i].setLayoutData(txtData);
-				accountTxt[i].setToolTipText(accountLabels[i].getText());
+				addComponents(i, SWT.BORDER | SWT.PASSWORD, temp.isRequired(), "Repeat " + temp.getName());
+//				accountLabels[i] = new Label(accountComposite, SWT.NONE);
+//				accountLabels[i].setText("Repeat " + temp.getName() + ":");
+//				accountTxt[i] = new Text(accountComposite, 
+//						SWT.BORDER | SWT.PASSWORD);
+//				accountTxt[i].setLayoutData(txtData);
+//				accountTxt[i].setToolTipText(accountLabels[i].getText()
+//						.substring(0, (accountLabels[i].getText().length()-1)
+//								));
 				final int my_i = i;
 				final ControlDecoration deco = new ControlDecoration(
 								accountTxt[my_i], SWT.TOP | SWT.RIGHT);
@@ -143,23 +153,47 @@ public class AccountPropertiesPage {
 					}
 				});
 				
-				if (temp.isRequired()) {
-					setReqDeco(accountLabels[i]);
-					requiredFields.add(accountTxt[i]);
-				}
+//				if (temp.isRequired()) {
+//					setReqDeco(accountLabels[i]);
+//					requiredFields.add(accountTxt[i]);
+//				}
+//				if (accountType.hasLogo())
+//					new Label(accountComposite, SWT.NONE);
 			} else {
-				accountLabels[i] = new Label(accountComposite, SWT.NONE);
-				accountLabels[i].setText(temp.getName());
-				accountTxt[i] = new Text(accountComposite, SWT.BORDER);
-				accountTxt[i].setToolTipText(accountLabels[i].getText());
-				accountTxt[i].setLayoutData(txtData);
-				if (temp.isRequired()) {
-					setReqDeco(accountLabels[i]);
-					requiredFields.add(accountTxt[i]);
-				}
+				addComponents(i, SWT.BORDER, temp.isRequired(), temp.getName());
+//				accountLabels[i] = new Label(accountComposite, SWT.NONE);
+//				accountLabels[i].setText(temp.getName() + ":");
+//				accountTxt[i] = new Text(accountComposite, SWT.BORDER);
+//				accountTxt[i].setToolTipText(accountLabels[i].getText()
+//						.substring(0, (accountLabels[i].getText().length()-1)
+//								));
+//				accountTxt[i].setLayoutData(txtData);
+//				if (temp.isRequired()) {
+//					setReqDeco(accountLabels[i]);
+//					requiredFields.add(accountTxt[i]);
+//				}
+//				if (accountType.hasLogo())
+//					new Label(accountComposite, SWT.NONE);
 			}
 			i++;
 		}
+	}
+	
+	private void addComponents(int index, int style, boolean required, String labelTxt) {
+		GridData txtData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		accountLabels[index] = new Label(accountComposite, SWT.NONE);
+		accountLabels[index].setText(labelTxt + ":");
+		accountTxt[index] = new Text(accountComposite, SWT.BORDER);
+		accountTxt[index].setToolTipText(accountLabels[index].getText()
+				.substring(0, (accountLabels[index].getText().length()-1)
+						));
+		accountTxt[index].setLayoutData(txtData);
+		if (required) {
+			setReqDeco(accountLabels[index]);
+			requiredFields.add(accountTxt[index]);
+		}
+		if (accountType.hasLogo())
+			new Label(accountComposite, SWT.NONE);
 	}
 	
 	/**

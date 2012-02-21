@@ -73,8 +73,12 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		// composites.
 		AccountType[] accountTypes = usermanager.getAvailableAccountTypes();
 		System.out.println("Found "+ accountTypes.length+" account(s)");
+		
 		for (int i = 0; i < accountTypes.length; i++) {
-			accountTypeCombo.add(accountTypes[i].getName());
+			if (accountTypes[i].getName() != null)
+				accountTypeCombo.add(accountTypes[i].getName());
+			else
+				accountTypeCombo.add("No name");
 			addedAccounts.add(new AccountPropertiesPage(accountSettings, 
 					accountTypes[i], this));
 			accountComposites.add(addedAccounts.get(i)

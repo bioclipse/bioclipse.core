@@ -12,11 +12,16 @@
 package net.bioclipse.usermanager;
 
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 
 /**
  * @author jonalv
@@ -28,17 +33,15 @@ public class AccountType implements Serializable {
 
     private List<Property> properties; 
     
-    private String name;
-    
-    private Image myLogo;
-    
+    private String name, logoPath = "";
+       
     /**
      * Standard Constructor
      */
     public AccountType() {
         properties = new ArrayList<Property>();
         this.name  = "";
-        this.myLogo = null;
+        this.logoPath = "";
     }
     
     /**
@@ -49,19 +52,19 @@ public class AccountType implements Serializable {
     public AccountType(String name) {
         properties = new ArrayList<Property>();
         this.name = name;
-        this.myLogo = null;
+        this.logoPath = "";
     }
     
     /**
      * Constructor 
      * 
      * @param name the name of the account type 
-     * @param logo the logo of the account type 
+     * @param path the path to an logo for the account type
      */
-    public AccountType(String name, Image logo) {
+    public AccountType(String name, String path) {
         properties = new ArrayList<Property>();
         this.name = name;
-        this.myLogo = logo;
+        this.logoPath = path;
     }
     
     /**
@@ -148,25 +151,32 @@ public class AccountType implements Serializable {
     public String toString() {
         return name;
     }
-    
+       
     /**
      * A set-method to give the account type a logo.
      * 
      * @param logo The image that contains the logo
      */
-    public void setLogo(Image logo) {
-    	this.myLogo = logo;
+    public void setLogoPath(String path) {
+    	this.logoPath = path;
     }
     
     /**
-     * A get-method to get the account types logo.
+     * This method returns an URL with the path to an logotype that is 
+     * associated with the account-type, if there's non it returns null
      * 
-     * @return The image that contains the logo
+     * @return The path as an URL
      */
-    public Image getLogo() {
-    	return myLogo;
+    public URL getLogoPath() { 
+    	URL url = null;
+    	try {
+    		url = new URL(logoPath);
+    	} catch(MalformedURLException e) {
+    		System.out.println("Bad URL:\n"+e);
+    	}
+    	return url;
     }
-    
+       
     /**
      * A method to check whether there's a logo associated with this account
      *  type.
@@ -174,7 +184,7 @@ public class AccountType implements Serializable {
      * @return True if there's a logo associated with this account
      */
     public boolean hasLogo() {
-    		return (myLogo != null);
+    		return (logoPath != "");
     }
     
     /**
