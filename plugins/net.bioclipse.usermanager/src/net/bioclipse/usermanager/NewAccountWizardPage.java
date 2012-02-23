@@ -18,7 +18,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -72,7 +71,6 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		// with the account specific fields to the array list of account 
 		// composites.
 		AccountType[] accountTypes = usermanager.getAvailableAccountTypes();
-		System.out.println("Found "+ accountTypes.length+" account(s)");
 		
 		for (int i = 0; i < accountTypes.length; i++) {
 			if (accountTypes[i].getName() != null)
@@ -154,12 +152,6 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 				account.isFieldsProperlyFilled()) {
 			setErrorMessage(null);
 			account.createAccount();
-			// TODO Do I need this for-loop or is the dispose below enough to 
-			// remove the subpages SWT-components? 
-//			for (Iterator<AccountPropertiesPage> itr = addedAccounts.iterator(); 
-//					itr.hasNext();) {
-//				itr.next().dispose();
-//			}
 			dispose();
 			return true;
 		} else {

@@ -236,34 +236,33 @@ public class AccountPropertiesPage {
 	 * respective text-field. 
 	 */
 	public void createAccount() {
-		// TODO un-comment so it acutely do what it's supposed to do and remove
-		// the printing...
+		// TODO remove the comment print-statements
 		String accountId = accountType.getName() + "_0";
-//		IUserManager usermanager = Activator.getDefault().getUserManager();
-//		HashMap<String, String> properties = new HashMap<String, String>();
+		IUserManager usermanager = Activator.getDefault().getUserManager();
+		HashMap<String, String> properties = new HashMap<String, String>();
 		int i = 0;
-//		while (usermanager.accountExists(accountId)){
-//			i++;
-//			accountId = accountType.getName() + "_" + i;
-//		}
+		while (usermanager.accountExists(accountId)){
+			i++;
+			accountId = accountType.getName() + "_" + i;
+		}
 		
-		System.out.println("Account type: " + accountType.getName());
-		System.out.println("Account id: "+ accountId);
-		System.out.println("Account properties:");
+//		System.out.println("Account type: " + accountType.getName());
+//		System.out.println("Account id: "+ accountId);
+//		System.out.println("Account properties:");
 		
 		for (i = 0; i<accountLabels.length;i++) {
 			// This if-statement make sure that repeated fields (e.g. 
 			// "Repeat password") don't end up as a property of the new account.
 			if (!(accountLabels[i].getText().startsWith("Repeat ")) ) {
-//				properties.put(accountLabels[i].getText().substring(0, 
-//				accountLabels[i].getText().length()-1), 
-//				accountTxt[i].getText());		
-				System.out.println(accountLabels[i].getText().substring(0, 
-						accountLabels[i].getText().length()-1) +"\t" + 
-						accountTxt[i].getText());
+				properties.put(accountLabels[i].getText().substring(0, 
+				accountLabels[i].getText().length()-1), 
+				accountTxt[i].getText());		
+//				System.out.println(accountLabels[i].getText().substring(0, 
+//						accountLabels[i].getText().length()-1) +"\t" + 
+//						accountTxt[i].getText());
 			} 
 		}
-//		usermanager.createAccount(accountId, properties, accountType);
+		usermanager.createAccount(accountId, properties, accountType);
 	}
 	
 	/**
