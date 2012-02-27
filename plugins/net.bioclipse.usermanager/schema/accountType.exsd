@@ -123,10 +123,12 @@
         point=&quot;net.bioclipse.keyring.accountType&quot;&gt;
      &lt;AccountType
            id=&quot;lis.accounttype&quot;
-           name=&quot;LisAccountType&quot;&gt;
+           name=&quot;LisAccountType&quot;
+           logoPath=&quot;icons/logo.jpg&quot;&gt;
         &lt;property
               name=&quot;URL&quot;
-              required=&quot;true&quot;/&gt;
+              required=&quot;true&quot;
+              secret=&quot;false&quot;/&gt;
      &lt;/AccountType&gt;
   &lt;/extension&gt;
 &lt;/pre&gt;

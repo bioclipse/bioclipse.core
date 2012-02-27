@@ -261,8 +261,9 @@ public class AccountType implements Serializable {
             this.required = required;
         }
 
-        /**
-         * @return whether the property shouldn't be clearly visibly or not
+        /** 
+         * @return true if the property is supposed to be written in a protected 
+         * 			text-field, e.g. if it's a password
          */
         public boolean isSecret() {
         	return secret;
@@ -272,7 +273,7 @@ public class AccountType implements Serializable {
          * To set if the property shouldn't be clearly visibly in e.g. a 
          * text-field for some reason (e.g. if it's password).
          * 
-         * @param secret true if it shouldn't be clearly visibly
+         * @param secret secret status to be set
          */
         public void setSecret(boolean secret) {
         	this.secret = secret;
