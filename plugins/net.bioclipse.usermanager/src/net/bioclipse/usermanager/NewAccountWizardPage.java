@@ -71,18 +71,21 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		// with the account specific fields to the array list of account 
 		// composites.
 		AccountType[] accountTypes = usermanager.getAvailableAccountTypes();
-		
-		for (int i = 0; i < accountTypes.length; i++) {
-			if (accountTypes[i].getName() != null)
-				accountTypeCombo.add(accountTypes[i].getName());
-			else
-				accountTypeCombo.add("No name");
-			addedAccounts.add(new AccountPropertiesPage(accountSettings, 
-					accountTypes[i], this));
-			accountComposites.add(addedAccounts.get(i)
-					.getAccountPropertiesPage());
-		}
-				
+
+		if (accountTypes.length > 0) {
+			for (int i = 0; i < accountTypes.length; i++) {
+				if (accountTypes[i].getName() != null)
+					accountTypeCombo.add(accountTypes[i].getName());
+				else
+					accountTypeCombo.add("No name");
+				addedAccounts.add(new AccountPropertiesPage(accountSettings, 
+						accountTypes[i], this));
+				accountComposites.add(addedAccounts.get(i)
+						.getAccountPropertiesPage());
+			}
+		} else
+			accountComposites.add(empty(accountSettings));
+			
 		if (accountComposites.size() > 0) {
 			accountStack.topControl = accountComposites.get(0);
 			accountTypeCombo.select(0);
@@ -201,8 +204,11 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	
 	@Override
 	public boolean isPageComplete() {
+		if (addedAccounts.size()>0) {
 		AccountPropertiesPage account = 
 				addedAccounts.get(accountTypeCombo.getSelectionIndex());
 		return account.isFieldsProperlyFilled();
+		} else
+			return false;
 	}
 }

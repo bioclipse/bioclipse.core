@@ -39,14 +39,14 @@
 
    <element name="AccountType">
       <complexType>
-         <attribute name="class" type="string">
+         <sequence minOccurs="1" maxOccurs="unbounded">
+            <element ref="property"/>
+         </sequence>
+         <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
-               <appinfo>
-                  <meta.attribute kind="java" basedOn=":net.bioclipse.usermanager.IAccounts"/>
-               </appinfo>
             </annotation>
          </attribute>
          <attribute name="logoPath" type="string">
@@ -57,6 +57,13 @@
                <appinfo>
                   <meta.attribute kind="resource"/>
                </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
             </annotation>
          </attribute>
       </complexType>

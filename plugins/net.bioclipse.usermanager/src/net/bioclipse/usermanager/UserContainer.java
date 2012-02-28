@@ -101,7 +101,7 @@ public class UserContainer extends BioObject {
                     "net.bioclipse.usermanager.accountType" );
 
         IExtension[] extensions = extensionPoint.getExtensions();
-
+        
         for (IExtension extension : extensions) {
             IConfigurationElement[] configelements
                 = extension.getConfigurationElements();
