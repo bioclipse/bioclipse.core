@@ -401,6 +401,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         
         synchronized (output) {
             output.append(message);
+            output.setFont(JFaceResources.getTextFont());
             output.redraw();
         }
     }
