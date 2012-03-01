@@ -38,6 +38,10 @@ is available at http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.equinox.p2.rcp.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.help"
+         version="0.0.0"/>
+
    <plugin
          id="ch.qos.logback.classic"
          download-size="0"
@@ -591,6 +595,27 @@ is available at http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="javax.servlet"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.pde.runtime"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.help.appserver"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.help.webapp"
          download-size="0"
          install-size="0"
          version="0.0.0"
