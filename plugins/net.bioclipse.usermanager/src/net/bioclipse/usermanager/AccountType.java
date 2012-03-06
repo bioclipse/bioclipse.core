@@ -12,6 +12,8 @@
 package net.bioclipse.usermanager;
 
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,14 +28,15 @@ public class AccountType implements Serializable {
 
     private List<Property> properties; 
     
-    private String name;
-    
+    private String name, logoPath = "";
+       
     /**
      * Standard Constructor
      */
     public AccountType() {
         properties = new ArrayList<Property>();
         this.name  = "";
+        this.logoPath = "";
     }
     
     /**
@@ -44,8 +47,21 @@ public class AccountType implements Serializable {
     public AccountType(String name) {
         properties = new ArrayList<Property>();
         this.name = name;
+        this.logoPath = "";
     }
-
+    
+    /**
+     * Constructor 
+     * 
+     * @param name the name of the account type 
+     * @param path the path to an logo for the account type
+     */
+    public AccountType(String name, String path) {
+        properties = new ArrayList<Property>();
+        this.name = name;
+        this.logoPath = path;
+    }
+    
     /**
      * Constructor creating a new deep copy of the 
      * given account type
@@ -53,7 +69,6 @@ public class AccountType implements Serializable {
      * @param accountType account type to copy
      */
     public AccountType(AccountType accountType) {
-
         name = accountType.name;
         properties = new ArrayList<Property>();
         for(Property p : accountType.properties) {
@@ -67,8 +82,8 @@ public class AccountType implements Serializable {
      * @param name the name of the property
      * @param required whether the property is required
      */
-    public void addProperty( String name, boolean required) {
-        properties.add( new Property(name, required) );
+    public void addProperty( String name, boolean required, boolean secret) {
+        properties.add( new Property(name, required, secret) );
     }
     
     /**
@@ -130,6 +145,41 @@ public class AccountType implements Serializable {
     public String toString() {
         return name;
     }
+       
+    /**
+     * A set-method to give the account type a logo.
+     * 
+     * @param logo The image that contains the logo
+     */
+    public void setLogoPath(String path) {
+    	this.logoPath = path;
+    }
+    
+    /**
+     * This method returns an URL with the path to an logotype that is 
+     * associated with the account-type, if there's non it returns null
+     * 
+     * @return The path as an URL
+     */
+    public URL getLogoPath() { 
+    	URL url = null;
+    	try {
+    		url = new URL(logoPath);
+    	} catch(MalformedURLException e) {
+    		System.out.println("Bad URL:\n"+e);
+    	}
+    	return url;
+    }
+       
+    /**
+     * A method to check whether there's a logo associated with this account
+     *  type.
+     *  
+     * @return True if there's a logo associated with this account
+     */
+    public boolean hasLogo() {
+    		return (logoPath != "");
+    }
     
     /**
      * The property class
@@ -142,6 +192,7 @@ public class AccountType implements Serializable {
         private static final long serialVersionUID = -5736389052147326378L;
         String  name;
         boolean required;
+        boolean secret;
 
         /**
          * @param name the property's name
@@ -151,6 +202,21 @@ public class AccountType implements Serializable {
             super();
             this.name = name;
             this.required = required;
+            this.secret = false;
+        }
+        
+        /**
+         * 
+         * @param name the property's name
+         * @param required whether the property is required
+         * @param secret whether the property should be visible when entering 
+         * 		it in a text-field, e.g. is a password 
+         */
+        public Property(String name, boolean required, boolean secret) {
+            super();
+            this.name = name;
+            this.required = required;
+            this.secret = secret;
         }
         
         /**
@@ -164,6 +230,7 @@ public class AccountType implements Serializable {
             super();
             this.name     = p.name;
             this.required = p.required;
+            this.secret = p.secret;
         }
 
         /**
@@ -194,6 +261,24 @@ public class AccountType implements Serializable {
             this.required = required;
         }
 
+        /** 
+         * @return true if the property is supposed to be written in a protected 
+         * 			text-field, e.g. if it's a password
+         */
+        public boolean isSecret() {
+        	return secret;
+        }
+        
+        /**
+         * To set if the property shouldn't be clearly visibly in e.g. a 
+         * text-field for some reason (e.g. if it's password).
+         * 
+         * @param secret secret status to be set
+         */
+        public void setSecret(boolean secret) {
+        	this.secret = secret;
+        }
+        
         @Override
         public int hashCode() {
             final int PRIME = 31;

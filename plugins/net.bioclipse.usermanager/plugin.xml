@@ -2,6 +2,7 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension-point id="accountType" name="AccountType" schema="schema/accountType.exsd"/>
+   <extension-point id="net.bioclipse.usermanager.accounts" name="Accounts" schema="schema/net.bioclipse.usermanager.accounts.exsd"/>
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
@@ -143,6 +144,14 @@
 	       </command>
 		</menuContribution>
 </extension>
-   
+   <extension
+         point="org.eclipse.ui.newWizards">
+         <wizard
+               id="net.bioclipse.usermanager.newAccountWizard"
+               class="net.bioclipse.usermanager.NewAccountWizard"
+               name="Account"
+               hasPages="true">
+         </wizard>
+   </extension>
    
 </plugin>
