@@ -24,7 +24,7 @@
             icon="icons/pasteAsNew.png"
             id="net.bioclipse.ui.business.wizards.NewFromClipboardWizard"
             name="New from Clipboard"
-            category="net.bioclipse.ui" />
+            category="org.eclipse.ui.Basic" />
     </extension>
 
     <extension point="org.eclipse.ui.navigator.navigatorContent">

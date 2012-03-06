@@ -147,10 +147,11 @@
    <extension
          point="org.eclipse.ui.newWizards">
          <wizard
-               id="net.bioclipse.usermanager.newAccountWizard"
+               category="org.eclipse.ui.Basic"
                class="net.bioclipse.usermanager.NewAccountWizard"
-               name="Account"
-               hasPages="true">
+               hasPages="true"
+               id="net.bioclipse.usermanager.newAccountWizard"
+               name="Account">
          </wizard>
    </extension>
    
