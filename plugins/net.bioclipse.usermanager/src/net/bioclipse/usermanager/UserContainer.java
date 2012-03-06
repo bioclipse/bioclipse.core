@@ -101,19 +101,24 @@ public class UserContainer extends BioObject {
                     "net.bioclipse.usermanager.accountType" );
 
         IExtension[] extensions = extensionPoint.getExtensions();
-
+        
         for (IExtension extension : extensions) {
             IConfigurationElement[] configelements
                 = extension.getConfigurationElements();
             for (IConfigurationElement element : configelements) {
                 AccountType accountType
-                    = new AccountType(element.getAttribute("name"));
+                = new AccountType(element.getAttribute("name"));
                 for ( IConfigurationElement subElement 
-                         : element.getChildren() ) {
-                    accountType.addProperty( subElement.getAttribute("name"),
-                                             Boolean.parseBoolean(
-                                                     subElement.getAttribute(
-                                                             "required" ) ) );
+                		: element.getChildren() ) {
+                	accountType.addProperty( subElement.getAttribute("name"),
+                			Boolean.parseBoolean(
+                					subElement.getAttribute(
+                							"required" ) ),
+                							Boolean.parseBoolean(
+                									subElement.getAttribute(
+                											"secret" ) ));
+                	accountType.setLogoPath( element.getAttribute("logoPath"));
+         
                 }
                 availableAccountTypes.add(accountType);
             }
