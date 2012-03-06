@@ -29,9 +29,13 @@ import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
@@ -54,10 +58,29 @@ public class GistManager implements IBioclipseManager {
 
     public void download(int gist, IReturner<IFile> returner, IProgressMonitor monitor)
                   throws BioclipseException {
+
         if (monitor == null) {
             monitor = new NullProgressMonitor();
         }
         
+        SubMonitor subMonitor = SubMonitor.convert(monitor);
+        subMonitor.beginTask( "Downloading Gist", 100 );
+        
+        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        IProject project = root.getProject(GIST_PROJECT);
+        try {
+            if ( !project.exists() ) {
+                project.create(subMonitor.newChild(10));
+            }
+            project.open(subMonitor.newChild(10));
+        } 
+        catch ( CoreException e ) {
+            throw new RuntimeException(
+                          "Failed to prepare the Gists project", 
+                          e );
+        }
+        
+        monitor = subMonitor.newChild( 80 );
         monitor.beginTask("Downloading Gist...", 2);
 
         try {                
