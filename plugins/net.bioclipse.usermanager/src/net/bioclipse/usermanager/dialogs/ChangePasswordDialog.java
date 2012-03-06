@@ -105,7 +105,7 @@ public class ChangePasswordDialog extends Dialog {
     }
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
-        newShell.setText("Change password for Keyring user");
+        newShell.setText("Change password for Bioclipse Account");
     }
     protected void buttonPressed(int buttonId) {
         if (buttonId == IDialogConstants.OK_ID) {

@@ -10,11 +10,17 @@
  ******************************************************************************/
 package net.bioclipse.usermanager;
 
+import net.bioclipse.usermanager.business.IUserManager;
+import net.bioclipse.usermanager.dialogs.CreateUserDialog;
+import net.bioclipse.usermanager.dialogs.LoginDialog;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * A wizard for handling the users third parts accounts
@@ -27,6 +33,39 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	private NewAccountWizardPage mainPage;
 	
 	public NewAccountWizard() {
+	    boolean cancel = false;
+	    IUserManager usermanager = Activator.getDefault().getUserManager();
+	    if (usermanager.getUserNames().size() == 0) {
+	        UserContainer sandbox = usermanager.getSandBoxUserContainer();
+	        CreateUserDialog dialog 
+	            = new CreateUserDialog( PlatformUI.getWorkbench()
+	                                              .getActiveWorkbenchWindow()
+	                                              .getShell(), sandbox );
+	        dialog.open();
+	        if (dialog.getReturnCode() == dialog.OK) {
+	            usermanager.switchUserContainer( sandbox );
+	        }
+	        else if (dialog.getReturnCode() == dialog.CANCEL) {
+	            cancel = true;
+	        }
+	    }
+	    
+	    if ( !cancel && !usermanager.isLoggedIn() ) {
+	        UserContainer sandbox = usermanager.getSandBoxUserContainer();
+	        LoginDialog loginDialog 
+                    = new LoginDialog( PlatformUI.getWorkbench()
+	                                             .getActiveWorkbenchWindow()
+	                                             .getShell(),
+	                                   sandbox );
+
+            loginDialog.open();
+            if ( loginDialog.getReturnCode() == LoginDialog.OK ) {
+                if ( loginDialog.isUserContainerEdited() ) {
+                    Activator.getDefault().getUserManager()
+                             .switchUserContainer(sandbox);
+                }
+            }
+	    }
 	}
 
 	@Override

@@ -42,6 +42,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 /**
  * Dialog for logging in to the given UserContainer
@@ -81,6 +82,7 @@ public class LoginDialog extends TitleAreaDialog {
      */
     @Override
     protected Control createDialogArea(Composite parent) {
+        setTitleImage(SWTResourceManager.getImage(LoginDialog.class, "/net/bioclipse/usermanager/BioclipseAccountLogo3_medium.png"));
         Composite area = (Composite) super.createDialogArea(parent);
         Composite container = new Composite(area, SWT.NONE);
         container.setLayout(new FormLayout());
@@ -147,13 +149,13 @@ public class LoginDialog extends TitleAreaDialog {
         formData_4.right = new FormAttachment(100, -34);
         formData_4.top = new FormAttachment(0, 136);
         createNewKeyringButton.setLayoutData(formData_4);
-        createNewKeyringButton.setText("Create new Keyring user...");
+        createNewKeyringButton.setText("Create new Account...");
         container.setTabList(new Control[] { usernameText, 
                                              passwordText, 
                                              passwordLabel, 
                                              usernameLabel, 
                                              createNewKeyringButton });
-        setTitle("Log In to the User Manager");
+        setTitle("Log In To Your Bioclipse Account");
         //
         return area;
     }

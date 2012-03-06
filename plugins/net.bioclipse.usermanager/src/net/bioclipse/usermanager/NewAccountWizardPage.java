@@ -12,6 +12,7 @@
 package net.bioclipse.usermanager;
 import java.util.ArrayList;
 
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.usermanager.business.IUserManager;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -23,6 +24,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+
+import com.sun.xml.internal.ws.Closeable;
 
 /**
  * The wizard page that handles the different parts accounts. 
@@ -42,11 +45,11 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	
 	protected NewAccountWizardPage(String pageName) {
 		super(pageName);
-		
 	}
 
 	@Override
 	public void createControl(Composite parent) {
+
 		Composite container = new Composite(parent, SWT.NONE);
 		GridLayout containerLayout = new GridLayout(1, false);
 		container.setLayout(containerLayout);
@@ -92,6 +95,12 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 			giveFocus();
 		}
 		setControl(container);
+        if ( !Activator.getDefault().getUserManager().isLoggedIn() ) {
+            System.out.println("CANCEL!" + this.getWizard().performCancel());
+            // TODO FIXME find a better way to do this that does not cause an 
+            // Exception.
+            this.getShell().close();
+        }
 	}
 	
 		

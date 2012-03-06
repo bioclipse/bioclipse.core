@@ -174,8 +174,9 @@ public class UserManagerPreferencePage extends PreferencePage
                                                  .getActiveWorkbenchWindow()
                                                  .getShell(),
                                                  "Confirm removing " +
-                                                 "of Keyring user",
-                                                 "Really remove the user: "
+                                                 "of Account", 
+                                                 "Really remove the " +
+                                                 "account with username: "
                                                  + userName + "?" ) ) {
                     sandBoxUserContainer.deleteUser(userName);
                 }

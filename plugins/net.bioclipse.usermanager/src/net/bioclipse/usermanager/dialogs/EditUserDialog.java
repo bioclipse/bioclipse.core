@@ -318,7 +318,7 @@ public class EditUserDialog extends Dialog {
         formData_8.top = new FormAttachment(0, 21);
         formData_8.left = new FormAttachment(0, 33);
         changeKeyringUserButton.setLayoutData(formData_8);
-        changeKeyringUserButton.setText("Change Keyring User Password");
+        changeKeyringUserButton.setText("Change Bioclipse Account Password");
         container.setTabList(new Control[] { changeKeyringUserButton,
                                              addAccountButton,
                                              deleteAccountButton,
@@ -350,7 +350,7 @@ public class EditUserDialog extends Dialog {
 
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
-        newShell.setText("Keyring User Properties");
+        newShell.setText("Bioclipse Account Properties");
     }
 
     private void refreshList() {
