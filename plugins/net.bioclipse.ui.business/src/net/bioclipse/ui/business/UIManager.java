@@ -111,6 +111,20 @@ public class UIManager implements IBioclipseManager {
             throw new RuntimeException(e);
         }
     }
+    
+    public void open( List<IFile> files ) {
+        IWorkbenchPage page = PlatformUI.getWorkbench()
+                .getActiveWorkbenchWindow()
+                .getActivePage();
+        for ( IFile file : files) {
+            try {
+                IDE.openEditor(page, file);
+            }
+            catch (PartInitException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     public void open( IFile file, String editor ) throws BioclipseException {
 

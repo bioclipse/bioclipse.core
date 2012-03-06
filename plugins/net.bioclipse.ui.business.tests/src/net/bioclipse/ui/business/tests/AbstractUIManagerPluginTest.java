@@ -11,13 +11,20 @@
 package net.bioclipse.ui.business.tests;
 
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.ui.business.IUIManager;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.ui.PlatformUI;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -30,6 +37,27 @@ public abstract class AbstractUIManagerPluginTest {
     public void testManagerInstantiation() {
     	// the instance is created by the subclass prior to this test
     	Assert.assertNotNull(ui);
+    }
+    
+    @Test
+    public void testOpenListIFile() throws CoreException {
+        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        IProject project = root.getProject("TEST");
+        project.create(new NullProgressMonitor());
+        project.open(new NullProgressMonitor());
+        String filePath = "/TEST/testFile99883423427.txt";
+        IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(
+                         new Path(filePath)
+                     );
+        ui.save( file, 
+                 new ByteArrayInputStream("test file".getBytes()), 
+                 null );
+        final IFile savedFile = ResourcesPlugin.getWorkspace()
+                                               .getRoot()
+                                               .getFile( new Path(filePath) );
+        Assert.assertTrue(savedFile.exists());
+        ui.open( new ArrayList<IFile>() {{add(savedFile);}});
+        project.delete(true, new NullProgressMonitor());
     }
     
     @Ignore
