@@ -150,6 +150,7 @@
                category="org.eclipse.ui.Basic"
                class="net.bioclipse.usermanager.NewAccountWizard"
                hasPages="true"
+               icon="icons/bioclipseAccount_16.png"
                id="net.bioclipse.usermanager.newAccountWizard"
                name="Account">
          </wizard>
