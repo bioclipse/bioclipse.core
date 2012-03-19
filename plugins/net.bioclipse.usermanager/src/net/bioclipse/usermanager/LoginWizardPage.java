@@ -1,17 +1,17 @@
 package net.bioclipse.usermanager;
 
 import net.bioclipse.usermanager.dialogs.DialogArea;
-
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.widgets.Composite;
 
+
 public class LoginWizardPage extends WizardPage {
-	
-	private DialogArea loginDialogArea;
+
+ private DialogArea loginDialogArea;
 	
 	protected LoginWizardPage(String pageName, UserContainer userContainer) {
 		super(pageName);
-		this.loginDialogArea = new DialogArea(userContainer ,true);
+		this.loginDialogArea = new DialogArea(userContainer ,true, this);
 	}
 
 	@Override
@@ -23,7 +23,17 @@ public class LoginWizardPage extends WizardPage {
 
 	@Override
 	public boolean isPageComplete() {
-		return loginDialogArea.getErrorFlag();
+		return !loginDialogArea.getErrorFlag();
+	}
+	
+	public String getUsername() {
+		return loginDialogArea.getUsername();
+	}
+	
+	public String getPassword() {
+		return loginDialogArea.getPassword();
+				
 	}
 	
 }
+

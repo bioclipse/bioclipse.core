@@ -13,10 +13,13 @@ package net.bioclipse.usermanager.dialogs;
 
 import net.bioclipse.usermanager.UserContainer;
 
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -24,7 +27,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
@@ -36,7 +41,7 @@ import org.eclipse.ui.PlatformUI;
  * @author Klas Jšnsson (aka "konditorn")
  * 
  */
-public class DialogArea {
+public class DialogArea implements Listener {
 	
 	private UserContainer userContainer=null;
 	private Label usernameLabel;
@@ -47,17 +52,24 @@ public class DialogArea {
 	private Text repeatPasswordText;
 	private boolean userContainerEdited;
 	private boolean createNewAccountButton;
+	private boolean errorFlag;
+	private WizardPage page;
 	
 	/**
+	 * The constructor.
 	 * 
 	 * @param userContainer
-	 * @param createNewAccountButton
+	 * @param createNewAccountButton Set to true if this button is wanted.
+	 * @param page If this is a part of a wizard add it here if not set it to 
+	 * null
 	 */
 	public DialogArea(UserContainer userContainer, 
-			Boolean createNewAccountButton) {
+			Boolean createNewAccountButton, WizardPage page) {
 		this.userContainer = userContainer;
 		this.userContainerEdited = false;
 		this.createNewAccountButton = createNewAccountButton;
+		this.errorFlag = true;
+		this.page = page;
 	}
 	
 	/**
@@ -87,7 +99,8 @@ public class DialogArea {
         final FormData formData_2 = new FormData();
         formData_2.top = new FormAttachment(0, 93);
         passwordText.setLayoutData(formData_2);
-
+        passwordText.addListener(SWT.CHANGED, this);
+        
         usernameText = new Text(container, SWT.BORDER);
         formData.bottom = new FormAttachment(usernameText, 0, SWT.BOTTOM);
         formData.right = new FormAttachment(usernameText, -5, SWT.LEFT);
@@ -98,6 +111,8 @@ public class DialogArea {
         formData_3.right = new FormAttachment(100, -34);
         formData_3.top = new FormAttachment(0, 53);
         usernameText.setLayoutData(formData_3);
+        usernameText.addListener(SWT.CHANGED, this);
+        
         if (createNewAccountButton) {
         	Button createNewKeyringButton = new Button(container, SWT.NONE);
         	createNewKeyringButton.addSelectionListener(new SelectionAdapter() {
@@ -154,6 +169,8 @@ public class DialogArea {
             formData_5.left = new FormAttachment(0, 154);
             formData_5.right = new FormAttachment(0, 470);
             repeatPasswordText.setLayoutData(formData_5);
+            repeatPasswordText.addListener(SWT.CHANGED, this);
+            
             container.setTabList(new Control[] { usernameText, 
                                                  passwordText, 
                                                  repeatPasswordText, 
@@ -161,6 +178,20 @@ public class DialogArea {
                                                  passwordLabel, 
                                                  repeatPasswordLabel });
         }
+        
+//        Label icon = new Label(container, SWT.NONE);
+//        ImageDescriptor imgDesc = ImageDescriptor
+//        		.createFromFile(this.getClass(),
+//        				"icons/login_16.png");
+//        Image img = imgDesc.createImage();
+//        icon.setImage(img);
+//        final FormData formData_6 = new FormData();
+//        formData_6.top = new FormAttachment(usernameText, 0, SWT.RIGHT);
+//        formData_6.left = new FormAttachment(usernameText, 0, SWT.RIGHT);
+//        icon.setLayoutData(formData_6);
+        
+        usernameText.setFocus();
+        
         return container;
 	}
 	
@@ -183,25 +214,43 @@ public class DialogArea {
 	 */
     public boolean isFilledIn() {
     	if (createNewAccountButton) {
-    		return ( !usernameText.getText().isEmpty() && 
-    			!passwordText.getText().isEmpty() );
+    		if (usernameText.getText().isEmpty() || 
+    				passwordText.getText().isEmpty() )
+    			return false;
+    		else 
+    			return true;
+//    		return ( !usernameText.getText().isEmpty() && 
+//    			!passwordText.getText().isEmpty() );
     	} else
-    		return ( !usernameText.getText().isEmpty() && 
-        			!passwordText.getText().isEmpty() && 
-        			!repeatPasswordText.getText().isEmpty() );
+    		if (usernameText.getText().isEmpty() || 
+    				passwordText.getText().isEmpty() || 
+    				repeatPasswordText.getText().isEmpty())
+    			return false;
+    		else
+    			return true;
+ //    		return ( !usernameText.getText().isEmpty() && 
+//        			!passwordText.getText().isEmpty() && 
+//        			!repeatPasswordText.getText().isEmpty() );
     }
     
     /**
-     * Returns a string that explains what's wrong.
-     *  
+     * Returns a string that explains what's wrong, if nothing is wrong it 
+     * returns null.
+     *   
      * @return The error-message
      */
     public String getErrorMessage() {
     	String message = null;
     	if (!isFilledIn()) {
+    		if (createNewAccountButton) {
+    			message = "Please fill in all fields.\n" + 
+        				"Fill in your username and your password.";
+    		} else {
     		message = "Please fill in all fields.\n" + 
-    				"Fill in your username and your password (twice)";
-    	} else if (!passwordText.getText().equals(repeatPasswordText.getText()))
+    				"Fill in your username and your password (twice).";
+    		}
+    	} else if (!createNewAccountButton && 
+    			!passwordText.getText().equals(repeatPasswordText.getText()))
     		message = "Not same password:\n The repeated password doesnt" +
     				" match the password";
     	return message;
@@ -213,7 +262,25 @@ public class DialogArea {
      * @return True if the exists an error.
      */
     public boolean getErrorFlag() {
-    	return (!isFilledIn() && 
-    			!passwordText.getText().equals(repeatPasswordText.getText()) );
+    	return errorFlag;
     }
+
+	@Override
+	public void handleEvent(Event event) {
+		if (!isFilledIn())
+    		errorFlag = true;
+    	else if (!createNewAccountButton && 
+    			!passwordText.getText().equals(repeatPasswordText.getText()) )
+    		errorFlag = true;
+    	else
+    		errorFlag = false;
+		if (page != null) {
+			page.setPageComplete(!errorFlag);
+			page.getWizard().getContainer().updateButtons();
+			page.setErrorMessage(getErrorMessage());
+			page.getWizard().getContainer().updateMessage();
+		}
+	}
+    
+    
 }

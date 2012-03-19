@@ -187,7 +187,7 @@ public class LoginDialog extends TitleAreaDialog {
         /*
          * LOGIN
          */
-        if (buttonId == IDialogConstants.OK_ID) {
+        if (buttonId == IDialogConstants.OK_ID) { 
             username = usernameText.getText();
             password = passwordText.getText();
             final String username = this.username;

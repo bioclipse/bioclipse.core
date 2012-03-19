@@ -95,12 +95,6 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 			giveFocus();
 		}
 		setControl(container);
-        if ( !Activator.getDefault().getUserManager().isLoggedIn() ) {
-            System.out.println("CANCEL!" + this.getWizard().performCancel());
-            // TODO FIXME find a better way to do this that does not cause an 
-            // Exception.
-            this.getShell().close();
-        }
 	}
 	
 		
@@ -213,10 +207,13 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	
 	@Override
 	public boolean isPageComplete() {
-		if (addedAccounts.size()>0) {
-		AccountPropertiesPage account = 
-				addedAccounts.get(accountTypeCombo.getSelectionIndex());
-		return account.isFieldsProperlyFilled();
+		if (isCurrentPage()) {
+			if (addedAccounts.size()>0) {
+				AccountPropertiesPage account = 
+						addedAccounts.get(accountTypeCombo.getSelectionIndex());
+				return account.isFieldsProperlyFilled();
+			} else
+				return false;
 		} else
 			return false;
 	}
