@@ -179,16 +179,16 @@ public class DialogArea implements Listener {
                                                  repeatPasswordLabel });
         }
         
-//        Label icon = new Label(container, SWT.NONE);
-//        ImageDescriptor imgDesc = ImageDescriptor
-//        		.createFromFile(this.getClass(),
-//        				"icons/login_16.png");
-//        Image img = imgDesc.createImage();
-//        icon.setImage(img);
-//        final FormData formData_6 = new FormData();
-//        formData_6.top = new FormAttachment(usernameText, 0, SWT.RIGHT);
-//        formData_6.left = new FormAttachment(usernameText, 0, SWT.RIGHT);
-//        icon.setLayoutData(formData_6);
+        Label icon = new Label(container, SWT.NONE);
+        ImageDescriptor imgDesc = ImageDescriptor
+        		.createFromFile(this.getClass(),
+        				"../../../../../icons/login_16.png");
+        Image img = imgDesc.createImage();
+        icon.setImage(img);
+        final FormData formData_6 = new FormData();
+        formData_6.bottom = new FormAttachment(usernameText, 0, SWT.RIGHT);
+        formData_6.left = new FormAttachment(usernameText, 0, SWT.RIGHT);
+        icon.setLayoutData(formData_6);
         
         usernameText.setFocus();
         
@@ -214,23 +214,12 @@ public class DialogArea implements Listener {
 	 */
     public boolean isFilledIn() {
     	if (createNewAccountButton) {
-    		if (usernameText.getText().isEmpty() || 
-    				passwordText.getText().isEmpty() )
-    			return false;
-    		else 
-    			return true;
-//    		return ( !usernameText.getText().isEmpty() && 
-//    			!passwordText.getText().isEmpty() );
+    		return ( !usernameText.getText().isEmpty() && 
+    			!passwordText.getText().isEmpty() );
     	} else
-    		if (usernameText.getText().isEmpty() || 
-    				passwordText.getText().isEmpty() || 
-    				repeatPasswordText.getText().isEmpty())
-    			return false;
-    		else
-    			return true;
- //    		return ( !usernameText.getText().isEmpty() && 
-//        			!passwordText.getText().isEmpty() && 
-//        			!repeatPasswordText.getText().isEmpty() );
+     		return ( !usernameText.getText().isEmpty() && 
+        			!passwordText.getText().isEmpty() && 
+        			!repeatPasswordText.getText().isEmpty() );
     }
     
     /**

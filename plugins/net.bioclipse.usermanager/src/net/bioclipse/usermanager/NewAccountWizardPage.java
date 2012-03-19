@@ -30,7 +30,7 @@ import com.sun.xml.internal.ws.Closeable;
 /**
  * The wizard page that handles the different parts accounts. 
  * 
- * @author Klas Jšnsson
+ * @author Klas Jšnsson (aka "konditorn")
  * 
  */
 public class NewAccountWizardPage extends WizardPage implements Listener {

@@ -47,7 +47,6 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	private LoginWizardPage loginPage;
 	
 	public NewAccountWizard() {
-//		boolean cancel = false;
 		IUserManager usermanager = Activator.getDefault().getUserManager();
 		if (usermanager.getUserNames().size() == 0) {
 			UserContainer sandbox = usermanager.getSandBoxUserContainer();
@@ -117,6 +116,9 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 		return true;
 	}
 	
+	/**
+	 * This method log in the user.
+	 */
 	private void performLogin() {
 		 final String username = loginPage.getUsername();
          final String password = loginPage.getPassword();
