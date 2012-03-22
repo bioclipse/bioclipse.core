@@ -112,7 +112,7 @@ public class UIManager implements IBioclipseManager {
         }
     }
     
-    public void open( List<IFile> files ) {
+    public void openFiles( List<IFile> files ) {
         IWorkbenchPage page = PlatformUI.getWorkbench()
                 .getActiveWorkbenchWindow()
                 .getActivePage();
