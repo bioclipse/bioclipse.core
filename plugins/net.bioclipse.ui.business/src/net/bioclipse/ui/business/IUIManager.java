@@ -56,6 +56,8 @@ public interface IUIManager extends IBioclipseManager {
     public void open(IFile file);
     
     @Recorded
+    @PublishedMethod(params="List<IFile> files",
+    methodSummary="Opens a list of files (e.g. a gist) in an editor.")
     @GuiAction
     public void openFiles( List<IFile> files );
 
