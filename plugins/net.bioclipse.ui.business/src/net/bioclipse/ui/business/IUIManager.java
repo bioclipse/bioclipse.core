@@ -56,8 +56,10 @@ public interface IUIManager extends IBioclipseManager {
     public void open(IFile file);
     
     @Recorded
+    @PublishedMethod(params="List<IFile> files",
+    methodSummary="Opens a list of files (e.g. a gist) in an editor.")
     @GuiAction
-    public void open( List<IFile> files );
+    public void openFiles( List<IFile> files );
 
     @GuiAction
     public void open(String filePath, String editor) throws BioclipseException;
