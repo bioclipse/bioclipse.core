@@ -57,7 +57,7 @@ public interface IUIManager extends IBioclipseManager {
     
     @Recorded
     @GuiAction
-    public void open( List<IFile> files );
+    public void openFiles( List<IFile> files );
 
     @GuiAction
     public void open(String filePath, String editor) throws BioclipseException;
