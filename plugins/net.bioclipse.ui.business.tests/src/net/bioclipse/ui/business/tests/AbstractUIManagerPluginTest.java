@@ -56,7 +56,7 @@ public abstract class AbstractUIManagerPluginTest {
                                                .getRoot()
                                                .getFile( new Path(filePath) );
         Assert.assertTrue(savedFile.exists());
-        ui.open( new ArrayList<IFile>() {{add(savedFile);}});
+        ui.openFiles( new ArrayList<IFile>() {{add(savedFile);}});
         project.delete(true, new NullProgressMonitor());
     }
     
