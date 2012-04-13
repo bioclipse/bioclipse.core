@@ -35,6 +35,7 @@ import net.bioclipse.scripting.Hook;
 import net.bioclipse.scripting.JsAction;
 import net.bioclipse.scripting.JsThread;
 
+import org.apache.log4j.Logger;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.browser.IWebBrowser;
@@ -47,6 +48,7 @@ public class JsConsoleView extends ScriptingConsoleView {
     private static JsThread jsThread = Activator.getDefault().JS_THREAD;
     private static Pattern p
         = Pattern.compile( " Wrapped (\\S+): (.*?) \\(<Unknown source>#" );
+    private static Logger logger = Logger.getLogger( JsConsoleView.class );
 
     @Override
     protected String executeCommand( String command ) {
@@ -198,6 +200,13 @@ public class JsConsoleView extends ScriptingConsoleView {
                 }
                 return exceptionType + ": " + causeMessage;
             }
+        }
+        if ( message.contains(
+                 "java.lang.reflect.UndeclaredThrowableException" ) ) {
+            logger.warn( "java.lang.reflect.UndeclaredThrowableException " +
+            		"found. This could be because a manager method throws an " +
+            		"Exception e.g. BioclipseException without declaring it in " +
+            		"the called method on it's interface" );
         }
         return t.getMessage();
 
