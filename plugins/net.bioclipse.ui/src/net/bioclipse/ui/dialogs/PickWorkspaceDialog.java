@@ -396,6 +396,12 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
             _lastUsedWorkspaces.removeAll(remove);
         }
 
+        String wsps = getWorkspacePathSuggestion();
+        
+        if ( !_lastUsedWorkspaces.contains( wsps ) ) {
+            _lastUsedWorkspaces.add( wsps );
+        }
+        
         // create a string concatenation of all our last used workspaces
         StringBuffer buf = new StringBuffer();
         for (int i = 0; i < _lastUsedWorkspaces.size(); i++) {
