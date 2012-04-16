@@ -34,6 +34,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Label;
 
 /**
  * Dialog that lets/forces a user to enter/select a workspace that will be used when saving all configuration files and
@@ -183,8 +184,10 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
 
             // checkbox below
             _RememberWorkspaceButton = new Button(inner, SWT.CHECK);
-            _RememberWorkspaceButton.setText("Remember workspace");
-            _RememberWorkspaceButton.setSelection(_preferences.getBoolean(_KeyRememberWorkspace, false));
+            _RememberWorkspaceButton.setText("Always start with default workspace");
+            _RememberWorkspaceButton.setSelection(!_preferences.getBoolean(_KeyRememberWorkspace, false));
+            new Label(inner, SWT.NONE);
+            new Label(inner, SWT.NONE);
 
             return inner;
         } catch (Exception err) {
@@ -401,9 +404,10 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
                 buf.append(_SplitChar);
             }
         }
+        
 
         // save them onto our preferences
-        _preferences.putBoolean(_KeyRememberWorkspace, _RememberWorkspaceButton.getSelection());
+        _preferences.putBoolean(_KeyRememberWorkspace, !_RememberWorkspaceButton.getSelection());
         _preferences.putBoolean(_KeyLastUsedWorkspaces, true);
         _preferences.put(_KeyLastUsedWorkspaces, buf.toString());
 
