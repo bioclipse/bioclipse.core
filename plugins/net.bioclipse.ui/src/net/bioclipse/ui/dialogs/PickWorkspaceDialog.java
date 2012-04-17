@@ -14,8 +14,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
+import net.bioclipse.core.util.LogUtils;
+
+import org.apache.log4j.Logger;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -38,10 +42,12 @@ import org.eclipse.swt.widgets.Label;
 
 /**
  * Dialog that lets/forces a user to enter/select a workspace that will be used when saving all configuration files and
- * settings. This dialog is shown at startup of the GUI just after the splash screen has shown.
- * This was adopted from http://hexapixel.com/2009/01/12/rcp-workspaces
+ * settings. This dialog is shown at startup of the GUI just after the splash screen 
  */
 public class PickWorkspaceDialog extends TitleAreaDialog {
+    
+    private static final Logger logger = Logger.getLogger(
+                                             PickWorkspaceDialog.class );
 
     // you would probably normally define these somewhere in your Preference Constants
     private static final String _KeyWorkspaceRootDir   = "wsRootDir";
@@ -430,6 +436,11 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
         // and on our preferences as well
         _preferences.put(_KeyWorkspaceRootDir, str);
 
+        try {
+            _preferences.flush();
+        } catch ( BackingStoreException e ) {
+            LogUtils.handleException( e, logger, "net.bioclipse.ui" );
+        }
         super.okPressed();
     }
 
