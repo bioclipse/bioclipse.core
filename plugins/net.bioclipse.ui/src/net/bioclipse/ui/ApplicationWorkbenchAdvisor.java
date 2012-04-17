@@ -117,7 +117,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
                       .getActivePage().showView( "net.bioclipse.navigator" );
         }
         catch ( PartInitException e1 ) {
-            LogUtils.handleException( e1, logger );
+            LogUtils.handleException( e1, logger, "net.bioclipse.ui" );
         }
         
         CommonNavigator nav = (CommonNavigator) PlatformUI.getWorkbench()
