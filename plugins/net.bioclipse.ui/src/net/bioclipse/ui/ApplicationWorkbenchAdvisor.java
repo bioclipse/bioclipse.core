@@ -47,22 +47,33 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         Location instanceLoc = Platform.getInstanceLocation();
         // if the location is already set, we start from eclipse
         if(!instanceLoc.isSet()){
+          logger.debug( "The instance location was not set" );
           // startedFromWorkspace=true means we do a restart from "switch workspace" and therefore
           // get the workspace location from dialog, if not, we use the default one or the remembered one set by user.
           boolean startedFromWorkspace = PickWorkspaceDialog.isStartedFromSwitchWorkspace();
+          logger.debug( "We are " + (startedFromWorkspace? " " : "not ") + "starting from switch workspace" );
           try {
             if(startedFromWorkspace){
               instanceLoc.set(new URL("file", null, PickWorkspaceDialog.getLastSetWorkspaceDirectory()), false);
               PickWorkspaceDialog.setStartedFromSwitchWorkspace( false );
+              logger.debug("Workspace set to: " + PickWorkspaceDialog.getLastSetWorkspaceDirectory());
             }else{
               // get what the user last said about remembering the workspace location 
               boolean remember = PickWorkspaceDialog.isRememberWorkspace();
+              if (!remember) {
+                  logger.debug( "The user wants to do new starts with default workspace" );
+              }
+              else {
+                  logger.debug( "The user wants to do new starts with non-default workspace" );
+              }
               if(remember){
                   // get the last used workspace location 
                   String lastUsedWs = PickWorkspaceDialog.getLastSetWorkspaceDirectory();  
                   instanceLoc.set(new URL("file", null, lastUsedWs), false);
+                  logger.debug("Workspace set to: " + lastUsedWs);
               }else{
                   instanceLoc.set(new URL("file", null, PickWorkspaceDialog.getWorkspacePathSuggestion()), false);
+                  logger.debug("Workspace set to: " + PickWorkspaceDialog.getLastSetWorkspaceDirectory());
               }
             }
           } catch (Exception exception) {
