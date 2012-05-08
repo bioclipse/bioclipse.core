@@ -2,12 +2,10 @@ package net.bioclipse.managers.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import net.bioclipse.managers.business.JavaScriptManagerMethodDispatcher;
 
 import org.junit.Ignore;
 import org.junit.Test;
-
-import net.bioclipse.managers.business.JavaScriptManagerMethodDispatcher;
-import net.bioclipse.managers.tests.AbstractManagerMethodDispatcherTest.MyInvocation;
 
 /**
  * @author jonalv
@@ -24,7 +22,7 @@ public class JavaScriptManagerMethodTest
     public void convertReturnIFileToString() throws Throwable {
         assertTrue( file.exists() );
         
-        assertEquals( PATH + FILENAME, 
+        assertEquals( file.getLocation().toOSString(),
                       dispatcher.invoke( 
                           new MyInvocation(
                               ITestManager.class.getMethod( "returnsAFile", 
