@@ -13,9 +13,11 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.core,
  net.bioclipse.ui,
  org.eclipse.ui.intro,
- org.eclipse.ui.intro.universal
+ org.eclipse.ui.intro.universal,
+ org.eclipse.equinox.p2.ui.discovery;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Import-Package: org.apache.log4j
+Import-Package: org.apache.log4j,
+ org.eclipse.equinox.internal.p2.discovery
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: net.bioclipse.data,
  net.bioclipse.data.wizards

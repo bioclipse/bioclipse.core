@@ -17,7 +17,7 @@ public class OpenWizard extends AbstractHandler{
 
     public Object execute( ExecutionEvent event ) throws ExecutionException {
         
-        NewDataProjectWizard wizard=new NewDataProjectWizard();
+        NewDataProjectWizard wizard = new NewDataProjectWizard( null, null );
         
         wizard.init(HandlerUtil.getActiveWorkbenchWindow( event ).getWorkbench()
                     , null);

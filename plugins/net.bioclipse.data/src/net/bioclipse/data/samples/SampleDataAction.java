@@ -11,13 +11,14 @@
 package net.bioclipse.data.samples;
 
 import java.util.Properties;
+
 import net.bioclipse.data.wizards.NewDataProjectWizard;
+
 import org.apache.log4j.Logger;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.intro.IIntroSite;
@@ -48,7 +49,8 @@ public class SampleDataAction extends Action implements IIntroAction {
 				
 				//Install sample data project from this plugin
 
-				NewDataProjectWizard wizard = new NewDataProjectWizard();
+                NewDataProjectWizard wizard =
+                                new NewDataProjectWizard( null, null );
 			    wizard.init(PlatformUI.getWorkbench(), null);
 
 			      // Create the wizard dialog

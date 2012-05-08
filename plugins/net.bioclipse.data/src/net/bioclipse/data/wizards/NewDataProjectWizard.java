@@ -18,13 +18,12 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.data.Activator;
 import net.bioclipse.data.CopyTools;
 import net.bioclipse.data.DummyProgressMonitor;
 
 import org.apache.log4j.Logger;
-import net.bioclipse.core.util.LogUtils;
-
 import org.eclipse.core.internal.resources.Project;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
@@ -39,8 +38,10 @@ import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.equinox.internal.p2.discovery.Catalog;
+import org.eclipse.equinox.internal.p2.ui.discovery.wizards.CatalogConfiguration;
+import org.eclipse.equinox.internal.p2.ui.discovery.wizards.DiscoveryWizard;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
@@ -53,7 +54,8 @@ import org.osgi.framework.Bundle;
  *
  */
 @SuppressWarnings("restriction")
-public class NewDataProjectWizard extends Wizard implements INewWizard, IExecutableExtension {
+public class NewDataProjectWizard extends DiscoveryWizard implements
+                INewWizard, IExecutableExtension {
 
 	private WizardNewProjectCreationPage fFirstPage;
     private SelectDataFoldersPage folPage;
@@ -61,18 +63,20 @@ public class NewDataProjectWizard extends Wizard implements INewWizard, IExecuta
     private IWorkbench workbench;
     private IStructuredSelection selection;
     private String wizardID;
-
+    
 	private static final Logger logger =
         Logger.getLogger(NewDataProjectWizard.class);
 
+    public NewDataProjectWizard(Catalog catalog,
+                    CatalogConfiguration configuration) {
 
-    public NewDataProjectWizard() {
-        super();
-        
+        super( catalog, configuration );
         setDefaultPageImageDescriptor(Activator.getImageDescriptor("icons/wiz/wiz1.png"));
         setWindowTitle("New Sample Data project");
+    }
 
-        fFirstPage = new WizardNewProjectCreationPage("New Sample Data project");
+    private String createProjectName() {
+
         boolean shouldEnd = false;
         String projectNameStart = "Sample Data";
         int cnt=1;
@@ -96,35 +100,44 @@ public class NewDataProjectWizard extends Wizard implements INewWizard, IExecuta
         	}
 
         }
-        
-        logger.debug("New data project name: " + projectName);
-        
-        fFirstPage.setInitialProjectName( projectName );
-        folPage=new SelectDataFoldersPage();
-
+        return projectName;
     }
 
+    public SelectDataFoldersPage getSelectDataFoldersPage() {
+        if ( folPage == null ) {
+            folPage = new SelectDataFoldersPage();
+        }
+        return folPage;
+    }
+
+    public WizardNewProjectCreationPage getProjectCreationPage() {
+        if ( fFirstPage == null ) {
+            String pageName = "New Sample Data project";
+            fFirstPage = new WizardNewProjectCreationPage( pageName );
+            fFirstPage.setTitle( "New Sample Data project" );
+            fFirstPage.setDescription( "Create a new Project with "
+                                       + "sample data installed" );
+        }
+        String projectName = createProjectName();
+        logger.debug( "New data project name: " + projectName );
+        fFirstPage.setInitialProjectName( projectName );
+        return fFirstPage;
+    }
     /**
      * Add WizardNewProjectCreationPage from IDE
      */
     public void addPages() {
 
-        fFirstPage.setTitle("New Sample Data project");
-        fFirstPage.setDescription("Create a new Project with " +
-        "sample data installed");
-//        fFirstPage.setImageDescriptor(ImageDescriptor.createFromFile(getClass(),
-//        "/org/ananas/xm/eclipse/resources/newproject58.gif"));
-        addPage(fFirstPage);
-
-        addPage(folPage);
-
+        super.addPages();
+        addPage( getProjectCreationPage() );
+        addPage( getSelectDataFoldersPage() );
     }
 
     
     @Override
     public boolean performCancel() {
     	logger.debug("Installation data wizard cancelled");
-    	return true;
+        return super.performCancel();
     }
 
     /**
@@ -133,6 +146,7 @@ public class NewDataProjectWizard extends Wizard implements INewWizard, IExecuta
     @Override
     public boolean performFinish() {
 
+        super.performFinish();
         try
         {
             WorkspaceModifyOperation op =
