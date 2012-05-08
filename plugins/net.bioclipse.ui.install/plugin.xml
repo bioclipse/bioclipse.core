@@ -7,8 +7,17 @@
             allPopups="false"
             locationURI="menu:help?after=net.bioclipse.data.openWizard">
          <command
-               commandId="org.eclipse.equinox.p2.ui.discovery.commands.ShowRepositoryCatalog"
+               commandId="net.bioclipse.ui.install.ShowRepositoryCatalog2"
                label="Install New Bioclipse Feature"
+               style="push">
+            <parameter
+                  name="org.eclipse.equinox.p2.ui.discovery.commands.RepositoryParameter2"
+                  value="http://pele.farmbio.uu.se/bioclipse/releases/2.5">
+            </parameter>
+         </command>
+         <command
+               commandId="net.bioclipse.ui.install.ShowRepositoryCatalog"
+               label="Install Samples..."
                style="push">
             <parameter
                   name="org.eclipse.equinox.p2.ui.discovery.commands.RepositoryParameter"
@@ -16,5 +25,35 @@
             </parameter>
          </command>
       </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.activities">
+      <activityPatternBinding
+            activityId="forbiddenViewActivityId"
+            pattern="org.eclipse.equinox.p2.ui.sdk/org.eclipse.equinox.p2.ui.sdk.install">
+      </activityPatternBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="net.bioclipse.ui.install.commands.ShowRepositoryCatalogCommandHandler"
+            id="net.bioclipse.ui.install.ShowRepositoryCatalog"
+            name="Show Repository Catalog">
+         <commandParameter
+               id="org.eclipse.equinox.p2.ui.discovery.commands.RepositoryParameter"
+               name="name"
+               optional="true">
+         </commandParameter>
+      </command>
+      <command
+            defaultHandler="net.bioclipse.ui.install.commands.ShowFeatureCatalogCommandHandler"
+            id="net.bioclipse.ui.install.ShowRepositoryCatalog2"
+            name="Show Feature Catalog">
+         <commandParameter
+               id="org.eclipse.equinox.p2.ui.discovery.commands.RepositoryParameter2"
+               name="name"
+               optional="true">
+         </commandParameter>
+      </command>
    </extension>
 </plugin>
