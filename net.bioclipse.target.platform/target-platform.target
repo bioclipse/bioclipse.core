@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.6"?>
 
-<target name="Spring-osgi-1.0.2" sequenceNumber="27">
+<target name="Spring-osgi-1.0.2" sequenceNumber="28">
 <locations>
 <location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/lib" type="Directory"/>
 <location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
@@ -21,13 +21,13 @@
 <repository location="http://download.eclipse.org/releases/indigo"/>
 </location>
 <location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.platform.sdk" version="3.7.1.M20110909-1335"/>
-<unit id="org.eclipse.sdk.feature.group" version="3.7.1.r37x_v20110728-7Q7xAEDDePtVvBAYYD3z-il0ox7CoGe6mz-B8FDdVn0YR"/>
-<unit id="org.eclipse.rcp.sdk.id" version="3.7.1.M20110909-1335"/>
-<unit id="org.eclipse.sdk.ide" version="3.7.1.M20110909-1335"/>
-<unit id="org.eclipse.equinox.compendium.sdk.feature.group" version="3.7.1.R37x_v20110909-7X7XGA3FNKoMz-UVh-nB7ZBJ"/>
-<unit id="org.eclipse.equinox.core.sdk.feature.group" version="3.7.1.R37x_v20110907-7uF9LFpFFSuN6-tKJIXPMYaq7NTP"/>
-<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.7.1.R37x_v20110907-9N7sHDOGKQr_bhQlOXRnwJn5DsVZ"/>
+<unit id="org.eclipse.platform.sdk" version="3.7.2.M20120208-0800"/>
+<unit id="org.eclipse.sdk.feature.group" version="3.7.2.r37x_v20111213-7Q7xALDPb32vCjY6UACVPdFTz-icPtJkUadz0lMmk4z-8"/>
+<unit id="org.eclipse.rcp.sdk.id" version="3.7.2.M20120208-0800"/>
+<unit id="org.eclipse.sdk.ide" version="3.7.2.M20120208-0800"/>
+<unit id="org.eclipse.equinox.compendium.sdk.feature.group" version="3.7.1.R37x_v20110909-7X7XGA5FOIm78Pif1n7BLB9"/>
+<unit id="org.eclipse.equinox.core.sdk.feature.group" version="3.7.1.v20110928-1809-7uF9LFpHFUqIcLhnJMmHQGXy3BJB"/>
+<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.7.1.R37x_v20110907-9N7sHDdGIUw3H-591a16Tcf5FePP"/>
 <repository location="http://download.eclipse.org/eclipse/updates/3.7"/>
 </location>
 <location path="${project_loc:/net.bioclipse.target.platform}/logging" type="Directory"/>
@@ -198,6 +198,10 @@
 <unit id="org.junit" version="4.8.2.v4_8_2_v20110321-1705"/>
 <unit id="org.junit.source" version="4.8.2.v4_8_2_v20110321-1705"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20110523182458/repository/"/>
+</location>
+<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.equinox.sdk.feature.group" version="3.7.0.v20110502-7M7W8Z8eNV4UqfbhicjDN-ROgjNc"/>
+<repository location="http://download.eclipse.org/equinox/drops/R-3.7-201106131736"/>
 </location>
 </locations>
 </target>
