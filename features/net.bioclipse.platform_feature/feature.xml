@@ -27,20 +27,17 @@ is available at http://www.eclipse.org/legal/epl-v10.html
    </license>
 
    <includes
-         id="net.bioclipse.core_feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.rcp"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.equinox.p2.rcp.feature"
          version="0.0.0"/>
 
    <includes
          id="org.eclipse.help"
          version="0.0.0"/>
+
+   <requires>
+      <import feature="net.bioclipse.core_feature" version="2.5.0" match="equivalent"/>
+      <import plugin="org.eclipse.rcp"/>
+   </requires>
 
    <plugin
          id="ch.qos.logback.classic"
@@ -616,6 +613,20 @@ is available at http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="org.eclipse.help.webapp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.p2.installer"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.core.net"
          download-size="0"
          install-size="0"
          version="0.0.0"
