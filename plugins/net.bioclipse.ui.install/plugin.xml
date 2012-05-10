@@ -7,12 +7,16 @@
             allPopups="false"
             locationURI="menu:help?after=net.bioclipse.data.openWizard">
          <command
-               commandId="net.bioclipse.ui.install.ShowRepositoryCatalog2"
+               commandId="net.bioclipse.ui.install.ShowRepositoryCatalog"
                label="Install New Bioclipse Feature"
                style="push">
             <parameter
-                  name="org.eclipse.equinox.p2.ui.discovery.commands.RepositoryParameter2"
+                  name="org.eclipse.equinox.p2.ui.discovery.commands.RepositoryParameter"
                   value="http://pele.farmbio.uu.se/bioclipse/releases/2.5">
+            </parameter>
+            <parameter
+                  name="net.bioclipse.ui.install.commands.RepositoryStrategyParameter"
+                  value="net.bioclipse.ui.install.commands.ReleaseRepositoryDiscoveryStrategy">
             </parameter>
          </command>
          <command
@@ -22,6 +26,10 @@
             <parameter
                   name="org.eclipse.equinox.p2.ui.discovery.commands.RepositoryParameter"
                   value="http://pele.farmbio.uu.se/bioclipse/releases/2.5">
+            </parameter>
+            <parameter
+                  name="net.bioclipse.ui.install.commands.RepositoryStrategyParameter"
+                  value="net.bioclipse.ui.install.commands.RepositoryDiscoveryStrategy">
             </parameter>
          </command>
       </menuContribution>
@@ -42,18 +50,18 @@
          <commandParameter
                id="org.eclipse.equinox.p2.ui.discovery.commands.RepositoryParameter"
                name="name"
-               optional="true">
+               optional="false">
          </commandParameter>
-      </command>
-      <command
-            defaultHandler="net.bioclipse.ui.install.commands.ShowFeatureCatalogCommandHandler"
-            id="net.bioclipse.ui.install.ShowRepositoryCatalog2"
-            name="Show Feature Catalog">
          <commandParameter
-               id="org.eclipse.equinox.p2.ui.discovery.commands.RepositoryParameter2"
-               name="name"
-               optional="true">
+               id="net.bioclipse.ui.install.commands.RepositoryStrategyParameter"
+               name="strategy"
+               optional="false">
          </commandParameter>
       </command>
+      <commandParameterType
+            converter="net.bioclipse.ui.install.commands.RepositoryDiscoveryStrategyParameterConverter"
+            id="net.bioclipse.ui.install.commandParameterConverter"
+            type="net.bioclipse.ui.install.discovery.BasicRepositoryDiscoveryStrategy">
+      </commandParameterType>
    </extension>
 </plugin>
