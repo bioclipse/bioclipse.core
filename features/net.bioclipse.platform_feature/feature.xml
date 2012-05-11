@@ -34,9 +34,12 @@ is available at http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.help"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.rcp"
+         version="0.0.0"/>
+
    <requires>
       <import feature="net.bioclipse.core_feature" version="2.5.0" match="equivalent"/>
-      <import plugin="org.eclipse.rcp"/>
    </requires>
 
    <plugin
