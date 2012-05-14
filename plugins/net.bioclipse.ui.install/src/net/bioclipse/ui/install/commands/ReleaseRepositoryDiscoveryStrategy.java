@@ -11,6 +11,8 @@
 
 package net.bioclipse.ui.install.commands;
 
+import static org.osgi.framework.FrameworkUtil.getBundle;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,11 +20,15 @@ import java.util.List;
 import net.bioclipse.ui.install.discovery.BasicRepositoryDiscoveryStrategy;
 
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.equinox.internal.p2.discovery.AbstractCatalogSource;
+import org.eclipse.equinox.internal.p2.discovery.compatibility.BundleDiscoverySource;
+import org.eclipse.equinox.internal.p2.discovery.model.Icon;
 import org.eclipse.equinox.p2.metadata.IInstallableUnit;
 import org.eclipse.equinox.p2.query.IQuery;
 import org.eclipse.equinox.p2.query.IQueryResult;
 import org.eclipse.equinox.p2.query.QueryUtil;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
+import org.osgi.framework.Bundle;
 
 /**
  * @author Steffen Pingel
@@ -85,4 +91,24 @@ public class ReleaseRepositoryDiscoveryStrategy extends
         return filteredList;
     }
 
+    @Override
+    protected AbstractCatalogSource getSource( IMetadataRepository repository ) {
+
+        if ( defaultCatalogSource == null ) {
+            Bundle bundle = getBundle( BasicRepositoryDiscoveryStrategy.class );
+            defaultCatalogSource = new BundleDiscoverySource( bundle );
+        }
+        return defaultCatalogSource;
+    }
+
+    @Override
+    protected Icon getIcon( String id ) {
+
+        Icon icon = new Icon();
+        icon.setImage32( "icons/default/icon32.png" );
+        icon.setImage48( "icons/default/icon48.png" );
+        icon.setImage64( "icons/default/icon64.png" );
+        icon.setImage128( "icons/default/icon128.png" );
+        return icon;
+    }
 }

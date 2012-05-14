@@ -1,7 +1,5 @@
 package net.bioclipse.ui.install.discovery;
 
-import static org.osgi.framework.FrameworkUtil.getBundle;
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,7 +16,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.equinox.internal.p2.discovery.AbstractCatalogSource;
 import org.eclipse.equinox.internal.p2.discovery.AbstractDiscoveryStrategy;
-import org.eclipse.equinox.internal.p2.discovery.compatibility.BundleDiscoverySource;
 import org.eclipse.equinox.internal.p2.discovery.model.CatalogCategory;
 import org.eclipse.equinox.internal.p2.discovery.model.CatalogItem;
 import org.eclipse.equinox.internal.p2.discovery.model.Icon;
@@ -36,7 +33,6 @@ import org.eclipse.equinox.p2.query.QueryUtil;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepositoryManager;
 import org.eclipse.equinox.p2.ui.ProvisioningUI;
-import org.osgi.framework.Bundle;
 
 
 public abstract class BasicRepositoryDiscoveryStrategy extends
@@ -53,24 +49,47 @@ public abstract class BasicRepositoryDiscoveryStrategy extends
 
     private final Map<String, CatalogItem> catalogItemById;
 
-    private AbstractCatalogSource                            defaultCatalogSource;
+    protected AbstractCatalogSource                          defaultCatalogSource;
 
     public BasicRepositoryDiscoveryStrategy() {
         this.locations = new ArrayList<URI>();
         this.sourceByRepository = new HashMap<IMetadataRepository, RepositorySource>();
         this.categoryById = new HashMap<String, CatalogCategory>();
         this.catalogItemById = new HashMap<String, CatalogItem>();
+
+        
+    }
+    
+    public void setCategories(List<CatalogCategory> categories) {
+        super.setCategories( categories );
+     // Add a default category to avoid missing category dialog
+        CatalogCategory category = new CatalogCategory();
+        category.setId( "net.bioclipse.dummy.default" );
+        // category.setDescription(getProperty(candidate,
+        // IInstallableUnit.PROP_DESCRIPTION));
+        category.setName( "Default" );
+        // category.setSource( getSource( repository ) );
+        // category.setData( candidate );
+
+        categoryById.put( category.getId(), category );
+        categories.add( category );
     }
 
-    /* (non-Javadoc)
-     * @see net.bioclipse.ui.install.commands.IRepositoryDiscoveryStrategy#addLocation(java.net.URI)
+    /*
+     * (non-Javadoc)
+     * @see
+     * net.bioclipse.ui.install.commands.IRepositoryDiscoveryStrategy#addLocation
+     * (java.net.URI)
      */
-    public void addLocation(URI location) {
-        locations.add(location);
+    public void addLocation( URI location ) {
+        locations.add( location );
     }
 
-    /* (non-Javadoc)
-     * @see net.bioclipse.ui.install.commands.IRepositoryDiscoveryStrategy#removeLocation(java.net.URI)
+    /*
+     * (non-Javadoc)
+     * @see
+     * net.bioclipse.ui.install.commands.IRepositoryDiscoveryStrategy#removeLocation
+     * (java.net.URI)
      */
     public void removeLocation(URI location) {
         locations.remove(location);
@@ -95,6 +114,13 @@ public abstract class BasicRepositoryDiscoveryStrategy extends
 
     @SuppressWarnings("restriction")
     private void connectCategories() {
+        if(categories.size() == 1) {
+            CatalogCategory catalog = categoryById.get( "net.bioclipse.dummy.default" );
+            for( CatalogItem id: catalogItemById.values()) {
+                id.setCategoryId( catalog.getId() );
+            }
+            return;
+        }
         for (CatalogCategory category : categories) {
             if (category.getData() instanceof IInstallableUnit) {
                 IInstallableUnit categoryIU = (IInstallableUnit) category.getData();
@@ -176,20 +202,17 @@ public abstract class BasicRepositoryDiscoveryStrategy extends
         item.setData(candidate);
         item.setSiteUrl(repository.getLocation().toString());
         
-        Icon icon = new Icon();
-        icon.setImage32( "icons/icon32.png" );
-        icon.setImage48( "icons/icon48.png" );
-        icon.setImage64( "icons/icon64.png" );
-        icon.setImage128( "icons/icon128.png" );
-        // icon.setImage48(
-        // "platform:/plugin/org.eclipse.ui.intro.universal/themes/purpleMesh/graphics/icons/ctool/webrsrc48.gif"
-        // );
+        Icon icon = getIcon( candidate.getId() );
         item.setIcon( icon );
 
         item.getInstallableUnits().add( item.getId() );
         catalogItemById.put(item.getId(), item);
         items.add(item);
         return item;
+    }
+
+    protected Icon getIcon( String id ) {
+        return null;
     }
 
     /* (non-Javadoc)
@@ -200,19 +223,14 @@ public abstract class BasicRepositoryDiscoveryStrategy extends
         return (value != null) ? value : "";
     }
 
-    private AbstractCatalogSource getSource(IMetadataRepository repository) {
+    protected AbstractCatalogSource getSource( IMetadataRepository repository ) {
 
-        if ( defaultCatalogSource == null ) {
-            Bundle bundle = getBundle( BasicRepositoryDiscoveryStrategy.class );
-            defaultCatalogSource = new BundleDiscoverySource( bundle );
+        RepositorySource source = sourceByRepository.get( repository );
+        if ( source == null ) {
+            source = new RepositorySource( repository );
+            sourceByRepository.put( repository, source );
         }
-        return defaultCatalogSource;
-        // RepositorySource source = sourceByRepository.get(repository);
-        // if (source == null) {
-        // source = new RepositorySource(repository);
-        // sourceByRepository.put(repository, source);
-        // }
-//        return source;
+        return source;
     }
 
     private CatalogCategory processCategory(IMetadataRepository repository, IInstallableUnit candidate) {
