@@ -66,7 +66,7 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
     // our controls
     private Combo               _workspacePathCombo;
     private List<String>        _lastUsedWorkspaces;
-    private Button              _RememberWorkspaceButton;
+//    private Button              _RememberWorkspaceButton;
 
     // used as separator when we save the last used workspace locations
     private static final String _SplitChar             = "#";
@@ -189,9 +189,9 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
             });
 
             // checkbox below
-            _RememberWorkspaceButton = new Button(inner, SWT.CHECK);
-            _RememberWorkspaceButton.setText("Always start with default workspace");
-            _RememberWorkspaceButton.setSelection(!_preferences.getBoolean(_KeyRememberWorkspace, false));
+//            _RememberWorkspaceButton = new Button(inner, SWT.CHECK);
+//            _RememberWorkspaceButton.setText("Always start with default workspace");
+//            _RememberWorkspaceButton.setSelection(!_preferences.getBoolean(_KeyRememberWorkspace, false));
             new Label(inner, SWT.NONE);
             new Label(inner, SWT.NONE);
 
@@ -419,7 +419,7 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
         
 
         // save them onto our preferences
-        _preferences.putBoolean(_KeyRememberWorkspace, !_RememberWorkspaceButton.getSelection());
+//        _preferences.putBoolean(_KeyRememberWorkspace, !_RememberWorkspaceButton.getSelection());
         _preferences.putBoolean(_KeyLastUsedWorkspaces, true);
         _preferences.put(_KeyLastUsedWorkspaces, buf.toString());
 
