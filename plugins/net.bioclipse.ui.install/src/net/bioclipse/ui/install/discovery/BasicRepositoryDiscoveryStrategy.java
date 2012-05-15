@@ -64,10 +64,10 @@ public abstract class BasicRepositoryDiscoveryStrategy extends
         super.setCategories( categories );
      // Add a default category to avoid missing category dialog
         CatalogCategory category = new CatalogCategory();
-        category.setId( "net.bioclipse.dummy.default" );
+        category.setId( "net.bioclipse.install.catalog.default" );
         // category.setDescription(getProperty(candidate,
         // IInstallableUnit.PROP_DESCRIPTION));
-        category.setName( "Default" );
+        category.setName( "Bioclipse" );
         // category.setSource( getSource( repository ) );
         // category.setData( candidate );
 
@@ -115,7 +115,8 @@ public abstract class BasicRepositoryDiscoveryStrategy extends
     @SuppressWarnings("restriction")
     private void connectCategories() {
         if(categories.size() == 1) {
-            CatalogCategory catalog = categoryById.get( "net.bioclipse.dummy.default" );
+            CatalogCategory catalog =
+                            categoryById.get( "net.bioclipse.install.catalog.default" );
             for( CatalogItem id: catalogItemById.values()) {
                 id.setCategoryId( catalog.getId() );
             }
