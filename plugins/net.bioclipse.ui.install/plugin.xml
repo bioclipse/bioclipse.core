@@ -35,13 +35,6 @@
       </menuContribution>
    </extension>
    <extension
-         point="org.eclipse.ui.activities">
-      <activityPatternBinding
-            activityId="forbiddenViewActivityId"
-            pattern="org.eclipse.equinox.p2.ui.sdk/org.eclipse.equinox.p2.ui.sdk.install">
-      </activityPatternBinding>
-   </extension>
-   <extension
          point="org.eclipse.ui.commands">
       <command
             defaultHandler="net.bioclipse.ui.install.commands.ShowRepositoryCatalogCommandHandler"
