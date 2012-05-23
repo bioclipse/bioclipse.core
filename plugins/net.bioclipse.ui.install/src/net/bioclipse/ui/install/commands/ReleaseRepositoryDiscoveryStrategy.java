@@ -41,24 +41,33 @@ public class ReleaseRepositoryDiscoveryStrategy extends
 
     Map<String, String> bundleToIcon = new HashMap<String, String>();
     private String[] bundles = {
+    		
+    		"bioclipse.qsar",
+    		"bioclipse.metaprint2d",
+    		"bioclipse.ds",
+    		"bioclipse.bioinformatics",
+    		"bioclipse.opentox",
+    		"bioclipse.hivdrc",
+    		"bioclipse.balloon",
+    		"bioclipse.social"
 
-                             "net.bioclipse.core", "nu.psnet.quickimage",
- "bioclipse.cheminformatics_feature",
-                    "bioclipse.statistics", "org.openscience.cdk",
-                    "bioclipse.ons", "cdk_feature", "bioclipse.data",
-                    "bioclipse.xws4j", "bioclipse.rdf", "bioclipse.qsar",
-                    "bioclipse.joelib", "bioclipse.metaprint2d",
-                    "bioclipse.ds", "bioclipse.hivdrc",
-                    "bioclipse.experimental", "bioclipse.vscreen",
-                    "bioclipse.structuredb", "bioclipse.social",
-                    "bioclipse.bioinformatics", "bioclipse.opentox",
-                    "bioclipse.moss", "bioclipse.chembl", "bioclipse.swipl",
-                    "bioclipse.blipkit", "bioclipse.rdf",
-                    "bioinformatics.rdf_feature",
-                    "cheminformatics.rdf_feature", "rdf.ui_feature",
-                    "bioclipse.update", "bioclipse.metabolomics",
-                    "bioclipse.speclipse", "bioclipse.taverna",
-                    "bioclipse.medea" };
+//                    "bioclipse.cheminformatics_feature",
+//                    "bioclipse.statistics", "org.openscience.cdk",
+//                    "bioclipse.ons", "cdk_feature", "bioclipse.data",
+//                    "bioclipse.xws4j", "bioclipse.rdf", "bioclipse.qsar",
+//                    "bioclipse.joelib", "bioclipse.metaprint2d",
+//                    "bioclipse.ds", "bioclipse.hivdrc",
+//                    "bioclipse.experimental", "bioclipse.vscreen",
+//                    "bioclipse.structuredb", "bioclipse.social",
+//                    "bioclipse.bioinformatics", "bioclipse.opentox",
+//                    "bioclipse.moss", "bioclipse.chembl", "bioclipse.swipl",
+//                    "bioclipse.blipkit", "bioclipse.rdf",
+//                    "bioinformatics.rdf_feature",
+//                    "cheminformatics.rdf_feature", "rdf.ui_feature",
+//                    "bioclipse.update", "bioclipse.metabolomics",
+//                    "bioclipse.speclipse", "bioclipse.taverna",
+//                    "bioclipse.medea" 
+                    };
 
     protected void queryInstallableUnits( SubMonitor monitor,
                                         List<IMetadataRepository> repositories ) {
