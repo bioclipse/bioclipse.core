@@ -33,6 +33,8 @@ import org.eclipse.equinox.p2.query.QueryUtil;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepositoryManager;
 import org.eclipse.equinox.p2.ui.ProvisioningUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public abstract class BasicRepositoryDiscoveryStrategy extends
@@ -114,7 +116,14 @@ public abstract class BasicRepositoryDiscoveryStrategy extends
 
     @SuppressWarnings("restriction")
     private void connectCategories() {
-        if(categories.size() == 1) {
+
+        Logger logger = LoggerFactory
+                        .getLogger( BasicRepositoryDiscoveryStrategy.class );
+        logger.debug( categories.size() + " categories found: " );
+        for(CatalogCategory c:categories) {
+            logger.debug( c.getId() );
+        }
+        if ( categories.size() == 2 ) {
             CatalogCategory catalog =
                             categoryById.get( "net.bioclipse.install.catalog.default" );
             for( CatalogItem id: catalogItemById.values()) {
