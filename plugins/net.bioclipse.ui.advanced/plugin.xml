@@ -38,6 +38,26 @@
             isEqualityPattern="false"
             pattern="net.bioclipse.ui.advanced/.*menu">
       </activityPatternBinding>
+      <activityPatternBinding
+            activityId="net.bioclipse.advancedMode"
+            isEqualityPattern="false"
+            pattern="org.eclipse.*/.*history.*">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="forbiddenViewActivityId"
+            isEqualityPattern="false"
+            pattern="org\.eclipse\.team.*/.*">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="forbiddenViewActivityId"
+            isEqualityPattern="false"
+            pattern="org.eclipse.compare.*/.*">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="forbiddenViewActivityId"
+            isEqualityPattern="false"
+            pattern=".*ruby.*/.*">
+      </activityPatternBinding>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
