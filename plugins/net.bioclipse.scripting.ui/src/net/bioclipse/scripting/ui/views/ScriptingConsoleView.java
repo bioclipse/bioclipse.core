@@ -206,7 +206,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
             public void keyReleased(KeyEvent _) { }
         });
         
-        input = new Text(parent, SWT.SINGLE | SWT.BORDER);
+        input = new Text(parent, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
         input.setFont(JFaceResources.getTextFont());
         input.addKeyListener( new KeyListener() {
             public void keyPressed(KeyEvent e) { handleKey(e); }
