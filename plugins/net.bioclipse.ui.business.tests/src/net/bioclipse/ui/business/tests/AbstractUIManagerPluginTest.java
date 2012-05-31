@@ -39,6 +39,7 @@ public abstract class AbstractUIManagerPluginTest {
     	Assert.assertNotNull(ui);
     }
     
+    @Ignore
     @Test
     public void testOpenListIFile() throws CoreException {
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
