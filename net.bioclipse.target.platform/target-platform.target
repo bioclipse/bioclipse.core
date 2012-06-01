@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.6"?>
 
-<target name="Spring-osgi-1.0.2" sequenceNumber="30">
+<target name="Spring-osgi-1.0.2" sequenceNumber="31">
 <locations>
 <location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/dist" type="Directory"/>
 <location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
@@ -49,6 +49,24 @@
 <unit id="javax.wsdl" version="1.6.2.v201012040545"/>
 <unit id="org.apache.commons.discovery" version="0.2.0.v201004190315"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20110523182458/repository/"/>
+</location>
+<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.equinox.executable.feature.group" version="3.5.1.v20111216-1653-7P7NFUIFIbaUcU77s0KQWHw5HZTZ"/>
+<repository location="http://download.eclipse.org/eclipse/updates/3.7"/>
+</location>
+<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="nu.psnet.quickimage.feature.group" version="1.0.3.2"/>
+<repository location="http://psnet.nu/eclipse/updates"/>
+</location>
+<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.platform.sdk" version="3.7.2.M20120208-0800"/>
+<unit id="org.eclipse.sdk.feature.group" version="3.7.2.r37x_v20111213-7Q7xALDPb32vCjY6UACVPdFTz-icPtJkUadz0lMmk4z-8"/>
+<unit id="org.eclipse.rcp.sdk.id" version="3.7.2.M20120208-0800"/>
+<unit id="org.eclipse.sdk.ide" version="3.7.2.M20120208-0800"/>
+<unit id="org.eclipse.equinox.compendium.sdk.feature.group" version="3.7.1.R37x_v20110909-7X7XGA5FOIm78Pif1n7BLB9"/>
+<unit id="org.eclipse.equinox.core.sdk.feature.group" version="3.7.1.v20110928-1809-7uF9LFpHFUqIcLhnJMmHQGXy3BJB"/>
+<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.7.1.R37x_v20110907-9N7sHDdGIUw3H-591a16Tcf5FePP"/>
+<repository location="http://download.eclipse.org/eclipse/updates/3.7"/>
 </location>
 <location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="cmlxom" version="2.5.0.b1"/>
@@ -180,24 +198,6 @@
 <unit id="xom" version="1.1.0"/>
 <unit id="org.xmlpull.xpp3" version="1.1.4.c"/>
 <repository location="http://pele.farmbio.uu.se/bioclipse/cdk"/>
-</location>
-<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.equinox.executable.feature.group" version="3.5.1.v20111216-1653-7P7NFUIFIbaUcU77s0KQWHw5HZTZ"/>
-<repository location="http://download.eclipse.org/eclipse/updates/3.7"/>
-</location>
-<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="nu.psnet.quickimage.feature.group" version="1.0.3.2"/>
-<repository location="http://psnet.nu/eclipse/updates"/>
-</location>
-<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.platform.sdk" version="3.7.2.M20120208-0800"/>
-<unit id="org.eclipse.sdk.feature.group" version="3.7.2.r37x_v20111213-7Q7xALDPb32vCjY6UACVPdFTz-icPtJkUadz0lMmk4z-8"/>
-<unit id="org.eclipse.rcp.sdk.id" version="3.7.2.M20120208-0800"/>
-<unit id="org.eclipse.sdk.ide" version="3.7.2.M20120208-0800"/>
-<unit id="org.eclipse.equinox.compendium.sdk.feature.group" version="3.7.1.R37x_v20110909-7X7XGA5FOIm78Pif1n7BLB9"/>
-<unit id="org.eclipse.equinox.core.sdk.feature.group" version="3.7.1.v20110928-1809-7uF9LFpHFUqIcLhnJMmHQGXy3BJB"/>
-<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.7.1.R37x_v20110907-9N7sHDdGIUw3H-591a16Tcf5FePP"/>
-<repository location="http://download.eclipse.org/eclipse/updates/3.7"/>
 </location>
 </locations>
 </target>
