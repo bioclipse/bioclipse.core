@@ -23,3 +23,5 @@ Import-Package: org.eclipse.equinox.internal.p2.metadata,
  org.slf4j;version="1.5.11"
 Eclipse-RegisterBuddy: org.eclipse.equinox.p2.ui.discovery
 Bundle-ActivationPolicy: lazy
+Export-Package: net.bioclipse.ui.install,
+ net.bioclipse.ui.install.discovery

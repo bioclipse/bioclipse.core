@@ -123,7 +123,7 @@ public abstract class BasicRepositoryDiscoveryStrategy extends
         for(CatalogCategory c:categories) {
             logger.debug( c.getId() );
         }
-        if ( categories.size() == 2 ) {
+        if ( categories.size() <= 2 ) {
             CatalogCategory catalog =
                             categoryById.get( "net.bioclipse.install.catalog.default" );
             for( CatalogItem id: catalogItemById.values()) {

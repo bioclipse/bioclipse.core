@@ -9,12 +9,11 @@
  *     Tasktop Technologies - initial API and implementation
  *******************************************************************************/
 
-package net.bioclipse.ui.install.commands;
+package net.bioclipse.ui.install.discovery;
 
 import java.util.Iterator;
 import java.util.List;
 
-import net.bioclipse.ui.install.discovery.BasicRepositoryDiscoveryStrategy;
 
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.equinox.p2.metadata.IInstallableUnit;

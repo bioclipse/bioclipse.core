@@ -3,6 +3,7 @@ package net.bioclipse.ui.install.commands;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import net.bioclipse.ui.install.InstallUtils;
 import net.bioclipse.ui.install.discovery.BasicRepositoryDiscoveryStrategy;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -10,7 +11,6 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.ParameterValueConversionException;
 import org.eclipse.equinox.internal.p2.discovery.Catalog;
-import org.eclipse.equinox.internal.p2.discovery.DiscoveryCore;
 import org.eclipse.equinox.internal.p2.ui.discovery.util.WorkbenchUtil;
 import org.eclipse.equinox.internal.p2.ui.discovery.wizards.CatalogConfiguration;
 import org.eclipse.equinox.internal.p2.ui.discovery.wizards.DiscoveryWizard;
@@ -32,7 +32,7 @@ public class ShowRepositoryCatalogCommandHandler extends AbstractHandler {
         // getStrategy
         BasicRepositoryDiscoveryStrategy strategy = getStrategy( event );
         // configureCatalog
-        Catalog catalog = configureCatalog( uri, strategy );
+        Catalog catalog = InstallUtils.configureCatalog( uri, strategy );
         CatalogConfiguration configuration = new CatalogConfiguration();
         configuration.setShowTagFilter( false );
 
@@ -52,19 +52,6 @@ public class ShowRepositoryCatalogCommandHandler extends AbstractHandler {
         // configuration );
 
         return new DiscoveryWizard( catalog, configuration );// wizard;
-    }
-
-    private Catalog configureCatalog( URI uri,
-                                      BasicRepositoryDiscoveryStrategy strategy ) {
-
-        Catalog catalog = new Catalog();
-
-        strategy.addLocation( uri );
-        catalog.getDiscoveryStrategies().add( strategy );
-
-        catalog.setEnvironment( DiscoveryCore.createEnvironment() );
-        catalog.setVerifyUpdateSiteAvailability( false );
-        return catalog;
     }
 
     private BasicRepositoryDiscoveryStrategy getStrategy( ExecutionEvent event ) {
