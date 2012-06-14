@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 
 import net.bioclipse.ui.install.InstallUtils;
 import net.bioclipse.ui.install.discovery.BasicRepositoryDiscoveryStrategy;
+import net.bioclipse.ui.install.discovery.DSModelsDiscoveryStrategy;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -37,7 +38,7 @@ public class ShowRepositoryCatalogCommandHandler extends AbstractHandler {
         configuration.setShowTagFilter( false );
 
         // open dialog
-        IWizard wizard = getWizard( catalog, configuration );
+        IWizard wizard = getWizard( catalog, configuration, strategy );
         WizardDialog dialog =
                         new WizardDialog( WorkbenchUtil.getShell(), wizard );
         dialog.open();
@@ -46,12 +47,22 @@ public class ShowRepositoryCatalogCommandHandler extends AbstractHandler {
     }
 
     private IWizard getWizard( Catalog catalog,
-                               CatalogConfiguration configuration ) {
+                               CatalogConfiguration configuration,
+                               BasicRepositoryDiscoveryStrategy strategy ) {
 
-        // NewDataProjectWizard wizard = new NewDataProjectWizard( catalog,
-        // configuration );
+        if ( strategy instanceof DSModelsDiscoveryStrategy ) {
+            return new DiscoveryWizard( catalog, configuration ) {
+                @Override
+                public boolean performFinish() {
 
-        return new DiscoveryWizard( catalog, configuration );// wizard;
+                    return DSModelsDiscoveryStrategy
+                                    .install( getCatalogPage().getInstallableConnectors(),
+                                              getContainer() );
+                }
+            };
+        } else {
+            return new DiscoveryWizard( catalog, configuration );// wizard;
+        }
     }
 
     private BasicRepositoryDiscoveryStrategy getStrategy( ExecutionEvent event ) {
