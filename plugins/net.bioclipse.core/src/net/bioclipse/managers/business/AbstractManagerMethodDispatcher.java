@@ -12,6 +12,7 @@ import java.util.Map;
 import net.bioclipse.core.IResourcePathTransformer;
 import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.jobs.BioclipseUIJob;
@@ -84,71 +85,85 @@ public abstract class AbstractManagerMethodDispatcher
     
     public Object invoke( MethodInvocation invocation ) throws Throwable {
 
-       IBioclipseManager manager = (IBioclipseManager) invocation.getThis();
-                
-        Method m = findMethodToRun(invocation);
-        if ( invocation.getMethod().getAnnotation( GuiAction.class ) != null ) {
-            
-            logger.debug( manager.getManagerName() + "." 
-                          + invocation.getMethod().getName() 
-                          + " has @GuiAction - running in gui thread" );
-            return doInvokeInGuiThread( (IBioclipseManager)invocation.getThis(),
-                                        m,
-                                        invocation.getArguments(),
-                                        invocation );
-        }
-        
-        Object returnValue;
-        if ( ( !BioclipseJob.class
-                            .isAssignableFrom( invocation.getMethod()
-                                                         .getReturnType() ) 
-               && invocation.getMethod().getReturnType() != void.class )
-             || Arrays.asList( invocation.getMethod().getParameterTypes() )
-                      .contains( IProgressMonitor.class ) ) {
-            if ( Arrays.asList( m.getParameterTypes() )
-                       .contains( IProgressMonitor.class) &&
-                 !(this instanceof JavaScriptManagerMethodDispatcher) )  {
-                
-                int timeout = 120;
-                String warning = manager.getManagerName() + "." 
-                                 + invocation.getMethod().getName() 
-                                 + " is not void or returning a BioclipseJob."
-                                 + " But implementation takes a progress " 
-                                 + "monitor. Can not run as Job. Running in " 
-                                 + "same thread. This message will not be " 
-                                 + "repeated withing the next " + timeout 
-                                 + " seconds";
-                if ( !lastWarningTimes.containsKey( warning ) || 
-                     System.currentTimeMillis()
-                         - lastWarningTimes.get( warning ) > 1000 * timeout ) {
+        try {
+           IBioclipseManager manager = (IBioclipseManager) invocation.getThis();
                     
-                    lastWarningTimes.put( warning, System.currentTimeMillis() );
-                    logger.warn( warning );
-                }
-            }
-            
-            returnValue = doInvokeInSameThread( (IBioclipseManager)
-                                            invocation.getThis(), 
-                                            m, 
+            Method m = findMethodToRun(invocation);
+            if ( invocation.getMethod().getAnnotation( GuiAction.class ) != null ) {
+                
+                logger.debug( manager.getManagerName() + "." 
+                              + invocation.getMethod().getName() 
+                              + " has @GuiAction - running in gui thread" );
+                return doInvokeInGuiThread( (IBioclipseManager)invocation.getThis(),
+                                            m,
                                             invocation.getArguments(),
                                             invocation );
+            }
+            
+            Object returnValue;
+            if ( ( !BioclipseJob.class
+                                .isAssignableFrom( invocation.getMethod()
+                                                             .getReturnType() ) 
+                   && invocation.getMethod().getReturnType() != void.class )
+                 || Arrays.asList( invocation.getMethod().getParameterTypes() )
+                          .contains( IProgressMonitor.class ) ) {
+                if ( Arrays.asList( m.getParameterTypes() )
+                           .contains( IProgressMonitor.class) &&
+                     !(this instanceof JavaScriptManagerMethodDispatcher) )  {
+                    
+                    int timeout = 120;
+                    String warning = manager.getManagerName() + "." 
+                                     + invocation.getMethod().getName() 
+                                     + " is not void or returning a BioclipseJob."
+                                     + " But implementation takes a progress " 
+                                     + "monitor. Can not run as Job. Running in " 
+                                     + "same thread. This message will not be " 
+                                     + "repeated withing the next " + timeout 
+                                     + " seconds";
+                    if ( !lastWarningTimes.containsKey( warning ) || 
+                         System.currentTimeMillis()
+                             - lastWarningTimes.get( warning ) > 1000 * timeout ) {
+                        
+                        lastWarningTimes.put( warning, System.currentTimeMillis() );
+                        logger.warn( warning );
+                    }
+                }
+                
+                returnValue = doInvokeInSameThread( (IBioclipseManager)
+                                                invocation.getThis(), 
+                                                m, 
+                                                invocation.getArguments(),
+                                                invocation );
+            }
+            else {
+                returnValue = doInvoke( (IBioclipseManager)invocation.getThis(), 
+                                        m, 
+                                        invocation.getArguments(),
+                                        invocation,
+                                        invocation.getMethod()
+                                                  .getReturnType() 
+                                            != ExtendedBioclipseJob.class );
+            }
+    
+            if ( returnValue instanceof IFile && 
+                 invocation.getMethod().getReturnType() == String.class ) {
+                returnValue = ( (IFile) returnValue ).getLocationURI()
+                                                     .getPath();
+            }
+            return returnValue;
         }
-        else {
-            returnValue = doInvoke( (IBioclipseManager)invocation.getThis(), 
-                                    m, 
-                                    invocation.getArguments(),
-                                    invocation,
-                                    invocation.getMethod()
-                                              .getReturnType() 
-                                        != ExtendedBioclipseJob.class );
+        catch (Throwable t) {
+            logger.debug(
+                "\n******** EXTRA DEBUG LOGGING ********\n"
+                + "A " + t.getClass().getSimpleName() 
+                + " was detected by " 
+                + "net.bioclipse.managers.business"
+                + ".AbstractManagerMethodDispatcher. "
+                + "Here follows the stack trace:" );
+            LogUtils.debugTrace( logger, t );
+            logger.debug( "\n*************************************" );
+            throw t;
         }
-
-        if ( returnValue instanceof IFile && 
-             invocation.getMethod().getReturnType() == String.class ) {
-            returnValue = ( (IFile) returnValue ).getLocationURI()
-                                                 .getPath();
-        }
-        return returnValue;
     }
 
     private BioclipseUIJob<Object> getBioclipseUIJob(Object[] arguments) {
