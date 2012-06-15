@@ -58,7 +58,7 @@ public class DSModelsDiscoveryStrategy extends
             IInstallableUnit iu = cResult.iterator().next();
 
             IQuery<IInstallableUnit> query = QueryUtil
-                            .createQuery( "select( iu | $0.collect( su | su.requirements).flatten().exists( rc | iu ~= rc) && iu.providedCapabilities.e( pc | pc.namespace == 'org.eclipse.equinox.p2.eclipse.type' && pc.name == 'bundle'))", new Object[] { resultIUnits.toArray()} ); //$NON-NLS-1$
+                            .createQuery( "select( iu | $0.collect( su | su.requirements).flatten().exists( rc | iu ~= rc) && iu.providedCapabilities.exists( pc | pc.namespace == 'org.eclipse.equinox.p2.eclipse.type' && pc.name == 'bundle'))", new Object[] { resultIUnits.toArray()} ); //$NON-NLS-1$
 			IQueryResult<IInstallableUnit> result = repository.query(query, monitor.newChild(1));
 			for (Iterator<IInstallableUnit> iter = result.iterator(); iter.hasNext();) {
 				process(repository, iter.next());
