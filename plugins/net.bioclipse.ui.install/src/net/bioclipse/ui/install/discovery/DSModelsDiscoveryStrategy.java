@@ -2,6 +2,7 @@
 package net.bioclipse.ui.install.discovery;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,6 +19,8 @@ import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
 import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.statushandlers.StatusManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DSModelsDiscoveryStrategy extends
                 BasicRepositoryDiscoveryStrategy {
@@ -29,15 +32,33 @@ public class DSModelsDiscoveryStrategy extends
 		monitor.setWorkRemaining(repositories.size());
 		for (final IMetadataRepository repository : repositories) {
 			checkCancelled(monitor);
+			Object[] features = new Object[] { "net.bioclipse.ds.models_feature.feature.group",
+					                           "net.bioclipse.ds.models.r_feature.feature.group"};
             IQuery<IInstallableUnit> cQuery = QueryUtil
-                            .createMatchQuery( "id == 'net.bioclipse.ds.models_feature.feature.group'",
-                                               new Object[0] );
+                            .createQuery( "select( iu | $0.exists( id | id == iu.id)) ",
+                                               new Object[]{features} );
             IQueryResult<IInstallableUnit> cResult = repository.query( cQuery,
  monitor.newChild( 100 ) );
+            List<IInstallableUnit> resultIUnits = new ArrayList<IInstallableUnit>();
+            for(Iterator<IInstallableUnit> ius = cResult.iterator();ius.hasNext();) {
+                resultIUnits.add(ius.next());
+            }
+
+
+            Logger logger = LoggerFactory.getLogger(DSModelsDiscoveryStrategy.class);
+            if(logger.isDebugEnabled()) {
+                StringBuilder sb = new StringBuilder();
+                for(Iterator<IInstallableUnit> ius = cResult.iterator();ius.hasNext();) {
+                    IInstallableUnit iu = ius.next();
+                    sb.append(iu.toString());
+                    sb.append(", ");
+                }
+                logger.debug("Found features: "+sb.toString());
+            }
             IInstallableUnit iu = cResult.iterator().next();
 
             IQuery<IInstallableUnit> query = QueryUtil
-                            .createQuery( "select( iu | $0.requirements.exists( rc | iu ~= rc))", new Object[] { iu } ); //$NON-NLS-1$
+                            .createQuery( "select( iu | $0.collect( su | su.requirements).flatten().exists( rc | iu ~= rc) && iu.providedCapabilities.e( pc | pc.namespace == 'org.eclipse.equinox.p2.eclipse.type' && pc.name == 'bundle'))", new Object[] { resultIUnits.toArray()} ); //$NON-NLS-1$
 			IQueryResult<IInstallableUnit> result = repository.query(query, monitor.newChild(1));
 			for (Iterator<IInstallableUnit> iter = result.iterator(); iter.hasNext();) {
 				process(repository, iter.next());
