@@ -49,8 +49,7 @@ public class SampleDataAction extends Action implements IIntroAction {
 				
 				//Install sample data project from this plugin
 
-                NewDataProjectWizard wizard =
-                                new NewDataProjectWizard( null, null );
+                NewDataProjectWizard wizard = new NewDataProjectWizard();
 			    wizard.init(PlatformUI.getWorkbench(), null);
 
 			      // Create the wizard dialog

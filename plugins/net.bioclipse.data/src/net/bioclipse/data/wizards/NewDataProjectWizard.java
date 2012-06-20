@@ -15,7 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.List;
 
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.util.LogUtils;
@@ -38,10 +38,8 @@ import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.equinox.internal.p2.discovery.Catalog;
-import org.eclipse.equinox.internal.p2.ui.discovery.wizards.CatalogConfiguration;
-import org.eclipse.equinox.internal.p2.ui.discovery.wizards.DiscoveryWizard;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
@@ -54,8 +52,8 @@ import org.osgi.framework.Bundle;
  *
  */
 @SuppressWarnings("restriction")
-public class NewDataProjectWizard extends DiscoveryWizard implements
-                INewWizard, IExecutableExtension {
+public class NewDataProjectWizard extends Wizard implements INewWizard,
+                IExecutableExtension {
 
 	private WizardNewProjectCreationPage fFirstPage;
     private SelectDataFoldersPage folPage;
@@ -67,10 +65,8 @@ public class NewDataProjectWizard extends DiscoveryWizard implements
 	private static final Logger logger =
         Logger.getLogger(NewDataProjectWizard.class);
 
-    public NewDataProjectWizard(Catalog catalog,
-                    CatalogConfiguration configuration) {
+    public NewDataProjectWizard() {
 
-        super( catalog, configuration );
         setDefaultPageImageDescriptor(Activator.getImageDescriptor("icons/wiz/wiz1.png"));
         setWindowTitle("New Sample Data project");
     }
@@ -146,7 +142,6 @@ public class NewDataProjectWizard extends DiscoveryWizard implements
     @Override
     public boolean performFinish() {
 
-        super.performFinish();
         try
         {
             WorkspaceModifyOperation op =
@@ -193,7 +188,7 @@ public class NewDataProjectWizard extends DiscoveryWizard implements
     protected void createProject(IProgressMonitor monitor)
     {
     	
-        ArrayList<InstallableFolder> folders=folPage.getFolders();
+        List<InstallableFolder> folders = folPage.getFolders();
         monitor.beginTask("Copying data",folders.size()+2);
         
         try
