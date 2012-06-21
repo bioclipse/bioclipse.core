@@ -17,6 +17,8 @@ public class ScrapingLabelProvider implements ILabelProvider {
     private Image changingImage1;
     private Image changingImage2;
     private Image missingImage;
+
+    private Image image;
         
     public ScrapingLabelProvider() {
         pageImage=Activator.getImageDescriptor("icons/world_dl.png")
@@ -45,8 +47,12 @@ public class ScrapingLabelProvider implements ILabelProvider {
                 return pageImage;
         }
         if ( element instanceof IBioObject ) {
-                Object image = ((IBioObject)element).getAdapter( Image.class );
-                if (image!=null) return (Image) image;
+        	ImageDescriptor imageDescriptor = (ImageDescriptor) ((IBioObject)element).getAdapter( ImageDescriptor.class );
+                if (image==null) {
+                	//FIXME only the first image that is asked for is used.
+                	image = imageDescriptor.createImage();
+                }
+                return (Image) image;
         }
         
         return missingImage;
@@ -70,6 +76,9 @@ public class ScrapingLabelProvider implements ILabelProvider {
     }
 
     public void dispose() {
+    	if(image!= null ) {
+    		image.dispose();
+    	}
     }
 
     public boolean isLabelProperty( Object element, String property ) {
@@ -78,4 +87,5 @@ public class ScrapingLabelProvider implements ILabelProvider {
 
     public void removeListener( ILabelProviderListener listener ) {
     }
+
 }
