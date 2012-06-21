@@ -32,8 +32,8 @@ public class DSModelsDiscoveryStrategy extends
 		monitor.setWorkRemaining(repositories.size());
 		for (final IMetadataRepository repository : repositories) {
 			checkCancelled(monitor);
-			Object[] features = new Object[] { "net.bioclipse.ds.models_feature.feature.group",
-					                           "net.bioclipse.ds.models.r_feature.feature.group"};
+            Object[] features = new Object[] { "net.bioclipse.ds.models_feature.feature.group" };// ,"net.bioclipse.ds.models.r_feature.feature.group"
+                                                                                                 // };
             IQuery<IInstallableUnit> cQuery = QueryUtil
                             .createQuery( "select( iu | $0.exists( id | id == iu.id)) ",
                                                new Object[]{features} );
@@ -55,10 +55,10 @@ public class DSModelsDiscoveryStrategy extends
                 }
                 logger.debug("Found features: "+sb.toString());
             }
-            IInstallableUnit iu = cResult.iterator().next();
+            // IInstallableUnit iu = cResult.iterator().next();
 
             IQuery<IInstallableUnit> query = QueryUtil
-                            .createQuery( "select( iu | $0.collect( su | su.requirements).flatten().exists( rc | iu ~= rc) && iu.providedCapabilities.exists( pc | pc.namespace == 'org.eclipse.equinox.p2.eclipse.type' && pc.name == 'bundle'))", new Object[] { resultIUnits.toArray()} ); //$NON-NLS-1$
+                            .createQuery( "select( iu | ( $0.collect( su | su.requirements).flatten().exists( rc | iu ~= rc) && iu.providedCapabilities.exists( pc | pc.namespace == 'org.eclipse.equinox.p2.eclipse.type' && pc.name == 'bundle') ) || iu.id == 'net.bioclipse.ds.models.r_feature.feature.group' )", new Object[] { resultIUnits.toArray() } ); //$NON-NLS-1$
 			IQueryResult<IInstallableUnit> result = repository.query(query, monitor.newChild(1));
 			for (Iterator<IInstallableUnit> iter = result.iterator(); iter.hasNext();) {
 				process(repository, iter.next());
