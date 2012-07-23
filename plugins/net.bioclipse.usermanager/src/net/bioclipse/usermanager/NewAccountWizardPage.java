@@ -12,7 +12,6 @@
 package net.bioclipse.usermanager;
 import java.util.ArrayList;
 
-import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.usermanager.business.IUserManager;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -24,8 +23,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-
-import com.sun.xml.internal.ws.Closeable;
 
 /**
  * The wizard page that handles the different parts accounts. 
@@ -92,7 +89,6 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		if (accountComposites.size() > 0) {
 			accountStack.topControl = accountComposites.get(0);
 			accountTypeCombo.select(0);
-			giveFocus();
 		}
 		setControl(container);
 	}
@@ -113,17 +109,8 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 				accountStack.topControl = accountComposites.get(
 						accountTypeCombo.getSelectionIndex());
 				accountSettings.layout();
-				giveFocus();
 			}
 		}
-	}
-	
-	/**
-	 * This method gives focus to the component of the account composite that's 
-	 * chosen by the accounts focus method.
-	 */
-	private void giveFocus() {
-		addedAccounts.get(accountTypeCombo.getSelectionIndex()).giveFocus();
 	}
 	
 	/**
