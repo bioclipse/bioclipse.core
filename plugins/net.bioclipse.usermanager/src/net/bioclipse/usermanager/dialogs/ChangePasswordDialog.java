@@ -67,13 +67,13 @@ public class ChangePasswordDialog extends Dialog {
         newPasswordLabel.setLayoutData(formData_1);
         newPasswordLabel.setText("New password:");
 
-        oldPasswordText = new Text(container, SWT.BORDER);
+        oldPasswordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
         final FormData formData_2 = new FormData();
         formData_2.right = new FormAttachment(100, -35);
         formData_2.bottom = new FormAttachment(oldPasswordLabel, 0, SWT.BOTTOM);
         oldPasswordText.setLayoutData(formData_2);
 
-        newPasswordText = new Text(container, SWT.BORDER);
+        newPasswordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
         formData_2.left = new FormAttachment(newPasswordText, 0, SWT.LEFT);
         final FormData formData_3 = new FormData();
         formData_3.left = new FormAttachment(newPasswordLabel, 5, SWT.RIGHT);
