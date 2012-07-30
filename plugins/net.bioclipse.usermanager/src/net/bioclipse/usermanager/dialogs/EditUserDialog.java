@@ -79,6 +79,7 @@ public class EditUserDialog extends Dialog {
     private Button deleteAccountButton;
     private Button addAccountButton;
     private Button changeKeyringUserButton;
+    private Button editAccountButton;
     private Table propertiesTable;
     private List list;
 
@@ -271,7 +272,8 @@ public class EditUserDialog extends Dialog {
 
         });
         final FormData formData_6 = new FormData();
-        formData_6.bottom = new FormAttachment(accountGroup, 0, SWT.BOTTOM);
+//        formData_6.top = new FormAttachment(changeKeyringUserButton, 0, SWT.TOP);
+        formData_6.bottom = new FormAttachment(list, 0, SWT.TOP);
         formData_6.left = new FormAttachment(list, 0, SWT.LEFT);
         addAccountButton.setLayoutData(formData_6);
         addAccountButton.setText("Add account...");
@@ -292,7 +294,8 @@ public class EditUserDialog extends Dialog {
             }
         });
         final FormData formData_7 = new FormData();
-        formData_7.bottom = new FormAttachment(addAccountButton, 0, SWT.BOTTOM);
+        formData_7.top = new FormAttachment(list, 0, SWT.BOTTOM);
+//        formData_7.bottom = new FormAttachment(addAccountButton, 0, SWT.BOTTOM);
         formData_7.right = new FormAttachment(accountGroup, -5, SWT.LEFT);
         deleteAccountButton.setLayoutData(formData_7);
         deleteAccountButton.setText("Delete account");
@@ -315,12 +318,34 @@ public class EditUserDialog extends Dialog {
             }
         });
         final FormData formData_8 = new FormData();
-        formData_8.top = new FormAttachment(0, 21);
+        formData_8.top = new FormAttachment(-2, 21); //(0, 21)
         formData_8.left = new FormAttachment(0, 33);
         changeKeyringUserButton.setLayoutData(formData_8);
         changeKeyringUserButton.setText("Change Bioclipse Account Password");
+        
+        editAccountButton = new Button(container, SWT.NONE);
+        editAccountButton.addSelectionListener(new SelectionAdapter() {
+            /*
+             * EDIT ACCOUNT
+             */
+            public void widgetSelected(SelectionEvent e) {
+//                accountsListViewer.getList().getSelection()[0] );
+                refreshList();
+                if(accountsListViewer.getList().getItemCount() > 0) {
+                    accountsListViewer.getList().select(0);
+                }
+//                refreshOnSelectionChanged();
+            }
+        });
+        final FormData formData_9 = new FormData();
+        formData_9.top = new FormAttachment(list, 0, SWT.BOTTOM);
+        formData_9.left = new FormAttachment(list, 0, SWT.LEFT);
+        editAccountButton.setLayoutData(formData_9);
+        editAccountButton.setText("Edit account...");
+        
         container.setTabList(new Control[] { changeKeyringUserButton,
                                              addAccountButton,
+                                             editAccountButton,
                                              deleteAccountButton,
                                              accountGroup,
                                              list } );
@@ -483,7 +508,10 @@ public class EditUserDialog extends Dialog {
                 ArrayList<String> row = new ArrayList<String>();
                 row.add(key);
                 row.add(properties.get(key));
-                row.add(dm.accountType.getProperty(key).isRequired()+"");
+                if (dm.accountType.getProperty(key).isSecret())
+                    row.add("********");
+                else
+                    row.add(dm.accountType.getProperty(key).isRequired()+"");
                 rows.add(row);
             }
             return rows.toArray();
