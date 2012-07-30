@@ -362,6 +362,10 @@ public class EditUserDialog extends Dialog {
                                              accountGroup,
                                              list } );
 
+        if(accountsListViewer.getList().getItemCount() > 0) {
+            accountsListViewer.getList().select(0);
+        }
+        
         return container;
     }
 
