@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import net.bioclipse.usermanager.AccountType;
+import net.bioclipse.usermanager.NewAccountWizard;
 import net.bioclipse.usermanager.UserContainer;
 import net.bioclipse.usermanager.AccountType.Property;
 
@@ -25,6 +26,7 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -36,6 +38,8 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -226,7 +230,13 @@ public class EditUserDialog extends Dialog {
              * ADD ACCOUNT
              */
             public void widgetSelected(SelectionEvent e) {
-
+                // The lines comment below can replace create account dialog with a wizard dialog.
+//                NewAcccountWizardDialog wd = new NewAcccountWizardDialog( 
+//                                                   PlatformUI.getWorkbench()
+//                                               .getActiveWorkbenchWindow()
+//                                               .getShell(), 
+//                                               new NewAccountWizard() );
+//                wd.open();
                 CreateAccountDialog dialog
                     = new CreateAccountDialog( PlatformUI
                                                .getWorkbench()
@@ -329,11 +339,13 @@ public class EditUserDialog extends Dialog {
              * EDIT ACCOUNT
              */
             public void widgetSelected(SelectionEvent e) {
-//                accountsListViewer.getList().getSelection()[0] );
-                refreshList();
-                if(accountsListViewer.getList().getItemCount() > 0) {
-                    accountsListViewer.getList().select(0);
-                }
+//                ISelection sel = accountsListViewer.getSelection();
+                /* Create a new dialog that reuses DialogArea and fill in the 
+                 * text-field with the data from the selected account (via sel)*/
+//                refreshList();
+//                if(accountsListViewer.getList().getItemCount() > 0) {
+//                    accountsListViewer.getList().select(0);
+//                }
 //                refreshOnSelectionChanged();
             }
         });
