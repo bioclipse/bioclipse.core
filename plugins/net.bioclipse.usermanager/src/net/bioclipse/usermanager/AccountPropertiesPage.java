@@ -42,6 +42,8 @@ public class AccountPropertiesPage {
 	private Collection<Property> properties;
 	private Label[] accountLabels;
 	private Text[] accountTxt;
+	private Label accountNameLabel;
+	private Text accountNameTxt;
 	private ArrayList<Text> requiredFields = new ArrayList<Text>();
 	private Image reqImage = FieldDecorationRegistry.getDefault()
 			.getFieldDecoration(FieldDecorationRegistry.DEC_REQUIRED)
@@ -81,9 +83,16 @@ public class AccountPropertiesPage {
 					.createFromURL(accountType.getLogoPath());
 			Image im = imDesc.createImage();
 			logo.setImage(im);
-		} else
+			accountNameLabel = new Label(accountComposite, SWT.NONE);
+			accountNameLabel.setText( "Account name: " );
+			accountNameTxt = new Text(accountComposite, SWT.BORDER);
+			new Label(accountComposite, SWT.NONE);
+		} else {
 			accountComposite.setLayout(new GridLayout(2, false));
-			
+			accountNameLabel = new Label(accountComposite, SWT.NONE);
+			accountNameLabel.setText( "Account name: " );
+			accountNameTxt = new Text(accountComposite, SWT.BORDER);
+		}
 		propertyIter = properties.iterator();
 		while (propertyIter.hasNext()) {
 			temp = propertyIter.next();
@@ -237,15 +246,18 @@ public class AccountPropertiesPage {
 	 */
 	public void createAccount() {
 		// TODO remove the comment print-statements
-		String accountId = accountType.getName() + "_0";
-		IUserManager usermanager = Activator.getDefault().getUserManager();
-		HashMap<String, String> properties = new HashMap<String, String>();
-		int i = 0;
-		while (usermanager.accountExists(accountId)){
-			i++;
-			accountId = accountType.getName() + "_" + i;
-		}
-		
+	    int i = 0;
+        IUserManager usermanager = Activator.getDefault().getUserManager();
+        HashMap<String, String> properties = new HashMap<String, String>();
+        
+	    String accountId = accountNameTxt.getText();
+	    if (accountId.isEmpty()) {
+	        accountId = accountType.getName() + "_0";
+	        while (usermanager.accountExists(accountId)){
+	            i++;
+	            accountId = accountType.getName() + "_" + i;
+	        }
+	    } 
 //		System.out.println("Account type: " + accountType.getName());
 //		System.out.println("Account id: "+ accountId);
 //		System.out.println("Account properties:");
