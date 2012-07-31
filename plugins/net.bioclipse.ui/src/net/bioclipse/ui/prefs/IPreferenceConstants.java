@@ -10,9 +10,6 @@
  *******************************************************************************/
 package net.bioclipse.ui.prefs;
 
-import net.bioclipse.ui.BioclipseConstants;
-
-
 /**
  * Interface to define all constants related to the preferences of this package.
  * 
@@ -33,11 +30,6 @@ public interface IPreferenceConstants {
 	
 	public static final String AUTOLOAD_NEW_RESOURCES = "autoLoadNewResources";
 
-
-	public static final String PREFERENCES_DEFAULT_UPDATESITES =
-		"Bioclipse Update Site" + IPreferenceConstants.PREFERENCES_DELIMITER+ BioclipseConstants.UPDATE_SITE;
-
-	
 	 public static final String SKIP_UPDATE_DIALOG_ON_STARTUP = "skipAskUpdateOnStartup";
 	 public static final String SKIP_UPDATE_ON_STARTUP = "skipUpdateOnStartup";
 
