@@ -230,54 +230,53 @@ public class EditUserDialog extends Dialog {
              * ADD ACCOUNT
              */
             public void widgetSelected(SelectionEvent e) {
-                // The lines comment below can replace create account dialog with a wizard dialog.
-//                NewAcccountWizardDialog wd = new NewAcccountWizardDialog( 
-//                                                   PlatformUI.getWorkbench()
-//                                               .getActiveWorkbenchWindow()
-//                                               .getShell(), 
-//                                               new NewAccountWizard() );
-//                wd.open();
-                CreateAccountDialog dialog
-                    = new CreateAccountDialog( PlatformUI
-                                               .getWorkbench()
+                NewAcccountWizardDialog wd = new NewAcccountWizardDialog( 
+                                                   PlatformUI.getWorkbench()
                                                .getActiveWorkbenchWindow()
-                                               .getShell(),
-                                               sandBoxUserContainer );
-                if(dialog.open() == Window.OK) {
-
-                    for( DummyAccount ac : model.dummyAccounts.values() ) {
-                        if( ac.accountType.equals( dialog.getAccountType() ) ) {
-                            MessageDialog.openInformation(
-                                    PlatformUI
-                                    .getWorkbench()
-                                    .getActiveWorkbenchWindow()
-                                    .getShell(),
-                                    "Account type already used",
-                                    ALREADY_SUCH_AN_ACCOUNT );
-                            return;
-                        }
-                    }
-
-                    DummyAccount d = new DummyAccount();
-                    d.accountId   = dialog.getAccountName();
-                    d.accountType = dialog.getAccountType();
-                    for( Property property : d.accountType.getProperties() ) {
-                        d.properties.put(property.getName(), "");
-                    }
-                    model.dummyAccounts.put(d.accountId, d);
-                    refreshList();
-                    accountTypeText.setText(d.accountType.toString());
-                    int pos = 0;
-                    for( String item : list.getItems() ) {
-                        if(dialog.getAccountName().equals(item)) {
-                            break;
-                        }
-                        pos++;
-                    }
-                    list.select(pos);
+                                               .getShell(), 
+                                               new NewAccountWizard() );
+                wd.open();
+//                CreateAccountDialog dialog
+//                    = new CreateAccountDialog( PlatformUI
+//                                               .getWorkbench()
+//                                               .getActiveWorkbenchWindow()
+//                                               .getShell(),
+//                                               sandBoxUserContainer );
+//                if(dialog.open() == Window.OK) {
+//
+//                    for( DummyAccount ac : model.dummyAccounts.values() ) {
+//                        if( ac.accountType.equals( dialog.getAccountType() ) ) {
+//                            MessageDialog.openInformation(
+//                                    PlatformUI
+//                                    .getWorkbench()
+//                                    .getActiveWorkbenchWindow()
+//                                    .getShell(),
+//                                    "Account type already used",
+//                                    ALREADY_SUCH_AN_ACCOUNT );
+//                            return;
+//                        }
+//                    }
+//
+//                    DummyAccount d = new DummyAccount();
+//                    d.accountId   = dialog.getAccountName();
+//                    d.accountType = dialog.getAccountType();
+//                    for( Property property : d.accountType.getProperties() ) {
+//                        d.properties.put(property.getName(), "");
+//                    }
+//                    model.dummyAccounts.put(d.accountId, d);
+//                    refreshList();
+//                    accountTypeText.setText(d.accountType.toString());
+//                    int pos = 0;
+//                    for( String item : list.getItems() ) {
+//                        if(dialog.getAccountName().equals(item)) {
+//                            break;
+//                        }
+//                        pos++;
+//                    }
+//                    list.select(pos);
                     refreshTable();
                     refreshOnSelectionChanged();
-                }
+//                }
             }
 
         });
@@ -470,7 +469,13 @@ public class EditUserDialog extends Dialog {
      */
     class ListLabelProvider extends LabelProvider {
         public String getText(Object element) {
-            return element.toString();
+            // TODO This might work, check when I can reach the openTox-plugin correct...
+            if (element instanceof DummyAccount) {
+                DummyAccount dummyAccount = (DummyAccount) element;
+                return element.toString() + " (" + dummyAccount.accountType
+                        .toString() + ")";
+            } else 
+                return element.toString();
         }
         public Image getImage(Object element) {
             return null;
@@ -523,11 +528,12 @@ public class EditUserDialog extends Dialog {
             for( String key : properties.keySet() ) {
                 ArrayList<String> row = new ArrayList<String>();
                 row.add(key);
-                row.add(properties.get(key));
                 if (dm.accountType.getProperty(key).isSecret())
                     row.add("********");
                 else
-                    row.add(dm.accountType.getProperty(key).isRequired()+"");
+                    row.add(properties.get(key));
+
+                row.add(dm.accountType.getProperty(key).isRequired()+"");
                 rows.add(row);
             }
             return rows.toArray();
