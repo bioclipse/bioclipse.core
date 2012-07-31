@@ -43,6 +43,7 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FormAttachment;
@@ -84,6 +85,7 @@ public class EditUserDialog extends Dialog {
     private Button addAccountButton;
     private Button changeKeyringUserButton;
     private Button editAccountButton;
+    private Button showHidePassword;
     private Table propertiesTable;
     private List list;
 
@@ -224,6 +226,21 @@ public class EditUserDialog extends Dialog {
         formData_1.top = new FormAttachment(0, 65);
         list.setLayoutData(formData_1);
 
+        showHidePassword = new Button(accountGroup, SWT.CHECK);
+        final FormData formData_13 = new FormData();
+        formData_13.top = new FormAttachment( propertiesTable, 0, SWT.BOTTOM );
+        formData_13.right = new FormAttachment( propertiesTable, 0, SWT.RIGHT );
+        showHidePassword.setText( "Show password" );
+        showHidePassword.setLayoutData( formData_13 );
+        showHidePassword.addSelectionListener( new SelectionAdapter() {
+            /*
+             * SHOW OR HIDE PASSWORD 
+             */
+            public void widgetSelected(SelectionEvent e) {
+                refreshTable();
+            }
+        });
+        
         addAccountButton = new Button(container, SWT.NONE);
         addAccountButton.addSelectionListener(new SelectionAdapter() {
             /*
@@ -529,7 +546,8 @@ public class EditUserDialog extends Dialog {
             for( String key : properties.keySet() ) {
                 ArrayList<String> row = new ArrayList<String>();
                 row.add(key);
-                if (dm.accountType.getProperty(key).isSecret())
+                if (dm.accountType.getProperty(key).isSecret() &&
+                        !showHidePassword.getSelection() )
                     row.add("********");
                 else
                     row.add(properties.get(key));
