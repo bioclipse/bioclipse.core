@@ -361,9 +361,11 @@ public class EditUserDialog extends Dialog {
                                              accountGroup,
                                              list } );
 
-        if(accountsListViewer.getList().getItemCount() > 0) {
-            accountsListViewer.getList().select(0);
-        }
+      refreshList();
+      if(accountsListViewer.getList().getItemCount() > 0) {
+          accountsListViewer.getList().select(0);
+      }
+      refreshOnSelectionChanged();
         
         return container;
     }
@@ -469,11 +471,11 @@ public class EditUserDialog extends Dialog {
      */
     class ListLabelProvider extends LabelProvider {
         public String getText(Object element) {
-            if (model.dummyAccounts.containsKey( element )) {
-                return element.toString() + " (" + 
-                        model.dummyAccounts.get( element ).accountType
-                        .toString() + ")";
-            } else 
+//            if (model.dummyAccounts.containsKey( element )) {
+//                return element.toString() + " (" + 
+//                        model.dummyAccounts.get( element ).accountType
+//                        .toString() + ")";
+//            } else 
                 return element.toString();
         }
         public Image getImage(Object element) {
