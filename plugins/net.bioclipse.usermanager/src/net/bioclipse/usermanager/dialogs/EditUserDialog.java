@@ -469,10 +469,9 @@ public class EditUserDialog extends Dialog {
      */
     class ListLabelProvider extends LabelProvider {
         public String getText(Object element) {
-            // TODO This might work, check when I can reach the openTox-plugin correct...
-            if (element instanceof DummyAccount) {
-                DummyAccount dummyAccount = (DummyAccount) element;
-                return element.toString() + " (" + dummyAccount.accountType
+            if (model.dummyAccounts.containsKey( element )) {
+                return element.toString() + " (" + 
+                        model.dummyAccounts.get( element ).accountType
                         .toString() + ")";
             } else 
                 return element.toString();
