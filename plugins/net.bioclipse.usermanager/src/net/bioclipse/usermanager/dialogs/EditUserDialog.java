@@ -427,6 +427,10 @@ public class EditUserDialog extends Dialog {
 
         String selectedAccountId
             = accountsListViewer.getList().getSelection()[0];
+        int endIndex = selectedAccountId.indexOf( " {" );
+        if (endIndex > -1)
+            selectedAccountId = selectedAccountId.substring( 0, endIndex );
+        
         accountTypeText.setText(
                 model.dummyAccounts.get( selectedAccountId)
                                          .accountType.toString() );
@@ -488,11 +492,11 @@ public class EditUserDialog extends Dialog {
      */
     class ListLabelProvider extends LabelProvider {
         public String getText(Object element) {
-//            if (model.dummyAccounts.containsKey( element )) {
-//                return element.toString() + " (" + 
-//                        model.dummyAccounts.get( element ).accountType
-//                        .toString() + ")";
-//            } else 
+            if (model.dummyAccounts.containsKey( element )) {
+                return element.toString() + " {" + 
+                        model.dummyAccounts.get( element ).accountType
+                        .toString() + "}";
+            } else 
                 return element.toString();
         }
         public Image getImage(Object element) {
@@ -548,7 +552,7 @@ public class EditUserDialog extends Dialog {
                 row.add(key);
                 if (dm.accountType.getProperty(key).isSecret() &&
                         !showHidePassword.getSelection() )
-                    row.add("********");
+                    row.add("\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF");
                 else
                     row.add(properties.get(key));
 
