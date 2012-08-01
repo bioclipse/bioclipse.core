@@ -310,12 +310,9 @@ public class EditUserDialog extends Dialog {
              * DELETE ACCOUNT
              */
             public void widgetSelected(SelectionEvent e) {
-                String selectedAccountId
-                = accountsListViewer.getList().getSelection()[0];
-                int endIndex = selectedAccountId.indexOf( " {" );
-                if (endIndex > -1)
-                    selectedAccountId = 
-                    selectedAccountId.substring( 0, endIndex );
+                String selectedAccountId = 
+                        extractAccountId( accountsListViewer.getList()
+                                          .getSelection()[0] );
 
                 model.dummyAccounts.remove( selectedAccountId );
                 refreshList();
@@ -432,12 +429,10 @@ public class EditUserDialog extends Dialog {
 
     private void refreshOnSelectionChanged() {
 
-        String selectedAccountId
-            = accountsListViewer.getList().getSelection()[0];
-        int endIndex = selectedAccountId.indexOf( " {" );
-        if (endIndex > -1)
-            selectedAccountId = selectedAccountId.substring( 0, endIndex );
-        
+        String selectedAccountId = 
+                extractAccountId( accountsListViewer.getList()
+                                  .getSelection()[0] );
+                
         accountTypeText.setText(
                 model.dummyAccounts.get( selectedAccountId)
                                          .accountType.toString() );
@@ -490,7 +485,17 @@ public class EditUserDialog extends Dialog {
         }
         return true;
     }
+    
+    private String extractAccountId(String selectedAccountListItem) {
+        String selectedAccountId
+        = accountsListViewer.getList().getSelection()[0];
+        int endIndex = selectedAccountId.indexOf( " {" );
+        if (endIndex > -1)
+            selectedAccountId = selectedAccountId.substring( 0, endIndex );
 
+        return selectedAccountId;
+    }
+    
     /**
      * Label provider for the accounts list
      *
