@@ -358,8 +358,23 @@ public class EditUserDialog extends Dialog {
              * EDIT ACCOUNT
              */
             public void widgetSelected(SelectionEvent e) {
- 
-                ISelection sel = accountsListViewer.getSelection();
+                String selectedAccountId = 
+                        extractAccountId( accountsListViewer.getList()
+                                          .getSelection()[0] );
+                HashMap<String, String> accountProperties;
+                Object accountPropObject = model.dummyAccounts.get( selectedAccountId ).properties.clone();
+                if ( accountPropObject instanceof HashMap ) {
+                    accountProperties = (HashMap<String, String>) accountPropObject;
+                    EditAccountDialog dialog = 
+                            new EditAccountDialog( PlatformUI
+                                                   .getWorkbench()
+                                                   .getActiveWorkbenchWindow()
+                                                   .getShell(),
+                                                   accountProperties );
+                    if(dialog.open() == Window.OK) {
+                        model.dummyAccounts.get( selectedAccountId ).properties.putAll( dialog.getProperties() );
+                    }
+                }
                 /* Create a new dialog that reuses DialogArea and fill in the 
                  * text-field with the data from the selected account (via sel)*/
 //                refreshList();
