@@ -245,56 +245,17 @@ public class EditUserDialog extends Dialog {
             public void widgetSelected(SelectionEvent e) {
                 NewAcccountWizardDialog wd = new NewAcccountWizardDialog( 
                                                    PlatformUI.getWorkbench()
-                                               .getActiveWorkbenchWindow()
-                                               .getShell(), 
-                                               new NewAccountWizard() );
+                                                   .getActiveWorkbenchWindow()
+                                                   .getShell(), 
+                                                   new NewAccountWizard() );
                 wd.open();
-//                CreateAccountDialog dialog
-//                    = new CreateAccountDialog( PlatformUI
-//                                               .getWorkbench()
-//                                               .getActiveWorkbenchWindow()
-//                                               .getShell(),
-//                                               sandBoxUserContainer );
-//                if(dialog.open() == Window.OK) {
-//
-//                    for( DummyAccount ac : model.dummyAccounts.values() ) {
-//                        if( ac.accountType.equals( dialog.getAccountType() ) ) {
-//                            MessageDialog.openInformation(
-//                                    PlatformUI
-//                                    .getWorkbench()
-//                                    .getActiveWorkbenchWindow()
-//                                    .getShell(),
-//                                    "Account type already used",
-//                                    ALREADY_SUCH_AN_ACCOUNT );
-//                            return;
-//                        }
-//                    }
-//
-//                    DummyAccount d = new DummyAccount();
-//                    d.accountId   = dialog.getAccountName();
-//                    d.accountType = dialog.getAccountType();
-//                    for( Property property : d.accountType.getProperties() ) {
-//                        d.properties.put(property.getName(), "");
-//                    }
-//                    model.dummyAccounts.put(d.accountId, d);
-//                    refreshList();
-//                    accountTypeText.setText(d.accountType.toString());
-//                    int pos = 0;
-//                    for( String item : list.getItems() ) {
-//                        if(dialog.getAccountName().equals(item)) {
-//                            break;
-//                        }
-//                        pos++;
-//                    }
-//                    list.select(pos);
-                    refreshTable();
-                    refreshOnSelectionChanged();
-//                }
+                
+                refreshTable();
+                refreshOnSelectionChanged();
             }
 
         });
         final FormData formData_6 = new FormData();
-//        formData_6.top = new FormAttachment(changeKeyringUserButton, 0, SWT.TOP);
         formData_6.bottom = new FormAttachment(list, 0, SWT.TOP);
         formData_6.left = new FormAttachment(list, 0, SWT.LEFT);
         addAccountButton.setLayoutData(formData_6);
@@ -320,7 +281,6 @@ public class EditUserDialog extends Dialog {
         });
         final FormData formData_7 = new FormData();
         formData_7.top = new FormAttachment(list, 0, SWT.BOTTOM);
-//        formData_7.bottom = new FormAttachment(addAccountButton, 0, SWT.BOTTOM);
         formData_7.right = new FormAttachment(accountGroup, -5, SWT.LEFT);
         deleteAccountButton.setLayoutData(formData_7);
         deleteAccountButton.setText("Delete account");
