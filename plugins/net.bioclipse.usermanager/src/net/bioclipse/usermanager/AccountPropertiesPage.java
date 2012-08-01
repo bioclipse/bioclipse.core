@@ -73,7 +73,9 @@ public class AccountPropertiesPage {
 		accountComposite = new Composite(parent, SWT.NONE);			
 		accountLabels = new Label[noOfFields];
 		accountTxt = new Text[noOfFields];
-		
+	    GridData txtData = new GridData(SWT.FILL, SWT.NONE, true, true);
+	    txtData.widthHint = 220;
+	        
 		if (accountType.hasLogo()) {
 			accountComposite.setLayout(new GridLayout(3, false));
 			new Label(accountComposite, SWT.NONE);
@@ -86,12 +88,14 @@ public class AccountPropertiesPage {
 			accountNameLabel = new Label(accountComposite, SWT.NONE);
 			accountNameLabel.setText( "Account name: " );
 			accountNameTxt = new Text(accountComposite, SWT.BORDER);
+			accountNameTxt.setLayoutData( txtData );
 			new Label(accountComposite, SWT.NONE);
 		} else {
 			accountComposite.setLayout(new GridLayout(2, false));
 			accountNameLabel = new Label(accountComposite, SWT.NONE);
 			accountNameLabel.setText( "Account name: " );
 			accountNameTxt = new Text(accountComposite, SWT.BORDER);
+			accountNameTxt.setLayoutData( txtData );
 		}
 		propertyIter = properties.iterator();
 		while (propertyIter.hasNext()) {
