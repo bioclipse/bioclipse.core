@@ -310,8 +310,14 @@ public class EditUserDialog extends Dialog {
              * DELETE ACCOUNT
              */
             public void widgetSelected(SelectionEvent e) {
-                model.dummyAccounts.remove(
-                        accountsListViewer.getList().getSelection()[0] );
+                String selectedAccountId
+                = accountsListViewer.getList().getSelection()[0];
+                int endIndex = selectedAccountId.indexOf( " {" );
+                if (endIndex > -1)
+                    selectedAccountId = 
+                    selectedAccountId.substring( 0, endIndex );
+
+                model.dummyAccounts.remove( selectedAccountId );
                 refreshList();
                 if(accountsListViewer.getList().getItemCount() > 0) {
                     accountsListViewer.getList().select(0);
@@ -355,7 +361,8 @@ public class EditUserDialog extends Dialog {
              * EDIT ACCOUNT
              */
             public void widgetSelected(SelectionEvent e) {
-//                ISelection sel = accountsListViewer.getSelection();
+ 
+                ISelection sel = accountsListViewer.getSelection();
                 /* Create a new dialog that reuses DialogArea and fill in the 
                  * text-field with the data from the selected account (via sel)*/
 //                refreshList();
