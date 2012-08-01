@@ -26,7 +26,6 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -38,12 +37,9 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.window.Window;
-import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FormAttachment;
@@ -361,27 +357,20 @@ public class EditUserDialog extends Dialog {
                 String selectedAccountId = 
                         extractAccountId( accountsListViewer.getList()
                                           .getSelection()[0] );
-                HashMap<String, String> accountProperties;
-                Object accountPropObject = model.dummyAccounts.get( selectedAccountId ).properties.clone();
-                if ( accountPropObject instanceof HashMap ) {
-                    accountProperties = (HashMap<String, String>) accountPropObject;
-                    EditAccountDialog dialog = 
-                            new EditAccountDialog( PlatformUI
-                                                   .getWorkbench()
-                                                   .getActiveWorkbenchWindow()
-                                                   .getShell(),
-                                                   accountProperties );
-                    if(dialog.open() == Window.OK) {
-                        model.dummyAccounts.get( selectedAccountId ).properties.putAll( dialog.getProperties() );
-                    }
+
+                EditAccountDialog dialog = 
+                        new EditAccountDialog( PlatformUI
+                                               .getWorkbench()
+                                               .getActiveWorkbenchWindow()
+                                               .getShell(),
+                                               model.dummyAccounts.get( selectedAccountId ) );
+                if(dialog.open() == Window.OK) {
+                    /* To be sure the update is done correctly we do the the 
+                     * updating here and not in the dialog */
+                    model.dummyAccounts.get( selectedAccountId ).properties.putAll( dialog.getProperties() );
                 }
-                /* Create a new dialog that reuses DialogArea and fill in the 
-                 * text-field with the data from the selected account (via sel)*/
-//                refreshList();
-//                if(accountsListViewer.getList().getItemCount() > 0) {
-//                    accountsListViewer.getList().select(0);
-//                }
-//                refreshOnSelectionChanged();
+
+                refreshTable();
             }
         });
         final FormData formData_9 = new FormData();
