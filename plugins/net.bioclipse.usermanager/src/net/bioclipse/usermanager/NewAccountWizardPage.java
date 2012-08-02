@@ -12,7 +12,6 @@
 package net.bioclipse.usermanager;
 import java.util.ArrayList;
 
-import net.bioclipse.usermanager.business.IUserManager;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -38,10 +37,11 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	private StackLayout accountStack;
 	private ArrayList<AccountPropertiesPage> addedAccounts = 
 			new ArrayList<AccountPropertiesPage>();
-	private IUserManager usermanager = Activator.getDefault().getUserManager();
+	private UserContainer sandbox;
 	
-	protected NewAccountWizardPage(String pageName) {
+	protected NewAccountWizardPage(String pageName, UserContainer sandbox) {
 		super(pageName);
+		this.sandbox = sandbox;
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		// Adding the availably account-types to the combobox and a composite 
 		// with the account specific fields to the array list of account 
 		// composites.
-		AccountType[] accountTypes = usermanager.getAvailableAccountTypes();
+		AccountType[] accountTypes = sandbox.getAvailableAccountTypes();
 
 		if (accountTypes.length > 0) {
 			for (int i = 0; i < accountTypes.length; i++) {
@@ -79,7 +79,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 				else
 					accountTypeCombo.add("No name");
 				addedAccounts.add(new AccountPropertiesPage(accountSettings, 
-						accountTypes[i], this));
+						accountTypes[i], this, sandbox));
 				accountComposites.add(addedAccounts.get(i)
 						.getAccountPropertiesPage());
 			}

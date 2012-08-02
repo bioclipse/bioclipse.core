@@ -45,11 +45,16 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	
 	private NewAccountWizardPage addAccountPage;
 	private LoginWizardPage loginPage;
+	private UserContainer sandbox;
+	
+	public NewAccountWizard(UserContainer userContainer) {
+	    sandbox = userContainer;
+	}
 	
 	public NewAccountWizard() {
-		IUserManager usermanager = Activator.getDefault().getUserManager();
-		if (usermanager.getUserNames().size() == 0) {
-			UserContainer sandbox = usermanager.getSandBoxUserContainer();
+	    IUserManager usermanager = Activator.getDefault().getUserManager();
+	    sandbox = usermanager.getSandBoxUserContainer();
+		if ( usermanager.getUserNames().size() == 0) {
 			CreateUserDialog dialog 
 			= new CreateUserDialog( PlatformUI.getWorkbench()
 					.getActiveWorkbenchWindow()
@@ -72,9 +77,7 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 
 	public void addPages() {
 		super.addPages();
-		IUserManager usermanager = Activator.getDefault().getUserManager();
-		if ( !usermanager.isLoggedIn() ) {
-			UserContainer sandbox = usermanager.getSandBoxUserContainer();
+		if ( !sandbox.isLoggedIn() ) {
 			loginPage = new LoginWizardPage("loginPage", sandbox);
 			loginPage.setTitle("Log In To Your Bioclipse Account");
 			loginPage.setDescription("Before adding an acount you have to " +
@@ -82,7 +85,7 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 			addPage(loginPage);
 		}
 		
-		addAccountPage = new NewAccountWizardPage("addAccountPage");
+		addAccountPage = new NewAccountWizardPage("addAccountPage", sandbox);
 		addAccountPage.setTitle("New Account");
 		addAccountPage.setDescription("Add a third-part account to Bioclipse");
 		addPage(addAccountPage);
@@ -95,8 +98,7 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 
 	@Override
 	public boolean performFinish() {
-		IUserManager usermanager = Activator.getDefault().getUserManager();
-		if ( !usermanager.isLoggedIn() ) {
+		if ( !sandbox.isLoggedIn() ) {
 			performLogin();
 		}
 		
