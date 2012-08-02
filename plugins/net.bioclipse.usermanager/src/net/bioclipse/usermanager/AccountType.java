@@ -71,6 +71,7 @@ public class AccountType implements Serializable {
     public AccountType(AccountType accountType) {
         name = accountType.name;
         properties = new ArrayList<Property>();
+        logoPath = accountType.logoPath;
         for(Property p : accountType.properties) {
             properties.add(new Property(p));
         }
