@@ -54,9 +54,12 @@ public class AccountPropertiesPage {
 	private AccountType accountType;
 	private Boolean errorFlag = false;
 	private NewAccountWizardPage mainPage;
+	private UserContainer sandbox;
 	
 	public AccountPropertiesPage(Composite parent, 
-			AccountType accountType, NewAccountWizardPage nawp) {
+			AccountType accountType, NewAccountWizardPage nawp, UserContainer sandbox) {
+	    
+	    this.sandbox = sandbox;
 		int noOfFields = 0, noOfSecretFields = 0, i = 0;
 		mainPage = nawp;
 		Iterator<Property> propertyIter;
@@ -89,14 +92,21 @@ public class AccountPropertiesPage {
 			accountNameLabel.setText( "Account name: " );
 			accountNameTxt = new Text(accountComposite, SWT.BORDER);
 			accountNameTxt.setLayoutData( txtData );
-			new Label(accountComposite, SWT.NONE);
+			accountNameTxt.setText( createAccountId() );
+			
 		} else {
 			accountComposite.setLayout(new GridLayout(2, false));
 			accountNameLabel = new Label(accountComposite, SWT.NONE);
 			accountNameLabel.setText( "Account name: " );
 			accountNameTxt = new Text(accountComposite, SWT.BORDER);
 			accountNameTxt.setLayoutData( txtData );
+			accountNameTxt.setText( createAccountId() );
 		}
+		
+		
+		if (accountType.hasLogo())
+		    new Label(accountComposite, SWT.NONE);
+		
 		propertyIter = properties.iterator();
 		while (propertyIter.hasNext()) {
 			temp = propertyIter.next();
@@ -244,22 +254,30 @@ public class AccountPropertiesPage {
 			accountTxt[0].forceFocus();
 	}
 	
+	private String createAccountId() {
+	    String accountId = "";
+	    int i = 0;
+	    if (!sandbox.isLoggedIn())
+	        return accountId;
+	    
+        while (sandbox.accountExists(accountId)){
+            accountId = accountType.getName() + "_" + i;
+            i++;
+        }
+        return accountId;
+	}
+		
 	/**
 	 * Create an account with the properties values that has been written in the 
 	 * respective text-field. 
 	 */
 	public void createAccount() {
 	    int i = 0;
-        IUserManager usermanager = Activator.getDefault().getUserManager();
         HashMap<String, String> properties = new HashMap<String, String>();
         
 	    String accountId = accountNameTxt.getText();
 	    if (accountId.isEmpty()) {
-	        accountId = accountType.getName() + "_0";
-	        while (usermanager.accountExists(accountId)){
-	            i++;
-	            accountId = accountType.getName() + "_" + i;
-	        }
+	       accountId = createAccountId();
 	    } 
 		
 		for (i = 0; i<accountLabels.length;i++) {
@@ -271,7 +289,7 @@ public class AccountPropertiesPage {
 				accountTxt[i].getText());		
 			} 
 		}
-		usermanager.createAccount(accountId, properties, accountType);
+		sandbox.createAccount(accountId, properties, accountType);
 	}
 	
 	/**
