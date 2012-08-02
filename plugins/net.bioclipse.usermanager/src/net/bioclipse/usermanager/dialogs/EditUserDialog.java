@@ -236,7 +236,7 @@ public class EditUserDialog extends Dialog {
                 refreshTable();
             }
         });
-        
+
         addAccountButton = new Button(container, SWT.NONE);
         addAccountButton.addSelectionListener(new SelectionAdapter() {
             /*
@@ -260,7 +260,7 @@ public class EditUserDialog extends Dialog {
         formData_6.left = new FormAttachment(list, 0, SWT.LEFT);
         addAccountButton.setLayoutData(formData_6);
         addAccountButton.setText("Add account...");
-
+        
         deleteAccountButton = new Button(container, SWT.NONE);
         deleteAccountButton.addSelectionListener(new SelectionAdapter() {
             /*
@@ -527,11 +527,14 @@ public class EditUserDialog extends Dialog {
                 ArrayList<String> row = new ArrayList<String>();
                 row.add(key);
                 if (dm.accountType.getProperty(key).isSecret() &&
-                        !showHidePassword.getSelection() )
-                    row.add("\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF");
-                else
+                        !showHidePassword.getSelection() ) {
+                    String mask = "";
+                    for (int i = 0; i < properties.get( key ).length(); i++)
+                        mask += "\u25CF";
+                    row.add(mask);
+                } else
                     row.add(properties.get(key));
-
+                
                 row.add(dm.accountType.getProperty(key).isRequired()+"");
                 rows.add(row);
             }
