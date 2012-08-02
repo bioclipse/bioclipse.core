@@ -247,7 +247,7 @@ public class EditUserDialog extends Dialog {
                                                    PlatformUI.getWorkbench()
                                                    .getActiveWorkbenchWindow()
                                                    .getShell(), 
-                                                   new NewAccountWizard() );
+                                                   new NewAccountWizard(sandBoxUserContainer) );
                 wd.open();
                 
                 refreshTable();
