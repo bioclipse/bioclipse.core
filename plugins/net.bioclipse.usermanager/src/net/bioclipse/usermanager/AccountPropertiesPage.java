@@ -66,11 +66,11 @@ public class AccountPropertiesPage {
 		Property temp;
 		this.accountType = accountType;
 		properties = accountType.getProperties();
-		for (propertyIter = properties.iterator(); propertyIter.hasNext(); ) {
-			if (propertyIter.next().isSecret())
-				noOfSecretFields++;
-		}
-		noOfFields = properties.size() + noOfSecretFields;
+//		for (propertyIter = properties.iterator(); propertyIter.hasNext(); ) {
+//			if (propertyIter.next().isSecret())
+//				noOfSecretFields++;
+//		}
+		noOfFields = properties.size();// + noOfSecretFields;
 
 		accountComposite = new Composite(parent, SWT.NONE);			
 		accountLabels = new Label[noOfFields];
@@ -103,45 +103,45 @@ public class AccountPropertiesPage {
 			if (temp.isSecret()) {
 				addComponents(i, SWT.BORDER | SWT.PASSWORD, temp.isRequired(),
 						temp.getName());
-				i++;
-				addComponents(i, SWT.BORDER | SWT.PASSWORD, temp.isRequired(),
-						"Repeat " + temp.getName());
-				final int my_i = i;
-				final ControlDecoration deco = new ControlDecoration(
-								accountTxt[my_i], SWT.TOP | SWT.RIGHT);
-				deco.setDescriptionText("The value has to be the same as " +
-						"the value above");
-				deco.setImage(errImage);
-				deco.setShowOnlyOnFocus(false);
-				deco.hide();
-				accountTxt[i].addKeyListener(new KeyListener() {
-					
-					@Override
-					public void keyReleased(KeyEvent e) {
-						if (!(accountTxt[my_i-1].getText().equals(
-								accountTxt[my_i].getText()))) {							
-							deco.show();
-							errorFlag = true;
-							mainPage.setErrorMessage("The value has to be " +
-									"the same as the value above");
-						} else {
-							deco.hide();
-							if (isAllRequierdPropertiesFilledIn()) {
-								mainPage.setErrorMessage(null);
-								errorFlag = false;
-							} else {
-								errorFlag = true;
-								createMissingFieldsError();
-							}
-							
-						}
-
-					}
-					
-					@Override
-					public void keyPressed(KeyEvent e) {	
-					}
-				});
+//				i++;
+//				addComponents(i, SWT.BORDER | SWT.PASSWORD, temp.isRequired(),
+//						"Repeat " + temp.getName());
+//				final int my_i = i;
+//				final ControlDecoration deco = new ControlDecoration(
+//								accountTxt[my_i], SWT.TOP | SWT.RIGHT);
+//				deco.setDescriptionText("The value has to be the same as " +
+//						"the value above");
+//				deco.setImage(errImage);
+//				deco.setShowOnlyOnFocus(false);
+//				deco.hide();
+//				accountTxt[i].addKeyListener(new KeyListener() {
+//					
+//					@Override
+//					public void keyReleased(KeyEvent e) {
+//						if (!(accountTxt[my_i-1].getText().equals(
+//								accountTxt[my_i].getText()))) {							
+//							deco.show();
+//							errorFlag = true;
+//							mainPage.setErrorMessage("The value has to be " +
+//									"the same as the value above");
+//						} else {
+//							deco.hide();
+//							if (isAllRequierdPropertiesFilledIn()) {
+//								mainPage.setErrorMessage(null);
+//								errorFlag = false;
+//							} else {
+//								errorFlag = true;
+//								createMissingFieldsError();
+//							}
+//							
+//						}
+//
+//					}
+//					
+//					@Override
+//					public void keyPressed(KeyEvent e) {	
+//					}
+//				});
 			} else {
 				addComponents(i, SWT.BORDER, temp.isRequired(), temp.getName());
 			}
@@ -160,15 +160,13 @@ public class AccountPropertiesPage {
 	 */
 	private void addComponents(int index, int style, boolean required, 
 			String labelTxt) {
-		GridData txtData = new GridData(SWT.FILL, SWT.NONE, true, true);
+		GridData txtData = new GridData( SWT.FILL, SWT.NONE, true, true );
 		txtData.widthHint = 220;
-		accountLabels[index] = new Label(accountComposite, SWT.NONE);
-		accountLabels[index].setText(labelTxt + ":");
-		accountTxt[index] = new Text(accountComposite, style);
-		accountTxt[index].setToolTipText(accountLabels[index].getText()
-				.substring(0, (accountLabels[index].getText().length()-1)
-						));
-
+		accountLabels[index] = new Label( accountComposite, SWT.NONE );
+		accountLabels[index].setText( labelTxt + ":" );
+		accountTxt[index] = new Text( accountComposite, style );
+		accountTxt[index].setToolTipText( accountLabels[index].getText()
+				.substring( 0, ( accountLabels[index].getText().length()-1) ) );
 		accountTxt[index].setLayoutData(txtData);
 		if (required) {
 			setReqDeco(accountLabels[index]);
@@ -285,6 +283,7 @@ public class AccountPropertiesPage {
 			} 
 		}
 		sandbox.createAccount(accountId, properties, accountType);
+
 	}
 	
 	/**
