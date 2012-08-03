@@ -64,7 +64,6 @@ public class AccountPropertiesPage {
 		mainPage = nawp;
 		Iterator<Property> propertyIter;
 		Property temp;
-		
 		this.accountType = accountType;
 		properties = accountType.getProperties();
 		for (propertyIter = properties.iterator(); propertyIter.hasNext(); ) {
@@ -78,7 +77,7 @@ public class AccountPropertiesPage {
 		accountTxt = new Text[noOfFields];
 	    GridData txtData = new GridData(SWT.FILL, SWT.NONE, true, true);
 	    txtData.widthHint = 220;
-	        
+	    
 		if (accountType.hasLogo()) {
 			accountComposite.setLayout(new GridLayout(3, false));
 			new Label(accountComposite, SWT.NONE);
@@ -88,22 +87,13 @@ public class AccountPropertiesPage {
 					.createFromURL(accountType.getLogoPath());
 			Image im = imDesc.createImage();
 			logo.setImage(im);
-			accountNameLabel = new Label(accountComposite, SWT.NONE);
-			accountNameLabel.setText( "Account name: " );
-			accountNameTxt = new Text(accountComposite, SWT.BORDER);
-			accountNameTxt.setLayoutData( txtData );
-			accountNameTxt.setText( createAccountId() );
-			
-		} else {
+		} else 
 			accountComposite.setLayout(new GridLayout(2, false));
-			accountNameLabel = new Label(accountComposite, SWT.NONE);
-			accountNameLabel.setText( "Account name: " );
-			accountNameTxt = new Text(accountComposite, SWT.BORDER);
-			accountNameTxt.setLayoutData( txtData );
-			accountNameTxt.setText( createAccountId() );
-		}
 		
-		
+        accountNameLabel = new Label(accountComposite, SWT.NONE);
+        accountNameLabel.setText( "Account name: " );
+        accountNameTxt = new Text(accountComposite, SWT.BORDER);
+        accountNameTxt.setLayoutData( txtData );
 		if (accountType.hasLogo())
 		    new Label(accountComposite, SWT.NONE);
 		
@@ -260,13 +250,18 @@ public class AccountPropertiesPage {
 	    if (!sandbox.isLoggedIn())
 	        return accountId;
 	    
+	    accountId = accountType.getName() + "_" + 0;
         while (sandbox.accountExists(accountId)){
-            accountId = accountType.getName() + "_" + i;
             i++;
+            accountId = accountType.getName() + "_" + i;
         }
         return accountId;
 	}
-		
+	
+	protected void upDateAccountName() {
+	    accountNameTxt.setText( createAccountId() );
+	}
+	
 	/**
 	 * Create an account with the properties values that has been written in the 
 	 * respective text-field. 

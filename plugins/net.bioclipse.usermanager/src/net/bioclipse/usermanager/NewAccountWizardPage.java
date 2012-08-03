@@ -204,4 +204,18 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		} else
 			return false;
 	}
+	
+	@Override
+	public void setVisible(boolean visible) {
+	    super.setVisible( visible );
+	    if (visible)
+	        performNext();  
+	}
+	
+	private void performNext() {
+	    
+	    AccountPropertiesPage account = 
+                addedAccounts.get(accountTypeCombo.getSelectionIndex());
+       account.upDateAccountName(); 
+	}
 }
