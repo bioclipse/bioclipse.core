@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import net.bioclipse.usermanager.AccountType.Property;
+
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -28,6 +30,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * 
@@ -272,7 +275,18 @@ public class AccountPropertiesPage {
 	 * Create an account with the properties values that has been written in the 
 	 * respective text-field. 
 	 */
-	public void createAccount() {
+	public boolean createAccount() {
+	    if ( sandbox.accountExists( getAccountId() ) ) {
+	        MessageDialog
+            .openInformation( PlatformUI
+                              .getWorkbench()
+                              .getActiveWorkbenchWindow()
+                              .getShell(),
+                              "Name trouble",
+                              "You already have an account named " +
+                              getAccountId()+", please choose an other name." );
+	        return false;
+	    }
 	    int i = 0;
         HashMap<String, String> properties = new HashMap<String, String>();
 	    if (accountId.isEmpty()) {
@@ -289,6 +303,7 @@ public class AccountPropertiesPage {
 			} 
 		}
 		sandbox.createAccount(accountId, properties, accountType);
+		return true;
 	}
 	
 	/**

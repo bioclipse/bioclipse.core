@@ -152,7 +152,8 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		    properties = account.getProperties();
 		    
 			setErrorMessage(null);
-			account.createAccount();
+			if (!account.createAccount())
+			    return false;
 			dispose();
 			return true;
 		} else {
