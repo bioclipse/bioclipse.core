@@ -60,115 +60,115 @@ public class JsThread extends ScriptingThread {
     public void run() {
         initJs();
 
-        synchronized (actions) {
-            busy = false;
-            while (true) {
+        busy = false;
+        while (true) {
+            final JsAction[] nextAction = new JsAction[1];
+            synchronized (actions) {
                 try {
                     while ( actions.isEmpty() )
                         actions.wait();
                 } catch ( InterruptedException e ) {
                     break;
                 }
+                nextAction[0] = actions.removeFirst();
+            }
+            final Object[] result = new Object[1];
+            busy = true;
+            final Boolean[] jsRunning = { true };
+            final Boolean[] monitorIsSet = { false };
+            final IProgressMonitor[] monitor
+                = { new NullProgressMonitor() };
 
-                final JsAction nextAction = actions.removeFirst();
-                final Object[] result = new Object[1];
-                busy = true;
-                final Boolean[] jsRunning = { true };
-                final Boolean[] monitorIsSet = { false };
-                final IProgressMonitor[] monitor
-                    = { new NullProgressMonitor() };
+            Job job = new Job("JS-script") {
+                @SuppressWarnings("deprecation")
+                @Override
+                protected IStatus run( IProgressMonitor pm ) {
 
-                Job job = new Job("JS-script") {
-                    @SuppressWarnings("deprecation")
-                    @Override
-                    protected IStatus run( IProgressMonitor pm ) {
+                    pm.beginTask( "Running JavaScript",
+                                 IProgressMonitor.UNKNOWN );
 
-                        pm.beginTask( "Running JavaScript",
-                                     IProgressMonitor.UNKNOWN );
+                    IProgressMonitor m = new SubProgressMonitor(pm, 1);
 
-                        IProgressMonitor m = new SubProgressMonitor(pm, 1);
+                    monitor[0] = m;
 
-                        monitor[0] = m;
-
-                        nextAction.runPreCommandHook();
-                        synchronized ( monitorIsSet ) {
-                            monitorIsSet[0] = true;
-                            monitorIsSet.notifyAll();
-                        }
-                        synchronized ( jsRunning ) {
-                            while (jsRunning[0]) {
-                                try {
-                                    jsRunning.wait(500);
-                                    if ( m.isCanceled() &&
-                                         jsRunning[0] ) {
-                                        jsRunning.wait(5000);
-                                        if (!jsRunning[0]) {
-                                            break;
-                                        }
-                                        // This is the only way we've found out
-                                        // that actually stops the thread in
-                                        // its tracks. It's deprecated (and
-                                        // with good reason, at that), and
-                                        // there doesn't seem to be any better
-                                        // non-deprecated way to do it.
-                                        JsThread.this.stop();
-                                        jsRunning[0] = false;
-                                        if (firstTime)
-                                            popUpWarning();
-                                        return Status.CANCEL_STATUS;
+                    nextAction[0].runPreCommandHook();
+                    synchronized ( monitorIsSet ) {
+                        monitorIsSet[0] = true;
+                        monitorIsSet.notifyAll();
+                    }
+                    synchronized ( jsRunning ) {
+                        while (jsRunning[0]) {
+                            try {
+                                jsRunning.wait(500);
+                                if ( m.isCanceled() &&
+                                     jsRunning[0] ) {
+                                    jsRunning.wait(5000);
+                                    if (!jsRunning[0]) {
+                                        break;
                                     }
-                                }
-                                catch ( InterruptedException e ) {
-                                    break;
+                                    // This is the only way we've found out
+                                    // that actually stops the thread in
+                                    // its tracks. It's deprecated (and
+                                    // with good reason, at that), and
+                                    // there doesn't seem to be any better
+                                    // non-deprecated way to do it.
+                                    JsThread.this.stop();
+                                    jsRunning[0] = false;
+                                    if (firstTime)
+                                        popUpWarning();
+                                    return Status.CANCEL_STATUS;
                                 }
                             }
-                        }
-                        return Status.OK_STATUS;
-                    }
-                };
-                job.setUser( true );
-                job.schedule();
-                synchronized ( monitorIsSet ) {
-                    while ( !monitorIsSet[0] ) {
-                        try {
-                            monitorIsSet.wait();
-                        }
-                        catch ( InterruptedException e ) {
-                            break;
+                            catch ( InterruptedException e ) {
+                                break;
+                            }
                         }
                     }
+                    return Status.OK_STATUS;
                 }
-                try {
-                    MonitorContainer.getInstance().addMonitor(monitor[0]);
-                    result[0] = js.eval( nextAction.getCommand() );
-                    if (result[0] instanceof String) {
-                        String s = (String)result[0];
-                        if (s.startsWith( "Wrapped " ))
-                            result[0] = "Something went wrong. The complete"
-                                + " error message has been written to the"
-                                + " logs.";
+            };
+            job.setUser( true );
+            job.schedule();
+            synchronized ( monitorIsSet ) {
+                while ( !monitorIsSet[0] ) {
+                    try {
+                        monitorIsSet.wait();
+                    }
+                    catch ( InterruptedException e ) {
+                        break;
                     }
                 }
-                catch (Exception e) {
-                    LogUtils.debugTrace(logger, e);
-                    result[0] = e;
-                }
-                synchronized ( jsRunning ) {
-                    jsRunning[0] = false;
-                    jsRunning.notifyAll();
-                }
-                try {
-                    job.join();
-                }
-                catch ( InterruptedException e ) {
-                    e.printStackTrace();
-                }
-                busy = false;
-                synchronized ( semaphore ) {
-                    semaphore.notifyAll();
-                }
-                nextAction.runPostCommandHook(result[0]);
             }
+            try {
+                MonitorContainer.getInstance().addMonitor(monitor[0]);
+                result[0] = js.eval( nextAction[0].getCommand() );
+                if (result[0] instanceof String) {
+                    String s = (String)result[0];
+                    if (s.startsWith( "Wrapped " ))
+                        result[0] = "Something went wrong. The complete"
+                            + " error message has been written to the"
+                            + " logs.";
+                }
+            }
+            catch (Exception e) {
+                LogUtils.debugTrace(logger, e);
+                result[0] = e;
+            }
+            synchronized ( jsRunning ) {
+                jsRunning[0] = false;
+                jsRunning.notifyAll();
+            }
+            try {
+                job.join();
+            }
+            catch ( InterruptedException e ) {
+                e.printStackTrace();
+            }
+            busy = false;
+            synchronized ( semaphore ) {
+                semaphore.notifyAll();
+            }
+            nextAction[0].runPostCommandHook(result[0]);
         }
     }
 
