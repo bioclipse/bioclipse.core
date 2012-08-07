@@ -14,6 +14,7 @@ import java.util.HashMap;
 
 import net.bioclipse.usermanager.business.IUserManager;
 import net.bioclipse.usermanager.dialogs.CreateUserDialog;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
@@ -34,7 +35,7 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	private LoginWizardPage loginPage;
 	private IUserManager usermanager;
 	private UserContainer sandbox;
-	
+	private CreateUserWizardPage createUserPage;
 	public NewAccountWizard(UserContainer userContainer) {
 	    sandbox = userContainer;
 	    
@@ -43,19 +44,20 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	public NewAccountWizard() {
 	    usermanager = Activator.getDefault().getUserManager();
 	    sandbox = usermanager.getSandBoxUserContainer();
-		if ( usermanager.getUserNames().size() == 0) {
-			CreateUserDialog dialog 
-			= new CreateUserDialog( PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow()
-					.getShell(), sandbox );
-			dialog.open();
-			if (dialog.getReturnCode() == Window.OK) {
-				usermanager.switchUserContainer( sandbox );
-			}
-			else if (dialog.getReturnCode() == Window.CANCEL) {
-				dispose();
-			}
-		}
+//		if ( usermanager.getUserNames().size() == 0) {
+//			CreateUserDialog dialog 
+//			= new CreateUserDialog( PlatformUI.getWorkbench()
+//					.getActiveWorkbenchWindow()
+//					.getShell(), sandbox );
+//			dialog.open();
+//			if (dialog.getReturnCode() == Window.OK) {
+//				usermanager.switchUserContainer( sandbox );
+//			}
+//			else if (dialog.getReturnCode() == Window.CANCEL) {
+//			    this.performCancel();
+//			    
+//			}
+//		}
 	}
 
 	@Override
@@ -66,8 +68,14 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 
 	public void addPages() {
 		super.addPages();
-		
-		if ( !sandbox.isLoggedIn() ) {
+		if ( usermanager.getUserNames().size() == 0) {
+		   createUserPage = new CreateUserWizardPage("Create user", sandbox);
+		   createUserPage. setTitle("Create Bioclipse Account");
+		   createUserPage.setDescription("Bioclipse wants to create an account " +
+		   		"for storing all your different passwords in one password " +
+		   		"encrypted file.");
+		   addPage( createUserPage );
+		} else if ( !sandbox.isLoggedIn() ) {	
 			loginPage = new LoginWizardPage("loginPage", sandbox);
 			loginPage.setTitle("Log In To Your Bioclipse Account");
 			loginPage.setDescription("Before adding an acount you have to " +
@@ -110,7 +118,7 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	}
 
 	public boolean performCancel() {
-		return true;
+	    return true;
 	}
 	
 	public String getAccountId() {
