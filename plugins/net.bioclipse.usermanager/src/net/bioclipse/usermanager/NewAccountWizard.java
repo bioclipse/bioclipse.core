@@ -12,27 +12,15 @@ package net.bioclipse.usermanager;
 
 import java.util.HashMap;
 
-import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.usermanager.business.IUserManager;
 import net.bioclipse.usermanager.dialogs.CreateUserDialog;
-import net.bioclipse.usermanager.dialogs.LoginDialog;
-
-import org.apache.log4j.Logger;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.handlers.IHandlerService;
 
 /**
  * A wizard for handling the users third parts accounts
@@ -42,9 +30,6 @@ import org.eclipse.ui.handlers.IHandlerService;
  */
 public class NewAccountWizard extends Wizard implements INewWizard {
 
-	private static final Logger logger 
-    	= Logger.getLogger(LoginDialog.class);
-	
 	private NewAccountWizardPage addAccountPage;
 	private LoginWizardPage loginPage;
 	private IUserManager usermanager;
@@ -106,9 +91,8 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	     
 	    if ( !sandbox.isLoggedIn() ) {
 	        if (usermanager == null)
-	            usermanager = Activator.getDefault().getUserManager();
-	        
-	        usermanager.logIn( loginPage.getUsername(), loginPage.getPassword() );
+	            usermanager = Activator.getDefault().getUserManager();	        
+	        usermanager.logIn(loginPage.getUsername(), loginPage.getPassword());
 	    }
 	    
 		if (addAccountPage.createAccount()) {
@@ -141,71 +125,4 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	    return addAccountPage.getProperties();
 	}
 	
-	/**
-	 * This method log in the user.
-	 */
-	private void performLogin() {
-		 final String username = loginPage.getUsername();
-         final String password = loginPage.getPassword();
-         Job job = new Job("Signing in " + username) {
-             
-             @Override
-             protected IStatus run( IProgressMonitor monitor ) {
-
-                 try {
-                     int scale = 1000;
-                     monitor.beginTask( "Signing in...", 
-                                        IProgressMonitor.UNKNOWN );
-                     IUserManager us = Activator.getDefault().getUserManager();
-                     
-                     
-                              us.signInWithProgressBar( 
-                                   username,
-                                   password, 
-                                   new SubProgressMonitor(
-                                           monitor, 
-                                           1 * scale) );
-                              
-                     sandbox.createAccount( getAccountId(), getProperties(), getAccountType() );
-                 }
-                 catch ( final Exception e ) {
-                     Display.getDefault().asyncExec(new Runnable() {
-
-                         public void run() {
-                             MessageDialog.openInformation( 
-                                        PlatformUI
-                                        .getWorkbench()
-                                        .getActiveWorkbenchWindow()
-                                        .getShell(), 
-                                        "Could not sign in "
-                                        + username, 
-                                        e.getMessage() );
-                             try {
-                                 ((IHandlerService) 
-                                 PlatformUI.getWorkbench()
-                                     .getActiveWorkbenchWindow()
-                                     .getService(IHandlerService.class) )
-                                     .executeCommand(
-                                         "net.bioclipse.usermanager" +
-                                             ".commands.login", 
-                                         null );
-                             }
-                             catch ( Exception e ) {
-                                 LogUtils.handleException( 
-                                      e, 
-                                      logger, 
-                                      "net.bioclipse.usermanager" );
-                             }
-                         }
-                     });
-                 }
-                 finally {
-                     monitor.done();
-                 }
-                 return Status.OK_STATUS;
-             }
-         };
-         job.setUser( true );
-         job.schedule();
-	}
 }

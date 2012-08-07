@@ -16,14 +16,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import net.bioclipse.usermanager.AccountType.Property;
-import net.bioclipse.usermanager.business.IUserManager;
-
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Image;
@@ -39,7 +35,8 @@ import org.eclipse.swt.widgets.Text;
  *	
  */
 public class AccountPropertiesPage {
-
+    /* I've left some out-comment code in this class. That code adds an extra 
+     * field for properties marked as secret*/
 	private Composite accountComposite;
 	private Collection<Property> properties;
 	private Label[] accountLabels;

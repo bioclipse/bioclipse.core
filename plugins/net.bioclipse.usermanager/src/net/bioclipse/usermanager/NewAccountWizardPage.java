@@ -39,7 +39,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	private ArrayList<AccountPropertiesPage> addedAccounts = 
 			new ArrayList<AccountPropertiesPage>();
 	private UserContainer sandbox;
-	private String accontId;
+	private String accountId;
 	private HashMap<String, String> properties;
 	private AccountType accountType;
 	
@@ -71,7 +71,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		accountSettings.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		accountSettings.setLayout(accountStack);
 
-		// Adding the availably account-types to the combobox and a composite 
+		// Adding the availably account-types to the combo-box and a composite 
 		// with the account specific fields to the array list of account 
 		// composites.
 		AccountType[] accountTypes = sandbox.getAvailableAccountTypes();
@@ -147,7 +147,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 				addedAccounts.get(accountTypeCombo.getSelectionIndex());
 		if (account.isAllRequierdPropertiesFilledIn() && 
 				account.isFieldsProperlyFilled()) {
-		    accontId = account.getAccountId();
+		    accountId = account.getAccountId();
 		    accountType = account.getAccountType();
 		    properties = account.getProperties();
 		    
@@ -227,14 +227,14 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
                 addedAccounts.get(accountTypeCombo.getSelectionIndex());
 	    if (enteringPage)
 	        account.upDateAccountName();
-	    accontId = account.getAccountId();
+	    accountId = account.getAccountId();
 	    properties = account.getProperties();
 	    accountType = account.getAccountType();
 	    
 	}
 	
 	protected String getAccountId() {
-	    return accontId;
+	    return accountId;
 	}
 	
 	protected AccountType getAccountType() {
