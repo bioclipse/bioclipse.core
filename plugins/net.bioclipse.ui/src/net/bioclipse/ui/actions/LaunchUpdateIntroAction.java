@@ -32,8 +32,10 @@ public class LaunchUpdateIntroAction implements IIntroAction {
 	private static Logger logger = Logger.getLogger(LaunchUpdateIntroAction.class);
 	private static final String pluginId = "net.bioclipse.ui";
 
-	private static final String commandId ="org.eclipse.equinox.p2.ui.discovery.commands.ShowRepositoryCatalog";
+	private static final String commandId ="net.bioclipse.ui.install.ShowRepositoryCatalog";
 	private static final String parmName = "org.eclipse.equinox.p2.ui.discovery.commands.RepositoryParameter";
+
+	private static final String repositoryStrategyParamName = "net.bioclipse.ui.install.commands.RepositoryStrategyParameter";
 
 	public LaunchUpdateIntroAction() {
 	}
@@ -43,10 +45,15 @@ public class LaunchUpdateIntroAction implements IIntroAction {
 			ICommandService commandService = getService(site,ICommandService.class);
 			Command cmd = commandService.getCommand(commandId);
 			IParameter parm = cmd.getParameter(parmName);
+			IParameter repositoryStrategyParam = cmd.getParameter(repositoryStrategyParamName);
+
 			Parameterization[] parameters = new Parameterization[] {
 					new Parameterization( parm,
-							"http://pele.farmbio.uu.se/bioclipse/releases/2.5")
+							"http://pele.farmbio.uu.se/bioclipse/releases/2.6")
+					,new Parameterization( repositoryStrategyParam,
+							"net.bioclipse.ui.install.commands.ReleaseRepositoryDiscoveryStrategy")
 			};
+
 
 			ParameterizedCommand parameterizedCommand = new ParameterizedCommand(cmd,parameters);
 			IHandlerService handlerService = getService(site,IHandlerService.class);
