@@ -10,6 +10,8 @@
  ******************************************************************************/
 package net.bioclipse.usermanager;
 
+import java.util.HashMap;
+
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.usermanager.business.IUserManager;
 import net.bioclipse.usermanager.dialogs.CreateUserDialog;
@@ -45,14 +47,16 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	
 	private NewAccountWizardPage addAccountPage;
 	private LoginWizardPage loginPage;
+	private IUserManager usermanager;
 	private UserContainer sandbox;
 	
 	public NewAccountWizard(UserContainer userContainer) {
 	    sandbox = userContainer;
+	    
 	}
 	
 	public NewAccountWizard() {
-	    IUserManager usermanager = Activator.getDefault().getUserManager();
+	    usermanager = Activator.getDefault().getUserManager();
 	    sandbox = usermanager.getSandBoxUserContainer();
 		if ( usermanager.getUserNames().size() == 0) {
 			CreateUserDialog dialog 
@@ -77,6 +81,7 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 
 	public void addPages() {
 		super.addPages();
+		
 		if ( !sandbox.isLoggedIn() ) {
 			loginPage = new LoginWizardPage("loginPage", sandbox);
 			loginPage.setTitle("Log In To Your Bioclipse Account");
@@ -98,11 +103,17 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 
 	@Override
 	public boolean performFinish() {
-		if ( !sandbox.isLoggedIn() ) {
-			performLogin();
-		}
-		
+	     
+	    if ( !sandbox.isLoggedIn() ) {
+	        if (usermanager == null)
+	            usermanager = Activator.getDefault().getUserManager();
+	        
+	        usermanager.logIn( loginPage.getUsername(), loginPage.getPassword() );
+	    }
+	    
 		if (addAccountPage.createAccount()) {
+		    if (usermanager != null)
+		        usermanager.switchUserContainer( sandbox );
 			dispose();
 			return true;
 		} else
@@ -116,6 +127,18 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 
 	public boolean performCancel() {
 		return true;
+	}
+	
+	public String getAccountId() {
+	    return addAccountPage.getAccountId();
+	}
+	
+	public AccountType getAccountType() {
+	    return addAccountPage.getAccountType();
+	}
+	
+	public HashMap<String, String> getProperties() {
+	    return addAccountPage.getProperties();
 	}
 	
 	/**
@@ -133,13 +156,17 @@ public class NewAccountWizard extends Wizard implements INewWizard {
                      int scale = 1000;
                      monitor.beginTask( "Signing in...", 
                                         IProgressMonitor.UNKNOWN );
-                     Activator.getDefault().getUserManager()
-                              .signInWithProgressBar( 
+                     IUserManager us = Activator.getDefault().getUserManager();
+                     
+                     
+                              us.signInWithProgressBar( 
                                    username,
                                    password, 
                                    new SubProgressMonitor(
                                            monitor, 
                                            1 * scale) );
+                              
+                     sandbox.createAccount( getAccountId(), getProperties(), getAccountType() );
                  }
                  catch ( final Exception e ) {
                      Display.getDefault().asyncExec(new Runnable() {
