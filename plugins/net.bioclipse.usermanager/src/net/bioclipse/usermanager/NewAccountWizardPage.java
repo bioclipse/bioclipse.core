@@ -11,6 +11,7 @@
 
 package net.bioclipse.usermanager;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -38,6 +39,9 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	private ArrayList<AccountPropertiesPage> addedAccounts = 
 			new ArrayList<AccountPropertiesPage>();
 	private UserContainer sandbox;
+	private String accontId;
+	private HashMap<String, String> properties;
+	private AccountType accountType;
 	
 	protected NewAccountWizardPage(String pageName, UserContainer sandbox) {
 		super(pageName);
@@ -143,6 +147,10 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 				addedAccounts.get(accountTypeCombo.getSelectionIndex());
 		if (account.isAllRequierdPropertiesFilledIn() && 
 				account.isFieldsProperlyFilled()) {
+		    accontId = account.getAccountId();
+		    accountType = account.getAccountType();
+		    properties = account.getProperties();
+		    
 			setErrorMessage(null);
 			account.createAccount();
 			dispose();
@@ -208,14 +216,32 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	@Override
 	public void setVisible(boolean visible) {
 	    super.setVisible( visible );
-	    if (visible)
-	        performNext();  
+//	    if (visible)
+	        performNext(visible);
+
 	}
 	
-	private void performNext() {
+	private void performNext(boolean enteringPage) {
 	    
 	    AccountPropertiesPage account = 
                 addedAccounts.get(accountTypeCombo.getSelectionIndex());
-       account.upDateAccountName(); 
+	    if (enteringPage)
+	        account.upDateAccountName();
+	    accontId = account.getAccountId();
+	    properties = account.getProperties();
+	    accountType = account.getAccountType();
+	    
+	}
+	
+	protected String getAccountId() {
+	    return accontId;
+	}
+	
+	protected AccountType getAccountType() {
+	    return accountType;
+	}
+		
+	protected HashMap<String, String> getProperties() {
+	    return properties;
 	}
 }

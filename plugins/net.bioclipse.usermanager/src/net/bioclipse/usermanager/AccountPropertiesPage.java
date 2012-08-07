@@ -24,6 +24,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -55,6 +57,8 @@ public class AccountPropertiesPage {
 	private Boolean errorFlag = false;
 	private NewAccountWizardPage mainPage;
 	private UserContainer sandbox;
+	private String accountId = "";
+	private HashMap<String, String> accountProperties = new HashMap<String, String>();
 	
 	public AccountPropertiesPage(Composite parent, 
 			AccountType accountType, NewAccountWizardPage nawp, UserContainer sandbox) {
@@ -94,6 +98,13 @@ public class AccountPropertiesPage {
         accountNameLabel.setText( "Account name: " );
         accountNameTxt = new Text(accountComposite, SWT.BORDER);
         accountNameTxt.setLayoutData( txtData );
+        accountNameTxt.addModifyListener( new ModifyListener() {
+            
+            @Override
+            public void modifyText( ModifyEvent e ) {
+                accountId = accountNameTxt.getText();
+            }
+        } );
 		if (accountType.hasLogo())
 		    new Label(accountComposite, SWT.NONE);
 		
@@ -267,8 +278,6 @@ public class AccountPropertiesPage {
 	public void createAccount() {
 	    int i = 0;
         HashMap<String, String> properties = new HashMap<String, String>();
-        
-	    String accountId = accountNameTxt.getText();
 	    if (accountId.isEmpty()) {
 	       accountId = createAccountId();
 	    } 
@@ -283,7 +292,6 @@ public class AccountPropertiesPage {
 			} 
 		}
 		sandbox.createAccount(accountId, properties, accountType);
-
 	}
 	
 	/**
@@ -330,4 +338,17 @@ public class AccountPropertiesPage {
 	public void dispose() {
 		dispose();
 	}
+	
+	protected AccountType getAccountType() {
+	    return accountType;
+	}
+	
+	protected String getAccountId() {
+	    return accountId;
+	}
+	
+	protected HashMap<String, String> getProperties() {
+	    return accountProperties;
+	}
+	
 }

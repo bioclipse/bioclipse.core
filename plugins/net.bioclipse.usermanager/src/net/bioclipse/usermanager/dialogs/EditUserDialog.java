@@ -243,15 +243,36 @@ public class EditUserDialog extends Dialog {
              * ADD ACCOUNT
              */
             public void widgetSelected(SelectionEvent e) {
+                NewAccountWizard wizard = new NewAccountWizard(sandBoxUserContainer);
                 NewAcccountWizardDialog wd = new NewAcccountWizardDialog( 
                                                    PlatformUI.getWorkbench()
                                                    .getActiveWorkbenchWindow()
-                                                   .getShell(), 
-                                                   new NewAccountWizard(sandBoxUserContainer) );
-                wd.open();
+                                                   .getShell(), wizard );
                 
-                refreshTable();
-                refreshOnSelectionChanged();
+                if (wd.open() == Window.OK) {
+                    DummyAccount da = new DummyAccount();
+                    da.accountId = wizard.getAccountId();
+                    da.accountType = sandBoxUserContainer.getAccountType( da.accountId );// wizard.getAccountType();
+                    String key = "";
+                    for( Property property : da.accountType.getProperties() ) {
+                        key = property.getName();
+                        da.properties.put(key, sandBoxUserContainer.getProperty( da.accountId, key ) );
+                    }
+                    model.dummyAccounts.put( da.accountId, da );
+                    refreshList();
+                    accountTypeText.setText(da.accountType.toString());
+                    int pos = 0;
+                    for( String item : list.getItems() ) {
+                        if(da.accountId.equals(extractAccountId(item))) {
+                            break;
+                        }
+                        pos++;
+                    }
+                    list.select(pos);
+                    refreshTable();
+                    refreshOnSelectionChanged();
+                }
+
             }
 
         });
@@ -392,7 +413,8 @@ public class EditUserDialog extends Dialog {
     }
 
     private void refreshOnSelectionChanged() {
-
+        if ( accountsListViewer.getList().getSelection().length == 0 )
+            return;
         String selectedAccountId = 
                 extractAccountId( accountsListViewer.getList()
                                   .getSelection()[0] );
@@ -451,8 +473,8 @@ public class EditUserDialog extends Dialog {
     }
     
     private String extractAccountId(String selectedAccountListItem) {
-        String selectedAccountId
-        = accountsListViewer.getList().getSelection()[0];
+        String selectedAccountId = selectedAccountListItem;
+//        = accountsListViewer.getList().getSelection()[0];
         int endIndex = selectedAccountId.indexOf( " {" );
         if (endIndex > -1)
             selectedAccountId = selectedAccountId.substring( 0, endIndex );
