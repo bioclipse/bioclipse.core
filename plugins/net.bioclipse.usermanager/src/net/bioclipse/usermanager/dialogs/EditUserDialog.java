@@ -250,6 +250,20 @@ public class EditUserDialog extends Dialog {
                                                    .getShell(), wizard );
                 
                 if (wd.open() == Window.OK) {
+                    
+                    for( DummyAccount ac : model.dummyAccounts.values() ) {
+                        if( ac.accountType.equals( wizard.getAccountType() ) ) {
+                            MessageDialog.openInformation(
+                                    PlatformUI
+                                    .getWorkbench()
+                                    .getActiveWorkbenchWindow()
+                                    .getShell(),
+                                    "Account type already used",
+                                    ALREADY_SUCH_AN_ACCOUNT );
+                            return;
+                        }
+                    }
+                    
                     DummyAccount da = new DummyAccount();
                     da.accountId = wizard.getAccountId();
                     da.accountType = sandBoxUserContainer.getAccountType( da.accountId );// wizard.getAccountType();
@@ -259,6 +273,7 @@ public class EditUserDialog extends Dialog {
                         da.properties.put(key, sandBoxUserContainer.getProperty( da.accountId, key ) );
                     }
                     model.dummyAccounts.put( da.accountId, da );
+                    
                     refreshList();
                     accountTypeText.setText(da.accountType.toString());
                     int pos = 0;
