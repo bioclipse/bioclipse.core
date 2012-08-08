@@ -14,9 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-
 import net.bioclipse.usermanager.AccountType.Property;
-
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
@@ -59,12 +57,13 @@ public class AccountPropertiesPage {
 	private UserContainer sandbox;
 	private String accountId = "";
 	private HashMap<String, String> accountProperties = new HashMap<String, String>();
-	
+	   
 	public AccountPropertiesPage(Composite parent, 
 			AccountType accountType, NewAccountWizardPage nawp, UserContainer sandbox) {
 	    
 	    this.sandbox = sandbox;
-		int noOfFields = 0, noOfSecretFields = 0, i = 0;
+		int noOfFields = 0, i = 0;
+//		int noOfSecretFields = 0;
 		mainPage = nawp;
 		Iterator<Property> propertyIter;
 		Property temp;
@@ -103,6 +102,7 @@ public class AccountPropertiesPage {
             @Override
             public void modifyText( ModifyEvent e ) {
                 accountId = accountNameTxt.getText();
+                isAllRequierdPropertiesFilledIn();
             }
         } );
 		if (accountType.hasLogo())
@@ -158,6 +158,12 @@ public class AccountPropertiesPage {
 			}
 			i++;
 		}
+		
+		new Label(accountComposite, SWT.NONE);
+		if (accountType.hasLogo()) {
+		    new Label(accountComposite, SWT.NONE);
+		}
+		
 	}
 	
 	/**
@@ -179,6 +185,17 @@ public class AccountPropertiesPage {
 		accountTxt[index].setToolTipText( accountLabels[index].getText()
 				.substring( 0, ( accountLabels[index].getText().length()-1) ) );
 		accountTxt[index].setLayoutData(txtData);
+		accountTxt[index].addModifyListener( new ModifyListener() {
+            
+            @Override
+            public void modifyText( ModifyEvent e ) {
+                if (isAllRequierdPropertiesFilledIn()) {
+                    mainPage.setErrorMessage( null );
+                } else {
+                    createMissingFieldsError();
+                }
+            }
+        } );
 		if (required) {
 			setReqDeco(accountLabels[index]);
 			requiredFields.add(accountTxt[index]);

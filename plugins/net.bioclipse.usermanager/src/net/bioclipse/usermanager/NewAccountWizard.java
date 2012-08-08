@@ -38,7 +38,6 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	private CreateUserWizardPage createUserPage;
 	public NewAccountWizard(UserContainer userContainer) {
 	    sandbox = userContainer;
-	    
 	}
 	
 	public NewAccountWizard() {
@@ -68,7 +67,7 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 
 	public void addPages() {
 		super.addPages();
-		if ( usermanager.getUserNames().size() == 0) {
+		if ( usermanager != null && usermanager.getUserNames().size() == 0) {
 		   createUserPage = new CreateUserWizardPage("Create user", sandbox);
 		   createUserPage. setTitle("Create Bioclipse Account");
 		   createUserPage.setDescription("Bioclipse wants to create an account " +
