@@ -16,13 +16,20 @@ import java.util.HashMap;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+
+import sun.text.resources.FormatData;
 
 /**
  * The wizard page that handles the different parts accounts. 
@@ -42,7 +49,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	private String accountId;
 	private HashMap<String, String> properties;
 	private AccountType accountType;
-	
+
 	protected NewAccountWizardPage(String pageName, UserContainer sandbox) {
 		super(pageName);
 		this.sandbox = sandbox;
@@ -94,6 +101,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 			accountStack.topControl = accountComposites.get(0);
 			accountTypeCombo.select(0);
 		}
+		
 		setControl(container);
 	}
 	
@@ -104,7 +112,6 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	 */
 	@Override
 	public void handleEvent(Event event) {
-		isPageComplete();
 		if (event.widget == accountTypeCombo) {
 			if (accountTypeCombo.getSelectionIndex() == -1){
 				System.out.println("Please select an account-type");
@@ -115,6 +122,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 				accountSettings.layout();
 			}
 		}
+		
 	}
 	
 	/**
@@ -202,7 +210,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	}
 	
 	@Override
-	public boolean isPageComplete() {
+	public boolean isPageComplete() {;
 		if (isCurrentPage()) {
 			if (addedAccounts.size()>0) {
 				AccountPropertiesPage account = 
