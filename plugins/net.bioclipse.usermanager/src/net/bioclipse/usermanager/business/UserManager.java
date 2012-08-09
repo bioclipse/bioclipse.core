@@ -31,7 +31,7 @@ import org.eclipse.ui.PlatformUI;
 
 public class UserManager implements IUserManager {
     
-    private String errorMessage;
+    ArrayList<String> failedLogin;
     
     private static final Logger logger = Logger.getLogger(UserManager.class)
     ;
@@ -40,13 +40,14 @@ public class UserManager implements IUserManager {
     private List<IUserManagerListener> listeners;
     
     UserManager() {
-        
+       failedLogin = new ArrayList<String>(); 
     }
     
     public UserManager(String filename) {
         super();
         userContainer = new UserContainer(filename);
         listeners = new ArrayList<IUserManagerListener>();
+        failedLogin = new ArrayList<String>();
     }
     
     public boolean accountExists(String accountId) {
@@ -131,12 +132,12 @@ public class UserManager implements IUserManager {
         userContainer.reloadFromFile();
     }
 
-    public void logIn(String username, String password) {
+    public boolean logIn(String username, String password) {
         userContainer.signIn(username, password, null);
-        fireLogin();
+        return fireLogin();
     }
 
-    public void signInWithProgressBar( String username, 
+    public boolean signInWithProgressBar( String username, 
                                        String password,
                                        SubProgressMonitor monitor ) {
         SubProgressMonitor subMonitor 
@@ -145,7 +146,7 @@ public class UserManager implements IUserManager {
         userContainer.signIn(username, password, subMonitor);
         subMonitor = monitor == null ? null 
                                      : new SubProgressMonitor(monitor, 90);
-        fireLoginWithProgressBar( subMonitor );
+        return fireLoginWithProgressBar( subMonitor );
     }
 
     public void logOut() {
@@ -170,24 +171,24 @@ public class UserManager implements IUserManager {
     /**
      *  Fires a login event
      */
-    public void fireLogin() {
-        fireLoginWithProgressBar(null);
+    public boolean fireLogin() {
+        return fireLoginWithProgressBar(null);
     }
     
-    private void fireLoginWithProgressBar( SubProgressMonitor monitor ) {
+    private boolean fireLoginWithProgressBar( SubProgressMonitor monitor ) {
         boolean usingMonitor = monitor != null;
+        boolean loginOK = false;
         int ticks = 100;
         String name;
-        ArrayList<String> failedLogin = new ArrayList<String>();
+        
         try {
             for( IUserManagerListener listener : listeners) {
-                if (!listener.receiveUserManagerEvent( UserManagerEvent.LOGIN )) {
+                loginOK = listener.receiveUserManagerEvent( UserManagerEvent.LOGIN );
+                if (!loginOK) {
                     name = listener.getClass().getName();
-                    name = name.substring( 0, name.lastIndexOf( '.' ) );
-                    name = name.substring( name.lastIndexOf( '.' ) + 1 );
-                    failedLogin.add( name );
+                    failedLogin.add( name
+                                     .substring( 0, name.lastIndexOf( '.' ) ) );
                 }
-                
                 if(usingMonitor) {
                     monitor.beginTask("signing in", ticks);
                     monitor.worked( ticks/listeners.size() );
@@ -207,28 +208,18 @@ public class UserManager implements IUserManager {
                 monitor.done();
             }
 
-            if (!failedLogin.isEmpty()) {
-                Iterator<String> itr = failedLogin.iterator();
-                errorMessage = "Bioclipse failed to log-in to one or several " +
-                        "thried-part account(s):\n\n";
-                while(itr.hasNext())
-                    errorMessage += "\t" + itr.next() + "\n";
-                errorMessage += "\nPlease check our log-in settings.";
-                Display.getDefault().syncExec( new Runnable() {
-
-                    @Override
-                    public void run() {
-
-                        MessageDialog.openInformation( PlatformUI.getWorkbench()
-                                                       .getActiveWorkbenchWindow()
-                                                       .getShell(),
-                                                       "Log-in failure",
-                                                       errorMessage );
-
-                    }
-                } );      
-            }
         }
+        return loginOK;
+    }
+    
+    /**
+     * This method returns the name of the plug-ins that has failed to log-in 
+     * to e.g. an online account. If non failed it returns an empty list.
+     * 
+     * @return An ArrayList with the names of the failed plug-ins
+     */
+    public ArrayList<String> getFailedLogins() {
+        return failedLogin;
     }
     
     private void setStatusLinetext( String textToSet) {
