@@ -11,9 +11,13 @@
 
 package net.bioclipse.usermanager.dialogs;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
+import net.bioclipse.usermanager.business.IUserManager;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -64,7 +68,7 @@ public class LoginDialog extends TitleAreaDialog {
     private String         username;
     private String         password;
     private boolean        userContainerEdited;
-    
+    private String         errorMessage;
     /**
      * Create the dialog
      * @param parentShell
@@ -201,13 +205,39 @@ public class LoginDialog extends TitleAreaDialog {
                         int scale = 1000;
                         monitor.beginTask( "Signing in...", 
                                            IProgressMonitor.UNKNOWN );
-                        Activator.getDefault().getUserManager()
-                                 .signInWithProgressBar( 
-                                      username,
-                                      password, 
-                                      new SubProgressMonitor(
-                                              monitor, 
-                                              1 * scale) );
+                        IUserManager us = Activator.getDefault().getUserManager();
+
+                        us.signInWithProgressBar( 
+                                                 username, password, 
+                                                 new SubProgressMonitor(
+                                                                   monitor, 
+                                                                   1 * scale) );
+                        ArrayList<String> failedLogins = us.getFailedLogins();
+                        if (!failedLogins.isEmpty()) {
+                            Iterator<String> itr = failedLogins.iterator();
+                            String name = "";
+                            errorMessage = "Bioclipse could not " +
+                            		"log-in to your one or several thried-part " +
+                            		"account(s):\n\n";
+                            while(itr.hasNext())
+                                name = itr.next();
+                                errorMessage += "\t" + name.substring( name.lastIndexOf( '.' ) + 1 )+ "\n";
+                            errorMessage += "\nPlease check your log-in " +
+                            		"settings for the feature(s) that has failed.";
+                            Display.getDefault().syncExec( new Runnable() {
+
+                                @Override
+                                public void run() {
+
+                                    MessageDialog.openInformation( PlatformUI.getWorkbench()
+                                                                   .getActiveWorkbenchWindow()
+                                                                   .getShell(),
+                                                                   "Feature log-in failure",
+                                                                   errorMessage );
+
+                                }
+                            } );   
+                        }
                     }
                     catch ( final Exception e ) {
                         Display.getDefault().asyncExec(new Runnable() {

@@ -8,6 +8,7 @@
  *******************************************************************************/
 package net.bioclipse.usermanager.business;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -46,8 +47,10 @@ public interface IUserManager extends IBioclipseManager {
                                     + "username given that the given password "
                                     + "matches the stored one." )
     @Recorded
-    public void logIn( String username, String password );
+    public boolean logIn( String username, String password );
 
+    public ArrayList<String> getFailedLogins();
+    
     /**
      * Signs in a user while updating a monitor
      *
@@ -56,7 +59,7 @@ public interface IUserManager extends IBioclipseManager {
      * @param monitor a progressmonitor
      * @throws IllegalArgumentException if signIn not succesfull
      */
-    public void signInWithProgressBar( String username,
+    public boolean signInWithProgressBar( String username,
                                        String password,
                                        SubProgressMonitor monitor );
 
