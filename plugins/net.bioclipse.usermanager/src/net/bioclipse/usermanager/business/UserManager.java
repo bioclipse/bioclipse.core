@@ -11,6 +11,7 @@ package net.bioclipse.usermanager.business;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import net.bioclipse.usermanager.AccountType;
@@ -23,9 +24,15 @@ import org.apache.log4j.Logger;
 import net.bioclipse.core.util.LogUtils;
 
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 
 public class UserManager implements IUserManager {
-
+    
+    private String errorMessage;
+    
     private static final Logger logger = Logger.getLogger(UserManager.class)
     ;
     //Package protected for testing...
@@ -170,9 +177,17 @@ public class UserManager implements IUserManager {
     private void fireLoginWithProgressBar( SubProgressMonitor monitor ) {
         boolean usingMonitor = monitor != null;
         int ticks = 100;
+        String name;
+        ArrayList<String> failedLogin = new ArrayList<String>();
         try {
             for( IUserManagerListener listener : listeners) {
-                listener.receiveUserManagerEvent( UserManagerEvent.LOGIN );
+                if (!listener.receiveUserManagerEvent( UserManagerEvent.LOGIN )) {
+                    name = listener.getClass().getName();
+                    name = name.substring( 0, name.lastIndexOf( '.' ) );
+                    name = name.substring( name.lastIndexOf( '.' ) + 1 );
+                    failedLogin.add( name );
+                }
+                
                 if(usingMonitor) {
                     monitor.beginTask("signing in", ticks);
                     monitor.worked( ticks/listeners.size() );
@@ -191,6 +206,27 @@ public class UserManager implements IUserManager {
             if(usingMonitor) {
                 monitor.done();
             }
+        
+            if (!failedLogin.isEmpty()) {
+                Iterator<String> itr = failedLogin.iterator();
+                errorMessage = "Bioclipse failed to log-in to one or several " +
+                		"thried-part account(s):\n\n";
+                while(itr.hasNext())
+                    errorMessage += "\t" + itr.next() + "\n";
+                errorMessage += "\nPlease check our log-in settings.";
+                Display.getDefault().syncExec( new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        MessageDialog.openInformation( PlatformUI.getWorkbench()
+                                                       .getActiveWorkbenchWindow()
+                                                       .getShell(),
+                                                       "Log-in failure",
+                                                       errorMessage );
+
+                    }
+                } );            }
         }
     }
     
