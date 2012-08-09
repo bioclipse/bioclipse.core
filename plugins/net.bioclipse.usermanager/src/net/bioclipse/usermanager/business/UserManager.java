@@ -206,11 +206,11 @@ public class UserManager implements IUserManager {
             if(usingMonitor) {
                 monitor.done();
             }
-        
+
             if (!failedLogin.isEmpty()) {
                 Iterator<String> itr = failedLogin.iterator();
                 errorMessage = "Bioclipse failed to log-in to one or several " +
-                		"thried-part account(s):\n\n";
+                        "thried-part account(s):\n\n";
                 while(itr.hasNext())
                     errorMessage += "\t" + itr.next() + "\n";
                 errorMessage += "\nPlease check our log-in settings.";
@@ -226,7 +226,8 @@ public class UserManager implements IUserManager {
                                                        errorMessage );
 
                     }
-                } );            }
+                } );      
+            }
         }
     }
     
