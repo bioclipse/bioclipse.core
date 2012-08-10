@@ -379,7 +379,7 @@ public class AccountPropertiesPage {
 	                                           "Bioclipse failed to log" +
 	                                           "-in to " + accountId +
 	                                           "\nPlease check our login " +
-	                                           "details." );
+	                                           "details and Internet connection." );
 	        }
 	    }
 	}
