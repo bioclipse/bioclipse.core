@@ -48,7 +48,11 @@ public interface IUserManager extends IBioclipseManager {
                                     + "matches the stored one." )
     @Recorded
     public boolean logIn( String username, String password );
-
+    
+    public boolean signInToAccount(String accountId);
+    
+    public boolean signInToAccount(AccountType accountType);
+    
     public ArrayList<String> getFailedLogins();
     
     /**

@@ -31,8 +31,10 @@ import org.eclipse.ui.PlatformUI;
 
 public class UserManager implements IUserManager {
     
-    ArrayList<String> failedLogin;
-    
+    ArrayList<String> failedLogin = new ArrayList<String>(); 
+    // <AccountType, Listener>
+    HashMap<String, IUserManagerListener> listnerIds = 
+            new HashMap<String, IUserManagerListener>();
     private static final Logger logger = Logger.getLogger(UserManager.class)
     ;
     //Package protected for testing...
@@ -40,14 +42,13 @@ public class UserManager implements IUserManager {
     private List<IUserManagerListener> listeners;
     
     UserManager() {
-       failedLogin = new ArrayList<String>(); 
+
     }
     
     public UserManager(String filename) {
         super();
         userContainer = new UserContainer(filename);
         listeners = new ArrayList<IUserManagerListener>();
-        failedLogin = new ArrayList<String>();
     }
     
     public boolean accountExists(String accountId) {
@@ -148,7 +149,7 @@ public class UserManager implements IUserManager {
                                      : new SubProgressMonitor(monitor, 90);
         return fireLoginWithProgressBar( subMonitor );
     }
-
+    
     public void logOut() {
         userContainer.signOut();
         fireLogout();
@@ -166,6 +167,32 @@ public class UserManager implements IUserManager {
         this.userContainer = userContainer;
         fireUpdate();
         persist();
+    }
+    
+    public boolean signInToAccount(String accountId) {
+        String accountType = userContainer.getAccountType( accountId ).getName();
+        return fireLoggin( accountType );
+    }
+    
+    public boolean signInToAccount(AccountType accountType) {
+        return fireLoggin( accountType.getName() );
+    }
+    /**
+     * This method log-in to a specific thired-part account, if the user is
+     * logged in. If the user isn't logged in it returns false.
+     *  
+     * @param AccountId The id of the account.
+     * 
+     * @return True If the log-in is successfully.
+     */
+    /* The listener should not know the AccountId, but how give it the right 
+     * log-in properties if the user have more than one account per account 
+     * type in Bioclipse?*/
+    private boolean fireLoggin(String accountType) {
+        if (userContainer.isLoggedIn()) {
+            return listnerIds.get( accountType ).receiveUserManagerEvent( UserManagerEvent.LOGIN );
+        } else
+            return false;
     }
     
     /**
@@ -264,6 +291,7 @@ public class UserManager implements IUserManager {
      * @param listener to be removed
      */
     public void addListener(IUserManagerListener listener) {
+        listnerIds.put( listener.getAccountType(), listener );
         listeners.add(listener);
     }
 }
