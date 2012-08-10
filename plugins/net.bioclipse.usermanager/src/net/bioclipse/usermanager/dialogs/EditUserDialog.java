@@ -84,8 +84,7 @@ public class EditUserDialog extends Dialog {
     private Button showHidePassword;
     private Table propertiesTable;
     private List list;
-
-    private UserContainer sandBoxUserContainer;
+    private UserContainer sandBoxUserContainer, dummySandbox;
     private EditUserDialogModel model;
     private static final String[] COLUMN_NAMES = { "Property",
                                                   "Value",
@@ -243,7 +242,8 @@ public class EditUserDialog extends Dialog {
              * ADD ACCOUNT
              */
             public void widgetSelected(SelectionEvent e) {
-                NewAccountWizard wizard = new NewAccountWizard(sandBoxUserContainer);
+                dummySandbox = sandBoxUserContainer.clone();
+                NewAccountWizard wizard = new NewAccountWizard(dummySandbox);
                 NewAcccountWizardDialog wd = new NewAcccountWizardDialog( 
                                                    PlatformUI.getWorkbench()
                                                    .getActiveWorkbenchWindow()
@@ -266,11 +266,11 @@ public class EditUserDialog extends Dialog {
                     
                     DummyAccount da = new DummyAccount();
                     da.accountId = wizard.getAccountId();
-                    da.accountType = sandBoxUserContainer.getAccountType( da.accountId );// wizard.getAccountType();
+                    da.accountType = dummySandbox.getAccountType( da.accountId );
                     String key = "";
                     for( Property property : da.accountType.getProperties() ) {
                         key = property.getName();
-                        da.properties.put(key, sandBoxUserContainer.getProperty( da.accountId, key ) );
+                        da.properties.put(key, dummySandbox.getProperty( da.accountId, key ) );
                     }
                     model.dummyAccounts.put( da.accountId, da );
                     
@@ -286,7 +286,7 @@ public class EditUserDialog extends Dialog {
                     list.select(pos);
                     refreshTable();
                     refreshOnSelectionChanged();
-                }
+                } 
 
             }
 
