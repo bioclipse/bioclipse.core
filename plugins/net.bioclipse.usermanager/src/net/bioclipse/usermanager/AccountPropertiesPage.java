@@ -15,6 +15,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import net.bioclipse.usermanager.AccountType.Property;
+import net.bioclipse.usermanager.business.IUserManager;
+import net.bioclipse.usermanager.business.UserManager;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
@@ -22,13 +25,18 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
+
+import sun.security.krb5.Asn1Exception;
 
 /**
  * 
@@ -44,6 +52,7 @@ public class AccountPropertiesPage {
 	private Text[] accountTxt;
 	private Label accountNameLabel;
 	private Text accountNameTxt;
+	private Button testLoginButton;
 	private ArrayList<Text> requiredFields = new ArrayList<Text>();
 	private Image reqImage = FieldDecorationRegistry.getDefault()
 			.getFieldDecoration(FieldDecorationRegistry.DEC_REQUIRED)
@@ -53,6 +62,7 @@ public class AccountPropertiesPage {
 			.getImage();
 	private AccountType accountType;
 	private Boolean errorFlag = false;
+	private Boolean loggedInToAccount = false;
 	private NewAccountWizardPage mainPage;
 	private UserContainer sandbox;
 	private String accountId = "";
@@ -163,7 +173,21 @@ public class AccountPropertiesPage {
 		if (accountType.hasLogo()) {
 		    new Label(accountComposite, SWT.NONE);
 		}
-		
+		testLoginButton = new Button(accountComposite, SWT.PUSH);
+		testLoginButton.setText( "Test log-in" );
+		testLoginButton.addSelectionListener( new SelectionListener() {
+            
+            @Override
+            public void widgetSelected( SelectionEvent e ) {
+                accountLoggIn();                          
+            }
+            
+            @Override
+            public void widgetDefaultSelected( SelectionEvent e ) {
+           
+            }
+            
+        } );
 	}
 	
 	/**
@@ -302,8 +326,25 @@ public class AccountPropertiesPage {
                               "Name trouble",
                               "You already have an account named " +
                               getAccountId()+", please choose an other name." );
+	        
 	        return false;
 	    }
+	    Collection<Account> accounts = sandbox.getLoggedInUser().getAccounts().values();
+	    Iterator<Account> itr = accounts.iterator();
+	    Account account;
+	    while (itr.hasNext()) {
+	       account = itr.next();
+	       if ( account.getAccountType().equals( accountType ) ) {
+	           MessageDialog.openInformation( PlatformUI.getWorkbench()
+	                                         .getActiveWorkbenchWindow()
+	                                         .getShell(),
+	                                         "Account type already used",
+	                                         "There is already an account of " +
+	                                         "that type." );
+	             return false;
+	       }
+	    }
+	    
 	    int i = 0;
         HashMap<String, String> properties = new HashMap<String, String>();
 	    if (accountId.isEmpty()) {
@@ -320,7 +361,27 @@ public class AccountPropertiesPage {
 			} 
 		}
 		sandbox.createAccount(accountId, properties, accountType);
+		
+		accountLoggIn();
+		
 		return true;
+	}
+	
+	private void accountLoggIn() {
+	    if (!loggedInToAccount) {
+	        IUserManager usermanager = Activator.getDefault().getUserManager();
+	        loggedInToAccount = usermanager.signInToAccount( accountType );
+	        if (!loggedInToAccount) {
+	            MessageDialog.openInformation( PlatformUI.getWorkbench()
+	                                           .getActiveWorkbenchWindow()
+	                                           .getShell(),
+	                                           "Feature log-in failure",
+	                                           "Bioclipse failed to log" +
+	                                           "-in to " + accountId +
+	                                           "\nPlease check our login " +
+	                                           "details." );
+	        }
+	    }
 	}
 	
 	/**

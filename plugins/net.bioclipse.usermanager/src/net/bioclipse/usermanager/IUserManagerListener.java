@@ -16,6 +16,10 @@ package net.bioclipse.usermanager;
  *
  */
 public interface IUserManagerListener {
-
+    /* The listener should not know the AccountId, but how give it the right 
+     * log-in properties if the user have more than one account per account 
+     * type in Bioclipse?*/
+    public final static String MY_ACCOUNT_TYPE = "";
     public boolean receiveUserManagerEvent( UserManagerEvent event );
+    public String getAccountType();
 }

@@ -253,13 +253,13 @@ public class EditUserDialog extends Dialog {
                     
                     for( DummyAccount ac : model.dummyAccounts.values() ) {
                         if( ac.accountType.equals( wizard.getAccountType() ) ) {
-                            MessageDialog.openInformation(
-                                    PlatformUI
-                                    .getWorkbench()
-                                    .getActiveWorkbenchWindow()
-                                    .getShell(),
-                                    "Account type already used",
-                                    ALREADY_SUCH_AN_ACCOUNT );
+//                            MessageDialog.openInformation(
+//                                    PlatformUI
+//                                    .getWorkbench()
+//                                    .getActiveWorkbenchWindow()
+//                                    .getShell(),
+//                                    "Account type already used",
+//                                    ALREADY_SUCH_AN_ACCOUNT );
                             return;
                         }
                     }
