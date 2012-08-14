@@ -7,6 +7,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.HandlerEvent;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.services.IEvaluationService;
 
 public class LogoutHandler  extends AbstractHandler {
@@ -18,9 +19,11 @@ public class LogoutHandler  extends AbstractHandler {
 
         IEvaluationService es = (IEvaluationService)PlatformUI.getWorkbench().getService( IEvaluationService.class );
         es.requestEvaluation( "net.bioclipse.usermanager.isLoggedIn" );
-        
+
+        ICommandService commandService = (ICommandService) PlatformUI.getWorkbench().getService(ICommandService.class);         
+        commandService.refreshElements("net.bioclipse.usermanager.commands.login", null);
+
         return null;
     }
-    
 
 }
