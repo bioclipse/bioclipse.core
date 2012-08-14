@@ -167,7 +167,6 @@
             <command
                   commandId="net.bioclipse.usermanager.commands.login"
                   icon="icons/login_16.png"
-                  mode="FORCE_TEXT"
                   style="push"
                   tooltip="Not logged in, click to logg in.">
                <visibleWhen>
@@ -181,7 +180,6 @@
             <command
                   commandId="net.bioclipse.usermanager.commands.logout"
                   icon="icons/login_green_16.png"
-                  mode="FORCE_TEXT"
                   style="push"
                   tooltip="Logged in, click to log out.">
                <visibleWhen>
