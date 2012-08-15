@@ -181,6 +181,7 @@ public class UserContainer extends BioObject {
      *  Signs out the current superuser
      */
     public void signOut() {
+        loggedInUser.clearLoggedInAccounts();
         loggedInUser  = null;
         textEncryptor = null;
         logger.debug( "Signed out user from usercontainer with id: "
@@ -517,7 +518,7 @@ public class UserContainer extends BioObject {
     private boolean accountTypeIsAvailable( AccountType accountType ) {
         return availableAccountTypes.contains( accountType );
     }
-
+    
     /**
      * Returns the account type for the an account corresponding to a given
      * account id

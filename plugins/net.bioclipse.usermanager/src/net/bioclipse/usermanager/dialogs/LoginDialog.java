@@ -217,7 +217,7 @@ public class LoginDialog extends TitleAreaDialog {
                             Iterator<String> itr = failedLogins.iterator();
                             String name = "";
                             errorMessage = "Bioclipse could not " +
-                            		"log-in to your one or several thried-part " +
+                            		"log-in to your one or several third-part " +
                             		"account(s):\n\n";
                             while(itr.hasNext())
                                 name = itr.next();
@@ -237,7 +237,7 @@ public class LoginDialog extends TitleAreaDialog {
 
                                 }
                             } );   
-                        }
+                        }   
                     }
                     catch ( final Exception e ) {
                         Display.getDefault().asyncExec(new Runnable() {
