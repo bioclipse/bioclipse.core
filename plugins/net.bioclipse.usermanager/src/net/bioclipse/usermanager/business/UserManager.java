@@ -11,7 +11,6 @@ package net.bioclipse.usermanager.business;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import net.bioclipse.usermanager.AccountType;
@@ -24,10 +23,6 @@ import org.apache.log4j.Logger;
 import net.bioclipse.core.util.LogUtils;
 
 import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 
 public class UserManager implements IUserManager {
     
@@ -92,7 +87,7 @@ public class UserManager implements IUserManager {
     public AccountType[] getAvailableAccountTypes() {
         return userContainer.getAvailableAccountTypes();
     }
-
+    
     public User getLoggedInUser() {
         return userContainer.getLoggedInUser();
     }
@@ -210,11 +205,16 @@ public class UserManager implements IUserManager {
         
         try {
             for( IUserManagerListener listener : listeners) {
+                failedLogin.clear();
                 loginOK = listener.receiveUserManagerEvent( UserManagerEvent.LOGIN );
                 if (!loginOK) {
                     name = listener.getClass().getName();
                     failedLogin.add( name
                                      .substring( 0, name.lastIndexOf( '.' ) ) );
+                } 
+                if (userContainer.getLoggedInUser().getLoggedInAccounts() != null ) {
+                    name = listener.getClass().getName();
+                    userContainer.getLoggedInUser().addLoggedInAccount( name.substring( 0, name.lastIndexOf( '.' ) ), loginOK );
                 }
                 if(usingMonitor) {
                     monitor.beginTask("signing in", ticks);
