@@ -181,7 +181,8 @@ public class UserContainer extends BioObject {
      *  Signs out the current superuser
      */
     public void signOut() {
-        loggedInUser.clearLoggedInAccounts();
+        if(loggedInUser != null)
+            loggedInUser.clearLoggedInAccounts();
         loggedInUser  = null;
         textEncryptor = null;
         logger.debug( "Signed out user from usercontainer with id: "
