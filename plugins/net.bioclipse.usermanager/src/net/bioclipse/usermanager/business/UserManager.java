@@ -184,10 +184,14 @@ public class UserManager implements IUserManager {
      * log-in properties if the user have more than one account per account 
      * type in Bioclipse?*/
     private boolean fireLoggin(String accountType) {
+        boolean result = false;
         if (userContainer.isLoggedIn()) {
-            return listnerIds.get( accountType ).receiveUserManagerEvent( UserManagerEvent.LOGIN );
-        } else
-            return false;
+            for( IUserManagerListener listener : listeners) {
+                if (listener.getAccountType().equals( accountType ))
+                    result = listener.receiveUserManagerEvent( UserManagerEvent.LOGIN );
+            }
+        } 
+        return result;
     }
     
     /**
@@ -206,19 +210,22 @@ public class UserManager implements IUserManager {
         try {
             for( IUserManagerListener listener : listeners) {
                 failedLogin.clear();
-                loginOK = listener.receiveUserManagerEvent( UserManagerEvent.LOGIN );
-                if (!loginOK) {
-                    name = listener.getClass().getName();
-                    failedLogin.add( name
-                                     .substring( 0, name.lastIndexOf( '.' ) ) );
-                } 
-                if (userContainer.getLoggedInUser().getLoggedInAccounts() != null ) {
-                    name = listener.getClass().getName();
-                    userContainer.getLoggedInUser().addLoggedInAccount( name.substring( 0, name.lastIndexOf( '.' ) ), loginOK );
-                }
-                if(usingMonitor) {
-                    monitor.beginTask("signing in", ticks);
-                    monitor.worked( ticks/listeners.size() );
+                name = listener.getClass().getName();
+                name = name.substring( 0, name.lastIndexOf( '.' ) );
+                ArrayList<String> userAccountTypes = userContainer.getLoggedInUser().getAccountTypes();
+                
+                if (userAccountTypes.contains( listener.getAccountType() )) {
+                    loginOK = listener.receiveUserManagerEvent( UserManagerEvent.LOGIN );
+                    if (!loginOK) {                    
+                        failedLogin.add( name );
+                    } 
+                    if (userContainer.getLoggedInUser().getLoggedInAccounts() != null ) {
+                        userContainer.getLoggedInUser().addLoggedInAccount( name, loginOK );
+                    }
+                    if(usingMonitor) {
+                        monitor.beginTask("signing in", ticks);
+                        monitor.worked( ticks/listeners.size() );
+                    }
                 }
             }
             if( isLoggedIn() ) {

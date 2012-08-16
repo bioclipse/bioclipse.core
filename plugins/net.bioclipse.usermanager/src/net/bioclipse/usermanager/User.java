@@ -12,7 +12,10 @@
 package net.bioclipse.usermanager;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * The local user with username and password for 
@@ -71,7 +74,16 @@ public class User implements Serializable {
     HashMap<String, Account> getAccounts() {
         return accounts;
     }
-
+    
+    public ArrayList<String> getAccountTypes() {
+        ArrayList<String> accountTypes = new ArrayList<String>();
+        Collection<Account> myAccounts = accounts.values();
+        Iterator<Account> itr = myAccounts.iterator();
+        while (itr.hasNext())
+            accountTypes.add( itr.next().getAccountType().getName() );
+        return accountTypes;
+    }
+    
     void addAccount(Account account) {
         accounts.put( account.getAccountId(), account );
     }
