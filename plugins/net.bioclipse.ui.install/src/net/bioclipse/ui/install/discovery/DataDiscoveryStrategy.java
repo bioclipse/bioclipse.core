@@ -14,7 +14,6 @@ package net.bioclipse.ui.install.discovery;
 import java.util.Iterator;
 import java.util.List;
 
-
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.equinox.p2.metadata.IInstallableUnit;
 import org.eclipse.equinox.p2.query.IQuery;
@@ -33,8 +32,8 @@ public class DataDiscoveryStrategy extends
 		monitor.setWorkRemaining(repositories.size());
 		for (final IMetadataRepository repository : repositories) {
 			checkCancelled(monitor);
-			IQuery<IInstallableUnit> query = QueryUtil.createMatchQuery(//
-                            "id ~= /net.bioclipse.data.*/ " ); //$NON-NLS-1$
+            IQuery<IInstallableUnit> query = QueryUtil
+                            .createQuery( "select( parent | parent.properties['org.eclipse.equinox.p2.type.group'] == true " + "&& parent.requirements.exists(rc | everything.exists( iu | iu ~= rc && iu.id ~= /net.bioclipse.data.*/)))" ); //$NON-NLS-1$
 			IQueryResult<IInstallableUnit> result = repository.query(query, monitor.newChild(1));
 			for (Iterator<IInstallableUnit> iter = result.iterator(); iter.hasNext();) {
 				process(repository, iter.next());

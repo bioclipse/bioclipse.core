@@ -19,7 +19,6 @@
                   value="net.bioclipse.ui.install.commands.ReleaseRepositoryDiscoveryStrategy">
             </parameter>
          </command>
-        <!-- 
          <command
                commandId="net.bioclipse.ui.install.ShowRepositoryCatalog"
                label="Install Samples..."
@@ -33,7 +32,6 @@
                   value="net.bioclipse.ui.install.discovery.DataDiscoveryStrategy">
             </parameter>
          </command>
-         -->
       </menuContribution>
    </extension>
    <extension

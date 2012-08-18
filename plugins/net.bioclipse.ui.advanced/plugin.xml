@@ -58,6 +58,11 @@
             isEqualityPattern="false"
             pattern=".*ruby.*/.*">
       </activityPatternBinding>
+      <activityPatternBinding
+            activityId="forbiddenViewActivityId"
+            isEqualityPattern="false"
+            pattern="org.eclipse.*/.*compareWithMenu.*">
+      </activityPatternBinding>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
