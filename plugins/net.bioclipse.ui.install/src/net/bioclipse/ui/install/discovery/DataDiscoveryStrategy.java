@@ -1,13 +1,13 @@
-/*******************************************************************************
- * Copyright (c) 2010 Tasktop Technologies and others.
+/* *****************************************************************************
+ * Copyright (c) 2009 Arvid Berg.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  * Contributors:
- *     Tasktop Technologies - initial API and implementation
- *******************************************************************************/
+ *     Arvid Berg - Adaption of RepositoryDiscoveryStrategy
+ ******************************************************************************/
 
 package net.bioclipse.ui.install.discovery;
 
@@ -23,9 +23,9 @@ import org.eclipse.equinox.p2.query.QueryUtil;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
 
 /**
- * @author Steffen Pingel
+ * @author Arvid Berg
  */
-public class RepositoryDiscoveryStrategy extends
+public class DataDiscoveryStrategy extends
                 BasicRepositoryDiscoveryStrategy {
 
     protected void queryInstallableUnits( SubMonitor monitor,

@@ -30,7 +30,7 @@
             </parameter>
             <parameter
                   name="net.bioclipse.ui.install.commands.RepositoryStrategyParameter"
-                  value="net.bioclipse.ui.install.commands.RepositoryDiscoveryStrategy">
+                  value="net.bioclipse.ui.install.discovery.DataDiscoveryStrategy">
             </parameter>
          </command>
          -->
