@@ -25,7 +25,7 @@
                style="push">
             <parameter
                   name="org.eclipse.equinox.p2.ui.discovery.commands.RepositoryParameter"
-                  value="http://pele.farmbio.uu.se/bioclipse/releases/2.5">
+                  value="http://pele.farmbio.uu.se/bioclipse/releases/2.6">
             </parameter>
             <parameter
                   name="net.bioclipse.ui.install.commands.RepositoryStrategyParameter"
