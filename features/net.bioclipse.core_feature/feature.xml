@@ -180,14 +180,6 @@ The Eclipse Public License accompanies this distribution, and is available at ht
          unpack="false"/>
 
    <plugin
-         id="net.bioclipse.logback"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="net.bioclipse.browser"
          download-size="0"
          install-size="0"
@@ -210,6 +202,13 @@ The Eclipse Public License accompanies this distribution, and is available at ht
 
    <plugin
          id="com.thaiopensource.jing"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.ui.install"
          download-size="0"
          install-size="0"
          version="0.0.0"

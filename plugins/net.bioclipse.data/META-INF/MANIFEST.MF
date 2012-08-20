@@ -14,7 +14,8 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.ui,
  org.eclipse.ui.intro,
  org.eclipse.ui.intro.universal,
- org.eclipse.equinox.p2.ui.discovery;bundle-version="1.0.0"
+ org.eclipse.equinox.p2.ui.discovery;bundle-version="1.0.0",
+ net.bioclipse.ui.install;bundle-version="2.5.0"
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.log4j,
  org.eclipse.equinox.internal.p2.discovery

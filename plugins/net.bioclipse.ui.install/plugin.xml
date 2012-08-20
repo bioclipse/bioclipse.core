@@ -19,21 +19,19 @@
                   value="net.bioclipse.ui.install.commands.ReleaseRepositoryDiscoveryStrategy">
             </parameter>
          </command>
-        <!-- 
          <command
                commandId="net.bioclipse.ui.install.ShowRepositoryCatalog"
                label="Install Samples..."
                style="push">
             <parameter
                   name="org.eclipse.equinox.p2.ui.discovery.commands.RepositoryParameter"
-                  value="http://pele.farmbio.uu.se/bioclipse/releases/2.5">
+                  value="http://pele.farmbio.uu.se/bioclipse/releases/2.6">
             </parameter>
             <parameter
                   name="net.bioclipse.ui.install.commands.RepositoryStrategyParameter"
-                  value="net.bioclipse.ui.install.commands.RepositoryDiscoveryStrategy">
+                  value="net.bioclipse.ui.install.discovery.DataDiscoveryStrategy">
             </parameter>
          </command>
-         -->
       </menuContribution>
    </extension>
    <extension
