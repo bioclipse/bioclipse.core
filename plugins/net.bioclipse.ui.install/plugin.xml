@@ -5,7 +5,7 @@
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
-            locationURI="menu:help?after=net.bioclipse.data.openWizard">
+            locationURI="menu:help?after=additions">
          <command
                commandId="net.bioclipse.ui.install.ShowRepositoryCatalog"
                label="Install New Bioclipse Feature"
