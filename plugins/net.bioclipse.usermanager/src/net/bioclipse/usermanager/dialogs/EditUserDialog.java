@@ -297,6 +297,8 @@ public class EditUserDialog extends Dialog {
         formData_6.left = new FormAttachment(list, 0, SWT.LEFT);
         addAccountButton.setLayoutData(formData_6);
         addAccountButton.setText("Add account...");
+        if (sandBoxUserContainer.getAvailableAccountTypes().length == 0)
+            addAccountButton.setEnabled( false );
         
         deleteAccountButton = new Button(container, SWT.NONE);
         deleteAccountButton.addSelectionListener(new SelectionAdapter() {
