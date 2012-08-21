@@ -489,7 +489,6 @@ public class EditUserDialog extends Dialog {
     
     private String extractAccountId(String selectedAccountListItem) {
         String selectedAccountId = selectedAccountListItem;
-//        = accountsListViewer.getList().getSelection()[0];
         int endIndex = selectedAccountId.indexOf( " {" );
         if (endIndex > -1)
             selectedAccountId = selectedAccountId.substring( 0, endIndex );
@@ -639,8 +638,9 @@ public class EditUserDialog extends Dialog {
                 break;
 
             case 1:
-                model.dummyAccounts.get(
-                        accountsListViewer.getList().getSelection()[0] ).
+                String accountId = extractAccountId(accountsListViewer.getList()
+                                  .getSelection()[0]);
+                model.dummyAccounts.get( accountId ).
                         properties.put( (String)row.get(0), (String)value);
                 refreshTable();
                 break;
