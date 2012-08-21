@@ -201,5 +201,24 @@
          </toolbar>
       </menuContribution>
    </extension>
+   <extension
+         point="org.eclipse.ui.activities">
+      <activityPatternBinding
+            activityId="net.bioclipse.usermanager.hideNewWizard"
+            isEqualityPattern="true"
+            pattern="net.bioclipse.usermanager/net.bioclipse.usermanager.newAccountWizard">
+      </activityPatternBinding>
+      <activity
+            id="net.bioclipse.usermanager.hideNewWizard"
+            name="Hide New Wizard">
+         <enabledWhen>
+            <test
+                  forcePluginActivation="true"
+                  property="net.bioclipse.usermanager.accountTypeExists"
+                  value="true">
+            </test>
+         </enabledWhen>
+      </activity>
+   </extension>
    
 </plugin>
