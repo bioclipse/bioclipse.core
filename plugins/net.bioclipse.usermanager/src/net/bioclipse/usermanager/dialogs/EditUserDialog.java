@@ -393,8 +393,8 @@ public class EditUserDialog extends Dialog {
           accountsListViewer.getList().select(0);
       }
       refreshOnSelectionChanged();
-        
-        return container;
+      
+      return container;
     }
 
     /**
@@ -434,7 +434,7 @@ public class EditUserDialog extends Dialog {
     }
 
     private void refreshOnSelectionChanged() {
-        if ( accountsListViewer.getList().getSelection().length == 0 )
+        if ( accountsListViewer.getList().getSelectionCount() == 0 )
             return;
         String selectedAccountId = 
                 extractAccountId( accountsListViewer.getList()
