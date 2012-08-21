@@ -285,6 +285,7 @@ public class EditUserDialog extends Dialog {
                     }
                     list.select(pos);
                     refreshTable();
+                    refreshList();
                     refreshOnSelectionChanged();
                 } 
 
@@ -313,6 +314,8 @@ public class EditUserDialog extends Dialog {
                     accountsListViewer.getList().select(0);
                 }
                 refreshOnSelectionChanged();
+                refreshTable();
+                refreshList();
             }
         });
         final FormData formData_7 = new FormData();
@@ -365,7 +368,8 @@ public class EditUserDialog extends Dialog {
                      * updating here and not in the dialog */
                     model.dummyAccounts.get( selectedAccountId ).properties.putAll( dialog.getProperties() );
                 }
-
+                refreshList();
+                refreshOnSelectionChanged();
                 refreshTable();
             }
         });
