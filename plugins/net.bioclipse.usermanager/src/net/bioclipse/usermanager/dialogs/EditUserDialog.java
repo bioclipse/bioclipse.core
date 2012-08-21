@@ -285,6 +285,7 @@ public class EditUserDialog extends Dialog {
                     }
                     list.select(pos);
                     refreshTable();
+                    refreshList();
                     refreshOnSelectionChanged();
                 } 
 
@@ -313,6 +314,8 @@ public class EditUserDialog extends Dialog {
                     accountsListViewer.getList().select(0);
                 }
                 refreshOnSelectionChanged();
+                refreshTable();
+                refreshList();
             }
         });
         final FormData formData_7 = new FormData();
@@ -365,7 +368,8 @@ public class EditUserDialog extends Dialog {
                      * updating here and not in the dialog */
                     model.dummyAccounts.get( selectedAccountId ).properties.putAll( dialog.getProperties() );
                 }
-
+                refreshList();
+                refreshOnSelectionChanged();
                 refreshTable();
             }
         });
@@ -489,7 +493,6 @@ public class EditUserDialog extends Dialog {
     
     private String extractAccountId(String selectedAccountListItem) {
         String selectedAccountId = selectedAccountListItem;
-//        = accountsListViewer.getList().getSelection()[0];
         int endIndex = selectedAccountId.indexOf( " {" );
         if (endIndex > -1)
             selectedAccountId = selectedAccountId.substring( 0, endIndex );
@@ -639,8 +642,9 @@ public class EditUserDialog extends Dialog {
                 break;
 
             case 1:
-                model.dummyAccounts.get(
-                        accountsListViewer.getList().getSelection()[0] ).
+                String accountId = extractAccountId(accountsListViewer.getList()
+                                  .getSelection()[0]);
+                model.dummyAccounts.get( accountId ).
                         properties.put( (String)row.get(0), (String)value);
                 refreshTable();
                 break;
