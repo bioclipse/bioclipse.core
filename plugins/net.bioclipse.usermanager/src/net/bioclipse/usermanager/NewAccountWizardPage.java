@@ -231,7 +231,8 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	}
 	
 	private void performNext(boolean enteringPage) {
-	    
+	    if (addedAccounts.isEmpty())
+	        return;
 	    AccountPropertiesPage account = 
                 addedAccounts.get(accountTypeCombo.getSelectionIndex());
 	    if (enteringPage)
