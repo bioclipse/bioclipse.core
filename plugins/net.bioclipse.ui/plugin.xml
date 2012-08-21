@@ -337,7 +337,7 @@
    <extension point="org.eclipse.ui.preferencePages">
     	<page id="net.bioclipse.preferences.UpdateSitesPreferencePage"
   	      	name="Update Sites"
-	      	class="net.bioclipse.ui.prefs.UpdateSitesPreferencePage">
+	      	class="org.eclipse.equinox.p2.ui.RepositoryManipulationPage">
 	   	</page>
    </extension>
    
