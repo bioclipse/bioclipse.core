@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import net.bioclipse.usermanager.AccountType.Property;
 import net.bioclipse.usermanager.business.IUserManager;
-import net.bioclipse.usermanager.business.UserManager;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
@@ -25,18 +24,13 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-
-import sun.security.krb5.Asn1Exception;
 
 /**
  * 
@@ -52,7 +46,7 @@ public class AccountPropertiesPage {
 	private Text[] accountTxt;
 	private Label accountNameLabel;
 	private Text accountNameTxt;
-	private Button testLoginButton;
+//	private Button testLoginButton;
 	private ArrayList<Text> requiredFields = new ArrayList<Text>();
 	private Image reqImage = FieldDecorationRegistry.getDefault()
 			.getFieldDecoration(FieldDecorationRegistry.DEC_REQUIRED)
@@ -169,25 +163,26 @@ public class AccountPropertiesPage {
 			i++;
 		}
 		
-		new Label(accountComposite, SWT.NONE);
-		if (accountType.hasLogo()) {
-		    new Label(accountComposite, SWT.NONE);
-		}
-		testLoginButton = new Button(accountComposite, SWT.PUSH);
-		testLoginButton.setText( "Test log-in" );
-		testLoginButton.addSelectionListener( new SelectionListener() {
-            
-            @Override
-            public void widgetSelected( SelectionEvent e ) {
-                accountLoggIn();                          
-            }
-            
-            @Override
-            public void widgetDefaultSelected( SelectionEvent e ) {
-           
-            }
-            
-        } );
+		// TODO Make the logic behind this button work properly 
+//		new Label(accountComposite, SWT.NONE);
+//		if (accountType.hasLogo()) {
+//		    new Label(accountComposite, SWT.NONE);
+//		}
+//		testLoginButton = new Button(accountComposite, SWT.PUSH);
+//		testLoginButton.setText( "Test log-in" );
+//		testLoginButton.addSelectionListener( new SelectionListener() {
+//            
+//            @Override
+//            public void widgetSelected( SelectionEvent e ) {
+//                accountLoggIn();                          
+//            }
+//            
+//            @Override
+//            public void widgetDefaultSelected( SelectionEvent e ) {
+//           
+//            }
+//            
+//        } );
 	}
 	
 	/**
