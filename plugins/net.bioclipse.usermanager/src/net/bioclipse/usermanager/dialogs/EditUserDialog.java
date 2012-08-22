@@ -393,8 +393,8 @@ public class EditUserDialog extends Dialog {
           accountsListViewer.getList().select(0);
       }
       refreshOnSelectionChanged();
-        
-        return container;
+      
+      return container;
     }
 
     /**
@@ -434,8 +434,12 @@ public class EditUserDialog extends Dialog {
     }
 
     private void refreshOnSelectionChanged() {
-        if ( accountsListViewer.getList().getSelection().length == 0 )
-            return;
+        /* If there's no item selected (e.g. if the user clicked below the last
+         * item in the list) we'll select the last item in the list. */
+        if ( accountsListViewer.getList().getSelectionCount() == 0 )
+            accountsListViewer.getList().select(accountsListViewer
+                                                .getList().getItemCount() - 1 );
+
         String selectedAccountId = 
                 extractAccountId( accountsListViewer.getList()
                                   .getSelection()[0] );
