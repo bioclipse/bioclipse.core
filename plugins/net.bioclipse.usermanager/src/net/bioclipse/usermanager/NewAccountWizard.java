@@ -10,11 +10,14 @@
  ******************************************************************************/
 package net.bioclipse.usermanager;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import net.bioclipse.usermanager.business.IUserManager;
 import net.bioclipse.usermanager.dialogs.CreateUserDialog;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
@@ -36,13 +39,17 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	private IUserManager usermanager;
 	private UserContainer sandbox;
 	private CreateUserWizardPage createUserPage;
-	public NewAccountWizard(UserContainer userContainer) {
+	private boolean manipulateUserContainer;
+	
+	public NewAccountWizard(UserContainer userContainer, boolean manipulateUserContainer) {
 	    sandbox = userContainer;
+	    this.manipulateUserContainer = manipulateUserContainer;
 	}
 	
 	public NewAccountWizard() {
 	    usermanager = Activator.getDefault().getUserManager();
 	    sandbox = usermanager.getSandBoxUserContainer();
+	    manipulateUserContainer = true;
 //		if ( usermanager.getUserNames().size() == 0) {
 //			CreateUserDialog dialog 
 //			= new CreateUserDialog( PlatformUI.getWorkbench()
@@ -95,20 +102,40 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 
 	@Override
 	public boolean performFinish() {
-	     
+
 	    if ( !sandbox.isLoggedIn() ) {
 	        if (usermanager == null)
 	            usermanager = Activator.getDefault().getUserManager();	        
 	        usermanager.logIn(loginPage.getUsername(), loginPage.getPassword());
 	    }
+
+	    if (manipulateUserContainer) {
+	        Collection<Account> accounts = sandbox.getLoggedInUser().getAccounts().values();
+	        Iterator<Account> itr = accounts.iterator();
+	        Account account;
+	        while (itr.hasNext()) {
+	            account = itr.next();
+	            if ( account.getAccountType().equals( addAccountPage.getAccountType() ) ) {
+	                MessageDialog.openInformation( PlatformUI.getWorkbench()
+	                                               .getActiveWorkbenchWindow()
+	                                               .getShell(),
+	                                               "Account type already used",
+	                                               "There is already an account of " +
+	                        "that type." );
+	                return false;
+	            }
+	        }
+
+	        if (addAccountPage.createAccount()) {
+	            if (usermanager != null)
+	                usermanager.switchUserContainer( sandbox );
+	            dispose();
+	            return true;
+	        } else
+	            return false;
+	    } else
+	        return addAccountPage.createAccount();
 	    
-		if (addAccountPage.createAccount()) {
-		    if (usermanager != null)
-		        usermanager.switchUserContainer( sandbox );
-			dispose();
-			return true;
-		} else
-			return false;
 	}
 
 	@Override

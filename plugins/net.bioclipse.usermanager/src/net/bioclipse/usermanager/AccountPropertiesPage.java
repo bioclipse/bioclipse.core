@@ -324,21 +324,21 @@ public class AccountPropertiesPage {
 	        
 	        return false;
 	    }
-	    Collection<Account> accounts = sandbox.getLoggedInUser().getAccounts().values();
-	    Iterator<Account> itr = accounts.iterator();
-	    Account account;
-	    while (itr.hasNext()) {
-	       account = itr.next();
-	       if ( account.getAccountType().equals( accountType ) ) {
-	           MessageDialog.openInformation( PlatformUI.getWorkbench()
-	                                         .getActiveWorkbenchWindow()
-	                                         .getShell(),
-	                                         "Account type already used",
-	                                         "There is already an account of " +
-	                                         "that type." );
-	             return false;
-	       }
-	    }
+//	    Collection<Account> accounts = sandbox.getLoggedInUser().getAccounts().values();
+//	    Iterator<Account> itr = accounts.iterator();
+//	    Account account;
+//	    while (itr.hasNext()) {
+//	       account = itr.next();
+//	       if ( account.getAccountType().equals( accountType ) ) {
+//	           MessageDialog.openInformation( PlatformUI.getWorkbench()
+//	                                         .getActiveWorkbenchWindow()
+//	                                         .getShell(),
+//	                                         "Account type already used",
+//	                                         "There is already an account of " +
+//	                                         "that type." );
+//	             return false;
+//	       }
+//	    }
 	    
 	    int i = 0;
         HashMap<String, String> properties = new HashMap<String, String>();
