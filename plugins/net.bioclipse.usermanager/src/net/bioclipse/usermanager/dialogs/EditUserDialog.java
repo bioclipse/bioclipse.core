@@ -434,8 +434,12 @@ public class EditUserDialog extends Dialog {
     }
 
     private void refreshOnSelectionChanged() {
+        /* If there's no item selected (e.g. if the user clicked below the last
+         * item in the list) we'll select the last item in the list. */
         if ( accountsListViewer.getList().getSelectionCount() == 0 )
-            return;
+            accountsListViewer.getList().select(accountsListViewer
+                                                .getList().getItemCount() - 1 );
+
         String selectedAccountId = 
                 extractAccountId( accountsListViewer.getList()
                                   .getSelection()[0] );
