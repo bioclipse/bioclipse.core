@@ -97,5 +97,11 @@ public class LoginWizardPage extends WizardPage {
 	    else
 	        super.setVisible( visible );  
 	}
+
+	@Override
+	public void performHelp() {
+	    System.out.println("Perform help in LoginWizardPage");
+	    PlatformUI.getWorkbench().getHelpSystem().displayHelpResource( "./html/AccountHelp.html" );
+	}
 }
 

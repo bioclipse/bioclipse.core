@@ -425,8 +425,10 @@ public class EditUserDialog extends Dialog {
     }
 
     private void refreshList() {
-
         accountsListViewer.setInput( model.dummyAccounts.keySet() );
+        boolean setActive = (accountsListViewer.getList().getItemCount() != 0);
+        deleteAccountButton.setEnabled( setActive );
+        editAccountButton.setEnabled( setActive );
     }
 
     private void refreshTable() {

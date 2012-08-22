@@ -25,9 +25,12 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.help.WorkbenchHelpSystem;
 
 import sun.text.resources.FormatData;
 
@@ -241,6 +244,17 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	    properties = account.getProperties();
 	    accountType = account.getAccountType();
 	    
+	}
+	
+	@Override
+	public void performHelp() {
+	    System.out.println("Perform help in NewAccountWizardPage");
+//	    getShell().setData(WorkbenchHelpSystem.HELP_KEY, "net.bioclipse.usermanager.newAccountWizardHelp");
+	    getShell().setData("org.eclipse.ui.help", "net.bioclipse.usermanager.newAccountWizardHelp");
+	    PlatformUI.getWorkbench().getHelpSystem().setHelp( getControl(), "net.bioclipse.usermanager.newAccountWizardHelp" );//.displayHelp();
+	    PlatformUI.getWorkbench().getHelpSystem().displayHelp();
+	    System.out.println(PlatformUI.getWorkbench().getHelpSystem().hasHelpUI());
+//	    PlatformUI.getWorkbench().getHelpSystem().displayHelp( "net.bioclipse.usermanager.newAccountWizardHelp" );
 	}
 	
 	protected String getAccountId() {

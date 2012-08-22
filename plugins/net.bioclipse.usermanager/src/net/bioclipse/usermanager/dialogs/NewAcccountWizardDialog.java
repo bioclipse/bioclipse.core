@@ -11,6 +11,7 @@ public class NewAcccountWizardDialog extends WizardDialog {
 
         super( parentShell, newWizard );
         // TODO Auto-generated constructor stub
+        setHelpAvailable( true );
     }
 
 }
