@@ -10,11 +10,14 @@
  ******************************************************************************/
 package net.bioclipse.usermanager;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import net.bioclipse.usermanager.business.IUserManager;
 import net.bioclipse.usermanager.dialogs.CreateUserDialog;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
@@ -101,6 +104,22 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	            usermanager = Activator.getDefault().getUserManager();	        
 	        usermanager.logIn(loginPage.getUsername(), loginPage.getPassword());
 	    }
+	    
+	    Collection<Account> accounts = sandbox.getLoggedInUser().getAccounts().values();
+        Iterator<Account> itr = accounts.iterator();
+        Account account;
+        while (itr.hasNext()) {
+           account = itr.next();
+           if ( account.getAccountType().equals( addAccountPage.getAccountType() ) ) {
+               MessageDialog.openInformation( PlatformUI.getWorkbench()
+                                             .getActiveWorkbenchWindow()
+                                             .getShell(),
+                                             "Account type already used",
+                                             "There is already an account of " +
+                                             "that type." );
+                 return false;
+           }
+        }
 	    
 		if (addAccountPage.createAccount()) {
 		    if (usermanager != null)
