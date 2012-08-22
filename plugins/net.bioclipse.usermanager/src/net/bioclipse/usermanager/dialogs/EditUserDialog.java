@@ -58,6 +58,8 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+import sun.swing.AccumulativeRunnable;
+
 /**
  * Dialog for editing an user and the users accounts
  *
@@ -437,8 +439,11 @@ public class EditUserDialog extends Dialog {
         /* If there's no item selected (e.g. if the user clicked below the last
          * item in the list) we'll select the last item in the list. */
         if ( accountsListViewer.getList().getSelectionCount() == 0 )
-            accountsListViewer.getList().select(accountsListViewer
-                                                .getList().getItemCount() - 1 );
+            if (accountsListViewer.getList().getItemCount() > 0)
+                accountsListViewer.getList()
+                 .select(accountsListViewer.getList().getItemCount() - 1 );
+            else 
+                return;
 
         String selectedAccountId = 
                 extractAccountId( accountsListViewer.getList()
