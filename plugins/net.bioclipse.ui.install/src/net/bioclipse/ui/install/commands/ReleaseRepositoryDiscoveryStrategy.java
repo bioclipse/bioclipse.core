@@ -49,7 +49,8 @@ public class ReleaseRepositoryDiscoveryStrategy extends
     		"bioclipse.opentox",
     		"bioclipse.hivdrc",
     		"bioclipse.balloon",
-    		"bioclipse.social"
+    		"bioclipse.social" +
+    		"bioclipse.r"
 
 //                    "bioclipse.cheminformatics_feature",
 //                    "bioclipse.statistics", "org.openscience.cdk",
