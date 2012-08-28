@@ -27,7 +27,7 @@
       startupMessageRect="7,252,445,20"
       startupForegroundColor="C7E1E6" />
    <launcher name="bioclipse">
-      <linux icon="/net.bioclipse.platform_feature/branding/icons/molecule3D.xpm"/>
+      <linux icon="/net.bioclipse.platform_feature/branding/icons/Bioclipse_256.xpm"/>
       <macosx icon="/branding/icons/logo/bioclipse.icns"/>
       <solaris/>
       <win useIco="true">
