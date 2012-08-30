@@ -167,7 +167,8 @@ public class Activator extends BioclipseActivator {
     private void checkJVMVersion() {
 
         if (!(System.getProperty("java.version").startsWith("1.5")) &&
-            !(System.getProperty("java.version").startsWith("1.6"))) {
+            !(System.getProperty("java.version").startsWith("1.6")) &&
+            !(System.getProperty("java.version").startsWith("1.7"))) {
             System.err.println(JVM_VERSION_ERROR_MSG);
             // FIXME you should normally never call this from a plugin
             System.exit(0);
