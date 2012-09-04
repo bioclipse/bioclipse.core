@@ -114,8 +114,10 @@ public class JsThread extends ScriptingThread {
                                     // non-deprecated way to do it.
                                     JsThread.this.stop();
                                     jsRunning[0] = false;
-                                    if (firstTime)
+                                    if (firstTime) {
                                         popUpWarning();
+                                        firstTime = false;
+                                    }
                                     return Status.CANCEL_STATUS;
                                 }
                             }
