@@ -1,0 +1,9 @@
+#!/bin/perl
+use strict;
+use warnings;
+
+open (FILE, '<', 'stage1') or die "$!";
+
+while (<FILE>) {
+  print unless ($_ =~ /^$/) || ($_ =~ /---/);
+  }

@@ -5,7 +5,7 @@ use Data::Dumper;
 use XML::XPath;
 use YAML;
 
-my @xmlfiles = `find .. -type d -name META-INF | perl -ne 'chomp; if (-d "\$_/spring") { for \$name (<\$_/spring/*.xml>) { print \$name, "\n" } }'`;
+my @xmlfiles = `find ../../.. -type d -name META-INF | perl -ne 'chomp; if (-d "\$_/spring") { for \$name (<\$_/spring/*.xml>) { print \$name, "\n" } }'`;
 
 my %class_of;
 my %namespace_of;
@@ -43,7 +43,7 @@ sub pathToFile {
     my ($class) = @_;
 
     $class =~ m[((?:\w+\.)+)(\w+)] or die;
-    my @hits = `find .. -name $2.java`;
+    my @hits = `find ../../.. -name $2.java`;
     die @hits if @hits != 1;
     my $path = $hits[0];
     chomp $path;
@@ -63,7 +63,7 @@ while (my $line = <>) {
     if ( $line =~ / \s interface \s+ (\w+) /x ) {
 
         $interface = $1;
-        my @class_files = `grep -Rl "implements $interface" ..`;
+        my @class_files = `grep -Rl "implements $interface" ../../..`;
 
         @classes = grep { $_ }
                    map { m[/(\w+)\.java$] && $1 }
@@ -145,7 +145,7 @@ while (my $line = <>) {
     }
 
     if ( $line =~ /^}\s*$/ && defined $interface && defined $description ) {
-        my %methods = map {
+        %methods = map {
             my $name = $_;
             my %props = map { my $prop = $_; $_ => $methods{$name}{$prop} }
                             reverse sort keys %{$methods{$name}};
