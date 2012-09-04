@@ -8,16 +8,16 @@
  *******************************************************************************/
 package net.bioclipse.scripting;
 
-public class GroovyAction {
+public class ScriptAction {
     private String command;
     private Hook preCommandHook;
     private Hook postCommandHook;
     
-    public GroovyAction(String command, Hook postCommandHook) {
+    public ScriptAction(String command, Hook postCommandHook) {
         this(command, null, postCommandHook);
     }
 
-    public GroovyAction(String command, Hook preCommandHook, Hook postCommandHook) {
+    public ScriptAction(String command, Hook preCommandHook, Hook postCommandHook) {
 
         this.command = command;
         this.preCommandHook  = preCommandHook;

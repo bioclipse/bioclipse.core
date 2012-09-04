@@ -15,7 +15,7 @@ package net.bioclipse.scripting.ui.business;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.Activator;
 import net.bioclipse.scripting.Hook;
-import net.bioclipse.scripting.JsAction;
+import net.bioclipse.scripting.ScriptAction;
 import net.bioclipse.scripting.JsThread;
 import net.bioclipse.scripting.ui.views.JsConsoleView;
 
@@ -84,7 +84,7 @@ public class JsConsoleManager implements IBioclipseManager {
         final String[] evalResult = new String[1];
         final JsThread jsThread = Activator.getDefault().JS_THREAD;
         jsThread.enqueue(
-            new JsAction(command, new Hook() {
+            new ScriptAction(command, new Hook() {
                 public void run( Object result ) {
                     evalResult[0] = result.toString();
                 }
@@ -117,7 +117,7 @@ public class JsConsoleManager implements IBioclipseManager {
                 monitor.worked( 1 );
                 final JsThread jsThread = Activator.getDefault().JS_THREAD;
                 jsThread.enqueue(
-                    new JsAction(contents, new Hook() {
+                    new ScriptAction(contents, new Hook() {
                         public void run( Object result ) {
                             monitor.done();
                             if ( !"org.mozilla.javascript.Undefined".equals(

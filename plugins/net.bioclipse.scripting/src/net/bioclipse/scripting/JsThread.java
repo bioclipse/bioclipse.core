@@ -34,7 +34,7 @@ public class JsThread extends ScriptingThread {
     private static volatile boolean firstTime = true;
 
     public static JsEnvironment js;
-    private LinkedList<JsAction> actions= new LinkedList<JsAction>();
+    private LinkedList<ScriptAction> actions= new LinkedList<ScriptAction>();
 
     private static final Logger logger = Logger.getLogger(JsEnvironment.class);
     private static boolean busy;
@@ -62,7 +62,7 @@ public class JsThread extends ScriptingThread {
 
         busy = false;
         while (true) {
-            final JsAction[] nextAction = new JsAction[1];
+            final ScriptAction[] nextAction = new ScriptAction[1];
             synchronized (actions) {
                 try {
                     while ( actions.isEmpty() )
@@ -172,7 +172,7 @@ public class JsThread extends ScriptingThread {
         }
     }
 
-    public synchronized void enqueue(JsAction action) {
+    public synchronized void enqueue(ScriptAction action) {
         synchronized (actions) {
             actions.addLast( action );
             actions.notifyAll();
@@ -184,7 +184,7 @@ public class JsThread extends ScriptingThread {
     }
 
     public void enqueue(String command) {
-        enqueue( new JsAction( command,
+        enqueue( new ScriptAction( command,
                                new Hook() { public void run(Object s) {} } ) );
     }
 
