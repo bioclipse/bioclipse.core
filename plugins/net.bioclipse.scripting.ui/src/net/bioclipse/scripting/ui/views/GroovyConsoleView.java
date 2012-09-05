@@ -31,9 +31,9 @@ import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.Activator;
-import net.bioclipse.scripting.GroovyAction;
 import net.bioclipse.scripting.GroovyThread;
 import net.bioclipse.scripting.Hook;
+import net.bioclipse.scripting.ScriptAction;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PartInitException;
@@ -114,7 +114,7 @@ public class GroovyConsoleView extends ScriptingConsoleView {
           Activator.getDefault().GROOVY_THREAD = groovyThread = new GroovyThread();
           groovyThread.start();
       }
-      groovyThread.enqueue(new GroovyAction(command,
+      groovyThread.enqueue(new ScriptAction(command,
           new Hook() {
              public void run(final Object result) {
                  Display.getDefault().asyncExec(new Runnable() {
@@ -684,7 +684,7 @@ public class GroovyConsoleView extends ScriptingConsoleView {
       final List<String>[] variables = new List[1];
 
       groovyThread.enqueue(
-          new GroovyAction( "zzz1 = new java.util.ArrayList();",
+          new ScriptAction( "zzz1 = new java.util.ArrayList();",
                         new Hook() {
                             public void run(Object o) {
                                 synchronized (variables) {

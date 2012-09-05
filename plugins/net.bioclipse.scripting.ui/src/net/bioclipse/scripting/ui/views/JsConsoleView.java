@@ -32,7 +32,7 @@ import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.Activator;
 import net.bioclipse.scripting.Hook;
-import net.bioclipse.scripting.JsAction;
+import net.bioclipse.scripting.ScriptAction;
 import net.bioclipse.scripting.JsThread;
 
 import org.apache.log4j.Logger;
@@ -77,7 +77,7 @@ public class JsConsoleView extends ScriptingConsoleView {
             Activator.getDefault().JS_THREAD = jsThread = new JsThread();
             jsThread.start();
         }
-        jsThread.enqueue(new JsAction(command,
+        jsThread.enqueue(new ScriptAction(command,
             new Hook() {
                public void run(final Object result) {
                    Display.getDefault().asyncExec(new Runnable() {
@@ -654,7 +654,7 @@ public class JsConsoleView extends ScriptingConsoleView {
         final List<String>[] variables = new List[1];
 
         jsThread.enqueue(
-            new JsAction( "zzz1 = new java.util.ArrayList();"
+            new ScriptAction( "zzz1 = new java.util.ArrayList();"
                           + "for (var zzz3 in " + object
                           + ") { zzz1.add(zzz3) } zzz1",
                           new Hook() {

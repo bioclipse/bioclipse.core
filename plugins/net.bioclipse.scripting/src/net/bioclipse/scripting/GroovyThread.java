@@ -35,7 +35,7 @@ public class GroovyThread extends ScriptingThread {
     private static volatile boolean firstTime = true;
 
     public static GroovyEnvironment groovy;
-    private LinkedList<GroovyAction> actions= new LinkedList<GroovyAction>();
+    private LinkedList<ScriptAction> actions= new LinkedList<ScriptAction>();
 
 	private static Writer outputWriter;
 
@@ -90,7 +90,7 @@ public class GroovyThread extends ScriptingThread {
                     break;
                 }
 
-                final GroovyAction nextAction = actions.removeFirst();
+                final ScriptAction nextAction = actions.removeFirst();
                 final Object[] result = new Object[1];
                 busy = true;
                 final Boolean[] groovyRunning = { true };
@@ -192,7 +192,7 @@ public class GroovyThread extends ScriptingThread {
         }
     }
 
-    public synchronized void enqueue(GroovyAction action) {
+    public synchronized void enqueue(ScriptAction action) {
         synchronized (actions) {
             actions.addLast( action );
             actions.notifyAll();
@@ -204,7 +204,7 @@ public class GroovyThread extends ScriptingThread {
     }
 
     public void enqueue(String command) {
-        enqueue( new GroovyAction( command,
+        enqueue( new ScriptAction( command,
                                new Hook() { public void run(Object s) {} } ) );
     }
 
