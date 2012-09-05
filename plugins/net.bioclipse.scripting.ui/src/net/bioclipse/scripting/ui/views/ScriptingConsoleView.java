@@ -405,11 +405,17 @@ public abstract class ScriptingConsoleView extends ViewPart {
         message = message.replaceAll("\r", "");
         message = message.replaceAll("\n", NEWLINE);
         
-        synchronized (output) {
-            output.append(message);
-            output.setFont(JFaceResources.getTextFont());
-            output.redraw();
-        }
+        final String printme = message;
+        
+        Display.getDefault().asyncExec( new Runnable() {
+            public void run() {
+                synchronized (output) {
+                    output.append(printme);
+                    output.setFont(JFaceResources.getTextFont());
+                    output.redraw();
+                }
+            }
+        } );
     }
 
     /** Makes a system notification sound. */
