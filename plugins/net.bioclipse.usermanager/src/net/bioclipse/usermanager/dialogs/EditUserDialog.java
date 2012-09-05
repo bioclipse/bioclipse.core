@@ -338,11 +338,13 @@ public class EditUserDialog extends Dialog {
                     new ChangePasswordDialog( PlatformUI
                                               .getWorkbench()
                                               .getActiveWorkbenchWindow()
-                                              .getShell() );
-                if(dialog.open() == Window.OK) {
-                    sandBoxUserContainer.changePassword( dialog.getOldPassword(),
-                                                    dialog.getNewPassword() );
-                }
+                                              .getShell(), sandBoxUserContainer );
+                dialog.open();
+//                if(dialog.open() == Window.OK) {
+//                    sandBoxUserContainer.changePassword( dialog.getOldPassword(),
+//                                                    dialog.getNewPassword() );
+//                   
+//                }
             }
         });
         final FormData formData_8 = new FormData();

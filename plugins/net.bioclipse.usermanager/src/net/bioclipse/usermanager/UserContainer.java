@@ -429,7 +429,7 @@ public class UserContainer extends BioObject {
      * @param masterkey old password
      * @param newkey new password
      */
-    public void changePassword(String masterkey, String newkey) {
+    public void changePassword(String masterkey, String newkey) throws IllegalArgumentException {
 
         if ( encryptedPassword.matches( masterkey ) ) {
 
