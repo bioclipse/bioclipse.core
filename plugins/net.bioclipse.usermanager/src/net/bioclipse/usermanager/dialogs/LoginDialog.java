@@ -128,24 +128,27 @@ public class LoginDialog extends TitleAreaDialog {
             public void widgetSelected(SelectionEvent e) {
 
                 CreateUserDialog createDialog = 
-                    new CreateUserDialog( PlatformUI
-                                          .getWorkbench()
-                                          .getActiveWorkbenchWindow()
-                                          .getShell(),
-                                          userContainer );
+                        new CreateUserDialog( PlatformUI
+                                              .getWorkbench()
+                                              .getActiveWorkbenchWindow()
+                                              .getShell(),
+                                              userContainer );
                 createDialog.open();
                 if(createDialog.getReturnCode() == Window.OK) {
                     close();
-                    EditUserDialog dialog = 
-                        new EditUserDialog( PlatformUI
-                                            .getWorkbench()
-                                            .getActiveWorkbenchWindow()
-                                            .getShell(), 
-                                            userContainer );
-                    dialog.open();
-                    if(dialog.getReturnCode() == Window.OK) {
-                        userContainerEdited = true;
-                    }
+                    if (userContainer.getAvailableAccountTypes().length != 0) {
+                        EditUserDialog dialog = 
+                                new EditUserDialog( PlatformUI
+                                                    .getWorkbench()
+                                                    .getActiveWorkbenchWindow()
+                                                    .getShell(), 
+                                                    userContainer );
+                        dialog.open();
+                        if(dialog.getReturnCode() == Window.OK) {
+                            userContainerEdited = true;
+                        }
+                    } else
+                        userContainerEdited = true; 
                 }
             }
         });
