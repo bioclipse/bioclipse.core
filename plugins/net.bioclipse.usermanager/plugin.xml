@@ -68,6 +68,13 @@
       properties="accountTypeExists"
       class="net.bioclipse.usermanager.AccountTypeTester">
     </propertyTester>
+    <propertyTester
+          class="net.bioclipse.usermanager.UserAccountTester"
+          id="net.bioclipse.usermanager.UserAccountTester"
+          namespace="net.bioclipse.usermanager"
+          properties="userAccountsExists"
+          type="java.lang.Object">
+    </propertyTester>
   </extension>
 
 <extension
@@ -202,14 +209,6 @@
                   </test>
                </visibleWhen>
             </command>
-            <visibleWhen
-                  checkEnabled="false">
-               <test
-                     forcePluginActivation="true"
-                     property="net.bioclipse.usermanager.accountTypeExists"
-                     value="true">
-               </test>
-            </visibleWhen>
          </toolbar>
       </menuContribution>
    </extension>
@@ -231,6 +230,30 @@
             </test>
          </enabledWhen>
       </activity>
+      <activity
+            description="Hides the login/out icon in the statusbar"
+            id="net.bioclipse.usermanager.hideUsermanagerStatusIcon"
+            name="Hide usermanager status icon">
+         <enabledWhen>
+            <and>
+               <test
+                     forcePluginActivation="true"
+                     property="net.bioclipse.usermanager.userAccountsExists"
+                     value="true">
+               </test>
+               <test
+                     forcePluginActivation="true"
+                     property="net.bioclipse.usermanager.accountTypeExists"
+                     value="true">
+               </test>
+            </and>
+         </enabledWhen>
+      </activity>
+      <activityPatternBinding
+            activityId="net.bioclipse.usermanager.hideUsermanagerStatusIcon"
+            isEqualityPattern="true"
+            pattern="net.bioclipse.usermanager/net.bioclipse.usermanager.commands.login">
+      </activityPatternBinding>
    </extension>
    
 </plugin>
