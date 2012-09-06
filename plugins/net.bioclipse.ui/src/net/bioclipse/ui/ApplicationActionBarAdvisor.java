@@ -208,6 +208,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
             register(helpSearchAction);
         }
 
+
+        IWorkbenchAction deleteAction = ActionFactory.DELETE.create(window);
+        register(deleteAction);
     }
 
 
