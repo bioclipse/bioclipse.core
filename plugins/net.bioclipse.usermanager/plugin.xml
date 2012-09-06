@@ -152,6 +152,39 @@
 		        </visibleWhen>
 	       </command>
 		</menuContribution>
+  <menuContribution
+        allPopups="true"
+        locationURI="toolbar:org.eclipse.ui.trim.status">
+     <toolbar
+           id="net.bioclipse.usermanager.toolbar1">
+        <command
+              commandId="net.bioclipse.usermanager.commands.login"
+              icon="icons/login_16.png"
+              style="push"
+              tooltip="Not logged in, click to logg in.">
+           <visibleWhen>
+              <test
+                    forcePluginActivation="true"
+                    property="net.bioclipse.usermanager.isLoggedIn"
+                    value="false">
+              </test>
+           </visibleWhen>
+        </command>
+        <command
+              commandId="net.bioclipse.usermanager.commands.logout"
+              icon="icons/login_green_16.png"
+              style="push"
+              tooltip="Logged in, click to log out.">
+           <visibleWhen>
+              <test
+                    forcePluginActivation="true"
+                    property="net.bioclipse.usermanager.isLoggedIn"
+                    value="true">
+              </test>
+           </visibleWhen>
+        </command>
+     </toolbar>
+  </menuContribution>
 </extension>
    <extension
          point="org.eclipse.ui.newWizards">
@@ -176,42 +209,6 @@
             </contextProvider--> 
    </extension>
    
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="true"
-            locationURI="toolbar:org.eclipse.ui.trim.status">
-         <toolbar
-               id="net.bioclipse.usermanager.toolbar1">
-            <command
-                  commandId="net.bioclipse.usermanager.commands.login"
-                  icon="icons/login_16.png"
-                  style="push"
-                  tooltip="Not logged in, click to logg in.">
-               <visibleWhen>
-                  <test
-                        forcePluginActivation="true"
-                        property="net.bioclipse.usermanager.isLoggedIn"
-                        value="false">
-                  </test>
-               </visibleWhen>
-            </command>
-            <command
-                  commandId="net.bioclipse.usermanager.commands.logout"
-                  icon="icons/login_green_16.png"
-                  style="push"
-                  tooltip="Logged in, click to log out.">
-               <visibleWhen>
-                  <test
-                        forcePluginActivation="true"
-                        property="net.bioclipse.usermanager.isLoggedIn"
-                        value="true">
-                  </test>
-               </visibleWhen>
-            </command>
-         </toolbar>
-      </menuContribution>
-   </extension>
    <extension
          point="org.eclipse.ui.activities">
       <activityPatternBinding
