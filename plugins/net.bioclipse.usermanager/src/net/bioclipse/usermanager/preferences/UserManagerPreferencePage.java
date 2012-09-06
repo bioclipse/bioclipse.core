@@ -18,7 +18,10 @@ import net.bioclipse.usermanager.dialogs.CreateUserDialog;
 import net.bioclipse.usermanager.dialogs.EditUserDialog;
 import net.bioclipse.usermanager.dialogs.PassWordPromptDialog;
 
+import org.apache.log4j.Logger;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -39,6 +42,7 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
+import org.osgi.service.prefs.BackingStoreException;
 
 /**
  * Preferencepage for the UserContainer
@@ -55,9 +59,12 @@ public class UserManagerPreferencePage extends PreferencePage
     private ListViewer listViewer;
     private Button     createButton;
     private List       list;
+    private Button     propOnLogoutButton;
 
     private UserContainer sandBoxUserContainer;
-
+    private IPreferenceStore prefStore = Activator.getDefault().getPreferenceStore();
+    private Logger logger = Logger.getLogger( this.getClass() );
+    
     @Override
     protected Control createContents(Composite parent) {
 
@@ -189,12 +196,23 @@ public class UserManagerPreferencePage extends PreferencePage
         formData_4.left = new FormAttachment(editButton, 5, SWT.DEFAULT);
         deleteButton.setLayoutData(formData_4);
         deleteButton.setText("Delete");
+        
+        propOnLogoutButton = new Button(container, SWT.CHECK);
+        final FormData formData_5 = new FormData();
+        formData_5.top = new FormAttachment(createButton, 0, SWT.TOP);
+        formData_5.bottom = new FormAttachment(createButton, 0, SWT.BOTTOM);
+        formData_5.right = new FormAttachment(list, 0, SWT.RIGHT);       
+        propOnLogoutButton.setLayoutData( formData_5 );
+        propOnLogoutButton.setText( "Always logout without prompt" );
+        boolean promptOnLogout = prefStore.getBoolean( Activator.PROMPT_ON_LOGOUT );
+        propOnLogoutButton.setSelection( !promptOnLogout );
+        
         container.setTabList(new Control[] { createButton,
                                              editButton,
                                              deleteButton,
+                                             propOnLogoutButton,
                                              list,
                                              usersLabel });
-        //
 
         return container;
     }
@@ -206,7 +224,13 @@ public class UserManagerPreferencePage extends PreferencePage
         userManager.switchUserContainer(sandBoxUserContainer);
         userManager.persist();
         userManager.logOut();
-        
+        prefStore.setValue( Activator.PROMPT_ON_LOGOUT, !propOnLogoutButton.getSelection() );
+        try {
+            InstanceScope.INSTANCE.getNode( Activator.PLUGIN_ID ).flush();
+        } catch ( BackingStoreException e ) {
+            logger.error( e.getStackTrace() );
+            e.printStackTrace();
+        }
         return super.performOk();
     }
     

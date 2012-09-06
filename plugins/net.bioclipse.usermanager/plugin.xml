@@ -198,16 +198,6 @@
                name="Account">
          </wizard>
    </extension>
-   <extension
-         point="org.eclipse.help.contexts">
-      <contexts
-            file="./helpContexts.xml"
-            plugin="net.bioclipse.usermanager"
-            />
-            <!--contextProvider
-                class="org.eclipse.help.internal.context.ContextFileProvider">
-            </contextProvider--> 
-   </extension>
    
    <extension
          point="org.eclipse.ui.activities">

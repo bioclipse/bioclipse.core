@@ -8,29 +8,57 @@ import java.util.Set;
 import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.business.IUserManager;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.HandlerEvent;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.commands.IElementUpdater;
 import org.eclipse.ui.menus.UIElement;
 import org.eclipse.ui.services.IEvaluationService;
+import org.osgi.service.prefs.BackingStoreException;
 
 public class LogoutHandler  extends AbstractHandler implements IElementUpdater {
 
+    private Logger logger = Logger.getLogger( this.getClass() );
+    
     public Object execute( ExecutionEvent event ) throws ExecutionException {
         
-        MessageBox messageBox = new MessageBox( PlatformUI.getWorkbench().getDisplay().getActiveShell(), 
-                                                SWT.ICON_WARNING | SWT.YES | SWT.NO );
-        messageBox.setText( "Warning" );
-        messageBox.setMessage( "Do you want to log-out?" );
-        int buttonPressed = messageBox.open();
+        IPreferenceStore prefStore = Activator.getDefault().getPreferenceStore();
+        boolean promptOnLogout = prefStore.getBoolean( Activator.PROMPT_ON_LOGOUT );
+        int buttonPressed;
+        
+        if(promptOnLogout) {
+            MessageDialogWithToggle dlg = MessageDialogWithToggle
+                    .openOkCancelConfirm(PlatformUI.getWorkbench().getDisplay()
+                                         .getActiveShell(),
+                                         "Confirm Logout", 
+                                         "Do you want to logout?",
+                                         "Always logout without prompt",
+                                         false, null, null);
+            buttonPressed = dlg.getReturnCode();
+            
+            if (buttonPressed == MessageDialogWithToggle.OK) {
+                prefStore.setValue( Activator.PROMPT_ON_LOGOUT, !dlg.getToggleState() );
+                try {
+                    InstanceScope.INSTANCE.getNode( Activator.PLUGIN_ID ).flush();
+                } catch ( BackingStoreException e ) {
+                    logger.error( e.getStackTrace() );
+                    e.printStackTrace();
+                }
+            }
+        } else
+            buttonPressed = MessageDialogWithToggle.OK;
+        
+        /* If you click on the icon you will logout. Only exception to that is 
+         * if you chosen cancel in the dialog, i.e. no dialog => logout */
         switch ( buttonPressed ) {
-            case SWT.YES:          
+            case MessageDialogWithToggle.OK:          
                 Activator.getDefault().getUserManager().logOut();
                 fireHandlerChanged( new HandlerEvent(this,true,true));
 
