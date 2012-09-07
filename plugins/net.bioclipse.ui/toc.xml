@@ -8,11 +8,14 @@
    <topic label="Bioclipse at a glance" href="html/glance.html" />
 
    <topic label="Getting Started">
-		<topic label="Using the Navigator" href="html/workbench/views/vi_navigator.html" />
+		<topic href="html/workbench/views/vi_navigator.html" label="Using the Navigator">
+  </topic>
 		<topic label="Importing data" href="html/tutorials/importing.html" /> 
 		<topic label="Installing new functionality" href="html/tutorials/updating.html" /> 
-		<topic label="Using Bioclipse Help" href="html/help.html" />
-   </topic>
+		<topic href="html/help.html" label="Using Bioclipse Help"/>
+		<topic href="html/accountWizardHelp.html" label="Adding a third-part account">
+  </topic> 
+  </topic>
 
    <topic label="The Bioclipse Workbench">
 		<topic label="Overview of parts" href="html/workbench/wb_overview.html"/> 

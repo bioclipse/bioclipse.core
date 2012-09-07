@@ -250,7 +250,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	    System.out.println("Perform help in NewAccountWizardPage");
 //	    getShell().setData(WorkbenchHelpSystem.HELP_KEY, "net.bioclipse.usermanager.newAccountWizardHelp");
 	    getShell().setData("org.eclipse.ui.help", "net.bioclipse.usermanager.newAccountWizardHelp");
-	    PlatformUI.getWorkbench().getHelpSystem().setHelp( getControl(), "net.bioclipse.usermanager.newAccountWizardHelp" );//.displayHelp();
+//	    PlatformUI.getWorkbench().getHelpSystem().setHelp( getControl(), "net.bioclipse.usermanager.newAccountWizardHelp" );//.displayHelp();
 	    PlatformUI.getWorkbench().getHelpSystem().displayHelp();
 	    System.out.println(PlatformUI.getWorkbench().getHelpSystem().hasHelpUI());
 //	    PlatformUI.getWorkbench().getHelpSystem().displayHelp( "net.bioclipse.usermanager.newAccountWizardHelp" );
