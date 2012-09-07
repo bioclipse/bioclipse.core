@@ -259,6 +259,12 @@ public class UserManagerPreferencePage extends PreferencePage
         listViewer.setInput( sandBoxUserContainer.getUserNames() );
         listViewer.refresh();
     }
+    
+    @Override
+    protected void performDefaults() {
+        propOnLogoutButton.setSelection( false );
+        super.performDefaults();
+    }
 
     /**
      * LabelProvider for the Keyring users list
