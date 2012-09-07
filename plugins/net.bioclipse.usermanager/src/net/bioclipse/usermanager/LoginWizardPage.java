@@ -9,10 +9,8 @@
  *     
  *******************************************************************************/
 package net.bioclipse.usermanager;
-
 import net.bioclipse.usermanager.dialogs.DialogArea;
 import net.bioclipse.usermanager.dialogs.LoginDialog;
-
 import org.apache.log4j.Logger;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardPage;
