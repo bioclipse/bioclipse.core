@@ -12,6 +12,7 @@
 package net.bioclipse.usermanager.preferences;
 
 import net.bioclipse.usermanager.Activator;
+import net.bioclipse.usermanager.User;
 import net.bioclipse.usermanager.UserContainer;
 import net.bioclipse.usermanager.business.IUserManager;
 import net.bioclipse.usermanager.dialogs.CreateUserDialog;
@@ -64,6 +65,7 @@ public class UserManagerPreferencePage extends PreferencePage
     private UserContainer sandBoxUserContainer;
     private IPreferenceStore prefStore = Activator.getDefault().getPreferenceStore();
     private Logger logger = Logger.getLogger( this.getClass() );
+    private User loggedInUser;
     
     @Override
     protected Control createContents(Composite parent) {
@@ -219,11 +221,15 @@ public class UserManagerPreferencePage extends PreferencePage
 
     @Override
     public boolean performOk() {
-
+        
         IUserManager userManager = Activator.getDefault().getUserManager();
-        userManager.switchUserContainer(sandBoxUserContainer);
         userManager.persist();
-        userManager.logOut();
+        if (loggedInUser == null) {
+            /* There where on one logged in when opening the page, so if any one 
+             * are logged in now let's log any one logged-in out*/
+            userManager.switchUserContainer(sandBoxUserContainer);
+            userManager.logOut();
+        }
         prefStore.setValue( Activator.PROMPT_ON_LOGOUT, !propOnLogoutButton.getSelection() );
         try {
             InstanceScope.INSTANCE.getNode( Activator.PLUGIN_ID ).flush();
@@ -231,6 +237,7 @@ public class UserManagerPreferencePage extends PreferencePage
             logger.error( e.getStackTrace() );
             e.printStackTrace();
         }
+
         return super.performOk();
     }
     
@@ -245,6 +252,8 @@ public class UserManagerPreferencePage extends PreferencePage
         sandBoxUserContainer = Activator
                                .getDefault()
                                .getUserManager().getSandBoxUserContainer();
+        if (sandBoxUserContainer.isLoggedIn())
+            loggedInUser = sandBoxUserContainer.getLoggedInUser();
     }
 
     private String getSelectedUserName() {
