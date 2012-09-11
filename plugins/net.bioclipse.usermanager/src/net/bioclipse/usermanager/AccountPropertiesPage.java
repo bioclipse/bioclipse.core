@@ -356,27 +356,8 @@ public class AccountPropertiesPage {
 			} 
 		}
 		sandbox.createAccount(accountId, properties, accountType);
-		
-		accountLoggIn();
-		
+
 		return true;
-	}
-	
-	private void accountLoggIn() {
-	    if (!loggedInToAccount) {
-	        IUserManager usermanager = Activator.getDefault().getUserManager();
-	        loggedInToAccount = usermanager.signInToAccount( accountType );
-	        if (!loggedInToAccount) {
-	            MessageDialog.openInformation( PlatformUI.getWorkbench()
-	                                           .getActiveWorkbenchWindow()
-	                                           .getShell(),
-	                                           "Feature log-in failure",
-	                                           "Bioclipse failed to log" +
-	                                           "-in to " + accountId +
-	                                           "\nPlease check our login " +
-	                                           "details and Internet connection." );
-	        }
-	    }
 	}
 	
 	/**
