@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.help.WorkbenchHelpSystem;
 
 /**
  * The wizard page that handles the different parts accounts. 
@@ -238,8 +239,10 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	        return;
 	    AccountPropertiesPage account = 
                 addedAccounts.get(accountTypeCombo.getSelectionIndex());
-	    if (enteringPage)
+	    if (enteringPage) {
 	        account.upDateAccountName();
+	        setTitle( "New third-part account" );
+	    }
 	    accountId = account.getAccountId();
 	    properties = account.getProperties();
 	    accountType = account.getAccountType();
@@ -247,10 +250,10 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	
 	@Override
 	public void performHelp() {
-//	    getShell().setData(WorkbenchHelpSystem.HELP_KEY, "net.bioclipse.usermanager.newAccountWizardHelp");
-	    getShell().setData("org.eclipse.ui.help", "net.bioclipse.usermanager.newAccountWizardHelp");
-//	    PlatformUI.getWorkbench().getHelpSystem().setHelp( getControl(), "net.bioclipse.usermanager.newAccountWizardHelp" );//.displayHelp();
-	    PlatformUI.getWorkbench().getHelpSystem().displayHelp();
+//	    getShell().setData(WorkbenchHelpSystem.HELP_KEY, "net.bioclipse.ui.accountWizardHelp");
+//	    getShell().setData("org.eclipse.help.contexts", "accountWizardHelp");
+//	    PlatformUI.getWorkbench().getHelpSystem().setHelp( getControl(), "accountWizardHelp" );//.displayHelp();
+//	    PlatformUI.getWorkbench().getHelpSystem().displayHelp();
 	}
 	
 	protected String getAccountId() {
