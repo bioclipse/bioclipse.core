@@ -492,7 +492,13 @@
       </selectionEnablement>
    </linkHelper>
 </extension>
-
+   <extension
+        point="org.eclipse.help.contexts">
+      <contexts
+        file="accountHelpContext.xml"
+        plugin="net.bioclipse.ui">
+      </contexts>
+   </extension>
 
 
 </plugin>
