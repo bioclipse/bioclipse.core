@@ -2,20 +2,21 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         id="net.bioclipse.ui.advanced.menu"
+         id="menus"
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
-            locationURI="menu:org.eclipse.ui.main.menu?after=help">
-         <menu
-               id="menu"
-               label="Advanced">
-            <command
-                  commandId="org.eclipse.equinox.p2.ui.sdk.install"
-                  label="Install New Software…"
-                  style="push">
-            </command>
-         </menu>
+            locationURI="menu:install?after=advanced">
+         <separator
+               name="advancedGroup"
+               visible="true">
+         </separator>
+         <command
+               commandId="org.eclipse.equinox.p2.ui.sdk.install"
+               id="menus"
+               label="Software from update site..."
+               style="push">
+         </command>
       </menuContribution>
    </extension>
    <extension
@@ -36,7 +37,12 @@
       <activityPatternBinding
             activityId="net.bioclipse.advancedMode"
             isEqualityPattern="false"
-            pattern="net.bioclipse.ui.advanced/.*menu">
+            pattern="net.bioclipse.ui.advanced/advancedGroup">
+      </activityPatternBinding>
+      <activityPatternBinding
+            activityId="net.bioclipse.advancedMode"
+            isEqualityPattern="false"
+            pattern="net.bioclipse.ui.advanced/menus">
       </activityPatternBinding>
       <activityPatternBinding
             activityId="net.bioclipse.advancedMode"
