@@ -464,14 +464,6 @@
            </menu>
      </menuContribution>
 </extension>
-<extension
-      point="org.eclipse.ui.bindings">
-   <key
-         commandId="org.eclipse.ui.edit.delete"
-         schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-         sequence="BACKSPACE">
-   </key>
-</extension>
 
 
 
