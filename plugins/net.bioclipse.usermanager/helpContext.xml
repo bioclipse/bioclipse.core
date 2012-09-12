@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contexts>
+    <context id="newHelp">
+        <description>
+            Here you can choose to create something new...
+        </description>
+        <topic href="" lable="New help"/>
+    </context>
+</contexts>

@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.TrayDialog;
+import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -21,6 +24,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -53,7 +57,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 
 	@Override
 	public void createControl(Composite parent) {
-
+	    
 		Composite container = new Composite(parent, SWT.NONE);
 		GridLayout containerLayout = new GridLayout(1, false);
 		container.setLayout(containerLayout);
@@ -235,6 +239,11 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	}
 	
 	private void performNext(boolean enteringPage) {
+	    IWizard wizard = getWizard();
+	    if(wizard instanceof Wizard) {
+	        ((Wizard)wizard).setHelpAvailable( true );
+	        getContainer().updateButtons();
+	    }
 	    if (addedAccounts.isEmpty())
 	        return;
 	    AccountPropertiesPage account = 
@@ -250,10 +259,9 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	
 	@Override
 	public void performHelp() {
-//	    getShell().setData(WorkbenchHelpSystem.HELP_KEY, "net.bioclipse.ui.accountWizardHelp");
-//	    getShell().setData("org.eclipse.help.contexts", "accountWizardHelp");
-//	    PlatformUI.getWorkbench().getHelpSystem().setHelp( getControl(), "accountWizardHelp" );//.displayHelp();
-//	    PlatformUI.getWorkbench().getHelpSystem().displayHelp();
+	       PlatformUI.getWorkbench().getHelpSystem()
+	        .setHelp( Display.getCurrent().getActiveShell(),
+	                  "net.bioclipse.ui.accountWizardHelp" );
 	}
 	
 	protected String getAccountId() {

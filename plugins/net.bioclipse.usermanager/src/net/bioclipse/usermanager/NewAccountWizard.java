@@ -10,16 +10,20 @@
  ******************************************************************************/
 package net.bioclipse.usermanager;
 
+import java.awt.Dialog;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import net.bioclipse.usermanager.business.IUserManager;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
@@ -62,7 +66,8 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 //	    setHelpAvailable( true );
 //	    getContainer().updateButtons();
 //	    TrayDialog.setDialogHelpAvailable( true );
-
+//	    Display.getCurrent().update();
+	    
 //		if ( usermanager.getUserNames().size() == 0) {
 //			CreateUserDialog dialog 
 //			= new CreateUserDialog( PlatformUI.getWorkbench()
@@ -83,6 +88,7 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		setWindowTitle("Add an account to Bioclipse");
 		setNeedsProgressMonitor(true);
+		
 	}
 
 	public void addPages() {
@@ -114,10 +120,18 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 				.createFromFile(this.getClass(),
 						"BioclipseAccountLogo3_medium.png"));
 
-		PlatformUI
-		.getWorkbench()
-		.getHelpSystem()
-		.setHelp( getShell(), "net.bioclipse.ui.accountWizardHelp" );
+//		Shell myShell = getShell();
+//		if (myShell == null)
+//		    myShell = Display.getCurrent().getActiveShell();
+//
+//		myShell.setData( "org.eclipse.help.contexts", "accountWizardHelp" );
+//		PlatformUI.getWorkbench().getHelpSystem()
+//		.setHelp( myShell, "net.bioclipse.ui.accountWizardHelp" );
+//		myShell.getAccessible().getControl().redraw();
+//		//	        myShell.layout();
+//		//	        myShell.pack();
+//		System.out.println(myShell.toString());
+//		Display.getDefault().update();
 	}
 
 	@Override

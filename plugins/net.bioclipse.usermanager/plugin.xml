@@ -242,5 +242,12 @@
             pattern="net.bioclipse.usermanager/net.bioclipse.usermanager.commands.login">
       </activityPatternBinding>
    </extension>
-   
+      <extension
+        point="org.eclipse.help.contexts">
+      <contexts
+        file="helpContext.xml"
+        plugin="net.bioclipse.usermanager">
+      </contexts>
+   </extension>
+>>>>>>> e244f56 Can't get the help-button to show-up, when starting the wizard from the "New..."-dialog
 </plugin>

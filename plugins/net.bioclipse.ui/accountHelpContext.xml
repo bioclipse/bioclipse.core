@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contexts>
+    <context id="accountWizardHelp">
+        <description>
+            Show the account wizard help-page.
+        </description>
+        <topic href="html/accountWizardHelp.html" lable="Add a third-part acccount"/>
+    </context>
+</contexts>

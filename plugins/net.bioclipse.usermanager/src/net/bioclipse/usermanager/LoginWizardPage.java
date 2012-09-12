@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -87,5 +88,11 @@ public class LoginWizardPage extends WizardPage {
 	        super.setVisible( visible );  
 	}
 
+	@Override
+	public void performHelp() {
+        PlatformUI.getWorkbench().getHelpSystem()
+        .setHelp( Display.getCurrent().getActiveShell(),
+                  "net.bioclipse.ui.accountWizardHelp" );
+	}
 }
 
