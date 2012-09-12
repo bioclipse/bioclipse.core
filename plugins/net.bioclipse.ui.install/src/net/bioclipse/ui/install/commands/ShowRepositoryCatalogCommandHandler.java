@@ -14,6 +14,7 @@ import org.eclipse.core.commands.ParameterValueConversionException;
 import org.eclipse.equinox.internal.p2.discovery.Catalog;
 import org.eclipse.equinox.internal.p2.ui.discovery.util.WorkbenchUtil;
 import org.eclipse.equinox.internal.p2.ui.discovery.wizards.CatalogConfiguration;
+import org.eclipse.equinox.internal.p2.ui.discovery.wizards.CatalogPage;
 import org.eclipse.equinox.internal.p2.ui.discovery.wizards.DiscoveryWizard;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -58,6 +59,14 @@ public class ShowRepositoryCatalogCommandHandler extends AbstractHandler {
                     return DSModelsDiscoveryStrategy
                                     .install( getCatalogPage().getInstallableConnectors(),
                                               getContainer() );
+                }
+                @Override
+                protected CatalogPage doCreateCatalogPage() {
+                    CatalogPage page = new CatalogPage(getCatalog());
+                    page.setTitle("Install models for Biocipse Decision Support");
+                    page.setMessage("Select models to install");
+
+                    return page;
                 }
             };
         } else {
