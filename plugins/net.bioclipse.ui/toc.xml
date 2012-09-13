@@ -10,7 +10,8 @@
    <topic label="Getting Started">
 		<topic label="Using the Navigator" href="html/workbench/views/vi_navigator.html" />
 		<topic label="Importing data" href="html/tutorials/importing.html" /> 
-		<topic label="Installing new functionality" href="html/tutorials/updating.html" /> 
+		<topic label="Installing new functionality" href="html/tutorials/updating.html" />
+		<topic label="Adding a third-part account" href="html/accountWizardHelp.html" /> 
 		<topic label="Using Bioclipse Help" href="html/help.html" />
    </topic>
 
