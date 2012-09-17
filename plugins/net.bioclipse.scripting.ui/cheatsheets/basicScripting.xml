@@ -68,8 +68,8 @@ A namespace is a grouping of functionality, for example does the <b>cdk</b> name
        title="Step 5: Some basic JavaScript commands">
     <description>
        Try the following command, they are quite self-explanatory:<br/><br/>
-	<b>clear()</b><br/><br/>
-	<b>print(&quot;hello world&quot; + (12-4))</b><br/><br/>
+	<b>js.clear()</b><br/><br/>
+	<b>js.say(&quot;hello world&quot; + (12-4))</b><br/><br/>
     </description>
  </item>
 
