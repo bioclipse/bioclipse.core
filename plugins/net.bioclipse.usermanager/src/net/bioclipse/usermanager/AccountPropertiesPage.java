@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import net.bioclipse.usermanager.AccountType.Property;
-import net.bioclipse.usermanager.business.IUserManager;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
@@ -28,6 +27,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
@@ -40,7 +40,7 @@ import org.eclipse.ui.PlatformUI;
 public class AccountPropertiesPage {
     /* I've left some out-comment code in this class. That code adds an extra 
      * field for properties marked as secret*/
-	private Composite accountComposite;
+	private Composite accountComposite, propComposite;
 	private Collection<Property> properties;
 	private Label[] accountLabels;
 	private Text[] accountTxt;
@@ -61,7 +61,8 @@ public class AccountPropertiesPage {
 	private UserContainer sandbox;
 	private String accountId = "";
 	private HashMap<String, String> accountProperties = new HashMap<String, String>();
-	   
+	private Group accountPropGroup;
+	
 	public AccountPropertiesPage(Composite parent, 
 			AccountType accountType, NewAccountWizardPage nawp, UserContainer sandbox) {
 	    
@@ -80,37 +81,39 @@ public class AccountPropertiesPage {
 		noOfFields = properties.size();// + noOfSecretFields;
 
 		accountComposite = new Composite(parent, SWT.NONE);			
+		accountComposite.setLayout(new GridLayout(1, false));
+
+		GridData txtData = new GridData(SWT.FILL, SWT.NONE, true, true);
+		
+		Composite accountNameComposite = new Composite(accountComposite, SWT.NONE);           
+        accountNameComposite.setLayout(new GridLayout(2, false));
+		accountNameLabel = new Label(accountNameComposite, SWT.NONE);
+		accountNameLabel.setText( "Account name: " );
+		accountNameTxt = new Text(accountNameComposite, SWT.BORDER);
+		accountNameTxt.setLayoutData( txtData );
+		accountNameTxt.setText( accountType.getName() );
+		accountNameTxt.addModifyListener( new ModifyListener() {
+		    
+		    @Override
+		    public void modifyText( ModifyEvent e ) {
+		        accountId = accountNameTxt.getText();
+		        isAllRequierdPropertiesFilledIn();
+		    }
+		} );
+		
+		accountPropGroup = new Group(accountComposite, SWT.SHADOW_ETCHED_IN);
+		accountPropGroup.setText( "Third-part account properties" );
 		accountLabels = new Label[noOfFields];
 		accountTxt = new Text[noOfFields];
-	    GridData txtData = new GridData(SWT.FILL, SWT.NONE, true, true);
 	    txtData.widthHint = 220;
 	    
 		if (accountType.hasLogo()) {
-			accountComposite.setLayout(new GridLayout(3, false));
-			new Label(accountComposite, SWT.NONE);
-			new Label(accountComposite, SWT.NONE);
-			Label logo = new Label(accountComposite, SWT.TRAIL);
-			ImageDescriptor imDesc = ImageDescriptor
-					.createFromURL(accountType.getLogoPath());
-			Image im = imDesc.createImage();
-			logo.setImage(im);
+		    accountPropGroup.setLayout(new GridLayout(2, false));
 		} else 
-			accountComposite.setLayout(new GridLayout(2, false));
+		    accountPropGroup.setLayout(new GridLayout(1, false));
 		
-        accountNameLabel = new Label(accountComposite, SWT.NONE);
-        accountNameLabel.setText( "Account name: " );
-        accountNameTxt = new Text(accountComposite, SWT.BORDER);
-        accountNameTxt.setLayoutData( txtData );
-        accountNameTxt.addModifyListener( new ModifyListener() {
-            
-            @Override
-            public void modifyText( ModifyEvent e ) {
-                accountId = accountNameTxt.getText();
-                isAllRequierdPropertiesFilledIn();
-            }
-        } );
-		if (accountType.hasLogo())
-		    new Label(accountComposite, SWT.NONE);
+		propComposite = new Composite( accountPropGroup, SWT.NONE );
+		propComposite.setLayout( new GridLayout( 2, false ) );
 		
 		propertyIter = properties.iterator();
 		while (propertyIter.hasNext()) {
@@ -162,6 +165,11 @@ public class AccountPropertiesPage {
 			}
 			i++;
 		}
+		Label logo = new Label(accountPropGroup, SWT.TRAIL);
+		ImageDescriptor imDesc = ImageDescriptor
+		        .createFromURL(accountType.getLogoPath());
+		Image im = imDesc.createImage();
+		logo.setImage(im);
 		
 		// TODO Make the logic behind this button work properly 
 //		new Label(accountComposite, SWT.NONE);
@@ -183,6 +191,8 @@ public class AccountPropertiesPage {
 //            }
 //            
 //        } );
+		
+		accountPropGroup.setFocus();
 	}
 	
 	/**
@@ -198,9 +208,9 @@ public class AccountPropertiesPage {
 			String labelTxt) {
 		GridData txtData = new GridData( SWT.FILL, SWT.NONE, true, true );
 		txtData.widthHint = 220;
-		accountLabels[index] = new Label( accountComposite, SWT.NONE );
+		accountLabels[index] = new Label( propComposite, SWT.NONE | SWT.RIGHT);
 		accountLabels[index].setText( labelTxt + ":" );
-		accountTxt[index] = new Text( accountComposite, style );
+		accountTxt[index] = new Text( propComposite, style );
 		accountTxt[index].setToolTipText( accountLabels[index].getText()
 				.substring( 0, ( accountLabels[index].getText().length()-1) ) );
 		accountTxt[index].setLayoutData(txtData);
@@ -219,8 +229,6 @@ public class AccountPropertiesPage {
 			setReqDeco(accountLabels[index]);
 			requiredFields.add(accountTxt[index]);
 		}
-		if (accountType.hasLogo())
-			new Label(accountComposite, SWT.NONE);
 	}
 	
 	/**
