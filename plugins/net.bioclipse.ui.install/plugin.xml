@@ -11,7 +11,7 @@
                label="Install">
             <command
                   commandId="net.bioclipse.ui.install.ShowRepositoryCatalog"
-                  label="New Bioclipse Feature..."
+                  label="New Feature..."
                   style="push">
                <parameter
                      name="org.eclipse.equinox.p2.ui.discovery.commands.RepositoryParameter"
