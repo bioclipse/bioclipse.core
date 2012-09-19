@@ -10,12 +10,10 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.core,
  org.eclipse.ui.ide,
  net.bioclipse.scripting.ui,
- org.eclipse.core.filesystem,
  org.eclipse.ui.editors,
  org.eclipse.ui.navigator,
  org.eclipse.core.expressions,
  org.eclipse.equinox.p2.core,
- org.eclipse.equinox.p2.ql,
  org.eclipse.equinox.p2.engine
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
