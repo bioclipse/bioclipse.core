@@ -9,23 +9,17 @@
 
 <body>
 <h1>Adding a third-part account to Bioclise</h1>
-<h2>Introduction</h2>
-To be able to use all the capabilities of some the features in Bioclipse (e.g. OpenTox) you need to log on to 
-their web-service. In Bioclipse this is done via an Bioclipse account where the 
-the required information, normally your log-in name and password for the web-service, are stored.
-Then when you log-in to your Bioclipse account you will be automatically logged in to the installed 
-features web-services.<br>
 The creation of a Bioclipse account and adding the third-part account can be done in two ways:
 Either from <a href="#prefs"><b>Window > Preferences... > Users</b></a>. Or by using the wizard you find under <a href="#wizard"><b>File > New... > General > Account</b></a>.
 <br><br>
 <a name="Wizard"><h2>Using the wizard</h2></a>
 This is probably the easiest way, especially if you don't have any Bioclipse user-account yet. If you can't find this alternative, it's probably because you don't have any feature 
-that needs a log-in installed. Features are simple to install from <b>Help > Install new Bioclipse feature</b>, see also the section <a href="tutorials/updating.html">Installing 
+that needs a log-in installed. Features are simple to install from <b>Help > Install new Bioclipse feature</b>, see also the section <a href="../tutorials/updating.html">Installing 
 new feature</a> in Bioclipses users manual.
 <br><br>
 <a name="fig1"></a>
 <table class="image" align="right" cellspacing="0" cellpadding="0" width="300">
-<tr><td><img src="images/newBCaccount.png" width="300"></td></tr>
+<tr><td><img src="../images/newBCaccount.png" width="300"></td></tr>
 <tr><td class="caption"><small>Figure 1. The wizard page where you create a new Bioclipse user-account.</small></td></tr>
 </table>
 <h3>Creating a new user account</h3>
@@ -40,7 +34,7 @@ Observe that if you already are logged in to an user-account the wizard will ski
 <a name="fig2"></a>
 <a name="Wizard3part"><h3>Add a third-part account</h3></a>
 <table class="image" align="right" cellspacing="0" cellpadding="0" width="300">
-<tr><td><img src="images/add3partAccount.png" width="300"></td></tr>
+<tr><td><img src="../images/add3partAccount.png" width="300"></td></tr>
 <tr><td class="caption"><small>Figure 2. The wizard page where you can add a third-part account.</small></td></tr>
 </table>
 After creating a new user-account, or logged in to one, it's now time to add a new third-part account to your user-account. First choose the account-type, i.e. which of the installed 
@@ -51,12 +45,12 @@ below you add the information that is needed for Bioclipse to be able to log in 
 it will in most cases be a field for our username and one for the password to the service. Fill in those fields, and then click the finish-button. The wizard will now log in to your 
 Bioclipse account and you will see a green padlock in status line at the bottom of the Bioclipse window.<br>
 If some reason Bioclipse failed to log-in to any of your third-part accounts, you will get a dialog telling you which of them that failed. See more about that in the section 
-<a href="#LogInOut">Logging in and out</a> below.
+<a href="loginoutHelp.html">Logging in and out</a> below.
 <br><br>
 <a name="prefs"><h2>Using Preferences</h2></a>
 As mentioned in the introduction you may also add a third-part account from Bioclipse Preferences. Choose <b>Window > Preferences </b> and then <b>Users</b> in the list to the 
 left of the preferences dialog. The view to the right will now show a list of the different Bioclipse user accounts. It's also from here that you administrate your account(s), i.e. change password etc, 
-so it might be good to notice the different settings that can be made, even though they are not discussed here (see more about those in <a href="workbench/wb_preferences.html">
+so it might be good to notice the different settings that can be made, even though they are not discussed here (see more about those in <a href="../workbench/wb_preferences.html">
 the preferences help page</a>).
 <br><br>
 <h3>Create a new user account</h3>
@@ -72,7 +66,7 @@ figure 2</a> above. The first thing to do is to choose the account type, i.e. wh
 fill in the information that Bioclipse need to be able to log in to the third-part account. You may also change the name of the third-part account. Now click the <b>Finich</b>-button, then 
 the new third-part account is added to your Bioclipse user-account and you return to the previous dialog.<br>
 Then click on the OK-button and then you are back in the preferences-dialog again. Click on the OK-button in this dialog as well. Now it's just to log in to your bioclipse account,
-see the section <a href="#LogInOut">Logging in and out</a> below.
+see the section <a href="loginoutHelp.html">Logging in and out</a> below.
 <br><br>
 <h2>To an existing Bioclipse user-account</h2>
 This is done in the Bioclipse user preferences, so choose <b>Window > Preferences </b> and then <b>Users</b>. To the right there's a list with all user-accounts, select the one you want to
@@ -82,15 +76,3 @@ Now the dialog mention in the section <a href="#Pref3part">Add a third-part acco
 dialog for adding a third-part account appear, simular to the one shown in <a href="#fig2">figure 2</a> above. Choose the account-type in the dropdown menu at the top and then fill in the
  required fields and click the finish-button.
 <br><br>
-<a name="LogInOut"><h2>Logging in and out</h2></a>
-<h3>Log in</h3>
-Logging in to your Bioclipse account (and then also your different third-parts account) is simple; just choose <b>File > log in</b> or click on the orange padlock in the status line at 
-the bottom of the bioclipse window. Then fill in your username and password in the dialog that appears. When you have logged in the padlock will become green.<br>
-If you can't find any log-in, it's probably because you don't have any feature that supports this installed, or that you don't have created any Bioclipse account yet.<br>
-If, for some reason, Bioclipse failed to log-in to any of your third-part accounts, you will get a dialog telling you for which of them that that the log in failed. Then check your internet connection and/or your 
-user settings for the third-part account(s) that failed, this is done in <b>Window > Preferences... > Users</b>. However, you will still be logged in to your Bioclipse account as well as 
-the the third that didn't failed to log in.<br><br>
-<h3>Log out</h3>
-Logging out is done by either choosing <b> log out</b> from the <b>File</b>-menu (this option is only visibly when your logged in). Or click on the green padlock. You will then get a 
-question if you are sure that you want to log out. If you don't want to be asked this any more, just mark the checkbox in the dialog before clicking on OK.
-</body>
