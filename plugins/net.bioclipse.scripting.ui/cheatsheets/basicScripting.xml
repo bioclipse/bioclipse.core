@@ -73,9 +73,36 @@ A namespace is a grouping of functionality, for example does the <b>cdk</b> name
     </description>
  </item>
 
-
+<item
+       title="Step 6: Some more useful JavaScript commands">
+    <description>
+       The &apos;ui&apos; namespace contains methods to interact with editors. Try the following:
+       <br/>
+       <br/>
+       <b>mol=cdk.fromSMILES(&quot;CC&quot;)</b><br/>
+       <b>ui.open(mol)</b>
+       <br/>
+       <br/>
+       The first line creates a CDK-molecule from a SMILES and the second opens it in JChemPaint.
+       If you want to save the molecule just write:<br/>
+       <br/> 
+       <b>cdk.saveMolecule(mol2, &quot;/Virtual/mymol.cml&quot;)</b>
+       <br/>
+       <br/>  
+       Note in the Bioclipse Navigator that this file is created.<br/>
+       Now write: &apos;mol2 = cdk.loadMolecule(&apos; and then drag this file and drop 
+       it onto the JavaScript Console. Then complete the command too look like:
+       <br/>
+       <br/>
+       <b>mol2 = cdk.loadMolecule((&quot;/Virtual/mymol.cml&quot;)</b>
+       <br/>
+       <br/>
+       Now you can manipulate that molecule in the JavaScript Console. Try e.g. to open it in JChemPaint by writing &apos;ui.open(mol2)&apos;.
+    </description>
+ </item>
+ 
  <item
-       title="Step 6: More information">
+       title="Step 7: More information">
     <description>
        For more information, see Bioclipse Help.
     </description>
