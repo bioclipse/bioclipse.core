@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Spring-osgi-1.0.2" sequenceNumber="3">
+<?pde version="3.8"?>
+
+<target name="Spring-osgi-1.0.2" sequenceNumber="4">
 <locations>
 <location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/dist" type="Directory"/>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
@@ -43,16 +45,6 @@
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
 <unit id="nu.psnet.quickimage.feature.group" version="1.0.3.2"/>
 <repository location="http://psnet.nu/eclipse/updates"/>
-</location>
-<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.platform.sdk" version="3.8.0.I20120608-1200"/>
-<unit id="org.eclipse.sdk.feature.group" version="3.8.0.v20120528-1716-7Q85DFDQL3GBqJ6pPYAyBr1fWCv2isiVTqvrW_TSF67r9"/>
-<unit id="org.eclipse.rcp.sdk.id" version="3.8.0.I20120608-1200"/>
-<unit id="org.eclipse.sdk.ide" version="3.8.0.I20120608-1200"/>
-<unit id="org.eclipse.equinox.compendium.sdk.feature.group" version="3.8.0.v20120522-1841-7X7eGb7FPGjtJjv1kjS_NdG"/>
-<unit id="org.eclipse.equinox.core.sdk.feature.group" version="3.8.0.v20120522-1813-85FAcGbBFoYTldHrOJw3cF4q"/>
-<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.8.0.v20120524-0542-9N89H_mGMMn84Osz0TAoT279BRQD"/>
-<repository location="http://download.eclipse.org/eclipse/updates/3.8"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
 <unit id="net.bioclipse.r.walware_feature.feature.group" version="1.1.0.201209031025"/>
@@ -196,6 +188,20 @@
 <unit id="org.eclipse.zest.source.feature.group" version="1.4.0.201206112118"/>
 <unit id="org.eclipse.wst.web_core.feature.feature.group" version="3.4.0.v201203141800-7E7HFSgAJz-mw9oH21HGMpHiKb_kVAz0D"/>
 <repository location="http://download.eclipse.org/releases/juno"/>
+</location>
+<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.equinox.server.core.feature.group" version="1.2.0.v20120522-1841-7K7VFMRF7RZHQYI0Yh8U-ov"/>
+<unit id="org.eclipse.platform.sdk" version="3.8.0.I20120608-1200"/>
+<unit id="org.eclipse.sdk.feature.group" version="3.8.0.v20120528-1716-7Q85DFDQL3GBqJ6pPYAyBr1fWCv2isiVTqvrW_TSF67r9"/>
+<unit id="org.eclipse.rcp.id" version="3.8.0.I20120608-1200"/>
+<unit id="org.eclipse.rcp.sdk.id" version="3.8.0.I20120608-1200"/>
+<unit id="org.eclipse.sdk.ide" version="3.8.0.I20120608-1200"/>
+<unit id="org.eclipse.equinox.compendium.sdk.feature.group" version="3.8.0.v20120522-1841-7X7eGb7FPGjtJjv1kjS_NdG"/>
+<unit id="org.eclipse.equinox.core.feature.feature.group" version="1.1.0.v20120522-1841-7K7XFKsF7RZHQYI0Yh8T7on"/>
+<unit id="org.eclipse.equinox.core.sdk.feature.group" version="3.8.0.v20120522-1813-85FAcGbBFoYTldHrOJw3cF4q"/>
+<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.8.0.v20120524-0542-9N89H_mGMMn84Osz0TAoT279BRQD"/>
+<unit id="org.eclipse.equinox.sdk.feature.group" version="3.8.0.v20120522-1841-7M7fA78g5_y-eMftHxcd13UXuq5J"/>
+<repository location="http://download.eclipse.org/eclipse/updates/3.8"/>
 </location>
 </locations>
 </target>
