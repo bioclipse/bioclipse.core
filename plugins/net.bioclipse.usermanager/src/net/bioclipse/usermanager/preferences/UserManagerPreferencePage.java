@@ -224,10 +224,10 @@ public class UserManagerPreferencePage extends PreferencePage
         
         IUserManager userManager = Activator.getDefault().getUserManager();
         userManager.persist();
+        userManager.switchUserContainer(sandBoxUserContainer);
         if (loggedInUser == null) {
             /* There where on one logged in when opening the page, so if any one 
              * are logged in now let's log any one logged-in out*/
-            userManager.switchUserContainer(sandBoxUserContainer);
             userManager.logOut();
         }
         prefStore.setValue( Activator.PROMPT_ON_LOGOUT, !propOnLogoutButton.getSelection() );
@@ -243,7 +243,11 @@ public class UserManagerPreferencePage extends PreferencePage
     
     @Override
     public boolean performCancel() {
-        Activator.getDefault().getUserManager().logOut();
+        if (loggedInUser == null) {
+            /* There where on one logged in when opening the page, so if any one 
+             * are logged in now let's log any one logged-in out*/
+            Activator.getDefault().getUserManager().logOut();
+        }
         return super.performCancel();
     }
 
