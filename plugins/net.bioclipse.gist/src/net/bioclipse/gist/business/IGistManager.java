@@ -22,7 +22,10 @@ import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.eclipse.core.resources.IFile;
 
-@PublishedClass("The gist manager is used for downloading gists")
+@PublishedClass("The gist manager is used for downloading gists. A Gist is " +
+		"a simple way to share small texts like Bioclipse scripts and " +
+		"get verson control on them. For more information see: " +
+		"https://gist.github.com/")
 @TestClasses(
     "net.bioclipse.gist.test.APITest," +
     "net.bioclipse.gist.test.CoverageTest," +
