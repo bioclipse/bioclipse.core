@@ -19,7 +19,8 @@ import net.bioclipse.managers.business.IBioclipseManager;
 		"textual information on the Bioclipse platform.")
 public interface IBioclipsePlatformManager extends IBioclipseManager {
 
-	@PublishedMethod(methodSummary="Opens Planet Bioclipse.")
+	@PublishedMethod(methodSummary="Opens Planet Bioclipse, a syndication " +
+			                       "of Blogs with Bioclipse relevance.")
 	public void planet();
 
 	@PublishedMethod(methodSummary="Opens the Bioclipse Wiki.")
@@ -76,16 +77,15 @@ public interface IBioclipsePlatformManager extends IBioclipseManager {
     public String version();
 
     @PublishedMethod(
-        methodSummary="Returns true if the given version is lower than " +
-        		      "the current Bioclipse version",
+        methodSummary="Returns true if the given version is lower or equal " +
+        		          "to the current Bioclipse version",
         params="String version" )
     public void requireVersion( String version ) throws BioclipseException;
 
     @PublishedMethod(
         methodSummary="Returns true if the current Bioclipse version is in " +
         		      "between the given (including) lower version bound and " +
-        		      "the given (excluding) upper version bound \n"+
-        		      "So bioclipse.requireVersion will ",
+        		      "the given (excluding) upper version bound",
         params="String lowerVersionBound, String upperVersionBound " )
     public void requireVersion( String lowerVersionBound,
                                    String upperVersionBound )
