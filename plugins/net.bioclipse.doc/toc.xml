@@ -2,6 +2,6 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="Bioclipse Scripting">
-  <topic label="Scripting Language Documentation"  href="html/index.html"/> 
+  <topic label="Manager reference"  href="html/index.html"/>
   <topic label="Guide to Scripting Bioclipse"  href="html/scriptingBioclipse.html" />
 </toc>
