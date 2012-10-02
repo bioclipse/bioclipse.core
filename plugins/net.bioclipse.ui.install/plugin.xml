@@ -29,7 +29,7 @@
             </command>
             <command
                   commandId="net.bioclipse.ui.install.ShowRepositoryCatalog"
-                  label="Samples..."
+                  label="Data..."
                   style="push">
                <parameter
                      name="org.eclipse.equinox.p2.ui.discovery.commands.RepositoryParameter"
