@@ -32,13 +32,14 @@
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
 <stringAttribute key="pde.version" value="3.3"/>
 <stringAttribute key="product" value="net.bioclipse.ui.product"/>
-<booleanAttribute key="run_in_ui_thread" value="true"/>
+<booleanAttribute key="run_in_ui_thread" value="false"/>
 <setAttribute key="selected_features">
+<setEntry value="net.bioclipse.advanced_feature:default"/>
 <setEntry value="net.bioclipse.core.tests_feature:default"/>
 <setEntry value="net.bioclipse.core_feature:default"/>
-<setEntry value="net.bioclipse.platform_feature:default"/>
 <setEntry value="org.eclipse.equinox.p2.core.feature:default"/>
 <setEntry value="org.eclipse.equinox.p2.rcp.feature:default"/>
+<setEntry value="org.eclipse.help:default"/>
 <setEntry value="org.eclipse.rcp:default"/>
 </setAttribute>
 <booleanAttribute key="show_selected_only" value="false"/>
