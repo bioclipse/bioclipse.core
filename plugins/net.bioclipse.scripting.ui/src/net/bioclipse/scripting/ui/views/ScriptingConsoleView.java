@@ -410,6 +410,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         Display.getDefault().asyncExec( new Runnable() {
             public void run() {
                 synchronized (output) {
+                	if(output.isDisposed()) return;
                     output.append(printme);
                     output.setFont(JFaceResources.getTextFont());
                     output.redraw();
