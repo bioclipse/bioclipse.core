@@ -37,6 +37,8 @@ public class ShowRepositoryCatalogCommandHandler extends AbstractHandler {
         Catalog catalog = InstallUtils.configureCatalog( uri, strategy );
         CatalogConfiguration configuration = new CatalogConfiguration();
         configuration.setShowTagFilter( false );
+        configuration.setShowInstalledFilter(true);
+        configuration.setShowInstalled(true);
 
         // open dialog
         IWizard wizard = getWizard( catalog, configuration, strategy );
