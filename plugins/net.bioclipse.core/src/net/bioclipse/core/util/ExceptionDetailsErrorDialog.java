@@ -496,6 +496,7 @@ public class ExceptionDetailsErrorDialog extends IconAndMessageDialog {
                 .setSize(
                         new Point(windowSize.x, windowSize.y
                                 + (newSize.y - oldSize.y)));
+        if(!text.isDisposed()) text.redraw();
     }
 
     /**
