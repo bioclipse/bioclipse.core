@@ -237,6 +237,9 @@
             <contentExtension
                   pattern="org.eclipse.ui.navigator.resources.filters.*">
             </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resources.linkHelper">
+            </contentExtension>
          </includes>
       </viewerContentBinding>
       <viewerActionBinding
@@ -457,6 +460,22 @@
                  </separator>
            </menu>
      </menuContribution>
+</extension>
+<extension
+      point="org.eclipse.ui.navigator.linkHelper">
+   <linkHelper
+         class="org.eclipse.ui.internal.navigator.resources.workbench.ResourceLinkHelper"
+         id="org.eclipse.ui.navigator.resources.linkHelper">
+      <editorInputEnablement>
+         <instanceof
+               value="org.eclipse.ui.IFileEditorInput">
+         </instanceof></editorInputEnablement>
+      <selectionEnablement>
+         <instanceof
+               value="org.eclipse.core.resources.IFile">
+         </instanceof>
+      </selectionEnablement>
+   </linkHelper>
 </extension>
 
 
