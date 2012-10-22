@@ -391,6 +391,13 @@
             contentFile="cheatsheets/usingWorkbench.xml"
             id="net.bioclipse.cheatsheets.basics"
             name="Using the Bioclipse Workbench"/>
+      <cheatsheet
+            category="net.bioclipse.cheatsheets.workbench"
+            composite="false"
+            contentFile="cheatsheets/installData.xml"
+            id="net.bioclipse.ui.dataCheatSheet"
+            name="Install data projects">
+      </cheatsheet>
    </extension>
 
 
