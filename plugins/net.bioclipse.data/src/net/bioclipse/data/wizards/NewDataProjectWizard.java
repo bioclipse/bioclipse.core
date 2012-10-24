@@ -61,6 +61,7 @@ public class NewDataProjectWizard extends Wizard implements INewWizard,
     private IWorkbench workbench;
     private IStructuredSelection selection;
     private String wizardID;
+    private String name;
     
 	private static final Logger logger =
         Logger.getLogger(NewDataProjectWizard.class);
@@ -68,13 +69,14 @@ public class NewDataProjectWizard extends Wizard implements INewWizard,
     public NewDataProjectWizard() {
 
         setDefaultPageImageDescriptor(Activator.getImageDescriptor("icons/wiz/wiz1.png"));
-        setWindowTitle("New Sample Data project");
+//        name = createPageName();
+        setWindowTitle( createPageName() );
     }
 
     private String createProjectName() {
 
         boolean shouldEnd = false;
-        String projectNameStart = "Sample Data";
+        String projectNameStart = createProjectNameStart();//"Sample Data";
         int cnt=1;
 
         String projectName=projectNameStart;
@@ -98,7 +100,21 @@ public class NewDataProjectWizard extends Wizard implements INewWizard,
         }
         return projectName;
     }
-
+    
+    private String createProjectNameStart() {
+        if (name == null)
+            name = createPageName();
+        int start;
+        if (name.startsWith( "New" ))
+            start = 4;
+        else
+            start = 0;
+        int end = name.indexOf( "Project" ) - 1;
+        end = end == -1 ? name.length() : end;
+        
+        return name.substring( start, end );
+    }
+    
     public SelectDataFoldersPage getSelectDataFoldersPage() {
         if ( folPage == null ) {
             folPage = new SelectDataFoldersPage();
@@ -107,18 +123,53 @@ public class NewDataProjectWizard extends Wizard implements INewWizard,
     }
 
     public WizardNewProjectCreationPage getProjectCreationPage() {
+        if (name == null)
+            name = createPageName();
+        
         if ( fFirstPage == null ) {
-            String pageName = "New Sample Data project";
-            fFirstPage = new WizardNewProjectCreationPage( pageName );
-            fFirstPage.setTitle( "New Sample Data project" );
-            fFirstPage.setDescription( "Create a new Project with "
-                                       + "sample data installed" );
+//            String pageName = createPageName();//"New Sample Data project";
+            fFirstPage = new WizardNewProjectCreationPage( name );//pageName );
+            fFirstPage.setTitle( name );//pageName );
+            fFirstPage.setDescription( "Create a " + name );
+                                       //"Create a new Project with "
+//                                       + "sample data installed" );
         }
+        
         String projectName = createProjectName();
         logger.debug( "New data project name: " + projectName );
         fFirstPage.setInitialProjectName( projectName );
         return fFirstPage;
     }
+    
+    private String createPageName() {
+        if (wizardID == null)
+            return "New project";
+        
+        String pageName;
+        int end;
+        int start = wizardID.lastIndexOf( '.' );
+        start = start == -1? 0 : start;
+        
+        if (wizardID.endsWith( "Wizard" )) {
+            end = wizardID.indexOf( "Wizard" );
+            pageName = wizardID.substring( start + 1, end );
+        } else
+            pageName = wizardID.substring( start + 1 );
+        
+        String letter, temp = String.valueOf( pageName.charAt( 0 ) ) ;
+        end = pageName.length();
+        for (int i = 1; i < pageName.length(); i++){
+            letter = String.valueOf( pageName.charAt( i ) ) ;
+            if (letter.equals( letter.toUpperCase() )) {
+                temp += " " + letter;   
+            } else
+                temp += letter;        
+        }
+        pageName = temp;
+
+        return pageName;
+    }
+    
     /**
      * Add WizardNewProjectCreationPage from IDE
      */
