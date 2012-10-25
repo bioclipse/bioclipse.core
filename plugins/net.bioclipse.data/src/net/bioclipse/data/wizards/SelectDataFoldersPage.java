@@ -220,13 +220,15 @@ public class SelectDataFoldersPage extends WizardPage {
                         .getWizardID() );
         if ( folders.isEmpty() )
             return;
-
-        //Set data folder as input
+        
         viewer.setInput(folders);
-
-        //Select all by default
-        viewer.setAllChecked(true);
-        viewer.setSelection(new StructuredSelection(folders.get(0)));
+        String wizardId = wizard.getWizardID();
+        for (int i = 0; i < folders.size(); i++) {
+            if (folders.get( i ).getWizardID().equals( wizardId )) {
+                viewer.setChecked( viewer.getElementAt( i ), true );
+            }
+        }
+        
         checkForCompletion();
     }
     /**

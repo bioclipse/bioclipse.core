@@ -23,7 +23,7 @@
             After downloading the DrugBank data project you need to install it as well. To do this choose <b>File > New... > Data</b>, select 
             <b>New Drugbank Data Project</b> and click on <b>next</b>.<br/><br/>
             On the next page you may give the project a new name, e.g. "Drugbank". Name it and click once more one <b>next</b>.<br/><br/>
-            On the last page make sure that only the items you want is selected. In this case unselect all except "DrugBank" and click <b>finish</b>.
+            On the last page make sure that only the items you want is selected. In this case that only "DrugBank" is selected and click <b>finish</b>.
         </description>
         <command
             required="false"
