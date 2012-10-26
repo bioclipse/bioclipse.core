@@ -69,7 +69,6 @@ public class NewDataProjectWizard extends Wizard implements INewWizard,
     public NewDataProjectWizard() {
 
         setDefaultPageImageDescriptor(Activator.getImageDescriptor("icons/wiz/wiz1.png"));
-//        name = createPageName();
         setWindowTitle( createPageName() );
     }
 
@@ -110,8 +109,8 @@ public class NewDataProjectWizard extends Wizard implements INewWizard,
         else
             start = 0;
         int end = name.indexOf( "Project" ) - 1;
-        end = end == -1 ? name.length() : end;
-        
+        end = end < 0 ? name.length() : end;
+
         return name.substring( start, end );
     }
     
@@ -143,7 +142,12 @@ public class NewDataProjectWizard extends Wizard implements INewWizard,
     
     private String createPageName() {
         if (wizardID == null)
-            return "New project";
+            /* TODO When opening the wizard from the welcome page the wizard id 
+             * isn't set, so let's pretend that the user always want to import 
+             * sample data if the id isn't set...
+             * Is this true? If not; it should probably be an other solution*/
+            wizardID = "net.bioclipse.data.wizards.NewSampleDataProjectWizard";
+//            return "New project";
         
         String pageName;
         int end;
