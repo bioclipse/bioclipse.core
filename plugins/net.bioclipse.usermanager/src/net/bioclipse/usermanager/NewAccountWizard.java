@@ -15,8 +15,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import net.bioclipse.usermanager.business.IUserManager;
-import net.bioclipse.usermanager.dialogs.CreateUserDialog;
-
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -49,21 +47,6 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	    usermanager = Activator.getDefault().getUserManager();
 	    sandbox = usermanager.getSandBoxUserContainer();
 	    manipulateUserContainer = true;
-
-//		if ( usermanager.getUserNames().size() == 0) {
-//			CreateUserDialog dialog 
-//			= new CreateUserDialog( PlatformUI.getWorkbench()
-//					.getActiveWorkbenchWindow()
-//					.getShell(), sandbox );
-//			dialog.open();
-//			if (dialog.getReturnCode() == Window.OK) {
-//				usermanager.switchUserContainer( sandbox );
-//			}
-//			else if (dialog.getReturnCode() == Window.CANCEL) {
-//			    this.performCancel();
-//			    
-//			}
-//		}
 	}
 
 	@Override
