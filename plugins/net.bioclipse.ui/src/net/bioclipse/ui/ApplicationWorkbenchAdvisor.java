@@ -12,6 +12,7 @@
 package net.bioclipse.ui;
 
 
+import java.io.File;
 import java.net.URL;
 
 import net.bioclipse.core.util.LogUtils;
@@ -144,6 +145,21 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         }
 
         //Ok, check for updates if not turned off by arg -noupdate
+
+        if(isRunFromDMG()) {
+        	MessageDialog.openWarning(Display.getDefault().getActiveShell(), "Running from DMG",
+        			"Bioclipse has detected that you are running Bioclipse from inside a volume named Bioclipse. " +
+        			"Bioclipse is not ment to be run from inside the dmg containing Bioclipse that you download. " +
+        			"This is not supported and will cause problems in some parts of Bioclipse." +
+        			"\nPlease drag the Bioclipse app into your Application folder " +
+        			"or another place in your filesystem.");
+        }
+    }
+
+    private boolean isRunFromDMG() {
+    	File currentDir = new File(".");
+    	logger.debug("Runing dir is "+currentDir.getAbsolutePath());
+    	return currentDir.getAbsolutePath().startsWith("/Volumes/Bioclipse");
     }
 
     public String getInitialWindowPerspectiveId() {
