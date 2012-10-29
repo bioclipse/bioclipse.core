@@ -226,7 +226,9 @@ public class SelectDataFoldersPage extends WizardPage {
         for (int i = 0; i < folders.size(); i++) {
             if (folders.get( i ).getWizardID().equals( wizardId )) {
                 viewer.setChecked( viewer.getElementAt( i ), true );
-            }
+                folders.get( i ).setChecked( true );
+            } else
+                folders.get( i ).setChecked( false ); 
         }
         
         checkForCompletion();
