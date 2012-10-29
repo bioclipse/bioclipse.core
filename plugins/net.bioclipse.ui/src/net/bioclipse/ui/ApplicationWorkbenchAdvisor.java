@@ -25,6 +25,9 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
@@ -112,17 +115,30 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         //TODO Perhaps allow Bioclpse to be started without the Navigator 
         // (Right now Bioclipse refuses to start if the Navigator 
         //  view has been closed)
-        try {
-            PlatformUI.getWorkbench()
-                      .getActiveWorkbenchWindow()
-                      .getActivePage().showView( "net.bioclipse.navigator" );
+        IWorkbenchPage activePage = PlatformUI.getWorkbench()
+        		.getActiveWorkbenchWindow()
+        		.getActivePage();
+		try {
+			final String BIOCLIPSE_NAVIGATOR = "net.bioclipse.navigator";
+        	boolean foundNavigator = false;
+            IViewReference[] parts = activePage.getViewReferences();
+            for(IViewReference part : parts ) {
+            	if(part.getId().equals( BIOCLIPSE_NAVIGATOR ) ) {
+            		foundNavigator = true;
+            		break;
+            	}
+            }
+            if(!foundNavigator) {
+            	PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+            	    .getActivePage().showView(BIOCLIPSE_NAVIGATOR);
+            }
+            
         }
         catch ( PartInitException e1 ) {
             LogUtils.handleException( e1, logger, "net.bioclipse.ui" );
         }
         
-        CommonNavigator nav = (CommonNavigator) PlatformUI.getWorkbench()
-                                     .getActiveWorkbenchWindow().getActivePage()
+        CommonNavigator nav = (CommonNavigator) activePage
                                      .findView( "net.bioclipse.navigator" );
 
         nav.getCommonViewer().setInput( getDefaultPageInput() );
