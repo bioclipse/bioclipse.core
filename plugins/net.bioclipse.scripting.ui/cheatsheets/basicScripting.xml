@@ -86,7 +86,7 @@ A namespace is a grouping of functionality, for example does the <b>cdk</b> name
        The first line creates a CDK-molecule from a SMILES and the second opens it in JChemPaint.
        If you want to save the molecule just write:<br/>
        <br/> 
-       <b>cdk.saveMolecule(mol2, &quot;/Virtual/mymol.cml&quot;)</b>
+       <b>cdk.saveMolecule(mol, &quot;/Virtual/mymol.cml&quot;)</b>
        <br/>
        <br/>  
        Note in the Bioclipse Navigator that this file is created.<br/>
