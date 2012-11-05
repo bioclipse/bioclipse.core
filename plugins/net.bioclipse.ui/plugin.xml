@@ -350,6 +350,10 @@
       <toc
             file="toctutorials.xml">
       </toc>
+      <toc
+            file="troubleshooting.xml"
+            primary="true">
+      </toc>
    </extension>
 
 
