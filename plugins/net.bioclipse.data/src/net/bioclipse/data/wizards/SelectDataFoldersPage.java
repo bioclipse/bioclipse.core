@@ -224,11 +224,8 @@ public class SelectDataFoldersPage extends WizardPage {
         viewer.setInput(folders);
         String wizardId = wizard.getWizardID();
         for (int i = 0; i < folders.size(); i++) {
-            if (folders.get( i ).getWizardID().equals( wizardId )) {
+            if (folders.get( i ).getWizardID().equals( wizardId )) 
                 viewer.setChecked( viewer.getElementAt( i ), true );
-                folders.get( i ).setChecked( true );
-            } else
-                folders.get( i ).setChecked( false ); 
         }
         
         checkForCompletion();
@@ -309,7 +306,7 @@ public class SelectDataFoldersPage extends WizardPage {
                 //If the current wizard is specified in extension, add the folder
                 if ( wizardId != null ) {
                     InstallableFolder folder=new InstallableFolder(name, description, location, pluginid, wizid);
-                    folder.setChecked(true);
+                    folder.setChecked( folder.getWizardID().equals( wizardId ) );
                     folders.add(folder);
                     logger.debug( "Added installable folder: " + name
                                   + " to wizard: "

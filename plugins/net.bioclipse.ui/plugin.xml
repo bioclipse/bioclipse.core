@@ -153,6 +153,10 @@
             content="intro/webresources.xml"
             configId="org.eclipse.ui.intro.universalConfig">
       </configExtension>
+      <configExtension
+            content="intro/whatsnew.xml"
+            configId="org.eclipse.ui.intro.universalConfig">
+      </configExtension>
       
    </extension>
    

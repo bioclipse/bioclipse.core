@@ -15,15 +15,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import net.bioclipse.usermanager.business.IUserManager;
-import net.bioclipse.usermanager.dialogs.CreateUserDialog;
-
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
@@ -46,33 +41,12 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	public NewAccountWizard(UserContainer userContainer, boolean manipulateUserContainer) {
 	    sandbox = userContainer;
 	    this.manipulateUserContainer = manipulateUserContainer;
-	    viewHelpButton( true );
-//	    setHelpAvailable( true );
 	}
 	
 	public NewAccountWizard() {
 	    usermanager = Activator.getDefault().getUserManager();
 	    sandbox = usermanager.getSandBoxUserContainer();
 	    manipulateUserContainer = true;
-	    viewHelpButton( true );
-//	    setHelpAvailable( true );
-//	    getContainer().updateButtons();
-//	    TrayDialog.setDialogHelpAvailable( true );
-
-//		if ( usermanager.getUserNames().size() == 0) {
-//			CreateUserDialog dialog 
-//			= new CreateUserDialog( PlatformUI.getWorkbench()
-//					.getActiveWorkbenchWindow()
-//					.getShell(), sandbox );
-//			dialog.open();
-//			if (dialog.getReturnCode() == Window.OK) {
-//				usermanager.switchUserContainer( sandbox );
-//			}
-//			else if (dialog.getReturnCode() == Window.CANCEL) {
-//			    this.performCancel();
-//			    
-//			}
-//		}
 	}
 
 	@Override
@@ -112,7 +86,6 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 
 	@Override
 	public boolean performFinish() {
-	    // TODO Make use of the viewHelpButton(boolean)...
 	    if ( !sandbox.isLoggedIn() ) {
 	        if (usermanager == null)
 	            usermanager = Activator.getDefault().getUserManager();	        
@@ -154,14 +127,7 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	}
 
 	public boolean performCancel() {
-	    System.out.println(isHelpAvailable());
-	    viewHelpButton( false );
 	    return true;
-	}
-
-	private void viewHelpButton(boolean show) {
-	    setHelpAvailable( show );
-	    WizardDialog.setDialogHelpAvailable( show );
 	}
 	
 	public String getAccountId() {
