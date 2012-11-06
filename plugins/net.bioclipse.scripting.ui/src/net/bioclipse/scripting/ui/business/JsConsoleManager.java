@@ -144,6 +144,7 @@ public class JsConsoleManager implements IBioclipseManager {
                 return Status.OK_STATUS;
             }
         };
+        job.schedule();
     }
 
     public void printError( Throwable t ) {
