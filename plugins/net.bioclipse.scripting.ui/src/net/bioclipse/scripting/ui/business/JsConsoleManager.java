@@ -120,10 +120,17 @@ public class JsConsoleManager implements IBioclipseManager {
                     new ScriptAction(contents, new Hook() {
                         public void run( Object result ) {
                             monitor.done();
-                            if ( !"org.mozilla.javascript.Undefined".equals(
-                                    result.getClass().getName() ) ) {
-                                message(result.toString());
+                            /* If the result is null and the user make an tab-
+                             * completion, Bioclipse will hang. 
+                             * TODO Find a better solution */
+                            if (result != null) {
+                                if ( !"org.mozilla.javascript.Undefined"
+                                        .equals(result.getClass().getName() ) ) {
+                                    message(result.toString());
+                                }
                             }
+                            else 
+                                message("Script finished without any problems.");
                         }
 
                         private void message(final String text) {
