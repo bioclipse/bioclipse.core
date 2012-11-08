@@ -222,7 +222,6 @@ public abstract class ScriptingConsoleView extends ViewPart {
             public void keyTraversed(TraverseEvent e) {
                 if (e.detail == SWT.TRAVERSE_TAB_NEXT) {
                     e.doit = false;
-                    tabComplete();
                 }
             }
         });
