@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.managers.business.IBioclipseManager;
@@ -112,11 +113,19 @@ public class UIManager implements IBioclipseManager {
         }
     }
     
-    public void openFiles( List<IFile> files ) {
+    public void openFiles( List<Object> files ) {
         IWorkbenchPage page = PlatformUI.getWorkbench()
                 .getActiveWorkbenchWindow()
                 .getActivePage();
-        for ( IFile file : files) {
+        for ( Object object : files) {
+            IFile file = null;
+            if ( object instanceof IFile) {
+                file = (IFile)object;
+            }
+            else if ( object instanceof String ) {
+                file = ResourcePathTransformer.getInstance()
+                                              .transform( (String) object );
+            }
             try {
                 IDE.openEditor(page, file);
             }
