@@ -684,7 +684,13 @@ public class GroovyConsoleView extends ScriptingConsoleView {
       final List<String>[] variables = new List[1];
 
       groovyThread.enqueue(
-          new ScriptAction( "zzz1 = new java.util.ArrayList();",
+          new ScriptAction(
+                "zzz1 = [];" +  
+                (object.equals("this") 
+                    ? "zzz1 = binding.variables.collect{it.key}; "
+                    : "") + 
+          		"zzz1.addAll(" + object +".metaClass.methods.name.unique()); "+
+          		"zzz1.unique()",
                         new Hook() {
                             public void run(Object o) {
                                 synchronized (variables) {
