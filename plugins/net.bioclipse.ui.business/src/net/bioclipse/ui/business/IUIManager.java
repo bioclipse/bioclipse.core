@@ -13,7 +13,6 @@ package net.bioclipse.ui.business;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import net.bioclipse.core.PublishedClass;
@@ -60,7 +59,7 @@ public interface IUIManager extends IBioclipseManager {
     methodSummary="Opens a list of files (e.g. a gist) represented either " +
     		          "as IFiles or Strings in an editor.")
     @GuiAction
-    public void openFiles( List<Object> files );
+    public void openFiles( List<?> files );
 
     @GuiAction
     public void open(String filePath, String editor) throws BioclipseException;
