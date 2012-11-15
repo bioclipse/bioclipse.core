@@ -126,6 +126,12 @@ public class UIManager implements IBioclipseManager {
                 file = ResourcePathTransformer.getInstance()
                                               .transform( (String) object );
             }
+            else { 
+                throw new IllegalArgumentException(
+                    "Could not use object as file. Object was: " 
+                    + object.getClass() + ": " 
+                    + object.toString() );
+            }
             try {
                 IDE.openEditor(page, file);
             }

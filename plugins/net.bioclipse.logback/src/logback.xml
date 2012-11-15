@@ -25,7 +25,7 @@
 	<logger name="org.eclipse" level="WARN" />
 	<logger name="org.springframework" level="ERROR" />
 	<logger name="org.hibernate" level="ERROR" />
-	<logger name="net.bioclipse" level="DEBUG" />
+	<logger name="net.bioclipse" level="INFO" />
 
 	<root>
 		<level value="INFO" />
