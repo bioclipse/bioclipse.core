@@ -4,8 +4,7 @@
 <toc label="Troubleshooting"> 
 	<topic href="html/browser_ubuntu.html" label="Internal Web Browser problem in GNU/Linux">
  </topic>
- <topic label="Bioclipse-R related problems">
-    <topic href="../net.bioclipse.r.ui/html/troubleshooting.html" label="Known issues on Mac OS X">
-    </topic>
+ <topic label="Troubleshooting Bioclipse-R">
+    <anchor id="rTroubleshoot"/>
  </topic>
 </toc>
