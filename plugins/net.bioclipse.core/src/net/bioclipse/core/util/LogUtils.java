@@ -178,4 +178,9 @@ public class LogUtils {
 
         return t;
     }
+
+
+    public static void errorTrace( Logger logger, Exception e ) {
+        logger.error(traceStringOf(e));
+    }
 }

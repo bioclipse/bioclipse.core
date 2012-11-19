@@ -170,7 +170,7 @@ public class GroovyThread extends ScriptingThread {
                     }
                 }
                 catch (Exception e) {
-                    LogUtils.debugTrace(logger, e);
+                    LogUtils.errorTrace(logger, e);
                     result[0] = e;
                 }
                 synchronized ( groovyRunning ) {

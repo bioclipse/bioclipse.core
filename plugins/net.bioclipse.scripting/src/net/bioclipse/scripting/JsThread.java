@@ -153,7 +153,7 @@ public class JsThread extends ScriptingThread {
                 }
             }
             catch (Exception e) {
-                LogUtils.debugTrace(logger, e);
+                LogUtils.errorTrace(logger, e);
                 result[0] = e;
             }
             synchronized ( jsRunning ) {
