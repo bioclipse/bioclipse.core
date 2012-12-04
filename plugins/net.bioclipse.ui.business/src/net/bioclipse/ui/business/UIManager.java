@@ -18,13 +18,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.core.domain.IMolecule;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.ui.Activator;
 import net.bioclipse.scripting.ui.business.IJsConsoleManager;
@@ -254,6 +258,74 @@ public class UIManager implements IBioclipseManager {
 
     public boolean fileExists(IFile file) {
         return file.exists();
+    }
+
+    public void open(final Collection<?> items) throws BioclipseException {
+        String errorMessage = "The object could not be opened. "
+                            + "No suitable editor could be found item in this list";
+        Set<Class<?>> types = new HashSet<Class<?>>(items.size());
+        for(Object o :items) {
+            types.add(o.getClass());
+        }
+
+        if(types.size() == 1) {
+            for(Class<?> c:types) {
+                if(IMolecule.class.isAssignableFrom( c )) {
+                        String id = "net.bioclipse.cdk.ui.sdfeditor";
+                        if(id!=null) {
+                            IWorkbenchPage page = PlatformUI.getWorkbench()
+                                            .getActiveWorkbenchWindow()
+                                            .getActivePage();
+                            IEditorInput input = new IEditorInput() {
+                                @Override
+                                public Object getAdapter( Class adapter ) {
+                                    if(adapter.isAssignableFrom( List.class )) {
+                                        return new ArrayList(items);
+                                    }
+                                    return null;
+                                }
+                                @Override
+                                public boolean exists() {
+                                    return false;
+                                }
+                                @Override
+                                public ImageDescriptor getImageDescriptor() {
+                                    return ImageDescriptor.getMissingImageDescriptor();
+                                }
+                                @Override
+                                public String getName() {
+                                    return "Molecule list";
+                                }
+                                @Override
+                                public IPersistableElement getPersistable() {
+                                    return null;
+                                }
+                                @Override
+                                public String getToolTipText() {
+                                    return "";
+                                }
+                            };
+                            try {
+                                page.openEditor( input, id );
+                                return;
+                            } catch ( PartInitException e ) {
+                                throw new BioclipseException( errorMessage,e );
+                            }
+                    }
+                } else if(IBioObject.class.isAssignableFrom( c )) {
+                    for(Object o:items) {
+                        try {
+                            open((IBioObject)o);
+                        } catch ( CoreException e ) {
+                            throw new BioclipseException( errorMessage,e );
+                        } catch ( IOException e ) {
+                            throw new BioclipseException( errorMessage,e );
+                        }
+                    }
+                }
+            }
+        }
+        throw new BioclipseException( errorMessage );
     }
 
     public void open(IBioObject bioObject) throws BioclipseException,

@@ -13,6 +13,7 @@ package net.bioclipse.ui.business;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.List;
 
 import net.bioclipse.core.PublishedClass;
@@ -133,6 +134,14 @@ public interface IUIManager extends IBioclipseManager {
     )
     void open( IBioObject bioObject ) 
          throws BioclipseException, CoreException, IOException;
+
+    @Recorded
+    @GuiAction
+    @PublishedMethod(
+        params = "List molecules",
+        methodSummary = "Opens the list of molecules in the moltable editor"
+    )
+    public void open(final Collection<?> items) throws BioclipseException;
 
     @Recorded
     @GuiAction
