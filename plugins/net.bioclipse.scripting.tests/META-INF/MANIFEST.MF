@@ -4,7 +4,7 @@ Bundle-Name: Tests Plug-in
 Require-Bundle: net.bioclipse.core,
  net.bioclipse.scripting
 Bundle-SymbolicName: net.bioclipse.scripting.tests
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.6.0.qualifier
 Export-Package: net.bioclipse.scripting
 Import-Package: org.junit,
  org.junit.runner,

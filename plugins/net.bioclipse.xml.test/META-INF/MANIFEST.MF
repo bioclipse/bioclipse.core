@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bioclipse XML Unit Test Plug-in
 Bundle-SymbolicName: net.bioclipse.xml.test; singleton:=true
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.6.0.qualifier
 Bundle-Activator: net.bioclipse.xml.test.Activator
 Bundle-Vendor: The Bioclipse Project
 Require-Bundle: org.eclipse.ui,
