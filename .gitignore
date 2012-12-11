@@ -1,6 +1,7 @@
 .settings
 bin
 output
+.DS_Store
 plugins/net.bioclipse.structuredb.tests/logs/NatTableLog.log
 plugins/net.bioclipse.tests/logs/NatTableLog.log
 plugins/net.bioclipse.tests/filename
