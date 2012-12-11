@@ -21,39 +21,6 @@
 	</wizard>
 </extension>
 
-<extension
-      point="net.bioclipse.data.install">
-      <folder 
-      	name="2D structures"
-      	description="Sample structures with 2D coordinates"
-      	location="data/2DStructures"
-      />
-      <folder 
-      	name="3D Structures"
-      	description="Sample structures with 3D coordinates"
-      	location="data/3DStructures"
-      />
-      <folder 
-      	name="JavaScript scripts"
-      	description="Sample scripts in JavaScript"
-      	location="data/Javascripts"
-      />
-      <folder 
-      	name="SDF"
-      	description="Sample SDFiles"
-      	location="data/SDF"
-      />
-      <folder 
-      	name="PDB"
-      	description="Sample files in PDB format"
-      	location="data/PDB"
-      />
-      <!--folder 
-      	name="SMILES"
-      	description="Sample files with multiple SMILES "
-      	location="data/SMILES"
-      /-->
-</extension>
 
 
       <extension
