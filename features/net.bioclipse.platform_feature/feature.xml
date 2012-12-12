@@ -39,7 +39,7 @@ is available at http://www.eclipse.org/legal/epl-v10.html
          version="0.0.0"/>
 
    <requires>
-      <import feature="net.bioclipse.core_feature" version="2.5.0" match="equivalent"/>
+      <import feature="net.bioclipse.core_feature" version="2.6.0" match="equivalent"/>
    </requires>
 
    <plugin
