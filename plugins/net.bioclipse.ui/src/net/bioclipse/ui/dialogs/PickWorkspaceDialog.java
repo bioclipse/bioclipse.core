@@ -231,7 +231,7 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
     protected void createButtonsForButtonBar(Composite parent) {
 
         // clone workspace needs a lot of checks
-        Button clone = createButton(parent, IDialogConstants.IGNORE_ID, "Clone", false);
+        Button clone = createButton(parent, IDialogConstants.IGNORE_ID, "Clone Selected", false);
         clone.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event arg0) {
                 try {
