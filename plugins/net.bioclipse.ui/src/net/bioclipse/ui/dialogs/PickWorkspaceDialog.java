@@ -250,7 +250,8 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
                     }
 
                     DirectoryDialog dd = new DirectoryDialog(Display.getDefault().getActiveShell());
-                    dd.setFilterPath(txt);
+                    dd.setText("Select folder for clone");
+                    dd.setFilterPath(new File(txt).getParentFile().getAbsolutePath());
                     String directory = dd.open();
                     if (directory == null) { return; }
 
@@ -275,7 +276,7 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
                         return;
                     }
 
-                    boolean setActive = MessageDialog.openConfirm(Display.getDefault().getActiveShell(), "Workspace Cloned",
+                    boolean setActive = MessageDialog.openQuestion(Display.getDefault().getActiveShell(), "Workspace Cloned",
                             "Would you like to set the newly cloned workspace to be the active one?");
                     if (setActive) {
                         _workspacePathCombo.setText(directory);
