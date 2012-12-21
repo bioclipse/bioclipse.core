@@ -5,7 +5,7 @@
       version="2.5.0.qualifier">
 
    <description>
-      Enables menu with more advanced options for installing features. Alos provides the plugin-spy for developers.
+      Enables menu with more advanced options for installing features. Also provides the plugin-spy for developers.
    </description>
 
    <copyright url="http://www.example.com/copyright">
