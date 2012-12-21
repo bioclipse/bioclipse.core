@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse.advanced_feature"
       label="Advanced"
-      version="2.5.0.qualifier">
+      version="2.6.0.vqualifier">
 
    <description>
       Enables menu with more advanced options for installing features. Also provides the plugin-spy for developers.
