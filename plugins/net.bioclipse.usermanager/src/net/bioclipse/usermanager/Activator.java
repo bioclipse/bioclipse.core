@@ -15,6 +15,7 @@ import net.bioclipse.ui.BioclipseActivator;
 import net.bioclipse.usermanager.business.IUserManager;
 
 import org.apache.log4j.Logger;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 import net.bioclipse.core.util.LogUtils;
@@ -56,10 +57,12 @@ public class Activator extends BioclipseActivator {
         finderTracker.open();
         IPreferenceStore prefStore = Activator.getDefault().getPreferenceStore();
         prefStore.setDefault( PROMPT_ON_LOGOUT, true );
+        TrayDialog.setDialogHelpAvailable( true );
     }
 
     public void stop(BundleContext context) throws Exception {
         plugin = null;
+        TrayDialog.setDialogHelpAvailable( false );
         super.stop(context);
     }
 
