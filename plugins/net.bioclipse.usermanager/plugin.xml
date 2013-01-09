@@ -244,8 +244,8 @@
       <extension
         point="org.eclipse.help.contexts">
       <contexts
-        file="accountHelpContext.xml"
-        plugin="net.bioclipse.ui">
+        file="helpContext.xml"
+        plugin="net.bioclipse.usermanager">
       </contexts>
    </extension>
 >>>>>>> e244f56 Can't get the help-button to show-up, when starting the wizard from the "New..."-dialog

@@ -261,7 +261,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	public void performHelp() {
 	       PlatformUI.getWorkbench().getHelpSystem()
 	        .setHelp( Display.getCurrent().getActiveShell(),
-	                  "net.bioclipse.ui.accountWizardHelp" );
+	                  "net.bioclipse.usermanager.accountWizardHelp" );
 	}
 	
 	protected String getAccountId() {
