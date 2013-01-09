@@ -164,6 +164,6 @@ public class CreateUserWizardPage extends WizardPage implements Listener {
     public void performHelp() {
         PlatformUI.getWorkbench().getHelpSystem()
         .setHelp( Display.getCurrent().getActiveShell(),
-                  "net.bioclipse.usermanager.createAccountHelp" );
+                  "net.bioclipse.ui.createAccountHelp" );
     }
 }

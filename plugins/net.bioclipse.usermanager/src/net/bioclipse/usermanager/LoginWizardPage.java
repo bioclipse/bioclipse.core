@@ -92,7 +92,7 @@ public class LoginWizardPage extends WizardPage {
 	public void performHelp() {
         PlatformUI.getWorkbench().getHelpSystem()
         .setHelp( Display.getCurrent().getActiveShell(),
-                  "net.bioclipse.usermanager.loginWizardHelp" );
+                  "net.bioclipse.ui.loginWizardHelp" );
 	}
 }
 

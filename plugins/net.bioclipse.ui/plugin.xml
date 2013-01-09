@@ -493,5 +493,12 @@
    </linkHelper>
 </extension>
 
+      <extension
+        point="org.eclipse.help.contexts">
+      <contexts
+        file="helpContext.xml"
+        plugin="net.bioclipse.ui">
+      </contexts>
+   </extension>
 
 </plugin>
