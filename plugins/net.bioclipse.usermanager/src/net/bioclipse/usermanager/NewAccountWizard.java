@@ -10,24 +10,17 @@
  ******************************************************************************/
 package net.bioclipse.usermanager;
 
-import java.awt.Dialog;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-
 import net.bioclipse.usermanager.business.IUserManager;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.internal.help.WorkbenchHelpSystem;
 
 /**
  * A wizard for handling the users third parts accounts
@@ -47,26 +40,12 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	public NewAccountWizard(UserContainer userContainer, boolean manipulateUserContainer) {
 	    sandbox = userContainer;
 	    this.manipulateUserContainer = manipulateUserContainer;
-//	    getShell().setData("org.eclipse.ui.help", "net.bioclipse.ui.accountWizardHelp");
-//	    PlatformUI.getWorkbench().getHelpSystem().setHelp( getShell(), "accountWizardHelp" );
-//	    getShell().setData("org.eclipse.ui.help", "net.bioclipse.ui.accountWizardHelp");
-//	    PlatformUI.getWorkbench().getHelpSystem().setHelp( getShell(), "accountWizardHelp" );
-//	    setHelpAvailable( true );
 	}
 	
 	public NewAccountWizard() {
 	    usermanager = Activator.getDefault().getUserManager();
 	    sandbox = usermanager.getSandBoxUserContainer();
 	    manipulateUserContainer = true;
-//	    getShell().setData("org.eclipse.ui.help", "net.bioclipse.ui.accountWizardHelp");
-//	    PlatformUI.getWorkbench().getHelpSystem().setHelp( getShell(), "accountWizardHelp" );
-//	    getShell().setData("org.eclipse.ui.help", "net.bioclipse.ui.accountWizardHelp");
-//	    PlatformUI.getWorkbench().getHelpSystem().setHelp( getShell(), "accountWizardHelp" );
-//	    viewHelpButton( true );
-//	    setHelpAvailable( true );
-//	    getContainer().updateButtons();
-//	    TrayDialog.setDialogHelpAvailable( true );
-//	    Display.getCurrent().update();
 	    
 //		if ( usermanager.getUserNames().size() == 0) {
 //			CreateUserDialog dialog 
@@ -119,24 +98,10 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 		setDefaultPageImageDescriptor(ImageDescriptor
 				.createFromFile(this.getClass(),
 						"BioclipseAccountLogo3_medium.png"));
-
-//		Shell myShell = getShell();
-//		if (myShell == null)
-//		    myShell = Display.getCurrent().getActiveShell();
-//
-//		myShell.setData( "org.eclipse.help.contexts", "accountWizardHelp" );
-//		PlatformUI.getWorkbench().getHelpSystem()
-//		.setHelp( myShell, "net.bioclipse.ui.accountWizardHelp" );
-//		myShell.getAccessible().getControl().redraw();
-//		//	        myShell.layout();
-//		//	        myShell.pack();
-//		System.out.println(myShell.toString());
-//		Display.getDefault().update();
 	}
 
 	@Override
 	public boolean performFinish() {
-	    // TODO Make use of the viewHelpButton(boolean)...
 	    if ( !sandbox.isLoggedIn() ) {
 	        if (usermanager == null)
 	            usermanager = Activator.getDefault().getUserManager();	        
