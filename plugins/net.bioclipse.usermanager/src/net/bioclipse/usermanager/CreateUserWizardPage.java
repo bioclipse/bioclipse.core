@@ -11,10 +11,13 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public class CreateUserWizardPage extends WizardPage implements Listener {
 
@@ -157,4 +160,10 @@ public class CreateUserWizardPage extends WizardPage implements Listener {
         setPageComplete( isPageComplete() );
     }
     
+    @Override
+    public void performHelp() {
+        PlatformUI.getWorkbench().getHelpSystem()
+        .setHelp( Display.getCurrent().getActiveShell(),
+                  "net.bioclipse.ui.createAccountHelp" );
+    }
 }

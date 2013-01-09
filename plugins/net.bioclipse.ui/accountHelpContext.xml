@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <contexts>
     <context id="accountWizardHelp">
-        <description>
-            Show the account wizard help-page.
-        </description>
-        <topic href="html/accountWizardHelp.html" lable="Add a third-part acccount"/>
+        <description>Choose the web-service you want to integrate with Bioclipse, and fill in  your username and password for that.</description>
+        <topic href="html/usermanager/introduction.html" label="Add a third-part account"/>
+    </context>
+    <context id="loginWizardHelp">
+        <description>Login to your Bioclipse account or create a new account.</description>
+        <topic href="html/usermanager/loginoutHelp.html" label="Login/out from an account"/>
+    </context>
+        <context id="createAccountHelp">
+        <description>Create a Bioclipse account. Choose a username and a password, repeat the password in the bottom field.</description>
+        <topic href="html/usermanager/accountWizardHelp.html" label="Login/out from an account"/>
     </context>
 </contexts>
