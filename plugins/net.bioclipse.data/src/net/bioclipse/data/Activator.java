@@ -13,6 +13,7 @@ package net.bioclipse.data;
 
 import net.bioclipse.data.Activator;
 
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -42,6 +43,7 @@ public class Activator extends AbstractUIPlugin {
     public void start(BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
+        TrayDialog.setDialogHelpAvailable( true );
     }
 
     /*

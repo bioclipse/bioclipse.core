@@ -40,9 +40,11 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Page that reads EP and displays folders in CheckboxTableView.
@@ -320,5 +322,10 @@ public class SelectDataFoldersPage extends WizardPage {
 
     }
 
-
+    @Override
+    public void performHelp() {
+           PlatformUI.getWorkbench().getHelpSystem().displayHelp( "net.bioclipse.ui.dataFoldersHelp"  );
+//            .setHelp( Display.getCurrent().getActiveShell(),
+//                      "net.bioclipse.ui.dataFoldersHelp" );
+    }
 }

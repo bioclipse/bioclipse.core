@@ -56,7 +56,7 @@ public class SampleDataAction extends Action implements IIntroAction {
 			      WizardDialog dialog = new WizardDialog
 			         (PlatformUI.getWorkbench().getActiveWorkbenchWindow().
 			        		 getShell(),wizard);
-
+			      dialog.setHelpAvailable( true );// .getShell().setData( "org.eclipse.ui.help", "net.bioclipse.ui.accountWizardHelp" );
 			      // Open the wizard dialog
 			      int ret=dialog.open();
 			      if (ret==Window.CANCEL){

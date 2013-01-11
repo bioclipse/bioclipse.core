@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.ui.install;bundle-version="2.5.0"
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.log4j,
- org.eclipse.equinox.internal.p2.discovery
+ org.eclipse.equinox.internal.p2.discovery,
+ org.eclipse.help
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: net.bioclipse.data,
  net.bioclipse.data.wizards

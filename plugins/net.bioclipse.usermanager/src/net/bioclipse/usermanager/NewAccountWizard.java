@@ -46,7 +46,7 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	    usermanager = Activator.getDefault().getUserManager();
 	    sandbox = usermanager.getSandBoxUserContainer();
 	    manipulateUserContainer = true;
-	    
+	    System.out.println( "Help is available: "+isHelpAvailable() );
 //		if ( usermanager.getUserNames().size() == 0) {
 //			CreateUserDialog dialog 
 //			= new CreateUserDialog( PlatformUI.getWorkbench()

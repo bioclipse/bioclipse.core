@@ -70,6 +70,8 @@ public class NewDataProjectWizard extends Wizard implements INewWizard,
 
         setDefaultPageImageDescriptor(Activator.getImageDescriptor("icons/wiz/wiz1.png"));
         setWindowTitle( createPageName() );
+        System.out.println( "Help is available: "+isHelpAvailable() );
+        setHelpAvailable( true );      
     }
 
     private String createProjectName() {
