@@ -18,6 +18,16 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -91,8 +101,38 @@ public class JsConsoleManagerTest extends AbstractManagerTest {
         console.execute( file1 );
         console.execute( new ArrayList<IFile>() {{add(file1); add(file2);}} );
 
-        fail("FIXME: write test for running from Strings");
-        console.execute( new ArrayList<String>() {{
+        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        IProject project = root.getProject("TEST");
+        project.create(new NullProgressMonitor());
+        project.open(new NullProgressMonitor());
+        String filePath = "/TEST/testFile99883423427.js";
+        final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(
+                              new Path(filePath)
+                     );
+        Job job = new Job("test") {
+            @Override
+            protected IStatus run( IProgressMonitor monitor ) {
+                try {
+                    file.create( new ByteArrayInputStream(
+                                         "i = 5;".getBytes()), true, monitor );
+                } catch ( CoreException e ) {
+                    fail( e.getMessage() );
+                    return Status.CANCEL_STATUS;
+                }
+                return Status.OK_STATUS;
+            }
+        };
+        job.setRule( file );
+        job.schedule();
+        job.join();
+
+        final IFile savedFile = ResourcesPlugin.getWorkspace()
+                                               .getRoot()
+                                               .getFile( new Path(filePath) );
+        
+        console.execute( new ArrayList<String>() {{ 
+                                 add(file.getFullPath().toString()); 
+                                 add(file.getFullPath().toString());
                               }} );
     }
 }
