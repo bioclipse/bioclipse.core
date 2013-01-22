@@ -12,9 +12,13 @@
  ******************************************************************************/
 package net.bioclipse.scripting.ui.tests;
 
+import static org.junit.Assert.*;
+
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFile;
+import org.junit.Assert;
 import org.junit.Test;
 
 import net.bioclipse.core.MockIFile;
@@ -73,5 +77,22 @@ public class JsConsoleManagerTest extends AbstractManagerTest {
             new ByteArrayInputStream("i = 5;".getBytes())
         ).extension( "js" );
     	console.executeFile(file);
+    }
+    
+    @Test
+    public void testExecute() throws Exception {
+        final IFile file1 = new MockIFile(
+            new ByteArrayInputStream("i = 5;".getBytes())
+        ).extension( "js" );
+        final IFile file2 = new MockIFile(
+            new ByteArrayInputStream("i = 5;".getBytes())
+        ).extension( "js" );
+        console.executeFile(file1);
+        console.execute( file1 );
+        console.execute( new ArrayList<IFile>() {{add(file1); add(file2);}} );
+
+        fail("FIXME: write test for running from Strings");
+        console.execute( new ArrayList<String>() {{
+                              }} );
     }
 }
