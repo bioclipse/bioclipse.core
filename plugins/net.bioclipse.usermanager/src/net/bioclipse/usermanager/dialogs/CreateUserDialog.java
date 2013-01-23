@@ -133,7 +133,7 @@ public class CreateUserDialog extends TitleAreaDialog {
                                              passwordLabel, 
                                              repeatPasswordLabel });
         
-        setTitle("Create your Bioclipse login");
+        setTitle("Create your Bioclipse Account");
         
         return area;
     }
@@ -192,6 +192,6 @@ public class CreateUserDialog extends TitleAreaDialog {
     }
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
-		newShell.setText("Create Bioclipse Account");
+		newShell.setText("Create your Bioclipse Account");
 	}
 }
