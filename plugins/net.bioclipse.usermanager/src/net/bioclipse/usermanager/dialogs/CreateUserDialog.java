@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.Group;
 
 /**
  * Dialog for creating a user
@@ -46,6 +47,8 @@ public class CreateUserDialog extends TitleAreaDialog {
     private Text  passwordText;
     private Text  userNameText;
     private UserContainer userContainer;
+    private Group group;
+    private Label label;
     
     /**
      * Create the dialog
@@ -77,40 +80,52 @@ public class CreateUserDialog extends TitleAreaDialog {
 
         passwordLabel = new Label(container, SWT.NONE);
         final FormData formData_1 = new FormData();
+        formData_1.right = new FormAttachment(usernameLabel, 0, SWT.RIGHT);
         passwordLabel.setLayoutData(formData_1);
         passwordLabel.setText("Password:");
 
         repeatPasswordLabel = new Label(container, SWT.NONE);
         final FormData formData_2 = new FormData();
+        formData_2.top = new FormAttachment(passwordLabel, 21);
+        formData_2.right = new FormAttachment(usernameLabel, 0, SWT.RIGHT);
         repeatPasswordLabel.setLayoutData(formData_2);
         repeatPasswordLabel.setText("Repeat password:");
 
         userNameText = new Text(container, SWT.BORDER);
-        formData.bottom = new FormAttachment(userNameText, 0, SWT.BOTTOM);
-        formData.right = new FormAttachment(userNameText, -5, SWT.LEFT);
+        formData.right = new FormAttachment(userNameText, -6);
         final FormData formData_3 = new FormData();
-        formData_3.top = new FormAttachment(0, 19);
+        formData_3.top = new FormAttachment(usernameLabel, -3, SWT.TOP);
+        formData_3.left = new FormAttachment(0, 151);
+        formData_3.right = new FormAttachment(100, -36);
         userNameText.setLayoutData(formData_3);
 
         passwordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
-        formData_3.left = new FormAttachment(passwordText, -317, SWT.RIGHT);
-        formData_3.right = new FormAttachment(passwordText, 0, SWT.RIGHT);
-        formData_1.bottom = new FormAttachment(passwordText, 0, SWT.BOTTOM);
-        formData_1.right = new FormAttachment(passwordText, -5, SWT.LEFT);
+        formData_1.top = new FormAttachment(passwordText, 3, SWT.TOP);
+        formData_1.left = new FormAttachment(passwordText, -64, SWT.LEFT);
         final FormData formData_4 = new FormData();
-        formData_4.top = new FormAttachment(0, 63);
+        formData_4.left = new FormAttachment(0, 151);
+        formData_4.right = new FormAttachment(100, -37);
+        formData_4.top = new FormAttachment(userNameText, 14);
         passwordText.setLayoutData(formData_4);
 
         repeatPasswordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
-        formData_2.bottom = new FormAttachment(repeatPasswordText, 0, SWT.BOTTOM);
-        formData_2.right = new FormAttachment(repeatPasswordText, -5, SWT.LEFT);
-        formData_4.left = new FormAttachment(repeatPasswordText, -316, SWT.RIGHT);
-        formData_4.right = new FormAttachment(repeatPasswordText, 0, SWT.RIGHT);
         final FormData formData_5 = new FormData();
-        formData_5.top = new FormAttachment(0, 107);
-        formData_5.left = new FormAttachment(0, 154);
-        formData_5.right = new FormAttachment(0, 470);
+        formData_5.left = new FormAttachment(repeatPasswordLabel, 6);
+        formData_5.right = new FormAttachment(repeatPasswordLabel, 448, SWT.RIGHT);
+        formData_5.top = new FormAttachment(passwordText, 16);
         repeatPasswordText.setLayoutData(formData_5);
+        
+        group = new Group(container, SWT.BORDER);
+        formData.top = new FormAttachment(group, 20);
+        FormData fd_group = new FormData();
+        fd_group.right = new FormAttachment(0, 619);
+        fd_group.top = new FormAttachment(0, 10);
+        fd_group.left = new FormAttachment(0, 10);
+        group.setLayoutData(fd_group);
+        
+        label = new Label(group, SWT.WRAP);
+        label.setText("Bioclipse wants to store your usernames and passwords in a password encrypted file on your harddrive. This means that you only need to log in once to Bioclipse and then Bioclipse will take care of the rest.\n\nIn order to do this you will need to create a Bioclipse account on this computer. Please give a username and password for your new Bioclipse account.");
+        label.setBounds(10, 10, 577, 82);
         container.setTabList(new Control[] { userNameText, 
                                              passwordText, 
                                              repeatPasswordText, 
@@ -118,7 +133,7 @@ public class CreateUserDialog extends TitleAreaDialog {
                                              passwordLabel, 
                                              repeatPasswordLabel });
         
-        setTitle("Create Bioclipse Account");
+        setTitle("Create your Bioclipse login");
         
         return area;
     }
@@ -140,7 +155,7 @@ public class CreateUserDialog extends TitleAreaDialog {
      */
     @Override
     protected Point getInitialSize() {
-        return new Point(500, 318);
+        return new Point(629, 376);
     }
     
     protected void buttonPressed(int buttonId) {
