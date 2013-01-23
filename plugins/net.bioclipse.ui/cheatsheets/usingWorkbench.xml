@@ -10,7 +10,7 @@
 	<item title="Step 1: Create a Project">
 	
 		<description>
-			The Bioclipse Navigator is the central view in Bioclipse for working woth resources, such as files. By default it is located to the left in the workbench and points to a a special folder on the computer called the &quot;Workspace&quot;, which is a special folder on your computer where all the data in Bioclipse is stored and accessed.
+			The Bioclipse Navigator is the central view in Bioclipse for working with resources, such as files. By default it is located to the left in the workbench and points to a a special folder on the computer called the &quot;Workspace&quot;, which is a special folder on your computer where all the data in Bioclipse is stored and accessed.
 
 			Everything listed in the Navigator is a Resource, and the top level Resources are called Projects which can contain folders and/or files. All files and folders need to be located in a Project. You can easily create new Projects, Folders, and Files by right-clicking in the Bioclipse Navigator.
 <br/> <br/> 
@@ -23,7 +23,7 @@
  <item
        title="Step 2: Create a folder">
     <description>
-       Right-click on the newly created Project and select <b>New &gt; Folder</b>. Name the folder &apos;MyFolder&apos;-
+       Right-click on the newly created Project and select <b>New &gt; Folder</b>. Name the folder &apos;My folder&apos;-
     </description>
     <command
           required="false"
@@ -41,13 +41,13 @@
  <item
        title="Step 4: Open, edit, and save the text file.">
     <description>
-       Double-click to open the created text file in a text editor. Try editing text, and try undo/redo, cut and paste, and Save As... to save file to another filename.
+       If the created text file didn't opened in a text editor, just double-click it to open it. Try editing text, and try undo/redo, cut and paste, and Save As... to save file to another filename.
     </description>
  </item>
 
 	<item title="Step 5: Accessing Help">
 		<description>
-			In the Help menu, select &quot;Help Contents&quot;. A browser window should open and reveal the Bioclipse online help. This is the main source for documentaion in Bioclipse.
+			In the Help menu, select &quot;Help Contents&quot;. A browser window should open and reveal the Bioclipse online help. This is the main source for documentation in Bioclipse.
 			
 		</description>
   <command

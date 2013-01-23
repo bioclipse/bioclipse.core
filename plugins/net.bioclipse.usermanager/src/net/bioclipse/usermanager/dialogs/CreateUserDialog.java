@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 /**
  * Dialog for creating a user
@@ -62,6 +63,8 @@ public class CreateUserDialog extends TitleAreaDialog {
      */
     @Override
     protected Control createDialogArea(Composite parent) {
+        setMessage("Bioclipse wants to create an account for storing all your different passwords in one password encrypted file.");
+        setTitleImage(SWTResourceManager.getImage(CreateUserDialog.class, "/net/bioclipse/usermanager/BioclipseAccountLogo3_medium.png"));
         Composite area = (Composite) super.createDialogArea(parent);
         Composite container = new Composite(area, SWT.NONE);
         container.setLayout(new FormLayout());
@@ -115,7 +118,7 @@ public class CreateUserDialog extends TitleAreaDialog {
                                              passwordLabel, 
                                              repeatPasswordLabel });
         
-        setTitle("Create User");
+        setTitle("Create Bioclipse Account");
         
         return area;
     }
@@ -174,6 +177,6 @@ public class CreateUserDialog extends TitleAreaDialog {
     }
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
-		newShell.setText("Create User");
+		newShell.setText("Create Bioclipse Account");
 	}
 }

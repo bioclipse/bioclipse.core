@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Troubleshooting"> 
+	<topic href="html/browser_ubuntu.html" label="Internal Web Browser problem in GNU/Linux">
+ </topic>
+ <topic label="Troubleshooting Bioclipse-R">
+    <anchor id="rTroubleshoot"/>
+ </topic>
+</toc>

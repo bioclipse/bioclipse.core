@@ -29,10 +29,13 @@ print '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
         padding: 0.5em 1em 0.5em 1em;
         margin: 1em;
       }
+      .back {
+        text-align: right;
+      }
     </style>
   </head>
-<body>';
-
+<body>'."\n";
+print "<a name='top'></a>";
 # Sort alphabetically on the first namespace
 sub by_namespace {
     $h->{$a}{Namespaces}[0] cmp $h->{$b}{Namespaces}[0];
@@ -64,6 +67,7 @@ for my $manager (@managers) {
         }
         print "</dl>\n</div>\n"
     }
+    print  "\n<div class='back'><a href='#top'>back to top</a></div>\n";
 }
 print "</body>\n</html>\n";
 

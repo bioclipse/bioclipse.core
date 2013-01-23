@@ -15,6 +15,8 @@ import net.bioclipse.ui.BioclipseActivator;
 import net.bioclipse.usermanager.business.IUserManager;
 
 import org.apache.log4j.Logger;
+import org.eclipse.jface.preference.IPreferenceStore;
+
 import net.bioclipse.core.util.LogUtils;
 
 import org.osgi.framework.BundleContext;
@@ -31,7 +33,8 @@ public class Activator extends BioclipseActivator {
     
     // The plug-in ID
     public static final String PLUGIN_ID = "net.bioclipse.usermanager";
-
+    public static final String PROMPT_ON_LOGOUT = "PROMPT_ON_LOGOUT";
+    
     // The shared instance
     private static Activator plugin;
 
@@ -51,6 +54,8 @@ public class Activator extends BioclipseActivator {
                                             IUserManager.class.getName(), 
                                             null );
         finderTracker.open();
+        IPreferenceStore prefStore = Activator.getDefault().getPreferenceStore();
+        prefStore.setDefault( PROMPT_ON_LOGOUT, true );
     }
 
     public void stop(BundleContext context) throws Exception {

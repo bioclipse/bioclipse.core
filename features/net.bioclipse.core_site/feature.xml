@@ -20,4 +20,26 @@
          id="net.bioclipse.core_feature"
          version="0.0.0"/>
 
+   <includes
+         id="net.bioclipse.platform_feature"
+         version="0.0.0"/>
+
+   <includes
+         id="net.bioclipse.advanced_feature"
+         version="0.0.0"/>
+
+   <plugin
+         id="net.bioclipse.jasper"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.bioclipse.databases"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>

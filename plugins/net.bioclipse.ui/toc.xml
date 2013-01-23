@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="Bioclipse users manual" topic="html/toc.html">
+<toc label="Bioclipse users manual">
 
    <topic label="About" href="html/about.html"/>
    <topic label="Bioclipse concepts"  href="html/concepts.html" />
@@ -36,5 +36,10 @@
 		<topic label="About the Help system" href="html/workbench/wb_help.html"/>
 
    </topic>
-
+   <topic label="Bioclipse user account">
+        <topic label="Introduction" href="html/usermanager/introduction.html"/>
+        <topic label="Creating a new user account" href="html/usermanager/accountWizardHelp.html" />
+        <topic label="Using Preferences" href="html/usermanager/usingPrefs.html"/>
+        <topic label="Logging in and out" href="html/usermanager/loginoutHelp.html"/>
+   </topic>
 </toc>

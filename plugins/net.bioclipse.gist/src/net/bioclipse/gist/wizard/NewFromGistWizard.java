@@ -10,34 +10,20 @@
  ******************************************************************************/
 package net.bioclipse.gist.wizard;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.gist.business.GistManager;
+import net.bioclipse.jobs.IReturner;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 
@@ -52,7 +38,6 @@ public class NewFromGistWizard extends BasicNewResourceWizard {
 		"net.bioclipse.gist.wizards.NewFromGistWizard"; //$NON-NLS-1$
 	
     private GistNumberWizardPage mainPage;
-    private WizardNewFileCreationPage selectFilePage;
     
     private int gist = 0;
 
@@ -69,11 +54,6 @@ public class NewFromGistWizard extends BasicNewResourceWizard {
         mainPage.setTitle("Download Gist");
         mainPage.setDescription("Create a new resource from a downloaded Gist"); 
         addPage(mainPage);
-        
-        selectFilePage = new WizardNewFileCreationPage("newFilePage1", getSelection());//$NON-NLS-1$
-        selectFilePage.setTitle("Select File");
-        selectFilePage.setDescription("Select target file"); 
-        addPage(selectFilePage);
     }
 
     public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
@@ -84,50 +64,60 @@ public class NewFromGistWizard extends BasicNewResourceWizard {
 
     @Override
     public boolean canFinish() {
-    	return (mainPage.canFlipToNextPage()) && (selectFilePage.isPageComplete());
+    	return mainPage.canFlipToNextPage();
     }
     
 	class DownloadGistRunnable implements IRunnableWithProgress {
 		
-		private IFile file;
-		
-		public DownloadGistRunnable(IFile file) {
-			this.file = file;
-		}
+		public DownloadGistRunnable() {}
 		
 		public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-			downloadGist(monitor, file);
+			downloadGist(monitor);
 		}
 		
-	    private void downloadGist(IProgressMonitor monitor, IFile file) throws InvocationTargetException {
+	    private void downloadGist(IProgressMonitor monitor) throws InvocationTargetException {
 	        GistManager gistManager = new GistManager();
-	        try {
-              gistManager.download(getGist(), file, monitor);
-          }  catch (BioclipseException exception) {
-              throw new InvocationTargetException(exception, "Error while downloading gist...");
-          } 
-	        
-	        selectAndReveal(file);
 
-	        IWorkbenchWindow bench = getWorkbench().getActiveWorkbenchWindow();
 	        try {
-	            if (bench != null) {
-	                IWorkbenchPage page = bench.getActivePage();
-	                if (page != null) {
-	                    IDE.openEditor(page, file, true);
-	                }
-	            }
-	        } catch (PartInitException e) {
-	        	new InvocationTargetException(new NullPointerException(), "Error while opening editor...");
-	        }
+	        	gistManager.download(getGist(), new IReturner<IFile>() {
+					
+					@Override
+					public void partialReturn(IFile file) {
+						show(file);
+					}
+					
+					@Override
+					public void completeReturn(IFile file) {
+						show(file);
+					}
+					
+					private void show(IFile file) {
+				        selectAndReveal(file);
+
+				        IWorkbenchWindow bench = getWorkbench().getActiveWorkbenchWindow();
+				        try {
+				            if (bench != null) {
+				                IWorkbenchPage page = bench.getActivePage();
+				                if (page != null) {
+				                    IDE.openEditor(page, file, true);
+				                }
+				            }
+				        } catch (PartInitException e) {
+				        	new InvocationTargetException(new NullPointerException(), "Error while opening editor...");
+				        }
+					}
+				}, monitor);
+	        }  catch (BioclipseException exception) {
+	        	throw new InvocationTargetException(exception, "Error while downloading gist...");
+	        } 
+	        
 	    }
 
 	}
 
 	public boolean performFinish() {
-        IFile file = selectFilePage.createNewFile();
         try {
-    		getContainer().run(true, true, new DownloadGistRunnable(file));
+    		getContainer().run(true, true, new DownloadGistRunnable());
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 			return false;
@@ -143,7 +133,6 @@ public class NewFromGistWizard extends BasicNewResourceWizard {
 
 	public void setGist(int gist) {
 		this.gist = gist;
-		selectFilePage.setFileName("gist." + gist + ".js");
 	}
 
 }

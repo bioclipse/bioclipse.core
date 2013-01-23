@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>Internal Web Browser problem in GNU/Linux</TITLE>
+  <link rel="stylesheet" href="../../PRODUCT_PLUGIN/narrow_book.css" type="text/css">
+</HEAD>
+
+<body BODY LANG="en-US" DIR="LTR">
+	<h2>
+		Internal Web Browser problem in GNU/Linux
+	</h2>
+    <p>
+		In certain Linux distributions (Ubuntu 12.04, for example) the Bioclipse internal Web browser fails to start properly
+		due to missing SWT GTK+ WebKit JNI library:
+	</p>
+	<p>
+		<img src="images/browser_ubuntu.png" width=700>
+	</p> 
+	<p>
+		Particularly, in Ubuntu the problem is solved by installing the library:
+	<pre>
+		apt-get instlall libswt-webkit-gtk-3-jni
+	</pre>
+		For more information and instructions, take a look at the SWT FAQ pages:<br>
+        <a href="http://www.eclipse.org/swt/faq.php#browserlinuxrcp">What do I need to run the SWT Browser in a standalone application on Linux or Solaris?</a>
+      </p>
+</body>
+</HTML>

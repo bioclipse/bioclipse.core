@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse.core.tests_feature"
       label="Tests feature for core"
-      version="1.0.0.qualifier">
+      version="2.6.0.vqualifier">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]

@@ -15,16 +15,15 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.List;
 
 import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.data.Activator;
 import net.bioclipse.data.CopyTools;
 import net.bioclipse.data.DummyProgressMonitor;
 
 import org.apache.log4j.Logger;
-import net.bioclipse.core.util.LogUtils;
-
 import org.eclipse.core.internal.resources.Project;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
@@ -53,7 +52,8 @@ import org.osgi.framework.Bundle;
  *
  */
 @SuppressWarnings("restriction")
-public class NewDataProjectWizard extends Wizard implements INewWizard, IExecutableExtension {
+public class NewDataProjectWizard extends Wizard implements INewWizard,
+                IExecutableExtension {
 
 	private WizardNewProjectCreationPage fFirstPage;
     private SelectDataFoldersPage folPage;
@@ -61,20 +61,21 @@ public class NewDataProjectWizard extends Wizard implements INewWizard, IExecuta
     private IWorkbench workbench;
     private IStructuredSelection selection;
     private String wizardID;
-
+    private String name;
+    
 	private static final Logger logger =
         Logger.getLogger(NewDataProjectWizard.class);
 
-
     public NewDataProjectWizard() {
-        super();
-        
-        setDefaultPageImageDescriptor(Activator.getImageDescriptor("icons/wiz/wiz1.png"));
-        setWindowTitle("New Sample Data project");
 
-        fFirstPage = new WizardNewProjectCreationPage("New Sample Data project");
+        setDefaultPageImageDescriptor(Activator.getImageDescriptor("icons/wiz/wiz1.png"));
+        setWindowTitle( createPageName() );
+    }
+
+    private String createProjectName() {
+
         boolean shouldEnd = false;
-        String projectNameStart = "Sample Data";
+        String projectNameStart = createProjectNameStart();//"Sample Data";
         int cnt=1;
 
         String projectName=projectNameStart;
@@ -96,35 +97,98 @@ public class NewDataProjectWizard extends Wizard implements INewWizard, IExecuta
         	}
 
         }
-        
-        logger.debug("New data project name: " + projectName);
-        
-        fFirstPage.setInitialProjectName( projectName );
-        folPage=new SelectDataFoldersPage();
+        return projectName;
+    }
+    
+    private String createProjectNameStart() {
+        if (name == null)
+            name = createPageName();
+        int start;
+        if (name.startsWith( "New" ))
+            start = 4;
+        else
+            start = 0;
+        int end = name.indexOf( "Project" ) - 1;
+        end = end < 0 ? name.length() : end;
 
+        return name.substring( start, end );
+    }
+    
+    public SelectDataFoldersPage getSelectDataFoldersPage() {
+        if ( folPage == null ) {
+            folPage = new SelectDataFoldersPage();
+        }
+        return folPage;
     }
 
+    public WizardNewProjectCreationPage getProjectCreationPage() {
+        if (name == null)
+            name = createPageName();
+        
+        if ( fFirstPage == null ) {
+//            String pageName = createPageName();//"New Sample Data project";
+            fFirstPage = new WizardNewProjectCreationPage( name );//pageName );
+            fFirstPage.setTitle( name );//pageName );
+            fFirstPage.setDescription( "Create a " + name );
+                                       //"Create a new Project with "
+//                                       + "sample data installed" );
+        }
+        
+        String projectName = createProjectName();
+        logger.debug( "New data project name: " + projectName );
+        fFirstPage.setInitialProjectName( projectName );
+        return fFirstPage;
+    }
+    
+    private String createPageName() {
+        if (wizardID == null)
+            /* TODO When opening the wizard from the welcome page the wizard id 
+             * isn't set, so let's pretend that the user always want to import 
+             * sample data if the id isn't set...
+             * Is this true? If not; it should probably be an other solution*/
+            wizardID = "net.bioclipse.data.wizards.NewSampleDataProjectWizard";
+//            return "New project";
+        
+        String pageName;
+        int end;
+        int start = wizardID.lastIndexOf( '.' );
+        start = start == -1? 0 : start;
+        
+        if (wizardID.endsWith( "Wizard" )) {
+            end = wizardID.indexOf( "Wizard" );
+            pageName = wizardID.substring( start + 1, end );
+        } else
+            pageName = wizardID.substring( start + 1 );
+        
+        String letter, temp = String.valueOf( pageName.charAt( 0 ) ) ;
+        end = pageName.length();
+        for (int i = 1; i < pageName.length(); i++){
+            letter = String.valueOf( pageName.charAt( i ) ) ;
+            if (letter.equals( letter.toUpperCase() )) {
+                temp += " " + letter;   
+            } else
+                temp += letter;        
+        }
+        pageName = temp;
+
+        return pageName;
+    }
+    
     /**
      * Add WizardNewProjectCreationPage from IDE
      */
     public void addPages() {
 
-        fFirstPage.setTitle("New Sample Data project");
-        fFirstPage.setDescription("Create a new Project with " +
-        "sample data installed");
-//        fFirstPage.setImageDescriptor(ImageDescriptor.createFromFile(getClass(),
-//        "/org/ananas/xm/eclipse/resources/newproject58.gif"));
-        addPage(fFirstPage);
-
-        addPage(folPage);
-
+        super.addPages();
+        addPage( getProjectCreationPage() );
+        addPage( getSelectDataFoldersPage() );
     }
 
     
     @Override
     public boolean performCancel() {
     	logger.debug("Installation data wizard cancelled");
-    	return true;
+        return super.performCancel();
     }
 
     /**
@@ -167,7 +231,7 @@ public class NewDataProjectWizard extends Wizard implements INewWizard, IExecuta
     public void init(IWorkbench workbench, IStructuredSelection selection) {
         this.workbench = workbench;
         this.selection = selection;
-        setWindowTitle("New Sample Data Project");
+        setWindowTitle( createPageName() );
 //        setDefaultPageImageDescriptor(TBC);
     }
 
@@ -179,7 +243,7 @@ public class NewDataProjectWizard extends Wizard implements INewWizard, IExecuta
     protected void createProject(IProgressMonitor monitor)
     {
     	
-        ArrayList<InstallableFolder> folders=folPage.getFolders();
+        List<InstallableFolder> folders = folPage.getFolders();
         monitor.beginTask("Copying data",folders.size()+2);
         
         try

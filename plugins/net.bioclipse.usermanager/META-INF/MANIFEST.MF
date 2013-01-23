@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Usermanager
 Bundle-SymbolicName: net.bioclipse.usermanager;singleton:=true
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.6.0.vqualifier
 Bundle-Activator: net.bioclipse.usermanager.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.runtime.compatibility.auth,
  net.sf.cglib,
- net.bioclipse.encryption;bundle-version="0.1.0",
+ net.bioclipse.encryption,
  org.eclipse.core.expressions
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,

@@ -18,6 +18,8 @@ import java.lang.annotation.Target;
 
 
 /**
+ * Indicates that the method should be run in the GUI thread.
+ * 
  * jonalv
  *
  */

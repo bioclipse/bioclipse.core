@@ -1,16 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="net.bioclipse.keyring">
+<schema targetNamespace="net.bioclipse.keyring" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
-      <appInfo>
+      <appinfo>
          <meta.schema plugin="net.bioclipse.keyring" id="accountType" name="AccountType"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          An account type defines which key value pairs an account should persist.
       </documentation>
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
       <complexType>
          <sequence minOccurs="1" maxOccurs="unbounded">
             <element ref="AccountType"/>
@@ -44,6 +49,16 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="logoPath" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="resource"/>
+               </appinfo>
+            </annotation>
+         </attribute>
          <attribute name="id" type="string">
             <annotation>
                <documentation>
@@ -70,22 +85,44 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="secret" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="newAccountUI">
+      <complexType>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn="org.eclipse.swt.widgets.Composite:net.bioclipse.usermanager.IAccounts"/>
+               </appinfo>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="since"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          [Enter the first release in which this extension point appears.]
       </documentation>
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="examples"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          &lt;p&gt;
 &lt;pre&gt;
@@ -93,10 +130,12 @@
         point=&quot;net.bioclipse.keyring.accountType&quot;&gt;
      &lt;AccountType
            id=&quot;lis.accounttype&quot;
-           name=&quot;LisAccountType&quot;&gt;
+           name=&quot;LisAccountType&quot;
+           logoPath=&quot;icons/logo.jpg&quot;&gt;
         &lt;property
               name=&quot;URL&quot;
-              required=&quot;true&quot;/&gt;
+              required=&quot;true&quot;
+              secret=&quot;false&quot;/&gt;
      &lt;/AccountType&gt;
   &lt;/extension&gt;
 &lt;/pre&gt;
@@ -105,30 +144,22 @@
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="apiInfo"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          [Enter API information here.]
       </documentation>
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="implementation"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          [Enter information about supplied implementation of this extension point.]
       </documentation>
    </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="copyright"/>
-      </appInfo>
-      <documentation>
-         
-      </documentation>
-   </annotation>
 
 </schema>

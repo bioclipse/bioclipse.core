@@ -2,17 +2,17 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Testsuite
 Bundle-SymbolicName: net.bioclipse.core.testsuite
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.6.0.vqualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: net.bioclipse.browser.tests;bundle-version="0.1.0",
- net.bioclipse.core.tests;bundle-version="2.4.0",
- net.bioclipse.encryption.tests;bundle-version="2.4.0",
- net.bioclipse.scripting.tests;bundle-version="2.4.0",
- net.bioclipse.scripting.ui.tests;bundle-version="2.4.0",
- net.bioclipse.ui.tests;bundle-version="2.4.0",
- net.bioclipse.usermanager.tests;bundle-version="2.4.0",
- net.bioclipse.webservices.tests;bundle-version="2.4.0",
- net.bioclipse.ui.business.tests;bundle-version="2.4.0"
+Require-Bundle: net.bioclipse.browser.tests,
+ net.bioclipse.core.tests,
+ net.bioclipse.encryption.tests,
+ net.bioclipse.scripting.tests,
+ net.bioclipse.scripting.ui.tests,
+ net.bioclipse.ui.tests,
+ net.bioclipse.usermanager.tests,
+ net.bioclipse.webservices.tests,
+ net.bioclipse.ui.business.tests
 Import-Package: org.junit,
  org.junit.runner,
  org.junit.runners

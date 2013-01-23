@@ -12,7 +12,10 @@
 package net.bioclipse.usermanager;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * The local user with username and password for 
@@ -25,6 +28,7 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1424921617301316765L;
     
     private HashMap<String, Account> accounts;
+    private HashMap<String, Boolean> loggedInAccounts = new HashMap<String, Boolean>();
     private String encryptedKey;
     private String userName;
     
@@ -39,6 +43,7 @@ public class User implements Serializable {
         this.encryptedKey = encryptedKey;
         this.userName = userName;
         accounts = new HashMap<String, Account>();
+//        loggedInAccounts = new HashMap<String, Boolean>();
     }
 
     /**
@@ -50,7 +55,7 @@ public class User implements Serializable {
         
         this.userName = user.userName;
         this.encryptedKey = user.encryptedKey;
-        
+//        this.loggedInAccounts = new HashMap<String, Boolean>();//user.getLoggedInAccounts();
         this.accounts = new HashMap<String, Account>();
         for( String accountId : user.accounts.keySet() ) {
             this.accounts.put( accountId, 
@@ -69,7 +74,16 @@ public class User implements Serializable {
     HashMap<String, Account> getAccounts() {
         return accounts;
     }
-
+    
+    public ArrayList<String> getAccountTypes() {
+        ArrayList<String> accountTypes = new ArrayList<String>();
+        Collection<Account> myAccounts = accounts.values();
+        Iterator<Account> itr = myAccounts.iterator();
+        while (itr.hasNext())
+            accountTypes.add( itr.next().getAccountType().getName() );
+        return accountTypes;
+    }
+    
     void addAccount(Account account) {
         accounts.put( account.getAccountId(), account );
     }
@@ -88,4 +102,31 @@ public class User implements Serializable {
         this.encryptedKey = encryptedPassword;
     }
     
+    /**
+     * Add an account that the user as tried to login to.
+     * 
+     * @param name The name of the account
+     * @param logInSucceeded True if the user is logged in
+     */
+    public void addLoggedInAccount(String name, boolean logInSucceeded) {
+        loggedInAccounts.put( name, logInSucceeded );
+    }
+    
+    /**
+     * Get the hash map with the information about the which account the user is
+     * logged in to.
+     * 
+     * @return The accounts the user tried to log in to
+     */
+    public HashMap<String, Boolean> getLoggedInAccounts() {
+        return loggedInAccounts;
+    }
+    
+    /**
+     * Clears the hash map with information about the account that the user has
+     * tried to login to. To be used when the user are logging out.
+     */
+    public void clearLoggedInAccounts() {
+        loggedInAccounts.clear();
+    }
 }

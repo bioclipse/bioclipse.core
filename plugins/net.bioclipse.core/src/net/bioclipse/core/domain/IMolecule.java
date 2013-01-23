@@ -58,7 +58,7 @@ public interface IMolecule extends IBioObject{
      * calculated when the method is called.
      *
      * @return the SMILES string for this IMolecule
-     * @throws BioclipseException is SMILES can not be returned
+     * @throws BioclipseException if SMILES can not be returned
      */
     public String toSMILES() throws BioclipseException;
 

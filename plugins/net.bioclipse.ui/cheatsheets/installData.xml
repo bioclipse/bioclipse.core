@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cheatsheet title="Install data projects">
+    <intro>
+        <description>
+            This tutorial describes how to install a new data project. In Bioclipse there is some premade projects with data that can be used e.g. when starting to know a new feature. 
+            One of them is called "DrugBank" and it will be used as an example in this tutorial.
+        </description>
+    </intro>
+    
+    <item title="Step 1: Download a data project">
+        <description>
+            Choose <b>Install > Data...</b>. This opens a dialog that looks like, and work as, the dialog used when installing new features. Select "DrugBank feature" by clicking in 
+            the check-box in front of it and then click on <b>finish</b>.
+        </description>
+        <command
+          required="false"
+          serialization="net.bioclipse.ui.install.ShowRepositoryCatalog(org.eclipse.equinox.p2.ui.discovery.commands.RepositoryParameter=http://pele.farmbio.uu.se/bioclipse/data,net.bioclipse.ui.install.commands.RepositoryStrategyParameter=net.bioclipse.ui.install.discovery.DataDiscoveryStrategy)"/>
+        
+    </item>
+    
+    <item title="Step 2: Install the data set">
+        <description>
+            After downloading the DrugBank data project you need to install it as well. To do this choose <b>File > New... > Data</b>, select 
+            <b>New Drugbank Data Project</b> and click on <b>next</b>.<br/><br/>
+            On the next page you may give the project a new name, e.g. "Drugbank". Name it and click once more one <b>next</b>.<br/><br/>
+            On the last page make sure that only the items you want is selected. In this case that only "DrugBank" is selected and click <b>finish</b>.
+        </description>
+        <command
+            required="false"
+            serialization="org.eclipse.ui.newWizard(newWizardId=net.bioclipse.data.drugbank.wizards.NewDrugbankProjectWizard)"/>
+    </item>
+</cheatsheet>

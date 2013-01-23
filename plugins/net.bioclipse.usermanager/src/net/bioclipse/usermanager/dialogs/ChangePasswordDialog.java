@@ -11,6 +11,8 @@
 
 package net.bioclipse.usermanager.dialogs;
 
+import net.bioclipse.usermanager.UserContainer;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -23,6 +25,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * A dialog used to change the password for an user
@@ -36,12 +39,16 @@ public class ChangePasswordDialog extends Dialog {
     private Text oldPasswordText;
     private String oldPassword;
     private String newPassword;
+    private Label errorMessage;
+    private UserContainer sandbox;
+    
     /**
      * Create the dialog
      * @param parentShell
      */
-    public ChangePasswordDialog(Shell parentShell) {
+    public ChangePasswordDialog(Shell parentShell, UserContainer userContainer) {
         super(parentShell);
+        this.sandbox = userContainer;
     }
 
     /**
@@ -67,20 +74,26 @@ public class ChangePasswordDialog extends Dialog {
         newPasswordLabel.setLayoutData(formData_1);
         newPasswordLabel.setText("New password:");
 
-        oldPasswordText = new Text(container, SWT.BORDER);
+        oldPasswordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
         final FormData formData_2 = new FormData();
         formData_2.right = new FormAttachment(100, -35);
         formData_2.bottom = new FormAttachment(oldPasswordLabel, 0, SWT.BOTTOM);
         oldPasswordText.setLayoutData(formData_2);
 
-        newPasswordText = new Text(container, SWT.BORDER);
+        newPasswordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
         formData_2.left = new FormAttachment(newPasswordText, 0, SWT.LEFT);
         final FormData formData_3 = new FormData();
         formData_3.left = new FormAttachment(newPasswordLabel, 5, SWT.RIGHT);
         formData_3.right = new FormAttachment(100, -35);
         formData_3.bottom = new FormAttachment(newPasswordLabel, 0, SWT.BOTTOM);
         newPasswordText.setLayoutData(formData_3);
-        //
+        
+        errorMessage = new Label(container, SWT.NONE);
+        final FormData formData_4 = new FormData();
+        formData_4.top = new FormAttachment(oldPasswordText, 3, SWT.BOTTOM);
+        formData_4.left = new FormAttachment(oldPasswordText, 0, SWT.LEFT);
+        errorMessage.setLayoutData( formData_4 );
+        
         return container;
     }
 
@@ -105,13 +118,22 @@ public class ChangePasswordDialog extends Dialog {
     }
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
-        newShell.setText("Change password for Keyring user");
+        newShell.setText("Change password for Bioclipse Account");
     }
     protected void buttonPressed(int buttonId) {
         if (buttonId == IDialogConstants.OK_ID) {
-            
             this.oldPassword = oldPasswordText.getText();
             this.newPassword = newPasswordText.getText();
+            try {
+                sandbox.changePassword( oldPassword, newPassword );
+            } catch (IllegalArgumentException e) {
+                errorMessage.setText( "Wrong password" );
+                errorMessage.setForeground( PlatformUI.getWorkbench()
+                                            .getDisplay()
+                                            .getSystemColor( SWT.COLOR_RED ) );
+                errorMessage.pack();
+                return;
+            }
         }
         super.buttonPressed(buttonId);
     }

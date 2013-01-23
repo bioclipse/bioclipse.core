@@ -172,6 +172,10 @@ public class ResourcePathTransformer implements IResourcePathTransformer {
                                                new URI(resourceString) );
             if ( files.length == 1 )
                 return files[0];
+            if(files.length==0) {
+            	throw new IllegalArgumentException("Could not resolve "+
+            				resourceString+" to a file");
+            }
 
             throw new IllegalStateException(
                 "Multiple IFiles correspond to the uri:"

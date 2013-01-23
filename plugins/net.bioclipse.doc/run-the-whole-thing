@@ -21,12 +21,13 @@ if [ $? != 0 ]; then
     exit 1;
 fi
 
-perl render-as-html stage1 |
+perl cleanStage1 > stage2
+perl render-as-html stage2 |
     tidy -i > $OUTFILE 2> tidy_errors
 
 if [ $? != 0 ]; then
     cat tidy_errors >&2;
-    rm -f stage1 tidy_errors
+    rm -f stage1 stage2 tidy_errors
     exit 1;
 fi
 

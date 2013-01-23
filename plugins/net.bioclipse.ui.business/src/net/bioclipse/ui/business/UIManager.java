@@ -18,12 +18,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import net.bioclipse.core.ResourcePathTransformer;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.domain.IBioObject;
+import net.bioclipse.core.domain.IMolecule;
+import net.bioclipse.core.util.StringInput;
+import net.bioclipse.core.util.StringStorage;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.ui.Activator;
 import net.bioclipse.scripting.ui.business.IJsConsoleManager;
@@ -39,11 +46,14 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.RegistryFactory;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.equinox.p2.core.IProvisioningAgent;
@@ -57,6 +67,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPersistableElement;
+import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -99,11 +110,9 @@ public class UIManager implements IBioclipseManager {
         }
     }
 
-    public void open( final IFile file ) {
+    private void open( final IFile file ) {
 
-        IWorkbenchPage page = PlatformUI.getWorkbench()
-                                        .getActiveWorkbenchWindow()
-                                        .getActivePage();
+        IWorkbenchPage page = getActivePage();
         try {
             IDE.openEditor(page, file);
         }
@@ -111,8 +120,34 @@ public class UIManager implements IBioclipseManager {
             throw new RuntimeException(e);
         }
     }
+    
+    public void openFiles( List<Object> files ) {
+        IWorkbenchPage page = getActivePage();
+        for ( Object object : files) {
+            IFile file = null;
+            if ( object instanceof IFile) {
+                file = (IFile)object;
+            }
+            else if ( object instanceof String ) {
+                file = ResourcePathTransformer.getInstance()
+                                              .transform( (String) object );
+            }
+            else { 
+                throw new IllegalArgumentException(
+                    "Could not use object as file. Object was: " 
+                    + object.getClass() + ": " 
+                    + object.toString() );
+            }
+            try {
+                IDE.openEditor(page, file);
+            }
+            catch (PartInitException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
-    public void open( IFile file, String editor ) throws BioclipseException {
+    private void open( IFile file, String editor ) throws BioclipseException {
 
         //Determine editorID from putative alias
         final String editorID = getEditorID( editor );
@@ -122,9 +157,7 @@ public class UIManager implements IBioclipseManager {
                                           + editor + " found" );
         }
 
-        IWorkbenchPage page = PlatformUI.getWorkbench()
-                                        .getActiveWorkbenchWindow()
-                                        .getActivePage();
+        IWorkbenchPage page = getActivePage();
 
         try {
             IDE.openEditor( page, file, editorID);
@@ -134,7 +167,15 @@ public class UIManager implements IBioclipseManager {
         }
     }
 
-    public void open( final IBioObject bioObject, final String editor)
+    private IWorkbenchPage getActivePage() {
+
+        IWorkbenchPage page = PlatformUI.getWorkbench()
+                                        .getActiveWorkbenchWindow()
+                                        .getActivePage();
+        return page;
+    }
+
+    private void open( final IBioObject bioObject, final String editor)
         throws BioclipseException {
 
         //Determine editorID from putative alias
@@ -148,9 +189,7 @@ public class UIManager implements IBioclipseManager {
         }
 
 
-        IWorkbenchPage page = PlatformUI.getWorkbench()
-                                        .getActiveWorkbenchWindow()
-                                        .getActivePage();
+        IWorkbenchPage page = getActivePage();
         try {
             IEditorInput input = new IEditorInput() {
 
@@ -226,8 +265,145 @@ public class UIManager implements IBioclipseManager {
     public boolean fileExists(IFile file) {
         return file.exists();
     }
+    
+    public void open(final Object object) {
+        try {
+            if(object instanceof IBioObject) {
+                open((IBioObject)object);
+            } else if( object instanceof IFile) {
+                open((IFile)object);
+            } else if( object instanceof String) {
+                try {
+                    IFile file = ResourcePathTransformer.getInstance().transform( (String)object );
+                    if(file!=null) open(file);
+                }catch( IllegalArgumentException e) {
+                    IStorageEditorInput input = new StringInput(new StringStorage((String)object));
+                    getActivePage().openEditor( input ,"org.eclipse.ui.DefaultTextEditor");
+                }
+            } else if( object instanceof Collection) {
+                open((Collection)object);
+            } else {
+                throw new RuntimeException(new BioclipseException( "Could not find an editor for this type" ));
+            }
+        } catch (BioclipseException ex) {
+            throw new RuntimeException(new BioclipseException( "Could not find an editor for this type",ex));
+        } catch ( CoreException e ) {
+            throw new RuntimeException(new BioclipseException( "Could not find an editor for this type",e));
+        } catch ( IOException e ) {
+            throw new RuntimeException(new BioclipseException( "Could not find an editor for this type",e));
+        }
+    }
+    
+    public void open(final Object object,String editor) {
+        try{
+            if(object instanceof IBioObject) {
+                open((IBioObject)object,editor);
+            } else if( object instanceof IFile) {
+                open((IFile)object,editor);
+            } else if( object instanceof String) {
+                try {
+                    IFile file = ResourcePathTransformer.getInstance().transform( (String)object );
+                    if(file!=null && file.exists()) open(file,editor);
+                    }catch( IllegalArgumentException e) {
+                        IStorageEditorInput input = new StringInput(new StringStorage((String)object));
+                        getActivePage().openEditor( input ,"org.eclipse.ui.DefaultTextEditor");
+                    }
+            } else if( object instanceof Collection) {
+                open((Collection)object);
+            } else {
+                throw new RuntimeException(new BioclipseException( "Could not find an editor for this type"));
+            }
+        } catch(Exception e) {
+            throw new RuntimeException(new BioclipseException( "Could not find an editor for this type",e ));
+        }
+    }
+    
+    public void listEditorIDs() {
+        List<String> ids = new ArrayList<String>();
+        IExtensionRegistry registry = RegistryFactory.getRegistry();
+        IConfigurationElement[] config = registry.getConfigurationElementsFor("org.eclipse.ui.editors");
+        try {
+            for (IConfigurationElement e : config) {
+                ids.add( e.getAttribute( "id" ));
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        for(String id:ids) {
+            IJsConsoleManager js = Activator.getDefault().getJavaJsConsoleManager();
+            js.say( id );
+        }
+    }
 
-    public void open(IBioObject bioObject) throws BioclipseException,
+    private void open(final Collection<?> items) throws BioclipseException {
+        String errorMessage = "The object could not be opened. "
+                            + "No suitable editor could be found item in this list";
+        Set<Class<?>> types = new HashSet<Class<?>>(items.size());
+        for(Object o :items) {
+            types.add(o.getClass());
+        }
+
+        if(types.size() == 1) {
+            for(Class<?> c:types) {
+                if(IMolecule.class.isAssignableFrom( c )) {
+                        String id = "net.bioclipse.cdk.ui.sdfeditor";
+                        if(id!=null) {
+                            IWorkbenchPage page = PlatformUI.getWorkbench()
+                                            .getActiveWorkbenchWindow()
+                                            .getActivePage();
+                            IEditorInput input = new IEditorInput() {
+                                @Override
+                                public Object getAdapter( Class adapter ) {
+                                    if(adapter.isAssignableFrom( List.class )) {
+                                        return new ArrayList(items);
+                                    }
+                                    return null;
+                                }
+                                @Override
+                                public boolean exists() {
+                                    return false;
+                                }
+                                @Override
+                                public ImageDescriptor getImageDescriptor() {
+                                    return ImageDescriptor.getMissingImageDescriptor();
+                                }
+                                @Override
+                                public String getName() {
+                                    return "Molecule list";
+                                }
+                                @Override
+                                public IPersistableElement getPersistable() {
+                                    return null;
+                                }
+                                @Override
+                                public String getToolTipText() {
+                                    return "";
+                                }
+                            };
+                            try {
+                                page.openEditor( input, id );
+                                return;
+                            } catch ( PartInitException e ) {
+                                throw new BioclipseException( errorMessage,e );
+                            }
+                    }
+                } else if(IBioObject.class.isAssignableFrom( c )) {
+                    for(Object o:items) {
+                        try {
+                            open((IBioObject)o);
+                        } catch ( CoreException e ) {
+                            throw new BioclipseException( errorMessage,e );
+                        } catch ( IOException e ) {
+                            throw new BioclipseException( errorMessage,e );
+                        }
+                    }
+                }
+            }
+        }
+        throw new BioclipseException( errorMessage );
+    }
+
+    private void open(IBioObject bioObject) throws BioclipseException,
                                                   CoreException,
                                                   IOException {
 

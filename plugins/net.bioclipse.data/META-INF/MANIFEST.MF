@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Small Sample data set
 Bundle-SymbolicName: net.bioclipse.data;singleton:=true
-Bundle-Version: 2.5.0.qualifier
+Bundle-Version: 2.6.0.vqualifier
 Bundle-Activator: net.bioclipse.data.Activator
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
@@ -13,9 +13,12 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.core,
  net.bioclipse.ui,
  org.eclipse.ui.intro,
- org.eclipse.ui.intro.universal
+ org.eclipse.ui.intro.universal,
+ org.eclipse.equinox.p2.ui.discovery;bundle-version="1.0.0",
+ net.bioclipse.ui.install;bundle-version="2.5.0"
 Bundle-ActivationPolicy: lazy
-Import-Package: org.apache.log4j
+Import-Package: org.apache.log4j,
+ org.eclipse.equinox.internal.p2.discovery
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: net.bioclipse.data,
  net.bioclipse.data.wizards

@@ -13,6 +13,7 @@ package net.bioclipse.ui.business;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.List;
 
 import net.bioclipse.core.PublishedClass;
@@ -43,36 +44,36 @@ import org.eclipse.core.runtime.content.IContentType;
 )
 public interface IUIManager extends IBioclipseManager {
 
-    @Recorded
-    @PublishedMethod(params="String filePath",
-                     methodSummary="Opens a file in an editor.")
-    @TestMethods("testOpen_String")
-    @GuiAction
-    public void open(String filePath);
-
-    @Recorded
-    @GuiAction
-    public void open(IFile file);
-
-    @GuiAction
-    public void open(String filePath, String editor) throws BioclipseException;
-
-    @Recorded
-    @PublishedMethod(
-        params = "IFile file, String editor",
-        methodSummary = "Opens a file in an editor specified by ID or alias." )
-    @GuiAction
-    public void open(IFile file, String editor) throws BioclipseException;
 
     @Recorded
     @GuiAction
     @PublishedMethod(
-        params = "IBioObject bioObject, String editor",
+        params = "Object object",
+        methodSummary = "Tries to open the object in an editor "
+    )
+    public void open(final Object object);
+    
+    @Recorded
+    @PublishedMethod(params="List<Object> files",
+    methodSummary="Opens a list of files (e.g. a gist) represented either " +
+    		          "as IFiles or Strings in an editor.")
+    @GuiAction
+    public void openFiles( List<?> files );
+    
+    @Recorded
+    @GuiAction
+    @PublishedMethod(
+        params = "Object object, String editor",
         methodSummary = "Opens a file in the designated editor, identified " +
         		            "by editor id or shortname." )
-    public void open( final IBioObject bioObject, final String editor)
-                throws BioclipseException;
+    public void open( final Object object, final String editor);
 
+    @PublishedMethod(
+        params = "",
+        methodSummary = "List available editor ids"
+                    )
+    public void listEditorIDs();
+    
     @Recorded
     @PublishedMethod(params="String filePath",
                      methodSummary="Deletes a file.")
@@ -117,15 +118,6 @@ public interface IUIManager extends IBioclipseManager {
     )
     @TestMethods("testExists_String")
     public boolean fileExists(String filePath);
-
-    @Recorded
-    @GuiAction
-    @PublishedMethod(
-        params = "IBioObject bioObject",
-        methodSummary = "Opens the IBioObject in its preferred editor"
-    )
-    void open( IBioObject bioObject ) 
-         throws BioclipseException, CoreException, IOException;
 
     @Recorded
     @GuiAction
@@ -216,5 +208,7 @@ public interface IUIManager extends IBioclipseManager {
     )
     public String newProject(String name) 
         throws CoreException, BioclipseException;
+
+    
 
 }

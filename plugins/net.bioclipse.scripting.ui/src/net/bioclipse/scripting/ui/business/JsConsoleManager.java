@@ -15,7 +15,7 @@ package net.bioclipse.scripting.ui.business;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.Activator;
 import net.bioclipse.scripting.Hook;
-import net.bioclipse.scripting.JsAction;
+import net.bioclipse.scripting.ScriptAction;
 import net.bioclipse.scripting.JsThread;
 import net.bioclipse.scripting.ui.views.JsConsoleView;
 
@@ -84,7 +84,7 @@ public class JsConsoleManager implements IBioclipseManager {
         final String[] evalResult = new String[1];
         final JsThread jsThread = Activator.getDefault().JS_THREAD;
         jsThread.enqueue(
-            new JsAction(command, new Hook() {
+            new ScriptAction(command, new Hook() {
                 public void run( Object result ) {
                     evalResult[0] = result.toString();
                 }
@@ -117,13 +117,20 @@ public class JsConsoleManager implements IBioclipseManager {
                 monitor.worked( 1 );
                 final JsThread jsThread = Activator.getDefault().JS_THREAD;
                 jsThread.enqueue(
-                    new JsAction(contents, new Hook() {
+                    new ScriptAction(contents, new Hook() {
                         public void run( Object result ) {
                             monitor.done();
-                            if ( !"org.mozilla.javascript.Undefined".equals(
-                                    result.getClass().getName() ) ) {
-                                message(result.toString());
+                            /* If the result is null and the user make an tab-
+                             * completion, Bioclipse will hang. 
+                             * TODO Find a better solution */
+                            if (result != null) {
+                                if ( !"org.mozilla.javascript.Undefined"
+                                        .equals(result.getClass().getName() ) ) {
+                                    message(result.toString());
+                                }
                             }
+                            else 
+                                message("Script finished without any problems.");
                         }
 
                         private void message(final String text) {
@@ -144,6 +151,7 @@ public class JsConsoleManager implements IBioclipseManager {
                 return Status.OK_STATUS;
             }
         };
+        job.schedule();
     }
 
     public void printError( Throwable t ) {

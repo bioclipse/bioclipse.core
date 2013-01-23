@@ -25,7 +25,11 @@ import net.bioclipse.core.util.LogUtils;
 import org.eclipse.core.runtime.SubProgressMonitor;
 
 public class UserManager implements IUserManager {
-
+    
+    ArrayList<String> failedLogin = new ArrayList<String>(); 
+    // <AccountType, Listener>
+    HashMap<String, IUserManagerListener> listnerIds = 
+            new HashMap<String, IUserManagerListener>();
     private static final Logger logger = Logger.getLogger(UserManager.class)
     ;
     //Package protected for testing...
@@ -33,7 +37,7 @@ public class UserManager implements IUserManager {
     private List<IUserManagerListener> listeners;
     
     UserManager() {
-        
+
     }
     
     public UserManager(String filename) {
@@ -83,7 +87,7 @@ public class UserManager implements IUserManager {
     public AccountType[] getAvailableAccountTypes() {
         return userContainer.getAvailableAccountTypes();
     }
-
+    
     public User getLoggedInUser() {
         return userContainer.getLoggedInUser();
     }
@@ -124,12 +128,12 @@ public class UserManager implements IUserManager {
         userContainer.reloadFromFile();
     }
 
-    public void logIn(String username, String password) {
+    public boolean logIn(String username, String password) {
         userContainer.signIn(username, password, null);
-        fireLogin();
+        return fireLogin();
     }
 
-    public void signInWithProgressBar( String username, 
+    public boolean signInWithProgressBar( String username, 
                                        String password,
                                        SubProgressMonitor monitor ) {
         SubProgressMonitor subMonitor 
@@ -138,9 +142,9 @@ public class UserManager implements IUserManager {
         userContainer.signIn(username, password, subMonitor);
         subMonitor = monitor == null ? null 
                                      : new SubProgressMonitor(monitor, 90);
-        fireLoginWithProgressBar( subMonitor );
+        return fireLoginWithProgressBar( subMonitor );
     }
-
+    
     public void logOut() {
         userContainer.signOut();
         fireLogout();
@@ -157,24 +161,71 @@ public class UserManager implements IUserManager {
     public void switchUserContainer(UserContainer userContainer) {
         this.userContainer = userContainer;
         fireUpdate();
+        persist();
+    }
+    
+    public boolean signInToAccount(String accountId) {
+        String accountType = userContainer.getAccountType( accountId ).getName();
+        return fireLoggin( accountType );
+    }
+    
+    public boolean signInToAccount(AccountType accountType) {
+        return fireLoggin( accountType.getName() );
+    }
+    /**
+     * This method log-in to a specific thired-part account, if the user is
+     * logged in. If the user isn't logged in it returns false.
+     *  
+     * @param AccountId The id of the account.
+     * 
+     * @return True If the log-in is successfully.
+     */
+    /* The listener should not know the AccountId, but how give it the right 
+     * log-in properties if the user have more than one account per account 
+     * type in Bioclipse?*/
+    private boolean fireLoggin(String accountType) {
+        boolean result = false;
+        if (userContainer.isLoggedIn()) {
+            for( IUserManagerListener listener : listeners) {
+                if (listener.getAccountType().equals( accountType ))
+                    result = listener.receiveUserManagerEvent( UserManagerEvent.LOGIN );
+            }
+        } 
+        return result;
     }
     
     /**
      *  Fires a login event
      */
-    public void fireLogin() {
-        fireLoginWithProgressBar(null);
+    public boolean fireLogin() {
+        return fireLoginWithProgressBar(null);
     }
     
-    private void fireLoginWithProgressBar( SubProgressMonitor monitor ) {
+    private boolean fireLoginWithProgressBar( SubProgressMonitor monitor ) {
         boolean usingMonitor = monitor != null;
+        boolean loginOK = false;
         int ticks = 100;
+        String name;
+        
         try {
             for( IUserManagerListener listener : listeners) {
-                listener.receiveUserManagerEvent( UserManagerEvent.LOGIN );
-                if(usingMonitor) {
-                    monitor.beginTask("signing in", ticks);
-                    monitor.worked( ticks/listeners.size() );
+                failedLogin.clear();
+                name = listener.getClass().getName();
+                name = name.substring( 0, name.lastIndexOf( '.' ) );
+                ArrayList<String> userAccountTypes = userContainer.getLoggedInUser().getAccountTypes();
+                
+                if (userAccountTypes.contains( listener.getAccountType() )) {
+                    loginOK = listener.receiveUserManagerEvent( UserManagerEvent.LOGIN );
+                    if (!loginOK) {                    
+                        failedLogin.add( name );
+                    } 
+                    if (userContainer.getLoggedInUser().getLoggedInAccounts() != null ) {
+                        userContainer.getLoggedInUser().addLoggedInAccount( name, loginOK );
+                    }
+                    if(usingMonitor) {
+                        monitor.beginTask("signing in", ticks);
+                        monitor.worked( ticks/listeners.size() );
+                    }
                 }
             }
             if( isLoggedIn() ) {
@@ -190,7 +241,19 @@ public class UserManager implements IUserManager {
             if(usingMonitor) {
                 monitor.done();
             }
+
         }
+        return loginOK;
+    }
+    
+    /**
+     * This method returns the name of the plug-ins that has failed to log-in 
+     * to e.g. an online account. If non failed it returns an empty list.
+     * 
+     * @return An ArrayList with the names of the failed plug-ins
+     */
+    public ArrayList<String> getFailedLogins() {
+        return failedLogin;
     }
     
     private void setStatusLinetext( String textToSet) {
@@ -235,6 +298,7 @@ public class UserManager implements IUserManager {
      * @param listener to be removed
      */
     public void addListener(IUserManagerListener listener) {
+        listnerIds.put( listener.getAccountType(), listener );
         listeners.add(listener);
     }
 }

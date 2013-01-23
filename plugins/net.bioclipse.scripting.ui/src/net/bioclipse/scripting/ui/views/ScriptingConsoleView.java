@@ -206,17 +206,22 @@ public abstract class ScriptingConsoleView extends ViewPart {
             public void keyReleased(KeyEvent _) { }
         });
         
-        input = new Text(parent, SWT.SINGLE | SWT.BORDER);
+        input = new Text(parent, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
         input.setFont(JFaceResources.getTextFont());
         input.addKeyListener( new KeyListener() {
-            public void keyPressed(KeyEvent e) { handleKey(e); }
+            public void keyPressed(KeyEvent e) {
+            	handleKey(e);
+            	if (e.keyCode == SWT.TAB) {
+            		e.doit = false;
+            		tabComplete();
+            	}
+            }
             public void keyReleased(KeyEvent _) { }
         });
         input.addTraverseListener( new TraverseListener() {
             public void keyTraversed(TraverseEvent e) {
                 if (e.detail == SWT.TRAVERSE_TAB_NEXT) {
                     e.doit = false;
-                    tabComplete();
                 }
             }
         });
@@ -399,10 +404,18 @@ public abstract class ScriptingConsoleView extends ViewPart {
         message = message.replaceAll("\r", "");
         message = message.replaceAll("\n", NEWLINE);
         
-        synchronized (output) {
-            output.append(message);
-            output.redraw();
-        }
+        final String printme = message;
+        
+        Display.getDefault().asyncExec( new Runnable() {
+            public void run() {
+                synchronized (output) {
+                	if(output.isDisposed()) return;
+                    output.append(printme);
+                    output.setFont(JFaceResources.getTextFont());
+                    output.redraw();
+                }
+            }
+        } );
     }
 
     /** Makes a system notification sound. */

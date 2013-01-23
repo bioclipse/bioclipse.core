@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import net.bioclipse.usermanager.AccountType;
+import net.bioclipse.usermanager.NewAccountWizard;
 import net.bioclipse.usermanager.UserContainer;
 import net.bioclipse.usermanager.AccountType.Property;
 
@@ -57,6 +58,8 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
+import sun.swing.AccumulativeRunnable;
+
 /**
  * Dialog for editing an user and the users accounts
  *
@@ -79,10 +82,11 @@ public class EditUserDialog extends Dialog {
     private Button deleteAccountButton;
     private Button addAccountButton;
     private Button changeKeyringUserButton;
+    private Button editAccountButton;
+    private Button showHidePassword;
     private Table propertiesTable;
     private List list;
-
-    private UserContainer sandBoxUserContainer;
+    private UserContainer sandBoxUserContainer, dummySandbox;
     private EditUserDialogModel model;
     private static final String[] COLUMN_NAMES = { "Property",
                                                   "Value",
@@ -219,23 +223,38 @@ public class EditUserDialog extends Dialog {
         formData_1.top = new FormAttachment(0, 65);
         list.setLayoutData(formData_1);
 
+        showHidePassword = new Button(accountGroup, SWT.CHECK);
+        final FormData formData_13 = new FormData();
+        formData_13.top = new FormAttachment( propertiesTable, 0, SWT.BOTTOM );
+        formData_13.right = new FormAttachment( propertiesTable, 0, SWT.RIGHT );
+        showHidePassword.setText( "Show password" );
+        showHidePassword.setLayoutData( formData_13 );
+        showHidePassword.addSelectionListener( new SelectionAdapter() {
+            /*
+             * SHOW OR HIDE PASSWORD 
+             */
+            public void widgetSelected(SelectionEvent e) {
+                refreshTable();
+            }
+        });
+
         addAccountButton = new Button(container, SWT.NONE);
         addAccountButton.addSelectionListener(new SelectionAdapter() {
             /*
              * ADD ACCOUNT
              */
             public void widgetSelected(SelectionEvent e) {
-
-                CreateAccountDialog dialog
-                    = new CreateAccountDialog( PlatformUI
-                                               .getWorkbench()
-                                               .getActiveWorkbenchWindow()
-                                               .getShell(),
-                                               sandBoxUserContainer );
-                if(dialog.open() == Window.OK) {
-
+                dummySandbox = sandBoxUserContainer.clone();
+                NewAccountWizard wizard = new NewAccountWizard(dummySandbox, false);
+                NewAcccountWizardDialog wd = new NewAcccountWizardDialog( 
+                                                   PlatformUI.getWorkbench()
+                                                   .getActiveWorkbenchWindow()
+                                                   .getShell(), wizard );
+                
+                if (wd.open() == Window.OK) {
+                    
                     for( DummyAccount ac : model.dummyAccounts.values() ) {
-                        if( ac.accountType.equals( dialog.getAccountType() ) ) {
+                        if( ac.accountType.equals( wizard.getAccountType() ) ) {
                             MessageDialog.openInformation(
                                     PlatformUI
                                     .getWorkbench()
@@ -246,53 +265,65 @@ public class EditUserDialog extends Dialog {
                             return;
                         }
                     }
-
-                    DummyAccount d = new DummyAccount();
-                    d.accountId   = dialog.getAccountName();
-                    d.accountType = dialog.getAccountType();
-                    for( Property property : d.accountType.getProperties() ) {
-                        d.properties.put(property.getName(), "");
+                    
+                    DummyAccount da = new DummyAccount();
+                    da.accountId = wizard.getAccountId();
+                    da.accountType = dummySandbox.getAccountType( da.accountId );
+                    String key = "";
+                    for( Property property : da.accountType.getProperties() ) {
+                        key = property.getName();
+                        da.properties.put(key, dummySandbox.getProperty( da.accountId, key ) );
                     }
-                    model.dummyAccounts.put(d.accountId, d);
+                    model.dummyAccounts.put( da.accountId, da );
+                    
                     refreshList();
-                    accountTypeText.setText(d.accountType.toString());
+                    accountTypeText.setText(da.accountType.toString());
                     int pos = 0;
                     for( String item : list.getItems() ) {
-                        if(dialog.getAccountName().equals(item)) {
+                        if(da.accountId.equals(extractAccountId(item))) {
                             break;
                         }
                         pos++;
                     }
                     list.select(pos);
                     refreshTable();
+                    refreshList();
                     refreshOnSelectionChanged();
-                }
+                } 
+
             }
 
         });
         final FormData formData_6 = new FormData();
-        formData_6.bottom = new FormAttachment(accountGroup, 0, SWT.BOTTOM);
+        formData_6.bottom = new FormAttachment(list, 0, SWT.TOP);
         formData_6.left = new FormAttachment(list, 0, SWT.LEFT);
         addAccountButton.setLayoutData(formData_6);
         addAccountButton.setText("Add account...");
-
+        if (sandBoxUserContainer.getAvailableAccountTypes().length == 0)
+            addAccountButton.setEnabled( false );
+        
         deleteAccountButton = new Button(container, SWT.NONE);
         deleteAccountButton.addSelectionListener(new SelectionAdapter() {
             /*
              * DELETE ACCOUNT
              */
             public void widgetSelected(SelectionEvent e) {
-                model.dummyAccounts.remove(
-                        accountsListViewer.getList().getSelection()[0] );
+                String selectedAccountId = 
+                        extractAccountId( accountsListViewer.getList()
+                                          .getSelection()[0] );
+
+                model.dummyAccounts.remove( selectedAccountId );
                 refreshList();
                 if(accountsListViewer.getList().getItemCount() > 0) {
                     accountsListViewer.getList().select(0);
                 }
                 refreshOnSelectionChanged();
+                refreshTable();
+                refreshList();
             }
         });
         final FormData formData_7 = new FormData();
-        formData_7.bottom = new FormAttachment(addAccountButton, 0, SWT.BOTTOM);
+        formData_7.top = new FormAttachment(list, 0, SWT.BOTTOM);
         formData_7.right = new FormAttachment(accountGroup, -5, SWT.LEFT);
         deleteAccountButton.setLayoutData(formData_7);
         deleteAccountButton.setText("Delete account");
@@ -307,25 +338,67 @@ public class EditUserDialog extends Dialog {
                     new ChangePasswordDialog( PlatformUI
                                               .getWorkbench()
                                               .getActiveWorkbenchWindow()
-                                              .getShell() );
-                if(dialog.open() == Window.OK) {
-                    sandBoxUserContainer.changePassword( dialog.getOldPassword(),
-                                                    dialog.getNewPassword() );
-                }
+                                              .getShell(), sandBoxUserContainer );
+                dialog.open();
+//                if(dialog.open() == Window.OK) {
+//                    sandBoxUserContainer.changePassword( dialog.getOldPassword(),
+//                                                    dialog.getNewPassword() );
+//                   
+//                }
             }
         });
         final FormData formData_8 = new FormData();
-        formData_8.top = new FormAttachment(0, 21);
+        formData_8.top = new FormAttachment(-2, 21); //(0, 21)
         formData_8.left = new FormAttachment(0, 33);
         changeKeyringUserButton.setLayoutData(formData_8);
-        changeKeyringUserButton.setText("Change Keyring User Password");
+        changeKeyringUserButton.setText("Change Bioclipse Account Password");
+        
+        editAccountButton = new Button(container, SWT.NONE);
+        editAccountButton.addSelectionListener(new SelectionAdapter() {
+            /*
+             * EDIT ACCOUNT
+             */
+            public void widgetSelected(SelectionEvent e) {
+                String selectedAccountId = 
+                        extractAccountId( accountsListViewer.getList()
+                                          .getSelection()[0] );
+
+                EditAccountDialog dialog = 
+                        new EditAccountDialog( PlatformUI
+                                               .getWorkbench()
+                                               .getActiveWorkbenchWindow()
+                                               .getShell(),
+                                               model.dummyAccounts.get( selectedAccountId ) );
+                if(dialog.open() == Window.OK) {
+                    /* To be sure the update is done correctly we do the the 
+                     * updating here and not in the dialog */
+                    model.dummyAccounts.get( selectedAccountId ).properties.putAll( dialog.getProperties() );
+                }
+                refreshList();
+                refreshOnSelectionChanged();
+                refreshTable();
+            }
+        });
+        final FormData formData_9 = new FormData();
+        formData_9.top = new FormAttachment(list, 0, SWT.BOTTOM);
+        formData_9.left = new FormAttachment(list, 0, SWT.LEFT);
+        editAccountButton.setLayoutData(formData_9);
+        editAccountButton.setText("Edit account...");
+        
         container.setTabList(new Control[] { changeKeyringUserButton,
                                              addAccountButton,
+                                             editAccountButton,
                                              deleteAccountButton,
                                              accountGroup,
                                              list } );
 
-        return container;
+      refreshList();
+      if(accountsListViewer.getList().getItemCount() > 0) {
+          accountsListViewer.getList().select(0);
+      }
+      refreshOnSelectionChanged();
+      
+      return container;
     }
 
     /**
@@ -350,12 +423,14 @@ public class EditUserDialog extends Dialog {
 
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
-        newShell.setText("Keyring User Properties");
+        newShell.setText("Bioclipse Account Properties");
     }
 
     private void refreshList() {
-
         accountsListViewer.setInput( model.dummyAccounts.keySet() );
+        boolean setActive = (accountsListViewer.getList().getItemCount() != 0);
+        deleteAccountButton.setEnabled( setActive );
+        editAccountButton.setEnabled( setActive );
     }
 
     private void refreshTable() {
@@ -365,9 +440,19 @@ public class EditUserDialog extends Dialog {
     }
 
     private void refreshOnSelectionChanged() {
+        /* If there's no item selected (e.g. if the user clicked below the last
+         * item in the list) we'll select the last item in the list. */
+        if ( accountsListViewer.getList().getSelectionCount() == 0 )
+            if (accountsListViewer.getList().getItemCount() > 0)
+                accountsListViewer.getList()
+                 .select(accountsListViewer.getList().getItemCount() - 1 );
+            else 
+                return;
 
-        String selectedAccountId
-            = accountsListViewer.getList().getSelection()[0];
+        String selectedAccountId = 
+                extractAccountId( accountsListViewer.getList()
+                                  .getSelection()[0] );
+                
         accountTypeText.setText(
                 model.dummyAccounts.get( selectedAccountId)
                                          .accountType.toString() );
@@ -420,7 +505,16 @@ public class EditUserDialog extends Dialog {
         }
         return true;
     }
+    
+    private String extractAccountId(String selectedAccountListItem) {
+        String selectedAccountId = selectedAccountListItem;
+        int endIndex = selectedAccountId.indexOf( " {" );
+        if (endIndex > -1)
+            selectedAccountId = selectedAccountId.substring( 0, endIndex );
 
+        return selectedAccountId;
+    }
+    
     /**
      * Label provider for the accounts list
      *
@@ -429,7 +523,12 @@ public class EditUserDialog extends Dialog {
      */
     class ListLabelProvider extends LabelProvider {
         public String getText(Object element) {
-            return element.toString();
+            if (model.dummyAccounts.containsKey( element )) {
+                return element.toString() + " {" + 
+                        model.dummyAccounts.get( element ).accountType
+                        .toString() + "}";
+            } else 
+                return element.toString();
         }
         public Image getImage(Object element) {
             return null;
@@ -482,7 +581,15 @@ public class EditUserDialog extends Dialog {
             for( String key : properties.keySet() ) {
                 ArrayList<String> row = new ArrayList<String>();
                 row.add(key);
-                row.add(properties.get(key));
+                if (dm.accountType.getProperty(key).isSecret() &&
+                        !showHidePassword.getSelection() ) {
+                    String mask = "";
+                    for (int i = 0; i < properties.get( key ).length(); i++)
+                        mask += "\u25CF";
+                    row.add(mask);
+                } else
+                    row.add(properties.get(key));
+                
                 row.add(dm.accountType.getProperty(key).isRequired()+"");
                 rows.add(row);
             }
@@ -550,8 +657,9 @@ public class EditUserDialog extends Dialog {
                 break;
 
             case 1:
-                model.dummyAccounts.get(
-                        accountsListViewer.getList().getSelection()[0] ).
+                String accountId = extractAccountId(accountsListViewer.getList()
+                                  .getSelection()[0]);
+                model.dummyAccounts.get( accountId ).
                         properties.put( (String)row.get(0), (String)value);
                 refreshTable();
                 break;

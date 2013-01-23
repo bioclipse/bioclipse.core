@@ -17,7 +17,7 @@
             name="Download Gist"
             project="false">
          <description>
-            Retrieves a Gist from gist.github.com. To find new gists, for example javascripts, for bioclipse visit http://delicious.com/tag/bioclipse+gist.
+            Retrieves a Gist from gist.github.com. To find new gists, for example javascripts, for bioclipse visit http://www.diigo.com/user/chemblaics/bioclipse&#37;20gist.
          </description>
       </wizard>
    </extension>

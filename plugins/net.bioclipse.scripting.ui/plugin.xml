@@ -22,7 +22,7 @@
          class="net.bioclipse.scripting.ui.views.GroovyConsoleView"
          id="net.bioclipse.scripting.ui.views.GroovyConsoleView">
          <description>
-            JavaScript Console View
+            Groovy Console View
          </description>
       </view>
       <view

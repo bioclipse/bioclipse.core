@@ -101,19 +101,24 @@ public class UserContainer extends BioObject {
                     "net.bioclipse.usermanager.accountType" );
 
         IExtension[] extensions = extensionPoint.getExtensions();
-
+        
         for (IExtension extension : extensions) {
             IConfigurationElement[] configelements
                 = extension.getConfigurationElements();
             for (IConfigurationElement element : configelements) {
                 AccountType accountType
-                    = new AccountType(element.getAttribute("name"));
+                = new AccountType(element.getAttribute("name"));
                 for ( IConfigurationElement subElement 
-                         : element.getChildren() ) {
-                    accountType.addProperty( subElement.getAttribute("name"),
-                                             Boolean.parseBoolean(
-                                                     subElement.getAttribute(
-                                                             "required" ) ) );
+                		: element.getChildren() ) {
+                	accountType.addProperty( subElement.getAttribute("name"),
+                			Boolean.parseBoolean(
+                					subElement.getAttribute(
+                							"required" ) ),
+                							Boolean.parseBoolean(
+                									subElement.getAttribute(
+                											"secret" ) ));
+                	accountType.setLogoPath( element.getAttribute("logoPath"));
+         
                 }
                 availableAccountTypes.add(accountType);
             }
@@ -176,6 +181,8 @@ public class UserContainer extends BioObject {
      *  Signs out the current superuser
      */
     public void signOut() {
+        if(loggedInUser != null)
+            loggedInUser.clearLoggedInAccounts();
         loggedInUser  = null;
         textEncryptor = null;
         logger.debug( "Signed out user from usercontainer with id: "
@@ -422,7 +429,7 @@ public class UserContainer extends BioObject {
      * @param masterkey old password
      * @param newkey new password
      */
-    public void changePassword(String masterkey, String newkey) {
+    public void changePassword(String masterkey, String newkey) throws IllegalArgumentException {
 
         if ( encryptedPassword.matches( masterkey ) ) {
 
@@ -512,7 +519,7 @@ public class UserContainer extends BioObject {
     private boolean accountTypeIsAvailable( AccountType accountType ) {
         return availableAccountTypes.contains( accountType );
     }
-
+    
     /**
      * Returns the account type for the an account corresponding to a given
      * account id

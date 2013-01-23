@@ -1,6 +1,5 @@
 package net.bioclipse.core.dnd;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 

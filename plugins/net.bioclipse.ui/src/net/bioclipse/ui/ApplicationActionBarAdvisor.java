@@ -208,6 +208,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
             register(helpSearchAction);
         }
 
+
+        IWorkbenchAction deleteAction = ActionFactory.DELETE.create(window);
+        register(deleteAction);
     }
 
 
@@ -330,8 +333,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         manager.add(helpAction);
 
     }
-
-
+    
 	private void removeUnwantedActions(){
 		
     	String actionSetId = "org.eclipse.ui.edit.text.actionSet.navigation";

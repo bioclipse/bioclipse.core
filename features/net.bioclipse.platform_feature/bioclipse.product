@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Bioclipse" uid="net.bioclipse.product" id="net.bioclipse.ui.product" application="net.bioclipse.ui.application" version="2.5.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="Bioclipse" uid="net.bioclipse.product" id="net.bioclipse.ui.product" application="net.bioclipse.ui.application" version="2.6.0.vqualifier" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
-      <image path="/branding/icons/logo/abot_img.gif"/>
+      <image path="/net.bioclipse.ui/branding/icons/logo/abot_img.gif"/>
       <text>
          %productBlurb
       </text>
@@ -14,12 +14,12 @@
    </configIni>
 
    <launcherArgs>
-      <programArgs>-data &quot;@nodefault&quot; -noupdate -consolelog</programArgs>
-      <vmArgs>-ea  -Xmx512M -XX:MaxPermSize=128m -Declipse.buildId=&quot;2.5.0.qualifier&quot;</vmArgs>
+      <programArgs>-data &quot;@nodefault&quot;</programArgs>
+      <vmArgs>-ea  -Xmx512M -XX:MaxPermSize=128m -Declipse.buildId=&quot;2.6.0.vqualifier&quot;</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts -Dbioclipse.defaultLogDir=&quot;Library/Logs/Bioclipse/&quot;</vmArgsMac>
    </launcherArgs>
 
-   <windowImages i16="/branding/icons/logo/logo_16_trans.gif" i32="/branding/icons/logo/logo_32_trans.gif" i48="/branding/icons/logo/logo_48_trans.gif" i64="/branding/icons/logo/logo_64_trans.gif" i128="/branding/icons/logo/logo_128_trans.gif"/>
+   <windowImages i16="/net.bioclipse.ui/branding/icons/logo/logo_16_trans.gif" i32="/net.bioclipse.ui/branding/icons/logo/logo_32_trans.gif" i48="/net.bioclipse.ui/branding/icons/logo/logo_48_trans.gif" i64="/net.bioclipse.ui/branding/icons/logo/logo_64_trans.gif" i128="/net.bioclipse.ui/branding/icons/logo/logo_128_trans.gif"/>
 
    <splash
       location="net.bioclipse.ui"
@@ -27,10 +27,10 @@
       startupMessageRect="7,252,445,20"
       startupForegroundColor="C7E1E6" />
    <launcher name="bioclipse">
-      <linux icon="/branding/icons/molecule3D.xpm"/>
+      <linux icon="/net.bioclipse.ui/branding/icons/Bioclipse_256.xpm"/>
       <macosx icon="/branding/icons/logo/bioclipse.icns"/>
       <solaris/>
-      <win useIco="false">
+      <win useIco="true">
          <ico path="/net.bioclipse.ui/branding/icons/logo/bioclipseIcon2.ico"/>
          <bmp
             winSmallHigh="/branding/icons/icon_16-32bit.bmp"
@@ -42,17 +42,16 @@
       </win>
    </launcher>
 
-   <intro introId="net.bioclipse.ui.intro"/>
+   <intro introId="org.eclipse.ui.intro.universal"/>
 
    <vm>
    </vm>
-
 
    <plugins>
    </plugins>
 
    <features>
-      <feature id="net.bioclipse.platform_feature" version="2.5.0.qualifier"/>
+      <feature id="net.bioclipse.platform_feature"/>
    </features>
 
 

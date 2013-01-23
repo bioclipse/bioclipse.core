@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<introContent>
+
+  	  	<extensionContent id="net.bioclipse.intro.webresources" style="css/intro.css" name="Bioclipse Web Resources" path="whatsnew/@">
+		<group style-id="content-group" id="whatsnew-group">
+
+<text style-id="page-title" filteredFrom="swt">
+	&lt;b&gt;Bioclipse 2.6 contains many new features, below are some of the main parts.&lt;&#47;b&gt;
+</text>
+
+<text style-id="test" filteredFrom="swt">
+&#8226; &lt;i&gt;New DS models (chemspider, daphnia, herg, opentox, SmartCyp)&lt;&#47;i&gt;
+</text>
+
+<text style-id="page-title" filteredFrom="swt">
+&#8226; &lt;i&gt;Bioclipse-R, including R-models for DS&lt;&#47;i&gt;
+</text>
+
+<text style-id="page-title" filteredFrom="swt">
+&#8226; &lt;i&gt;Improved aromaticity detection&lt;&#47;i&gt;
+</text>
+
+<text style-id="page-title" filteredFrom="swt">
+&#8226; &lt;i&gt;New online updates/installation&lt;&#47;i&gt;
+</text>
+
+<text style-id="page-title" filteredFrom="swt">
+&#8226; &lt;i&gt;Improved core stability (Eclipse 3.8), works with Java 1.7&lt;&#47;i&gt;
+</text>
+
+<text style-id="page-title" filteredFrom="swt">
+&#8226; &lt;i&gt; Installer for Windows and Mac OS X&lt;&#47;i&gt;
+</text>
+
+<text style-id="page-title" filteredFrom="swt">
+&#8226; &lt;i&gt; Numerous bug fixes&lt;&#47;i&gt;
+</text>
+ 
+       	</group>
+  	</extensionContent>
+</introContent>

@@ -12,6 +12,7 @@
 package net.bioclipse.ui;
 
 
+import java.io.File;
 import java.net.URL;
 
 import net.bioclipse.core.util.LogUtils;
@@ -24,6 +25,9 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
@@ -47,22 +51,33 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         Location instanceLoc = Platform.getInstanceLocation();
         // if the location is already set, we start from eclipse
         if(!instanceLoc.isSet()){
+          logger.debug( "The instance location was not set" );
           // startedFromWorkspace=true means we do a restart from "switch workspace" and therefore
           // get the workspace location from dialog, if not, we use the default one or the remembered one set by user.
           boolean startedFromWorkspace = PickWorkspaceDialog.isStartedFromSwitchWorkspace();
+          logger.debug( "We are " + (startedFromWorkspace? " " : "not ") + "starting from switch workspace" );
           try {
             if(startedFromWorkspace){
               instanceLoc.set(new URL("file", null, PickWorkspaceDialog.getLastSetWorkspaceDirectory()), false);
               PickWorkspaceDialog.setStartedFromSwitchWorkspace( false );
+              logger.debug("Workspace set to: " + PickWorkspaceDialog.getLastSetWorkspaceDirectory());
             }else{
               // get what the user last said about remembering the workspace location 
               boolean remember = PickWorkspaceDialog.isRememberWorkspace();
+              if (!remember) {
+                  logger.debug( "The user wants to do new starts with default workspace" );
+              }
+              else {
+                  logger.debug( "The user wants to do new starts with non-default workspace" );
+              }
               if(remember){
                   // get the last used workspace location 
                   String lastUsedWs = PickWorkspaceDialog.getLastSetWorkspaceDirectory();  
                   instanceLoc.set(new URL("file", null, lastUsedWs), false);
+                  logger.debug("Workspace set to: " + lastUsedWs);
               }else{
                   instanceLoc.set(new URL("file", null, PickWorkspaceDialog.getWorkspacePathSuggestion()), false);
+                  logger.debug("Workspace set to: " + PickWorkspaceDialog.getLastSetWorkspaceDirectory());
               }
             }
           } catch (Exception exception) {
@@ -100,17 +115,30 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         //TODO Perhaps allow Bioclpse to be started without the Navigator 
         // (Right now Bioclipse refuses to start if the Navigator 
         //  view has been closed)
-        try {
-            PlatformUI.getWorkbench()
-                      .getActiveWorkbenchWindow()
-                      .getActivePage().showView( "net.bioclipse.navigator" );
+        IWorkbenchPage activePage = PlatformUI.getWorkbench()
+        		.getActiveWorkbenchWindow()
+        		.getActivePage();
+		try {
+			final String BIOCLIPSE_NAVIGATOR = "net.bioclipse.navigator";
+        	boolean foundNavigator = false;
+            IViewReference[] parts = activePage.getViewReferences();
+            for(IViewReference part : parts ) {
+            	if(part.getId().equals( BIOCLIPSE_NAVIGATOR ) ) {
+            		foundNavigator = true;
+            		break;
+            	}
+            }
+            if(!foundNavigator) {
+            	PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+            	    .getActivePage().showView(BIOCLIPSE_NAVIGATOR);
+            }
+            
         }
         catch ( PartInitException e1 ) {
-            LogUtils.handleException( e1, logger );
+            LogUtils.handleException( e1, logger, "net.bioclipse.ui" );
         }
         
-        CommonNavigator nav = (CommonNavigator) PlatformUI.getWorkbench()
-                                     .getActiveWorkbenchWindow().getActivePage()
+        CommonNavigator nav = (CommonNavigator) activePage
                                      .findView( "net.bioclipse.navigator" );
 
         nav.getCommonViewer().setInput( getDefaultPageInput() );
@@ -133,6 +161,21 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         }
 
         //Ok, check for updates if not turned off by arg -noupdate
+
+        if(isRunFromDMG()) {
+        	MessageDialog.openWarning(Display.getDefault().getActiveShell(), "Running from DMG",
+        			"Bioclipse has detected that you are running Bioclipse from inside a volume named Bioclipse. " +
+        			"Bioclipse is not ment to be run from inside the dmg containing Bioclipse that you download. " +
+        			"This is not supported and will cause problems in some parts of Bioclipse." +
+        			"\nPlease drag the Bioclipse app into your Application folder " +
+        			"or another place in your filesystem.");
+        }
+    }
+
+    private boolean isRunFromDMG() {
+    	File currentDir = new File(".");
+    	logger.debug("Runing dir is "+currentDir.getAbsolutePath());
+    	return currentDir.getAbsolutePath().startsWith("/Volumes/Bioclipse");
     }
 
     public String getInitialWindowPerspectiveId() {

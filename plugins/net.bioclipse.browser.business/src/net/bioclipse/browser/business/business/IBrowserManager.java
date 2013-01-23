@@ -23,15 +23,17 @@ import net.bioclipse.jobs.BioclipseUIJob;
 import net.bioclipse.managers.business.IBioclipseManager;
 
 @PublishedClass(
-    value="A Manager for scraping web pages"
+    value="A Manager for scraping web pages; methods for extracting " +
+    		  "elements that Bioclipse can work with (i.e. molecules) from " +
+    		  "web pages."
 )
 public interface IBrowserManager extends IBioclipseManager {
 
     @Recorded
     @PublishedMethod(
-      params="String url, String content",
+      params="String url",
         methodSummary=
-            "Scrapes a web URL by content"
+            "Scrapes a web URL by content and returns a List of IBioObjects"
     )
     public List<? extends IBioObject> scrapeWebpage(String url)
     throws BioclipseException;

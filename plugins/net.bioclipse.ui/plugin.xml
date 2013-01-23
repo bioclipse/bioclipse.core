@@ -46,7 +46,7 @@
             application="net.bioclipse.ui.application">
          <property
                name="windowImages"
-               value="branding/icons/logo/logo_16_trans.gif,branding/icons/logo/logo_32_trans.gif,branding/icons/logo/logo_48_trans.gif,branding/icons/logo/logo_64_trans.gif,branding/icons/logo/logo_128_trans.gif">
+               value="/branding/icons/logo/logo_16_trans.gif,/branding/icons/logo/logo_32_trans.gif,/branding/icons/logo/logo_48_trans.gif,/branding/icons/logo/logo_64_trans.gif,/branding/icons/logo/logo_128_trans.gif">
          </property>
          <property
                name="appName"
@@ -70,7 +70,7 @@
          </property>
          <property
                name="aboutImage"
-               value="branding/icons/logo/abot_img.gif">
+               value="/branding/icons/logo/abot_img.gif">
          </property>
           <property
             name="introTitle"
@@ -151,6 +151,10 @@
       </configExtension>
       <configExtension
             content="intro/webresources.xml"
+            configId="org.eclipse.ui.intro.universalConfig">
+      </configExtension>
+      <configExtension
+            content="intro/whatsnew.xml"
             configId="org.eclipse.ui.intro.universalConfig">
       </configExtension>
       
@@ -236,6 +240,9 @@
             </contentExtension>
             <contentExtension
                   pattern="org.eclipse.ui.navigator.resources.filters.*">
+            </contentExtension>
+            <contentExtension
+                  pattern="org.eclipse.ui.navigator.resources.linkHelper">
             </contentExtension>
          </includes>
       </viewerContentBinding>
@@ -333,19 +340,7 @@
    </extension>
 
 
-   <extension
-         point="org.eclipse.core.runtime.preferences">
-      <initializer
-            class="net.bioclipse.ui.prefs.UIPreferenceInitializer">
-      </initializer>
-   </extension>
    
-   <extension point="org.eclipse.ui.preferencePages">
-    	<page id="net.bioclipse.preferences.UpdateSitesPreferencePage"
-  	      	name="Update Sites"
-	      	class="net.bioclipse.ui.prefs.UpdateSitesPreferencePage">
-	   	</page>
-   </extension>
    
    <extension
          point="org.eclipse.help.toc">
@@ -358,6 +353,10 @@
       </toc>
       <toc
             file="toctutorials.xml">
+      </toc>
+      <toc
+            file="troubleshooting.xml"
+            primary="true">
       </toc>
    </extension>
 
@@ -400,6 +399,13 @@
             contentFile="cheatsheets/usingWorkbench.xml"
             id="net.bioclipse.cheatsheets.basics"
             name="Using the Bioclipse Workbench"/>
+      <cheatsheet
+            category="net.bioclipse.cheatsheets.workbench"
+            composite="false"
+            contentFile="cheatsheets/installData.xml"
+            id="net.bioclipse.ui.dataCheatSheet"
+            name="Install data projects">
+      </cheatsheet>
    </extension>
 
 
@@ -470,17 +476,21 @@
            </menu>
      </menuContribution>
 </extension>
-<extension point="org.eclipse.ui.menus">
-    <menuContribution locationURI="menu:help">
-        <command
-              commandId="org.eclipse.equinox.p2.ui.sdk.update"
-              label="Check for Updates"
-              style="push"/>
-        <command
-              commandId="org.eclipse.equinox.p2.ui.sdk.install"
-              label="Install New Software..."
-              style="push"/>
-    </menuContribution>
+<extension
+      point="org.eclipse.ui.navigator.linkHelper">
+   <linkHelper
+         class="org.eclipse.ui.internal.navigator.resources.workbench.ResourceLinkHelper"
+         id="org.eclipse.ui.navigator.resources.linkHelper">
+      <editorInputEnablement>
+         <instanceof
+               value="org.eclipse.ui.IFileEditorInput">
+         </instanceof></editorInputEnablement>
+      <selectionEnablement>
+         <instanceof
+               value="org.eclipse.core.resources.IFile">
+         </instanceof>
+      </selectionEnablement>
+   </linkHelper>
 </extension>
 
 

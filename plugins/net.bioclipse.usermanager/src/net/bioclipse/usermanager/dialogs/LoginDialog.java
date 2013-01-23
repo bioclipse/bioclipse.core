@@ -11,9 +11,13 @@
 
 package net.bioclipse.usermanager.dialogs;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.usermanager.Activator;
 import net.bioclipse.usermanager.UserContainer;
+import net.bioclipse.usermanager.business.IUserManager;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -42,6 +46,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 /**
  * Dialog for logging in to the given UserContainer
@@ -63,7 +68,7 @@ public class LoginDialog extends TitleAreaDialog {
     private String         username;
     private String         password;
     private boolean        userContainerEdited;
-    
+    private String         errorMessage;
     /**
      * Create the dialog
      * @param parentShell
@@ -81,6 +86,7 @@ public class LoginDialog extends TitleAreaDialog {
      */
     @Override
     protected Control createDialogArea(Composite parent) {
+        setTitleImage(SWTResourceManager.getImage(LoginDialog.class, "/net/bioclipse/usermanager/BioclipseAccountLogo3_medium.png"));
         Composite area = (Composite) super.createDialogArea(parent);
         Composite container = new Composite(area, SWT.NONE);
         container.setLayout(new FormLayout());
@@ -122,24 +128,27 @@ public class LoginDialog extends TitleAreaDialog {
             public void widgetSelected(SelectionEvent e) {
 
                 CreateUserDialog createDialog = 
-                    new CreateUserDialog( PlatformUI
-                                          .getWorkbench()
-                                          .getActiveWorkbenchWindow()
-                                          .getShell(),
-                                          userContainer );
+                        new CreateUserDialog( PlatformUI
+                                              .getWorkbench()
+                                              .getActiveWorkbenchWindow()
+                                              .getShell(),
+                                              userContainer );
                 createDialog.open();
                 if(createDialog.getReturnCode() == Window.OK) {
                     close();
-                    EditUserDialog dialog = 
-                        new EditUserDialog( PlatformUI
-                                            .getWorkbench()
-                                            .getActiveWorkbenchWindow()
-                                            .getShell(), 
-                                            userContainer );
-                    dialog.open();
-                    if(dialog.getReturnCode() == Window.OK) {
-                        userContainerEdited = true;
-                    }
+                    if (userContainer.getAvailableAccountTypes().length != 0) {
+                        EditUserDialog dialog = 
+                                new EditUserDialog( PlatformUI
+                                                    .getWorkbench()
+                                                    .getActiveWorkbenchWindow()
+                                                    .getShell(), 
+                                                    userContainer );
+                        dialog.open();
+                        if(dialog.getReturnCode() == Window.OK) {
+                            userContainerEdited = true;
+                        }
+                    } else
+                        userContainerEdited = true; 
                 }
             }
         });
@@ -147,13 +156,13 @@ public class LoginDialog extends TitleAreaDialog {
         formData_4.right = new FormAttachment(100, -34);
         formData_4.top = new FormAttachment(0, 136);
         createNewKeyringButton.setLayoutData(formData_4);
-        createNewKeyringButton.setText("Create new Keyring user...");
+        createNewKeyringButton.setText("Create new Account...");
         container.setTabList(new Control[] { usernameText, 
                                              passwordText, 
                                              passwordLabel, 
                                              usernameLabel, 
                                              createNewKeyringButton });
-        setTitle("Log In to the User Manager");
+        setTitle("Log In To Your Bioclipse Account");
         //
         return area;
     }
@@ -185,7 +194,7 @@ public class LoginDialog extends TitleAreaDialog {
         /*
          * LOGIN
          */
-        if (buttonId == IDialogConstants.OK_ID) {
+        if (buttonId == IDialogConstants.OK_ID) { 
             username = usernameText.getText();
             password = passwordText.getText();
             final String username = this.username;
@@ -199,13 +208,39 @@ public class LoginDialog extends TitleAreaDialog {
                         int scale = 1000;
                         monitor.beginTask( "Signing in...", 
                                            IProgressMonitor.UNKNOWN );
-                        Activator.getDefault().getUserManager()
-                                 .signInWithProgressBar( 
-                                      username,
-                                      password, 
-                                      new SubProgressMonitor(
-                                              monitor, 
-                                              1 * scale) );
+                        IUserManager us = Activator.getDefault().getUserManager();
+
+                        us.signInWithProgressBar( 
+                                                 username, password, 
+                                                 new SubProgressMonitor(
+                                                                   monitor, 
+                                                                   1 * scale) );
+                        ArrayList<String> failedLogins = us.getFailedLogins();
+                        if (!failedLogins.isEmpty()) {
+                            Iterator<String> itr = failedLogins.iterator();
+                            String name = "";
+                            errorMessage = "Bioclipse could not " +
+                            		"log-in to your one or several third-part " +
+                            		"account(s):\n\n";
+                            while(itr.hasNext())
+                                name = itr.next();
+                                errorMessage += "\t" + name.substring( name.lastIndexOf( '.' ) + 1 )+ "\n";
+                            errorMessage += "\nPlease check your log-in " +
+                            		"settings for the feature(s) that has failed.";
+                            Display.getDefault().syncExec( new Runnable() {
+
+                                @Override
+                                public void run() {
+
+                                    MessageDialog.openInformation( PlatformUI.getWorkbench()
+                                                                   .getActiveWorkbenchWindow()
+                                                                   .getShell(),
+                                                                   "Feature log-in failure",
+                                                                   errorMessage );
+
+                                }
+                            } );   
+                        }   
                     }
                     catch ( final Exception e ) {
                         Display.getDefault().asyncExec(new Runnable() {

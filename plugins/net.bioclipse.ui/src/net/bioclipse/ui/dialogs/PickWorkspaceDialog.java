@@ -14,8 +14,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
+import net.bioclipse.core.util.LogUtils;
+
+import org.apache.log4j.Logger;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -34,13 +38,16 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Label;
 
 /**
  * Dialog that lets/forces a user to enter/select a workspace that will be used when saving all configuration files and
- * settings. This dialog is shown at startup of the GUI just after the splash screen has shown.
- * This was adopted from http://hexapixel.com/2009/01/12/rcp-workspaces
+ * settings. This dialog is shown at startup of the GUI just after the splash screen 
  */
 public class PickWorkspaceDialog extends TitleAreaDialog {
+    
+    private static final Logger logger = Logger.getLogger(
+                                             PickWorkspaceDialog.class );
 
     // you would probably normally define these somewhere in your Preference Constants
     private static final String _KeyWorkspaceRootDir   = "wsRootDir";
@@ -59,7 +66,7 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
     // our controls
     private Combo               _workspacePathCombo;
     private List<String>        _lastUsedWorkspaces;
-    private Button              _RememberWorkspaceButton;
+//    private Button              _RememberWorkspaceButton;
 
     // used as separator when we save the last used workspace locations
     private static final String _SplitChar             = "#";
@@ -182,9 +189,11 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
             });
 
             // checkbox below
-            _RememberWorkspaceButton = new Button(inner, SWT.CHECK);
-            _RememberWorkspaceButton.setText("Remember workspace");
-            _RememberWorkspaceButton.setSelection(_preferences.getBoolean(_KeyRememberWorkspace, false));
+//            _RememberWorkspaceButton = new Button(inner, SWT.CHECK);
+//            _RememberWorkspaceButton.setText("Always start with default workspace");
+//            _RememberWorkspaceButton.setSelection(!_preferences.getBoolean(_KeyRememberWorkspace, false));
+            new Label(inner, SWT.NONE);
+            new Label(inner, SWT.NONE);
 
             return inner;
         } catch (Exception err) {
@@ -222,7 +231,7 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
     protected void createButtonsForButtonBar(Composite parent) {
 
         // clone workspace needs a lot of checks
-        Button clone = createButton(parent, IDialogConstants.IGNORE_ID, "Clone", false);
+        Button clone = createButton(parent, IDialogConstants.IGNORE_ID, "Clone Selected", false);
         clone.addListener(SWT.Selection, new Listener() {
             public void handleEvent(Event arg0) {
                 try {
@@ -241,7 +250,8 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
                     }
 
                     DirectoryDialog dd = new DirectoryDialog(Display.getDefault().getActiveShell());
-                    dd.setFilterPath(txt);
+                    dd.setText("Select folder for clone");
+                    dd.setFilterPath(new File(txt).getParentFile().getAbsolutePath());
                     String directory = dd.open();
                     if (directory == null) { return; }
 
@@ -266,7 +276,7 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
                         return;
                     }
 
-                    boolean setActive = MessageDialog.openConfirm(Display.getDefault().getActiveShell(), "Workspace Cloned",
+                    boolean setActive = MessageDialog.openQuestion(Display.getDefault().getActiveShell(), "Workspace Cloned",
                             "Would you like to set the newly cloned workspace to be the active one?");
                     if (setActive) {
                         _workspacePathCombo.setText(directory);
@@ -393,6 +403,12 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
             _lastUsedWorkspaces.removeAll(remove);
         }
 
+        String wsps = getWorkspacePathSuggestion();
+        
+        if ( !_lastUsedWorkspaces.contains( wsps ) ) {
+            _lastUsedWorkspaces.add( wsps );
+        }
+        
         // create a string concatenation of all our last used workspaces
         StringBuffer buf = new StringBuffer();
         for (int i = 0; i < _lastUsedWorkspaces.size(); i++) {
@@ -401,9 +417,10 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
                 buf.append(_SplitChar);
             }
         }
+        
 
         // save them onto our preferences
-        _preferences.putBoolean(_KeyRememberWorkspace, _RememberWorkspaceButton.getSelection());
+//        _preferences.putBoolean(_KeyRememberWorkspace, !_RememberWorkspaceButton.getSelection());
         _preferences.putBoolean(_KeyLastUsedWorkspaces, true);
         _preferences.put(_KeyLastUsedWorkspaces, buf.toString());
 
@@ -420,6 +437,11 @@ public class PickWorkspaceDialog extends TitleAreaDialog {
         // and on our preferences as well
         _preferences.put(_KeyWorkspaceRootDir, str);
 
+        try {
+            _preferences.flush();
+        } catch ( BackingStoreException e ) {
+            LogUtils.handleException( e, logger, "net.bioclipse.ui" );
+        }
         super.okPressed();
     }
 

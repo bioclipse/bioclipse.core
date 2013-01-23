@@ -3,7 +3,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * www.eclipse.orgÑepl-v10.html <http://www.eclipse.org/legal/epl-v10.html>
+ * www.eclipse.orgï¿½epl-v10.html <http://www.eclipse.org/legal/epl-v10.html>
  * 
  * Contributors:
  *     Ola Spjuth - initial API and implementation
@@ -12,12 +12,12 @@
 package net.bioclipse.data.wizards;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import net.bioclipse.data.IDataConstants;
 
 import org.apache.log4j.Logger;
-
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
@@ -54,15 +54,15 @@ public class SelectDataFoldersPage extends WizardPage {
     private Text text;
 
     //Store folders here
-    private ArrayList<InstallableFolder> folders = 
-        new ArrayList<InstallableFolder>();
+    private List<InstallableFolder> folders = new ArrayList<InstallableFolder>();
 
 	private NewDataProjectWizard wizard;
+    private CheckboxTableViewer          viewer;
 
     private static final Logger logger = 
         Logger.getLogger(SelectDataFoldersPage.class);
     
-    public ArrayList<InstallableFolder> getFolders(){
+    public List<InstallableFolder> getFolders() {
         return folders;
     }
 
@@ -164,7 +164,7 @@ public class SelectDataFoldersPage extends WizardPage {
         GridData da=new GridData(SWT.LEFT, SWT.FILL, false, true);
         da.widthHint=200;
         table.setLayoutData(da);
-        CheckboxTableViewer viewer=new CheckboxTableViewer(table);
+        viewer = new CheckboxTableViewer( table );
 
         viewer.setContentProvider(new InstallDataContentProvider());
         viewer.setLabelProvider(new InstallDataLabelProvider());
@@ -209,23 +209,27 @@ public class SelectDataFoldersPage extends WizardPage {
 
         IPath dataPath=new Path(fileURL.getPath());
          */
-
-        ArrayList folders=getInstallableFolders();
-        if (folders==null) return;
-        if (folders.size()<=0) return;
-
-        //Set data folder as input
-        viewer.setInput(folders);
-
-        //Select all by default
-        viewer.setAllChecked(true);
-        viewer.setSelection(new StructuredSelection(folders.get(0)));
-        checkForCompletion();
-        
-        setControl(container);
+        updateFolders();
+        setControl( container );
 
     }
 
+    void updateFolders() {
+
+        folders = getInstallableFolders( wizard
+                        .getWizardID() );
+        if ( folders.isEmpty() )
+            return;
+        
+        viewer.setInput(folders);
+        String wizardId = wizard.getWizardID();
+        for (int i = 0; i < folders.size(); i++) {
+            if (folders.get( i ).getWizardID().equals( wizardId )) 
+                viewer.setChecked( viewer.getElementAt( i ), true );
+        }
+        
+        checkForCompletion();
+    }
     /**
      * Check if all is complete on page
      */
@@ -254,19 +258,24 @@ public class SelectDataFoldersPage extends WizardPage {
     }
 
     /**
-     * Read extension point and provide the installable folders
+     * Read extension point and provide the installable folders.
+     *
+     * @param wizardId String indicates the wizard to use if it is null the
+     * default wizard is used.
+     * @return A list containing the contributed installable folders or empty
+     * if no folders where found.
      */
-    public ArrayList<InstallableFolder> getInstallableFolders(){
+    public static List<InstallableFolder> getInstallableFolders( String wizardId ) {
 
         //Store folders here
-        folders=new ArrayList<InstallableFolder>();
+        List<InstallableFolder> folders = new ArrayList<InstallableFolder>();
         
         IExtensionRegistry registry = Platform.getExtensionRegistry();
 
         if (registry == null) { // for example, when we are running the tests
             logger.warn("Registry does not exist. If tests are running, "
                     + "this is in order.");
-            return null;             // nothing we can do anyway
+            return Collections.emptyList(); // nothing we can do anyway
         }
 
         IExtensionPoint extensionPoint
@@ -285,26 +294,28 @@ public class SelectDataFoldersPage extends WizardPage {
                 String location=configelements[j].getAttribute("location");
                 String pluginid=configelements[j].getNamespaceIdentifier();
                 String wizid=configelements[j].getAttribute("wizard");
-
                 //Use default wizard if no wizard id in extension
                 if (wizid==null){
                 	wizid=IDataConstants.DEFAULT_INSTALL_WIZARD;
                 }
-                if (wizard.getWizardID()==null){
-                	wizard.setWizardID(IDataConstants.DEFAULT_INSTALL_WIZARD);
+                if ( wizardId == null ) {
+                    wizardId = IDataConstants.DEFAULT_INSTALL_WIZARD;
+                // wizard.setWizardID(IDataConstants.DEFAULT_INSTALL_WIZARD);
                 }
 
                 //If the current wizard is specified in extension, add the folder
-                if (wizard.getWizardID().equals(wizid)){
+                if ( wizardId != null ) {
                     InstallableFolder folder=new InstallableFolder(name, description, location, pluginid, wizid);
-                    folder.setChecked(true);
+                    folder.setChecked( folder.getWizardID().equals( wizardId ) );
                     folders.add(folder);
-                    logger.debug("Added installable folder: " + name + " to wizard: " + wizard.getWizardID());
+                    logger.debug( "Added installable folder: " + name
+                                  + " to wizard: "
+                                  + wizardId );
                 }
 
             }
         }
-
+        assert folders!=null;
         return folders;
 
     }

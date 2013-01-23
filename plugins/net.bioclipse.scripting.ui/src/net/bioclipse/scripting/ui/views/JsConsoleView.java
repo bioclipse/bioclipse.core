@@ -32,9 +32,10 @@ import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.Activator;
 import net.bioclipse.scripting.Hook;
-import net.bioclipse.scripting.JsAction;
+import net.bioclipse.scripting.ScriptAction;
 import net.bioclipse.scripting.JsThread;
 
+import org.apache.log4j.Logger;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.browser.IWebBrowser;
@@ -47,6 +48,7 @@ public class JsConsoleView extends ScriptingConsoleView {
     private static JsThread jsThread = Activator.getDefault().JS_THREAD;
     private static Pattern p
         = Pattern.compile( " Wrapped (\\S+): (.*?) \\(<Unknown source>#" );
+    private static Logger logger = Logger.getLogger( JsConsoleView.class );
 
     @Override
     protected String executeCommand( String command ) {
@@ -75,7 +77,7 @@ public class JsConsoleView extends ScriptingConsoleView {
             Activator.getDefault().JS_THREAD = jsThread = new JsThread();
             jsThread.start();
         }
-        jsThread.enqueue(new JsAction(command,
+        jsThread.enqueue(new ScriptAction(command,
             new Hook() {
                public void run(final Object result) {
                    Display.getDefault().asyncExec(new Runnable() {
@@ -198,6 +200,13 @@ public class JsConsoleView extends ScriptingConsoleView {
                 }
                 return exceptionType + ": " + causeMessage;
             }
+        }
+        if ( message.contains(
+                 "java.lang.reflect.UndeclaredThrowableException" ) ) {
+            logger.warn( "java.lang.reflect.UndeclaredThrowableException " +
+            		"found. This could be because a manager method throws an " +
+            		"Exception e.g. BioclipseException without declaring it in " +
+            		"the called method on it's interface" );
         }
         return t.getMessage();
 
@@ -645,7 +654,7 @@ public class JsConsoleView extends ScriptingConsoleView {
         final List<String>[] variables = new List[1];
 
         jsThread.enqueue(
-            new JsAction( "zzz1 = new java.util.ArrayList();"
+            new ScriptAction( "zzz1 = new java.util.ArrayList();"
                           + "for (var zzz3 in " + object
                           + ") { zzz1.add(zzz3) } zzz1",
                           new Hook() {

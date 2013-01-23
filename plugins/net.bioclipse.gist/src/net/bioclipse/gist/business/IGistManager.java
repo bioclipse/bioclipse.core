@@ -10,18 +10,22 @@
  ******************************************************************************/
 package net.bioclipse.gist.business;
 
+import java.util.List;
+
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.TestClasses;
-
-import org.eclipse.core.resources.IFile;
-
 import net.bioclipse.jobs.BioclipseJob;
 import net.bioclipse.jobs.BioclipseJobUpdateHook;
 import net.bioclipse.managers.business.IBioclipseManager;
 
-@PublishedClass("The gist manager is used for downloading gists")
+import org.eclipse.core.resources.IFile;
+
+@PublishedClass("The gist manager is used for downloading gists. A Gist is " +
+		"a simple way to share small texts like Bioclipse scripts and " +
+		"get verson control on them. For more information see: " +
+		"https://gist.github.com/")
 @TestClasses(
     "net.bioclipse.gist.test.APITest," +
     "net.bioclipse.gist.test.CoverageTest," +
@@ -31,27 +35,10 @@ public interface IGistManager extends IBioclipseManager {
 
     @Recorded
     @PublishedMethod(
-        params = "int gist, String path", 
-        methodSummary = "Downloads the Gist with the given number to the " +
-        		            "given path and returns the target path"
-    )
-    public String download( int gist, String path );
-
-    public IFile download( int gist, 
-                           IFile target );
-    
-    public BioclipseJob<IFile> download( int gist, 
-                                         IFile target, 
-                                         BioclipseJobUpdateHook hook );
-    
-    @Recorded
-    @PublishedMethod(
         params = "int gist",
         methodSummary = "Downloads the Gist with the given number to the " +
                         "project 'Gists/' and returns the path"
     )
-    public String download(int gist);
-
-    public BioclipseJob<IFile> download( int gist, 
-                                         BioclipseJobUpdateHook hook );
+    public List<IFile> download(int gist);
+    public BioclipseJob<IFile> download( int gist, BioclipseJobUpdateHook<List<IFile>> hook );
 }
