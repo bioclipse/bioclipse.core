@@ -12,6 +12,11 @@
  ******************************************************************************/
 package net.bioclipse.scripting.ui.business;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.bioclipse.core.ResourcePathTransformer;
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.scripting.Activator;
 import net.bioclipse.scripting.Hook;
@@ -92,8 +97,8 @@ public class JsConsoleManager implements IBioclipseManager {
         );
         return evalResult[0];
     }
-
-    public void executeFile( final IFile file ) {
+    
+    public void execute( final IFile file ) {
         Job job = new Job("JavaScript execution") {
             @Override
             protected IStatus run(final IProgressMonitor monitor) {
@@ -152,9 +157,35 @@ public class JsConsoleManager implements IBioclipseManager {
             }
         };
         job.schedule();
+    
+    }
+
+    @Deprecated
+    public void executeFile( final IFile file ) {
+        execute(file);
     }
 
     public void printError( Throwable t ) {
         print( getJsConsoleView().getErrorMessage( t ) );
+    }
+
+    public void execute( List<?> files ) throws BioclipseException {
+        int i = 0;
+        for ( Object o : files) {
+            if ( o instanceof IFile ) {
+                execute( (IFile)o );
+            }
+            else if ( o instanceof String ) {
+                execute( ResourcePathTransformer.getInstance()
+                                                .transform( (String)o ) );
+            }
+            else {
+                throw new BioclipseException(
+                    "List of files given to the js.execute method contained " +
+                    "an element at index " + i +  " which could not be " +
+                    "identified as a file. The element was: " + o.toString() );
+            }
+            i++;
+        }
     }
 }
