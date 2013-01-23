@@ -12,6 +12,8 @@
  ******************************************************************************/
 package net.bioclipse.scripting.ui.business;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -21,6 +23,7 @@ import net.bioclipse.core.Recorded;
 import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.TestMethods;
 import net.bioclipse.managers.business.IBioclipseManager;
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.core.util.IJavaScriptConsolePrinterChannel;
 
 /**
@@ -59,13 +62,33 @@ public interface IJsConsoleManager extends IBioclipseManager,
     public String eval(String command);
 
     @Recorded
+    @TestMethods("testExecute")
+    public void execute(IFile file);
+    
+    @Recorded
+    @TestMethods("testExecute")
+    @PublishedMethod( params="String file",
+                      methodSummary="Runs a js script file.")
+    public void execute(String file);
+    
+    @Recorded
+    @TestMethods("testExecute")
+    @PublishedMethod( params="List files",
+                      methodSummary="Runs a js script file.")
+    public void execute(List<?> files) throws BioclipseException;
+    
+    @Recorded
     @TestMethods("testExecuteFile")
+    @Deprecated
     public void executeFile(IFile file);
 
     @Recorded
-    @PublishedMethod(params="String filePath",
-                     methodSummary="Runs a js script file.")
+    @PublishedMethod(
+        params="String filePath",
+        methodSummary="Runs a js script file. Marked for removal. " +
+                      "Use js.execute instead." )
     @TestMethods("testExecuteFile")
+    @Deprecated
     public void executeFile(String filePath);
 
     public void printError( Throwable t );
