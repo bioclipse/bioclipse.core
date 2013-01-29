@@ -246,6 +246,7 @@ public class LoginDialog extends TitleAreaDialog {
                         Display.getDefault().asyncExec(new Runnable() {
 
                             public void run() {
+                                System.out.println("User name: "+username+"\nException: "+e);
                                 MessageDialog.openInformation( 
                                            PlatformUI
                                            .getWorkbench()
