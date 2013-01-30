@@ -92,6 +92,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="defaultValue" type="string">
+            <annotation>
+               <documentation>
+                  An attribute to set a default value for a property
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
