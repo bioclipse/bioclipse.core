@@ -233,6 +233,10 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 
 	}
 	
+	protected void fireUpdate() {
+	    this.performNext( true );
+	}
+	
 	private void performNext(boolean enteringPage) {
 	    if (addedAccounts.isEmpty())
 	        return;

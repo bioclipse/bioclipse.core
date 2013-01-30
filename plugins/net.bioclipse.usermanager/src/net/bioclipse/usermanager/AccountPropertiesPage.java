@@ -120,7 +120,7 @@ public class AccountPropertiesPage {
 			temp = propertyIter.next();
 			if (temp.isSecret()) {
 				addComponents(i, SWT.BORDER | SWT.PASSWORD, temp.isRequired(),
-						temp.getName());
+						temp.getName(), temp.getDefaultValue());
 //				i++;
 //				addComponents(i, SWT.BORDER | SWT.PASSWORD, temp.isRequired(),
 //						"Repeat " + temp.getName());
@@ -161,7 +161,7 @@ public class AccountPropertiesPage {
 //					}
 //				});
 			} else {
-				addComponents(i, SWT.BORDER, temp.isRequired(), temp.getName());
+				addComponents(i, SWT.BORDER, temp.isRequired(), temp.getName(), temp.getDefaultValue() );
 			}
 			i++;
 		}
@@ -205,7 +205,7 @@ public class AccountPropertiesPage {
 	 * @param labelTxt The text shown by the label in front of the text-field
 	 */
 	private void addComponents(int index, int style, boolean required, 
-			String labelTxt) {
+			String labelTxt, String defaultValue) {
 		GridData txtData = new GridData( SWT.FILL, SWT.NONE, true, true );
 		txtData.widthHint = 220;
 		accountLabels[index] = new Label( propComposite, SWT.NONE | SWT.RIGHT);
@@ -214,8 +214,8 @@ public class AccountPropertiesPage {
 		accountTxt[index].setToolTipText( accountLabels[index].getText()
 				.substring( 0, ( accountLabels[index].getText().length()-1) ) );
 		accountTxt[index].setLayoutData(txtData);
-		accountTxt[index].addModifyListener( new ModifyListener() {
-            
+		accountTxt[index].setText( defaultValue );
+		accountTxt[index].addModifyListener( new ModifyListener() {  
             @Override
             public void modifyText( ModifyEvent e ) {
                 if (isAllRequierdPropertiesFilledIn()) {

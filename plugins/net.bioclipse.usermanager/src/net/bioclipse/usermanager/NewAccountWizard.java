@@ -91,7 +91,7 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	            usermanager = Activator.getDefault().getUserManager();	        
 	        usermanager.logIn(loginPage.getUsername(), loginPage.getPassword());
 	    }
-
+	    addAccountPage.fireUpdate();
 	    if (manipulateUserContainer) {
 	        Collection<Account> accounts = sandbox.getLoggedInUser().getAccounts().values();
 	        Iterator<Account> itr = accounts.iterator();

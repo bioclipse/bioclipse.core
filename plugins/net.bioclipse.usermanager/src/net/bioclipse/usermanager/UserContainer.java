@@ -111,12 +111,14 @@ public class UserContainer extends BioObject {
                 for ( IConfigurationElement subElement 
                 		: element.getChildren() ) {
                 	accountType.addProperty( subElement.getAttribute("name"),
-                			Boolean.parseBoolean(
-                					subElement.getAttribute(
-                							"required" ) ),
-                							Boolean.parseBoolean(
-                									subElement.getAttribute(
-                											"secret" ) ));
+                			Boolean.parseBoolean( subElement.getAttribute(
+                			        "required" ) ),
+                			        Boolean.parseBoolean( subElement.
+                			                              getAttribute( 
+                			                                       "secret" ) ),
+                											subElement.
+                											getAttribute( 
+                											 "defaultValue" ));
                 	accountType.setLogoPath( element.getAttribute("logoPath"));
          
                 }
