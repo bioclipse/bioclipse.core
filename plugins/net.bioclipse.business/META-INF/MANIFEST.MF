@@ -10,7 +10,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.eclipse.core.resources,
  net.bioclipse.core,
- net.bioclipse.ui
+ net.bioclipse.ui,
+ ch.qos.logback.core,
+ ch.qos.logback.classic
 Bundle-ActivationPolicy: lazy
-Import-Package: org.apache.log4j
+Import-Package: org.apache.log4j,
+ org.slf4j
 Export-Package: net.bioclipse.business
