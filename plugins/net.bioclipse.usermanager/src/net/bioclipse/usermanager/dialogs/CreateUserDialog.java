@@ -18,6 +18,10 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -98,7 +102,8 @@ public class CreateUserDialog extends TitleAreaDialog {
         formData_3.left = new FormAttachment(0, 151);
         formData_3.right = new FormAttachment(100, -36);
         userNameText.setLayoutData(formData_3);
-
+        userNameText.addModifyListener( modifyListener );
+        
         passwordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
         formData_1.top = new FormAttachment(passwordText, 3, SWT.TOP);
         formData_1.left = new FormAttachment(passwordText, -64, SWT.LEFT);
@@ -107,13 +112,15 @@ public class CreateUserDialog extends TitleAreaDialog {
         formData_4.right = new FormAttachment(100, -37);
         formData_4.top = new FormAttachment(userNameText, 14);
         passwordText.setLayoutData(formData_4);
-
+        passwordText.addModifyListener( modifyListener );
+        
         repeatPasswordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
         final FormData formData_5 = new FormData();
         formData_5.left = new FormAttachment(repeatPasswordLabel, 6);
         formData_5.right = new FormAttachment(repeatPasswordLabel, 448, SWT.RIGHT);
         formData_5.top = new FormAttachment(passwordText, 16);
         repeatPasswordText.setLayoutData(formData_5);
+        repeatPasswordText.addModifyListener( modifyListener );
         
         group = new Group(container, SWT.BORDER);
         formData.top = new FormAttachment(group, 20);
@@ -194,4 +201,38 @@ public class CreateUserDialog extends TitleAreaDialog {
 		super.configureShell(newShell);
 		newShell.setText("Create your Bioclipse Account");
 	}
+
+	ModifyListener modifyListener = new ModifyListener() {
+
+        @Override
+        public void modifyText( ModifyEvent e ) {
+
+            if (userNameText.getText().isEmpty() && repeatPasswordText.getText().isEmpty() && passwordText.getText().isEmpty()){
+                setErrorMessage( null );
+                return;
+            }
+
+            if (userNameText.getText().isEmpty())
+                setErrorMessage( "Please fill in user name" );
+            else  {
+                String message = "Please fill in ";
+                if (passwordText.getText().isEmpty()) {
+                    message += "password";
+                    if (repeatPasswordText.getText().isEmpty())
+                        message += "and repeat password";
+                    message += ".";
+                    setErrorMessage( message );
+                } else if (repeatPasswordText.getText().isEmpty()) {
+                    message += "repeat password.";
+                    setErrorMessage( message );
+                } else {
+                    if ( !repeatPasswordText.getText().equals( passwordText.getText() ) ) {
+                        setErrorMessage( "The repeated password doesnt match the password" );
+                    } else
+                        setErrorMessage( null );
+                }
+            }
+        }
+
+	};
 }
