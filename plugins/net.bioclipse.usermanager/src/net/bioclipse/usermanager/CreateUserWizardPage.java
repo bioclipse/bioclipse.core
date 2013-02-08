@@ -98,16 +98,48 @@ public class CreateUserWizardPage extends WizardPage implements Listener {
 
     @Override
     public boolean isPageComplete() {
-        if (userNameText.getText().isEmpty() ||
-                passwordText.getText().isEmpty() ||
+        
+        if (userNameText.getText().isEmpty() &&
+                passwordText.getText().isEmpty() &&
                 repeatPasswordText.getText().isEmpty() ) {
-            setErrorMessage( "Please fill-in all fields" );
+            setErrorMessage( null );
+            return false;
+        }
+        String message = "Please fill in ";
+        if (userNameText.getText().isEmpty()) {
+            message +=" username";
+            if (passwordText.getText().isEmpty())
+                message += "and password";
+            if (repeatPasswordText.getText().isEmpty() )
+                message += "and repeat password";
+            message += ".";
+            setErrorMessage( message );
+            return false;
+        }
+        if (passwordText.getText().isEmpty()) {
+            message += " password";
+            if (userNameText.getText().isEmpty()) 
+                message +=" and username";
+            if (repeatPasswordText.getText().isEmpty() )
+                message += "and repeat password";
+            message += ".";
+            setErrorMessage( message );
+            return false;
+        }
+        if (repeatPasswordText.getText().isEmpty()) {
+            message += "repeat password";
+            if (userNameText.getText().isEmpty()) 
+                message +=" and username";
+            if (passwordText.getText().isEmpty())
+                message += "and password";
+            message += ".";
+            setErrorMessage( message );
             return false;
         }
         if (!passwordText.getText().equals( repeatPasswordText.getText() )) {
             setErrorMessage( "Password and repeat password must be the same" );
             return false;
-        }
+        }        
         setErrorMessage( null );
         return true;
     }
