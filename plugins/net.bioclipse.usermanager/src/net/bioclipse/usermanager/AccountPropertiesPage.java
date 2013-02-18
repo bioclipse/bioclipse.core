@@ -51,12 +51,8 @@ public class AccountPropertiesPage {
 	private Image reqImage = FieldDecorationRegistry.getDefault()
 			.getFieldDecoration(FieldDecorationRegistry.DEC_REQUIRED)
 			.getImage();
-	private Image errImage = FieldDecorationRegistry.getDefault()
-			.getFieldDecoration(FieldDecorationRegistry.DEC_ERROR)
-			.getImage();
 	private AccountType accountType;
 	private Boolean errorFlag = false;
-	private Boolean loggedInToAccount = false;
 	private NewAccountWizardPage mainPage;
 	private UserContainer sandbox;
 	private String accountId = "";
@@ -68,7 +64,6 @@ public class AccountPropertiesPage {
 	    
 	    this.sandbox = sandbox;
 		int noOfFields = 0, i = 0;
-//		int noOfSecretFields = 0;
 		mainPage = nawp;
 		Iterator<Property> propertyIter;
 		Property temp;
@@ -312,7 +307,10 @@ public class AccountPropertiesPage {
 	}
 	
 	protected void upDateAccountName() {
-	    accountNameTxt.setText( createAccountId() );
+	    if (accountId.isEmpty())
+	        accountId = createAccountId();
+	    
+	    accountNameTxt.setText( accountId );
 	}
 	
 	/**
