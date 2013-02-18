@@ -10,6 +10,10 @@
     </context>
         <context id="createAccountHelp">
         <description>Create a Bioclipse account. Choose a username and a password, repeat the password in the bottom field.</description>
-        <topic href="html/usermanager/accountWizardHelp.html" label="Login/out from an account"/>
+        <topic href="html/usermanager/accountWizardHelp.html" label="Create an user account"/>
+    </context>
+    <context id="xmlEditor">
+        <description>An editor for editing xml-files.</description>
+        <topic href="html/workbench/editors/ed_xmlEditor.html" label="The XML-editor"/>
     </context>
 </contexts>
