@@ -298,17 +298,17 @@ public class AccountPropertiesPage {
 	}
 	
 	private String createAccountId() {
-	    String accountId = "";
-	    int i = 0;
-	    if (!sandbox.isLoggedIn())
-	        return accountId;
-	    
-	    accountId = accountType.getName() + "_" + 0;
-        while (sandbox.accountExists(accountId)){
-            i++;
-            accountId = accountType.getName() + "_" + i;
-        }
-        return accountId;
+//	    String accountId = "";
+//	    int i = 0;
+//	    if (!sandbox.isLoggedIn())
+//	        return accountId;
+//	    
+//	    accountId = accountType.getName() + "_" + 0;
+//        while (sandbox.accountExists(accountId)){
+//            i++;
+//            accountId = accountType.getName() + "_" + i;
+//        }
+        return accountType.getName();
 	}
 	
 	protected void upDateAccountName() {
