@@ -239,11 +239,11 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	}
 	
 	private void performNext(boolean enteringPage) {
-	    IWizard wizard = getWizard();
-	    if(wizard instanceof Wizard) {
-	        ((Wizard)wizard).setHelpAvailable( true );
-	        getContainer().updateButtons();
-	    }
+//	    IWizard wizard = getWizard();
+//	    if(wizard instanceof Wizard) {
+//	        ((Wizard)wizard).setHelpAvailable( true );
+//	        getContainer().updateButtons();
+//	    }
 	    if (addedAccounts.isEmpty())
 	        return;
 	    AccountPropertiesPage account = 

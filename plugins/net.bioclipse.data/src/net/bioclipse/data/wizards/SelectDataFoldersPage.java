@@ -324,8 +324,8 @@ public class SelectDataFoldersPage extends WizardPage {
 
     @Override
     public void performHelp() {
-           PlatformUI.getWorkbench().getHelpSystem().displayHelp( "net.bioclipse.ui.dataFoldersHelp"  );
-//            .setHelp( Display.getCurrent().getActiveShell(),
-//                      "net.bioclipse.ui.dataFoldersHelp" );
+           PlatformUI.getWorkbench().getHelpSystem()//.displayHelp( "net.bioclipse.ui.dataFoldersHelp"  );
+            .setHelp( Display.getCurrent().getActiveShell(),
+                      "net.bioclipse.ui.dataFoldersHelp" );
     }
 }

@@ -40,8 +40,10 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.osgi.framework.Bundle;
@@ -134,6 +136,13 @@ public class NewDataProjectWizard extends Wizard implements INewWizard,
             fFirstPage.setDescription( "Create a " + name );
                                        //"Create a new Project with "
 //                                       + "sample data installed" );
+//           Control con = fFirstPage.getControl();
+           System.out.println(PlatformUI.getWorkbench().getDisplay().getActiveShell());
+           PlatformUI.getWorkbench().
+           getHelpSystem().
+           setHelp( 
+                    PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+                    "net.bioclipse.ui.dataFoldersHelp" ); 
         }
         
         String projectName = createProjectName();

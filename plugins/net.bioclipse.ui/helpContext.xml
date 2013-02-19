@@ -12,8 +12,8 @@
         <description>Create a Bioclipse account. Choose a username and a password, repeat the password in the bottom field.</description>
         <topic href="html/usermanager/accountWizardHelp.html" label="Create an user account"/>
     </context>
-    <context id="xmlEditor">
-        <description>An editor for editing xml-files.</description>
+    <context id="dataFoldersHelp">
+        <description>Adds example data in a separate map.</description>
         <topic href="html/workbench/editors/ed_xmlEditor.html" label="The XML-editor"/>
     </context>
 </contexts>
