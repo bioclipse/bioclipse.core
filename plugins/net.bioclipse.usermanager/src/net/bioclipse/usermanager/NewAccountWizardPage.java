@@ -152,7 +152,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		AccountPropertiesPage account = 
 				addedAccounts.get(accountTypeCombo.getSelectionIndex());
 		if (account.isAllRequierdPropertiesFilledIn() && 
-				account.isFieldsProperlyFilled()) {
+				account.isAllRequierdPropertiesFilledIn()) {
 		    accountId = account.getAccountId();
 		    accountType = account.getAccountType();
 		    properties = account.getProperties();
@@ -182,7 +182,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 			errorMessage += ": " + unfilledFields.get(0);
 		else if(unfilledFields.size() > 1) {
 			errorMessage += "s:\n" + createErrorMessage(unfilledFields);
-		} else if (!account.isFieldsProperlyFilled())
+		} else if (!account.isAllRequierdPropertiesFilledIn())
 			errorMessage = "There is something missing.";
 		else
 			errorMessage = "WTF?";

@@ -123,7 +123,6 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 
 	@Override
 	public boolean canFinish() {
-	    System.out.println("Can finish: "+addAccountPage.isPageComplete());
 		return addAccountPage.isPageComplete();
 	}
 

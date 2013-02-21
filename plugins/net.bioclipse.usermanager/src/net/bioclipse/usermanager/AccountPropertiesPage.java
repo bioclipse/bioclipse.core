@@ -52,7 +52,6 @@ public class AccountPropertiesPage {
 			.getFieldDecoration(FieldDecorationRegistry.DEC_REQUIRED)
 			.getImage();
 	private AccountType accountType;
-	private Boolean errorFlag = false;
 	private NewAccountWizardPage mainPage;
 	private UserContainer sandbox;
 	private String accountId = "";
@@ -241,7 +240,7 @@ public class AccountPropertiesPage {
 			errorMessage += ": " + unfilledFields.get(0);
 		else if(unfilledFields.size() > 1) {
 			errorMessage += "s:\n" + createErrorMessage(unfilledFields);
-		} else if (!isFieldsProperlyFilled())
+		} else if (!isAllRequierdPropertiesFilledIn())
 			errorMessage = "Now you're way of...";
 		else
 			errorMessage = "WTF?";
@@ -402,15 +401,6 @@ public class AccountPropertiesPage {
 		}	
 		
 		return requiredPropertiesLeft;
-	}
-	
-	/**
-	 * A method to check that all the fields are valid.
-	 * 
-	 * @return True if everything is ok 
-	 */
-	public Boolean isFieldsProperlyFilled() {		
-		return !errorFlag;
 	}
 
 	public void dispose() {
