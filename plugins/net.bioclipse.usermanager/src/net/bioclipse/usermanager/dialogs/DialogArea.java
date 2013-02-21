@@ -270,6 +270,5 @@ public class DialogArea implements Listener {
 			page.getWizard().getContainer().updateMessage();
 		}
 	}
-    
-    
+        
 }
