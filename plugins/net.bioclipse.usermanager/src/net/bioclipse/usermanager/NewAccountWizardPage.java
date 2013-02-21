@@ -13,6 +13,7 @@ package net.bioclipse.usermanager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -109,8 +110,9 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	public void handleEvent(Event event) {
 		if (event.widget == accountTypeCombo) {
 			if (accountTypeCombo.getSelectionIndex() == -1){
-			    // TODO Open a message dialog instead...
-				System.out.println("Please select an account-type");
+			    MessageDialog.openInformation( getShell(), 
+			                                   "No account type selected", 
+			                                   "Please select an account-type");
 			} else if (accountTypeCombo.getSelectionIndex() < 
 					accountComposites.size()) { 
 				accountStack.topControl = accountComposites.get(
