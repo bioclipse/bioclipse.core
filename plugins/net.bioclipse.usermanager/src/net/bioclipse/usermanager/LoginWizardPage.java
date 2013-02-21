@@ -42,7 +42,6 @@ public class LoginWizardPage extends WizardPage {
 	public void createControl(Composite parent) {
 		Composite container = loginDialogArea.getLoginArea(parent);
 		setControl(container);
-		setErrorMessage(loginDialogArea.getErrorMessage());
 		setPageComplete( isPageComplete() );
 	}
 
