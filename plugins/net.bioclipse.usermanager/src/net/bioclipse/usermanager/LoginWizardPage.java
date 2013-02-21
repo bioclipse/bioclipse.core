@@ -10,7 +10,6 @@
  *******************************************************************************/
 package net.bioclipse.usermanager;
 
-import net.bioclipse.core.util.LogUtils;
 import net.bioclipse.usermanager.dialogs.DialogArea;
 import net.bioclipse.usermanager.dialogs.LoginDialog;
 
@@ -31,8 +30,7 @@ public class LoginWizardPage extends WizardPage {
     private static final Logger logger 
     = Logger.getLogger(LoginDialog.class);
     private DialogArea loginDialogArea;
-	private UserContainer sandbox;
-	private boolean stop = false;
+	private UserContainer sandbox;;
 	
 	protected LoginWizardPage(String pageName, UserContainer userContainer) {
 		super(pageName);
@@ -69,8 +67,7 @@ public class LoginWizardPage extends WizardPage {
 	 * @return The password
 	 */
 	public String getPassword() {
-		return loginDialogArea.getPassword();
-				
+		return loginDialogArea.getPassword();				
 	}
 	
 	@Override
@@ -87,6 +84,7 @@ public class LoginWizardPage extends WizardPage {
 	                                         + getUsername(),  e.getMessage() );
 	           getWizard().getContainer().showPage( this );
 	           getWizard().getContainer().updateButtons();
+	           logger.error( "Could not sign in user: "+e.getStackTrace() );
 	       }
 	    else
 	        super.setVisible( visible );  
