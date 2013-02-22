@@ -16,4 +16,8 @@
         <description>Adds example data in a separate map.</description>
         <topic href="html/workbench/editors/ed_xmlEditor.html" label="The XML-editor"/>
     </context>
+    <context id="xmlEditorHelp">
+        <description>Editor for edit xml-files.</description>
+        <topic href="html/workbench/editors/ed_xmlEditor.html" label="The XML-editor"/>
+    </context>
 </contexts>

@@ -8,6 +8,7 @@
  *******************************************************************************/
 package net.bioclipse.ui.editors;
 
+import org.eclipse.help.IContextProvider;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.TextEditor;
@@ -15,7 +16,8 @@ import org.eclipse.ui.editors.text.TextEditor;
 public class XMLEditor extends TextEditor {
 
     private ColorManager colorManager;
-
+    private IContextProvider contextprovider;
+    
     public XMLEditor() {
         super();
         colorManager = new ColorManager();
@@ -30,4 +32,13 @@ public class XMLEditor extends TextEditor {
         super.dispose();
     }
 
+    public Object getAdapter(Class clazz) {
+        if (clazz.equals(IContextProvider.class)){
+            if (contextprovider == null)
+                contextprovider = new TextEditorHelpContextProvider( this );
+            
+            return contextprovider;
+        } else
+            return super.getAdapter( clazz );
+    }
 }

@@ -21,7 +21,7 @@ public class TextEditorHelpContextProvider implements IContextProvider {
 
     @Override
     public IContext getContext( Object target ) {
-        return HelpSystem.getContext( "net.bioclipse.ui.accountWizardHelp" );
+        return HelpSystem.getContext( "net.bioclipse.ui.xmlEditorHelp" );
     }
 
     @Override
