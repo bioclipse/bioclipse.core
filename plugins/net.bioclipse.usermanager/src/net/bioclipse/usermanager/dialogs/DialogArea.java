@@ -68,7 +68,7 @@ public class DialogArea implements Listener {
 		this.userContainer = userContainer;
 		this.userContainerEdited = false;
 		this.createNewAccountButton = createNewAccountButton;
-		this.errorFlag = true;
+		this.errorFlag = false;
 		this.page = page;
 	}
 	
@@ -270,6 +270,5 @@ public class DialogArea implements Listener {
 			page.getWizard().getContainer().updateMessage();
 		}
 	}
-    
-    
+        
 }

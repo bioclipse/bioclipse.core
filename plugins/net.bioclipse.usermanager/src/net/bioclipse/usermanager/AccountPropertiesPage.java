@@ -52,7 +52,6 @@ public class AccountPropertiesPage {
 			.getFieldDecoration(FieldDecorationRegistry.DEC_REQUIRED)
 			.getImage();
 	private AccountType accountType;
-	private Boolean errorFlag = false;
 	private NewAccountWizardPage mainPage;
 	private UserContainer sandbox;
 	private String accountId = "";
@@ -92,7 +91,7 @@ public class AccountPropertiesPage {
 		    @Override
 		    public void modifyText( ModifyEvent e ) {
 		        accountId = accountNameTxt.getText();
-		        isAllRequierdPropertiesFilledIn();
+		        mainPage.setPageComplete( isAllRequierdPropertiesFilledIn() );
 		    }
 		} );
 		
@@ -187,7 +186,10 @@ public class AccountPropertiesPage {
 //            
 //        } );
 		
+		mainPage.setPageComplete( isAllRequierdPropertiesFilledIn() );
+		
 		accountPropGroup.setFocus();
+		
 	}
 	
 	/**
@@ -218,6 +220,7 @@ public class AccountPropertiesPage {
                 } else {
                     createMissingFieldsError();
                 }
+                mainPage.setPageComplete( isAllRequierdPropertiesFilledIn() );
             }
         } );
 		if (required) {
@@ -237,7 +240,7 @@ public class AccountPropertiesPage {
 			errorMessage += ": " + unfilledFields.get(0);
 		else if(unfilledFields.size() > 1) {
 			errorMessage += "s:\n" + createErrorMessage(unfilledFields);
-		} else if (!isFieldsProperlyFilled())
+		} else if (!isAllRequierdPropertiesFilledIn())
 			errorMessage = "Now you're way of...";
 		else
 			errorMessage = "WTF?";
@@ -374,9 +377,11 @@ public class AccountPropertiesPage {
 	public Boolean isAllRequierdPropertiesFilledIn() {
 		Iterator<Text> itr = requiredFields.iterator();
 		while (itr.hasNext()) {
-			if (itr.next().getText().isEmpty())
-				return false;
+			if (itr.next().getText().isEmpty()) {
+			    return false;
+			}
 		}
+		
 		return true;
 	}
 	
@@ -396,15 +401,6 @@ public class AccountPropertiesPage {
 		}	
 		
 		return requiredPropertiesLeft;
-	}
-	
-	/**
-	 * A method to check that all the fields are valid.
-	 * 
-	 * @return True if everything is ok 
-	 */
-	public Boolean isFieldsProperlyFilled() {		
-		return !errorFlag;
 	}
 
 	public void dispose() {

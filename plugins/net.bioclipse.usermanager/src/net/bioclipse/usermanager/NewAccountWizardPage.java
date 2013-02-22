@@ -13,26 +13,18 @@ package net.bioclipse.usermanager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.internal.help.WorkbenchHelpSystem;
-
-import sun.text.resources.FormatData;
 
 /**
  * The wizard page that handles the different parts accounts. 
@@ -106,6 +98,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		}
 		
 		setControl(container);
+		setPageComplete( isPageComplete() );
 	}
 	
 		
@@ -117,7 +110,9 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	public void handleEvent(Event event) {
 		if (event.widget == accountTypeCombo) {
 			if (accountTypeCombo.getSelectionIndex() == -1){
-				System.out.println("Please select an account-type");
+			    MessageDialog.openInformation( getShell(), 
+			                                   "No account type selected", 
+			                                   "Please select an account-type");
 			} else if (accountTypeCombo.getSelectionIndex() < 
 					accountComposites.size()) { 
 				accountStack.topControl = accountComposites.get(
@@ -125,7 +120,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 				accountSettings.layout();
 			}
 		}
-		
+		setPageComplete( isPageComplete() );
 	}
 	
 	/**
@@ -157,7 +152,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 		AccountPropertiesPage account = 
 				addedAccounts.get(accountTypeCombo.getSelectionIndex());
 		if (account.isAllRequierdPropertiesFilledIn() && 
-				account.isFieldsProperlyFilled()) {
+				account.isAllRequierdPropertiesFilledIn()) {
 		    accountId = account.getAccountId();
 		    accountType = account.getAccountType();
 		    properties = account.getProperties();
@@ -187,7 +182,7 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 			errorMessage += ": " + unfilledFields.get(0);
 		else if(unfilledFields.size() > 1) {
 			errorMessage += "s:\n" + createErrorMessage(unfilledFields);
-		} else if (!account.isFieldsProperlyFilled())
+		} else if (!account.isAllRequierdPropertiesFilledIn())
 			errorMessage = "There is something missing.";
 		else
 			errorMessage = "WTF?";
@@ -213,24 +208,25 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	}
 	
 	@Override
-	public boolean isPageComplete() {;
+	public boolean isPageComplete() {
+	    boolean pageComplete = false;
 		if (isCurrentPage()) {
 			if (addedAccounts.size()>0) {
 				AccountPropertiesPage account = 
 						addedAccounts.get(accountTypeCombo.getSelectionIndex());
-				return account.isFieldsProperlyFilled();
+				pageComplete = account.isAllRequierdPropertiesFilledIn();
 			} else
-				return false;
+			    pageComplete = false;
 		} else
-			return false;
+		    pageComplete = false;
+
+		return pageComplete;
 	}
 	
 	@Override
 	public void setVisible(boolean visible) {
 	    super.setVisible( visible );
-//	    if (visible)
-	        performNext(visible);
-
+	    performNext(visible);
 	}
 	
 	protected void fireUpdate() {
@@ -247,7 +243,6 @@ public class NewAccountWizardPage extends WizardPage implements Listener {
 	    accountId = account.getAccountId();
 	    properties = account.getProperties();
 	    accountType = account.getAccountType();
-	    
 	}
 	
 	@Override
