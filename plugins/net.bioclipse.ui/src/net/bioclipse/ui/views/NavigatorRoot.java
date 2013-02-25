@@ -12,6 +12,7 @@ package net.bioclipse.ui.views;
 
 import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.*;
+import org.eclipse.help.IContextProvider;
 import org.eclipse.ui.*;
 import org.eclipse.ui.model.*;
 
@@ -29,6 +30,8 @@ import org.eclipse.ui.model.*;
 public class NavigatorRoot implements IAdaptable,
                                       IPersistableElement,
                                       IElementFactory {
+    private NavigatorHelpContextProvider contextProvider;
+    
     public NavigatorRoot() {
     }
 
@@ -40,6 +43,12 @@ public class NavigatorRoot implements IAdaptable,
         if (adapter == IWorkbenchAdapter.class)
             return ResourcesPlugin.getWorkspace().getRoot().getAdapter(adapter);
         
+        if (adapter.equals( IContextProvider.class )) {
+            if (contextProvider == null)
+                contextProvider = new NavigatorHelpContextProvider( this );
+            
+            return contextProvider;
+        }
         return null;
     }
 
