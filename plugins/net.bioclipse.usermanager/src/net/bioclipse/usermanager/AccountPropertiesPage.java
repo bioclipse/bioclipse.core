@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import net.bioclipse.usermanager.AccountType.Property;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
@@ -67,6 +68,7 @@ public class AccountPropertiesPage {
 	private HashMap<String, String> accountProperties = new HashMap<String, String>();
 	private Group accountPropGroup;
 	private ITestAccountLogin testLogin = null;
+	private Logger logger = Logger.getLogger( this.getClass() );
 	
 	public AccountPropertiesPage(Composite parent, 
 			AccountType accountType, NewAccountWizardPage nawp, UserContainer sandbox) {
@@ -203,6 +205,12 @@ public class AccountPropertiesPage {
 		
 	}
 	
+	/**
+	 * This method look if the plug-in is providing any class for testing the
+	 * properties. If so it creates this class.
+	 *  
+	 * @return True if it finds a test class and succeed with creating the class
+	 */
 	private boolean createTestConnection() {
         IExtensionRegistry registry = Platform.getExtensionRegistry();
         if (registry == null) {
@@ -229,8 +237,7 @@ public class AccountPropertiesPage {
                             testLogin = (ITestAccountLogin) obj;                        
                     }
                 } catch ( CoreException e ) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    logger.debug( "Could not find any test-Class for this plugin: "+e.getMessage() );
                 }
                 
             }
@@ -239,6 +246,11 @@ public class AccountPropertiesPage {
         return (testLogin != null);
 	}
 	
+	/**
+	 * This method does the work behind the test-button: It collects the values 
+	 * of the different properties and send them in a hash map to the test-
+	 * class. I then shows a message-dialog with the result of the test login.
+	 */
 	private void testConnection() {
 	    String resultMessage = "";
 	    if (testLogin != null) {
@@ -261,6 +273,7 @@ public class AccountPropertiesPage {
 	        /* If the testLogin is null, then the test button should not appear,
 	         * and to reach this method you have to push that button... 
 	         * I.e. it should not be possibly to end up here...*/
+	        logger.error( "Ops: The test button was pushed, but should not existed." );
 	        resultMessage = "Something whent wrong, terribly wrong... Mohaha";
 	    }
 
