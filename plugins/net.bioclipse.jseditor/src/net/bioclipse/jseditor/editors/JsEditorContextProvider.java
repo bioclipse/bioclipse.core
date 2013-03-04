@@ -25,7 +25,7 @@ public class JsEditorContextProvider implements IContextProvider {
 
     @Override
     public String getSearchExpression( Object target ) {
-        return target.toString();
+        return "JavaScript editor";
     }
 
 }

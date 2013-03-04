@@ -26,7 +26,7 @@ public class TextEditorHelpContextProvider implements IContextProvider {
 
     @Override
     public String getSearchExpression( Object target ) {
-        return null;
+        return "XML editor";
     }
 
 }
