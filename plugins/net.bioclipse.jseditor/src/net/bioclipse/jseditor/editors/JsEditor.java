@@ -1,6 +1,7 @@
 package net.bioclipse.jseditor.editors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.help.IContextProvider;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Composite;
@@ -29,6 +30,7 @@ public class JsEditor extends TextEditor {
 	public static RunRhinoScriptActionPulldown runRhinoScriptActionPulldown = null;
 
 	private JsColorManager colorManager;
+	private IContextProvider contextprovider;
 	
 	public JsEditor() {
 		super();
@@ -120,4 +122,14 @@ public class JsEditor extends TextEditor {
 				"JavaScript Editor Plug-In",
 				message);
 	}
+	
+    public Object getAdapter(Class clazz) {
+        if (clazz.equals(IContextProvider.class)){
+            if (contextprovider == null)
+                contextprovider = new JsEditorContextProvider( this );
+            
+            return contextprovider;
+        } else
+            return super.getAdapter( clazz );
+    }
 }
