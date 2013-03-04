@@ -29,6 +29,7 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 
@@ -55,6 +56,7 @@ public class RichBrowserEditor extends EditorPart implements IBrowserViewerConta
         
         setSite( site );
         setInput( input );
+        PlatformUI.getWorkbench().getHelpSystem().setHelp( Display.getCurrent().getActiveShell(), "net.bioclipse.ui.richBrowser" );
     }
 
     @Override
@@ -162,7 +164,8 @@ public class RichBrowserEditor extends EditorPart implements IBrowserViewerConta
                 
             }
         });
-
+        
+//        PlatformUI.getWorkbench().getHelpSystem().setHelp( webBrowser, "RichBrowserHelp" );
     }
 
     @Override

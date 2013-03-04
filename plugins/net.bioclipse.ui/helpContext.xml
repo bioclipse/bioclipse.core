@@ -20,4 +20,8 @@
         <description>Editor for edit xml-files.</description>
         <topic href="html/workbench/editors/ed_xmlEditor.html" label="The XML-editor"/>
     </context>
+    <context id="richBrowser">
+       <description>A simple web-browser for viewing web-pages within Bioclipse IDE.</description>
+
+    </context>
 </contexts>
