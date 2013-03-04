@@ -9,8 +9,6 @@
 package net.bioclipse.ui.editors;
 
 import org.eclipse.help.IContextProvider;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.TextEditor;
 
 public class XMLEditor extends TextEditor {
@@ -23,10 +21,8 @@ public class XMLEditor extends TextEditor {
         colorManager = new ColorManager();
         setSourceViewerConfiguration(new XMLConfiguration(colorManager));
         setDocumentProvider(new XMLDocumentProvider());
-        PlatformUI.getWorkbench().getHelpSystem()
-        .setHelp( Display.getCurrent().getActiveShell(),
-                  "net.bioclipse.ui.accountWizardHelp" );
     }
+    
     public void dispose() {
         colorManager.dispose();
         super.dispose();
