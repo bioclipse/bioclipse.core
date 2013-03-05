@@ -42,6 +42,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.texteditor.IWorkbenchActionDefinitionIds;
 
@@ -231,6 +232,7 @@ public abstract class ScriptingConsoleView extends ViewPart {
         
         hookContextMenu();
         enableResourceDropSupport();
+        PlatformUI.getWorkbench().getHelpSystem().setHelp( Display.getCurrent().getActiveShell(), "net.bioclipse.ui.scriptingConsole" );
     }
     
     protected void handleKey(KeyEvent e) {

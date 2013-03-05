@@ -37,6 +37,7 @@ import net.bioclipse.scripting.ScriptAction;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
@@ -85,6 +86,7 @@ public class GroovyConsoleView extends ScriptingConsoleView {
 	    	  }
 	      }
 	  );
+	  PlatformUI.getWorkbench().getHelpSystem().setHelp( Display.getCurrent().getActiveShell(), "net.bioclipse.ui.groovyConsole" );
   };
   
   @Override
