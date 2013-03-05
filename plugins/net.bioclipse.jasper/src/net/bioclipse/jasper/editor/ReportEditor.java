@@ -28,10 +28,12 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.EditorPart;
 
 import com.jasperassistant.designer.viewer.DefaultHyperlinkHandler;
@@ -131,7 +133,7 @@ public class ReportEditor extends EditorPart implements ISelectionProvider{
 */
 
 		getSite().setSelectionProvider(this);
-
+		PlatformUI.getWorkbench().getHelpSystem().setHelp( reportViewerControl, "net.bioclipse.ui.reportEditor" );
 	}
 
 
