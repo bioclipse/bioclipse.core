@@ -16,6 +16,7 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.intro.IIntroSite;
@@ -33,6 +34,7 @@ public class ExtendedSampleDataAction extends Action implements IIntroAction {
 	 *  Default constructor
 	 */
 	public ExtendedSampleDataAction() {
+	    PlatformUI.getWorkbench().getHelpSystem().setHelp( Display.getCurrent().getActiveShell(), "net.bioclipse.ui.richBrowser" );
 	}
 
 	/**

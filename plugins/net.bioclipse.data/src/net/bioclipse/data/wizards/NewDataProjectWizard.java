@@ -39,8 +39,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
@@ -72,8 +74,9 @@ public class NewDataProjectWizard extends Wizard implements INewWizard,
 
         setDefaultPageImageDescriptor(Activator.getImageDescriptor("icons/wiz/wiz1.png"));
         setWindowTitle( createPageName() );
-        System.out.println( "Help is available: "+isHelpAvailable() );
-        setHelpAvailable( true );      
+//        System.out.println( "Help is available: "+isHelpAvailable() );
+//        setHelpAvailable( true );
+//        PlatformUI.getWorkbench().getHelpSystem().setHelp( Display.getCurrent().getActiveShell(), "net.bioclipse.ui.richBrowser" );
     }
 
     private String createProjectName() {
@@ -137,12 +140,13 @@ public class NewDataProjectWizard extends Wizard implements INewWizard,
                                        //"Create a new Project with "
 //                                       + "sample data installed" );
 //           Control con = fFirstPage.getControl();
-           System.out.println(PlatformUI.getWorkbench().getDisplay().getActiveShell());
-           PlatformUI.getWorkbench().
-           getHelpSystem().
-           setHelp( 
-                    PlatformUI.getWorkbench().getDisplay().getActiveShell(),
-                    "net.bioclipse.ui.dataFoldersHelp" ); 
+//           System.out.println(con);
+//           PlatformUI.getWorkbench().
+//           getHelpSystem().
+//           setHelp( 
+//                    fFirstPage.getControl(),
+//                    "net.bioclipse.ui.dataFoldersHelp" ); 
+            
         }
         
         String projectName = createProjectName();
@@ -193,6 +197,11 @@ public class NewDataProjectWizard extends Wizard implements INewWizard,
         super.addPages();
         addPage( getProjectCreationPage() );
         addPage( getSelectDataFoldersPage() );
+        // page.getControl() returns null, and I can't set it... =(
+//        for (IWizardPage page: getPages())
+//            PlatformUI.getWorkbench().getHelpSystem().setHelp( page.getWizard().
+//                                                               getContainer()
+//                                                               .getShell(), "net.bioclipse.ui.richBrowser" );
     }
 
     
@@ -244,6 +253,7 @@ public class NewDataProjectWizard extends Wizard implements INewWizard,
         this.selection = selection;
         setWindowTitle( createPageName() );
 //        setDefaultPageImageDescriptor(TBC);
+//        PlatformUI.getWorkbench().getHelpSystem().setHelp( Display.getCurrent().getActiveShell(), "net.bioclipse.ui.richBrowser" );
     }
 
 

@@ -13,6 +13,7 @@ package net.bioclipse.ui.views;
 import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.*;
 import org.eclipse.help.IContextProvider;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.*;
 import org.eclipse.ui.model.*;
 
@@ -33,6 +34,7 @@ public class NavigatorRoot implements IAdaptable,
     private NavigatorHelpContextProvider contextProvider;
     
     public NavigatorRoot() {
+        PlatformUI.getWorkbench().getHelpSystem().setHelp( Display.getCurrent().getActiveShell(), "net.bioclipse.ui.richBrowser" );
     }
 
     @SuppressWarnings("unchecked")

@@ -18,7 +18,9 @@ import org.apache.log4j.Logger;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.intro.IIntroSite;
@@ -32,6 +34,7 @@ public class SampleDataAction extends Action implements IIntroAction {
 	 *  Default constructor
 	 */
 	public SampleDataAction() {
+	    PlatformUI.getWorkbench().getHelpSystem().setHelp( Display.getCurrent().getActiveShell(), "net.bioclipse.ui.richBrowser" );
 	}
 
 	/**
@@ -46,17 +49,21 @@ public class SampleDataAction extends Action implements IIntroAction {
 //
 		Runnable r = new Runnable() {
 			public void run() {
-				
+			    
 				//Install sample data project from this plugin
 
                 NewDataProjectWizard wizard = new NewDataProjectWizard();
 			    wizard.init(PlatformUI.getWorkbench(), null);
-
+			    for (IWizardPage page: wizard.getPages())
+			        System.out.println(page.getControl());
+//	                PlatformUI.getWorkbench().getHelpSystem().setHelp( page.getControl(), "net.bioclipse.ui.richBrowser");
+	            
 			      // Create the wizard dialog
 			      WizardDialog dialog = new WizardDialog
 			         (PlatformUI.getWorkbench().getActiveWorkbenchWindow().
 			        		 getShell(),wizard);
-			      dialog.setHelpAvailable( true );// .getShell().setData( "org.eclipse.ui.help", "net.bioclipse.ui.accountWizardHelp" );
+//			      dialog.setHelpAvailable( true );// .getShell().setData( "org.eclipse.ui.help", "net.bioclipse.ui.accountWizardHelp" );
+		        
 			      // Open the wizard dialog
 			      int ret=dialog.open();
 			      if (ret==Window.CANCEL){
