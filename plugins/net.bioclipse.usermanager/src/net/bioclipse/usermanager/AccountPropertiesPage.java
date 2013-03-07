@@ -16,6 +16,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import net.bioclipse.usermanager.AccountType.Property;
 
+import org.apache.log4j.Logger;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
@@ -23,9 +30,12 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -46,7 +56,7 @@ public class AccountPropertiesPage {
 	private Text[] accountTxt;
 	private Label accountNameLabel;
 	private Text accountNameTxt;
-//	private Button testLoginButton;
+	private Button testLoginButton;
 	private ArrayList<Text> requiredFields = new ArrayList<Text>();
 	private Image reqImage = FieldDecorationRegistry.getDefault()
 			.getFieldDecoration(FieldDecorationRegistry.DEC_REQUIRED)
@@ -57,6 +67,8 @@ public class AccountPropertiesPage {
 	private String accountId = "";
 	private HashMap<String, String> accountProperties = new HashMap<String, String>();
 	private Group accountPropGroup;
+	private ITestAccountLogin testLogin = null;
+	private Logger logger = Logger.getLogger( this.getClass() );
 	
 	public AccountPropertiesPage(Composite parent, 
 			AccountType accountType, NewAccountWizardPage nawp, UserContainer sandbox) {
@@ -159,37 +171,113 @@ public class AccountPropertiesPage {
 			}
 			i++;
 		}
-		Label logo = new Label(accountPropGroup, SWT.TRAIL);
-		ImageDescriptor imDesc = ImageDescriptor
-		        .createFromURL(accountType.getLogoPath());
-		Image im = imDesc.createImage();
-		logo.setImage(im);
-		
-		// TODO Make the logic behind this button work properly 
-//		new Label(accountComposite, SWT.NONE);
-//		if (accountType.hasLogo()) {
-//		    new Label(accountComposite, SWT.NONE);
-//		}
-//		testLoginButton = new Button(accountComposite, SWT.PUSH);
-//		testLoginButton.setText( "Test log-in" );
-//		testLoginButton.addSelectionListener( new SelectionListener() {
-//            
-//            @Override
-//            public void widgetSelected( SelectionEvent e ) {
-//                accountLoggIn();                          
-//            }
-//            
-//            @Override
-//            public void widgetDefaultSelected( SelectionEvent e ) {
-//           
-//            }
-//            
-//        } );
-		
+		if (accountType.hasLogo()) {
+		    Label logo = new Label(accountPropGroup, SWT.TOP );
+		    ImageDescriptor imDesc = ImageDescriptor
+		            .createFromURL(accountType.getLogoPath());
+		    Image im = imDesc.createImage();
+		    logo.setImage(im);
+		}
+		if (createTestConnection()) {
+//		    new Label(accountPropGroup, SWT.NONE).setText( "Dummy1" );
+		    if (accountType.hasLogo()) {
+		        new Label(accountPropGroup, SWT.NONE);
+		    }
+		    testLoginButton = new Button(accountPropGroup, SWT.PUSH );
+		    testLoginButton.setText( "Test log-in" );
+		    testLoginButton.addSelectionListener( new SelectionListener() {
+
+		        @Override
+		        public void widgetSelected( SelectionEvent e ) {
+		            testConnection();
+		        }
+
+		        @Override
+		        public void widgetDefaultSelected( SelectionEvent e ) {
+
+		        }
+
+		    } );
+		}
 		mainPage.setPageComplete( isAllRequierdPropertiesFilledIn() );
 		
 		accountPropGroup.setFocus();
 		
+	}
+	
+	/**
+	 * This method look if the plug-in is providing any class for testing the
+	 * properties. If so it creates this class.
+	 *  
+	 * @return True if it finds a test class and succeed with creating the class
+	 */
+	private boolean createTestConnection() {
+        IExtensionRegistry registry = Platform.getExtensionRegistry();
+        if (registry == null) {
+            /* Could not find extension point. If Bioclipse is not running 
+            * this is normal. */
+            return false;
+        }
+        IExtensionPoint extensionPoint
+        = registry.getExtensionPoint(
+                "net.bioclipse.usermanager.testLogin" );
+        
+        if (extensionPoint == null)
+            return false;
+        
+        IExtension[] extensions = extensionPoint.getExtensions();
+        for (IExtension extension : extensions) {
+            IConfigurationElement[] configelements
+                = extension.getConfigurationElements();
+            for (IConfigurationElement element : configelements) {
+                try {
+                    Object obj = element.createExecutableExtension( "testClass" );
+                    if (obj instanceof ITestAccountLogin) { 
+                        if ( ((ITestAccountLogin) obj).getAccountType().equals( accountType.getName() ) )
+                            testLogin = (ITestAccountLogin) obj;                        
+                    }
+                } catch ( CoreException e ) {
+                    logger.debug( "Could not find any test-Class for this plugin: "+e.getMessage() );
+                }
+                
+            }
+        }
+        
+        return (testLogin != null);
+	}
+	
+	/**
+	 * This method does the work behind the test-button: It collects the values 
+	 * of the different properties and send them in a hash map to the test-
+	 * class. I then shows a message-dialog with the result of the test login.
+	 */
+	private void testConnection() {
+	    String resultMessage = "";
+	    if (testLogin != null) {
+	        HashMap<String, String> properties = new HashMap<String, String>();
+	        // Let's collect the properties from the fields...
+	        for (int i = 0; i<accountLabels.length;i++) {
+	            /* This if-statement make sure that repeated fields (e.g. "Repeat 
+	             * password") don't end up as a property of the new account.*/
+	            if (!(accountLabels[i].getText().startsWith("Repeat ")) ) {
+	                properties.put(accountLabels[i].getText().substring(0, 
+	                accountLabels[i].getText().length()-1), 
+	                accountTxt[i].getText());       
+	            } 
+	        }
+	        if (testLogin.login( properties ))
+	            resultMessage = "Login test succeeded";
+	        else
+	            resultMessage = "Login test failed.\nPlease make sure all required fields filled has valid values";
+	    } else {
+	        /* If the testLogin is null, then the test button should not appear,
+	         * and to reach this method you have to push that button... 
+	         * I.e. it should not be possibly to end up here...*/
+	        logger.error( "Ops: The test button was pushed, but should not existed." );
+	        resultMessage = "Something whent wrong, terribly wrong... Mohaha";
+	    }
+
+	    MessageDialog.openInformation( mainPage.getShell(), "Test login", resultMessage );  
 	}
 	
 	/**
