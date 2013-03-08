@@ -73,11 +73,19 @@ public class BioclipsePlatformManager implements IBioclipseManager {
                 for (Iterator<Appender<ILoggingEvent>> index = logger.iteratorForAppenders(); index.hasNext();) {
                     Appender<ILoggingEvent> appender = index.next();
                     if(appender instanceof FileAppender) {
-                        return ((FileAppender)appender).getFile();
+                        return stripExtraSlashes( ((FileAppender<?>)appender).getFile());
                     }
                 }
             }
         return "";
+    }
+
+    /* Due to the way the logfile location is assembled an extra slash may is
+     * should not have any effect on the code. This method strips the extra slashes
+     * for a better visual presentation see bug 3479.
+     */
+    static String stripExtraSlashes(String input) {
+        return input.replaceAll( "/(/)+", "/" );
     }
 
     public void bugTracker() throws BioclipseException {
