@@ -30,6 +30,13 @@
     	        configId="org.eclipse.ui.intro.universalConfig">
 	      </configExtension>
       </extension>
+      <extension
+            point="org.eclipse.help.contexts">
+         <contexts
+               file="context.xml"
+               plugin="org.eclipse.ui.ide">
+         </contexts>
+      </extension>
       
 
 
