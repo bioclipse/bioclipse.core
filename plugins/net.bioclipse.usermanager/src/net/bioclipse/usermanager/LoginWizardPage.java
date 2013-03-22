@@ -42,12 +42,19 @@ public class LoginWizardPage extends WizardPage {
 	public void createControl(Composite parent) {
 		Composite container = loginDialogArea.getLoginArea(parent);
 		setControl(container);
-		setPageComplete( isPageComplete() );
+		setPageComplete( false );
 	}
 
 	@Override
+    public boolean canFlipToNextPage() {
+        return loginDialogArea.isFilledIn();
+    }
+	
+	@Override
 	public boolean isPageComplete() {
-		return !loginDialogArea.getErrorFlag();
+	    boolean pageReady = loginDialogArea.isFilledIn();
+	    setPageComplete( pageReady );
+	    return pageReady;
 	}
 	
 	/**
