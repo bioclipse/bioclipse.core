@@ -210,11 +210,10 @@ public class UserManager implements IUserManager {
         try {
             for( IUserManagerListener listener : listeners) {
                 failedLogin.clear();
-                name = listener.getClass().getName();
-                name = name.substring( 0, name.lastIndexOf( '.' ) );
                 ArrayList<String> userAccountTypes = userContainer.getLoggedInUser().getAccountTypes();
                 
                 if (userAccountTypes.contains( listener.getAccountType() )) {
+                    name = listener.getAccountType();
                     loginOK = listener.receiveUserManagerEvent( UserManagerEvent.LOGIN );
                     if (!loginOK) {                    
                         failedLogin.add( name );

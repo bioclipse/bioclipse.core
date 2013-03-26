@@ -1,12 +1,10 @@
 package net.bioclipse.usermanager;
 
 import net.bioclipse.usermanager.UserContainer;
-import net.bioclipse.usermanager.dialogs.CreateUserDialog;
+
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -17,8 +15,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.wb.swt.SWTResourceManager;
-
 
 public class CreateUserWizardPage extends WizardPage implements Listener {
 
@@ -31,7 +27,6 @@ public class CreateUserWizardPage extends WizardPage implements Listener {
     private UserContainer sandBox;
     
     protected CreateUserWizardPage(String pageName, UserContainer userContainer) {
-
         super( pageName );
         sandBox = userContainer;
     }
@@ -93,21 +88,54 @@ public class CreateUserWizardPage extends WizardPage implements Listener {
                                              usernameLabel, 
                                              passwordLabel, 
                                              repeatPasswordLabel });
-        setControl(container);        
+        setControl(container);
+        setPageComplete( isPageComplete() );
     }
 
     @Override
     public boolean isPageComplete() {
-        if (userNameText.getText().isEmpty() ||
-                passwordText.getText().isEmpty() ||
+        
+        if (userNameText.getText().isEmpty() &&
+                passwordText.getText().isEmpty() &&
                 repeatPasswordText.getText().isEmpty() ) {
-            setErrorMessage( "Please fill-in all fields" );
+            setErrorMessage( null );
+            return false;
+        }
+        String message = "Please fill in ";
+        if (userNameText.getText().isEmpty()) {
+            message +=" username";
+            if (passwordText.getText().isEmpty())
+                message += "and password";
+            if (repeatPasswordText.getText().isEmpty() )
+                message += "and repeat password";
+            message += ".";
+            setErrorMessage( message );
+            return false;
+        }
+        if (passwordText.getText().isEmpty()) {
+            message += " password";
+            if (userNameText.getText().isEmpty()) 
+                message +=" and username";
+            if (repeatPasswordText.getText().isEmpty() )
+                message += "and repeat password";
+            message += ".";
+            setErrorMessage( message );
+            return false;
+        }
+        if (repeatPasswordText.getText().isEmpty()) {
+            message += "repeat password";
+            if (userNameText.getText().isEmpty()) 
+                message +=" and username";
+            if (passwordText.getText().isEmpty())
+                message += "and password";
+            message += ".";
+            setErrorMessage( message );
             return false;
         }
         if (!passwordText.getText().equals( repeatPasswordText.getText() )) {
             setErrorMessage( "Password and repeat password must be the same" );
             return false;
-        }
+        }        
         setErrorMessage( null );
         return true;
     }
