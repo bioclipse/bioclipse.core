@@ -45,6 +45,12 @@ public class ScriptAction extends Action implements ICheatSheetAction {
                 }
             }
         }
+        try {
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView( "org.eclipse.ui.cheatsheets.views.CheatSheetView" );
+		} catch (PartInitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         notifyResult( true );
         
     }
