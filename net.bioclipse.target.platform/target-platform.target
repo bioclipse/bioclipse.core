@@ -44,7 +44,7 @@
 </location>
 <location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/lib" type="Directory"/>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
-<unit id="net.bioclipse.r.walware_feature.feature.group" version="1.1.0.201209031025"/>
+<unit id="net.bioclipse.r.walware_feature.feature.group" version="1.2.0.201305131131"/>
 <repository location="http://pele.farmbio.uu.se/bioclipse/2.5/walware"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
