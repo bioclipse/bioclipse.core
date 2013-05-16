@@ -90,4 +90,9 @@ public interface IBioclipsePlatformManager extends IBioclipseManager {
     public void requireVersion( String lowerVersionBound,
                                    String upperVersionBound )
                    throws BioclipseException;
+
+    @PublishedMethod(
+        methodSummary="Returns the location of the current logfile"
+                    )
+    public String logfileLocation();
 }

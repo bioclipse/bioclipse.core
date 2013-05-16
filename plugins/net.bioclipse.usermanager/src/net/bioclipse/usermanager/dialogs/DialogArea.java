@@ -68,7 +68,7 @@ public class DialogArea implements Listener {
 		this.userContainer = userContainer;
 		this.userContainerEdited = false;
 		this.createNewAccountButton = createNewAccountButton;
-		this.errorFlag = true;
+		this.errorFlag = false;
 		this.page = page;
 	}
 	
@@ -93,17 +93,10 @@ public class DialogArea implements Listener {
         passwordLabel.setLayoutData(formData_1);
         passwordLabel.setText("Password:");
 
-        passwordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
-        formData_1.bottom = new FormAttachment(passwordText, 0, SWT.BOTTOM);
-        formData_1.right = new FormAttachment(passwordText, -5, SWT.LEFT);
-        final FormData formData_2 = new FormData();
-        formData_2.top = new FormAttachment(0, 93);
-        passwordText.setLayoutData(formData_2);
-        passwordText.addListener(SWT.CHANGED, this);
-        
         usernameText = new Text(container, SWT.BORDER);
         formData.bottom = new FormAttachment(usernameText, 0, SWT.BOTTOM);
         formData.right = new FormAttachment(usernameText, -5, SWT.LEFT);
+        final FormData formData_2 = new FormData();
         formData_2.right = new FormAttachment(usernameText, 0, SWT.RIGHT);
         formData_2.left = new FormAttachment(usernameText, 0, SWT.LEFT);
         final FormData formData_3 = new FormData();
@@ -112,6 +105,13 @@ public class DialogArea implements Listener {
         formData_3.top = new FormAttachment(0, 53);
         usernameText.setLayoutData(formData_3);
         usernameText.addListener(SWT.CHANGED, this);
+        
+        passwordText = new Text(container, SWT.BORDER | SWT.PASSWORD);
+        formData_1.bottom = new FormAttachment(passwordText, 0, SWT.BOTTOM);
+        formData_1.right = new FormAttachment(passwordText, -5, SWT.LEFT);
+        formData_2.top = new FormAttachment(0, 93);
+        passwordText.setLayoutData(formData_2);
+        passwordText.addListener(SWT.CHANGED, this);
         
         if (createNewAccountButton) {
         	Button createNewKeyringButton = new Button(container, SWT.NONE);
@@ -270,6 +270,5 @@ public class DialogArea implements Listener {
 			page.getWizard().getContainer().updateMessage();
 		}
 	}
-    
-    
+        
 }

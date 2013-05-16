@@ -88,7 +88,7 @@ public class GistManager implements IBioclipseManager {
             URL gistURL = new URL("https://gist.github.com/" + gist);
             URLConnection gistConn = gistURL.openConnection();
             
-            String rawURLPattern = "\"/raw/" + gist + "/([0-9[a-f]]+)/([^\"]+)";
+            String rawURLPattern = "/" + gist + "/raw/([0-9[a-f]]+)/([^\"]+)";
             Pattern p = Pattern.compile(rawURLPattern);
 
             // parse the HTML and extract the links to the raw files
