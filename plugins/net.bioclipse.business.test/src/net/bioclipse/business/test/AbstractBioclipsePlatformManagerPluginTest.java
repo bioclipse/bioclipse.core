@@ -10,10 +10,17 @@
  ******************************************************************************/
 package net.bioclipse.business.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 import net.bioclipse.business.IBioclipsePlatformManager;
 import net.bioclipse.core.business.BioclipseException;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -133,5 +140,51 @@ public abstract class AbstractBioclipsePlatformManagerPluginTest {
     @Test ( expected = BioclipseException.class )
     public void noNonDigits() throws BioclipseException {
         bioclipse.requireVersion( "a.b.c", "c.d.e" );
+    }
+    
+    @Test
+    public void fullPath() throws Exception {
+        IWorkspaceRoot root = (IWorkspaceRoot) ResourcesPlugin.getWorkspace()
+                                                              .getRoot();
+        IProject project = root.getProject("TEST");
+        if ( !project.exists() ) {
+            project.create(new NullProgressMonitor());
+        }
+        final Object sentinel = new Object();
+        final boolean[] waitFor = new boolean[] {true};
+        IProgressMonitor monitor = new IProgressMonitor() {
+            public void worked( int work ) {
+            }
+            public void subTask( String name ) {
+            }
+            public void setTaskName( String name ) {
+            }
+            public void setCanceled( boolean value ) {
+            }
+            public boolean isCanceled() {
+                return false;
+            }
+            public void internalWorked( double work ) {
+            }
+            public void done() {
+                waitFor[0] = false;
+                synchronized ( sentinel ) {
+                    sentinel.notifyAll();
+                }
+            }
+            public void beginTask( String name, int totalWork ) {
+            }
+        };
+        project.open(monitor);
+        while (waitFor[0]) {
+            synchronized ( sentinel ) {
+                sentinel.wait();
+            }
+        }
+        String filePath = "/TEST/testFile99883423427.txt";
+        IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(
+                         new Path(filePath)
+                     );
+        assertNotNull( bioclipse.fullPath(file) );
     }
 }
