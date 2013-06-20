@@ -325,6 +325,6 @@ public class BioclipsePlatformManager implements IBioclipseManager {
     }
     
     public String fullPath(IFile file) {
-        return null;
+        return file.getLocation().toOSString();
     }
 }
