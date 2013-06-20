@@ -323,4 +323,8 @@ public class BioclipsePlatformManager implements IBioclipseManager {
             throw new BioclipseException(e.getMessage(), e);
         }
     }
+    
+    public String fullPath(IFile file) {
+        return null;
+    }
 }
