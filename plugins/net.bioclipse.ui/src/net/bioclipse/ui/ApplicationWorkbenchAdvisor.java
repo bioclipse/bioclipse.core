@@ -192,17 +192,18 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
 .getNode( "org.eclipse.ui" );
         String defaultPerspectiveId = config
                         .get( "defaultPerspectiveId",
-                              DefaultPerspective.ID_PERSPECTIVE );
+                              System.getProperty( "org.eclipse.ui/defaultPerspectiveId" ) );
 
         if ( perspectiveExists( defaultPerspectiveId ) ) {
             return defaultPerspectiveId;
         } else {
+            logger.warn( "Unknown perspective id " + defaultPerspectiveId );
             // null is fine to return here as Eclipse interprets this as not
             // opening any perspective at all
             // If your code gets in here it is highly likely that you have
             // either a) misspelled the ID of your perspective being downloaded
             // or b) the download failed and the perspective isn't available
-            return null;
+            return DefaultPerspective.ID_PERSPECTIVE;
         }
     }
 
