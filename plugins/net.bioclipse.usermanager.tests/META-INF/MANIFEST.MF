@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bioclipse Keyring tests
 Bundle-SymbolicName: net.bioclipse.usermanager.tests;singleton:=true
-Bundle-Version: 2.6.0.vqualifier
+Bundle-Version: 2.6.1.qualifier
 Bundle-Vendor: The Bioclipse Team
 Require-Bundle: net.bioclipse.usermanager,
  net.bioclipse.core,
