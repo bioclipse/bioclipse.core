@@ -12,7 +12,8 @@ Require-Bundle: net.bioclipse.browser.tests,
  net.bioclipse.ui.tests,
  net.bioclipse.usermanager.tests,
  net.bioclipse.webservices.tests,
- net.bioclipse.ui.business.tests
+ net.bioclipse.ui.business.tests,
+ net.bioclipse.business.test
 Import-Package: org.junit,
  org.junit.runner,
  org.junit.runners

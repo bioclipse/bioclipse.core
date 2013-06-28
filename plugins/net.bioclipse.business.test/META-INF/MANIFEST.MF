@@ -21,3 +21,4 @@ Import-Package: org.apache.log4j,
  org.junit,
  org.junit.runner,
  org.junit.runners
+Export-Package: net.bioclipse.business.test
