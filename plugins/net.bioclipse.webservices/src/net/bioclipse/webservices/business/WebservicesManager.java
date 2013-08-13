@@ -11,13 +11,13 @@
 package net.bioclipse.webservices.business;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.bioclipse.business.BioclipsePlatformManager;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.managers.business.IBioclipseManager;
 import net.bioclipse.webservices.ResourceCreator;
@@ -29,6 +29,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 
@@ -146,6 +147,12 @@ public class WebservicesManager implements IBioclipseManager {
         return downloadDbEntryAsFile(db, query, format, "");
     }
 
+    public String downloadPDBEntry(String pdbid,
+            IProgressMonitor monitor)
+            throws BioclipseException {
+    	BioclipsePlatformManager bioclipse = new BioclipsePlatformManager();
+    	return bioclipse.download("http://pdb.org/" + pdbid + ".pdb", monitor);
+    }
     
     /**
      * Download a list of PDBs by ID to a specified location
