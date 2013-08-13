@@ -10,17 +10,16 @@
  ******************************************************************************/
 package net.bioclipse.webservices.business;
 
-import java.io.IOException;
 import java.util.List;
-
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.runtime.CoreException;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.managers.business.IBioclipseManager;
+
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.runtime.CoreException;
 
 @PublishedClass(
     value="Contains webservices related methods"
@@ -84,6 +83,13 @@ public interface IWebservicesManager extends IBioclipseManager {
       public String downloadDbEntry(String db, String query, String format)
                     throws BioclipseException, CoreException;
       
+      @Recorded
+      @PublishedMethod(
+          params = "String pdbid",
+          methodSummary = "Download a PDB file from pdb.org." )
+      public String downloadPDBEntry(String pdbid)
+                          throws BioclipseException;
+
       /**
        * 
        * @param pdbids A comma-separated list of PDB IDs to download
