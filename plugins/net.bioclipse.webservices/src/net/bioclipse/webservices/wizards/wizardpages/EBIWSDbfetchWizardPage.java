@@ -52,7 +52,7 @@ public class EBIWSDbfetchWizardPage extends WizardPage implements IDoPerformFini
 	private static String defPageTitle =
 			"WSDbfetch offers access various up-to-date biological databases.";
 	private static String defPageDescription =
-			"Please select database, format and style and enter the query (in example 1JR8 for pdb, NM_210721 for refseq).";
+			"Please select database, format and style and enter the query (in example 1JR8 for pdb, NM_210721 for refseqn).";
 	private String selDatabase, selFormat, selStyle, selQuery;
 	private boolean blockcombo;
 
