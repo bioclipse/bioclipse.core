@@ -79,13 +79,13 @@ public interface IBioclipsePlatformManager extends IBioclipseManager {
     public String version();
 
     @PublishedMethod(
-        methodSummary="Returns true if the given version is lower or equal " +
-        		          "to the current Bioclipse version",
+        methodSummary="Throws an exception if the current Bioclipse version" +
+        		" is lower than the given version",
         params="String version" )
     public void requireVersion( String version ) throws BioclipseException;
 
     @PublishedMethod(
-        methodSummary="Returns true if the current Bioclipse version is in " +
+        methodSummary="Throws an exception if the current Bioclipse version is not " +
         		      "between the given (including) lower version bound and " +
         		      "the given (excluding) upper version bound",
         params="String lowerVersionBound, String upperVersionBound " )
