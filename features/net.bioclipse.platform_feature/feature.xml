@@ -5,7 +5,7 @@
       version="2.6.1.qualifier"
       provider-name="The Bioclipse Team">
 
-   <description>
+   <description url="http://www.bioclipse.net">
       The Bioclipse Platform.
    </description>
 
