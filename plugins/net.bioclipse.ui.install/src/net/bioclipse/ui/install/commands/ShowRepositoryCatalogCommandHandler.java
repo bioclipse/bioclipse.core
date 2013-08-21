@@ -16,10 +16,12 @@ import org.eclipse.equinox.internal.p2.ui.discovery.util.WorkbenchUtil;
 import org.eclipse.equinox.internal.p2.ui.discovery.wizards.CatalogConfiguration;
 import org.eclipse.equinox.internal.p2.ui.discovery.wizards.CatalogPage;
 import org.eclipse.equinox.internal.p2.ui.discovery.wizards.DiscoveryWizard;
+import org.eclipse.equinox.p2.ui.ProvisioningUI;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 
 
+@SuppressWarnings("restriction")
 public class ShowRepositoryCatalogCommandHandler extends AbstractHandler {
 
     private static final String ID_PARAMETER_REPOSITORY =
@@ -34,7 +36,10 @@ public class ShowRepositoryCatalogCommandHandler extends AbstractHandler {
         // getStrategy
         BasicRepositoryDiscoveryStrategy strategy = getStrategy( event );
         // configureCatalog
-        Catalog catalog = InstallUtils.configureCatalog( uri, strategy );
+        Catalog catalog = InstallUtils.configureCatalog( InstallUtils
+                        .listInstalledRepositories( ProvisioningUI
+                                        .getDefaultUI() ),
+                                                         strategy );
         CatalogConfiguration configuration = new CatalogConfiguration();
         configuration.setShowTagFilter( false );
         configuration.setShowInstalledFilter(true);
