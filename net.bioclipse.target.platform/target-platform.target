@@ -1,56 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
 
-<target name="Spring-osgi-1.0.2" sequenceNumber="21">
+<target name="Spring-osgi-1.0.2" sequenceNumber="26">
 <locations>
-<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.equinox.server.core.feature.group" version="1.2.0.v20120522-1841-7K7VFMRF7RZHQYI0Yh8U-ov"/>
-<unit id="org.eclipse.platform.sdk" version="3.8.0.I20120608-1200"/>
-<unit id="org.eclipse.sdk.feature.group" version="3.8.0.v20120528-1716-7Q85DFDQL3GBqJ6pPYAyBr1fWCv2isiVTqvrW_TSF67r9"/>
-<unit id="org.eclipse.rcp.id" version="3.8.0.I20120608-1200"/>
-<unit id="org.eclipse.rcp.sdk.id" version="3.8.0.I20120608-1200"/>
-<unit id="org.eclipse.sdk.ide" version="3.8.0.I20120608-1200"/>
-<unit id="org.eclipse.equinox.compendium.sdk.feature.group" version="3.8.0.v20120522-1841-7X7eGb7FPGjtJjv1kjS_NdG"/>
-<unit id="org.eclipse.equinox.core.feature.feature.group" version="1.1.0.v20120522-1841-7K7XFKsF7RZHQYI0Yh8T7on"/>
-<unit id="org.eclipse.equinox.core.sdk.feature.group" version="3.8.0.v20120522-1813-85FAcGbBFoYTldHrOJw3cF4q"/>
-<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.8.0.v20120524-0542-9N89H_mGMMn84Osz0TAoT279BRQD"/>
-<unit id="org.eclipse.equinox.sdk.feature.group" version="3.8.0.v20120522-1841-7M7fA78g5_y-eMftHxcd13UXuq5J"/>
-<repository location="http://download.eclipse.org/eclipse/updates/3.8"/>
-</location>
-<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
-<unit id="nu.psnet.quickimage.feature.group" version="1.0.3.2"/>
-<repository location="http://psnet.nu/eclipse/updates"/>
-</location>
-<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
-<unit id="org.apache.axis" version="1.4.0.v201005080400"/>
-<unit id="javax.xml.rpc" version="1.1.0.v201005080400"/>
-<unit id="javax.xml.soap" version="1.3.0.v201105210645"/>
-<unit id="javax.wsdl" version="1.6.2.v201012040545"/>
-<unit id="org.apache.commons.discovery" version="0.2.0.v201004190315"/>
-<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20120526062928/repository/"/>
-</location>
-<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.equinox.executable.feature.group" version="3.6.0.v20120522-1813-7P7OG2BFLWUl7UmbVUO9iCm"/>
-<repository location="http://download.eclipse.org/eclipse/updates/3.8"/>
-</location>
-<location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/dist" type="Directory"/>
-<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.emf.ecoretools.sdk.feature.group" version="1.1.0.201205150811"/>
-<unit id="org.eclipse.emf.sdk.feature.group" version="2.8.0.v20120608-0554"/>
-<unit id="org.eclipse.zest.feature.group" version="1.4.0.201206112118"/>
-<unit id="org.eclipse.zest.source.feature.group" version="1.4.0.201206112118"/>
-<unit id="org.eclipse.wst.web_core.feature.feature.group" version="3.4.0.v201203141800-7E7HFSgAJz-mw9oH21HGMpHiKb_kVAz0D"/>
-<repository location="http://download.eclipse.org/releases/juno"/>
-</location>
-<location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/lib" type="Directory"/>
-<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
-<unit id="net.bioclipse.r.walware_feature.feature.group" version="2.1.0.201308021643"/>
-<repository location="http://pele.farmbio.uu.se/bioclipse/2.5/walware"/>
-</location>
-<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
-<unit id="com.google.guava.runtime.feature.feature.group" version="8.0.0"/>
-<repository location="http://guava-osgi.googlecode.com/svn/trunk/repository/"/>
-</location>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
 <unit id="org.apache.xerces" version="2.9.0.v201101211617"/>
 <unit id="org.hamcrest.core" version="1.1.0.v20090501071000"/>
@@ -70,138 +22,190 @@
 <unit id="org.junit.source" version="4.10.0.v4_10_0_v20120426-0900"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20120526062928/repository/"/>
 </location>
-<location path="${project_loc:net.bioclipse.target.platform}/libs" type="Directory"/>
 <location path="${project_loc:/net.bioclipse.target.platform}/logging" type="Directory"/>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
-<unit id="cmlxom" version="2.5.0.b1"/>
-<unit id="org.jama" version="1.0.2"/>
-<unit id="org.3pq.jgrapht" version="0.6.0"/>
-<unit id="net.sf.jniinchi" version="0.7.0"/>
-<unit id="org.openscience.cdk.annotation" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.atomtype" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.builder3d" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.builder3dtools" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.charges" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.cip" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.control" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.controlawt" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.controlbasic" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.controlextra" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.core" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.data" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.datadebug" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.dict" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.diff" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.extra" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.fingerprint" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.forcefield" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.formula" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.inchi" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.interfaces" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.io" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.ioformats" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.ionpot" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.iordf" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.isomorphism" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.libiocml" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.libiomd" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.log4j" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.nonotify" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.pcore" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.pdb" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.pdbcml" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.qm" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.qsar" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.qsaratomic" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.qsarbond" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.qsarcml" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.qsarionpot" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.qsarmolecular" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.qsarprotein" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.reaction" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.render" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.renderawt" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.renderawtextra" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.renderbasic" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.rendercontrol" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.renderextra" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.rendersvg" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.renderswt" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.sdg" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.signature" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.silent" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.smarts" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.smiles" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.smsd" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.standard" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.structgen" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.tautomer" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.valencycheck" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="signatures" version="1.1.0"/>
-<unit id="javax.vecmath" version="1.2.1.14"/>
+<unit id="org.eclipse.emf.ecoretools.sdk.feature.group" version="1.1.0.201205150811"/>
+<unit id="org.eclipse.emf.sdk.feature.group" version="2.8.0.v20120608-0554"/>
+<unit id="org.eclipse.zest.feature.group" version="1.4.0.201206112118"/>
+<unit id="org.eclipse.zest.source.feature.group" version="1.4.0.201206112118"/>
+<unit id="org.eclipse.wst.web_core.feature.feature.group" version="3.4.0.v201203141800-7E7HFSgAJz-mw9oH21HGMpHiKb_kVAz0D"/>
+<repository location="http://download.eclipse.org/releases/juno"/>
+</location>
+<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<unit id="com.google.guava.runtime.feature.feature.group" version="8.0.0"/>
+<repository location="http://guava-osgi.googlecode.com/svn/trunk/repository/"/>
+</location>
+<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.equinox.server.core.feature.group" version="1.2.0.v20120522-1841-7K7VFMRF7RZHQYI0Yh8U-ov"/>
+<unit id="org.eclipse.platform.sdk" version="3.8.0.I20120608-1200"/>
+<unit id="org.eclipse.sdk.feature.group" version="3.8.0.v20120528-1716-7Q85DFDQL3GBqJ6pPYAyBr1fWCv2isiVTqvrW_TSF67r9"/>
+<unit id="org.eclipse.rcp.id" version="3.8.0.I20120608-1200"/>
+<unit id="org.eclipse.rcp.sdk.id" version="3.8.0.I20120608-1200"/>
+<unit id="org.eclipse.sdk.ide" version="3.8.0.I20120608-1200"/>
+<unit id="org.eclipse.equinox.compendium.sdk.feature.group" version="3.8.0.v20120522-1841-7X7eGb7FPGjtJjv1kjS_NdG"/>
+<unit id="org.eclipse.equinox.core.feature.feature.group" version="1.1.0.v20120522-1841-7K7XFKsF7RZHQYI0Yh8T7on"/>
+<unit id="org.eclipse.equinox.core.sdk.feature.group" version="3.8.0.v20120522-1813-85FAcGbBFoYTldHrOJw3cF4q"/>
+<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.8.0.v20120524-0542-9N89H_mGMMn84Osz0TAoT279BRQD"/>
+<unit id="org.eclipse.equinox.sdk.feature.group" version="3.8.0.v20120522-1841-7M7fA78g5_y-eMftHxcd13UXuq5J"/>
+<repository location="http://download.eclipse.org/eclipse/updates/3.8"/>
+</location>
+<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<unit id="org.eclipse.equinox.executable.feature.group" version="3.6.0.v20120522-1813-7P7OG2BFLWUl7UmbVUO9iCm"/>
+<repository location="http://download.eclipse.org/eclipse/updates/3.8"/>
+</location>
+<location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/lib" type="Directory"/>
+<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<unit id="nu.psnet.quickimage.feature.group" version="1.0.3.2"/>
+<repository location="http://psnet.nu/eclipse/updates"/>
+</location>
+<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<unit id="org.apache.axis" version="1.4.0.v201005080400"/>
+<unit id="javax.xml.rpc" version="1.1.0.v201005080400"/>
+<unit id="javax.xml.soap" version="1.3.0.v201105210645"/>
+<unit id="javax.wsdl" version="1.6.2.v201012040545"/>
+<unit id="org.apache.commons.discovery" version="0.2.0.v201004190315"/>
+<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20120526062928/repository/"/>
+</location>
+<location path="${project_loc:net.bioclipse.target.platform}/spring-osgi-1.0.2/dist" type="Directory"/>
+<location path="${project_loc:net.bioclipse.target.platform}/libs" type="Directory"/>
+<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<unit id="net.bioclipse.r.walware_feature.feature.group" version="2.1.0.201308021643"/>
+<repository location="http://pele.farmbio.uu.se/bioclipse/2.5/walware"/>
+</location>
+<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="false" type="InstallableUnit">
+<unit id="org.openscience.cdk.tautomer" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.render" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.standard" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.silent" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.control" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.qm" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.group" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.controlextra" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.dict" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.atomtype" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.forcefield" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.ionpot" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.core" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.ioformats" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.qsarcml" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.io" version="1.5.4.git1_cdk-152-139"/>
 <unit id="xom" version="1.1.0"/>
+<unit id="org.openscience.cdk.fragment" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.builder3d" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.hash" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.datadebug" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.qsarbond" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.iordf" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.rendersvg" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.controlbasic" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.cip" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.smarts" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.signature" version="1.5.4.git1_cdk-152-139"/>
+<unit id="net.sf.jniinchi" version="0.7.0"/>
+<unit id="org.openscience.cdk.controlawt" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.diff" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.qsaratomic" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.builder3dtools" version="1.5.4.git1_cdk-152-139"/>
+<unit id="javax.vecmath" version="1.2.1.14"/>
+<unit id="org.openscience.cdk.log4j" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.sdg" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.libiomd" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.renderbasic" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.interfaces" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.renderswt" version="1.5.4.git1_cdk-152-139"/>
 <unit id="org.xmlpull.xpp3" version="1.1.4.c"/>
-<unit id="org.openscience.cdk.annotation.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.io.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.ioformats.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.renderawtextra.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.dict.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.smiles.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.control.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.pcore.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.core.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.standard.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.sdg.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.isomorphism.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.signature.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.qsarmolecular.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.data.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.builder3dtools.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.rendercontrol.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.renderextra.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.pdbcml.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.datadebug.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.structgen.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.renderbasic.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.smarts.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.pdb.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.extra.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.interfaces.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.qsaratomic.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.libiocml.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.rendersvg.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.charges.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.controlextra.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.forcefield.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.qsarcml.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.cip.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.log4j.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.diff.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.controlbasic.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.nonotify.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.libiomd.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.renderswt.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.qm.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.fingerprint.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.renderawt.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.smsd.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.qsarionpot.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.reaction.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.qsarbond.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.qsar.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.builder3d.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.atomtype.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.silent.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.qsarprotein.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.formula.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.controlawt.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.ionpot.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.tautomer.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.valencycheck.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.inchi.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.render.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<unit id="org.openscience.cdk.iordf.source" version="1.4.18.1_cdk-jchempaint-28-138"/>
-<repository location="http://pele.farmbio.uu.se/bioclipse/cdk"/>
+<unit id="org.openscience.cdk.annotation" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.fingerprint" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.pdb" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.smiles" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.qsarmolecular" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.renderawtextra" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.valencycheck" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.3pq.jgrapht" version="0.6.0"/>
+<unit id="org.openscience.cdk.pcore" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.extra" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.formula" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.qsarionpot" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.smsd" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.qsarprotein" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.isomorphism" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.reaction" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.pdbcml" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.jama" version="1.0.2"/>
+<unit id="signatures" version="1.1.0"/>
+<unit id="org.openscience.cdk.charges" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.structgen" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.libiocml" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.rendercontrol" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.qsar" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.renderawt" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.renderextra" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.data" version="1.5.4.git1_cdk-152-139"/>
+<unit id="cmlxom" version="2.5.0.b1"/>
+<unit id="org.openscience.cdk.inchi" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.standard.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.libiocml.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.smsd.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.control.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.datadebug.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.atomtype.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.iordf.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.interfaces.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.hash.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.ionpot.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.io.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.controlawt.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.dict.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.formula.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.signature.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.core.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.silent.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.fragment.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.group.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.builder3d.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.rendercontrol.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.qsarprotein.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.cip.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.render.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.tautomer.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.rendersvg.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.data.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.reaction.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.qsarcml.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.extra.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.smiles.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.renderawt.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.log4j.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.structgen.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.inchi.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.qm.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.renderextra.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.qsaratomic.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.renderswt.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.pdbcml.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.pdb.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.charges.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.ioformats.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.qsarmolecular.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.pcore.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.smarts.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.qsarbond.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.qsar.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.diff.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.valencycheck.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.renderbasic.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.controlbasic.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.controlextra.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.isomorphism.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.builder3dtools.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.libiomd.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.forcefield.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.annotation.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.fingerprint.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.renderawtextra.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.qsarionpot.source" version="1.5.4.git1_cdk-152-139"/>
+<unit id="org.openscience.cdk.sdg.source" version="1.5.4.git1_cdk-152-139"/>
+<repository location="http://pele.farmbio.uu.se/bioclipse/cdk/2.6.2"/>
 </location>
 </locations>
 </target>
