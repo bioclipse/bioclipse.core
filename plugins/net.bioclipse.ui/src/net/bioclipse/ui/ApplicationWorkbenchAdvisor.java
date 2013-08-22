@@ -21,12 +21,14 @@ import net.bioclipse.ui.prefs.IPreferenceConstants;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.ConfigurationScope;
+import org.eclipse.core.runtime.preferences.DefaultScope;
+import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -35,6 +37,7 @@ import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 import org.eclipse.ui.navigator.CommonNavigator;
+import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.osgi.service.prefs.Preferences;
 
 /**
@@ -163,6 +166,20 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         }
 
         //Ok, check for updates if not turned off by arg -noupdate
+        final String P2_SCHEDULER_PLUGIN = "org.eclipse.equinox.p2.ui.sdk.scheduler";
+        ScopedPreferenceStore store = new ScopedPreferenceStore(
+            InstanceScope.INSTANCE, P2_SCHEDULER_PLUGIN );
+
+        store.setSearchContexts( new IScopeContext[] {
+                        InstanceScope.INSTANCE,
+                        ConfigurationScope.INSTANCE,
+                        } );
+        if ( !store.getBoolean( "enabled" ) ) {
+            logger.debug( "Setting org.eclipse.equinox.p2.ui.sdk.scheduler/enabled to true" );
+            Preferences node = DefaultScope.INSTANCE
+                            .getNode( P2_SCHEDULER_PLUGIN );
+            node.putBoolean( "enabled", true );
+        }
 
         if(isRunFromDMG()) {
         	MessageDialog.openWarning(Display.getDefault().getActiveShell(), "Running from DMG",
