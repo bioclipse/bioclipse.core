@@ -284,8 +284,8 @@ public class BioclipsePlatformManager implements IBioclipseManager {
             if (!(VersionNumberComparator.INSTANCE
                                          .compare( version, version() ) <= 0)) {
                 throw new BioclipseException(
-                              "You are running Bioclipse version: " + version()
-                              + "but require: " + version );
+                              "You are running Bioclipse version " + version()
+                              + ", but this script requires at least version " + version + ".");
             }
         } catch(Exception e) {
             throw new BioclipseException(e.getMessage(), e);
@@ -314,9 +314,9 @@ public class BioclipsePlatformManager implements IBioclipseManager {
                                           .compare(version,
                                                    versions.get( 2 ) ) == -1)) {
                 throw new BioclipseException(
-                     "You are running Bioclipse version: " + version() +
-                     " but require ["+lowerVersionBound +  ", "
-                     + upperVersionBound + ")");
+                     "You are running Bioclipse version " + version() +
+                     ", but this script requires a version in the range ["+lowerVersionBound +  ", "
+                     + upperVersionBound + ").");
             }
         }
         catch (Exception e) {
