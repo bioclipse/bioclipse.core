@@ -2,14 +2,21 @@ package net.bioclipse.jasper.editor;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Random;
 
 import net.bioclipse.core.business.BioclipseException;
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 
 
 import org.apache.log4j.Logger;
@@ -19,6 +26,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
@@ -28,6 +36,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IWorkbenchActionConstants;
@@ -196,7 +205,7 @@ public class ReportEditor extends EditorPart implements ISelectionProvider{
 		file.add(new Separator());
 		file.add(export);
 		file.add(new Separator());
-		file.add(new PrintAction(reportViewer));
+        file.add( new OverridePrintAction( reportViewer ) );
 		mm.add(file);
 
 		MenuManager view = new MenuManager("View");
@@ -244,7 +253,7 @@ public class ReportEditor extends EditorPart implements ISelectionProvider{
 		exportMenu.setDefaultAction(pdfAction);
 
 		tbManager.add(exportMenu);
-		tbManager.add(new PrintAction(reportViewer));
+        tbManager.add( new OverridePrintAction( reportViewer ) );
 		tbManager.add(new ReloadAction(reportViewer));
 		tbManager.add(new Separator());
 		tbManager.add(new FirstPageAction(reportViewer));
@@ -340,4 +349,65 @@ public class ReportEditor extends EditorPart implements ISelectionProvider{
 
 	}
 
+}
+
+class OverridePrintAction extends PrintAction {
+
+    public OverridePrintAction(IReportViewer viewer) {
+
+        super( viewer );
+    }
+
+    private final File          TEMP_DIR      = new File(
+                                                  System.getProperty( "java.io.tmpdir" ) );
+    private static final String PDF_EXTENSION = ".pdf";
+
+    public void run() {
+
+        final Display display = Display.getCurrent();
+        display.asyncExec( new Runnable() {
+
+            public void run() {
+
+                try {
+                    if ( "carbon".equals( SWT.getPlatform() ) || "cocoa"
+                                         .equals( SWT.getPlatform() ) ) {
+                        Random random = new Random();
+                        int integer = random.nextInt();
+                        final String reportName = getReportViewer()
+                                        .getDocument().getName();
+                        final String fileName = reportName + integer
+                                                + PDF_EXTENSION;
+                        final File file = new File( TEMP_DIR, fileName );
+                        file.deleteOnExit();
+                        exportAsPDF( file );
+                        openPDF( file );
+                    } else {
+                        JasperPrintManager.printReport( getReportViewer()
+                                        .getDocument(), true );
+                    }
+                } catch ( Throwable e ) {
+                    e.printStackTrace();
+                    MessageDialog.openError( display.getActiveShell(),
+                                             "Printing Error",
+                                             MessageFormat.format( "Failed to print the document: {0}", new Object[] { e.getMessage() } ) ); //$NON-NLS-1$
+                }
+            }
+        } );
+    }
+
+    protected void exportAsPDF( final File file ) throws JRException {
+
+        JRPdfExporter exporter = new JRPdfExporter();
+        exporter.setParameter( JRExporterParameter.JASPER_PRINT,
+                               getReportViewer().getDocument() );
+        exporter.setParameter( JRExporterParameter.OUTPUT_FILE, file );
+        exporter.exportReport();
+    }
+
+    protected void openPDF( final File file ) throws IOException {
+
+        final Runtime runtime = Runtime.getRuntime();
+        runtime.exec( "open " + file );
+    }
 }
