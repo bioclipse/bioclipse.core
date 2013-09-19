@@ -200,7 +200,10 @@ public abstract class BasicRepositoryDiscoveryStrategy extends
     private CatalogItem processCatalogItem(IMetadataRepository repository, IInstallableUnit candidate) {
         CatalogItem item = catalogItemById.get(candidate.getId());
         if (item != null) {
-            return item;
+            if ( candidate.compareTo( (IInstallableUnit) item.getData() ) > 0 )
+                items.remove( item );
+            else
+                return item;
         }
 
         item = new CatalogItem();
@@ -216,8 +219,9 @@ public abstract class BasicRepositoryDiscoveryStrategy extends
         item.setIcon( icon );
 
         item.getInstallableUnits().add( item.getId() );
-        catalogItemById.put(item.getId(), item);
-        items.add(item);
+
+        catalogItemById.put( item.getId(), item );
+        items.add( item );
         return item;
     }
 
