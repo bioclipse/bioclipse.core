@@ -10,6 +10,8 @@
  ******************************************************************************/
 package net.bioclipse.business;
 
+import org.eclipse.core.resources.IFile;
+
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
 import net.bioclipse.core.business.BioclipseException;
@@ -77,17 +79,29 @@ public interface IBioclipsePlatformManager extends IBioclipseManager {
     public String version();
 
     @PublishedMethod(
-        methodSummary="Returns true if the given version is lower or equal " +
-        		          "to the current Bioclipse version",
+        methodSummary="Throws an exception if the current Bioclipse version" +
+        		" is lower than the given version",
         params="String version" )
     public void requireVersion( String version ) throws BioclipseException;
 
     @PublishedMethod(
-        methodSummary="Returns true if the current Bioclipse version is in " +
+        methodSummary="Throws an exception if the current Bioclipse version is not " +
         		      "between the given (including) lower version bound and " +
         		      "the given (excluding) upper version bound",
         params="String lowerVersionBound, String upperVersionBound " )
     public void requireVersion( String lowerVersionBound,
-                                   String upperVersionBound )
+                                String upperVersionBound )
                    throws BioclipseException;
+
+    @PublishedMethod(
+        methodSummary="Returns the location of the current logfile"
+                    )
+    public String logfileLocation();
+    
+    @PublishedMethod(methodSummary="Gives the full operative system specific" +
+    		                           " path for the given file.",
+    		             params = "String file" )
+    public String fullPath( String file );
+    
+    public String fullPath( IFile file );
 }

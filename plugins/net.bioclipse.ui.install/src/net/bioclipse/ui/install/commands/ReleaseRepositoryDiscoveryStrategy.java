@@ -11,14 +11,11 @@ package net.bioclipse.ui.install.commands;
 import static org.osgi.framework.FrameworkUtil.getBundle;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import net.bioclipse.ui.install.discovery.BasicRepositoryDiscoveryStrategy;
 
@@ -77,9 +74,12 @@ public class ReleaseRepositoryDiscoveryStrategy extends
         monitor.setWorkRemaining( repositories.size() );
 		for (final IMetadataRepository repository : repositories) {
 			checkCancelled(monitor);
-			IQuery<IInstallableUnit> query = QueryUtil.createMatchQuery(//
-                            "id ~= /*.feature.group/ ? providedCapabilities.exists(p | p.namespace == 'org.eclipse.equinox.p2.iu' "
-                                            + "&& p.name ~= /*.feature.group/) : properties['org.eclipse.equinox.p2.type.category'] == false" ); //$NON-NLS-1$
+            IQuery<IInstallableUnit> query = QueryUtil
+                            .createQuery(
+                                                                   
+                            //.createMatchQuery( 
+                                               "select( iu | iu.id ~= /*.feature.group/ && iu.properties['org.eclipse.equinox.p2.type.group'] == true && !(iu.id ~= /*.source.feature.group/ ) ).latest()" 
+                                               );
 			IQueryResult<IInstallableUnit> result = repository.query(query, monitor.newChild(1));
             List<IInstallableUnit> res = filterIU( result.iterator() );
             for ( Iterator<IInstallableUnit> iter = res.iterator(); iter
@@ -95,8 +95,6 @@ public class ReleaseRepositoryDiscoveryStrategy extends
     private List<IInstallableUnit> filterIU( Iterator<IInstallableUnit> iter ) {
 
         initIconMapping();
-        List<String> b = Arrays.asList( bundles );
-        Set<String> filetBundles = new HashSet<String>( b );
 
         List<IInstallableUnit> filteredList = new ArrayList<IInstallableUnit>();
         while ( iter.hasNext() ) {

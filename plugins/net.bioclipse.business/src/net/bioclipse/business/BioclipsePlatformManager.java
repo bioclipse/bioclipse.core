@@ -19,6 +19,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -34,6 +35,13 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
+import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.Appender;
+import ch.qos.logback.core.FileAppender;
 
 public class BioclipsePlatformManager implements IBioclipseManager {
 
@@ -57,6 +65,27 @@ public class BioclipsePlatformManager implements IBioclipseManager {
 			throw new BioclipseException("Error while opening browser: " +
 				e.getMessage(), e);
 		}
+    }
+
+    public String logfileLocation() {
+        LoggerContext context = (LoggerContext)LoggerFactory.getILoggerFactory();
+        for (Logger logger : context.getLoggerList()) {
+                for (Iterator<Appender<ILoggingEvent>> index = logger.iteratorForAppenders(); index.hasNext();) {
+                    Appender<ILoggingEvent> appender = index.next();
+                    if(appender instanceof FileAppender) {
+                        return stripExtraSlashes( ((FileAppender<?>)appender).getFile());
+                    }
+                }
+            }
+        return "";
+    }
+
+    /* Due to the way the logfile location is assembled an extra slash may is
+     * should not have any effect on the code. This method strips the extra slashes
+     * for a better visual presentation see bug 3479.
+     */
+    static String stripExtraSlashes(String input) {
+        return input.replaceAll( "/(/)+", "/" );
     }
 
     public void bugTracker() throws BioclipseException {
@@ -255,8 +284,8 @@ public class BioclipsePlatformManager implements IBioclipseManager {
             if (!(VersionNumberComparator.INSTANCE
                                          .compare( version, version() ) <= 0)) {
                 throw new BioclipseException(
-                              "You are running Bioclipse version: " + version()
-                              + "but require: " + version );
+                              "You are running Bioclipse version " + version()
+                              + ", but this script requires at least version " + version + ".");
             }
         } catch(Exception e) {
             throw new BioclipseException(e.getMessage(), e);
@@ -285,13 +314,17 @@ public class BioclipsePlatformManager implements IBioclipseManager {
                                           .compare(version,
                                                    versions.get( 2 ) ) == -1)) {
                 throw new BioclipseException(
-                     "You are running Bioclipse version: " + version() +
-                     " but require ["+lowerVersionBound +  ", "
-                     + upperVersionBound + ")");
+                     "You are running Bioclipse version " + version() +
+                     ", but this script requires a version in the range ["+lowerVersionBound +  ", "
+                     + upperVersionBound + ").");
             }
         }
         catch (Exception e) {
             throw new BioclipseException(e.getMessage(), e);
         }
+    }
+    
+    public String fullPath(IFile file) {
+        return file.getLocation().toOSString();
     }
 }

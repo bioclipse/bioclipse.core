@@ -65,10 +65,10 @@ public class BrowserManager implements IBioclipseManager {
             }
             r.close();
 
-            System.out.println("Read from URL: \n" + buffer.toString());
+            logger.debug( "Read from URL: \n" + buffer.toString() );
 
         } catch ( Exception e ) {
-            throw new BioclipseException( "Error reading url: "+e.getMessage());
+            throw new BioclipseException( "Error reading url: "+e.getMessage(),e);
         }
 
         if (scrapers==null)

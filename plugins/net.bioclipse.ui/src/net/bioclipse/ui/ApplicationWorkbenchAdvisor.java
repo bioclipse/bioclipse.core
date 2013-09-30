@@ -21,11 +21,14 @@ import net.bioclipse.ui.prefs.IPreferenceConstants;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.ConfigurationScope;
+import org.eclipse.core.runtime.preferences.DefaultScope;
+import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -34,6 +37,8 @@ import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 import org.eclipse.ui.navigator.CommonNavigator;
+import org.eclipse.ui.preferences.ScopedPreferenceStore;
+import org.osgi.service.prefs.Preferences;
 
 /**
  * WorkbenchAdvisor that installs the default perspective as initial.
@@ -161,6 +166,20 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         }
 
         //Ok, check for updates if not turned off by arg -noupdate
+        final String P2_SCHEDULER_PLUGIN = "org.eclipse.equinox.p2.ui.sdk.scheduler";
+        ScopedPreferenceStore store = new ScopedPreferenceStore(
+            InstanceScope.INSTANCE, P2_SCHEDULER_PLUGIN );
+
+        store.setSearchContexts( new IScopeContext[] {
+                        InstanceScope.INSTANCE,
+                        ConfigurationScope.INSTANCE,
+                        } );
+        if ( !store.getBoolean( "enabled" ) ) {
+            logger.debug( "Setting org.eclipse.equinox.p2.ui.sdk.scheduler/enabled to true" );
+            Preferences node = DefaultScope.INSTANCE
+                            .getNode( P2_SCHEDULER_PLUGIN );
+            node.putBoolean( "enabled", true );
+        }
 
         if(isRunFromDMG()) {
         	MessageDialog.openWarning(Display.getDefault().getActiveShell(), "Running from DMG",
@@ -178,8 +197,41 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
     	return currentDir.getAbsolutePath().startsWith("/Volumes/Bioclipse");
     }
 
+
     public String getInitialWindowPerspectiveId() {
-        return DefaultPerspective.ID_PERSPECTIVE;
+
+        /*
+         * Query the configuration for the default perspective ID and try that
+         * first. Else return some hard-coded perspective ID. Eclipse won't load
+         * any perspective if it can't find this one.
+         */
+        Preferences config = InstanceScope.INSTANCE
+.getNode( "org.eclipse.ui" );
+        String defaultPerspectiveId = config
+                        .get( "defaultPerspectiveId",
+                              System.getProperty( "org.eclipse.ui/defaultPerspectiveId" ) );
+
+        if ( perspectiveExists( defaultPerspectiveId ) ) {
+            return defaultPerspectiveId;
+        } else {
+            logger.warn( "Unknown perspective id " + defaultPerspectiveId );
+            // null is fine to return here as Eclipse interprets this as not
+            // opening any perspective at all
+            // If your code gets in here it is highly likely that you have
+            // either a) misspelled the ID of your perspective being downloaded
+            // or b) the download failed and the perspective isn't available
+            return DefaultPerspective.ID_PERSPECTIVE;
+        }
+    }
+
+    private boolean perspectiveExists( String perspectiveId ) {
+
+        if ( PlatformUI.getWorkbench().getPerspectiveRegistry()
+                        .findPerspectiveWithId( perspectiveId ) != null ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void showMessage(final String message) {

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cspec xmlns="http://www.eclipse.org/buckminster/CSpec-1.0" name="net.bioclipse.core_releng" componentType="buckminster" version="2.6.1">
+    <dependencies>
+        <!--<dependency name="javax.mail.glassfish" componentType="osgi.bundle"/>
+        <dependency name="javax.wsdl" componentType="osgi.bundle"/>
+        -->
+        <dependency name="net.bioclipse.core_site" componentType="eclipse.feature" versionDesignator="1.0.0"/>
+        <!--
+        <dependency name="org.eclipse.equinox.security.win32.x86" componentType="osgi.bundle"/>
+        <dependency name="org.eclipse.swt"/>
+        <dependency name="org.eclipse.swt.cocoa.macosx"/>
+        <dependency name="org.eclipse.swt.cocoa.macosx.x86_64"/>
+        <dependency name="org.eclipse.swt.gtk.linux.x86_64"/>
+        <dependency name="org.eclipse.swt.gtk.linux.x86"/>
+        <dependency name="org.eclipse.swt.win32.win32.x86_64"/>
+        <dependency name="org.eclipse.swt.win32.win32.x86"/>
+        -->
+        <!--
+        <dependency name="slf4j.api" componentType="osgi.bundle"/>
+        <dependency name="jcl.over.slf4j" componentType="osgi.bundle"/>
+        <dependency name="log4j.over.slf4j" componentType="osgi.bundle"/>
+        -->
+    </dependencies>
+    <actions>
+      <public name="site.mirror.p2" actor="p2SiteMirror">
+        <prerequisites>
+          <attribute name="site.p2" alias="site"/>
+        </prerequisites>
+        <products base="${bioclipse.mirror}/${bioclipse.mirror.name}" upToDatePolicy="ACTOR" />
+      </public>
+    </actions>
+    <groups>
+        <public name="site.p2">
+            <attribute name="site.p2" component="net.bioclipse.core_site"/>
+        </public>
+    </groups>
+</cspec>

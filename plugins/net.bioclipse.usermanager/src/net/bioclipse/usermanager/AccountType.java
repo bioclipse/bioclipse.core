@@ -81,10 +81,13 @@ public class AccountType implements Serializable {
      * Adds a new property
      * 
      * @param name the name of the property
-     * @param required whether the property is required
+     * @param required whether the property is required    
+     * @param secret whether the property should be visible when entering 
+     *      it in a text-field, e.g. is a password 
+     * @param defaultValue A default value of the property
      */
-    public void addProperty( String name, boolean required, boolean secret) {
-        properties.add( new Property(name, required, secret) );
+    public void addProperty( String name, boolean required, boolean secret, String defaultValue) {
+        properties.add( new Property(name, required, secret, defaultValue) );
     }
     
     /**
@@ -194,6 +197,7 @@ public class AccountType implements Serializable {
         String  name;
         boolean required;
         boolean secret;
+        String defaultValue; 
 
         /**
          * @param name the property's name
@@ -204,6 +208,7 @@ public class AccountType implements Serializable {
             this.name = name;
             this.required = required;
             this.secret = false;
+            this.defaultValue ="";
         }
         
         /**
@@ -212,12 +217,17 @@ public class AccountType implements Serializable {
          * @param required whether the property is required
          * @param secret whether the property should be visible when entering 
          * 		it in a text-field, e.g. is a password 
+         * @param defaultValue A default value of the property
          */
-        public Property(String name, boolean required, boolean secret) {
+        public Property(String name, boolean required, boolean secret, String defaultValue) {
             super();
             this.name = name;
             this.required = required;
             this.secret = secret;
+            if (defaultValue == null)
+                this.defaultValue = "";
+            else
+                this.defaultValue = defaultValue;
         }
         
         /**
@@ -232,6 +242,7 @@ public class AccountType implements Serializable {
             this.name     = p.name;
             this.required = p.required;
             this.secret = p.secret;
+            this.defaultValue = p.defaultValue;
         }
 
         /**
@@ -278,6 +289,18 @@ public class AccountType implements Serializable {
          */
         public void setSecret(boolean secret) {
         	this.secret = secret;
+        }
+        
+        public boolean hasDefaultValue() {
+            return !defaultValue.isEmpty();
+        }
+        
+        public void setDefaultValue(String value) {
+            this.defaultValue = value;
+        }
+        
+        public String getDefaultValue() {
+            return defaultValue;
         }
         
         @Override

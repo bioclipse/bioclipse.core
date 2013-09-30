@@ -74,7 +74,9 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 		
 		addAccountPage = new NewAccountWizardPage("addAccountPage", sandbox);
 		addAccountPage.setTitle("New Account");
-		addAccountPage.setDescription("Add a third-part account to Bioclipse");
+		addAccountPage.setDescription("Add a third-part account to " +
+				"Bioclipse.\nAll fields denoted with an asterisk (*) are " +
+				"required.");
 		addPage(addAccountPage);
 
 
@@ -91,7 +93,7 @@ public class NewAccountWizard extends Wizard implements INewWizard {
 	            usermanager = Activator.getDefault().getUserManager();	        
 	        usermanager.logIn(loginPage.getUsername(), loginPage.getPassword());
 	    }
-
+	    addAccountPage.fireUpdate();
 	    if (manipulateUserContainer) {
 	        Collection<Account> accounts = sandbox.getLoggedInUser().getAccounts().values();
 	        Iterator<Account> itr = accounts.iterator();

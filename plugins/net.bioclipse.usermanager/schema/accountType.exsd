@@ -92,19 +92,11 @@
                </documentation>
             </annotation>
          </attribute>
-      </complexType>
-   </element>
-
-   <element name="newAccountUI">
-      <complexType>
-         <attribute name="class" type="string" use="required">
+         <attribute name="defaultValue" type="string">
             <annotation>
                <documentation>
-                  
+                  An attribute to set a default value for a property
                </documentation>
-               <appinfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.swt.widgets.Composite:net.bioclipse.usermanager.IAccounts"/>
-               </appinfo>
             </annotation>
          </attribute>
       </complexType>

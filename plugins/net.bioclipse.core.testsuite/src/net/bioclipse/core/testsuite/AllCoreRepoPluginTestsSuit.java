@@ -11,6 +11,8 @@ package net.bioclipse.core.testsuite;
 
 import net.bioclipse.AllCorePluginTestsSuit;
 import net.bioclipse.browser.tests.AllBrowserManagerPluginTests;
+import net.bioclipse.business.test.JavaBioclipsePlatformManagerPluginTest;
+import net.bioclipse.business.test.JavaScriptBioclipsePlatformManagerPluginTest;
 import net.bioclipse.scripting.AllScriptingTestsSuite;
 import net.bioclipse.scripting.ui.tests.CoverageTest;
 import net.bioclipse.scripting.ui.tests.JsConsoleManagerTest;
@@ -39,7 +41,9 @@ import org.junit.runners.Suite.SuiteClasses;
                          JsConsoleManagerTest.class,
                          AllWebservicesManagerPluginTests.class,
                          JavaScriptWebservicesManagerPluginTest.class,
-                         JavaWebservicesManagerPluginTest.class} )
+                         JavaWebservicesManagerPluginTest.class,
+                         JavaBioclipsePlatformManagerPluginTest.class,
+                         JavaScriptBioclipsePlatformManagerPluginTest.class} )
 public class AllCoreRepoPluginTestsSuit {
 
 }

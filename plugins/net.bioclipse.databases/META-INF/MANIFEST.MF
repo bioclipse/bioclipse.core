@@ -2,11 +2,13 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Databases Plug-in
 Bundle-SymbolicName: net.bioclipse.databases;singleton:=true
-Bundle-Version: 2.6.0.vqualifier
+Bundle-Version: 2.6.1.qualifier
 Bundle-Activator: net.bioclipse.databases.Activator
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.ui.navigator
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: net.bioclipse.databases
+Import-Package: org.eclipse.core.runtime,
+ org.eclipse.swt.widgets,
+ org.eclipse.ui.navigator,
+ org.osgi.framework
+Require-Bundle: org.eclipse.ui
