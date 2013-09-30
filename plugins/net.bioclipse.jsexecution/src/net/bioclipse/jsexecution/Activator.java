@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
@@ -106,6 +107,14 @@ public class Activator extends AbstractUIPlugin {
                     catch (CoreException e) {
                         PluginLogger.log("Failed to get a service: "
                                          + e.getMessage());
+                        continue;
+                    }
+                    catch ( IllegalStateException e ) {
+                        // If the manager falied to load log and error and continue
+                        Logger.getLogger( Activator.class ).error("Could not get manager",e);
+                        PluginLogger.log( "Failed to get a service because:" + e
+                                                          .getMessage() );
+                        continue;
                     }
                     Class theClass = service.getClass();
                     if(service != null && isIBioclipseManager(theClass)) {

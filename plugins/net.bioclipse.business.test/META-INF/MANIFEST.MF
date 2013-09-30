@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bioclipse Business Tests
 Bundle-SymbolicName: net.bioclipse.business.test; singleton:=true
-Bundle-Version: 2.6.0.vqualifier
+Bundle-Version: 2.6.1.qualifier
 Bundle-Activator: net.bioclipse.business.test.Activator
 Bundle-Vendor: The Bioclipse Project
 Require-Bundle: org.eclipse.ui,

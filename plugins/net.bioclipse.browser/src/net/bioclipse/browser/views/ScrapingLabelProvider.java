@@ -1,5 +1,8 @@
 package net.bioclipse.browser.views;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.bioclipse.browser.Activator;
 import net.bioclipse.browser.ScrapingPage;
 import net.bioclipse.core.domain.IBioObject;
@@ -8,6 +11,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 
 
 public class ScrapingLabelProvider implements ILabelProvider {
@@ -19,6 +23,7 @@ public class ScrapingLabelProvider implements ILabelProvider {
     private Image missingImage;
 
     private Image image;
+    private Map<ImageDescriptor, Image> descriptors = new HashMap<ImageDescriptor, Image>();
         
     public ScrapingLabelProvider() {
         pageImage=Activator.getImageDescriptor("icons/world_dl.png")
@@ -48,11 +53,14 @@ public class ScrapingLabelProvider implements ILabelProvider {
         }
         if ( element instanceof IBioObject ) {
         	ImageDescriptor imageDescriptor = (ImageDescriptor) ((IBioObject)element).getAdapter( ImageDescriptor.class );
-                if (image==null) {
-                	//FIXME only the first image that is asked for is used.
-                	image = imageDescriptor.createImage();
+
+            if ( imageDescriptor != null ) {
+                Image image = imageDescriptor.createImage( Display.getCurrent() );
+                if ( image != null ) {
+                    descriptors.put( imageDescriptor, image );
+                    return image;
                 }
-                return (Image) image;
+            }
         }
         
         return missingImage;
@@ -76,6 +84,10 @@ public class ScrapingLabelProvider implements ILabelProvider {
     }
 
     public void dispose() {
+
+        for ( ImageDescriptor im : descriptors.keySet() ) {
+            im.destroyResource( descriptors.get( im ) );
+        }
     	if(image!= null ) {
     		image.dispose();
     	}

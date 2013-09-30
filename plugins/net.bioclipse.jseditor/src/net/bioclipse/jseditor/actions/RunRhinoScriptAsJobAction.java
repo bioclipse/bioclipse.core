@@ -10,6 +10,7 @@ import net.bioclipse.jsexecution.execution.ScriptExecution;
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
+import org.slf4j.LoggerFactory;
 
 /*
  * This file is part of the Bioclipse JavaScript Editor Plug-in.
@@ -48,6 +49,8 @@ public class RunRhinoScriptAsJobAction extends Action {
         try {
             scriptString = re.getScriptString();
         } catch (EditorException e) {
+            LoggerFactory.getLogger( RunRhinoScriptAsJobAction.class )
+                            .debug( e.getMessage(), e );
             RhinoConsole.writeToConsoleRed("Exception: " + e.getMessage());
         }
 

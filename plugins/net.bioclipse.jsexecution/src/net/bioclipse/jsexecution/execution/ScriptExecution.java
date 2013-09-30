@@ -117,7 +117,7 @@ public class ScriptExecution {
                     monitor.done();
                 } catch (Exception e) {
                     monitor.setTaskName("Error: " + e.getMessage());
-
+                    logger.debug( e.getMessage(), e );
                     //scriptResult = "test123";
                     scriptResult = e.getMessage();
                     String traced_e = getErrorMessage(e);
