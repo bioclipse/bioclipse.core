@@ -59,7 +59,7 @@ The Eclipse Public License accompanies this distribution, and is available at ht
       <import plugin="org.eclipse.osgi"/>
       <import plugin="com.springsource.javax.mail"/>
       <import plugin="jcl.over.slf4j"/>
-      <import plugin="ch.qos.logback.classic" version="0.9.20" match="greaterOrEqual"/>
+      <import plugin="ch.qos.logback.classic"/>
       <import plugin="org.eclipse.core.filebuffers"/>
       <import plugin="org.eclipse.ui.views"/>
       <import feature="net.bioclipse.advanced_feature" version="2.5.0" match="compatible"/>
