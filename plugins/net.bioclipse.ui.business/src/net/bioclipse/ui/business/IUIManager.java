@@ -27,6 +27,7 @@ import net.bioclipse.managers.business.GuiAction;
 import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.content.IContentType;
 
@@ -209,6 +210,29 @@ public interface IUIManager extends IBioclipseManager {
     public String newProject(String name) 
         throws CoreException, BioclipseException;
 
+    @Recorded
+    @PublishedMethod(
+        params="String name",
+        methodSummary="Return a project by name."
+    )
+    public IProject getProject(String name) 
+        throws CoreException, BioclipseException;
     
+    @Recorded
+    @PublishedMethod(
+       params="String folder",
+       methodSummary="Retrieves the full path information of all files in a folder"
+    )
+    public String[] getFiles(String folder)
+       throws CoreException, BioclipseException;
+    
+    
+    @Recorded
+    @PublishedMethod(
+       params="String folder",
+       methodSummary="Retrieves the full path information of all subfolders in a folder"
+    )
+    public String[] getSubFolders(String folder)
+       throws CoreException, BioclipseException;
 
 }
