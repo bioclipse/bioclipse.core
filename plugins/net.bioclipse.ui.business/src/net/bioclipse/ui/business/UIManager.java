@@ -8,6 +8,7 @@
  * Contributors:
  *     Jonathan Alvarsson
  *     Carl Masak
+ *     Christian Hofbauer
  *
  ******************************************************************************/
 package net.bioclipse.ui.business;
@@ -530,16 +531,40 @@ public class UIManager implements IBioclipseManager {
         return name;
     }
     
+    /**
+     * Returns an array of all files in the specified project or project folder
+     * 
+     * @param folder
+     * @return array of the paths of the files in that folder
+     * @throws CoreException
+     * @throws BioclipseException
+     */
     public String[] getFiles(String folder)
     	       throws CoreException, BioclipseException {
     	return listFilesInFolder(folder, false);
     }
     
+    /**
+     * Returns an array of all subfolders in the specified project or project folder
+     * 
+     * @param folder
+     * @return array of the paths of the subfolders in that folder
+     * @throws CoreException
+     * @throws BioclipseException
+     */
     public String[] getSubFolders(String folder)
  	       throws CoreException, BioclipseException {
  	return listFilesInFolder(folder, true);
    }
  
+    /**
+     * Working method for getFile and getSubFolder
+     * 
+     * @param parent
+     * @param folders
+     * @return the list of components in the folder
+     * @throws CoreException
+     */
     private String[] listFilesInFolder(String parent, boolean folders) 
     		   throws CoreException {
     	IWorkspaceRoot root = getWorkspaceRoot();
@@ -563,7 +588,55 @@ public class UIManager implements IBioclipseManager {
     	
     	return files.toArray(new String[0]);
     }
+    
+    /**
+     * Builds a path from the provided components
+     * 
+     * The first component should always be the project followed by a sequence 
+     * of folders and subfolders.
+     * 
+     * @param components
+     * @return
+     * @throws BioclipseException
+     */
+    public String buildPath(String[] components) throws BioclipseException {
+    	return buildPath("/", components);
+    }
+    
+    /**
+     * Creates a path starting from an existing root path and 
+     * extended by one additional component.
+     * @param root
+     * @param component
+     * @return
+     * @throws BioclipseException
+     */
+    public String buildPath(String root, String component) throws BioclipseException {
+    	String[] components = new String[1];
+    	components[0] = component;
+    	return buildPath(root, components);
+    }    
 
+    /**
+     * Builds a path from the provided components based on a root path
+     * 
+     * The first component should always be the project followed by a sequence 
+     * of folders and subfolders.
+     * 
+     * @param root the root path
+     * @param components the compoenents of the path extension
+     * @return
+     * @throws BioclipseException
+     */
+    public String buildPath(String root, String[] components) throws BioclipseException {
+    	IPath path = new Path((root != "") && (root != null) ? root : "/");
+    	for(int i=0;i<components.length; ++i) {
+    		path = path.append(components[i]);
+    	}
+    	
+    	return path.toOSString();
+    }
+    
     public IProject getProject(String name) throws CoreException, BioclipseException {
     	IProject project = accessProject(name);
     	if (project.exists())

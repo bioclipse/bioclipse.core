@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Jonathan Alvarsson
+ *     Christian Hofbauer
  *
  ******************************************************************************/
 package net.bioclipse.ui.business;
@@ -234,5 +235,30 @@ public interface IUIManager extends IBioclipseManager {
     )
     public String[] getSubFolders(String folder)
        throws CoreException, BioclipseException;
+    
+    @Recorded
+    @PublishedMethod(
+       params="String[] components",
+       methodSummary="Creates a path based on the components in the array. "
+       		+ "The first component indicates the project, the next one the folder "
+       		+ "followed by a set of subsequent subfolders.")
+    public String buildPath(String[] components)
+       throws BioclipseException;
 
+    @Recorded
+    @PublishedMethod(
+       params="String root, String component",
+       methodSummary="Creates a path starting from an existing root path and "
+       		+ "extended by one additional component.")
+    public String buildPath(String root, String component)
+       throws BioclipseException;
+
+    @Recorded
+    @PublishedMethod(
+       params="String root, String[] components",
+       methodSummary="Creates a path starting from an existing root path and "
+       		+ "extended by the components in the array. "
+       		+ "This form of the method can be used to extend an existing path")
+    public String buildPath(String root, String[] components)
+       throws BioclipseException;
 }
