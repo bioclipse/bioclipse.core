@@ -239,41 +239,79 @@ public class UIManager implements IBioclipseManager {
     }
 
     public void save( IFile target,
-                      InputStream toWrite,
-                      IProgressMonitor monitor ) {
-       save ( target, toWrite, null, monitor);
+    		InputStream toWrite,
+    		IProgressMonitor monitor ) {
+    	save ( target, toWrite, null, monitor);
     }
 
     public void save( IFile target,
-            String toWrite,
-            IProgressMonitor monitor ) {
+    		String toWrite,
+    		IProgressMonitor monitor ) {
     	save ( target, new ByteArrayInputStream(toWrite.getBytes()), null, monitor);
     }
 
     public void save( final IFile target,
-                      InputStream toWrite,
-                      Runnable callbackFunction,
-                      IProgressMonitor monitor ) {
-        if (monitor == null) monitor = new NullProgressMonitor();
-        try {
-            int ticks = 10000;
-            monitor.beginTask("Writing file", ticks);
-            if (target.exists()) {
-                target.setContents(toWrite, false, true, monitor);
-            } else {
-                target.create(toWrite, false, monitor);
-            }
-            monitor.worked(ticks);
-        } catch (Exception exception) {
-            throw new RuntimeException(
-                          "Error while saving to IFile", exception
-            );
-        } finally {
-            monitor.done();
-        }
-        if (callbackFunction != null) {
-            Display.getDefault().asyncExec(callbackFunction);
-        }
+    		InputStream toWrite,
+    		Runnable callbackFunction,
+    		IProgressMonitor monitor ) {
+    	if (monitor == null) monitor = new NullProgressMonitor();
+    	try {
+    		int ticks = 10000;
+    		monitor.beginTask("Writing file", ticks);
+    		if (target.exists()) {
+    			target.setContents(toWrite, false, true, monitor);
+    		} else {
+    			target.create(toWrite, false, monitor);
+    		}
+    		monitor.worked(ticks);
+    	} catch (Exception exception) {
+    		throw new RuntimeException(
+    				"Error while saving to IFile", exception
+    				);
+    	} finally {
+    		monitor.done();
+    	}
+    	if (callbackFunction != null) {
+    		Display.getDefault().asyncExec(callbackFunction);
+    	}
+    }
+
+    public void append( IFile target,
+    		InputStream toWrite,
+    		IProgressMonitor monitor ) {
+    	append ( target, toWrite, null, monitor);
+    }
+
+    public void append( IFile target,
+    		String toWrite,
+    		IProgressMonitor monitor ) {
+    	append ( target, new ByteArrayInputStream(toWrite.getBytes()), null, monitor);
+    }
+
+    public void append( final IFile target,
+    		InputStream toWrite,
+    		Runnable callbackFunction,
+    		IProgressMonitor monitor ) {
+    	if (monitor == null) monitor = new NullProgressMonitor();
+    	try {
+    		int ticks = 10000;
+    		monitor.beginTask("Appending to file", ticks);
+    		if (target.exists()) {
+    			target.appendContents(toWrite, false, true, monitor);
+    		} else {
+    			target.create(toWrite, false, monitor);
+    		}
+    		monitor.worked(ticks);
+    	} catch (Exception exception) {
+    		throw new RuntimeException(
+    				"Error while appending to IFile", exception
+    				);
+    	} finally {
+    		monitor.done();
+    	}
+    	if (callbackFunction != null) {
+    		Display.getDefault().asyncExec(callbackFunction);
+    	}
     }
 
     public boolean fileExists(IFile file) {
