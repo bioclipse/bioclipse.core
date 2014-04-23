@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Install
 Bundle-SymbolicName: net.bioclipse.ui.install;singleton:=true
-Bundle-Version: 2.6.1.qualifier
+Bundle-Version: 2.6.2.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.equinox.p2.discovery,
  org.eclipse.equinox.p2.discovery.compatibility,
