@@ -58,6 +58,11 @@ public class GistManager implements IBioclipseManager {
 
     public void download(int gist, IReturner<IFile> returner, IProgressMonitor monitor)
                   throws BioclipseException {
+    	download(Integer.toString(gist), returner, monitor);
+    }
+
+    public void download(String gist, IReturner<IFile> returner, IProgressMonitor monitor)
+                  throws BioclipseException {
 
         if (monitor == null) {
             monitor = new NullProgressMonitor();
