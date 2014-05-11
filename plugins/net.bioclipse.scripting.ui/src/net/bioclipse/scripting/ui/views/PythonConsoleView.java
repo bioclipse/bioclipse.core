@@ -682,14 +682,9 @@ public class PythonConsoleView extends ScriptingConsoleView {
 
       pythonThread.enqueue(
           new ScriptAction(
-                "zzz1 = [];" +  
-                (object.equals("this") 
-                    ? "zzz1 = binding.variables.collect{it.key}; "
-                    : "") + 
-          		"zzz1.addAll(" + object +".metaClass.methods.name.unique()); "+
-          		"zzz1.unique()",
+                "dir()",
                         new Hook() {
-                            public void run(Object o) {
+                            public void run(Object o) { // returns a org.python.core.PyList
                                 synchronized (variables) {
                                     if (o instanceof Exception) {
                                         // it's probably the tab-completed
