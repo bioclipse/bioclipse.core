@@ -41,4 +41,13 @@ public interface IGistManager extends IBioclipseManager {
     )
     public List<IFile> download(int gist);
     public BioclipseJob<IFile> download( int gist, BioclipseJobUpdateHook<List<IFile>> hook );
+
+    @Recorded
+    @PublishedMethod(
+        params = "String gist",
+        methodSummary = "Downloads the Gist with the given identifier to the " +
+                        "project 'Gists/' and returns the path"
+    )
+    public List<IFile> download(String gist);
+    public BioclipseJob<IFile> download( String gist, BioclipseJobUpdateHook<List<IFile>> hook );
 }
