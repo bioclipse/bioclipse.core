@@ -31,6 +31,7 @@ import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
@@ -120,9 +121,11 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         //TODO Perhaps allow Bioclpse to be started without the Navigator 
         // (Right now Bioclipse refuses to start if the Navigator 
         //  view has been closed)
-        IWorkbenchPage activePage = PlatformUI.getWorkbench()
-        		.getActiveWorkbenchWindow()
-        		.getActivePage();
+        IWorkbenchWindow activeWindow = PlatformUI.getWorkbench()
+                        .getActiveWorkbenchWindow();
+        if ( activeWindow == null )
+            return;
+        		IWorkbenchPage activePage = activeWindow.getActivePage();
 		try {
 			final String BIOCLIPSE_NAVIGATOR = "net.bioclipse.navigator";
         	boolean foundNavigator = false;
