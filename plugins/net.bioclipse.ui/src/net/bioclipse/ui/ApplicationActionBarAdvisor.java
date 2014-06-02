@@ -20,6 +20,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
@@ -32,8 +33,10 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.internal.WorkbenchPlugin;
+import org.eclipse.ui.internal.provisional.application.IActionBarConfigurer2;
 import org.eclipse.ui.internal.registry.ActionSetRegistry;
 import org.eclipse.ui.internal.registry.IActionSetDescriptor;
+import org.eclipse.ui.menus.IMenuService;
 
 /**
  * The action bar advisor is responsible for creating, adding, and disposing of
@@ -43,6 +46,8 @@ import org.eclipse.ui.internal.registry.IActionSetDescriptor;
  */
 @SuppressWarnings("restriction")
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
+
+    private final IWorkbenchWindow window;
 
     /* Actions - important to allocate these only in makeActions, and then use
      * them in the fill methods. This ensures that the actions aren't recreated
@@ -100,10 +105,12 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     //TODO: Why is this an IContributionItem?
     private IContributionItem showViewItem;
     private IContributionItem showPerspectivesItem;
+    private MenuManager coolbarPopupMenuManager;
 
 
     public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
         super(configurer);
+        window = configurer.getWindowConfigurer().getWindow();
         removeUnwantedActions();
     }
 
@@ -313,7 +320,15 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
     protected void fillCoolBar(ICoolBarManager coolBar) {
 
-        ToolBarManager manager = new ToolBarManager(SWT.FLAT | SWT.WRAP);
+        IActionBarConfigurer2 actionBarConfigurer = (IActionBarConfigurer2) getActionBarConfigurer();
+        { // Set up the context Menu
+            coolbarPopupMenuManager = new MenuManager();
+            coolBar.setContextMenuManager(coolbarPopupMenuManager);
+            IMenuService menuService = (IMenuService) window.getService(IMenuService.class);
+            menuService.populateContributionManager(coolbarPopupMenuManager, "popup:windowCoolbarContextMenu"); //$NON-NLS-1$
+        }
+        
+        IToolBarManager manager = actionBarConfigurer.createToolBarManager();
         manager.add(newAction);
         manager.add(saveAction);
         manager.add(printAction);
@@ -324,8 +339,11 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         manager.add(undoAction);
         manager.add(redoAction);
 
-        coolBar.add(manager);
+        coolBar.add( actionBarConfigurer
+                        .createToolBarContributionItem( manager,
+                          IWorkbenchActionConstants.TOOLBAR_FILE ) );
 
+        coolBar.add( new GroupMarker( IWorkbenchActionConstants.MB_ADDITIONS ) );
         manager.add(new Separator());
 
         manager.add(helpSearchAction);

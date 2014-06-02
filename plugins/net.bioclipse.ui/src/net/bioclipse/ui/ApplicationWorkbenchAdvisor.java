@@ -31,12 +31,14 @@ import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPreferenceConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
+import org.eclipse.ui.internal.util.PrefUtil;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.osgi.service.prefs.Preferences;
@@ -123,33 +125,10 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         //  view has been closed)
         IWorkbenchWindow activeWindow = PlatformUI.getWorkbench()
                         .getActiveWorkbenchWindow();
-        if ( activeWindow == null )
-            return;
-        		IWorkbenchPage activePage = activeWindow.getActivePage();
-		try {
-			final String BIOCLIPSE_NAVIGATOR = "net.bioclipse.navigator";
-        	boolean foundNavigator = false;
-            IViewReference[] parts = activePage.getViewReferences();
-            for(IViewReference part : parts ) {
-            	if(part.getId().equals( BIOCLIPSE_NAVIGATOR ) ) {
-            		foundNavigator = true;
-            		break;
-            	}
-            }
-            if(!foundNavigator) {
-            	PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-            	    .getActivePage().showView(BIOCLIPSE_NAVIGATOR);
-            }
-            
+        if ( activeWindow != null ) {
+            IWorkbenchPage activePage = activeWindow.getActivePage();
+            showBioclipseNavigator( activePage );
         }
-        catch ( PartInitException e1 ) {
-            LogUtils.handleException( e1, logger, "net.bioclipse.ui" );
-        }
-        
-        CommonNavigator nav = (CommonNavigator) activePage
-                                     .findView( "net.bioclipse.navigator" );
-
-        nav.getCommonViewer().setInput( getDefaultPageInput() );
 
         //Read update prefs from store
         IPreferenceStore prefsStore=Activator.getDefault().getPreferenceStore();
@@ -192,6 +171,34 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         			"\nPlease drag the Bioclipse app into your Application folder " +
         			"or another place in your filesystem.");
         }
+    }
+
+    protected void showBioclipseNavigator( IWorkbenchPage activePage ) {
+
+        try {
+			final String BIOCLIPSE_NAVIGATOR = "net.bioclipse.navigator";
+        	boolean foundNavigator = false;
+            IViewReference[] parts = activePage.getViewReferences();
+            for(IViewReference part : parts ) {
+            	if(part.getId().equals( BIOCLIPSE_NAVIGATOR ) ) {
+            		foundNavigator = true;
+            		break;
+            	}
+            }
+            if(!foundNavigator) {
+            	PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+            	    .getActivePage().showView(BIOCLIPSE_NAVIGATOR);
+            }
+            
+        }
+        catch ( PartInitException e1 ) {
+            LogUtils.handleException( e1, logger, "net.bioclipse.ui" );
+        }
+
+        CommonNavigator nav = (CommonNavigator) activePage
+                        .findView( "net.bioclipse.navigator" );
+
+        nav.getCommonViewer().setInput( getDefaultPageInput() );
     }
 
     private boolean isRunFromDMG() {

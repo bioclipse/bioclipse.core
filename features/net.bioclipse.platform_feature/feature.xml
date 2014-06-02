@@ -71,13 +71,6 @@ is available at http://www.eclipse.org/legal/epl-v10.html
          unpack="false"/>
 
    <plugin
-         id="slf4j.api"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.springframework.bundle.osgi.extender"
          download-size="0"
          install-size="0"
@@ -834,5 +827,32 @@ is available at http://www.eclipse.org/legal/epl-v10.html
          install-size="0"
          version="0.0.0"
          fragment="true"/>
+
+   <plugin
+         id="org.eclipse.e4.ui.workbench.addons.swt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.event"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.util"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.platform"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
 
 </feature>
