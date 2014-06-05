@@ -76,7 +76,6 @@ The Eclipse Public License accompanies this distribution, and is available at ht
       <import plugin="org.eclipse.equinox.p2.installer"/>
       <import plugin="org.eclipse.equinox.p2.metadata"/>
       <import plugin="org.eclipse.equinox.p2.operations"/>
-      <import plugin="groovy"/>
    </requires>
 
    <plugin
