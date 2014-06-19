@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.script.ScriptEngine;
+import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
@@ -49,6 +50,15 @@ public class JsEnvironment implements ScriptingEnvironment {
         ScriptEngineManager mgr
             = new ScriptEngineManager(JsEnvironment.class.getClassLoader());
         engine = mgr.getEngineByName("JavaScript");
+        if ( engine == null ) {
+            StringBuilder builder = new StringBuilder();
+            for ( ScriptEngineFactory sef : mgr.getEngineFactories() ) {
+                builder.append( sef.getLanguageName() ).append( ", " );
+            }
+            builder.delete( builder.length() - 2, builder.length() - 1 );
+            logger.error( "Faild to find \"JavaScript\" scripting engine. Available engins are " + builder
+                                          .toString() );
+        }
 
         managers = new HashMap<String, IBioclipseManager>();
 
