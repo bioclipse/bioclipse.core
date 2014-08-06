@@ -46,6 +46,10 @@ is available at http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.ecore"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.equinox.p2.core.feature"
+         version="0.0.0"/>
+
    <requires>
       <import feature="net.bioclipse.core_feature" version="2.6.0" match="equivalent"/>
    </requires>
@@ -240,47 +244,6 @@ is available at http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="org.apache.xml.serializer"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.junit"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.hamcrest"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.hamcrest.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.hamcrest.library"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.hamcrest.integration"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.hamcrest.text"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -817,13 +780,6 @@ is available at http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="org.eclipse.core.runtime.compatibility"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.core.runtime.compatibility.auth"
          download-size="0"
          install-size="0"
          version="0.0.0"
