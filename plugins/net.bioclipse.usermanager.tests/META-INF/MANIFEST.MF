@@ -20,3 +20,4 @@ Export-Package: net.bioclipse.usermanager,
 Import-Package: org.junit,
  org.junit.runner,
  org.junit.runners
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
