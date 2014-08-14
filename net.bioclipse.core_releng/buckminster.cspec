@@ -2,7 +2,6 @@
 <cspec xmlns="http://www.eclipse.org/buckminster/CSpec-1.0" name="net.bioclipse.core_releng" componentType="buckminster" version="2.6.1">
     <dependencies>
         <dependency name="net.bioclipse.core_site" componentType="eclipse.feature" versionDesignator="1.0.0"/>
-        <dependency name="org.eclipse.ecf.core" componentType="eclipse.feature" versionDesignator="0.0.0"/>
     </dependencies>
     <actions>
       <public name="site.mirror.p2" actor="p2SiteMirror">

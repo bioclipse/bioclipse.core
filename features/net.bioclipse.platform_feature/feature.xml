@@ -51,7 +51,7 @@ is available at http://www.eclipse.org/legal/epl-v10.html
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.ecf.core"
+         id="org.eclipse.ecf.core.feature"
          version="0.0.0"/>
 
    <requires>
