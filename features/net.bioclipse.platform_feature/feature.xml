@@ -54,6 +54,10 @@ is available at http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.ecf.core.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.ecf.filetransfer.feature"
+         version="0.0.0"/>
+
    <requires>
       <import feature="net.bioclipse.core_feature" version="2.6.0" match="equivalent"/>
    </requires>
