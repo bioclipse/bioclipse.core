@@ -32,6 +32,10 @@
          id="net.bioclipse.core.tests_feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.ecf.core"
+         version="0.0.0"/>
+
    <plugin
          id="net.bioclipse.jasper"
          download-size="0"
