@@ -1,26 +1,246 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Bioclipse e4.3" sequenceNumber="52">
+<?pde version="3.8"?><target name="Bioclipse( eclispe 4.4)" sequenceNumber="77">
 <locations>
-<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="javax.xml.soap" version="1.3.0.v201105210645"/>
-<unit id="org.apache.commons.io" version="2.0.1.v201105210651"/>
-<unit id="org.apache.poi" version="3.9.0.v201303080712"/>
-<unit id="org.apache.commons.httpclient" version="3.1.0.v201012070820"/>
-<unit id="org.apache.commons.httpclient.source" version="3.1.0.v201012070820"/>
-<unit id="org.apache.poi.source" version="3.9.0.v201303080712"/>
-<unit id="org.apache.axis" version="1.4.0.v201005080400"/>
-<unit id="javax.xml.rpc" version="1.1.0.v201209140446"/>
-<unit id="org.apache.commons.io.source" version="2.0.1.v201105210651"/>
-<unit id="org.apache.ws.commons.schema" version="1.4.2.v201003051240"/>
-<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository/"/>
-</location>
 <location path="${project_loc:/net.bioclipse.target.platform}/spring-osgi-1.0.2/lib" type="Directory"/>
+<location path="${project_loc:/net.bioclipse.target.platform}/spring-osgi-1.0.2/dist" type="Directory"/>
+<location path="${project_loc:/net.bioclipse.target.platform}/libs" type="Directory"/>
+<location path="${project_loc:/net.bioclipse.target.platform}/logging" type="Directory"/>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.wst.web_ui.feature.feature.group" version="3.5.2.v201401062113-7O7QG3wEMkBS3Graz0gRCYqCz-PVayJqBmOpb93L"/>
-<unit id="org.eclipse.emf.compare.source.feature.group" version="2.1.3.201402040808"/>
-<unit id="org.eclipse.emf.sdk.feature.group" version="2.9.2.v20140203-1126"/>
-<unit id="org.eclipse.zest.sdk.feature.group" version="1.5.1.201308190730"/>
-<repository location="http://download.eclipse.org/releases/kepler"/>
+<unit id="org.apache.commons.compress" version="1.6.0.v201310281400"/>
+<unit id="org.apache.httpcomponents.httpcore.nio.source" version="4.1.0.v201101201700"/>
+<unit id="org.apache.tika.parsers.source" version="1.3.0.v201304162128"/>
+<unit id="org.apache.lucene.spellchecker.source" version="3.5.0.v20120725-1805"/>
+<unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>
+<unit id="org.apache.commons.fileupload" version="1.2.2.v20111214-1400"/>
+<unit id="org.apache.commons.collections" version="3.2.0.v2013030210310"/>
+<unit id="org.apache.commons.io" version="2.2.0.v201405211200"/>
+<unit id="org.apache.batik.xml" version="1.7.0.v201011041433"/>
+<unit id="org.apache.jasper" version="7.0.47.v201312060745"/>
+<unit id="org.apache.geronimo.specs.osgi.registry.source" version="1.1.0.v201205170710"/>
+<unit id="org.apache.xbean.finder.source" version="3.12.0.v201304201405"/>
+<unit id="org.apache.cassandra.source" version="0.7.0.v20110412-1025"/>
+<unit id="org.apache.batik.xml.source" version="1.7.0.v201011041433"/>
+<unit id="org.apache.openejb.jee" version="4.0.0.beta-2_v201205041336"/>
+<unit id="org.apache.tomcat.websocket" version="7.0.47.v201312060745"/>
+<unit id="org.apache.hadoop.zookeeper.tests" version="3.4.2.v20130207-1855"/>
+<unit id="org.apache.geronimo.components.transaction" version="3.1.1.v201205170710"/>
+<unit id="org.apache.felix.gogo.shell.source" version="0.10.0.v201212101605"/>
+<unit id="org.apache.batik.ext.awt" version="1.7.0.v201011041433"/>
+<unit id="org.apache.openwebbeans.ejb.source" version="1.1.7.v201304200545"/>
+<unit id="org.apache.bsf.source" version="2.4.0.v201103030230"/>
+<unit id="org.apache.el" version="7.0.47.v201312021000"/>
+<unit id="org.apache.xmlgraphics" version="1.4.0.v201301251218"/>
+<unit id="org.apache.xml.security" version="1.4.2.v201005080400"/>
+<unit id="org.apache.ant.source" version="1.9.2.v201404171502"/>
+<unit id="javax.websocket.source" version="1.0.0.v20140310-1603"/>
+<unit id="org.apache.batik.parser.source" version="1.7.0.v201011041433"/>
+<unit id="org.apache.commons.cli.source" version="1.2.0.v201404270220"/>
+<unit id="org.apache.poi.ooxml.schemas.source" version="3.9.0.v201405241750"/>
+<unit id="org.apache.sshd.core.source" version="0.7.0.v201303101611"/>
+<unit id="org.apache.batik.svggen" version="1.7.0.v201011041433"/>
+<unit id="org.apache.commons.net.source" version="3.2.0.v201305141515"/>
+<unit id="org.apache.batik.transcoder.source" version="1.7.0.v201011041433"/>
+<unit id="org.apache.solr.client.solrj.source" version="3.5.0.v20120530-0900"/>
+<unit id="org.apache.xbean.bundleutils" version="3.12.0.v201304200545"/>
+<unit id="org.apache.commons.el" version="1.0.0.v201305101705"/>
+<unit id="org.apache.catalina.ha.source" version="7.0.47.v201312060745"/>
+<unit id="org.apache.lucene.grouping.source" version="3.5.0.v20120725-1805"/>
+<unit id="javax.activation.source" version="1.1.0.v201211130549"/>
+<unit id="org.apache.batik.bridge.source" version="1.7.0.v201011041433"/>
+<unit id="org.apache.lucene.memory.source" version="3.5.0.v20120725-1805"/>
+<unit id="org.apache.lucene.spatial.source" version="3.5.0.v20120725-1805"/>
+<unit id="org.apache.commons.httpclient.source" version="3.1.0.v201012070820"/>
+<unit id="org.apache.poi.source" version="3.9.0.v201405241750"/>
+<unit id="org.apache.commons.beanutils.source" version="1.8.0.v201205091237"/>
+<unit id="org.apache.openejb.javaagent.source" version="4.0.0.beta-2_v201205041047"/>
+<unit id="org.apache.openwebbeans.ejb" version="1.1.7.v201304200545"/>
+<unit id="org.apache.solr.common" version="1.4.0.v20100421-0704"/>
+<unit id="org.apache.xbean.naming.source" version="3.12.0.v201304201405"/>
+<unit id="org.apache.xml.serializer" version="2.7.1.v201005080400"/>
+<unit id="org.apache.openejb.jee.source" version="4.0.0.beta-2_v201205041336"/>
+<unit id="org.apache.tomcat.util" version="7.0.47.v201312060745"/>
+<unit id="org.apache.oro.source" version="2.0.8.v201005080400"/>
+<unit id="org.apache.openwebbeans.jsf" version="1.1.7.v201304201405"/>
+<unit id="org.apache.openejb.api.source" version="4.0.0.beta-2_v201205041047"/>
+<unit id="org.apache.poi.ooxml.source" version="3.9.0.v201405241905"/>
+<unit id="org.apache.commons.daemon" version="1.0.5.v20121125-0905"/>
+<unit id="org.apache.mina.core" version="2.0.7.v201401071602"/>
+<unit id="org.apache.httpcomponents.httpcore.source" version="4.2.5.v201311072007"/>
+<unit id="org.apache.commons.math.source" version="2.1.0.v201105210652"/>
+<unit id="org.apache.lucene.misc.source" version="3.5.0.v20120725-1805"/>
+<unit id="org.apache.lucene.spellchecker" version="3.5.0.v20120725-1805"/>
+<unit id="org.apache.bcel.source" version="5.2.0.v201005080400"/>
+<unit id="org.apache.juli.extras" version="7.0.47.v201312021000"/>
+<unit id="org.apache.xbean.asm" version="3.12.0.v201304200545"/>
+<unit id="org.apache.openejb.loader.source" version="4.0.0.beta-2_v201304191030"/>
+<unit id="org.apache.openwebbeans.spi.source" version="1.1.7.v201304201405"/>
+<unit id="org.apache.commons.beanutils" version="1.8.0.v201205091237"/>
+<unit id="org.apache.commons.pool.source" version="1.6.0.v201204271246"/>
+<unit id="org.apache.commons.codec.source" version="1.6.0.v201305230611"/>
+<unit id="org.apache.catalina" version="7.0.47.v201312051530"/>
+<unit id="org.apache.catalina.ha" version="7.0.47.v201312060745"/>
+<unit id="org.apache.lucene.core.source" version="3.5.0.v20120725-1805"/>
+<unit id="org.apache.commons.jxpath.source" version="1.3.0.v200911051830"/>
+<unit id="org.apache.batik.pdf" version="1.6.0.v201105071520"/>
+<unit id="org.apache.openwebbeans.ee.source" version="1.1.7.v201304200545"/>
+<unit id="org.apache.bsf" version="2.4.0.v201103030230"/>
+<unit id="org.apache.lucene" version="3.5.0.v20120725-1805"/>
+<unit id="org.apache.thrift.source" version="0.5.0.v20110412-1025"/>
+<unit id="org.apache.commons.daemon.source" version="1.0.5.v20121125-0905"/>
+<unit id="org.apache.commons.compress.source" version="1.6.0.v201310281400"/>
+<unit id="org.apache.ws.jaxme" version="0.5.1.v20100427-1100"/>
+<unit id="org.apache.batik.css" version="1.7.0.v201011041433"/>
+<unit id="org.apache.coyote" version="7.0.47.v201312060745"/>
+<unit id="org.apache.httpcomponents.httpcore" version="4.2.5.v201311072007"/>
+<unit id="org.apache.openwebbeans.tomcat7" version="1.1.7.v201304201405"/>
+<unit id="org.apache.thrift" version="0.5.0.v20110412-1025"/>
+<unit id="org.apache.lucene.memory" version="3.5.0.v20120725-1805"/>
+<unit id="org.apache.batik.swing" version="1.7.0.v201302011158"/>
+<unit id="org.apache.log4j.source" version="1.2.15.v201012070815"/>
+<unit id="org.apache.commons.io.source" version="2.2.0.v201405211200"/>
+<unit id="org.apache.batik.util" version="1.7.0.v201011041433"/>
+<unit id="org.apache.openwebbeans.spi" version="1.1.7.v201304201405"/>
+<unit id="org.apache.neethi" version="2.0.4.1"/>
+<unit id="org.apache.geronimo.specs.j2ee.management" version="1.0.0.v201205091237"/>
+<unit id="org.apache.commons.lang" version="2.6.0.v201404270220"/>
+<unit id="org.apache.commons.jxpath" version="1.3.0.v200911051830"/>
+<unit id="org.apache.lucene.snowball.source" version="2.9.1.v20100421-0704"/>
+<unit id="org.apache.el.source" version="7.0.47.v201312021000"/>
+<unit id="org.apache.geronimo.specs.osgi.locator.source" version="1.1.0.v201205170953"/>
+<unit id="org.apache.axis" version="1.4.0.v201005080400"/>
+<unit id="org.apache.lucene.highlighter" version="3.5.0.v20121015-1317"/>
+<unit id="org.apache.xbean.reflect.source" version="3.12.0.v201304201405"/>
+<unit id="org.apache.hadoop.zookeeper.tests.source" version="3.4.2.v20130207-1855"/>
+<unit id="org.apache.batik.dom.svg" version="1.7.0.v201011041433"/>
+<unit id="org.apache.lucene.spatial" version="3.5.0.v20120725-1805"/>
+<unit id="org.apache.batik.dom.svg.source" version="1.7.0.v201011041433"/>
+<unit id="org.apache.batik.util.source" version="1.7.0.v201011041433"/>
+<unit id="org.apache.batik.dom.source" version="1.7.0.v201011041433"/>
+<unit id="org.apache.bcel" version="5.2.0.v201005080400"/>
+<unit id="org.apache.lucene.misc" version="3.5.0.v20120725-1805"/>
+<unit id="org.apache.tomcat.websocket.source" version="7.0.47.v201312060745"/>
+<unit id="org.apache.felix.gogo.shell" version="0.10.0.v201212101605"/>
+<unit id="org.apache.solr.servlet" version="1.4.0.v20100421-0704"/>
+<unit id="org.apache.xerces" version="2.9.0.v201101211617"/>
+<unit id="org.apache.commons.cli" version="1.2.0.v201404270220"/>
+<unit id="org.apache.coyote.source" version="7.0.47.v201312060745"/>
+<unit id="org.apache.mina.filter.compression" version="2.0.7.v201401141305"/>
+<unit id="org.apache.ws.commons.schema" version="1.4.2.v201003051240"/>
+<unit id="org.apache.openejb.loader" version="4.0.0.beta-2_v201304191030"/>
+<unit id="org.apache.lucene.source" version="3.5.0.v20120725-1805"/>
+<unit id="org.apache.solr.core.source" version="3.5.0.v20120530-0900"/>
+<unit id="org.apache.commons.fileupload.source" version="1.2.2.v20111214-1400"/>
+<unit id="org.apache.lucene.analysis" version="3.5.0.v20120725-1805"/>
+<unit id="org.apache.batik.bridge" version="1.7.0.v201011041433"/>
+<unit id="org.apache.openwebbeans.ee.common.source" version="1.1.7.v201304201405"/>
+<unit id="org.apache.batik.dom" version="1.7.0.v201011041433"/>
+<unit id="org.apache.felix.gogo.runtime.source" version="0.10.0.v201209301036"/>
+<unit id="org.apache.batik.extension" version="1.7.0.v201011041433"/>
+<unit id="org.apache.commons.pool" version="1.6.0.v201204271246"/>
+<unit id="org.apache.httpcomponents.httpclient.source" version="4.2.6.v201311072007"/>
+<unit id="org.apache.commons.net" version="3.2.0.v201305141515"/>
+<unit id="org.apache.poi.ooxml" version="3.9.0.v201405241905"/>
+<unit id="org.apache.commons.el.source" version="1.0.0.v201305101705"/>
+<unit id="org.apache.geronimo.specs.j2ee.management.source" version="1.0.0.v201205091237"/>
+<unit id="org.apache.solr.client.solrj.embedded" version="1.4.0.v20100421-0704"/>
+<unit id="javax.activation" version="1.1.0.v201211130549"/>
+<unit id="org.apache.openwebbeans.tomcat7.source" version="1.1.7.v201304201405"/>
+<unit id="org.apache.catalina.tribes.source" version="7.0.47.v201312060745"/>
+<unit id="org.apache.mina.core.source" version="2.0.7.v201401071602"/>
+<unit id="org.apache.xbean.bundleutils.source" version="3.12.0.v201304200545"/>
+<unit id="org.apache.felix.gogo.command.source" version="0.10.0.v201209301215"/>
+<unit id="org.apache.openwebbeans.jsf.source" version="1.1.7.v201304201405"/>
+<unit id="org.apache.poi" version="3.9.0.v201405241750"/>
+<unit id="org.apache.velocity" version="1.5.0.v200905192330"/>
+<unit id="org.apache.solr.client.solrj.embedded.source" version="1.4.0.v20100421-0704"/>
+<unit id="org.apache.openwebbeans.web.source" version="1.1.7.v201304201405"/>
+<unit id="org.apache.solr.core" version="3.5.0.v20120530-0900"/>
+<unit id="org.apache.felix.gogo.runtime" version="0.10.0.v201209301036"/>
+<unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
+<unit id="org.apache.xmlrpc" version="3.0.0.v20100427-1100"/>
+<unit id="org.apache.commons.logging" version="1.1.1.v201101211721"/>
+<unit id="org.apache.openwebbeans.ee.common" version="1.1.7.v201304201405"/>
+<unit id="org.apache.tomcat.util.source" version="7.0.47.v201312060745"/>
+<unit id="org.apache.commons.collections.source" version="3.2.0.v2013030210310"/>
+<unit id="org.apache.juli.extras.source" version="7.0.47.v201312021000"/>
+<unit id="org.apache.ant" version="1.9.2.v201404171502"/>
+<unit id="org.apache.batik.css.source" version="1.7.0.v201011041433"/>
+<unit id="org.apache.mina.filter.compression.source" version="2.0.7.v201401141305"/>
+<unit id="org.apache.commons.httpclient" version="3.1.0.v201012070820"/>
+<unit id="org.apache.tika.core" version="1.3.0.v201304160510"/>
+<unit id="org.apache.commons.lang3.source" version="3.1.0.v201403281430"/>
+<unit id="org.apache.batik.extension.source" version="1.7.0.v201011041433"/>
+<unit id="org.apache.openwebbeans.impl" version="1.1.7.v201304201405"/>
+<unit id="org.apache.openwebbeans.impl.source" version="1.1.7.v201304201405"/>
+<unit id="org.apache.tomcat.api.source" version="7.0.47.v201312061105"/>
+<unit id="org.apache.openejb.javaagent" version="4.0.0.beta-2_v201205041047"/>
+<unit id="org.apache.geronimo.components.connector.source" version="3.1.1.v201205170953"/>
+<unit id="org.apache.commons.dbcp.source" version="1.4.0.v201204271417"/>
+<unit id="org.apache.batik.util.gui.source" version="1.7.0.v200903091627"/>
+<unit id="org.apache.lucene.analysis.source" version="3.5.0.v20120725-1805"/>
+<unit id="org.apache.openejb.core" version="4.0.0.beta-2_v201205260545"/>
+<unit id="org.apache.geronimo.components.connector" version="3.1.1.v201205170953"/>
+<unit id="org.apache.batik.transcoder" version="1.7.0.v201011041433"/>
+<unit id="org.apache.hadoop.zookeeper" version="3.4.5.v20121214-1350"/>
+<unit id="org.apache.tika.core.source" version="1.3.0.v201304160510"/>
+<unit id="org.apache.poi.ooxml.schemas" version="3.9.0.v201405241750"/>
+<unit id="org.apache.solr.client.solrj" version="3.5.0.v20120530-0900"/>
+<unit id="org.apache.httpcomponents.httpcore.nio" version="4.1.0.v201101201700"/>
+<unit id="org.apache.tomcat.api" version="7.0.47.v201312061105"/>
+<unit id="org.apache.geronimo.specs.osgi.locator" version="1.1.0.v201205170953"/>
+<unit id="org.apache.batik.parser" version="1.7.0.v201011041433"/>
+<unit id="org.apache.commons.dbcp" version="1.4.0.v201204271417"/>
+<unit id="org.apache.batik.ext.awt.source" version="1.7.0.v201011041433"/>
+<unit id="org.apache.commons.math" version="2.1.0.v201105210652"/>
+<unit id="org.apache.batik.svggen.source" version="1.7.0.v201011041433"/>
+<unit id="org.apache.lucene.queries" version="3.5.0.v20120725-1805"/>
+<unit id="org.apache.openejb.api" version="4.0.0.beta-2_v201205041047"/>
+<unit id="org.apache.commons.exec" version="1.1.0.v201301240602"/>
+<unit id="org.apache.lucene.grouping" version="3.5.0.v20120725-1805"/>
+<unit id="org.apache.bval" version="0.3.0.v201205161050"/>
+<unit id="org.apache.xbean.naming" version="3.12.0.v201304201405"/>
+<unit id="org.apache.openwebbeans.ee" version="1.1.7.v201304200545"/>
+<unit id="org.apache.jasper.source" version="7.0.47.v201312060745"/>
+<unit id="org.apache.solr.common.source" version="1.4.0.v20100421-0704"/>
+<unit id="org.apache.batik.swing.source" version="1.7.0.v201302011158"/>
+<unit id="org.apache.openejb.core.source" version="4.0.0.beta-2_v201205260545"/>
+<unit id="org.apache.geronimo.specs.osgi.registry" version="1.1.0.v201205170710"/>
+<unit id="org.apache.felix.gogo.command" version="0.10.0.v201209301215"/>
+<unit id="org.apache.commons.lang.source" version="2.6.0.v201404270220"/>
+<unit id="org.apache.bval.source" version="0.3.0.v201205161050"/>
+<unit id="org.apache.batik.util.gui" version="1.7.0.v200903091627"/>
+<unit id="org.apache.xbean.reflect" version="3.12.0.v201304201405"/>
+<unit id="org.apache.lucene.highlighter.source" version="3.5.0.v20121015-1317"/>
+<unit id="org.apache.cassandra" version="0.7.0.v20110412-1025"/>
+<unit id="org.apache.openwebbeans.web" version="1.1.7.v201304201405"/>
+<unit id="org.apache.geronimo.components.transaction.source" version="3.1.1.v201205170710"/>
+<unit id="org.apache.commons.logging.source" version="1.1.1.v201101211721"/>
+<unit id="org.apache.oro" version="2.0.8.v201005080400"/>
+<unit id="org.apache.lucene.queries.source" version="3.5.0.v20120725-1805"/>
+<unit id="org.apache.sshd.core" version="0.7.0.v201303101611"/>
+<unit id="org.apache.commons.exec.source" version="1.1.0.v201301240602"/>
+<unit id="org.apache.httpcomponents.httpclient" version="4.2.6.v201311072007"/>
+<unit id="org.apache.catalina.tribes" version="7.0.47.v201312060745"/>
+<unit id="org.apache.xbean.finder" version="3.12.0.v201304201405"/>
+<unit id="org.apache.xml.resolver" version="1.2.0.v201005080400"/>
+<unit id="org.apache.commons.codec" version="1.6.0.v201305230611"/>
+<unit id="org.apache.hadoop.zookeeper.source" version="3.4.5.v20121214-1350"/>
+<unit id="org.apache.lucene.core" version="3.5.0.v20120725-1805"/>
+<unit id="org.apache.derby" version="10.8.2.2_v201211210650"/>
+<repository location="http://pele.farmbio.uu.se/bioclipse/eclipse/orbit-R20140525021250/"/>
+</location>
+<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.wst.ws_core.feature.feature.group" version="3.6.0.v201405061940-7L7UFy5FGtGd0JoN43kj5s2766"/>
+<unit id="org.eclipse.wst.ws_userdoc.feature.feature.group" version="3.1.400.v201405061940-44FUF9oB58E85BH55BH"/>
+<unit id="org.eclipse.emf.compare.feature.group" version="3.0.0.201406111328"/>
+<unit id="org.eclipse.zest.source.feature.group" version="1.5.100.201405261516"/>
+<unit id="org.eclipse.emf.sdk.feature.group" version="2.10.0.v20140519-0339"/>
+<unit id="org.eclipse.wst.web_core.feature.feature.group" version="3.6.0.v201405062148-7E7NFfkAJz0nDTnf3z-OUDukQcaTH_d-P"/>
+<unit id="org.eclipse.emf.compare.source.feature.group" version="3.0.0.201406111328"/>
+<unit id="org.eclipse.emf.ecore.feature.group" version="2.10.0.v20140514-1158"/>
+<unit id="org.eclipse.zest.feature.group" version="1.5.100.201405261516"/>
+<unit id="org.eclipse.zest.sdk.feature.group" version="1.5.100.201405261516"/>
+<repository location="http://pele.farmbio.uu.se/bioclipse/eclipse/luna"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.openscience.cdk.standard" version="1.5.4.git1_cdk-jchempain-30-145"/>
@@ -161,961 +381,62 @@
 <repository location="http://pele.farmbio.uu.se/bioclipse/cdk"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.platform.sdk" version="4.3.2.M20140221-1700"/>
-<unit id="org.eclipse.equinox.core.sdk.feature.group" version="3.8.0.v20140114-1344"/>
-<unit id="org.eclipse.rcp.feature.group" version="4.3.2.v20140221-1700"/>
-<unit id="org.eclipse.equinox.weaving.sdk.feature.group" version="1.0.200.v20130327-1442"/>
-<unit id="org.eclipse.equinox.compendium.sdk.feature.group" version="3.8.0.v20130813-1853"/>
-<unit id="org.eclipse.rcp.source.feature.group" version="4.3.2.v20140221-1700"/>
-<unit id="org.eclipse.equinox.sdk.feature.group" version="3.9.0.v20140221-1852"/>
-<unit id="org.eclipse.sdk.ide" version="4.3.2.M20140221-1700"/>
-<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.8.1.v20140221-1852"/>
-<unit id="org.eclipse.equinox.executable" version="3.6.0.v20140117-1004"/>
-<repository location="http://download.eclipse.org/eclipse/updates/4.3"/>
+<unit id="org.eclipse.equinox.executable.feature.group" version="3.6.100.v20140603-1326"/>
+<unit id="org.eclipse.equinox.sdk.feature.group" version="3.10.0.v20140606-1602"/>
+<unit id="org.eclipse.sdk.ide" version="4.4.0.I20140606-1215"/>
+<unit id="org.eclipse.rcp.source.feature.group" version="4.4.0.v20140606-1445"/>
+<unit id="org.eclipse.equinox.p2.rcp.feature.feature.group" version="1.2.0.v20140523-0116"/>
+<unit id="org.eclipse.equinox.p2.sdk.feature.group" version="3.9.0.v20140523-0116"/>
+<unit id="org.eclipse.equinox.p2.rcp.feature.source.feature.group" version="1.2.0.v20140523-0116"/>
+<unit id="org.eclipse.equinox.p2.core.feature.source.feature.group" version="1.3.0.v20140523-0116"/>
+<unit id="org.eclipse.equinox.weaving.sdk.feature.group" version="1.1.0.v20140529-1734"/>
+<unit id="org.eclipse.equinox.p2.extras.feature.source.feature.group" version="1.2.0.v20140523-0116"/>
+<unit id="org.eclipse.equinox.p2.discovery.feature.feature.group" version="1.0.200.v20140512-1802"/>
+<unit id="org.eclipse.equinox.compendium.sdk.feature.group" version="3.10.0.v20140416-2102"/>
+<unit id="org.eclipse.rcp.feature.group" version="4.4.0.v20140606-1445"/>
+<unit id="org.eclipse.platform.sdk" version="4.4.0.I20140606-1215"/>
+<repository location="http://pele.farmbio.uu.se/bioclipse/eclipse/4.4"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="nu.psnet.quickimage.feature.group" version="1.0.3.2"/>
-<repository location="http://psnet.nu/eclipse/updates"/>
+<repository location="http://pele.farmbio.uu.se/bioclipse/eclipse/psnet"/>
 </location>
-<location path="${project_loc:/net.bioclipse.target.platform}/spring-osgi-1.0.2/dist" type="Directory"/>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="net.bioclipse.r.walware_feature.feature.group" version="2.1.0.201308021643"/>
 <repository location="http://pele.farmbio.uu.se/bioclipse/2.5/walware"/>
 </location>
-<location path="${project_loc:/net.bioclipse.target.platform}/libs" type="Directory"/>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.junit" version="4.11.0.v201303080030"/>
-<unit id="org.hamcrest" version="1.1.0.v20090501071000"/>
-<unit id="org.hamcrest.core" version="1.3.0.v201303031735"/>
-<unit id="org.hamcrest.library" version="1.1.0.v20090501071000"/>
-<unit id="org.hamcrest.integration" version="1.1.0.v201303031500"/>
-<unit id="org.apache.xerces" version="2.9.0.v201101211617"/>
-<unit id="org.hamcrest.library.source" version="1.1.0.v20090501071000"/>
-<unit id="javax.mail" version="1.4.0.v201005080615"/>
-<unit id="org.hamcrest.text.source" version="1.1.0.v20090501071000"/>
-<unit id="org.hamcrest.generator.source" version="1.1.0.v20090501071000"/>
 <unit id="org.junit.source" version="4.11.0.v201303080030"/>
-<unit id="org.hamcrest.text" version="1.1.0.v20090501071000"/>
-<unit id="org.hamcrest.generator" version="1.1.0.v20090501071000"/>
-<unit id="org.hamcrest.integration.source" version="1.1.0.v201303031500"/>
-<unit id="org.hamcrest.core.source" version="1.3.0.v201303031735"/>
-<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository/"/>
+<unit id="org.junit" version="4.11.0.v201303080030"/>
+<repository location="http://pele.farmbio.uu.se/bioclipse/eclipse/orbit-R20140525021250/"/>
 </location>
-<location path="${project_loc:/net.bioclipse.target.platform}/logging" type="Directory"/>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.e4.core.tools.feature.source.feature.group" version="0.14.0.v20140112-2002"/>
-<unit id="org.eclipse.e4.tools.event.spy.feature.feature.group" version="0.15.0.v20131124-2209"/>
-<unit id="org.eclipse.e4.core.tools.feature.feature.group" version="0.14.0.v20140112-2002"/>
-<unit id="org.eclipse.e4.tools.css.spy.feature.feature.group" version="0.14.0.v20130814-1230"/>
-<unit id="org.eclipse.e4.tools.e3x.bridge.feature.source.feature.group" version="0.14.0.v20131111-1508"/>
-<unit id="org.eclipse.e4.tools.event.spy.feature.source.feature.group" version="0.15.0.v20131124-2209"/>
-<unit id="org.eclipse.e4.tools.css.spy.feature.source.feature.group" version="0.14.0.v20130814-1230"/>
-<unit id="org.eclipse.e4.tools.e3x.bridge.feature.feature.group" version="0.14.0.v20131111-1508"/>
-<repository location="http://download.eclipse.org/e4/downloads/drops/S-0.15-201401152200/repository"/>
+<unit id="org.eclipse.e4.tools.e3x.bridge.feature.source.feature.group" version="0.14.0.v20140611-1610"/>
+<unit id="org.eclipse.e4.tools.css.spy.feature.source.feature.group" version="0.14.0.v20140707-1917"/>
+<unit id="org.eclipse.e4.tools.e3x.bridge.feature.feature.group" version="0.14.0.v20140611-1610"/>
+<unit id="org.eclipse.e4.tools.css.spy.feature.feature.group" version="0.14.0.v20140707-1917"/>
+<repository location="http://download.eclipse.org/e4/downloads/drops/S-0.16-201408072200/repository"/>
+</location>
+<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.antlr.runtime" version="3.2.0.v201101311130"/>
+<repository location="http://pele.farmbio.uu.se/bioclipse/eclipse/orbit-R20140525021250/"/>
+</location>
+<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.ecf.filetransfer.ssl.source.feature.feature.group" version="1.0.0.v20140528-1625"/>
+<unit id="org.eclipse.ecf.filetransfer.httpclient4.ssl.feature.feature.group" version="1.0.0.v20140528-1625"/>
+<unit id="org.eclipse.ecf.core.ssl.source.feature.feature.group" version="1.0.0.v20140528-1625"/>
+<unit id="org.eclipse.ecf.filetransfer.httpclient4.ssl.source.feature.feature.group" version="1.0.0.v20140528-1625"/>
+<unit id="org.eclipse.ecf.core.feature.group" version="3.8.1.v20140528-1625"/>
+<unit id="org.eclipse.ecf.filetransfer.feature.feature.group" version="3.9.0.v20140528-1625"/>
+<unit id="org.eclipse.ecf.filetransfer.httpclient4.source.feature.feature.group" version="3.8.1.v20140528-1625"/>
+<unit id="org.eclipse.ecf.core.ssl.feature.feature.group" version="1.0.0.v20140528-1625"/>
+<unit id="org.eclipse.ecf.filetransfer.source.feature.feature.group" version="3.9.0.v20140528-1625"/>
+<unit id="org.eclipse.ecf.core.source.feature.feature.group" version="1.1.0.v20140528-1625"/>
+<unit id="org.eclipse.ecf.core.source.feature.group" version="3.8.1.v20140528-1625"/>
+<unit id="org.eclipse.ecf.filetransfer.ssl.feature.feature.group" version="1.0.0.v20140528-1625"/>
+<unit id="org.eclipse.ecf.core.feature.feature.group" version="1.1.0.v20140528-1625"/>
+<unit id="org.eclipse.ecf.filetransfer.httpclient4.feature.feature.group" version="3.8.1.v20140528-1625"/>
+<repository location="http://download.eclipse.org/rt/ecf/3.8.1/site.p2"/>
 </location>
 </locations>
-<includeBundles>
-<plugin id="org.eclipse.core.filesystem.macosx"/>
-<plugin id="javax.el"/>
-<plugin id="org.eclipse.pde.ds.core"/>
-<plugin id="org.eclipse.swt.gtk.aix.ppc"/>
-<plugin id="org.eclipse.emf.mapping.ecore2xml"/>
-<plugin id="org.eclipse.core.commands.source"/>
-<plugin id="javax.servlet"/>
-<plugin id="org.eclipse.equinox.http.servletbridge"/>
-<plugin id="org.eclipse.equinox.console.ssh.source"/>
-<plugin id="org.eclipse.equinox.console"/>
-<plugin id="org.eclipse.equinox.launcher.gtk.solaris.sparc"/>
-<plugin id="org.eclipse.equinox.util.source"/>
-<plugin id="org.eclipse.platform.doc.isv"/>
-<plugin id="org.hamcrest"/>
-<plugin id="org.openscience.cdk.builder3dtools"/>
-<plugin id="org.eclipse.ltk.core.refactoring"/>
-<plugin id="org.openscience.cdk.rendersvg"/>
-<plugin id="org.eclipse.core.filesystem.aix.ppc"/>
-<plugin id="org.eclipse.pde.api.tools.ui.source"/>
-<plugin id="org.eclipse.ui.browser"/>
-<plugin id="org.eclipse.jetty.servlet"/>
-<plugin id="com.springsource.org.mozilla.javascript"/>
-<plugin id="org.eclipse.core.databinding.observable"/>
-<plugin id="org.eclipse.equinox.launcher.gtk.linux.s390"/>
-<plugin id="org.eclipse.swt.cocoa.macosx.x86_64"/>
-<plugin id="org.springframework.osgi.asm.osgi"/>
-<plugin id="org.eclipse.e4.core.di.source" version="1.3.0.v20130514-1256"/>
-<plugin id="org.openscience.cdk.inchi"/>
-<plugin id="org.hamcrest.text"/>
-<plugin id="org.apache.jasper.glassfish.source"/>
-<plugin id="de.walware.rj.server"/>
-<plugin id="org.openscience.cdk.render"/>
-<plugin id="org.eclipse.ui.views"/>
-<plugin id="org.eclipse.core.databinding.beans"/>
-<plugin id="org.eclipse.equinox.p2.reconciler.dropins"/>
-<plugin id="org.eclipse.equinox.security.win32.x86_64"/>
-<plugin id="jcl.over.slf4j" version="1.7.7"/>
-<plugin id="org.eclipse.emf.edit"/>
-<plugin id="org.eclipse.pde.ds.core.source"/>
-<plugin id="org.eclipse.equinox.wireadmin"/>
-<plugin id="org.eclipse.ui.workbench.texteditor.source"/>
-<plugin id="org.w3c.dom.smil" version="1.0.0.v200806040011"/>
-<plugin id="org.eclipse.jetty.continuation"/>
-<plugin id="org.apache.felix.org.apache.felix.main"/>
-<plugin id="org.eclipse.emf.common" version="2.9.2.v20131212-0545"/>
-<plugin id="org.openscience.cdk.silent.source"/>
-<plugin id="org.eclipse.jdt.ui.source"/>
-<plugin id="org.eclipse.ui.navigator.resources.source"/>
-<plugin id="org.eclipse.equinox.frameworkadmin.equinox"/>
-<plugin id="org.eclipse.pde.ds.ui"/>
-<plugin id="org.eclipse.core.runtime.compatibility.registry.source"/>
-<plugin id="org.eclipse.e4.core.di.extensions" version="0.11.100.v20130514-1256"/>
-<plugin id="net.bioclipse.jama"/>
-<plugin id="org.eclipse.core.filesystem.solaris.sparc"/>
-<plugin id="org.eclipse.equinox.servletbridge.source"/>
-<plugin id="org.openscience.cdk.rendercontrol"/>
-<plugin id="org.eclipse.team.core"/>
-<plugin id="net.sourceforge.nattable.core"/>
-<plugin id="org.eclipse.equinox.servletbridge"/>
-<plugin id="javax.el.source"/>
-<plugin id="org.eclipse.ui.ide.application.source"/>
-<plugin id="org.eclipse.e4.core.services" version="1.1.0.v20130515-1343"/>
-<plugin id="org.eclipse.emf.common.ui"/>
-<plugin id="org.eclipse.ui.views.source"/>
-<plugin id="org.eclipse.platform"/>
-<plugin id="org.openscience.cdk.diff.source"/>
-<plugin id="org.eclipse.emf.mapping.ecore"/>
-<plugin id="org.junit" version="4.11.0.v201303080030"/>
-<plugin id="org.eclipse.wst.jsdt.debug.crossfire"/>
-<plugin id="org.eclipse.swt.win32.win32.x86_64"/>
-<plugin id="org.eclipse.pde.ui.templates.source"/>
-<plugin id="org.eclipse.e4.ui.workbench.swt"/>
-<plugin id="org.eclipse.jetty.servlet.source"/>
-<plugin id="org.eclipse.jdt.junit.core.source"/>
-<plugin id="org.eclipse.emf.databinding.edit"/>
-<plugin id="org.eclipse.ui.win32"/>
-<plugin id="org.eclipse.update.configurator"/>
-<plugin id="org.eclipse.ecf.provider.filetransfer.httpclient4"/>
-<plugin id="org.eclipse.e4.ui.css.swt.theme.source" version="0.9.100.v20130515-1857"/>
-<plugin id="org.eclipse.jdt.compiler.apt.source"/>
-<plugin id="org.eclipse.core.filesystem.aix.ppc64"/>
-<plugin id="org.eclipse.core.runtime"/>
-<plugin id="org.eclipse.emf.ecore.xmi.source"/>
-<plugin id="org.eclipse.jdt.junit"/>
-<plugin id="org.eclipse.core.variables"/>
-<plugin id="org.sat4j.core"/>
-<plugin id="org.eclipse.equinox.supplement.source"/>
-<plugin id="org.eclipse.pde.ua.core.source"/>
-<plugin id="org.eclipse.ui.editors.source"/>
-<plugin id="org.eclipse.jdt"/>
-<plugin id="org.eclipse.equinox.jsp.jasper"/>
-<plugin id="org.eclipse.ui.navigator"/>
-<plugin id="org.eclipse.equinox.p2.operations"/>
-<plugin id="org.eclipse.core.net.win32.x86"/>
-<plugin id="org.eclipse.core.databinding.observable.source"/>
-<plugin id="org.openscience.cdk.control.source"/>
-<plugin id="org.eclipse.core.filesystem.win32.x86_64"/>
-<plugin id="org.eclipse.e4.ui.workbench.renderers.swt.cocoa.source"/>
-<plugin id="org.openscience.cdk.group.source"/>
-<plugin id="org.openscience.cdk.qsarionpot"/>
-<plugin id="org.eclipse.e4.core.commands"/>
-<plugin id="org.eclipse.equinox.p2.ui.admin.rcp.source"/>
-<plugin id="org.eclipse.pde.core"/>
-<plugin id="org.eclipse.core.runtime.compatibility.registry"/>
-<plugin id="org.eclipse.emf.mapping.ecore2xml.ui"/>
-<plugin id="org.apache.felix.gogo.shell"/>
-<plugin id="org.eclipse.equinox.weaving.hook.source"/>
-<plugin id="org.eclipse.emf.edit.source"/>
-<plugin id="org.eclipse.help.webapp"/>
-<plugin id="org.openscience.cdk.libiocml.source"/>
-<plugin id="org.openscience.cdk.sdg"/>
-<plugin id="org.openscience.cdk.nonotify"/>
-<plugin id="org.eclipse.equinox.p2.directorywatcher.source"/>
-<plugin id="cmlxom"/>
-<plugin id="org.eclipse.pde.ui.templates"/>
-<plugin id="org.apache.batik.css" version="1.6.0.v201011041432"/>
-<plugin id="org.eclipse.compare.win32"/>
-<plugin id="org.eclipse.e4.ui.css.core" version="0.10.100.v20130515-1857"/>
-<plugin id="org.eclipse.debug.core.source"/>
-<plugin id="org.springframework.osgi.backport-util-concurrent.osgi"/>
-<plugin id="org.eclipse.wst.jsdt.debug.rhino.debugger"/>
-<plugin id="org.eclipse.wst.common.modulecore"/>
-<plugin id="org.eclipse.emf.mapping.ecore2ecore.editor"/>
-<plugin id="org.apache.httpcomponents.httpcore.source"/>
-<plugin id="org.eclipse.equinox.p2.ui.sdk"/>
-<plugin id="org.eclipse.equinox.p2.engine"/>
-<plugin id="org.openscience.cdk.qsarbond"/>
-<plugin id="org.eclipse.emf.common.source" version="2.9.2.v20131212-0545"/>
-<plugin id="org.eclipse.emf.mapping.ecore2xml.source"/>
-<plugin id="org.eclipse.equinox.launcher.win32.win32.x86_64"/>
-<plugin id="org.eclipse.jetty.continuation.source"/>
-<plugin id="org.eclipse.emf.exporter.source"/>
-<plugin id="org.eclipse.wst.jsdt.ui"/>
-<plugin id="org.objectweb.asm"/>
-<plugin id="org.eclipse.emf.ecore.change"/>
-<plugin id="org.eclipse.jdt.apt.pluggable.core.source"/>
-<plugin id="net.sf.jniinchi"/>
-<plugin id="org.eclipse.compare.source"/>
-<plugin id="org.eclipse.wst.web"/>
-<plugin id="org.apache.xml.resolver"/>
-<plugin id="org.eclipse.debug.ui"/>
-<plugin id="org.eclipse.e4.ui.css.core.source" version="0.10.100.v20130515-1857"/>
-<plugin id="org.openscience.cdk.tautomer.source"/>
-<plugin id="org.eclipse.e4.core.contexts.source" version="1.3.1.v20130905-0905"/>
-<plugin id="javax.vecmath"/>
-<plugin id="org.eclipse.ui.workbench.texteditor"/>
-<plugin id="org.openscience.cdk.forcefield.source"/>
-<plugin id="org.eclipse.emf.doc"/>
-<plugin id="org.eclipse.e4.ui.css.swt.source" version="0.11.0.v20130515-1857"/>
-<plugin id="com.google.guava.source"/>
-<plugin id="org.eclipse.equinox.p2.operations.source"/>
-<plugin id="org.eclipse.emf.mapping.ui"/>
-<plugin id="org.openscience.cdk.controlbasic.source"/>
-<plugin id="org.w3c.dom.svg" version="1.1.0.v201011041433"/>
-<plugin id="org.eclipse.jdt.ui"/>
-<plugin id="org.eclipse.help.base"/>
-<plugin id="org.openscience.cdk.fingerprint"/>
-<plugin id="org.eclipse.wst.dtd.ui"/>
-<plugin id="org.openscience.cdk.qsaratomic"/>
-<plugin id="org.openscience.cdk.control"/>
-<plugin id="org.eclipse.ui.intro.universal.source"/>
-<plugin id="org.eclipse.ecf.filetransfer"/>
-<plugin id="org.eclipse.equinox.p2.transport.ecf"/>
-<plugin id="org.eclipse.equinox.weaving.caching.j9"/>
-<plugin id="org.eclipse.equinox.event.source"/>
-<plugin id="org.openscience.cdk.signature"/>
-<plugin id="org.eclipse.equinox.p2.ui.sdk.source"/>
-<plugin id="org.eclipse.wst.jsdt.debug.rhino"/>
-<plugin id="org.eclipse.team.cvs.core.source"/>
-<plugin id="org.eclipse.core.resources.win32.x86"/>
-<plugin id="org.w3c.dom.smil.source" version="1.0.0.v200806040011"/>
-<plugin id="org.eclipse.jdt.launching.macosx.source"/>
-<plugin id="org.eclipse.wst.common.infopop"/>
-<plugin id="jnati-deploy"/>
-<plugin id="org.jfreechart"/>
-<plugin id="org.eclipse.wst.dtd.core"/>
-<plugin id="org.openscience.cdk.formula.source"/>
-<plugin id="org.eclipse.pde.ua.core"/>
-<plugin id="org.eclipse.wst.common.snippets"/>
-<plugin id="org.eclipse.equinox.p2.directorywatcher"/>
-<plugin id="org.eclipse.equinox.p2.updatechecker.source"/>
-<plugin id="org.objectweb.asm.source"/>
-<plugin id="com.springsource.nu.xom"/>
-<plugin id="org.openscience.cdk.extra.source"/>
-<plugin id="org.apache.jasper.glassfish"/>
-<plugin id="org.openscience.cdk.qsar"/>
-<plugin id="org.springframework.bundle.osgi.mock"/>
-<plugin id="org.eclipse.wst.jsdt.support.firefox"/>
-<plugin id="org.eclipse.emf.ecore.xmi"/>
-<plugin id="org.eclipse.equinox.launcher.gtk.solaris.x86"/>
-<plugin id="groovy"/>
-<plugin id="org.eclipse.ecf.identity"/>
-<plugin id="org.eclipse.wst.sse.core"/>
-<plugin id="org.openscience.cdk.sdg.source"/>
-<plugin id="org.eclipse.ecf.provider.filetransfer.source"/>
-<plugin id="org.openscience.cdk.smsd.source"/>
-<plugin id="org.eclipse.search"/>
-<plugin id="org.eclipse.ui"/>
-<plugin id="org.eclipse.e4.ui.di.source" version="1.0.0.v20130515-1857"/>
-<plugin id="org.eclipse.equinox.security.ui.source"/>
-<plugin id="org.eclipse.equinox.security.win32.x86_64.source"/>
-<plugin id="org.eclipse.help.ui.source"/>
-<plugin id="org.openscience.cdk.pdbcml.source"/>
-<plugin id="org.eclipse.jdt.junit.runtime.source"/>
-<plugin id="org.eclipse.wst.common.emfworkbench.integration"/>
-<plugin id="org.openscience.cdk.renderawt.source"/>
-<plugin id="org.eclipse.e4.ui.services" version="1.0.1.v20131118-1940"/>
-<plugin id="org.openscience.cdk.qsarbond.source"/>
-<plugin id="org.mozilla.javascript.source" version="1.7.2.v201005080400"/>
-<plugin id="org.openscience.cdk.valencycheck"/>
-<plugin id="org.eclipse.equinox.useradmin"/>
-<plugin id="org.eclipse.equinox.p2.publisher.eclipse.source"/>
-<plugin id="org.eclipse.wst.xsd.core"/>
-<plugin id="javax.servlet.jsp"/>
-<plugin id="org.eclipse.e4.ui.workbench.renderers.swt.source"/>
-<plugin id="org.eclipse.ui.console"/>
-<plugin id="org.eclipse.core.databinding.property"/>
-<plugin id="org.eclipse.core.databinding.source"/>
-<plugin id="org.eclipse.wst.dtd.ui.infopop"/>
-<plugin id="org.eclipse.e4.ui.bindings.source"/>
-<plugin id="org.eclipse.equinox.bidi.source"/>
-<plugin id="org.eclipse.emf.mapping.ecore.editor"/>
-<plugin id="org.eclipse.jetty.server"/>
-<plugin id="org.eclipse.core.filesystem.linux.ppc64"/>
-<plugin id="org.eclipse.emf.mapping.ecore2ecore"/>
-<plugin id="org.openscience.cdk.signature.source"/>
-<plugin id="org.eclipse.jface"/>
-<plugin id="org.eclipse.equinox.p2.ui.sdk.scheduler"/>
-<plugin id="org.eclipse.jetty.util.source"/>
-<plugin id="org.eclipse.jsch.core"/>
-<plugin id="org.eclipse.ui.navigator.resources"/>
-<plugin id="org.eclipse.ltk.ui.refactoring.source"/>
-<plugin id="org.eclipse.equinox.p2.updatesite"/>
-<plugin id="org.eclipse.wst.jsdt.web.core"/>
-<plugin id="org.eclipse.core.databinding.property.source"/>
-<plugin id="org.apache.batik.util" version="1.6.0.v201011041432"/>
-<plugin id="org.eclipse.ant.core"/>
-<plugin id="org.openscience.cdk.log4j"/>
-<plugin id="de.walware.rj.client"/>
-<plugin id="org.eclipse.cvs"/>
-<plugin id="org.openscience.cdk.isomorphism.source"/>
-<plugin id="org.eclipse.emf.codegen.source"/>
-<plugin id="org.eclipse.core.expressions.source"/>
-<plugin id="org.eclipse.pde.core.source"/>
-<plugin id="org.eclipse.wst.common.modulecore.ui"/>
-<plugin id="org.openscience.cdk.io.source"/>
-<plugin id="org.eclipse.core.net.source"/>
-<plugin id="org.eclipse.emf.ecore.edit"/>
-<plugin id="org.apache.lucene.core"/>
-<plugin id="org.eclipse.zest.doc.isv"/>
-<plugin id="org.openscience.cdk.annotation.source"/>
-<plugin id="org.eclipse.swt.gtk.linux.x86"/>
-<plugin id="org.eclipse.jdt.doc.user"/>
-<plugin id="org.eclipse.equinox.p2.metadata.source"/>
-<plugin id="org.eclipse.emf.codegen.ecore.ui"/>
-<plugin id="org.eclipse.equinox.p2.metadata"/>
-<plugin id="org.eclipse.equinox.p2.publisher.source"/>
-<plugin id="org.eclipse.wst.validation"/>
-<plugin id="org.eclipse.jdt.junit4.runtime.source"/>
-<plugin id="org.eclipse.swt.cocoa.macosx"/>
-<plugin id="org.eclipse.jsch.ui"/>
-<plugin id="org.eclipse.core.variables.source"/>
-<plugin id="org.eclipse.team.cvs.ui"/>
-<plugin id="org.openscience.cdk.hash"/>
-<plugin id="org.eclipse.platform.doc.user"/>
-<plugin id="org.eclipse.emf.ecore.edit.source"/>
-<plugin id="org.eclipse.core.jobs"/>
-<plugin id="org.xmlpull.xpp3"/>
-<plugin id="org.eclipse.equinox.event"/>
-<plugin id="org.openscience.cdk.controlawt.source"/>
-<plugin id="org.eclipse.zest.core.source"/>
-<plugin id="org.eclipse.emf.mapping"/>
-<plugin id="org.openscience.cdk.renderextra"/>
-<plugin id="org.eclipse.ecf.ssl"/>
-<plugin id="javax.servlet.source"/>
-<plugin id="org.eclipse.equinox.jsp.jasper.registry"/>
-<plugin id="org.eclipse.jdt.compiler.apt"/>
-<plugin id="org.eclipse.emf.ant.source"/>
-<plugin id="net.bioclipse.org.cmlxom"/>
-<plugin id="javax.inject" version="1.0.0.v20091030"/>
-<plugin id="org.eclipse.emf.ecore.change.edit"/>
-<plugin id="org.openscience.cdk.qsarprotein.source"/>
-<plugin id="org.eclipse.draw2d.doc.isv"/>
-<plugin id="org.hamcrest.integration.source"/>
-<plugin id="org.eclipse.wst.server.core"/>
-<plugin id="org.eclipse.swt.gtk.linux.x86_64"/>
-<plugin id="org.junit.source" version="4.11.0.v201303080030"/>
-<plugin id="org.openscience.cdk.formula"/>
-<plugin id="org.openscience.cdk.libiomd"/>
-<plugin id="org.eclipse.emf"/>
-<plugin id="org.apache.commons.codec.source"/>
-<plugin id="org.eclipse.zest.layouts.source"/>
-<plugin id="org.eclipse.wst.jsdt.debug.ui"/>
-<plugin id="org.eclipse.equinox.p2.ui"/>
-<plugin id="org.eclipse.equinox.jsp.jasper.registry.source"/>
-<plugin id="signatures"/>
-<plugin id="org.eclipse.search.source"/>
-<plugin id="org.openscience.cdk.pcore.source"/>
-<plugin id="com.sun.el.source"/>
-<plugin id="org.apache.batik.util.gui" version="1.6.0.v201011041432"/>
-<plugin id="org.eclipse.core.runtime.compatibility.source"/>
-<plugin id="org.eclipse.wst.webtools.doc.user"/>
-<plugin id="org.eclipse.compare"/>
-<plugin id="org.eclipse.equinox.bidi"/>
-<plugin id="org.apache.xml.serializer"/>
-<plugin id="org.apache.commons.logging"/>
-<plugin id="org.eclipse.ant.ui"/>
-<plugin id="org.eclipse.debug.ui.source"/>
-<plugin id="org.eclipse.ui.forms"/>
-<plugin id="org.eclipse.jdt.core.source"/>
-<plugin id="org.openscience.cdk.renderawt"/>
-<plugin id="org.openscience.cdk.pdbcml"/>
-<plugin id="org.openscience.cdk.renderbasic"/>
-<plugin id="org.eclipse.jface.text.source"/>
-<plugin id="org.springframework.bundle.osgi.test"/>
-<plugin id="org.eclipse.jdt.debug.source"/>
-<plugin id="org.apache.commons.io.source"/>
-<plugin id="org.eclipse.equinox.preferences"/>
-<plugin id="org.openscience.cdk.interfaces.source"/>
-<plugin id="org.eclipse.wst.sse.doc.user"/>
-<plugin id="org.openscience.cdk.diff"/>
-<plugin id="org.eclipse.emf.ant"/>
-<plugin id="org.springframework.bundle.spring.jdbc"/>
-<plugin id="org.eclipse.jdt.launching.ui.macosx.source"/>
-<plugin id="org.eclipse.ui.forms.source"/>
-<plugin id="org.openscience.cdk.interfaces"/>
-<plugin id="org.eclipse.equinox.p2.ui.importexport.source"/>
-<plugin id="org.eclipse.equinox.concurrent.source"/>
-<plugin id="org.apache.felix.gogo.runtime.source"/>
-<plugin id="org.eclipse.help.base.source"/>
-<plugin id="org.eclipse.e4.ui.model.workbench"/>
-<plugin id="org.eclipse.e4.ui.workbench.addons.swt"/>
-<plugin id="org.eclipse.help"/>
-<plugin id="org.openscience.cdk.ioformats"/>
-<plugin id="org.eclipse.equinox.console.ssh"/>
-<plugin id="com.jcraft.jsch"/>
-<plugin id="org.eclipse.core.databinding.beans.source"/>
-<plugin id="org.openscience.cdk.datadebug"/>
-<plugin id="org.eclipse.core.filebuffers.source"/>
-<plugin id="org.eclipse.ecf.provider.filetransfer.ssl.source"/>
-<plugin id="org.eclipse.pde.runtime"/>
-<plugin id="org.apache.felix.gogo.runtime"/>
-<plugin id="org.openscience.cdk.forcefield"/>
-<plugin id="org.eclipse.jdt.junit.core"/>
-<plugin id="org.openscience.cdk.dict.source"/>
-<plugin id="org.eclipse.wst.html.ui.infopop"/>
-<plugin id="org.eclipse.emf.edit.ui"/>
-<plugin id="org.eclipse.ui.workbench"/>
-<plugin id="com.springsource.org.apache.commons.discovery"/>
-<plugin id="org.eclipse.equinox.security"/>
-<plugin id="org.openscience.cdk.standard.source"/>
-<plugin id="org.openscience.cdk.annotation"/>
-<plugin id="org.openscience.cdk.valencycheck.source"/>
-<plugin id="org.eclipse.wst.common.frameworks.ui"/>
-<plugin id="org.eclipse.ui.ide.source"/>
-<plugin id="org.eclipse.swt.gtk.linux.ppc64"/>
-<plugin id="org.apache.batik.util.source" version="1.6.0.v201011041432"/>
-<plugin id="org.eclipse.ecf"/>
-<plugin id="org.eclipse.ui.ide"/>
-<plugin id="org.eclipse.core.resources.source"/>
-<plugin id="org.eclipse.equinox.security.win32.x86"/>
-<plugin id="org.eclipse.equinox.p2.garbagecollector.source"/>
-<plugin id="org.eclipse.emf.ecore.editor"/>
-<plugin id="org.eclipse.wst.standard.schemas"/>
-<plugin id="org.eclipse.ui.navigator.source"/>
-<plugin id="log4j.over.slf4j" version="1.7.7"/>
-<plugin id="org.eclipse.equinox.region.source"/>
-<plugin id="org.eclipse.equinox.io.source"/>
-<plugin id="org.eclipse.help.ui"/>
-<plugin id="org.eclipse.text"/>
-<plugin id="javax.xml" version="1.3.4.v201005080400"/>
-<plugin id="org.eclipse.equinox.p2.repository.tools"/>
-<plugin id="org.eclipse.equinox.weaving.aspectj.source"/>
-<plugin id="org.openscience.cdk.qsar.source"/>
-<plugin id="org.eclipse.equinox.p2.repository.tools.source"/>
-<plugin id="slf4j.api" version="1.7.7"/>
-<plugin id="org.eclipse.core.expressions"/>
-<plugin id="org.eclipse.pde.ua.ui"/>
-<plugin id="org.hamcrest.core" version="1.3.0.v201303031735"/>
-<plugin id="org.apache.felix.gogo.command.source"/>
-<plugin id="javax.servlet.jsp.source"/>
-<plugin id="jul.to.slf4j" version="1.7.7"/>
-<plugin id="org.eclipse.equinox.p2.ql.source"/>
-<plugin id="ch.qos.logback.classic" version="1.1.2"/>
-<plugin id="org.eclipse.pde.api.tools.source"/>
-<plugin id="org.eclipse.team.core.source"/>
-<plugin id="org.apache.httpcomponents.httpcore"/>
-<plugin id="org.eclipse.equinox.p2.ui.admin.rcp"/>
-<plugin id="org.openscience.cdk.core.source"/>
-<plugin id="org.eclipse.equinox.launcher.gtk.aix.ppc"/>
-<plugin id="org.openscience.cdk.ionpot"/>
-<plugin id="org.eclipse.emf.databinding.source"/>
-<plugin id="org.eclipse.e4.ui.widgets" version="1.0.0.v20130515-1857"/>
-<plugin id="org.eclipse.wst.xsdeditor.doc.user"/>
-<plugin id="org.eclipse.equinox.p2.core"/>
-<plugin id="org.eclipse.equinox.useradmin.source"/>
-<plugin id="com.jcraft.jsch.source"/>
-<plugin id="org.eclipse.jetty.io"/>
-<plugin id="org.3pq.jgrapht"/>
-<plugin id="org.eclipse.equinox.p2.director.app"/>
-<plugin id="org.eclipse.jdt.doc.isv"/>
-<plugin id="org.eclipse.equinox.p2.ui.source"/>
-<plugin id="org.eclipse.pde.ds.ui.source"/>
-<plugin id="org.eclipse.equinox.p2.updatesite.source"/>
-<plugin id="org.openscience.cdk.rendersvg.source"/>
-<plugin id="org.w3c.dom.svg.source" version="1.1.0.v201011041433"/>
-<plugin id="org.eclipse.wst.jsdt.debug.transport"/>
-<plugin id="org.eclipse.ui.externaltools.source"/>
-<plugin id="org.eclipse.wst.doc.user"/>
-<plugin id="org.eclipse.help.webapp.source"/>
-<plugin id="org.eclipse.equinox.p2.garbagecollector"/>
-<plugin id="org.hamcrest.generator.source"/>
-<plugin id="org.eclipse.wst.server.ui.infopop"/>
-<plugin id="org.openscience.cdk.group"/>
-<plugin id="org.eclipse.jetty.security.source"/>
-<plugin id="org.eclipse.ant.core.source"/>
-<plugin id="org.eclipse.ui.browser.source"/>
-<plugin id="org.eclipse.equinox.weaving.caching"/>
-<plugin id="org.apache.ant.source"/>
-<plugin id="org.eclipse.ltk.ui.refactoring"/>
-<plugin id="org.eclipse.ui.ide.application"/>
-<plugin id="org.eclipse.ui.trace.source"/>
-<plugin id="org.openscience.cdk.fragment.source"/>
-<plugin id="org.openscience.cdk.isomorphism"/>
-<plugin id="org.eclipse.equinox.p2.discovery.compatibility"/>
-<plugin id="org.eclipse.equinox.p2.touchpoint.natives.source"/>
-<plugin id="org.eclipse.equinox.security.win32.x86.source"/>
-<plugin id="org.eclipse.jdt.core"/>
-<plugin id="org.eclipse.pde.api.tools"/>
-<plugin id="org.openscience.cdk.atomtype"/>
-<plugin id="org.eclipse.jetty.security"/>
-<plugin id="org.apache.axis"/>
-<plugin id="org.eclipse.core.contenttype.source"/>
-<plugin id="org.eclipse.equinox.log"/>
-<plugin id="org.eclipse.ui.intro"/>
-<plugin id="org.eclipse.equinox.launcher.cocoa.macosx.x86_64"/>
-<plugin id="org.eclipse.osgi.services"/>
-<plugin id="org.eclipse.equinox.supplement"/>
-<plugin id="org.eclipse.equinox.p2.director.app.source"/>
-<plugin id="org.eclipse.equinox.p2.ui.discovery"/>
-<plugin id="com.springsource.org.apache.xmlcommons"/>
-<plugin id="org.eclipse.emf.importer.rose"/>
-<plugin id="net.bioclipse.sea36.util.config"/>
-<plugin id="org.eclipse.pde.api.tools.ui"/>
-<plugin id="org.eclipse.ui.cheatsheets"/>
-<plugin id="org.eclipse.compare.core.source"/>
-<plugin id="org.eclipse.emf.codegen.ecore"/>
-<plugin id="org.eclipse.equinox.p2.touchpoint.eclipse.source"/>
-<plugin id="com.ibm.icu.source"/>
-<plugin id="org.apache.httpcomponents.httpclient"/>
-<plugin id="org.eclipse.emf.importer.java"/>
-<plugin id="org.eclipse.equinox.p2.repository.source"/>
-<plugin id="org.eclipse.jdt.core.manipulation.source"/>
-<plugin id="org.springframework.bundle.spring.core"/>
-<plugin id="org.apache.commons.lang"/>
-<plugin id="org.eclipse.core.filesystem.linux.x86_64"/>
-<plugin id="org.eclipse.equinox.registry.source"/>
-<plugin id="org.eclipse.wst.jsdt.manipulation"/>
-<plugin id="org.eclipse.equinox.io"/>
-<plugin id="org.openscience.cdk.data.source"/>
-<plugin id="org.eclipse.wst.dtdeditor.doc.user"/>
-<plugin id="org.eclipse.equinox.frameworkadmin.equinox.source"/>
-<plugin id="org.eclipse.jface.text"/>
-<plugin id="org.eclipse.wst.jsdt.support.ie"/>
-<plugin id="org.eclipse.equinox.p2.jarprocessor"/>
-<plugin id="org.eclipse.equinox.p2.transport.ecf.source"/>
-<plugin id="org.eclipse.wst.internet.cache"/>
-<plugin id="org.eclipse.wst.sse.ui"/>
-<plugin id="org.eclipse.pde.launching"/>
-<plugin id="org.eclipse.ant.launching.source"/>
-<plugin id="org.eclipse.pde.doc.user"/>
-<plugin id="org.openscience.cdk.charges.source"/>
-<plugin id="org.eclipse.core.externaltools"/>
-<plugin id="org.openscience.cdk.controlextra"/>
-<plugin id="org.eclipse.wst.server.discovery"/>
-<plugin id="org.eclipse.ui.workbench.source"/>
-<plugin id="org.eclipse.update.configurator.source"/>
-<plugin id="org.openscience.cdk.structgen"/>
-<plugin id="org.openscience.cdk.qsarionpot.source"/>
-<plugin id="org.eclipse.wst.server.ui"/>
-<plugin id="org.eclipse.swt.gtk.solaris.sparc"/>
-<plugin id="org.w3c.css.sac.source" version="1.3.1.v200903091627"/>
-<plugin id="org.eclipse.equinox.p2.repository"/>
-<plugin id="org.eclipse.emf.importer.rose.source"/>
-<plugin id="org.eclipse.equinox.launcher.gtk.aix.ppc64"/>
-<plugin id="org.eclipse.core.jobs.source"/>
-<plugin id="org.openscience.cdk.smarts"/>
-<plugin id="org.eclipse.equinox.transforms.hook"/>
-<plugin id="org.openscience.cdk.render.source"/>
-<plugin id="org.hamcrest.integration"/>
-<plugin id="org.eclipse.ui.views.log"/>
-<plugin id="org.eclipse.e4.ui.workbench.source"/>
-<plugin id="org.openscience.cdk.smiles"/>
-<plugin id="javax.xml.soap"/>
-<plugin id="org.eclipse.emf.compare"/>
-<plugin id="org.openscience.cdk.controlextra.source"/>
-<plugin id="org.eclipse.jdt.apt.ui"/>
-<plugin id="org.openscience.cdk.reaction.source"/>
-<plugin id="net.sf.xws4j"/>
-<plugin id="org.eclipse.equinox.common"/>
-<plugin id="org.eclipse.wst.jsdt.doc"/>
-<plugin id="org.eclipse.ui.cheatsheets.source"/>
-<plugin id="org.springframework.bundle.spring.aspects"/>
-<plugin id="xom"/>
-<plugin id="org.eclipse.ecf.provider.filetransfer.httpclient4.ssl"/>
-<plugin id="org.springframework.bundle.spring.tx"/>
-<plugin id="org.eclipse.wst.validation.ui"/>
-<plugin id="org.eclipse.emf.cheatsheets"/>
-<plugin id="de.walware.rj.servi"/>
-<plugin id="org.eclipse.debug.core"/>
-<plugin id="org.eclipse.e4.ui.css.swt" version="0.11.0.v20130515-1857"/>
-<plugin id="org.eclipse.equinox.p2.extensionlocation"/>
-<plugin id="org.eclipse.equinox.p2.artifact.repository.source"/>
-<plugin id="org.eclipse.jdt.launching"/>
-<plugin id="org.eclipse.jdt.core.manipulation"/>
-<plugin id="org.eclipse.emf.importer.java.source"/>
-<plugin id="org.springframework.bundle.spring.orm"/>
-<plugin id="org.apache.lucene.core.source"/>
-<plugin id="org.eclipse.jdt.debug.ui"/>
-<plugin id="org.eclipse.equinox.p2.console"/>
-<plugin id="org.springframework.bundle.osgi.io"/>
-<plugin id="org.eclipse.equinox.transforms.xslt"/>
-<plugin id="org.eclipse.emf.importer.source"/>
-<plugin id="org.eclipse.e4.ui.widgets.source" version="1.0.0.v20130515-1857"/>
-<plugin id="org.eclipse.core.net.win32.x86_64"/>
-<plugin id="org.eclipse.wst.server.ui.doc.user"/>
-<plugin id="org.apache.commons.logging.source"/>
-<plugin id="org.eclipse.wst.common.uriresolver"/>
-<plugin id="org.eclipse.ui.views.log.source"/>
-<plugin id="org.eclipse.equinox.security.macosx.source"/>
-<plugin id="org.openscience.cdk.qsarmolecular.source"/>
-<plugin id="org.eclipse.equinox.coordinator"/>
-<plugin id="org.eclipse.core.commands"/>
-<plugin id="org.eclipse.jetty.http"/>
-<plugin id="org.apache.commons.math"/>
-<plugin id="org.eclipse.swt.win32.win32.x86_64.source"/>
-<plugin id="org.eclipse.swt.gtk.solaris.x86"/>
-<plugin id="net.sf.cglib"/>
-<plugin id="org.eclipse.equinox.security.ui"/>
-<plugin id="org.eclipse.e4.ui.workbench.swt.source"/>
-<plugin id="org.eclipse.wst.html.core"/>
-<plugin id="org.eclipse.compare.core"/>
-<plugin id="org.openscience.cdk.controlbasic"/>
-<plugin id="org.jama"/>
-<plugin id="org.openscience.cdk.qsarprotein"/>
-<plugin id="org.eclipse.osgi.util"/>
-<plugin id="org.eclipse.equinox.p2.publisher.eclipse"/>
-<plugin id="org.eclipse.emf.ecore.change.source"/>
-<plugin id="org.eclipse.equinox.console.jaas.fragment"/>
-<plugin id="org.eclipse.equinox.metatype"/>
-<plugin id="org.eclipse.equinox.p2.jarprocessor.source"/>
-<plugin id="org.eclipse.jdt.apt.ui.source"/>
-<plugin id="org.eclipse.osgi.util.source"/>
-<plugin id="org.openscience.cdk.qsarmolecular"/>
-<plugin id="org.eclipse.emf.ecore.editor.source"/>
-<plugin id="javax.mail"/>
-<plugin id="org.eclipse.wst.jsdt.core"/>
-<plugin id="org.eclipse.equinox.metatype.source"/>
-<plugin id="org.eclipse.e4.ui.workbench.renderers.swt"/>
-<plugin id="org.springframework.osgi.aopalliance.osgi"/>
-<plugin id="org.eclipse.equinox.util"/>
-<plugin id="org.openscience.cdk.extra"/>
-<plugin id="org.eclipse.wst.common.emf"/>
-<plugin id="org.openscience.cdk.controlawt"/>
-<plugin id="org.eclipse.emf.mapping.ecore2ecore.editor.source"/>
-<plugin id="org.eclipse.equinox.registry"/>
-<plugin id="org.eclipse.emf.codegen.ecore.source"/>
-<plugin id="org.apache.httpcomponents.httpclient.source"/>
-<plugin id="org.openscience.cdk.nonotify.source"/>
-<plugin id="org.eclipse.ecf.provider.filetransfer.httpclient4.ssl.source"/>
-<plugin id="org.eclipse.zest.layouts"/>
-<plugin id="org.eclipse.emf.databinding.edit.source"/>
-<plugin id="org.openscience.cdk.core"/>
-<plugin id="org.eclipse.equinox.launcher.source"/>
-<plugin id="org.openscience.cdk.pcore"/>
-<plugin id="org.eclipse.core.filesystem"/>
-<plugin id="org.apache.commons.io"/>
-<plugin id="org.eclipse.jdt.debug"/>
-<plugin id="org.openscience.cdk.qm"/>
-<plugin id="org.eclipse.emf.ecore.source"/>
-<plugin id="org.eclipse.core.filesystem.linux.ppc"/>
-<plugin id="org.eclipse.swt.win32.win32.x86"/>
-<plugin id="org.eclipse.jdt.annotation"/>
-<plugin id="de.walware.ecommons.coremisc"/>
-<plugin id="org.eclipse.pde.build.source"/>
-<plugin id="org.eclipse.wst.internet.monitor.ui"/>
-<plugin id="org.eclipse.equinox.launcher.gtk.linux.ppc"/>
-<plugin id="org.eclipse.pde.ua.ui.source"/>
-<plugin id="org.eclipse.pde.ui.source"/>
-<plugin id="org.eclipse.core.net.linux.x86_64"/>
-<plugin id="org.hamcrest.generator"/>
-<plugin id="org.eclipse.emf.codegen.ui.source"/>
-<plugin id="org.eclipse.emf.converter.source"/>
-<plugin id="org.eclipse.ui.intro.source"/>
-<plugin id="org.openscience.cdk.pdb"/>
-<plugin id="org.openscience.cdk.pdb.source"/>
-<plugin id="org.hamcrest.core.source" version="1.3.0.v201303031735"/>
-<plugin id="nu.psnet.quickimage"/>
-<plugin id="org.openscience.cdk.ionpot.source"/>
-<plugin id="org.eclipse.pde"/>
-<plugin id="org.eclipse.e4.core.contexts" version="1.3.1.v20130905-0905"/>
-<plugin id="org.eclipse.equinox.jsp.jasper.source"/>
-<plugin id="org.eclipse.equinox.p2.engine.source"/>
-<plugin id="org.openscience.cdk.io"/>
-<plugin id="org.eclipse.wst.web.ui.infopop"/>
-<plugin id="org.eclipse.equinox.p2.metadata.repository"/>
-<plugin id="org.eclipse.wst.sse.ui.infopop"/>
-<plugin id="org.openscience.cdk.renderawtextra"/>
-<plugin id="org.springframework.bundle.spring.aop"/>
-<plugin id="org.eclipse.emf.ecore.change.edit.source"/>
-<plugin id="org.eclipse.compare.win32.source"/>
-<plugin id="org.springframework.bundle.osgi.extender"/>
-<plugin id="org.eclipse.swt"/>
-<plugin id="org.eclipse.emf.mapping.ecore2xml.ui.source"/>
-<plugin id="org.eclipse.wst.xsd.ui"/>
-<plugin id="org.eclipse.jsch.ui.source"/>
-<plugin id="org.eclipse.ecf.source"/>
-<plugin id="org.eclipse.osgi.services.source"/>
-<plugin id="org.eclipse.emf.mapping.ecore2ecore.source"/>
-<plugin id="org.eclipse.swt.cocoa.macosx.x86_64.source"/>
-<plugin id="org.eclipse.emf.compare.source"/>
-<plugin id="org.eclipse.ecf.provider.filetransfer.httpclient4.source"/>
-<plugin id="org.eclipse.equinox.p2.ui.importexport"/>
-<plugin id="org.eclipse.wst.xml.core"/>
-<plugin id="org.eclipse.jsch.core.source"/>
-<plugin id="org.eclipse.jetty.http.source"/>
-<plugin id="org.eclipse.equinox.cm"/>
-<plugin id="org.eclipse.emf.codegen"/>
-<plugin id="org.eclipse.swt.gtk.linux.x86_64.source"/>
-<plugin id="org.eclipse.equinox.frameworkadmin"/>
-<plugin id="org.eclipse.equinox.ds.source"/>
-<plugin id="org.eclipse.core.contenttype"/>
-<plugin id="org.eclipse.emf.importer"/>
-<plugin id="org.springframework.bundle.spring.beans"/>
-<plugin id="org.eclipse.equinox.p2.touchpoint.natives"/>
-<plugin id="org.eclipse.wst.internet.monitor.core"/>
-<plugin id="org.openscience.cdk.charges"/>
-<plugin id="org.eclipse.equinox.http.servlet"/>
-<plugin id="org.apache.felix.gogo.shell.source"/>
-<plugin id="org.openscience.cdk.qm.source"/>
-<plugin id="org.eclipse.emf.edit.ui.source"/>
-<plugin id="org.mozilla.javascript" version="1.7.2.v201005080400"/>
-<plugin id="org.apache.commons.httpclient"/>
-<plugin id="org.openscience.cdk.cip.source"/>
-<plugin id="org.eclipse.wst.jsdt.debug.rhino.ui"/>
-<plugin id="org.eclipse.equinox.p2.ui.admin.source"/>
-<plugin id="org.eclipse.equinox.simpleconfigurator.manipulator"/>
-<plugin id="org.eclipse.ui.editors"/>
-<plugin id="org.eclipse.equinox.region"/>
-<plugin id="org.eclipse.equinox.log.source"/>
-<plugin id="org.eclipse.equinox.p2.console.source"/>
-<plugin id="org.eclipse.e4.core.di.extensions.source" version="0.11.100.v20130514-1256"/>
-<plugin id="org.eclipse.equinox.device"/>
-<plugin id="org.eclipse.equinox.p2.metadata.repository.source"/>
-<plugin id="org.openscience.cdk.renderswt"/>
-<plugin id="org.eclipse.equinox.ip.source"/>
-<plugin id="org.eclipse.equinox.transforms.hook.source"/>
-<plugin id="org.eclipse.equinox.http.servlet.source"/>
-<plugin id="org.apache.felix.gogo.command"/>
-<plugin id="org.eclipse.equinox.p2.core.source"/>
-<plugin id="org.eclipse.equinox.simpleconfigurator"/>
-<plugin id="org.eclipse.wst.css.ui"/>
-<plugin id="org.eclipse.wst.jsdt.debug.core"/>
-<plugin id="org.openscience.cdk.rendercontrol.source"/>
-<plugin id="org.eclipse.equinox.common.source"/>
-<plugin id="org.eclipse.ui.externaltools"/>
-<plugin id="org.apache.batik.css.source" version="1.6.0.v201011041432"/>
-<plugin id="org.eclipse.swt.gtk.linux.ppc"/>
-<plugin id="org.openscience.cdk.data"/>
-<plugin id="org.openscience.cdk.log4j.source"/>
-<plugin id="org.hamcrest.library.source"/>
-<plugin id="org.eclipse.ui.net.source"/>
-<plugin id="org.slf4j.osgi-over-slf4j" version="1.7.7"/>
-<plugin id="org.openscience.cdk.smiles.source"/>
-<plugin id="org.eclipse.core.filesystem.win32.x86"/>
-<plugin id="org.springframework.bundle.spring.context"/>
-<plugin id="org.eclipse.equinox.p2.installer.source"/>
-<plugin id="com.sun.el"/>
-<plugin id="org.eclipse.emf.mapping.source"/>
-<plugin id="org.eclipse.equinox.p2.updatechecker"/>
-<plugin id="org.sat4j.pb"/>
-<plugin id="org.openscience.cdk.qsarcml.source"/>
-<plugin id="org.eclipse.jface.source"/>
-<plugin id="org.eclipse.equinox.launcher.gtk.linux.x86_64"/>
-<plugin id="org.eclipse.e4.ui.workbench3.source"/>
-<plugin id="org.eclipse.jem.util"/>
-<plugin id="org.eclipse.core.resources.win32.x86_64"/>
-<plugin id="org.eclipse.e4.ui.workbench3"/>
-<plugin id="org.eclipse.swt.gtk.hpux.ia64"/>
-<plugin id="org.eclipse.wst.validation.infopop"/>
-<plugin id="org.eclipse.core.resources"/>
-<plugin id="org.openscience.cdk.builder3d"/>
-<plugin id="org.apache.commons.httpclient.source"/>
-<plugin id="org.eclipse.e4.ui.css.swt.theme" version="0.9.100.v20130515-1857"/>
-<plugin id="org.eclipse.equinox.transforms.xslt.source"/>
-<plugin id="org.eclipse.ant.ui.source"/>
-<plugin id="org.springframework.bundle.osgi.core"/>
-<plugin id="org.eclipse.ui.win32.source"/>
-<plugin id="org.eclipse.wst.css.core"/>
-<plugin id="org.eclipse.team.cvs.ui.source"/>
-<plugin id="org.eclipse.swt.gtk.aix.ppc64"/>
-<plugin id="org.eclipse.emf.converter"/>
-<plugin id="org.eclipse.jdt.annotation.source"/>
-<plugin id="javax.annotation" version="1.1.0.v201209060031"/>
-<plugin id="org.eclipse.wst.jsdt.web.ui"/>
-<plugin id="org.openscience.cdk.smsd"/>
-<plugin id="org.eclipse.equinox.launcher.gtk.linux.x86"/>
-<plugin id="org.eclipse.equinox.launcher.gtk.linux.ppc64"/>
-<plugin id="org.eclipse.equinox.concurrent"/>
-<plugin id="org.eclipse.draw2d.source"/>
-<plugin id="org.eclipse.ecf.filetransfer.source"/>
-<plugin id="org.eclipse.equinox.ds"/>
-<plugin id="de.walware.rj.data"/>
-<plugin id="org.eclipse.core.externaltools.source"/>
-<plugin id="org.eclipse.jdt.junit.source"/>
-<plugin id="org.openscience.cdk.qsaratomic.source"/>
-<plugin id="com.google.guava"/>
-<plugin id="org.openscience.cdk.renderswt.source"/>
-<plugin id="org.eclipse.ui.source"/>
-<plugin id="com.springsource.javax.mail"/>
-<plugin id="org.eclipse.jdt.compiler.tool.source"/>
-<plugin id="org.eclipse.jface.databinding.source"/>
-<plugin id="org.eclipse.jface.databinding"/>
-<plugin id="org.openscience.cdk.dict"/>
-<plugin id="org.openscience.cdk.atomtype.source"/>
-<plugin id="org.eclipse.team.ui"/>
-<plugin id="org.eclipse.swt.gtk.linux.s390"/>
-<plugin id="org.eclipse.wst.common.environment"/>
-<plugin id="org.eclipse.equinox.http.jetty"/>
-<plugin id="org.openscience.cdk.builder3dtools.source"/>
-<plugin id="org.eclipse.equinox.p2.extensionlocation.source"/>
-<plugin id="org.eclipse.wst.common.frameworks"/>
-<plugin id="org.eclipse.equinox.launcher.cocoa.macosx"/>
-<plugin id="org.eclipse.core.filesystem.hpux.ia64"/>
-<plugin id="org.eclipse.equinox.app.source"/>
-<plugin id="org.eclipse.jdt.debug.ui.source"/>
-<plugin id="org.eclipse.jdt.launching.macosx"/>
-<plugin id="org.eclipse.equinox.http.servletbridge.source"/>
-<plugin id="org.eclipse.swt.gtk.linux.s390x"/>
-<plugin id="org.eclipse.equinox.security.macosx"/>
-<plugin id="org.w3c.css.sac" version="1.3.1.v200903091627"/>
-<plugin id="org.eclipse.equinox.ip"/>
-<plugin id="org.eclipse.jdt.apt.core.source"/>
-<plugin id="org.eclipse.jdt.apt.pluggable.core"/>
-<plugin id="org.eclipse.ltk.core.refactoring.source"/>
-<plugin id="org.openscience.cdk.qsarcml"/>
-<plugin id="org.eclipse.pde.runtime.source"/>
-<plugin id="org.eclipse.team.cvs.ssh2"/>
-<plugin id="org.hamcrest.text.source"/>
-<plugin id="org.eclipse.team.cvs.core"/>
-<plugin id="org.apache.lucene.analysis.source"/>
-<plugin id="org.eclipse.equinox.p2.artifact.repository"/>
-<plugin id="org.eclipse.swt.win32.win32.x86.source"/>
-<plugin id="org.eclipse.equinox.http.jetty.source"/>
-<plugin id="org.springframework.bundle.spring.test"/>
-<plugin id="org.eclipse.swt.gtk.linux.x86.source"/>
-<plugin id="org.eclipse.pde.build"/>
-<plugin id="org.apache.batik.util.gui.source" version="1.6.0.v201011041432"/>
-<plugin id="org.eclipse.equinox.wireadmin.source"/>
-<plugin id="org.eclipse.equinox.p2.director"/>
-<plugin id="javax.annotation.source" version="1.1.0.v201209060031"/>
-<plugin id="org.eclipse.e4.ui.di" version="1.0.0.v20130515-1857"/>
-<plugin id="org.eclipse.equinox.p2.reconciler.dropins.source"/>
-<plugin id="org.eclipse.e4.ui.bindings"/>
-<plugin id="org.eclipse.emf.codegen.ui"/>
-<plugin id="org.eclipse.emf.codegen.ecore.ui.source"/>
-<plugin id="org.eclipse.equinox.simpleconfigurator.source"/>
-<plugin id="org.eclipse.jetty.io.source"/>
-<plugin id="org.eclipse.emf.common.ui.source"/>
-<plugin id="org.openscience.cdk.fingerprint.source"/>
-<plugin id="ch.qos.logback.core" version="1.1.2"/>
-<plugin id="org.openscience.cdk.standard"/>
-<plugin id="org.eclipse.help.source"/>
-<plugin id="org.eclipse.pde.launching.source"/>
-<plugin id="org.openscience.cdk.renderextra.source"/>
-<plugin id="org.eclipse.equinox.p2.installer"/>
-<plugin id="org.eclipse.core.runtime.compatibility"/>
-<plugin id="org.eclipse.equinox.launcher"/>
-<plugin id="org.openscience.cdk.structgen.source"/>
-<plugin id="org.eclipse.emf.importer.ecore.source"/>
-<plugin id="org.eclipse.ui.trace"/>
-<plugin id="org.eclipse.emf.ecore"/>
-<plugin id="org.openscience.cdk.libiomd.source"/>
-<plugin id="org.eclipse.equinox.http.registry.source"/>
-<plugin id="org.eclipse.ui.views.properties.tabbed"/>
-<plugin id="org.eclipse.wst.xml.ui"/>
-<plugin id="org.eclipse.emf.cheatsheets.source"/>
-<plugin id="org.apache.poi"/>
-<plugin id="org.eclipse.equinox.frameworkadmin.source"/>
-<plugin id="org.eclipse.pde.junit.runtime"/>
-<plugin id="org.eclipse.draw2d"/>
-<plugin id="org.eclipse.core.filesystem.source"/>
-<plugin id="org.eclipse.jdt.apt.core"/>
-<plugin id="org.eclipse.e4.ui.workbench.renderers.swt.cocoa"/>
-<plugin id="org.eclipse.equinox.weaving.hook"/>
-<plugin id="org.eclipse.equinox.p2.discovery"/>
-<plugin id="org.openscience.cdk.datadebug.source"/>
-<plugin id="net.sf.jni-inchi"/>
-<plugin id="org.eclipse.ecf.provider.filetransfer.ssl"/>
-<plugin id="org.apache.commons.codec"/>
-<plugin id="org.eclipse.platform.source"/>
-<plugin id="org.eclipse.e4.ui.workbench.addons.swt.source"/>
-<plugin id="org.eclipse.ecf.ssl.source"/>
-<plugin id="org.eclipse.jdt.launching.source"/>
-<plugin id="org.apache.sshd.core.source"/>
-<plugin id="org.eclipse.text.source"/>
-<plugin id="org.eclipse.wst.common.core"/>
-<plugin id="org.eclipse.ui.console.source"/>
-<plugin id="org.eclipse.team.cvs.ssh2.source"/>
-<plugin id="org.apache.mina.core.source"/>
-<plugin id="org.eclipse.core.net.linux.x86"/>
-<plugin id="org.eclipse.ant.launching"/>
-<plugin id="org.eclipse.e4.ui.workbench"/>
-<plugin id="org.openscience.cdk.libiocml"/>
-<plugin id="org.eclipse.wst.xml.ui.infopop"/>
-<plugin id="org.eclipse.e4.ui.model.workbench.source"/>
-<plugin id="org.eclipse.equinox.p2.director.source"/>
-<plugin id="org.eclipse.jetty.util"/>
-<plugin id="com.springsource.org.apache.xml.resolver"/>
-<plugin id="org.eclipse.emf.importer.ecore"/>
-<plugin id="org.eclipse.equinox.simpleconfigurator.manipulator.source"/>
-<plugin id="org.openscience.cdk.hash.source"/>
-<plugin id="org.eclipse.jdt.launching.ui.macosx"/>
-<plugin id="org.openscience.cdk.reaction"/>
-<plugin id="org.eclipse.team.ui.source"/>
-<plugin id="org.openscience.cdk.iordf"/>
-<plugin id="org.eclipse.emf.example.installer"/>
-<plugin id="org.eclipse.equinox.p2.ui.sdk.scheduler.source"/>
-<plugin id="org.eclipse.equinox.http.registry"/>
-<plugin id="org.eclipse.osgi"/>
-<plugin id="org.eclipse.e4.core.commands.source"/>
-<plugin id="org.eclipse.ecf.provider.filetransfer"/>
-<plugin id="org.eclipse.equinox.cm.source"/>
-<plugin id="org.openscience.cdk.iordf.source"/>
-<plugin id="org.eclipse.wst.xmleditor.doc.user"/>
-<plugin id="javax.xml.rpc"/>
-<plugin id="org.eclipse.equinox.preferences.source"/>
-<plugin id="org.eclipse.core.filebuffers"/>
-<plugin id="org.eclipse.e4.core.di" version="1.3.0.v20130514-1256"/>
-<plugin id="org.openscience.cdk.builder3d.source"/>
-<plugin id="org.eclipse.pde.junit.runtime.source"/>
-<plugin id="org.eclipse.ui.views.properties.tabbed.source"/>
-<plugin id="org.eclipse.jdt.junit.runtime"/>
-<plugin id="org.eclipse.wst.web.ui"/>
-<plugin id="org.eclipse.equinox.weaving.caching.j9.source"/>
-<plugin id="jnati-core"/>
-<plugin id="org.eclipse.sdk"/>
-<plugin id="org.apache.ant"/>
-<plugin id="org.eclipse.rcp"/>
-<plugin id="org.apache.lucene.analysis"/>
-<plugin id="org.eclipse.equinox.weaving.caching.source"/>
-<plugin id="org.eclipse.equinox.security.source"/>
-<plugin id="org.openscience.cdk.fragment"/>
-<plugin id="org.eclipse.emf.mapping.ui.source"/>
-<plugin id="org.eclipse.equinox.device.source"/>
-<plugin id="org.openscience.cdk.silent"/>
-<plugin id="org.eclipse.wst.html.ui"/>
-<plugin id="org.eclipse.ecf.identity.source"/>
-<plugin id="org.eclipse.emf.exporter"/>
-<plugin id="org.eclipse.jetty.server.source"/>
-<plugin id="org.apache.mina.core"/>
-<plugin id="org.eclipse.jdt.compiler.tool"/>
-<plugin id="org.eclipse.equinox.launcher.gtk.linux.s390x"/>
-<plugin id="org.hamcrest.library"/>
-<plugin id="org.eclipse.equinox.console.source"/>
-<plugin id="org.eclipse.equinox.app"/>
-<plugin id="org.eclipse.equinox.coordinator.source"/>
-<plugin id="org.openscience.cdk.ioformats.source"/>
-<plugin id="org.eclipse.core.databinding"/>
-<plugin id="org.eclipse.e4.core.services.source" version="1.1.0.v20130515-1343"/>
-<plugin id="org.eclipse.equinox.p2.touchpoint.eclipse"/>
-<plugin id="org.eclipse.equinox.launcher.gtk.hpux.ia64"/>
-<plugin id="org.eclipse.equinox.p2.ql"/>
-<plugin id="org.eclipse.emf.databinding"/>
-<plugin id="org.openscience.cdk.cip"/>
-<plugin id="org.openscience.cdk.inchi.source"/>
-<plugin id="jnati-proc"/>
-<plugin id="org.eclipse.ui.net"/>
-<plugin id="javax.inject.source" version="1.0.0.v20091030"/>
-<plugin id="org.eclipse.zest.core"/>
-<plugin id="org.eclipse.jdt.junit4.runtime"/>
-<plugin id="org.eclipse.core.filesystem.linux.x86"/>
-<plugin id="com.ibm.icu"/>
-<plugin id="org.apache.xerces" version="2.9.0.v201101211617"/>
-<plugin id="org.eclipse.equinox.weaving.aspectj"/>
-<plugin id="org.eclipse.pde.ui"/>
-<plugin id="org.eclipse.equinox.p2.publisher"/>
-<plugin id="org.openscience.cdk.renderawtextra.source"/>
-<plugin id="org.eclipse.core.net"/>
-<plugin id="org.eclipse.wst.common.ui"/>
-<plugin id="org.eclipse.core.runtime.source"/>
-<plugin id="org.eclipse.osgi.source"/>
-<plugin id="org.eclipse.ui.intro.universal"/>
-<plugin id="org.openscience.cdk.smarts.source"/>
-<plugin id="org.apache.poi.source"/>
-<plugin id="org.openscience.cdk.tautomer"/>
-<plugin id="org.openscience.cdk.renderbasic.source"/>
-<plugin id="org.eclipse.e4.ui.services.source" version="1.0.1.v20131118-1940"/>
-<plugin id="org.eclipse.equinox.p2.ui.admin"/>
-<plugin id="org.eclipse.equinox.launcher.win32.win32.x86"/>
-<plugin id="org.apache.sshd.core"/>
-<plugin id="org.apache.ws.commons.schema"/>
-</includeBundles>
 </target>
