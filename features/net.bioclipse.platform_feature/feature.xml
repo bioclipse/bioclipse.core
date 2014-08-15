@@ -58,6 +58,22 @@ is available at http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.ecf.filetransfer.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.ecf.core.ssl.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.ecf.filetransfer.httpclient4.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.ecf.filetransfer.httpclient4.ssl.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.ecf.filetransfer.ssl.feature"
+         version="0.0.0"/>
+
    <requires>
       <import feature="net.bioclipse.core_feature" version="2.6.0" match="equivalent"/>
    </requires>
@@ -843,6 +859,13 @@ is available at http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="org.apache.lucene.queries"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="slf4j.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
