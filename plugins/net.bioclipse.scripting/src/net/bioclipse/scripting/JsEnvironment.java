@@ -47,11 +47,19 @@ public class JsEnvironment implements ScriptingEnvironment {
      * Initializes the JavaScript environment for use.
      */
     public final void reset() {
+
         ScriptEngineManager mgr
             = new ScriptEngineManager(JsEnvironment.class.getClassLoader());
         engine = mgr.getEngineByName("JavaScript");
+        StringBuilder builder = new StringBuilder();
         if ( engine == null ) {
-            StringBuilder builder = new StringBuilder();
+            ScriptEngineManager mgr2 = new ScriptEngineManager();
+            engine = mgr2.getEngineByName( "ECMAScript" );
+            for ( ScriptEngineFactory sef : mgr2.getEngineFactories() ) {
+                builder.append( sef.getLanguageName() ).append( ", " );
+            }
+        }
+        if ( engine == null ) {
             for ( ScriptEngineFactory sef : mgr.getEngineFactories() ) {
                 builder.append( sef.getLanguageName() ).append( ", " );
             }
