@@ -152,6 +152,18 @@ public class StringMatrix implements IStringMatrix {
 		set(row, getColumnNumber(col), value);
 	}
 
+	public List<String> getRow(int row) {
+		checkRows(row);
+
+		int colCount = getColumnCount();
+		List<String> results = new ArrayList<String>(colCount);
+		for (int i=1; i<=colCount; i++) {
+			String result = get(row,i);
+			results.add(result == null ? "" : result);
+		}
+		return results;
+	}
+
 	public List<String> getColumn(int col) {
 		checkCols(col);
 
