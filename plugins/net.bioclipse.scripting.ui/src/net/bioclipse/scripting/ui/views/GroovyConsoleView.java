@@ -130,9 +130,9 @@ public class GroovyConsoleView extends ScriptingConsoleView {
                      public void run() {
                          if ( null != result ) {
                              if (result instanceof Object) {
-                                 if (result instanceof Exception) {
+                                 if (result instanceof Throwable) {
                                      message[0]
-                                         = getErrorMessage((Exception)result);
+                                         = getErrorMessage((Throwable)result);
                                  }
                                  else if (result instanceof List<?>) {
                                      List<?> list = (List<?>)result;
