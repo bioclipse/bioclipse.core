@@ -64,7 +64,7 @@ public class JsEnvironment implements ScriptingEnvironment {
                 builder.append( sef.getLanguageName() ).append( ", " );
             }
             builder.delete( builder.length() - 2, builder.length() - 1 );
-            logger.error( "Faild to find \"JavaScript\" scripting engine. Available engines are " + builder
+            logger.error( "Failed to find \"JavaScript\" scripting engine. Available engines are " + builder
                                           .toString() );
         }
 
