@@ -127,6 +127,9 @@ public class GroovyEnvironment implements ScriptingEnvironment {
         try {
             Object o = engine.eval(expression);
             return o;
+        } catch ( IllegalAccessError e ) {
+            // TODO: this can be thrown by the StringMatrix, which should probably be fixed instead
+            return e.getMessage();
         } catch ( ScriptException e ) {
             BioclipseException bioEx = getBioclipseException(e);
             if (bioEx != null) {
