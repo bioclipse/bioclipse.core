@@ -19,6 +19,7 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import net.bioclipse.core.PublishedMethod;
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.apache.log4j.Logger;
@@ -127,11 +128,25 @@ public class GroovyEnvironment implements ScriptingEnvironment {
             Object o = engine.eval(expression);
             return o;
         } catch ( ScriptException e ) {
-           String message = e.getMessage();
-           if( !message.contains( "Can't find method " ))
-               throw new RuntimeException(e);
-           return explanationAboutParameters( expression, message );
+            BioclipseException bioEx = getBioclipseException(e);
+            if (bioEx != null) {
+                return bioEx.getMessage();
+            }
+            String message = e.getMessage();
+            if( !message.contains( "Can't find method " ))
+            throw new RuntimeException(e);
+            return explanationAboutParameters( expression, message );
         }
+    }
+
+    private BioclipseException getBioclipseException(ScriptException exception) {
+        Throwable cause = exception.getCause();
+        while (cause != null) {
+            if (cause instanceof BioclipseException)
+                return (BioclipseException)cause;
+            cause = cause.getCause();
+        }
+        return null;
     }
 
     private String explanationAboutParameters( String expression,
