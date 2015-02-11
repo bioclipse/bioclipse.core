@@ -8,6 +8,8 @@
  *******************************************************************************/
 package net.bioclipse.scripting;
 
+import groovy.lang.GroovyRuntimeException;
+
 import java.io.Writer;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -135,6 +137,14 @@ public class GroovyEnvironment implements ScriptingEnvironment {
             if (bioEx != null) {
                 return bioEx.getMessage();
             }
+            CoreException resEx = getEclipseException(e);
+            if (resEx != null) {
+                return resEx.getMessage();
+            }
+            GroovyRuntimeException grEx = getGroovyRuntimeException(e);
+            if (grEx != null) {
+                return grEx.getMessage();
+            }
             String message = e.getMessage();
             if( !message.contains( "Can't find method " ))
             throw new RuntimeException(e);
@@ -147,6 +157,26 @@ public class GroovyEnvironment implements ScriptingEnvironment {
         while (cause != null) {
             if (cause instanceof BioclipseException)
                 return (BioclipseException)cause;
+            cause = cause.getCause();
+        }
+        return null;
+    }
+
+    private CoreException getEclipseException(ScriptException exception) {
+        Throwable cause = exception.getCause();
+        while (cause != null) {
+            if (cause instanceof CoreException)
+                return (CoreException)cause;
+            cause = cause.getCause();
+        }
+        return null;
+    }
+
+    private GroovyRuntimeException getGroovyRuntimeException(ScriptException exception) {
+        Throwable cause = exception.getCause();
+        while (cause != null) {
+            if (cause instanceof GroovyRuntimeException)
+                return (GroovyRuntimeException)cause;
             cause = cause.getCause();
         }
         return null;
