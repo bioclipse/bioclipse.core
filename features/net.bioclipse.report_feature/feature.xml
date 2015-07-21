@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="net.bioclipse.report_feature"
+      label="Bioclipse Reporting API"
+      version="2.6.2.qualifier"
+      provider-name="The Bioclipse Team"
+      plugin="net.bioclipse.report">
+
+   <requires>
+      <import plugin="net.bioclipse.core"/>
+   </requires>
+
+   <plugin
+         id="net.bioclipse.report"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
