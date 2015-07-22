@@ -24,6 +24,7 @@ public interface IReport {
 	public IReport addText(String text, String... styles);
 	public IReport addLink(String link, String text);
 	public IReport addTable(IStringMatrix matrix, String caption);
+	public IReport addBox(int height, int width);
 
 	public IReport startParagraph();
 	public IReport endParagraph();
