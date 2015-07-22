@@ -12,6 +12,6 @@ package net.bioclipse.report.data;
 public interface IReportContent {
 
 	public IReportContent setValue(Object... content);
-	public String[] getContent();
+	public Object[] getContent();
 
 }
