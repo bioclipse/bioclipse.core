@@ -124,4 +124,9 @@ public class Report implements IReport {
 		return this;
 	}
 
+	public IReport addBox(int height, int width) {
+		IReportContent box = new Box().setValue(Integer.valueOf(height), Integer.valueOf(width));
+		content.add(box);
+		return this;
+	}
 }

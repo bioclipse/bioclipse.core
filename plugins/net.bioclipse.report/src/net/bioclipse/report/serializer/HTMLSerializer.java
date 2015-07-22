@@ -11,6 +11,7 @@ package net.bioclipse.report.serializer;
 
 import java.util.List;
 
+import net.bioclipse.report.data.Box;
 import net.bioclipse.report.data.Header;
 import net.bioclipse.report.data.Hyperlink;
 import net.bioclipse.report.data.IReport;
@@ -54,6 +55,11 @@ public class HTMLSerializer implements ISerializer {
 				buffer.append("</ul>");
 			} else if (content instanceof NewLine) {
 				buffer.append("<br />");
+			} else if (content instanceof Box) {
+				Integer[] dims = (Integer[])((Box)content).getContent();
+				buffer.append("<div style=\"width:").append(dims[1].intValue())
+				  .append("px;height:").append(dims[0].intValue())
+				  .append("px;border:1px solid #000; display: inline-block\" ></div>");
 			} else if (content instanceof Section) {
 				Section section = (Section)content;
 				String title = section.getContent()[0];
