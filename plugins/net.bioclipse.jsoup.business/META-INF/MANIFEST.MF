@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Manager for the JSoup API
+Bundle-SymbolicName: net.bioclipse.jsoup.business;singleton:=true
+Bundle-Version: 2.6.2.qualifier
+Bundle-Activator: net.bioclipse.jsoup.business.Activator
+Bundle-Vendor: The Bioclipse Team
+Export-Package: net.bioclipse.jsoup.business, net.bioclipse.jsoup.business.business
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ net.bioclipse.core,
+ net.bioclipse.scripting,
+ org.springframework.bundle.spring.aop,
+ net.sf.cglib,
+ org.springframework.osgi.aopalliance.osgi,
+ org.eclipse.core.resources,
+ net.bioclipse.business,
+ net.bioclipse.ui.business
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: org.apache.log4j
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .,
+ lib/jsoup-1.8.3.jar
