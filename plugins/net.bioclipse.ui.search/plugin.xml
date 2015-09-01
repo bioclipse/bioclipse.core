@@ -8,9 +8,20 @@
                id="net.bioclipse.search.BioclipseSearch"
                name="Search"
                category="net.bioclipse.ui.category"
-               icon=""
+               icon="icons/search-icon.png"
                allowMultiple="false"
                restorable="true">
          </view>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.menus">
+	<menuContribution
+           locationURI="menu:org.eclipse.ui.main.menu">
+           <menu 
+            	id="net.bioclipse.ui.menu.search"
+                label="Search">
+           </menu>
+     </menuContribution>
    </extension>
 </plugin>
