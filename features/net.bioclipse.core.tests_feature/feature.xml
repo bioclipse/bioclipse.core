@@ -16,6 +16,36 @@
       [Enter License Description here.]
    </license>
 
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="net.bioclipse.core"/>
+      <import plugin="net.bioclipse.scripting"/>
+      <import plugin="org.springframework.bundle.spring.aop"/>
+      <import plugin="net.sf.cglib"/>
+      <import plugin="org.springframework.osgi.aopalliance.osgi"/>
+      <import plugin="net.bioclipse.browser.business"/>
+      <import plugin="log4j.over.slf4j"/>
+      <import plugin="org.junit"/>
+      <import plugin="net.bioclipse.business"/>
+      <import plugin="org.springframework.osgi.aopalliance.osgi" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="net.bioclipse.ui"/>
+      <import plugin="com.springsource.nu.xom"/>
+      <import plugin="net.bioclipse.encryption"/>
+      <import plugin="net.bioclipse.gist"/>
+      <import plugin="net.bioclipse.core.tests" version="0.1.0" match="greaterOrEqual"/>
+      <import plugin="net.bioclipse.scripting.ui" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="net.bioclipse.ui.business" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="net.bioclipse.usermanager"/>
+      <import plugin="net.bioclipse.core" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="net.bioclipse.webservices" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="jcl.over.slf4j"/>
+      <import plugin="net.bioclipse.xml"/>
+      <import plugin="net.bioclipse.ui.business" version="2.1.0" match="greaterOrEqual"/>
+      <import plugin="org.springframework.osgi.backport-util-concurrent.osgi"/>
+   </requires>
+
    <plugin
          id="net.bioclipse.browser.tests"
          download-size="0"
