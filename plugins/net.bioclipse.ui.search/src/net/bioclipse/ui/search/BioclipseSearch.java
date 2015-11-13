@@ -8,11 +8,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 
 public class BioclipseSearch {
 	private Table table;
+	
+	public static final BioclipseSearch INSTANCE = new BioclipseSearch();
 
-	public BioclipseSearch() {
+	private BioclipseSearch() {
 	}
 
 	/**
@@ -41,6 +44,12 @@ public class BioclipseSearch {
 	@Focus
 	public void setFocus() {
 		// TODO	Set the focus to control
+	}
+
+	public void addSearch(String text, int size) {
+		TableItem tableItem = new TableItem(table, SWT.MULTI);
+		tableItem.setText(0, text);
+		tableItem.setText(1, size+"");
 	}
 
 }

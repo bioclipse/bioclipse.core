@@ -8,7 +8,7 @@ public class BioclipseUISearchPart extends ViewPart {
 	private BioclipseSearch search;
 
 	public BioclipseUISearchPart() {
-		this.search = new BioclipseSearch();
+		this.search = BioclipseSearch.INSTANCE;
 	}
 	
 	@Override
