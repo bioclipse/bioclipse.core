@@ -158,7 +158,6 @@
 <unit id="org.apache.felix.gogo.runtime" version="0.10.0.v201209301036"/>
 <unit id="org.apache.log4j" version="1.2.15.v201012070815"/>
 <unit id="org.apache.xmlrpc" version="3.0.0.v20100427-1100"/>
-<unit id="org.apache.commons.logging" version="1.1.1.v201101211721"/>
 <unit id="org.apache.openwebbeans.ee.common" version="1.1.7.v201304201405"/>
 <unit id="org.apache.tomcat.util.source" version="7.0.47.v201312060745"/>
 <unit id="org.apache.commons.collections.source" version="3.2.0.v2013030210310"/>
@@ -214,7 +213,6 @@
 <unit id="org.apache.cassandra" version="0.7.0.v20110412-1025"/>
 <unit id="org.apache.openwebbeans.web" version="1.1.7.v201304201405"/>
 <unit id="org.apache.geronimo.components.transaction.source" version="3.1.1.v201205170710"/>
-<unit id="org.apache.commons.logging.source" version="1.1.1.v201101211721"/>
 <unit id="org.apache.oro" version="2.0.8.v201005080400"/>
 <unit id="org.apache.lucene.queries.source" version="3.5.0.v20120725-1805"/>
 <unit id="org.apache.sshd.core" version="0.7.0.v201303101611"/>
