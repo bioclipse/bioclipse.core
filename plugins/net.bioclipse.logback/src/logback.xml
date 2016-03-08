@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="true" >
+<configuration debug="false" >
 	<!--      <property file="./variables.properties" /> -->
 	<property name="destination" value="${user.home}/${bioclipse.defaultLogDir:-}" />
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<layout class="ch.qos.logback.classic.PatternLayout">
-			<Pattern>%d{HH:mm:ss.SSS} %-5level [%logger{40}] %msg%n</Pattern>
-		</layout>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{HH:mm:ss.SSS} %-5level [%logger{40}] %msg%n</pattern>
+		</encoder>
 	</appender>
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${destination}/bioclipse.log</file>
