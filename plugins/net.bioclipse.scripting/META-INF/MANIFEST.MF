@@ -25,5 +25,5 @@ Bundle-ClassPath: .,
  libs/jython-2.5.3.jar
 Export-Package: net.bioclipse.scripting,
  net.bioclipse.scripting.business
-Import-Package: org.apache.log4j
+Import-Package: org.apache.log4j,jdk.nashorn.api.scripting;resolution:=optional
 Bundle-Vendor: The Bioclipse Team
