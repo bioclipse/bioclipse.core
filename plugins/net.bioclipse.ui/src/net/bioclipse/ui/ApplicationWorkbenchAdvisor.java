@@ -224,7 +224,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         if ( perspectiveExists( defaultPerspectiveId ) ) {
             return defaultPerspectiveId;
         } else {
-            logger.warn( "Unknown perspective id " + defaultPerspectiveId );
+            logger.debug( "Unknown perspective id " + defaultPerspectiveId );
             // null is fine to return here as Eclipse interprets this as not
             // opening any perspective at all
             // If your code gets in here it is highly likely that you have
