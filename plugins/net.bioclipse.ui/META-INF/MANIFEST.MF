@@ -31,7 +31,6 @@ Require-Bundle: org.eclipse.core.runtime,
  ch.qos.logback.core;bundle-version="1.1.2",
  log4j.over.slf4j;bundle-version="1.7.7",
  jcl.over.slf4j;bundle-version="1.7.7",
- jul.to.slf4j;bundle-version="1.7.7",
  slf4j.api;bundle-version="1.7.7"
 Bundle-ActivationPolicy: lazy
 Export-Package: net.bioclipse.ui,

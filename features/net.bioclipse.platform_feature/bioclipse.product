@@ -54,5 +54,8 @@
       <feature id="net.bioclipse.platform_feature"/>
    </features>
 
+   <configurations>
+      <property name="org.osgi.framework.bundle.parent" value="ext" />
+   </configurations>
 
 </product>

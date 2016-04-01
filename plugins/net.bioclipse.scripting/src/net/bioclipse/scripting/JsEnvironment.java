@@ -114,7 +114,10 @@ public class JsEnvironment implements ScriptingEnvironment {
     }
 
     private void installJsTools() {
-
+    	if(engine==null) {
+    		logger.error("No JavaScript engine installed");
+    		return;
+    	}
         IExtensionRegistry registry = Platform.getExtensionRegistry();
 
         if ( registry == null )
