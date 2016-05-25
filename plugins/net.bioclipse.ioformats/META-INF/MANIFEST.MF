@@ -8,8 +8,8 @@ Bundle-Vendor: The Bioclipse Team
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.contenttype,
- net.bioclipse.ui,
- org.openscience.cdk.ioformats
+ net.bioclipse.ui
 Eclipse-LazyStart: true
-Import-Package: org.apache.log4j
+Import-Package: org.apache.log4j,
+ org.openscience.cdk.io.formats;version="1.5.13"
 Export-Package: net.bioclipse.ioformats
