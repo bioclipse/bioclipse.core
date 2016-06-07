@@ -163,20 +163,6 @@ is available at http://www.eclipse.org/legal/epl-v10.html
          unpack="false"/>
 
    <plugin
-         id="org.openscience.cdk.annotation"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.openscience.cdk.ioformats"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.springframework.bundle.spring.beans"
          download-size="0"
          install-size="0"
@@ -855,6 +841,13 @@ is available at http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="slf4j.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.openscience.cdk_bundle"
          download-size="0"
          install-size="0"
          version="0.0.0"
