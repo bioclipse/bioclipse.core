@@ -44,9 +44,12 @@ Bundle-ClassPath: .,
  lib/jfreechart-1.0.12.jar
 Import-Package: org.apache.commons.logging,
  org.apache.log4j
-Export-Package: net.bioclipse.jasper,
+Export-Package: com.lowagie.text,
+ com.lowagie.text.pdf,
+ net.bioclipse.jasper,
  net.bioclipse.jasper.editor,
  net.sf.jasperreports.engine,
+ net.sf.jasperreports.engine.data,
  org.jfree.chart,
  org.jfree.chart.axis,
  org.jfree.chart.plot
