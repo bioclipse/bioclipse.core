@@ -9,7 +9,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  net.bioclipse.core,
  net.bioclipse.ui,
- org.eclipse.core.resources
+ org.eclipse.core.resources,
+ org.apache.commons.collections;bundle-version="3.2.0",
+ joda-time;bundle-version="2.9.4"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
@@ -41,7 +43,10 @@ Bundle-ClassPath: .,
  lib/swtjasperviewer-1.2.0.jar,
  lib/iText-2.1.7.jar,
  lib/jcommon-1.0.15.jar,
- lib/jfreechart-1.0.12.jar
+ lib/jfreechart-1.0.12.jar,
+ lib/jasperreports-6.2.2.jar,
+ lib/jasperreports-fonts-6.2.2.jar,
+ lib/jasperreports-functions-6.2.2.jar
 Import-Package: org.apache.commons.logging,
  org.apache.log4j
 Export-Package: com.lowagie.text,
