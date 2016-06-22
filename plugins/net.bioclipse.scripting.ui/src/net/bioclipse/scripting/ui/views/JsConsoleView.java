@@ -224,7 +224,7 @@ public class JsConsoleView extends ScriptingConsoleView {
 //                 );
     }
 
-    private StringBuilder stringify( Collection<?> list, String opener,
+    private static StringBuilder stringify( Collection<?> list, String opener,
                                      String separator, String closer ) {
 
         StringBuilder sb = new StringBuilder();
@@ -248,7 +248,7 @@ public class JsConsoleView extends ScriptingConsoleView {
      * @param length
      * @return
      */
-    private String dashes(int length) {
+    private static String dashes( int length ) {
 
         StringBuilder result = new StringBuilder();
 
