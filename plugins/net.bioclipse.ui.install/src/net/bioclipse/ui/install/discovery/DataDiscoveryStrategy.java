@@ -27,13 +27,15 @@ import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
 public class DataDiscoveryStrategy extends
                 BasicRepositoryDiscoveryStrategy {
 
+	private static final String queryString = "select( select( iu | iu.id ~=/net.bioclipse.data.*/ && !(iu.id ~= /*source*/ )) ,_ , { xu, parent | parent.properties['org.eclipse.equinox.p2.type.group'] == true && parent.requirements.exists( rq | xu.exists( x |  x ~= rq )) } )";
+	private static final String oldQueryString = "select( parent | parent.properties['org.eclipse.equinox.p2.type.group'] == true " + "&& parent.requirements.exists(rc | everything.exists( iu | iu ~= rc && iu.id ~= /net.bioclipse.data.*/)))";
+	
     protected void queryInstallableUnits( SubMonitor monitor,
                                           List<IMetadataRepository> repositories ) {
 		monitor.setWorkRemaining(repositories.size());
 		for (final IMetadataRepository repository : repositories) {
 			checkCancelled(monitor);
-            IQuery<IInstallableUnit> query = QueryUtil
-                            .createQuery( "select( parent | parent.properties['org.eclipse.equinox.p2.type.group'] == true " + "&& parent.requirements.exists(rc | everything.exists( iu | iu ~= rc && iu.id ~= /net.bioclipse.data.*/)))" ); //$NON-NLS-1$
+            IQuery<IInstallableUnit> query = QueryUtil.createQuery( queryString );
 			IQueryResult<IInstallableUnit> result = repository.query(query, monitor.newChild(1));
 			for (Iterator<IInstallableUnit> iter = result.iterator(); iter.hasNext();) {
 				process(repository, iter.next());
