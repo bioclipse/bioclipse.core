@@ -44,6 +44,7 @@
       <import plugin="net.bioclipse.xml"/>
       <import plugin="net.bioclipse.ui.business" version="2.1.0" match="greaterOrEqual"/>
       <import plugin="org.springframework.osgi.backport-util-concurrent.osgi"/>
+      <import plugin="javax.vecmath"/>
    </requires>
 
    <plugin
