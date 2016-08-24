@@ -19,6 +19,9 @@
 		<dependency name="org.xmlpull.xpp3" componentType="osgi.bundle"/>
 		<dependency name="signatures" componentType="osgi.bundle"/>
 		
+		<dependency name="log4j.over.slf4j" componentType="osgi.bundle"/>
+		<dependency name="slf4j.api" componentType="osgi.bundle"/>
+		
 	</dependencies>
 	<generators>
 		<!-- Place your Generators here -->
