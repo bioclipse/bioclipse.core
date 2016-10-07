@@ -85,7 +85,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
                   logger.debug("Workspace set to: " + lastUsedWs);
               }else{
                   instanceLoc.set(new URL("file", null, PickWorkspaceDialog.getWorkspacePathSuggestion()), false);
-                  logger.debug("Workspace set to: " + PickWorkspaceDialog.getLastSetWorkspaceDirectory());
+                  logger.debug("Workspace set to: " + PickWorkspaceDialog.getWorkspacePathSuggestion());
               }
             }
           } catch (Exception exception) {
