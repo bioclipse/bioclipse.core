@@ -11,6 +11,7 @@ package net.bioclipse.report.serializer;
 
 import java.util.List;
 
+import net.bioclipse.core.domain.IStringMatrix;
 import net.bioclipse.report.data.Box;
 import net.bioclipse.report.data.Header;
 import net.bioclipse.report.data.Hyperlink;
@@ -22,6 +23,7 @@ import net.bioclipse.report.data.NewLine;
 import net.bioclipse.report.data.ParagraphEnd;
 import net.bioclipse.report.data.ParagraphStart;
 import net.bioclipse.report.data.Section;
+import net.bioclipse.report.data.Table;
 import net.bioclipse.report.data.Text;
 
 public class HTMLSerializer implements ISerializer {
@@ -75,6 +77,30 @@ public class HTMLSerializer implements ISerializer {
 				Hyperlink link = (Hyperlink)content;
 				buffer.append("<a href=\"").append(link.getContent()[0]).append("\">")
 				      .append(link.getContent()[1]).append("</a>");
+            } else if (content instanceof Table) {
+                Table table = (Table)content;
+                IStringMatrix matrix = (IStringMatrix)table.getContent()[0];
+                String caption = (String)table.getContent()[1];
+                if (caption != null) buffer.append("<b>").append(caption).append("</b><br />");
+                if (matrix != null & matrix.getRowCount() != 0) {
+                    buffer.append("<table>");
+                    // column headers
+                    List<String> colNames = matrix.getColumnNames();
+                    for (String colName : colNames) {
+                        buffer.append("<td><b>").append(colName).append("</b></td>");
+                    }
+                    // table content
+                    for (int i=1; i<=matrix.getRowCount(); i++) {
+                        buffer.append("<tr>");
+                        for (int j=1; j<=matrix.getColumnCount(); j++) {
+                            buffer.append("<td>").append(
+                                matrix.get(i, j)
+                            ).append("</td>");
+                        }
+                        buffer.append("</tr>");
+                    }
+                    buffer.append("</table>");
+                }
 			}
 		}
 		buffer.append("</html>\n");
