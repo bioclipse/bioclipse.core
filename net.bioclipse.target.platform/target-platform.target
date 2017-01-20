@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="Bioclipse 4.5" sequenceNumber="197">
+<?pde version="3.8"?><target name="Bioclipse (Eclipse 4.5)" sequenceNumber="82">
 <locations>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.rcp.id" version="4.5.2.M20160212-1500"/>
@@ -290,10 +290,6 @@
 <location path="${project_loc:/net.bioclipse.target.platform}/spring-osgi-1.0.2/dist" type="Directory"/>
 <location path="${project_loc:/net.bioclipse.target.platform}/logging" type="Directory"/>
 <location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="net.bioclipse.r.walware_feature.feature.group" version="2.1.0.201308021643"/>
-<repository location="http://pele.farmbio.uu.se/bioclipse/2.5/walware"/>
-</location>
-<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.antlr.runtime" version="3.2.0.v201101311130"/>
 <repository location="http://pele.farmbio.uu.se/bioclipse/eclipse/orbit-R20140525021250/"/>
 </location>
@@ -329,6 +325,13 @@
 <unit id="org.openscience.cdk_bundle" version="1.5.13.20160818_125229"/>
 <unit id="net.bioclipse.cdk.jcp" version="1.5.13.160531-172438"/>
 <repository location="http://pele.farmbio.uu.se/bioclipse/cdk/cdk-1.5.13/"/>
+</location>
+<location includeAllPlatforms="true" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="de.walware.rj.servi.e.feature.group" version="2.0.5.b201604071800"/>
+<unit id="de.walware.ecommons.e.feature.group" version="1.6.0.b201604071800"/>
+<unit id="de.walware.rj.eclient.feature.group" version="2.0.5.b201604071800"/>
+<unit id="de.walware.rj.core.feature.group" version="2.0.5.b201604071800"/>
+<repository location="http://pele.farmbio.uu.se/bioclipse/2.6/walware"/>
 </location>
 </locations>
 </target>

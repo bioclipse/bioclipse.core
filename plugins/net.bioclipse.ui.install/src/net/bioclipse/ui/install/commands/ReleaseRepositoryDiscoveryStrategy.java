@@ -41,14 +41,15 @@ public class ReleaseRepositoryDiscoveryStrategy extends
     		
     		"bioclipse.qsar",
     		"bioclipse.metaprint2d",
-    		"bioclipse.ds",
+    		"bioclipse.ds_",
     		"bioclipse.bioinformatics",
     		"bioclipse.opentox_",
     		"bioclipse.opentox.qsar_",
     		"bioclipse.hivdrc",
     		"bioclipse.balloon",
     		"bioclipse.social",
-    		"bioclipse.r_"
+    		"bioclipse.r_",
+    		"bioclipse.bridgedb_"
 
 //                    "bioclipse.cheminformatics_feature",
 //                    "bioclipse.statistics", "org.openscience.cdk",

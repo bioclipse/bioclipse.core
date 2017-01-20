@@ -1,10 +1,15 @@
 package net.bioclipse.jsexecution.execution;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.script.ScriptEngine;
+import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 
 import net.bioclipse.core.business.BioclipseException;
@@ -194,10 +199,14 @@ public class ScriptExecution {
                     Activator.class.getClassLoader());
         }*///TODO removed old rhino code
         
-        ScriptEngine engine = new ScriptEngineManager( 
-                                 Activator.class.getClassLoader() )
-                                .getEngineByName( "JavaScript" );
-        
+        ScriptEngine engine = null;
+       
+        Collection<String> languageNames = java.util.Arrays.asList( new String[] {"JavaScript","ECMAScript"});
+        for(ScriptEngineFactory factory:getScriptEngineFactories()) {
+        	if(languageNames.contains(factory.getLanguageName())) {
+        		engine = factory.getScriptEngine();
+        	}
+        }
 
         if (engine == null) {
             return "Could not create engine.";
@@ -241,7 +250,42 @@ public class ScriptExecution {
         }
         return scriptResult;
     }
-
+    
+    private static Set<ScriptEngineFactory> getScriptEngineFactories() {
+    	Set<ScriptEngineFactory> factories = new LinkedHashSet<ScriptEngineFactory>();
+    	
+    	{
+    		ScriptEngineManager mgr = new ScriptEngineManager(Activator.class.getClassLoader());
+    		factories.addAll(mgr.getEngineFactories());
+    	}
+    	
+    	{
+    		ScriptEngineManager mgr = new ScriptEngineManager();
+    		factories.addAll(mgr.getEngineFactories());
+    	}
+    	
+    	{
+    		try{
+        		Class<?> nashornFactory = Class.forName("jdk.nashorn.api.scripting.NashornScriptEngineFactory");
+        		Constructor<?> constructor = null;
+        		for(Constructor<?> c:nashornFactory.getDeclaredConstructors()) {
+        			if(c.getGenericParameterTypes().length == 0) {
+        				constructor = c;
+        				break;
+        			}
+        		}
+        		if(constructor!=null) {
+        			ScriptEngineFactory nashorn = (ScriptEngineFactory)constructor.newInstance();
+        			factories.add(nashorn);
+        		}
+        		
+        	} catch( Exception ex) {
+        		logger.warn("Could not create factory for Nashorn",ex);
+        	}
+    	}
+    	return factories;
+    }
+    
     public static String getErrorMessage(Throwable t) {
         if (t == null)
             return "";

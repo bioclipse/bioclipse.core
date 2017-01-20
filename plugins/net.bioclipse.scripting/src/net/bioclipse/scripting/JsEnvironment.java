@@ -9,8 +9,13 @@ package net.bioclipse.scripting;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
@@ -27,6 +32,8 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * JavaScript environment. Holds variables and evaluates expressions.
@@ -49,64 +56,63 @@ public class JsEnvironment implements ScriptingEnvironment {
      */
     public final void reset() {
 
-        ScriptEngineManager mgr
-            = new ScriptEngineManager(JsEnvironment.class.getClassLoader());
-        engine = mgr.getEngineByName("JavaScript");
+        Collection<ScriptEngineFactory> factories = getScriptEngineFactories();
+        
         StringBuilder builder = new StringBuilder();
-        if ( engine == null ) {
-        	//jdk.nashorn.api.scripting.NashornScriptEngineFactory
-            ScriptEngineManager mgr2 = new ScriptEngineManager();
-            engine = mgr2.getEngineByName( "ECMAScript" );
-            for ( ScriptEngineFactory sef : mgr2.getEngineFactories() ) {
-                builder.append( sef.getLanguageName() ).append( ", " );
-            }
-            if(engine==null) {
-            	
-            	try{
-            		Class<?> nashornFactory = Class.forName("jdk.nashorn.api.scripting.NashornScriptEngineFactory");
-            		Constructor<?> constructor = null;
-            		for(Constructor<?> c:nashornFactory.getDeclaredConstructors()) {
-            			if(c.getGenericParameterTypes().length == 0) {
-            				constructor = c;
-            				break;
-            			}
-            		}
-            		if(constructor!=null) {
-            			ScriptEngineFactory nashorn = (ScriptEngineFactory)constructor.newInstance();
-//            		ScriptEngineFactory nashorn =  new jdk.nashorn.api.scripting.NashornScriptEngineFactory();
-            			builder.append( nashorn.getLanguageName()).append(", ");
-            			engine = nashorn.getScriptEngine();
-            		}
-            		
-            	} catch( Exception ex) {
-            		logger.warn("Could not create factory for Nashorn",ex);
-            	}
-            }
+        Collection<String> languageNames = Arrays.asList( new String[] {"JavaScript","ECMAScript"});
+        for(ScriptEngineFactory factory:factories) {
+        	String name =factory.getLanguageName();
+        	String version = factory.getLanguageVersion();
+        	builder.append( String.format("%s(%s), ", name,version));
+        	if(languageNames.contains(name)) {
+        		engine = factory.getScriptEngine();
+        	}
         }
-        if ( engine == null ) {
-            for ( ScriptEngineFactory sef : mgr.getEngineFactories() ) {
-                builder.append( sef.getLanguageName() ).append( ", " );
-            }
-            builder.delete( builder.length() - 2, builder.length() - 1 );
-            logger.error( "Failed to find \"JavaScript\" scripting engine. Available engines are " + builder
-                                          .toString() );
+        
+      
+        builder.delete( builder.length() - 2, builder.length() - 1 );
+        if(engine==null) {
+        	logger.error( "Failed to find \"JavaScript\" scripting engine.");
         }
+        logger.debug("Available engines are " + builder.toString() );
 
         managers = new HashMap<String, IBioclipseManager>();
 
         installJsTools();
     }
-    
-    private ScriptEngine getNashorn() {
-    	try {
-			Class<?> nashornFactoryClazz = Class.forName("jdk.nashorn.api.scripting.NashornScriptEngineFactory");
-			nashornFactoryClazz.getConstructors();
-			
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	return null;
+    private Set<ScriptEngineFactory> getScriptEngineFactories() {
+    	Set<ScriptEngineFactory> factories = new LinkedHashSet<>();
+    	
+    	{
+    		ScriptEngineManager mgr = new ScriptEngineManager(JsEnvironment.class.getClassLoader());
+    		factories.addAll(mgr.getEngineFactories());
+    	}
+    	
+    	{
+    		ScriptEngineManager mgr = new ScriptEngineManager();
+    		factories.addAll(mgr.getEngineFactories());
+    	}
+    	
+    	{
+    		try{
+        		Class<?> nashornFactory = Class.forName("jdk.nashorn.api.scripting.NashornScriptEngineFactory");
+        		Constructor<?> constructor = null;
+        		for(Constructor<?> c:nashornFactory.getDeclaredConstructors()) {
+        			if(c.getGenericParameterTypes().length == 0) {
+        				constructor = c;
+        				break;
+        			}
+        		}
+        		if(constructor!=null) {
+        			ScriptEngineFactory nashorn = (ScriptEngineFactory)constructor.newInstance();
+        			factories.add(nashorn);
+        		}
+        		
+        	} catch( Exception ex) {
+        		logger.warn("Could not create factory for Nashorn",ex);
+        	}
+    	}
+    	return factories;
     }
 
     public Map<String, IBioclipseManager> getManagers() {
