@@ -22,14 +22,16 @@
 		<topic label="Customizing the Workbench" href="html/workbench/wb_customize.html"/> 
 		<topic label="Editors" href="html/workbench/wb_editors.html"> 
 			<topic label="Text editor" href="html/workbench/editors/ed_textEditor.html"/> 
-			<topic label="XML-Lite editor" href="html/workbench/editors/ed_xmlEditor.html"/> 
+			<topic label="XML-Lite editor" href="html/workbench/editors/ed_xmlEditor.html"/>
+   <anchor id="editors"/> 
 		</topic>
 		<topic label="Views" href="html/workbench/wb_views.html"> 
 			<topic label="The Bioclipse Navigator" href="html/workbench/views/vi_navigator.html"/> 
 			<topic label="The Outline View" href="html/workbench/views/vi_outline.html"/> 
 			<topic label="The Properties View" href="html/workbench/views/vi_properties.html"/> 
 			<topic label="The Progress View" href="html/workbench/views/vi_progress.html"/> 
-			<topic label="The JavaScript Console" href="html/workbench/views/vi_jsconsole.html"/> 
+			<topic label="The JavaScript Console" href="html/workbench/views/vi_jsconsole.html"/>
+   <anchor id="views"/> 
 		</topic>
 		<topic label="Preferences" href="html/workbench/wb_preferences.html"/> 
 		<topic label="Network settings" href="html/workbench/wb_nwsettings.html"/>

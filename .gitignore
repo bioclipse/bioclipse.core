@@ -5,3 +5,4 @@ output
 plugins/net.bioclipse.structuredb.tests/logs/NatTableLog.log
 plugins/net.bioclipse.tests/logs/NatTableLog.log
 plugins/net.bioclipse.tests/filename
+cachedir

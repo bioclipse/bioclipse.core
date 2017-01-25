@@ -130,9 +130,9 @@ public class GroovyConsoleView extends ScriptingConsoleView {
                      public void run() {
                          if ( null != result ) {
                              if (result instanceof Object) {
-                                 if (result instanceof Exception) {
+                                 if (result instanceof Throwable) {
                                      message[0]
-                                         = getErrorMessage((Exception)result);
+                                         = getErrorMessage((Throwable)result);
                                  }
                                  else if (result instanceof List<?>) {
                                      List<?> list = (List<?>)result;
@@ -694,7 +694,11 @@ public class GroovyConsoleView extends ScriptingConsoleView {
                         new Hook() {
                             public void run(Object o) {
                                 synchronized (variables) {
-                                    if (o instanceof Exception) {
+                                    if ( o instanceof List ) {
+                                        variables[0] = (List<String>) o;
+                                        variables.notifyAll();
+                                        return;
+                                    } else {
                                         // it's probably the tab-completed
                                         // object that doesn't exist
                                         variables[0] =
@@ -702,8 +706,6 @@ public class GroovyConsoleView extends ScriptingConsoleView {
                                         variables.notifyAll();
                                         return;
                                     }
-                                    variables[0] = (List<String>) o;
-                                    variables.notifyAll();
                                 }
                             }
                         }

@@ -1,6 +1,2 @@
 instructions.configure=\
-     org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(type:0,location:http${#58}//update.bioclipse.net);\
-     org.eclipse.equinox.p2.touchpoint.eclipse.removeRepository(type:0,location:http${#58}//pele.farmbio.uu.se/bioclipse/releases/2.6);\
-     org.eclipse.equinox.p2.touchpoint.eclipse.addRepository(type:0,location:http${#58}//pele.farmbio.uu.se/bioclipse/dsmodels);\
-     org.eclipse.equinox.p2.touchpoint.eclipse.removeProgramProperty(propName:noupdate,propValue:);\
      org.eclipse.equinox.p2.touchpoint.eclipse.setProgramProperty(propName:org.eclipse.ui/defaultPerspectiveId,propValue:net.bioclipse.chemoinformatics.ChemoinformaticsPerspective)

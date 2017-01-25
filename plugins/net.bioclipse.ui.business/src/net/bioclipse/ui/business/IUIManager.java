@@ -7,13 +7,12 @@
  *
  * Contributors:
  *     Jonathan Alvarsson
+ *     Christian Hofbauer
  *
  ******************************************************************************/
 package net.bioclipse.ui.business;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
 import java.util.List;
 
 import net.bioclipse.core.PublishedClass;
@@ -22,11 +21,11 @@ import net.bioclipse.core.Recorded;
 import net.bioclipse.core.TestClasses;
 import net.bioclipse.core.TestMethods;
 import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.core.domain.IBioObject;
 import net.bioclipse.managers.business.GuiAction;
 import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.content.IContentType;
 
@@ -103,6 +102,26 @@ public interface IUIManager extends IBioclipseManager {
     @Recorded
     @TestMethods("testSaveAndRemove_IFile")
     public void save( IFile file, 
+                      InputStream toWrite,
+                      Runnable callBackFunction );
+
+    @Recorded
+    @PublishedMethod(
+        params = "String filePath, InputStream content",
+        methodSummary = "Append the content of the InputStream to the given path."
+    )
+    public void append(String filePath, InputStream toWrite);
+
+    @Recorded
+    @PublishedMethod(
+        params = "String filePath, String content",
+        methodSummary = "Append the content of the String to the given path."
+    )
+    public void append(String filePath, String toWrite);
+
+    
+    @Recorded
+    public void append( IFile file, 
                       InputStream toWrite,
                       Runnable callBackFunction );
 
@@ -209,6 +228,54 @@ public interface IUIManager extends IBioclipseManager {
     public String newProject(String name) 
         throws CoreException, BioclipseException;
 
+    @Recorded
+    @PublishedMethod(
+        params="String name",
+        methodSummary="Return a project by name."
+    )
+    public IProject getProject(String name) 
+        throws CoreException, BioclipseException;
     
+    @Recorded
+    @PublishedMethod(
+       params="String folder",
+       methodSummary="Retrieves the full path information of all files in a folder"
+    )
+    public String[] getFiles(String folder)
+       throws CoreException, BioclipseException;
+    
+    
+    @Recorded
+    @PublishedMethod(
+       params="String folder",
+       methodSummary="Retrieves the full path information of all subfolders in a folder"
+    )
+    public String[] getSubFolders(String folder)
+       throws CoreException, BioclipseException;
+    
+    @Recorded
+    @PublishedMethod(
+       params="String[] components",
+       methodSummary="Creates a path based on the components in the array. "
+       		+ "The first component indicates the project, the next one the folder "
+       		+ "followed by a set of subsequent subfolders.")
+    public String buildPath(String[] components)
+       throws BioclipseException;
 
+    @Recorded
+    @PublishedMethod(
+       params="String root, String component",
+       methodSummary="Creates a path starting from an existing root path and "
+       		+ "extended by one additional component.")
+    public String buildPath(String root, String component)
+       throws BioclipseException;
+
+    @Recorded
+    @PublishedMethod(
+       params="String root, String[] components",
+       methodSummary="Creates a path starting from an existing root path and "
+       		+ "extended by the components in the array. "
+       		+ "This form of the method can be used to extend an existing path")
+    public String buildPath(String root, String[] components)
+       throws BioclipseException;
 }

@@ -16,6 +16,16 @@
          id="net.bioclipse.ScriptingCategory">
       </category>
       <view
+         name="Python Console"
+         icon="icons/source.gif"
+         category="net.bioclipse.ScriptingCategory"
+         class="net.bioclipse.scripting.ui.views.PythonConsoleView"
+         id="net.bioclipse.scripting.ui.views.PythonConsoleView">
+         <description>
+            Python Console View
+         </description>
+      </view>
+      <view
          name="Groovy Console"
          icon="icons/source.gif"
          category="net.bioclipse.ScriptingCategory"

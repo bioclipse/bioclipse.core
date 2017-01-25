@@ -8,6 +8,7 @@
  * Contributors:
  *     Jonathan Alvarsson
  *     Carl Masak
+ *     Christian Hofbauer
  *
  ******************************************************************************/
 package net.bioclipse.ui.business;
@@ -38,6 +39,7 @@ import net.bioclipse.ui.business.describer.ExtensionPointHelper;
 import net.bioclipse.ui.business.describer.IBioObjectDescriber;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -109,6 +111,18 @@ public class UIManager implements IBioclipseManager {
             throw new RuntimeException(e);
         }
     }
+
+	private IWorkspaceRoot getWorkspaceRoot() {
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        IWorkspaceRoot root = workspace.getRoot();
+		return root;
+	}
+    
+	private IProject accessProject(String name) {
+		IWorkspaceRoot root = getWorkspaceRoot();
+        IProject project = root.getProject( name );
+		return project;
+	}
 
     private void open( final IFile file ) {
 
@@ -225,41 +239,79 @@ public class UIManager implements IBioclipseManager {
     }
 
     public void save( IFile target,
-                      InputStream toWrite,
-                      IProgressMonitor monitor ) {
-       save ( target, toWrite, null, monitor);
+    		InputStream toWrite,
+    		IProgressMonitor monitor ) {
+    	save ( target, toWrite, null, monitor);
     }
 
     public void save( IFile target,
-            String toWrite,
-            IProgressMonitor monitor ) {
+    		String toWrite,
+    		IProgressMonitor monitor ) {
     	save ( target, new ByteArrayInputStream(toWrite.getBytes()), null, monitor);
     }
 
     public void save( final IFile target,
-                      InputStream toWrite,
-                      Runnable callbackFunction,
-                      IProgressMonitor monitor ) {
-        if (monitor == null) monitor = new NullProgressMonitor();
-        try {
-            int ticks = 10000;
-            monitor.beginTask("Writing file", ticks);
-            if (target.exists()) {
-                target.setContents(toWrite, false, true, monitor);
-            } else {
-                target.create(toWrite, false, monitor);
-            }
-            monitor.worked(ticks);
-        } catch (Exception exception) {
-            throw new RuntimeException(
-                          "Error while saving to IFile", exception
-            );
-        } finally {
-            monitor.done();
-        }
-        if (callbackFunction != null) {
-            Display.getDefault().asyncExec(callbackFunction);
-        }
+    		InputStream toWrite,
+    		Runnable callbackFunction,
+    		IProgressMonitor monitor ) {
+    	if (monitor == null) monitor = new NullProgressMonitor();
+    	try {
+    		int ticks = 10000;
+    		monitor.beginTask("Writing file", ticks);
+    		if (target.exists()) {
+    			target.setContents(toWrite, false, true, monitor);
+    		} else {
+    			target.create(toWrite, false, monitor);
+    		}
+    		monitor.worked(ticks);
+    	} catch (Exception exception) {
+    		throw new RuntimeException(
+    				"Error while saving to IFile", exception
+    				);
+    	} finally {
+    		monitor.done();
+    	}
+    	if (callbackFunction != null) {
+    		Display.getDefault().asyncExec(callbackFunction);
+    	}
+    }
+
+    public void append( IFile target,
+    		InputStream toWrite,
+    		IProgressMonitor monitor ) {
+    	append ( target, toWrite, null, monitor);
+    }
+
+    public void append( IFile target,
+    		String toWrite,
+    		IProgressMonitor monitor ) {
+    	append ( target, new ByteArrayInputStream(toWrite.getBytes()), null, monitor);
+    }
+
+    public void append( final IFile target,
+    		InputStream toWrite,
+    		Runnable callbackFunction,
+    		IProgressMonitor monitor ) {
+    	if (monitor == null) monitor = new NullProgressMonitor();
+    	try {
+    		int ticks = 10000;
+    		monitor.beginTask("Appending to file", ticks);
+    		if (target.exists()) {
+    			target.appendContents(toWrite, false, true, monitor);
+    		} else {
+    			target.create(toWrite, false, monitor);
+    		}
+    		monitor.worked(ticks);
+    	} catch (Exception exception) {
+    		throw new RuntimeException(
+    				"Error while appending to IFile", exception
+    				);
+    	} finally {
+    		monitor.done();
+    	}
+    	if (callbackFunction != null) {
+    		Display.getDefault().asyncExec(callbackFunction);
+    	}
     }
 
     public boolean fileExists(IFile file) {
@@ -510,13 +562,129 @@ public class UIManager implements IBioclipseManager {
      */
     public String newProject(String name) throws CoreException,
                                                  BioclipseException {
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        IWorkspaceRoot root = workspace.getRoot();
-        IProject project = root.getProject( name );
+        IProject project = accessProject(name);
         if (project.exists()) return name;
         project.create( new NullProgressMonitor() );
         project.open( new NullProgressMonitor() );
         return name;
+    }
+    
+    /**
+     * Returns an array of all files in the specified project or project folder
+     * 
+     * @param folder
+     * @return array of the paths of the files in that folder
+     * @throws CoreException
+     * @throws BioclipseException
+     */
+    public String[] getFiles(String folder)
+    	       throws CoreException, BioclipseException {
+    	return listFilesInFolder(folder, false);
+    }
+    
+    /**
+     * Returns an array of all subfolders in the specified project or project folder
+     * 
+     * @param folder
+     * @return array of the paths of the subfolders in that folder
+     * @throws CoreException
+     * @throws BioclipseException
+     */
+    public String[] getSubFolders(String folder)
+ 	       throws CoreException, BioclipseException {
+ 	return listFilesInFolder(folder, true);
+   }
+ 
+    /**
+     * Working method for getFile and getSubFolder
+     * 
+     * @param parent
+     * @param folders
+     * @return the list of components in the folder
+     * @throws CoreException
+     */
+    private String[] listFilesInFolder(String parent, boolean folders) 
+    		   throws CoreException {
+    	IWorkspaceRoot root = getWorkspaceRoot();
+    	IPath path = new Path(parent);
+    	IContainer resFolder;
+    	
+    	if (path.segmentCount() > 1) { 
+    	  resFolder = root.getFolder(path);
+    	}
+    	else {
+    	  resFolder = accessProject(path.segment(0));
+    	}
+    	
+    	ArrayList<String> files = new ArrayList<String>();
+    	IResource[] resources = resFolder.members(IResource.FILE);
+    	for (IResource r : resources) {
+    		if ((r.getType() != IResource.FOLDER) ^ ( folders )) {
+                files.add( r.getFullPath().toString());
+    		}
+        }    	
+    	
+    	return files.toArray(new String[0]);
+    }
+    
+    /**
+     * Builds a path from the provided components
+     * 
+     * The first component should always be the project followed by a sequence 
+     * of folders and subfolders.
+     * 
+     * @param components
+     * @return
+     * @throws BioclipseException
+     */
+    public String buildPath(String[] components) throws BioclipseException {
+    	return buildPath("/", components);
+    }
+    
+    /**
+     * Creates a path starting from an existing root path and 
+     * extended by one additional component.
+     * @param root
+     * @param component
+     * @return
+     * @throws BioclipseException
+     */
+    public String buildPath(String root, String component) throws BioclipseException {
+    	String[] components = new String[1];
+    	components[0] = component;
+    	return buildPath(root, components);
+    }    
+
+    /**
+     * Builds a path from the provided components based on a root path
+     * 
+     * The first component should always be the project followed by a sequence 
+     * of folders and subfolders.
+     * 
+     * @param root the root path
+     * @param components the compoenents of the path extension
+     * @return
+     * @throws BioclipseException
+     */
+    public String buildPath(String root, String[] components) throws BioclipseException {
+    	IPath path = new Path((root != "") && (root != null) ? root : "/");
+    	for(int i=0;i<components.length; ++i) {
+    		path = path.append(components[i]);
+    	}
+    	
+    	return path.toOSString();
+    }
+    
+    public IProject getProject(String name) throws CoreException, BioclipseException {
+    	IProject project = accessProject(name);
+    	if (project.exists())
+    	{
+    		return project;
+    	}
+    	else
+    	{
+    		return null;
+    	}
     }
 
 
@@ -526,8 +694,7 @@ public class UIManager implements IBioclipseManager {
 
     public IFile newFile(String path, String content)
         throws CoreException, BioclipseException {
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        IWorkspaceRoot root = workspace.getRoot();
+        IWorkspaceRoot root = getWorkspaceRoot();
         IPath ipath=new Path(path);
         IFile file=root.getFile( ipath );
 

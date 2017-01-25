@@ -14,6 +14,7 @@ import org.eclipse.core.resources.IFile;
 
 import net.bioclipse.core.PublishedClass;
 import net.bioclipse.core.PublishedMethod;
+import net.bioclipse.core.Recorded;
 import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.managers.business.IBioclipseManager;
 
@@ -76,6 +77,7 @@ public interface IBioclipsePlatformManager extends IBioclipseManager {
     @PublishedMethod(
         methodSummary="Returns a string representation of the current " +
         		      "Bioclipse version")
+    @Recorded
     public String version();
 
     @PublishedMethod(

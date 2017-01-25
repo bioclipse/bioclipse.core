@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JsExecution
 Bundle-SymbolicName: net.bioclipse.jsexecution
-Bundle-Version: 2.6.1.qualifier
+Bundle-Version: 2.6.2.qualifier
 Bundle-Activator: net.bioclipse.jsexecution.Activator
 Bundle-Vendor: The Bioclipse Team
 DynamicImport-Package: *
@@ -13,6 +13,6 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
-Import-Package: org.apache.log4j
+Import-Package: org.apache.log4j, jdk.nashorn.api.scripting;resolution:=optional
 Export-Package: net.bioclipse.jsexecution.execution,
  net.bioclipse.jsexecution.tools

@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.pde.ui.JunitLaunchConfig">
-<setAttribute key="additional_plugins"/>
+<listAttribute key="StepOutExcludePkgsOrClasses"/>
+<setAttribute key="additional_plugins">
+<setEntry value="ch.qos.logback.classic:1.1.2:default:true"/>
+<setEntry value="ch.qos.logback.core:1.1.2:default:true"/>
+<setEntry value="jcl.over.slf4j:1.7.7:default:true"/>
+<setEntry value="jul.to.slf4j:1.7.7:default:true"/>
+<setEntry value="log4j.over.slf4j:1.7.7:default:true"/>
+<setEntry value="org.slf4j.osgi-over-slf4j:1.7.7:default:true"/>
+<setEntry value="slf4j.api:1.7.7:default:true"/>
+</setAttribute>
 <booleanAttribute key="append.args" value="true"/>
 <booleanAttribute key="askclear" value="false"/>
 <booleanAttribute key="automaticAdd" value="true"/>
@@ -22,10 +31,15 @@
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
 </listAttribute>
+<mapAttribute key="org.eclipse.debug.core.preferred_launchers">
+<mapEntry key="[run]" value="org.eclipse.pde.ui.JunitLaunchConfig"/>
+</mapAttribute>
 <stringAttribute key="org.eclipse.jdt.junit.CONTAINER" value=""/>
 <booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="false"/>
 <stringAttribute key="org.eclipse.jdt.junit.TESTNAME" value=""/>
 <stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit4"/>
+<booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
+<stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="net.bioclipse.core.testsuite.AllCoreRepoPluginTestsSuit"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog -noupdate"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="net.bioclipse.core.testsuite"/>
@@ -42,7 +56,7 @@
 <setEntry value="org.eclipse.help:default"/>
 <setEntry value="org.eclipse.rcp:default"/>
 </setAttribute>
-<booleanAttribute key="show_selected_only" value="false"/>
+<booleanAttribute key="show_selected_only" value="true"/>
 <stringAttribute key="testApplication" value="net.bioclipse.ui.application"/>
 <booleanAttribute key="tracing" value="false"/>
 <booleanAttribute key="useCustomFeatures" value="true"/>

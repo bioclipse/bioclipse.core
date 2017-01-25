@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bioclipse Browser
 Bundle-SymbolicName: net.bioclipse.browser;singleton:=true
-Bundle-Version: 2.6.1.qualifier
+Bundle-Version: 2.6.2.qualifier
 Bundle-Activator: net.bioclipse.browser.Activator
 Bundle-Vendor: The Bioclipse team
 Require-Bundle: org.eclipse.ui,

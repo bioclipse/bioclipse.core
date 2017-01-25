@@ -24,6 +24,7 @@ public class Activator extends Plugin {
     
     public JsThread JS_THREAD = new JsThread();
     public GroovyThread GROOVY_THREAD = new GroovyThread();
+    public PythonThread PYTHON_THREAD = new PythonThread();
     
     /**
      * The constructor
@@ -40,6 +41,7 @@ public class Activator extends Plugin {
         plugin = this;
         JS_THREAD.start();
         GROOVY_THREAD.start();
+        PYTHON_THREAD.start();
     }
 
     /*

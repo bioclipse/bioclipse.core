@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bioclipse Scripting
 Bundle-SymbolicName: net.bioclipse.scripting;singleton:=true
-Bundle-Version: 2.6.1.qualifier
+Bundle-Version: 2.6.2.qualifier
 Bundle-Activator: net.bioclipse.scripting.Activator
 Require-Bundle: org.eclipse.core.runtime,
  net.bioclipse.core,
@@ -12,8 +12,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  net.bioclipse.jsexecution
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: libs/antlr-2.7.5.jar,
- .,
+Bundle-ClassPath: .,
+ libs/antlr-2.7.5.jar,
  libs/asm-2.2.jar,
  libs/js.jar,
  libs/asm-2.2.3.jar,
@@ -21,8 +21,9 @@ Bundle-ClassPath: libs/antlr-2.7.5.jar,
  libs/backport-util-concurrent.jar,
  libs/bsf.jar,
  libs/jline-0.9.91.jar,
- libs/groovy-all-1.7.2.jar
+ libs/groovy-all-1.7.2.jar,
+ libs/jython-2.5.3.jar
 Export-Package: net.bioclipse.scripting,
  net.bioclipse.scripting.business
-Import-Package: org.apache.log4j
+Import-Package: org.apache.log4j,jdk.nashorn.api.scripting;resolution:=optional
 Bundle-Vendor: The Bioclipse Team

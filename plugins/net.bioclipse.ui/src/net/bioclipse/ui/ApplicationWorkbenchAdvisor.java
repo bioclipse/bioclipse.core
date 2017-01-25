@@ -31,11 +31,14 @@ import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPreferenceConstants;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
+import org.eclipse.ui.internal.util.PrefUtil;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.osgi.service.prefs.Preferences;
@@ -82,7 +85,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
                   logger.debug("Workspace set to: " + lastUsedWs);
               }else{
                   instanceLoc.set(new URL("file", null, PickWorkspaceDialog.getWorkspacePathSuggestion()), false);
-                  logger.debug("Workspace set to: " + PickWorkspaceDialog.getLastSetWorkspaceDirectory());
+                  logger.debug("Workspace set to: " + PickWorkspaceDialog.getWorkspacePathSuggestion());
               }
             }
           } catch (Exception exception) {
@@ -120,33 +123,12 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         //TODO Perhaps allow Bioclpse to be started without the Navigator 
         // (Right now Bioclipse refuses to start if the Navigator 
         //  view has been closed)
-        IWorkbenchPage activePage = PlatformUI.getWorkbench()
-        		.getActiveWorkbenchWindow()
-        		.getActivePage();
-		try {
-			final String BIOCLIPSE_NAVIGATOR = "net.bioclipse.navigator";
-        	boolean foundNavigator = false;
-            IViewReference[] parts = activePage.getViewReferences();
-            for(IViewReference part : parts ) {
-            	if(part.getId().equals( BIOCLIPSE_NAVIGATOR ) ) {
-            		foundNavigator = true;
-            		break;
-            	}
-            }
-            if(!foundNavigator) {
-            	PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-            	    .getActivePage().showView(BIOCLIPSE_NAVIGATOR);
-            }
-            
+        IWorkbenchWindow activeWindow = PlatformUI.getWorkbench()
+                        .getActiveWorkbenchWindow();
+        if ( activeWindow != null ) {
+            IWorkbenchPage activePage = activeWindow.getActivePage();
+            showBioclipseNavigator( activePage );
         }
-        catch ( PartInitException e1 ) {
-            LogUtils.handleException( e1, logger, "net.bioclipse.ui" );
-        }
-        
-        CommonNavigator nav = (CommonNavigator) activePage
-                                     .findView( "net.bioclipse.navigator" );
-
-        nav.getCommonViewer().setInput( getDefaultPageInput() );
 
         //Read update prefs from store
         IPreferenceStore prefsStore=Activator.getDefault().getPreferenceStore();
@@ -191,6 +173,34 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         }
     }
 
+    protected void showBioclipseNavigator( IWorkbenchPage activePage ) {
+
+        try {
+			final String BIOCLIPSE_NAVIGATOR = "net.bioclipse.navigator";
+        	boolean foundNavigator = false;
+            IViewReference[] parts = activePage.getViewReferences();
+            for(IViewReference part : parts ) {
+            	if(part.getId().equals( BIOCLIPSE_NAVIGATOR ) ) {
+            		foundNavigator = true;
+            		break;
+            	}
+            }
+            if(!foundNavigator) {
+            	PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+            	    .getActivePage().showView(BIOCLIPSE_NAVIGATOR);
+            }
+            
+        }
+        catch ( PartInitException e1 ) {
+            LogUtils.handleException( e1, logger, "net.bioclipse.ui" );
+        }
+
+        CommonNavigator nav = (CommonNavigator) activePage
+                        .findView( "net.bioclipse.navigator" );
+
+        nav.getCommonViewer().setInput( getDefaultPageInput() );
+    }
+
     private boolean isRunFromDMG() {
     	File currentDir = new File(".");
     	logger.debug("Runing dir is "+currentDir.getAbsolutePath());
@@ -214,7 +224,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisorHack {
         if ( perspectiveExists( defaultPerspectiveId ) ) {
             return defaultPerspectiveId;
         } else {
-            logger.warn( "Unknown perspective id " + defaultPerspectiveId );
+            logger.debug( "Unknown perspective id " + defaultPerspectiveId );
             // null is fine to return here as Eclipse interprets this as not
             // opening any perspective at all
             // If your code gets in here it is highly likely that you have

@@ -8,6 +8,8 @@
  *******************************************************************************/
 package net.bioclipse.scripting;
 
+import groovy.lang.GroovyRuntimeException;
+
 import java.io.Writer;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -19,6 +21,7 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import net.bioclipse.core.PublishedMethod;
+import net.bioclipse.core.business.BioclipseException;
 import net.bioclipse.managers.business.IBioclipseManager;
 
 import org.apache.log4j.Logger;
@@ -126,12 +129,57 @@ public class GroovyEnvironment implements ScriptingEnvironment {
         try {
             Object o = engine.eval(expression);
             return o;
+        } catch ( IllegalAccessError e ) {
+            // TODO: this can be thrown by the StringMatrix, which should probably be fixed instead
+            return e.getMessage();
         } catch ( ScriptException e ) {
-           String message = e.getMessage();
-           if( !message.contains( "Can't find method " ))
-               throw new RuntimeException(e);
-           return explanationAboutParameters( expression, message );
+            BioclipseException bioEx = getBioclipseException(e);
+            if (bioEx != null) {
+                return bioEx.getMessage();
+            }
+            CoreException resEx = getEclipseException(e);
+            if (resEx != null) {
+                return resEx.getMessage();
+            }
+            GroovyRuntimeException grEx = getGroovyRuntimeException(e);
+            if (grEx != null) {
+                return grEx.getMessage();
+            }
+            String message = e.getMessage();
+            if( !message.contains( "Can't find method " ))
+            throw new RuntimeException(e);
+            return explanationAboutParameters( expression, message );
         }
+    }
+
+    private BioclipseException getBioclipseException(ScriptException exception) {
+        Throwable cause = exception.getCause();
+        while (cause != null) {
+            if (cause instanceof BioclipseException)
+                return (BioclipseException)cause;
+            cause = cause.getCause();
+        }
+        return null;
+    }
+
+    private CoreException getEclipseException(ScriptException exception) {
+        Throwable cause = exception.getCause();
+        while (cause != null) {
+            if (cause instanceof CoreException)
+                return (CoreException)cause;
+            cause = cause.getCause();
+        }
+        return null;
+    }
+
+    private GroovyRuntimeException getGroovyRuntimeException(ScriptException exception) {
+        Throwable cause = exception.getCause();
+        while (cause != null) {
+            if (cause instanceof GroovyRuntimeException)
+                return (GroovyRuntimeException)cause;
+            cause = cause.getCause();
+        }
+        return null;
     }
 
     private String explanationAboutParameters( String expression,
