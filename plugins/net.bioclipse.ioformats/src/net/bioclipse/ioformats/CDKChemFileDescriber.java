@@ -57,15 +57,16 @@ public class CDKChemFileDescriber
 			contents instanceof BufferedReader ?
 				(BufferedReader)contents : new BufferedReader(contents);
 		String line = null;
-        int lineNumber = 1;
-        while ((line = buffer.readLine()) != null && (lineNumber < 8)) {
-            for (int i=0; i<formats.size(); i++) {
-                IChemFormatMatcher cfMatcher = (IChemFormatMatcher)formats.get(i);
-                if (cfMatcher.matches(lineNumber, line)) {
-                    return cfMatcher.getClass().getName().equals(format) ? 1 : 0;
-                }
+        List<String> lines = new ArrayList<>( 8 );
+        while ( (line = buffer.readLine()) != null && (lines.size() < 8) ) {
+            lines.add( line );
+        }
+        for ( int i = 0; i < formats.size(); i++ ) {
+            IChemFormatMatcher cfMatcher = (IChemFormatMatcher) formats.get( i );
+            if ( cfMatcher.matches( lines ).matched() ) { // TODO look over the
+                                                          // format matching
+                return cfMatcher.getClass().getName().equals( format ) ? 1 : 0;
             }
-            lineNumber++;
         }
 		return 0;
 	}

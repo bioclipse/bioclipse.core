@@ -35,9 +35,8 @@ public class Table implements IReportContent {
 	}
 
 	@Override
-	public String[] getContent() {
-		// TODO Auto-generated method stub
-		return null;
+	public Object[] getContent() {
+		return content;
 	}
 
 }

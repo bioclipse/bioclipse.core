@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bioclipse Workbench
 Bundle-SymbolicName: net.bioclipse.ui;singleton:=true
-Bundle-Version: 2.6.2.qualifier
+Bundle-Version: 2.7.0.qualifier
 Bundle-Activator: net.bioclipse.ui.Activator
 Bundle-Vendor: The Bioclipse Team
 Bundle-Localization: plugin
@@ -24,7 +24,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.springframework.osgi.aopalliance.osgi,
  org.eclipse.ui.intro.universal,
  org.springframework.bundle.osgi.extender,
- org.openscience.cdk.ioformats,
  org.eclipse.equinox.p2.ui,
  org.eclipse.equinox.p2.ui.sdk;bundle-version="1.0.200",
  ch.qos.logback.classic;bundle-version="1.1.2",
@@ -45,5 +44,7 @@ Export-Package: net.bioclipse.ui,
  net.bioclipse.ui.jobs,
  net.bioclipse.ui.prefs,
  net.bioclipse.ui.views
+Import-Package: org.apache.log4j,
+ org.openscience.cdk.io.formats;version="1.5.13"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .

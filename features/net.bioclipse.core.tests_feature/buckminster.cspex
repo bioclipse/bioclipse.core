@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cspecExtension
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0"
+	xmlns="http://www.eclipse.org/buckminster/CSpec-1.0">
+	<dependencies>
+		<dependency name="javax.vecmath" componentType="osgi.bundle"/>
+		<dependency name="net.bioclipse.jama" componentType="osgi.bundle"/>
+		<dependency name="com.google.guava" componentType="osgi.bundle"/>
+		<dependency name="beam-exec" componentType="osgi.bundle"/>
+		<dependency name="com.hp.hpl.jena" componentType="osgi.bundle"/>
+		<dependency name="net.sf.jni-inchi" componentType="osgi.bundle"/>
+		<dependency name="jnati-core" componentType="osgi.bundle"/>
+		<dependency name="jnati-deploy" componentType="osgi.bundle"/>
+		<dependency name="jnati-proc" componentType="osgi.bundle"/>
+		<dependency name="org.3pq.jgrapht" componentType="osgi.bundle"/>
+		<dependency name="org.apache.commons.math" componentType="osgi.bundle"/>
+		<dependency name="cmlxom" componentType="osgi.bundle"/>
+		<dependency name="org.xmlpull.xpp3" componentType="osgi.bundle"/>
+		<dependency name="signatures" componentType="osgi.bundle"/>
+		
+		<dependency name="log4j.over.slf4j" componentType="osgi.bundle"/>
+		<dependency name="slf4j.api" componentType="osgi.bundle"/>
+		
+	</dependencies>
+	<generators>
+		<!-- Place your Generators here -->
+	</generators>
+	<artifacts>
+		<!-- Place your Artifacts here -->
+	</artifacts>
+	<actions>
+		<!-- Place your Actions here -->
+	</actions>
+	<groups>
+		<!-- Place your Groups here -->
+	</groups>
+	<alterDependencies>
+		<!-- Place your Dependency alterations here -->
+	</alterDependencies>
+	<alterArtifacts>
+		<!-- Place your Artifact alterations here -->
+	</alterArtifacts>
+	<alterActions>
+		<!-- Place your Action alterations here -->
+	</alterActions>
+	<alterGroups>
+		<!-- Place your Group alterations here -->
+	</alterGroups>
+</cspecExtension>

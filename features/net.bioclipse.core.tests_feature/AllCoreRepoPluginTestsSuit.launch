@@ -2,13 +2,17 @@
 <launchConfiguration type="org.eclipse.pde.ui.JunitLaunchConfig">
 <listAttribute key="StepOutExcludePkgsOrClasses"/>
 <setAttribute key="additional_plugins">
-<setEntry value="ch.qos.logback.classic:1.1.2:default:true"/>
-<setEntry value="ch.qos.logback.core:1.1.2:default:true"/>
-<setEntry value="jcl.over.slf4j:1.7.7:default:true"/>
-<setEntry value="jul.to.slf4j:1.7.7:default:true"/>
-<setEntry value="log4j.over.slf4j:1.7.7:default:true"/>
-<setEntry value="org.slf4j.osgi-over-slf4j:1.7.7:default:true"/>
-<setEntry value="slf4j.api:1.7.7:default:true"/>
+<setEntry value="ch.qos.logback.classic:1.1.7:default:false"/>
+<setEntry value="ch.qos.logback.core:1.1.7:default:false"/>
+<setEntry value="javax.vecmath:1.2.1.14:default:true"/>
+<setEntry value="jcl.over.slf4j:1.7.21:default:false"/>
+<setEntry value="jul.to.slf4j:1.7.21:default:false"/>
+<setEntry value="log4j.over.slf4j:1.7.21:default:false"/>
+<setEntry value="org.eclipse.core.runtime:3.11.1.v20150903-1804:default:false"/>
+<setEntry value="org.eclipse.equinox.event:1.3.100.v20140115-1647:default:false"/>
+<setEntry value="org.slf4j.api:1.7.2.v20121108-1250:default:true"/>
+<setEntry value="org.slf4j.osgi-over-slf4j:1.7.21:default:false"/>
+<setEntry value="slf4j.api:1.7.21:default:false"/>
 </setAttribute>
 <booleanAttribute key="append.args" value="true"/>
 <booleanAttribute key="askclear" value="false"/>
@@ -51,6 +55,16 @@
 <setEntry value="net.bioclipse.advanced_feature:default"/>
 <setEntry value="net.bioclipse.core.tests_feature:default"/>
 <setEntry value="net.bioclipse.core_feature:default"/>
+<setEntry value="net.bioclipse.platform_feature:default"/>
+<setEntry value="org.eclipse.e4.rcp:default"/>
+<setEntry value="org.eclipse.ecf.core.feature:default"/>
+<setEntry value="org.eclipse.ecf.core.ssl.feature:default"/>
+<setEntry value="org.eclipse.ecf.filetransfer.feature:default"/>
+<setEntry value="org.eclipse.ecf.filetransfer.httpclient4.feature:default"/>
+<setEntry value="org.eclipse.ecf.filetransfer.httpclient4.ssl.feature:default"/>
+<setEntry value="org.eclipse.ecf.filetransfer.ssl.feature:default"/>
+<setEntry value="org.eclipse.emf.common:default"/>
+<setEntry value="org.eclipse.emf.ecore:default"/>
 <setEntry value="org.eclipse.equinox.p2.core.feature:default"/>
 <setEntry value="org.eclipse.equinox.p2.rcp.feature:default"/>
 <setEntry value="org.eclipse.help:default"/>

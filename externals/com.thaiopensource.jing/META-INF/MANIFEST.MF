@@ -6,8 +6,7 @@ Bundle-Version: 0.0.0.20090818
 Require-Bundle: org.eclipse.core.runtime
 Bundle-ClassPath: .,
  jars/jing.jar
-Bundle-Activator: com.thaiopensource.jing.Activator
-Eclipse-AutoStart: true
+Bundle-ActivationPolicy:  lazy
 Bundle-Vendor: The Bioclipse Team
 Import-Package: org.apache.log4j
 Export-Package: com.thaiopensource.datatype,
@@ -15,7 +14,6 @@ Export-Package: com.thaiopensource.datatype,
  com.thaiopensource.datatype.xsd.regex,
  com.thaiopensource.datatype.xsd.regex.java,
  com.thaiopensource.datatype.xsd.regex.xerces2,
- com.thaiopensource.jing,
  com.thaiopensource.relaxng,
  com.thaiopensource.relaxng.jaxp,
  com.thaiopensource.relaxng.match,
@@ -52,3 +50,4 @@ Export-Package: com.thaiopensource.datatype,
  com.thaiopensource.xml.util,
  org.relaxng.datatype,
  org.relaxng.datatype.helpers
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse.platform_feature"
       label="Bioclipse Platform"
-      version="2.6.2.qualifier"
+      version="2.7.0.qualifier"
       provider-name="The Bioclipse Team">
 
    <description url="http://www.bioclipse.net">
@@ -157,20 +157,6 @@ is available at http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="org.eclipse.equinox.ds"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.openscience.cdk.annotation"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.openscience.cdk.ioformats"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -855,6 +841,13 @@ is available at http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="slf4j.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.openscience.cdk_bundle"
          download-size="0"
          install-size="0"
          version="0.0.0"

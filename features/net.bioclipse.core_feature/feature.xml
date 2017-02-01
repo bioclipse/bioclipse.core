@@ -2,7 +2,7 @@
 <feature
       id="net.bioclipse.core_feature"
       label="Bioclipse Workbench"
-      version="2.6.2.qualifier"
+      version="2.7.0.qualifier"
       provider-name="The Bioclipse Team"
       plugin="net.bioclipse.ui">
 
@@ -40,7 +40,6 @@ The Eclipse Public License accompanies this distribution, and is available at ht
       <import plugin="org.eclipse.ui.cheatsheets"/>
       <import plugin="org.eclipse.ui.intro.universal"/>
       <import plugin="org.springframework.bundle.osgi.extender"/>
-      <import plugin="org.openscience.cdk.ioformats"/>
       <import plugin="org.eclipse.equinox.p2.ui"/>
       <import plugin="org.eclipse.equinox.p2.ui.sdk" version="1.0.200" match="greaterOrEqual"/>
       <import plugin="org.eclipse.help"/>
@@ -48,7 +47,6 @@ The Eclipse Public License accompanies this distribution, and is available at ht
       <import plugin="org.eclipse.equinox.p2.core" version="2.0.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.equinox.p2.engine" version="2.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.contenttype"/>
-      <import plugin="org.openscience.cdk.annotation"/>
       <import plugin="org.apache.commons.codec" version="1.3.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.forms"/>
       <import plugin="org.eclipse.ui.console"/>
@@ -76,6 +74,7 @@ The Eclipse Public License accompanies this distribution, and is available at ht
       <import plugin="org.eclipse.equinox.p2.installer"/>
       <import plugin="org.eclipse.equinox.p2.metadata"/>
       <import plugin="org.eclipse.equinox.p2.operations"/>
+      <import plugin="org.openscience.cdk_bundle"/>
    </requires>
 
    <plugin
