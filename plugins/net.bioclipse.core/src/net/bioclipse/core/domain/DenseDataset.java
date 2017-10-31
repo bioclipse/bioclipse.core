@@ -100,7 +100,7 @@ public class DenseDataset implements IDataset{
 		if (responseProperty!=null)
 			 rowstring = rowstring + responseProperty;
 
-		buf.append("Molceulce" + separator + rowstring + "\n");
+		buf.append("Molecule" + separator + rowstring + "\n");
 
 		int c=0;
 		for (List<Float> row : values){
