@@ -75,6 +75,8 @@ The Eclipse Public License accompanies this distribution, and is available at ht
       <import plugin="org.eclipse.equinox.p2.metadata"/>
       <import plugin="org.eclipse.equinox.p2.operations"/>
       <import plugin="org.openscience.cdk_bundle"/>
+      <import plugin="org.apache.httpcomponents.httpclient"/>
+      <import plugin="org.apache.httpcomponents.httpcore"/>
    </requires>
 
    <plugin
