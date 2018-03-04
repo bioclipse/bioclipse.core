@@ -12,7 +12,9 @@ Require-Bundle: org.eclipse.ui,
  net.bioclipse.core,
  net.bioclipse.ui,
  ch.qos.logback.core;bundle-version="[1.0.0,2.0.0)",
- ch.qos.logback.classic;bundle-version="[1.0.0,2.0.0)"
+ ch.qos.logback.classic;bundle-version="[1.0.0,2.0.0)",
+ org.apache.httpcomponents.httpclient,
+ org.apache.httpcomponents.httpcore
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.log4j,
  org.slf4j

@@ -11,8 +11,10 @@
 package net.bioclipse.business;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -25,12 +27,18 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.bioclipse.core.business.BioclipseException;
-import net.bioclipse.managers.business.IBioclipseManager;
-
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
@@ -42,6 +50,8 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.FileAppender;
+import net.bioclipse.core.business.BioclipseException;
+import net.bioclipse.managers.business.IBioclipseManager;
 
 public class BioclipsePlatformManager implements IBioclipseManager {
 
@@ -169,6 +179,51 @@ public class BioclipsePlatformManager implements IBioclipseManager {
             );
         }
         return target;
+    }
+
+    public byte[] sparqlRemote(
+            String serviceURL,
+            String sparqlQueryString, IProgressMonitor monitor)
+    throws BioclipseException {
+         if (monitor == null)
+             monitor = new NullProgressMonitor();
+
+         monitor.beginTask("Sparqling the remote service..", 100);
+
+         // use Apache for doing the SPARQL query
+         DefaultHttpClient httpclient = new DefaultHttpClient();
+
+         // Set credentials on the client
+         List<NameValuePair> formparams = new ArrayList<NameValuePair>();
+         formparams.add(new BasicNameValuePair("query", sparqlQueryString));
+         try {
+        	 UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, "UTF-8");
+        	 HttpPost httppost = new HttpPost(serviceURL);
+        	 httppost.setEntity(entity);
+        	 monitor.worked(20);
+        	 HttpResponse response = httpclient.execute(httppost);
+        	 StatusLine statusLine = response.getStatusLine();
+        	 int statusCode = statusLine.getStatusCode();
+        	 if (statusCode != 200) throw new BioclipseException(
+        		 "Expected HTTP 200, but got a " + statusCode + ": " + statusLine.getReasonPhrase()
+        	 );
+        	 monitor.worked(60);
+
+         	 HttpEntity responseEntity = response.getEntity();
+         	 ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        	 responseEntity.writeTo(buffer);
+        	 buffer.flush();
+        	 monitor.worked(20);
+        	 return buffer.toByteArray();
+         } catch (UnsupportedEncodingException exception) {
+        	 throw new BioclipseException(
+                 "Error while creating the SPARQL query: " + exception.getMessage(), exception
+             );
+         } catch (IOException exception) {
+        	 throw new BioclipseException(
+                 "Error while processing the SPARQL endpoint feedback: " + exception.getMessage(), exception
+             );
+         }
     }
 
 

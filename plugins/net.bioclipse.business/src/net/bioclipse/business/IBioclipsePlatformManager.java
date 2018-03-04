@@ -1,5 +1,4 @@
-/* *****************************************************************************
- * Copyright (c) 2009  Egon Willighagen <egonw@users.sf.net>
+/* Copyright (c) 2009,2018  Egon Willighagen <egonw@users.sf.net>
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -7,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contact: http://www.bioclipse.net/
- ******************************************************************************/
+ */
 package net.bioclipse.business;
 
 import org.eclipse.core.resources.IFile;
@@ -106,4 +105,11 @@ public interface IBioclipsePlatformManager extends IBioclipseManager {
     public String fullPath( String file );
     
     public String fullPath( IFile file );
+
+    @PublishedMethod(
+        params = "String url, String SPARQL",
+        methodSummary = "Queries a remote SPARQL end point without parsing the SPARQL first."
+    )
+    public byte[] sparqlRemote(String url, String SPARQL)
+        throws BioclipseException;
 }
